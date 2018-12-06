@@ -1,0 +1,93 @@
+<android.support.design.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:id="@+id/cardView"
+    android:layout_width="match_parent"
+    android:layout_height="72dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    style="@style/Widget.MaterialComponents.CardView"
+    >
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/circulo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toTopOf="parent"
+            card_view:srcCompat="@drawable/circle_shape" />
+
+        <TextView
+            android:id="@+id/tv_nombre"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:textSize="16sp"
+            android:fontFamily="@font/roboto"
+            card_view:layout_constraintBottom_toTopOf="@+id/tv_direccion"
+            card_view:layout_constraintEnd_toStartOf="@+id/textView"
+            card_view:layout_constraintStart_toEndOf="@id/circulo"
+            card_view:layout_constraintTop_toTopOf="@+id/circulo"
+            android:text="Nombre Ciudad"
+            android:alpha="0.87"
+            tools:text="Nombre Ciudad"/>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            card_view:layout_constraintBottom_toBottomOf="@+id/tv_nombre"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintTop_toTopOf="@+id/tv_nombre"
+            android:text="10:54pm"
+            android:alpha="0.6"
+            tools:text="10:54pm"/>
+
+        <TextView
+            android:id="@+id/tv_direccion"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:paddingTop="0dp"
+            android:text="24 KM al NE de Ciudad"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textSize="14sp"
+            android:alpha="0.6"
+            android:fontFamily="@font/roboto"
+            android:maxLines="1"
+            card_view:layout_constraintBottom_toBottomOf="@+id/circulo"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toStartOf="@+id/tv_nombre"
+            card_view:layout_constraintTop_toBottomOf="@+id/tv_nombre" />
+
+
+        <TextView
+            android:id="@+id/tv_distancia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="9.5"
+            android:text="9.5"
+            android:maxLength="4"
+            android:textSize="18sp"
+            android:textStyle="normal"
+            android:textColor="@android:color/white"
+            android:fontFamily="@font/roboto"
+            card_view:layout_constraintBottom_toBottomOf="@+id/circulo"
+            card_view:layout_constraintEnd_toEndOf="@+id/circulo"
+            card_view:layout_constraintStart_toStartOf="@+id/circulo"
+            card_view:layout_constraintTop_toTopOf="@+id/circulo"/>
+
+    </android.support.constraint.ConstraintLayout>
+</android.support.design.card.MaterialCardView>
