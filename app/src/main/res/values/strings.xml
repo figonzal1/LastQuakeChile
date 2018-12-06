@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">LastQuakeChile</string>
+
+
+    <!-- TOOLBAR STRINGS -->
+    <string name="refresh">Refresh</string>
+    <string name="settings">Settings</string>
+
+
+    <!-- OTHER STRINGS -->
 </resources>
