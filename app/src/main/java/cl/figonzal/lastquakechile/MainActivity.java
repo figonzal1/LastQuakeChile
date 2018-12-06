@@ -12,7 +12,7 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private List<QuakeModel> quakeModelList;
@@ -32,9 +32,11 @@ public class MainActivity extends AppCompatActivity  {
         //Setear el toolbar sobre el main activity
         setSupportActionBar(toolbar);
 
+        //Setear el recycle view
         rv = findViewById(R.id.recycle_view);
         rv.setHasFixedSize(true);
 
+        //Setear el layout de la lista
         ly = new LinearLayoutManager(this);
         rv.setLayoutManager(ly);
 
@@ -43,9 +45,10 @@ public class MainActivity extends AppCompatActivity  {
         QuakeModel model = new QuakeModel();
         model.setReferencia("Laserena");
         quakeModelList.add(model);
+
+        //Setear el adapter con la lista de quakes
         adapter = new QuakeAdapter(quakeModelList);
         rv.setAdapter(adapter);
-
 
 
     }
