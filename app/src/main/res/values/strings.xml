@@ -5,16 +5,13 @@
     <string name="refresh">Refresh</string>
     <string name="settings">Settings</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
-
     <!-- TODO: Cambiar la direccion hacia Heroku y Actualizar HEROKU con el nuevo config en xamp -->
     <!-- URL SERVIDOR HEROKU -->
     <string name="URL_GET">http://192.168.0.13/lastquake_server/public/get_quakes.php</string>
 
     <!-- FORMATO DATE/TIME A USAR -->
     <string name="DATETIME_FORMAT">yyyy-MM-dd HH:mm:ss</string>
+    <string name="TIME_FORMAT">HH:mm a</string>
 
     <!-- KEY DE JSON -->
     <string name="KEY_FECHA_LOCAL">fecha_local</string>
@@ -25,4 +22,7 @@
     <string name="KEY_AGENCIA">agencia</string>
     <string name="KEY_REFERENCIA">referencia</string>
     <string name="KEY_IMAGEN_URL">imagen_url</string>
+
+    <!-- STRINGS DE LAYOUTS-->
+    <string name="circulo_pintado">Circulo pintado</string>
 </resources>
