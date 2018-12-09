@@ -29,6 +29,7 @@ import java.util.Locale;
 public class QuakeFragment extends Fragment {
 
     private List<QuakeModel> quakeModelList;
+    private JsonObjectRequest jsonObjectRequest;
 
     public QuakeFragment() {
         // Required empty public constructor
@@ -62,8 +63,10 @@ public class QuakeFragment extends Fragment {
 
 
         //Setear el adapter con la lista de quakes
-        QuakeAdapter adapter = new QuakeAdapter(quakeModelList);
+        QuakeAdapter adapter = new QuakeAdapter(quakeModelList,getContext());
         rv.setAdapter(adapter);
+
+        VolleySingleton.getInstance(getContext()).getRequestQueue();
 
         //Cargar Sismos
         cargarSismos();
@@ -76,7 +79,7 @@ public class QuakeFragment extends Fragment {
      */
     private void cargarSismos() {
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, getString(R.string.URL_GET), null, new Response.Listener<JSONObject>() {
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, getString(R.string.URL_GET), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 
@@ -126,5 +129,17 @@ public class QuakeFragment extends Fragment {
 
         jsonObjectRequest.setShouldCache(false);
         VolleySingleton.getInstance(getContext()).addToRequestQueue(jsonObjectRequest);
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        VolleySingleton.getInstance(getContext()).getRequestQueue();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
     }
 }

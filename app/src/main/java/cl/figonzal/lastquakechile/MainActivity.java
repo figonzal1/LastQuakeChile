@@ -10,7 +10,6 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
-    private VolleySingleton vl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
         //Setear el toolbar sobre el main activity
         setSupportActionBar(toolbar);
 
-        vl = VolleySingleton.getInstance(getApplicationContext());
 
 
     }
