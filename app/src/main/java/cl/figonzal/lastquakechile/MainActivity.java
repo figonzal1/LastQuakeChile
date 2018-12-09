@@ -2,24 +2,15 @@ package cl.figonzal.lastquakechile;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
-    private List<QuakeModel> quakeModelList;
-    private RecyclerView rv;
-    private LinearLayoutManager ly;
-    private QuakeAdapter adapter;
-
+    private VolleySingleton vl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,28 +18,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //Buscar toolbar en resources
-        Toolbar toolbar = findViewById(R.id.tool_bar);
+        toolbar = findViewById(R.id.tool_bar);
 
         //Setear el toolbar sobre el main activity
         setSupportActionBar(toolbar);
 
-        //Setear el recycle view
-        rv = findViewById(R.id.recycle_view);
-        rv.setHasFixedSize(true);
-
-        //Setear el layout de la lista
-        ly = new LinearLayoutManager(this);
-        rv.setLayoutManager(ly);
-
-        quakeModelList = new ArrayList<>();
-
-        QuakeModel model = new QuakeModel();
-        model.setReferencia("Laserena");
-        quakeModelList.add(model);
-
-        //Setear el adapter con la lista de quakes
-        adapter = new QuakeAdapter(quakeModelList);
-        rv.setAdapter(adapter);
+        vl = VolleySingleton.getInstance(getApplicationContext());
 
 
     }
