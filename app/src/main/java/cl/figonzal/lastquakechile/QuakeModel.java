@@ -1,12 +1,14 @@
 package cl.figonzal.lastquakechile;
 
+import java.util.Date;
+
 public class QuakeModel {
 
-    private String fecha_local;
-    private String fecha_utc;
+    private Date fecha_local;
+    private Date fecha_utc;
     private String latitud;
     private String longitud;
-    private String magnitud;
+    private Double magnitud;
     private String agencia;
     private String referencia;
     private String imagen_url;
@@ -14,19 +16,19 @@ public class QuakeModel {
     public QuakeModel() {
     }
 
-    public String getFecha_local() {
+    public Date getFecha_local() {
         return fecha_local;
     }
 
-    public void setFecha_local(String fecha_local) {
+    public void setFecha_local(Date fecha_local) {
         this.fecha_local = fecha_local;
     }
 
-    public String getFecha_utc() {
+    public Date getFecha_utc() {
         return fecha_utc;
     }
 
-    public void setFecha_utc(String fecha_utc) {
+    public void setFecha_utc(Date fecha_utc) {
         this.fecha_utc = fecha_utc;
     }
 
@@ -46,11 +48,11 @@ public class QuakeModel {
         this.longitud = longitud;
     }
 
-    public String getMagnitud() {
+    public Double getMagnitud() {
         return magnitud;
     }
 
-    public void setMagnitud(String magnitud) {
+    public void setMagnitud(Double magnitud) {
         this.magnitud = magnitud;
     }
 
