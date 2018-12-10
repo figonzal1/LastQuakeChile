@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
@@ -28,7 +27,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
         private TextView tv_ciudad;
         private TextView tv_referencia;
         private TextView tv_magnitud;
-        private TextView tv_hora;
+        public TextView tv_hora;
 
         private QuakeViewHolder(View itemView) {
             super(itemView);
@@ -62,9 +61,8 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
         holder.tv_magnitud.setText(String.format(Locale.US,"%.1f",model.getMagnitud()));
         holder.tv_referencia.setText(model.getReferencia());
 
-        SimpleDateFormat format = new SimpleDateFormat(context.getString(R.string.TIME_FORMAT), Locale.US);
-        String date = format.format(model.getFecha_local());
-        holder.tv_hora.setText(date);
+        QuakeTime qt = new QuakeTime();
+        qt.timeToText(context,model.getFecha_local(),holder);
 
     }
 

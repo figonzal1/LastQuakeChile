@@ -25,4 +25,9 @@
 
     <!-- STRINGS DE LAYOUTS-->
     <string name="circulo_pintado">Circulo pintado</string>
+    <string name="quake_time_day">%1$d d</string>
+    <string name="quake_time_day_hour">%1$d d %2$d h</string>
+    <string name="quake_time_hour">%1$d h</string>
+    <string name="quake_time_minute">%1$d m</string>
+    <string name="quake_time_second">%1$d s</string>
 </resources>

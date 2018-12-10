@@ -9,8 +9,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
@@ -117,17 +124,40 @@ public class QuakeFragment extends Fragment {
                     Log.d("JSON_PARSE_ERROR",e.getMessage());
                 }
 
+                Log.d("CONNECTION_OK","Conexion correcta");
+
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-                Log.d("VOLLEY_RESPONSE", error.getMessage());
+
+                if (error instanceof TimeoutError) {
+                    Log.d("SERVER_ERROR","Servidor no responde");
+
+                }else if(error instanceof NoConnectionError){
+                    Log.d("SERVER_ERROR","NoConnection error");
+
+                } else if (error instanceof AuthFailureError) {
+                    Log.d("SERVER_ERROR","Auth error");
+
+                } else if (error instanceof ServerError) {
+                    Log.d("SERVER_ERROR","Server error");
+                } else if (error instanceof NetworkError) {
+                    Log.d("SERVER_ERROR","Network error");
+
+                } else if (error instanceof ParseError) {
+                    Log.d("SERVER_ERROR","Parse error");
+
+                }
+                VolleySingleton.getInstance(getContext()).cancelRequestQueue("DATA");
+
             }
         });
 
         jsonObjectRequest.setShouldCache(false);
+        jsonObjectRequest.setTag("DATA");
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(3000,0,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         VolleySingleton.getInstance(getContext()).addToRequestQueue(jsonObjectRequest);
 
     }
@@ -141,5 +171,6 @@ public class QuakeFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
+        VolleySingleton.getInstance(getContext()).cancelRequestQueue("DATA");
     }
 }
