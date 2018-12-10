@@ -20,7 +20,7 @@ public class VolleySingleton {
     /*
         Funcion que genera el singleton del volley
      */
-    public static synchronized VolleySingleton getInstance(Context context){
+    static synchronized VolleySingleton getInstance(Context context){
 
         //Si la instancia no funciona
         if(volleySingleton == null){
@@ -32,7 +32,7 @@ public class VolleySingleton {
     /*
         Funcion que devuelve la cola de request's
      */
-    public RequestQueue getRequestQueue(){
+    RequestQueue getRequestQueue(){
 
         if(queue == null){
             queue = Volley.newRequestQueue(mContext.getApplicationContext());
@@ -43,7 +43,16 @@ public class VolleySingleton {
     /*
         Funcion para agregar a la cola
      */
-    public <T> void addToRequestQueue(Request<T> req){
+    <T> void addToRequestQueue(Request<T> req){
         getRequestQueue().add(req);
+    }
+
+    /*
+        Funcion para cancelar
+     */
+    void cancelRequestQueue(Object tag){
+        if (queue !=null){
+            queue.cancelAll(tag);
+        }
     }
 }

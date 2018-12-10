@@ -52,7 +52,7 @@
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintTop_toTopOf="@+id/tv_ciudad"
             android:alpha="0.6"
-            tools:text="10:54pm"/>
+            tools:text="XX D X h"/>
 
         <TextView
             android:id="@+id/tv_referencia"
