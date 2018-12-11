@@ -155,7 +155,7 @@ public class QuakeFragment extends Fragment {
             }
         });
 
-        jsonObjectRequest.setShouldCache(false);
+        jsonObjectRequest.setShouldCache(true);
         jsonObjectRequest.setTag("DATA");
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(3000,0,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         VolleySingleton.getInstance(getContext()).addToRequestQueue(jsonObjectRequest);
@@ -165,7 +165,7 @@ public class QuakeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        VolleySingleton.getInstance(getContext()).getRequestQueue();
+        cargarSismos();
     }
 
     @Override

@@ -1,6 +1,7 @@
 package cl.figonzal.lastquakechile;
 
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -10,6 +11,7 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +24,12 @@ public class MainActivity extends AppCompatActivity {
         //Setear el toolbar sobre el main activity
         setSupportActionBar(toolbar);
 
+        viewPager = findViewById(R.id.view_pager);
+        viewPager.setAdapter(new FragmentPageAdapter(getSupportFragmentManager()));
+
+        //Seteo de los eventos de tabs.
+        //TabLayout tabLayout = (TabLayout)findViewById(R.id.tabs);;
+        //tabLayout.setupWithViewPager(viewPager);
 
 
     }
