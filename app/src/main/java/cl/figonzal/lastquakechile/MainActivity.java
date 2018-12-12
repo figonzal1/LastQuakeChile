@@ -1,6 +1,7 @@
 package cl.figonzal.lastquakechile;
 
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -30,6 +31,11 @@ public class MainActivity extends AppCompatActivity {
         //Seteo de los eventos de tabs.
         //TabLayout tabLayout = (TabLayout)findViewById(R.id.tabs);;
         //tabLayout.setupWithViewPager(viewPager);
+
+        final CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
+        collapsingToolbarLayout.setTitleEnabled(true);
+
+        collapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.colorPrimary,getTheme()));
 
 
     }
