@@ -10,6 +10,8 @@
         android:id="@+id/recycle_view"
         android:name="cl.figonzal.lastquakechile.QuakesFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"/>
 
 </FrameLayout>
