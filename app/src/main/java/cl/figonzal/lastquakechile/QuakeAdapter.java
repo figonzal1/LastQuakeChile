@@ -3,7 +3,6 @@ package cl.figonzal.lastquakechile;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +28,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
         private TextView tv_ciudad;
         private TextView tv_referencia;
         private TextView tv_magnitud;
-        public TextView tv_hora;
+        protected TextView tv_hora;
         private ImageView iv_mag_color;
 
         private QuakeViewHolder(View itemView) {
@@ -68,10 +67,13 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
         //Setea la magnitud con un maximo de 1 digito decimal.
         holder.tv_magnitud.setText(String.format(Locale.US,"%.1f",model.getMagnitud()));
 
-        //Setear el color de background dependiendo de magnitud
-        holder.iv_mag_color.setColorFilter(context.getColor(getMagnitudeColor(model.getMagnitud())));
+        //Instancia de utilidades
+        QuakeUtils qt = new QuakeUtils();
 
-        QuakeTime qt = new QuakeTime();
+        //Setear el color de background dependiendo de magnitud del sismo
+        holder.iv_mag_color.setColorFilter(context.getColor(qt.getMagnitudeColor(model.getMagnitud())));
+
+        //Calcular el tiempo de sismo
         qt.timeToText(context,model.getFecha_local(),holder);
 
     }
@@ -81,42 +83,4 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
         return quakeModelList.size();
     }
 
-    private int getMagnitudeColor(double magnitude){
-
-        int mag_floor = (int) Math.floor(magnitude);
-        int mag_resource_id = 0;
-        switch (mag_floor){
-
-            case 1:
-                mag_resource_id= R.color.magnitude1;
-                break;
-            case 2:
-                mag_resource_id=R.color.magnitude2;
-                break;
-            case 3:
-                mag_resource_id=R.color.magnitude3;
-                break;
-            case 4:
-                mag_resource_id=R.color.magnitude4;
-                break;
-            case 5:
-                mag_resource_id=R.color.magnitude5;
-                break;
-            case 6:
-                mag_resource_id=R.color.magnitude6;
-                break;
-            case 7:
-                mag_resource_id=R.color.magnitude7;
-                break;
-            case 8:
-                mag_resource_id=R.color.magnitude8;
-                break;
-            case 9:
-                mag_resource_id=R.color.magnitude9plus;
-                break;
-        }
-
-        Log.d("MAG_VALUE", String.valueOf(mag_resource_id));
-        return mag_resource_id;
-    }
 }

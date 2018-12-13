@@ -11,44 +11,41 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Toolbar toolbar;
-    private ViewPager viewPager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         //Buscar toolbar en resources
-        toolbar = findViewById(R.id.tool_bar);
+        Toolbar toolbar = findViewById(R.id.tool_bar);
 
         //Setear el toolbar sobre el main activity
         setSupportActionBar(toolbar);
 
-        viewPager = findViewById(R.id.view_pager);
+        //View pager para los fragments (Solo 1 fragment en esta app)
+        ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(new FragmentPageAdapter(getSupportFragmentManager()));
 
         //Seteo de los eventos de tabs.
         //TabLayout tabLayout = (TabLayout)findViewById(R.id.tabs);;
         //tabLayout.setupWithViewPager(viewPager);
 
+        //Setear collapsing toolbar con titulo estatico superior y animacion de colores al recoger toolbar
         final CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitleEnabled(true);
-
-        collapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.colorPrimary,getTheme()));
-
+        collapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.colorPrimary, getTheme()));
 
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menuItem){
+    public boolean onCreateOptionsMenu(Menu menuItem) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.toolbar_menu,menuItem);
+        menuInflater.inflate(R.menu.toolbar_menu, menuItem);
         return super.onCreateOptionsMenu(menuItem);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
             case R.id.refresh:
