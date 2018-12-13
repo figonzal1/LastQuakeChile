@@ -1,5 +1,6 @@
 package cl.figonzal.lastquakechile;
 
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -8,10 +9,11 @@ import android.support.v4.app.FragmentPagerAdapter;
  * Created by figon on 28-12-2016.
  */
 
+
 class FragmentPageAdapter extends FragmentPagerAdapter {
 
     private final int PAGE_COUNT=1;
-    private String tabTitles[]= {"GUC","GUC2"};
+    private String tabTitles[] = {"GUC"};
 
 
     FragmentPageAdapter(FragmentManager fm) {
@@ -27,15 +29,12 @@ class FragmentPageAdapter extends FragmentPagerAdapter {
             case 0:
                 f= QuakeFragment.newInstance();
                 break;
-            case 1:
-                f= QuakeFragment.newInstance();
-                break;
         }
         return f;
     }
 
     @Override
-    public int getItemPosition(Object obj){
+    public int getItemPosition(@NonNull Object obj) {
         return POSITION_NONE;
     }
     @Override
