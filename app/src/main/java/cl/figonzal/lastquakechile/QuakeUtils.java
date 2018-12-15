@@ -1,6 +1,8 @@
 package cl.figonzal.lastquakechile;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import java.util.Date;
 
@@ -111,5 +113,14 @@ class QuakeUtils {
                 break;
         }
         return mag_resource_id;
+    }
+
+    static boolean checkInternet(Context context) {
+
+        //Zona Network Information
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+
+        return networkInfo != null && networkInfo.isConnected();
     }
 }

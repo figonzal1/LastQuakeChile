@@ -1,15 +1,27 @@
 package cl.figonzal.lastquakechile;
 
+import android.arch.lifecycle.Observer;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    private QuakeUtils quakeUtils;
+    private MenuItem item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +57,48 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
 
+        this.item = item;
         switch (item.getItemId()) {
+
             case R.id.refresh:
+
+                //Definicion de materiales a usar para checkear internet UI
+                final RecyclerView rv = findViewById(R.id.recycle_view);
+                final ProgressBar progressBar = findViewById(R.id.progressBar);
+                progressBar.setVisibility(View.VISIBLE);
+
+                if (QuakeUtils.checkInternet(getApplicationContext())) {
+
+                    QuakeViewModel quakeViewModel = new QuakeViewModel(getApplication());
+                    quakeViewModel.getQuakeList().observe(this, new Observer<List<QuakeModel>>() {
+                        @Override
+                        public void onChanged(@Nullable List<QuakeModel> quakeModelList) {
+
+                            QuakeAdapter adapter = new QuakeAdapter(quakeModelList, getApplicationContext());
+                            adapter.notifyDataSetChanged();
+                            rv.setAdapter(adapter);
+                            progressBar.setVisibility(View.INVISIBLE);
+
+                            //Mostrar Snackbar De actualizacion
+                            showSnackBar("Update");
+
+                            //LOG ZONE
+                            Log.d("PROGRESS_REFRESH", "UPDATED INFORMATION - TOOLBAR");
+                        }
+                    });
+                } else {
+
+                    progressBar.setVisibility(View.INVISIBLE);
+
+                    //Mostrar Snackbar de Retry de datos
+                    showSnackBar("Retry");
+
+                    //LOG ZONE
+                    Log.d("PROGRESS_REFRESH", "RETRY CONNNECTION - TOOLBAR");
+                }
+
                 return true;
 
             case R.id.settings:
@@ -59,5 +109,30 @@ public class MainActivity extends AppCompatActivity {
                 // Invoke the superclass to handle it.
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    /**
+     * Funcion para mostrar SnackBar en caso de RETRY o UPDATE de informacion
+     *
+     * @param tipo String que sera RETRY-> Para intento de update sin internet y UPDATE -> Cuando la lista sea actualizada
+     */
+    private void showSnackBar(String tipo) {
+
+        if (tipo.equals("Retry")) {
+            Snackbar
+                    .make(getWindow().getDecorView().getRootView(), "Sin conexion a internet", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("Retry", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            onOptionsItemSelected(item);
+                        }
+                    })
+                    .show();
+        } else if (tipo.equals("Update")) {
+            Snackbar
+                    .make(getWindow().getDecorView().getRootView(), "Sismos Actualizados", Snackbar.LENGTH_LONG)
+                    .show();
+        }
+
     }
 }

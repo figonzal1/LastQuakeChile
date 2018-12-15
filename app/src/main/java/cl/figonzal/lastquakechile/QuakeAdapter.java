@@ -83,4 +83,5 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
         return quakeModelList.size();
     }
 
+
 }
