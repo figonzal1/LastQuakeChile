@@ -44,6 +44,7 @@ public class QuakeViewModel extends AndroidViewModel {
         super(application);
     }
 
+
     /**
      * Funcion Singleton encargada de crear un MutableLiveData con una lista de sismos, para posterior uso con observable
      *
@@ -62,7 +63,7 @@ public class QuakeViewModel extends AndroidViewModel {
     /**
      * Funcion encargada de crear la request HTTP hacia el servidor y parsear el JSON con los sismos
      */
-    private void loadQuakes() {
+    public void loadQuakes() {
 
 
         //Codigo que retorna la data desde internet
@@ -99,7 +100,7 @@ public class QuakeViewModel extends AndroidViewModel {
 
                     }
 
-                    liveDataQuakes.setValue(quakeModelList);
+                    liveDataQuakes.postValue(quakeModelList);
 
                 } catch (JSONException e) {
                     Log.d("JSON_GENERAL_ERROR", e.getMessage());
@@ -142,5 +143,11 @@ public class QuakeViewModel extends AndroidViewModel {
         jsonObjectRequest.setTag("DATA");
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(3000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         VolleySingleton.getInstance(getApplication()).addToRequestQueue(jsonObjectRequest);
+    }
+
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
     }
 }
