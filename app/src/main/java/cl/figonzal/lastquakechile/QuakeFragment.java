@@ -2,6 +2,7 @@ package cl.figonzal.lastquakechile;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,15 +17,18 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import java.util.List;
+import java.util.Objects;
 
 
-public class QuakeFragment extends Fragment {
+public class QuakeFragment extends Fragment implements ResponseNetworkHandler {
 
     public RecyclerView rv;
     public ProgressBar progressBar;
+    public QuakeViewModel viewModel;
+    public String estado;
 
     public QuakeFragment() {
-        // Required empty public constructor
+
     }
 
     public static QuakeFragment newInstance() {
@@ -54,17 +58,36 @@ public class QuakeFragment extends Fragment {
         rv = v.findViewById(R.id.recycle_view);
         progressBar = v.findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
-        final QuakeViewModel viewModel = ViewModelProviders.of(this).get(QuakeViewModel.class);
+        viewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(QuakeViewModel.class);
 
         /*
-         * No funciona el retry desde fragment
+            Viewmodel encargado de mostrar mensajes de errores desde Volley (LoadDATA)
          */
-        if (QuakeUtils.checkInternet(getContext())) {
-            getData(viewModel);
+        viewModel.getStatusData().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                if (s != null) {
+
+                    Snackbar
+                            .make(v, s, Snackbar.LENGTH_INDEFINITE)
+                            .show();
+                    progressBar.setVisibility(View.INVISIBLE);
+                    Log.d("SNACKBAR", "Snack bar de servidor no responde");
+                }
+
+            }
+        });
+
+        /*
+            Flujo de informacion dependiendo de la conexion a internet
+         */
+        if (QuakeUtils.checkInternet(Objects.requireNonNull(getContext()))) {
+            getData();
         } else {
-            showSnackBar(viewModel, "Retry");
+            showSnackBar(getActivity(), "Retry");
             progressBar.setVisibility(View.INVISIBLE);
         }
+
 
         return v;
     }
@@ -79,7 +102,10 @@ public class QuakeFragment extends Fragment {
         super.onStop();
     }
 
-    private void getData(QuakeViewModel viewModel) {
+
+    @Override
+    public void getData() {
+
         viewModel.getQuakeList().observe(this, new Observer<List<QuakeModel>>() {
             @Override
             public void onChanged(@Nullable List<QuakeModel> quakeModelList) {
@@ -88,38 +114,52 @@ public class QuakeFragment extends Fragment {
                 QuakeAdapter adapter = new QuakeAdapter(quakeModelList, getContext());
                 adapter.notifyDataSetChanged();
                 rv.setAdapter(adapter);
+
+                //Progressbar desaparece despues de la descarga de datos
                 progressBar.setVisibility(View.INVISIBLE);
+
+                //Mostrar snackbar de sismos actualizados
+                showSnackBar(getActivity(), "Update");
 
                 Log.d("PROGRESS_FRAGMENT", "UPDATE INFORMATION - FRAGMENT");
 
             }
+
+
         });
     }
 
-    private void showSnackBar(final QuakeViewModel viewModel, String tipo) {
+    @Override
+    public void showSnackBar(Context context, String tipo) {
 
-        if (tipo.equals("Retry")) {
-            Snackbar
-                    .make(getActivity().getWindow().getDecorView().getRootView(), "Sin conexion a internet", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Retry", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
+        switch (tipo) {
+            case "Retry":
+                Snackbar
+                        .make(Objects.requireNonNull(getActivity()).getWindow().getDecorView().getRootView(), "Sin conexion a internet", Snackbar.LENGTH_INDEFINITE)
+                        .setAction("Reintentar", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
 
-                            if (QuakeUtils.checkInternet(getContext())) {
-                                getData(viewModel);
-                                showSnackBar(viewModel, "Update");
-                            } else {
-                                showSnackBar(viewModel, "Retry");
+                                if (QuakeUtils.checkInternet(Objects.requireNonNull(getContext()))) {
+                                    progressBar.setVisibility(View.VISIBLE);
+                                    getData();
+                                    showSnackBar(getActivity(), "Update");
+                                } else {
+                                    Log.d("SNACKBAR", "Snack bar retry");
+                                    showSnackBar(getActivity(), "Retry");
+                                }
                             }
-                        }
-                    })
-                    .show();
-        } else if (tipo.equals("Update")) {
-            Snackbar
-                    .make(getActivity().getWindow().getDecorView().getRootView(), "Sismos Actualizados", Snackbar.LENGTH_LONG)
-                    .show();
+                        })
+                        .show();
+                break;
+
+            case "Update":
+                Log.d("SNACKBAR", "Snack bar de actualizacion");
+                Snackbar
+                        .make(Objects.requireNonNull(getActivity()).getWindow().getDecorView().getRootView(), "Sismos Actualizados", Snackbar.LENGTH_LONG)
+                        .show();
+                break;
+
         }
-
     }
-
 }
