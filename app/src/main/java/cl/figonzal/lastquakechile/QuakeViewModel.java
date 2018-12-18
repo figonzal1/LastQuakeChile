@@ -39,11 +39,14 @@ public class QuakeViewModel extends AndroidViewModel {
     private MutableLiveData<List<QuakeModel>> liveDataQuakes;
     private List<QuakeModel> quakeModelList;
 
+    //Mutable Live data muestra dos veces el aviso cuando hay rotacion
+    //SingleLive event solo permite un evento en el fragment e ignora cualquier otro
+    private MutableLiveData<String> statusData;
+
     //Contructor para usar context dentro de la clase ViewModel
-    public QuakeViewModel(@NonNull Application application) {
+    QuakeViewModel(@NonNull Application application) {
         super(application);
     }
-
 
     /**
      * Funcion Singleton encargada de crear un MutableLiveData con una lista de sismos, para posterior uso con observable
@@ -60,10 +63,18 @@ public class QuakeViewModel extends AndroidViewModel {
         return liveDataQuakes;
     }
 
+    MutableLiveData<String> getStatusData() {
+
+        if (statusData == null) {
+            statusData = new MutableLiveData<>();
+        }
+        return statusData;
+    }
+
     /**
      * Funcion encargada de crear la request HTTP hacia el servidor y parsear el JSON con los sismos
      */
-    public void loadQuakes() {
+    private void loadQuakes() {
 
 
         //Codigo que retorna la data desde internet
@@ -118,6 +129,7 @@ public class QuakeViewModel extends AndroidViewModel {
 
                 if (error instanceof TimeoutError) {
                     Log.d("SERVER_ERROR", "Servidor no responde");
+                    statusData.postValue("Servidor no responde. Intente más tarde");
 
                 } else if (error instanceof NoConnectionError) {
                     Log.d("SERVER_ERROR", "NoConnection error");

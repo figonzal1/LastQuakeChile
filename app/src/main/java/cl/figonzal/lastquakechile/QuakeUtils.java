@@ -115,6 +115,13 @@ class QuakeUtils {
         return mag_resource_id;
     }
 
+
+    /**
+     * Funcion que permite checkear si el celular cuenta con conexion a internet tanto wifi como datos moviles.
+     *
+     * @param context Contexto necesario para realizar las llamadas a servicios
+     * @return boolean  Retorna un boleano True para internet, False cuando esta desconectado
+     */
     static boolean checkInternet(Context context) {
 
         //Zona Network Information
