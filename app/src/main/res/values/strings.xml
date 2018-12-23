@@ -32,4 +32,27 @@
     <string name="quake_time_minute">%1$d m</string>
     <string name="quake_time_second">%1$d s</string>
 
+
+    <!-- FIREBASE-->
+    <string name="TAG_FIREBASE_TOKEN">TOKEN_FIREBASE</string>
+    <string name="TAG_FIREBASE_SUSCRIPTION">FIREBASE_SUSCRIPCION</string>
+    <string name="FIREBASE_CHANNEL_ID">1</string>
+    <string name="FIREBASE_CHANNEL_NAME">Alerta sismos</string>
+    <string name="FIREBASE_CHANNEL_DESCRIPTION">Recibe alertas de los últimos sismos</string>
+    <string name="TAG_FIREBASE_CHANNEL">FIREBASE_CHANNEL</string>
+    <string name="TAG_FIREBASE_MESSAGE">FIREBASE_MESSAGE</string>
+    <string name="FIREBASE_SNACKBAR_SUBSCRIBE_TOPIC_SUCCESS">Suscrito al tema</string>
+    <string name="FIREBASE_CHANNEL_CREATED_MESSAGE">Canal de notificacion creado</string>
+    <string name="FIREBASE_TOPIC_NAME">Quakes</string>
+    <string name="FIREBASE_SNACKBAR_SUBSCRIBE_TOPIC_DELETED">Suscripcion eliminada</string>
+
+    <!-- Strings de Snackbars -->
+    <string name="FLAG_UPDATE">Update</string>
+    <string name="FLAG_RETRY">Retry</string>
+    <string name="TAG_PROGRESS_FROM_REFRESH">PROGRESS_REFRESH</string>
+    <string name="TAG_PROGRESS_FROM_REFRESH_UPDATE_RESPONSE">UPDATED INFORMATION - TOOLBAR</string>
+    <string name="TAG_PROGRESS_FROM_REFRESH_RETRY_RESPONSE">RETRY CONNNECTION - TOOLBAR</string>
+    <string name="SNACKBAR_STATUS_MESSAGE_NOCONNECTION">Sin conexion a internet</string>
+    <string name="SNACKBAR_STATUS_MESSAGE_UPDATE">Sismos Actualizados</string>
+
 </resources>
