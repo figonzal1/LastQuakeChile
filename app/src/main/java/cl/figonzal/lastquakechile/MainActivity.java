@@ -2,6 +2,7 @@ package cl.figonzal.lastquakechile;
 
 import android.arch.lifecycle.Observer;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
@@ -15,18 +16,41 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private QuakeUtils quakeUtils;
     private MenuItem item;
+    private boolean suscrito = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        /*
+            Firebase SECTION
+         */
+        FirebaseMessaging.getInstance().setAutoInitEnabled(true);
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(this, new OnSuccessListener<InstanceIdResult>() {
+            @Override
+            public void onSuccess(InstanceIdResult instanceIdResult) {
+                String token = instanceIdResult.getToken();
+                Log.d(getString(R.string.TAG_FIREBASE_TOKEN), "Nuevo token: " + token);
+            }
+        });
+
+        //Llamada a creacion de canal de notificaciones
+        QuakeUtils.createNotificationChannel(getApplicationContext());
 
         //Buscar toolbar en resources
         Toolbar toolbar = findViewById(R.id.tool_bar);
@@ -82,10 +106,10 @@ public class MainActivity extends AppCompatActivity {
                             progressBar.setVisibility(View.INVISIBLE);
 
                             //Mostrar Snackbar De actualizacion
-                            showSnackBar("Update");
+                            showSnackBar(getString(R.string.FLAG_UPDATE));
 
                             //LOG ZONE
-                            Log.d("PROGRESS_REFRESH", "UPDATED INFORMATION - TOOLBAR");
+                            Log.d(getString(R.string.TAG_PROGRESS_FROM_REFRESH), getString(R.string.TAG_PROGRESS_FROM_REFRESH_UPDATE_RESPONSE));
                         }
                     });
                 } else {
@@ -93,15 +117,36 @@ public class MainActivity extends AppCompatActivity {
                     progressBar.setVisibility(View.INVISIBLE);
 
                     //Mostrar Snackbar de Retry de datos
-                    showSnackBar("Retry");
+                    showSnackBar(getString(R.string.FLAG_RETRY));
 
                     //LOG ZONE
-                    Log.d("PROGRESS_REFRESH", "RETRY CONNNECTION - TOOLBAR");
+                    Log.d(getString(R.string.TAG_PROGRESS_FROM_REFRESH), getString(R.string.TAG_PROGRESS_FROM_REFRESH_RETRY_RESPONSE));
                 }
 
                 return true;
 
             case R.id.settings:
+
+
+                if (!suscrito) {
+                    FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.FIREBASE_TOPIC_NAME))
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(getApplicationContext(), getString(R.string.FIREBASE_SNACKBAR_SUBSCRIBE_TOPIC_SUCCESS), Toast.LENGTH_LONG).show();
+                                    }
+                                    Log.d(getString(R.string.TAG_FIREBASE_SUSCRIPTION), "SUSCRITO");
+                                }
+                            });
+
+                    suscrito = true;
+                } else {
+                    FirebaseMessaging.getInstance().unsubscribeFromTopic(getString(R.string.FIREBASE_TOPIC_NAME));
+                    Toast.makeText(getApplicationContext(), getString(R.string.FIREBASE_SNACKBAR_SUBSCRIBE_TOPIC_DELETED), Toast.LENGTH_LONG).show();
+                    Log.d(getString(R.string.TAG_FIREBASE_SUSCRIPTION), "SUSCRIPCION ELIMINADA");
+                }
+
                 return true;
 
             default:
@@ -114,23 +159,23 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Funcion para mostrar SnackBar en caso de RETRY o UPDATE de informacion
      *
-     * @param tipo String que sera RETRY-> Para intento de update sin internet y UPDATE -> Cuando la lista sea actualizada
+     * @param flag String que sera RETRY-> Para intento de update sin internet y UPDATE -> Cuando la lista sea actualizada
      */
-    private void showSnackBar(String tipo) {
+    private void showSnackBar(String flag) {
 
-        if (tipo.equals("Retry")) {
+        if (flag.equals(getString(R.string.FLAG_RETRY))) {
             Snackbar
-                    .make(getWindow().getDecorView().getRootView(), "Sin conexion a internet", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Retry", new View.OnClickListener() {
+                    .make(getWindow().getDecorView().getRootView(), R.string.SNACKBAR_STATUS_MESSAGE_NOCONNECTION, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(getString(R.string.FLAG_RETRY), new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             onOptionsItemSelected(item);
                         }
                     })
                     .show();
-        } else if (tipo.equals("Update")) {
+        } else if (flag.equals(getString(R.string.FLAG_UPDATE))) {
             Snackbar
-                    .make(getWindow().getDecorView().getRootView(), "Sismos Actualizados", Snackbar.LENGTH_LONG)
+                    .make(getWindow().getDecorView().getRootView(), R.string.SNACKBAR_STATUS_MESSAGE_UPDATE, Snackbar.LENGTH_LONG)
                     .show();
         }
 
