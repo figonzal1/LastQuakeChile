@@ -1,8 +1,12 @@
 package cl.figonzal.lastquakechile;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
+import android.util.Log;
 
 import java.util.Date;
 
@@ -115,12 +119,11 @@ class QuakeUtils {
         return mag_resource_id;
     }
 
-
     /**
-     * Funcion que permite checkear si el celular cuenta con conexion a internet tanto wifi como datos moviles.
+     * Funcion encargada de checkear si el celular tiene red movil o wifi activada
      *
-     * @param context Contexto necesario para realizar las llamadas a servicios
-     * @return boolean  Retorna un boleano True para internet, False cuando esta desconectado
+     * @param context es recibido para hacer uso del getSystemService
+     * @return boolean, true para conectado, false celular sin conexion
      */
     static boolean checkInternet(Context context) {
 
@@ -129,5 +132,27 @@ class QuakeUtils {
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
 
         return networkInfo != null && networkInfo.isConnected();
+    }
+
+
+    static void createNotificationChannel(Context context) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            //Definicion de atributos de canal de notificacion
+            String name = context.getString(R.string.FIREBASE_CHANNEL_NAME);
+            String description = context.getString(R.string.FIREBASE_CHANNEL_DESCRIPTION);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+
+            NotificationChannel notificationChannel = new NotificationChannel(context.getString(R.string.FIREBASE_CHANNEL_ID), name, importance);
+            notificationChannel.setDescription(description);
+            notificationChannel.enableLights(true);
+            notificationChannel.setLightColor(R.color.magnitude4);
+
+            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(notificationChannel);
+
+            Log.d(context.getString(R.string.TAG_FIREBASE_CHANNEL), context.getString(R.string.FIREBASE_CHANNEL_CREATED_MESSAGE));
+        }
     }
 }
