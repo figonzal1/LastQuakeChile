@@ -52,7 +52,21 @@
     <string name="TAG_PROGRESS_FROM_REFRESH">PROGRESS_REFRESH</string>
     <string name="TAG_PROGRESS_FROM_REFRESH_UPDATE_RESPONSE">UPDATED INFORMATION - TOOLBAR</string>
     <string name="TAG_PROGRESS_FROM_REFRESH_RETRY_RESPONSE">RETRY CONNNECTION - TOOLBAR</string>
+    <string name="TAG_PROGRESS_FROM_FRAGMENT">PROGRESS_FRAGMENT</string>
+    <string name="TAG_PROGRESS_FROM_FRAGMENT_UPDATE_RESPONSE">UPDATED INFORMATION - FRAGMENT</string>
+    <string name="TAG_PROGRESS_FROM_FRAGMENT_RETRY_RESPONSE">RETRY CONNNECTION - FRAGMENT</string>
+    <string name="TAG_PROGRESS_FROM_FRAGMENT_ERROR_SERVER">ERROR SERVER CONNECTION - FRAGMENT</string>
     <string name="SNACKBAR_STATUS_MESSAGE_NOCONNECTION">Sin conexion a internet</string>
     <string name="SNACKBAR_STATUS_MESSAGE_UPDATE">Sismos Actualizados</string>
+
+    <!-- Strings de Volley -->
+    <string name="TAG_VOLLEY_ERROR">VOLLEY_ERROR</string>
+    <string name="TAG_VOLLEY_ERROR_TIMEOUT">Servidor no responde</string>
+    <string name="TAG_VOLLEY_ERROR_CONNECTION">NoConnection error</string>
+    <string name="TAG_VOLLEY_ERROR_AUTH">Auth error</string>
+    <string name="TAG_VOLLEY_ERROR_SERVER">Server error</string>
+    <string name="TAG_VOLLEY_ERROR_NETWORK">Network error</string>
+    <string name="TAG_VOLLEY_ERROR_PARSE">Parse error</string>
+
 
 </resources>
