@@ -1,6 +1,7 @@
 package cl.figonzal.lastquakechile;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 import java.util.Locale;
@@ -84,7 +84,9 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Click", Toast.LENGTH_LONG).show();
+
+                Intent intent = new Intent(context, QuakeDetailsActivity.class);
+                context.startActivity(intent);
             }
         });
 
