@@ -68,10 +68,17 @@ public class QuakeFragment extends Fragment implements ResponseNetworkHandler {
             public void onChanged(@Nullable String status) {
                 if (status != null) {
 
+                    progressBar.setVisibility(View.INVISIBLE);
                     Snackbar
                             .make(v, status, Snackbar.LENGTH_INDEFINITE)
+                            .setAction("Recargar", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    viewModel.refreshQuakeList();
+                                    progressBar.setVisibility(View.VISIBLE);
+                                }
+                            })
                             .show();
-                    progressBar.setVisibility(View.INVISIBLE);
                     Log.d(getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_ERROR_SERVER));
                 }
 

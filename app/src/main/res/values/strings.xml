@@ -7,7 +7,7 @@
 
     <!-- TODO: Cambiar la direccion hacia Heroku y Actualizar HEROKU con el nuevo config en xamp -->
     <!-- URL SERVIDOR HEROKU -->
-    <string name="URL_GET">http://192.168.0.13/lastquake_server/public/get_quakes.php</string>
+    <string name="URL_GET">http://192.168.1.44/lastquake_server/public/get_quakes.php</string>
 
     <!-- FORMATO DATE/TIME A USAR -->
     <string name="DATETIME_FORMAT">yyyy-MM-dd HH:mm:ss</string>

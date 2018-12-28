@@ -63,6 +63,12 @@ public class QuakeViewModel extends AndroidViewModel {
         return liveDataQuakes;
     }
 
+    void refreshQuakeList() {
+        if (liveDataQuakes != null) {
+            loadQuakes();
+        }
+    }
+
     MutableLiveData<String> getStatusData() {
 
         if (statusData == null) {
