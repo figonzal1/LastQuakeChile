@@ -1,6 +1,8 @@
 package cl.figonzal.lastquakechile;
 
 import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -27,10 +29,13 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ResponseNetworkHandler {
 
     private MenuItem item;
     private boolean suscrito = false;
+    private QuakeViewModel viewModel;
+    private RecyclerView rv;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,35 +94,20 @@ public class MainActivity extends AppCompatActivity {
             case R.id.refresh:
 
                 //Definicion de materiales a usar para checkear internet UI
-                final RecyclerView rv = findViewById(R.id.recycle_view);
-                final ProgressBar progressBar = findViewById(R.id.progressBar);
+                rv = findViewById(R.id.recycle_view);
+                progressBar = findViewById(R.id.progressBar);
                 progressBar.setVisibility(View.VISIBLE);
+                viewModel = ViewModelProviders.of(this).get(QuakeViewModel.class);
 
+                /*
+                    Flujo de informacion dependiendo de la conexion a internet
+                */
                 if (QuakeUtils.checkInternet(getApplicationContext())) {
-
-                    QuakeViewModel quakeViewModel = new QuakeViewModel(getApplication());
-                    quakeViewModel.getQuakeList().observe(this, new Observer<List<QuakeModel>>() {
-                        @Override
-                        public void onChanged(@Nullable List<QuakeModel> quakeModelList) {
-
-                            QuakeAdapter adapter = new QuakeAdapter(quakeModelList, getApplicationContext());
-                            adapter.notifyDataSetChanged();
-                            rv.setAdapter(adapter);
-                            progressBar.setVisibility(View.INVISIBLE);
-
-                            //Mostrar Snackbar De actualizacion
-                            showSnackBar(getString(R.string.FLAG_UPDATE));
-
-                            //LOG ZONE
-                            Log.d(getString(R.string.TAG_PROGRESS_FROM_REFRESH), getString(R.string.TAG_PROGRESS_FROM_REFRESH_UPDATE_RESPONSE));
-                        }
-                    });
+                    getData();
                 } else {
-
-                    progressBar.setVisibility(View.INVISIBLE);
-
                     //Mostrar Snackbar de Retry de datos
-                    showSnackBar(getString(R.string.FLAG_RETRY));
+                    showSnackBar(getApplicationContext(), getString(R.string.FLAG_RETRY));
+                    progressBar.setVisibility(View.INVISIBLE);
 
                     //LOG ZONE
                     Log.d(getString(R.string.TAG_PROGRESS_FROM_REFRESH), getString(R.string.TAG_PROGRESS_FROM_REFRESH_RETRY_RESPONSE));
@@ -156,16 +146,43 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    @Override
+    public void getData() {
+
+        viewModel.getQuakeList().observe(this, new Observer<List<QuakeModel>>() {
+            @Override
+            public void onChanged(@Nullable List<QuakeModel> quakeModelList) {
+
+
+                //Setear el adapter con la lista de quakes
+                QuakeAdapter adapter = new QuakeAdapter(quakeModelList, getApplicationContext());
+                adapter.notifyDataSetChanged();
+                rv.setAdapter(adapter);
+
+                //Progressbar desaparece despues de la descarga de datos
+                progressBar.setVisibility(View.INVISIBLE);
+
+                //Mostrar Snackbar de sismos actualizados
+                showSnackBar(getApplicationContext(), getString(R.string.FLAG_UPDATE));
+
+                //LOG ZONE
+                Log.d(getString(R.string.TAG_PROGRESS_FROM_REFRESH), getString(R.string.TAG_PROGRESS_FROM_REFRESH_UPDATE_RESPONSE));
+            }
+        });
+    }
+
     /**
      * Funcion para mostrar SnackBar en caso de RETRY o UPDATE de informacion
      *
-     * @param flag String que sera RETRY-> Para intento de update sin internet y UPDATE -> Cuando la lista sea actualizada
+     * @param tipo String que sera RETRY-> Para intento de update sin internet y UPDATE -> Cuando la lista sea actualizada
      */
-    private void showSnackBar(String flag) {
+    @Override
+    public void showSnackBar(Context context, String tipo) {
 
-        if (flag.equals(getString(R.string.FLAG_RETRY))) {
+        if (tipo.equals(getString(R.string.FLAG_RETRY))) {
             Snackbar
-                    .make(getWindow().getDecorView().getRootView(), R.string.SNACKBAR_STATUS_MESSAGE_NOCONNECTION, Snackbar.LENGTH_INDEFINITE)
+                    .make(getWindow().getDecorView().getRootView(), getString(R.string.SNACKBAR_STATUS_MESSAGE_NOCONNECTION), Snackbar.LENGTH_INDEFINITE)
                     .setAction(getString(R.string.FLAG_RETRY), new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -173,11 +190,10 @@ public class MainActivity extends AppCompatActivity {
                         }
                     })
                     .show();
-        } else if (flag.equals(getString(R.string.FLAG_UPDATE))) {
+        } else if (tipo.equals(getString(R.string.FLAG_UPDATE))) {
             Snackbar
-                    .make(getWindow().getDecorView().getRootView(), R.string.SNACKBAR_STATUS_MESSAGE_UPDATE, Snackbar.LENGTH_LONG)
+                    .make(getWindow().getDecorView().getRootView(), getString(R.string.SNACKBAR_STATUS_MESSAGE_UPDATE), Snackbar.LENGTH_LONG)
                     .show();
         }
-
     }
 }
