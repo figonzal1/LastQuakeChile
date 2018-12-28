@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements ResponseNetworkHa
 
                             progressBar.setVisibility(View.INVISIBLE);
                             Snackbar
-                                    .make(getWindow().getDecorView().getRootView(), status, Snackbar.LENGTH_INDEFINITE)
+                                    .make(findViewById(R.id.main_container), status, Snackbar.LENGTH_INDEFINITE)
                                     .setAction("Recargar", new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
@@ -204,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements ResponseNetworkHa
 
         if (tipo.equals(getString(R.string.FLAG_RETRY))) {
             Snackbar
-                    .make(getWindow().getDecorView().getRootView(), getString(R.string.SNACKBAR_STATUS_MESSAGE_NOCONNECTION), Snackbar.LENGTH_INDEFINITE)
+                    .make(findViewById(R.id.main_container), getString(R.string.SNACKBAR_STATUS_MESSAGE_NOCONNECTION), Snackbar.LENGTH_INDEFINITE)
                     .setAction(getString(R.string.FLAG_RETRY), new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -214,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements ResponseNetworkHa
                     .show();
         } else if (tipo.equals(getString(R.string.FLAG_UPDATE))) {
             Snackbar
-                    .make(getWindow().getDecorView().getRootView(), getString(R.string.SNACKBAR_STATUS_MESSAGE_UPDATE), Snackbar.LENGTH_LONG)
+                    .make(findViewById(R.id.main_container), getString(R.string.SNACKBAR_STATUS_MESSAGE_UPDATE), Snackbar.LENGTH_LONG)
                     .show();
         }
     }
