@@ -130,7 +130,7 @@ public class QuakeFragment extends Fragment implements ResponseNetworkHandler {
                 progressBar.setVisibility(View.INVISIBLE);
 
                 //Mostrar snackbar de sismos actualizados
-                showSnackBar(getActivity(), getString(R.string.FLAG_UPDATE));
+                //showSnackBar(getActivity(), getString(R.string.FLAG_UPDATE));
 
                 //LOG ZONE
                 Log.d(getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_UPDATE_RESPONSE));
@@ -146,7 +146,7 @@ public class QuakeFragment extends Fragment implements ResponseNetworkHandler {
 
         if (tipo.equals(getString(R.string.FLAG_RETRY))) {
             Snackbar
-                    .make(Objects.requireNonNull(getActivity()).getWindow().getDecorView().getRootView(), getString(R.string.SNACKBAR_STATUS_MESSAGE_NOCONNECTION), Snackbar.LENGTH_INDEFINITE)
+                    .make(getActivity().findViewById(R.id.main_container), getString(R.string.SNACKBAR_STATUS_MESSAGE_NOCONNECTION), Snackbar.LENGTH_INDEFINITE)
                     .setAction(getString(R.string.FLAG_RETRY), new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -162,7 +162,7 @@ public class QuakeFragment extends Fragment implements ResponseNetworkHandler {
                     .show();
         } else if (tipo.equals(getString(R.string.FLAG_UPDATE))) {
             Snackbar
-                    .make(Objects.requireNonNull(getActivity()).getWindow().getDecorView().getRootView(), getString(R.string.SNACKBAR_STATUS_MESSAGE_UPDATE), Snackbar.LENGTH_LONG)
+                    .make(getActivity().findViewById(R.id.main_container), getString(R.string.SNACKBAR_STATUS_MESSAGE_UPDATE), Snackbar.LENGTH_LONG)
                     .show();
         }
     }
