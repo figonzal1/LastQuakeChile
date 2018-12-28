@@ -99,6 +99,28 @@ public class MainActivity extends AppCompatActivity implements ResponseNetworkHa
                 progressBar.setVisibility(View.VISIBLE);
                 viewModel = ViewModelProviders.of(this).get(QuakeViewModel.class);
 
+                viewModel.getStatusData().observe(this, new Observer<String>() {
+                    @Override
+                    public void onChanged(@Nullable String status) {
+                        if (status != null) {
+
+                            progressBar.setVisibility(View.INVISIBLE);
+                            Snackbar
+                                    .make(getWindow().getDecorView().getRootView(), status, Snackbar.LENGTH_INDEFINITE)
+                                    .setAction("Recargar", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            viewModel.refreshQuakeList();
+                                            progressBar.setVisibility(View.VISIBLE);
+                                        }
+                                    })
+                                    .show();
+                            Log.d(getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_ERROR_SERVER));
+                        }
+
+                    }
+                });
+
                 /*
                     Flujo de informacion dependiendo de la conexion a internet
                 */
