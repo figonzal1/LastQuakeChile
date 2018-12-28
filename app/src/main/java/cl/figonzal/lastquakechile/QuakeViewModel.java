@@ -128,22 +128,23 @@ public class QuakeViewModel extends AndroidViewModel {
             public void onErrorResponse(VolleyError error) {
 
                 if (error instanceof TimeoutError) {
-                    Log.d("SERVER_ERROR", "Servidor no responde");
+                    Log.d(getApplication().getString(R.string.TAG_VOLLEY_ERROR), getApplication().getString(R.string.TAG_VOLLEY_ERROR_TIMEOUT));
                     statusData.postValue("Servidor no responde. Intente más tarde");
 
                 } else if (error instanceof NoConnectionError) {
-                    Log.d("SERVER_ERROR", "NoConnection error");
+                    Log.d(getApplication().getString(R.string.TAG_VOLLEY_ERROR), getApplication().getString(R.string.TAG_VOLLEY_ERROR_CONNECTION));
 
                 } else if (error instanceof AuthFailureError) {
-                    Log.d("SERVER_ERROR", "Auth error");
+                    Log.d(getApplication().getString(R.string.TAG_VOLLEY_ERROR), getApplication().getString(R.string.TAG_VOLLEY_ERROR_AUTH));
 
                 } else if (error instanceof ServerError) {
-                    Log.d("SERVER_ERROR", "Server error");
+                    Log.d(getApplication().getString(R.string.TAG_VOLLEY_ERROR), getApplication().getString(R.string.TAG_VOLLEY_ERROR_SERVER));
+
                 } else if (error instanceof NetworkError) {
-                    Log.d("SERVER_ERROR", "Network error");
+                    Log.d(getApplication().getString(R.string.TAG_VOLLEY_ERROR), getApplication().getString(R.string.TAG_VOLLEY_ERROR_NETWORK));
 
                 } else if (error instanceof ParseError) {
-                    Log.d("SERVER_ERROR", "Parse error");
+                    Log.d(getApplication().getString(R.string.TAG_VOLLEY_ERROR), getApplication().getString(R.string.TAG_VOLLEY_ERROR_PARSE));
 
                 }
                 VolleySingleton.getInstance(getApplication()).cancelRequestQueue("DATA");

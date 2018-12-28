@@ -65,14 +65,14 @@ public class QuakeFragment extends Fragment implements ResponseNetworkHandler {
          */
         viewModel.getStatusData().observe(this, new Observer<String>() {
             @Override
-            public void onChanged(@Nullable String s) {
-                if (s != null) {
+            public void onChanged(@Nullable String status) {
+                if (status != null) {
 
                     Snackbar
-                            .make(v, s, Snackbar.LENGTH_INDEFINITE)
+                            .make(v, status, Snackbar.LENGTH_INDEFINITE)
                             .show();
                     progressBar.setVisibility(View.INVISIBLE);
-                    Log.d("SNACKBAR", "Snack bar de servidor no responde");
+                    Log.d(getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_ERROR_SERVER));
                 }
 
             }
@@ -84,8 +84,12 @@ public class QuakeFragment extends Fragment implements ResponseNetworkHandler {
         if (QuakeUtils.checkInternet(Objects.requireNonNull(getContext()))) {
             getData();
         } else {
-            showSnackBar(getActivity(), "Retry");
+            //Mostrar Snackbar de retry de datos
+            showSnackBar(getActivity(), getString(R.string.FLAG_RETRY));
             progressBar.setVisibility(View.INVISIBLE);
+
+            //LOG ZONE
+            Log.d(getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_RETRY_RESPONSE));
         }
 
 
@@ -119,9 +123,10 @@ public class QuakeFragment extends Fragment implements ResponseNetworkHandler {
                 progressBar.setVisibility(View.INVISIBLE);
 
                 //Mostrar snackbar de sismos actualizados
-                showSnackBar(getActivity(), "Update");
+                showSnackBar(getActivity(), getString(R.string.FLAG_UPDATE));
 
-                Log.d("PROGRESS_FRAGMENT", "UPDATE INFORMATION - FRAGMENT");
+                //LOG ZONE
+                Log.d(getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_UPDATE_RESPONSE));
 
             }
 
@@ -132,34 +137,26 @@ public class QuakeFragment extends Fragment implements ResponseNetworkHandler {
     @Override
     public void showSnackBar(Context context, String tipo) {
 
-        switch (tipo) {
-            case "Retry":
-                Snackbar
-                        .make(Objects.requireNonNull(getActivity()).getWindow().getDecorView().getRootView(), "Sin conexion a internet", Snackbar.LENGTH_INDEFINITE)
-                        .setAction("Reintentar", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
+        if (tipo.equals(getString(R.string.FLAG_RETRY))) {
+            Snackbar
+                    .make(Objects.requireNonNull(getActivity()).getWindow().getDecorView().getRootView(), getString(R.string.SNACKBAR_STATUS_MESSAGE_NOCONNECTION), Snackbar.LENGTH_INDEFINITE)
+                    .setAction(getString(R.string.FLAG_RETRY), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
 
-                                if (QuakeUtils.checkInternet(Objects.requireNonNull(getContext()))) {
-                                    progressBar.setVisibility(View.VISIBLE);
-                                    getData();
-                                    showSnackBar(getActivity(), "Update");
-                                } else {
-                                    Log.d("SNACKBAR", "Snack bar retry");
-                                    showSnackBar(getActivity(), "Retry");
-                                }
+                            if (QuakeUtils.checkInternet(Objects.requireNonNull(getContext()))) {
+                                progressBar.setVisibility(View.VISIBLE);
+                                getData();
+                            } else {
+                                showSnackBar(getActivity(), getString(R.string.FLAG_RETRY));
                             }
-                        })
-                        .show();
-                break;
-
-            case "Update":
-                Log.d("SNACKBAR", "Snack bar de actualizacion");
-                Snackbar
-                        .make(Objects.requireNonNull(getActivity()).getWindow().getDecorView().getRootView(), "Sismos Actualizados", Snackbar.LENGTH_LONG)
-                        .show();
-                break;
-
+                        }
+                    })
+                    .show();
+        } else if (tipo.equals(getString(R.string.FLAG_UPDATE))) {
+            Snackbar
+                    .make(Objects.requireNonNull(getActivity()).getWindow().getDecorView().getRootView(), getString(R.string.SNACKBAR_STATUS_MESSAGE_UPDATE), Snackbar.LENGTH_LONG)
+                    .show();
         }
     }
 }
