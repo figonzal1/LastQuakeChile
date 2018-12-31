@@ -11,6 +11,7 @@ public class QuakeModel {
     private Double magnitud;
     private String escala;
     private Double profundidad;
+    private Boolean sensible;
     private String agencia;
     private String referencia;
     private String imagen_url;
@@ -58,19 +59,19 @@ public class QuakeModel {
         this.magnitud = magnitud;
     }
 
-    public String getEscala() {
+    String getEscala() {
         return escala;
     }
 
-    public void setEscala(String escala) {
+    void setEscala(String escala) {
         this.escala = escala;
     }
 
-    public Double getProfundidad() {
+    Double getProfundidad() {
         return profundidad;
     }
 
-    public void setProfundidad(Double profundidad) {
+    void setProfundidad(Double profundidad) {
         this.profundidad = profundidad;
     }
 
@@ -97,5 +98,13 @@ public class QuakeModel {
 
     void setImagen_url(String imagen_url) {
         this.imagen_url = imagen_url;
+    }
+
+    Boolean getSensible() {
+        return sensible;
+    }
+
+    void setSensible(Boolean sensible) {
+        this.sensible = sensible;
     }
 }

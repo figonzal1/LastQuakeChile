@@ -18,6 +18,7 @@ public class QuakeDetailsActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
 
+        //Muestra la flecha en toolbar para volver atras
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         //Obtener datos desde intent
@@ -33,8 +34,10 @@ public class QuakeDetailsActivity extends AppCompatActivity {
             Double magnitud = b.getDouble(getString(R.string.INTENT_MAGNITUD));
             Double profundidad = b.getDouble(getString(R.string.INTENT_PROFUNDIDAD));
             String escala = b.getString(getString(R.string.INTENT_ESCALA));
+            Boolean sensible = b.getBoolean(getString(R.string.INTENT_SENSIBLE));
 
             Log.d("INTENT", referencia);
+            Log.d("INTENT", String.valueOf(sensible));
         }
     }
 }
