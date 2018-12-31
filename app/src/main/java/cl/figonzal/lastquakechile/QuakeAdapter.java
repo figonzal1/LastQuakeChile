@@ -2,6 +2,7 @@ package cl.figonzal.lastquakechile;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
@@ -60,11 +62,11 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
     @Override
     public void onBindViewHolder(@NonNull QuakeViewHolder holder, int position) {
 
-        QuakeModel model = quakeModelList.get(position);
+        final QuakeModel model = quakeModelList.get(position);
 
         //Guarda despues de 'DE' en la ciudad
         int inicio = model.getReferencia().indexOf("de")+3;
-        String ciudad = model.getReferencia().substring(inicio,model.getReferencia().length());
+        final String ciudad = model.getReferencia().substring(inicio, model.getReferencia().length());
 
         holder.tv_ciudad.setText(ciudad);
         holder.tv_referencia.setText(model.getReferencia());
@@ -85,7 +87,24 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
             @Override
             public void onClick(View v) {
 
+                /*
+                    Datos para mostrar en el detalle de sismos
+                 */
                 Intent intent = new Intent(context, QuakeDetailsActivity.class);
+                Bundle b = new Bundle();
+                b.putString(context.getString(R.string.INTENT_CIUDAD), ciudad);
+                b.putString(context.getString(R.string.INTENT_REFERENCIA), model.getReferencia());
+                b.putString(context.getString(R.string.INTENT_LATITUD), model.getLatitud());
+                b.putString(context.getString(R.string.INTENT_LONGITUD), model.getLongitud());
+
+                SimpleDateFormat format = new SimpleDateFormat(context.getString(R.string.DATETIME_FORMAT), Locale.US);
+                b.putString(context.getString(R.string.INTENT_FECHA_LOCAL), format.format(model.getFecha_local()));
+
+                b.putDouble(context.getString(R.string.INTENT_MAGNITUD), model.getMagnitud());
+                b.putDouble(context.getString(R.string.INTENT_PROFUNDIDAD), model.getProfundidad());
+                b.putString(context.getString(R.string.INTENT_ESCALA), model.getEscala());
+
+                intent.putExtras(b);
                 context.startActivity(intent);
             }
         });
