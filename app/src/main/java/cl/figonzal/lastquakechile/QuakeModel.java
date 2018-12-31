@@ -9,18 +9,20 @@ public class QuakeModel {
     private String latitud;
     private String longitud;
     private Double magnitud;
+    private String escala;
+    private Double profundidad;
     private String agencia;
     private String referencia;
     private String imagen_url;
 
-    public QuakeModel() {
+    QuakeModel() {
     }
 
-    public Date getFecha_local() {
+    Date getFecha_local() {
         return fecha_local;
     }
 
-    public void setFecha_local(Date fecha_local) {
+    void setFecha_local(Date fecha_local) {
         this.fecha_local = fecha_local;
     }
 
@@ -28,47 +30,64 @@ public class QuakeModel {
         return fecha_utc;
     }
 
-    public void setFecha_utc(Date fecha_utc) {
+    void setFecha_utc(Date fecha_utc) {
         this.fecha_utc = fecha_utc;
     }
 
-    public String getLatitud() {
+    String getLatitud() {
         return latitud;
     }
 
-    public void setLatitud(String latitud) {
+    void setLatitud(String latitud) {
         this.latitud = latitud;
     }
 
-    public String getLongitud() {
+    String getLongitud() {
         return longitud;
     }
 
-    public void setLongitud(String longitud) {
+    void setLongitud(String longitud) {
         this.longitud = longitud;
     }
 
-    public Double getMagnitud() {
+    Double getMagnitud() {
         return magnitud;
     }
 
-    public void setMagnitud(Double magnitud) {
+    void setMagnitud(Double magnitud) {
         this.magnitud = magnitud;
+    }
+
+    public String getEscala() {
+        return escala;
+    }
+
+    public void setEscala(String escala) {
+        this.escala = escala;
+    }
+
+    public Double getProfundidad() {
+        return profundidad;
+    }
+
+    public void setProfundidad(Double profundidad) {
+        this.profundidad = profundidad;
     }
 
     public String getAgencia() {
         return agencia;
     }
 
-    public void setAgencia(String agencia) {
+
+    void setAgencia(String agencia) {
         this.agencia = agencia;
     }
 
-    public String getReferencia() {
+    String getReferencia() {
         return referencia;
     }
 
-    public void setReferencia(String referencia) {
+    void setReferencia(String referencia) {
         this.referencia = referencia;
     }
 
@@ -76,7 +95,7 @@ public class QuakeModel {
         return imagen_url;
     }
 
-    public void setImagen_url(String imagen_url) {
+    void setImagen_url(String imagen_url) {
         this.imagen_url = imagen_url;
     }
 }
