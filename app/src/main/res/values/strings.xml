@@ -13,7 +13,7 @@
     <string name="DATETIME_FORMAT">yyyy-MM-dd HH:mm:ss</string>
     <string name="TIME_FORMAT">HH:mm a</string>
 
-    <!-- KEY DE JSON -->
+    <!-- KEY DE JSON PARA PHP -->
     <string name="KEY_FECHA_LOCAL">fecha_local</string>
     <string name="KEY_FECHA_UTC">fecha_utc</string>
     <string name="KEY_LATITUD">latitud</string>
@@ -24,6 +24,7 @@
     <string name="KEY_AGENCIA">agencia</string>
     <string name="KEY_REFERENCIA">referencia</string>
     <string name="KEY_IMAGEN_URL">imagen_url</string>
+    <string name="KEY_SENSIBLE">sensible</string>
 
     <!-- STRINGS DE LAYOUTS-->
     <string name="circulo_pintado">Circulo pintado</string>
@@ -80,5 +81,6 @@
     <string name="INTENT_MAGNITUD">Magnitud</string>
     <string name="INTENT_PROFUNDIDAD">Profundidad</string>
     <string name="INTENT_ESCALA">Escala</string>
+    <string name="INTENT_SENSIBLE">sensible</string>
 
 </resources>
