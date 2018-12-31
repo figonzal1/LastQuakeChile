@@ -7,7 +7,7 @@
 
     <!-- TODO: Cambiar la direccion hacia Heroku y Actualizar HEROKU con el nuevo config en xamp -->
     <!-- URL SERVIDOR HEROKU -->
-    <string name="URL_GET">http://192.168.1.44/lastquake_server/public/get_quakes.php</string>
+    <string name="URL_GET">http://192.168.0.13/lastquake_server/public/get_quakes.php</string>
 
     <!-- FORMATO DATE/TIME A USAR -->
     <string name="DATETIME_FORMAT">yyyy-MM-dd HH:mm:ss</string>
@@ -70,5 +70,15 @@
     <string name="TAG_VOLLEY_ERROR_NETWORK">Network error</string>
     <string name="TAG_VOLLEY_ERROR_PARSE">Parse error</string>
 
+
+    <!-- KEY PARA INTENT -->
+    <string name="INTENT_CIUDAD">Ciudad</string>
+    <string name="INTENT_REFERENCIA">Referencia</string>
+    <string name="INTENT_LATITUD">Latitud</string>
+    <string name="INTENT_LONGITUD">Longitud</string>
+    <string name="INTENT_FECHA_LOCAL">Fecha_local</string>
+    <string name="INTENT_MAGNITUD">Magnitud</string>
+    <string name="INTENT_PROFUNDIDAD">Profundidad</string>
+    <string name="INTENT_ESCALA">Escala</string>
 
 </resources>

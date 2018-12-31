@@ -3,6 +3,9 @@ package cl.figonzal.lastquakechile;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+
+import java.util.Objects;
 
 public class QuakeDetailsActivity extends AppCompatActivity {
 
@@ -15,6 +18,23 @@ public class QuakeDetailsActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
+        //Obtener datos desde intent
+        Bundle b = getIntent().getExtras();
+
+        if (b != null) {
+            String ciudad = b.getString(getString(R.string.INTENT_CIUDAD));
+            String referencia = b.getString(getString(R.string.INTENT_REFERENCIA));
+            String latitud = b.getString(getString(R.string.INTENT_LATITUD));
+            String longitud = b.getString(getString(R.string.INTENT_LONGITUD));
+
+            String fecha_local = b.getString(getString(R.string.INTENT_FECHA_LOCAL));
+            Double magnitud = b.getDouble(getString(R.string.INTENT_MAGNITUD));
+            Double profundidad = b.getDouble(getString(R.string.INTENT_PROFUNDIDAD));
+            String escala = b.getString(getString(R.string.INTENT_ESCALA));
+
+            Log.d("INTENT", referencia);
+        }
     }
 }
