@@ -19,6 +19,8 @@
     <string name="KEY_LATITUD">latitud</string>
     <string name="KEY_LONGITUD">longitud</string>
     <string name="KEY_MAGNITUD">magnitud</string>
+    <string name="KEY_ESCALA">escala</string>
+    <string name="KEY_PROFUNDIDAD">profundidad</string>
     <string name="KEY_AGENCIA">agencia</string>
     <string name="KEY_REFERENCIA">referencia</string>
     <string name="KEY_IMAGEN_URL">imagen_url</string>

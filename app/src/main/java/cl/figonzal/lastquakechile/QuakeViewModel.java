@@ -109,6 +109,8 @@ public class QuakeViewModel extends AndroidViewModel {
                         model.setLatitud(object.getString(getApplication().getString(R.string.KEY_LATITUD)));
                         model.setLongitud(object.getString(getApplication().getString(R.string.KEY_LONGITUD)));
                         model.setMagnitud(object.getDouble(getApplication().getString(R.string.KEY_MAGNITUD)));
+                        model.setEscala(object.getString(getApplication().getString(R.string.KEY_ESCALA)));
+                        model.setProfundidad(object.getDouble(getApplication().getString(R.string.KEY_PROFUNDIDAD)));
                         model.setAgencia(object.getString(getApplication().getString(R.string.KEY_AGENCIA)));
                         model.setReferencia(object.getString(getApplication().getString(R.string.KEY_REFERENCIA)));
                         model.setImagen_url(object.getString(getApplication().getString(R.string.KEY_IMAGEN_URL)));
