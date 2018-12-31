@@ -25,7 +25,6 @@ public class QuakeFragment extends Fragment implements ResponseNetworkHandler {
     public RecyclerView rv;
     public ProgressBar progressBar;
     public QuakeViewModel viewModel;
-    public String estado;
 
     public QuakeFragment() {
 
@@ -146,7 +145,7 @@ public class QuakeFragment extends Fragment implements ResponseNetworkHandler {
 
         if (tipo.equals(getString(R.string.FLAG_RETRY))) {
             Snackbar
-                    .make(getActivity().findViewById(R.id.main_container), getString(R.string.SNACKBAR_STATUS_MESSAGE_NOCONNECTION), Snackbar.LENGTH_INDEFINITE)
+                    .make(Objects.requireNonNull(getActivity()).findViewById(R.id.main_container), getString(R.string.SNACKBAR_STATUS_MESSAGE_NOCONNECTION), Snackbar.LENGTH_INDEFINITE)
                     .setAction(getString(R.string.FLAG_RETRY), new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -162,7 +161,7 @@ public class QuakeFragment extends Fragment implements ResponseNetworkHandler {
                     .show();
         } else if (tipo.equals(getString(R.string.FLAG_UPDATE))) {
             Snackbar
-                    .make(getActivity().findViewById(R.id.main_container), getString(R.string.SNACKBAR_STATUS_MESSAGE_UPDATE), Snackbar.LENGTH_LONG)
+                    .make(Objects.requireNonNull(getActivity()).findViewById(R.id.main_container), getString(R.string.SNACKBAR_STATUS_MESSAGE_UPDATE), Snackbar.LENGTH_LONG)
                     .show();
         }
     }
