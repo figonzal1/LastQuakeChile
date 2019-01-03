@@ -2,7 +2,6 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -31,18 +30,44 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <com.facebook.drawee.view.SimpleDraweeView
+    <!--<ImageView
         android:id="@+id/iv_map_quake"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         android:contentDescription="@string/imagen_geografica_posicion_sismo"
-        android:scaleType="centerCrop"
         app:layout_constraintBottom_toTopOf="@+id/barrera_imagen"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/derecha"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/izquierda"
         app:layout_constraintTop_toBottomOf="@+id/app_bar_detail"
-        fresco:placeholderImage="@drawable/foto" />
+        fresco:placeholderImage="@drawable/placeholder"
+        fresco:failureImage="@drawable/not_found"
+        fresco:roundedCornerRadius="5dp"
+        fresco:actualImageScaleType="centerCrop"/>-->
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view_map"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/barrera_imagen"
+        app:layout_constraintEnd_toStartOf="@+id/derecha"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/izquierda"
+        app:layout_constraintTop_toBottomOf="@+id/app_bar_detail"
+        app:cardCornerRadius="4dp"
+        android:elevation="4dp">
+
+        <ImageView
+            android:id="@+id/iv_map_quake"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/imagen_geografica_posicion_sismo"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/placeholder" />
+    </android.support.v7.widget.CardView>
+
 
     <android.support.constraint.Guideline
         android:id="@+id/izquierda"
@@ -76,7 +101,7 @@
         app:layout_constraintEnd_toStartOf="@+id/derecha"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/izquierda"
-        app:layout_constraintTop_toBottomOf="@+id/iv_map_quake"
+        app:layout_constraintTop_toBottomOf="@+id/card_view_map"
         card_view:cardCornerRadius="4dp">
 
         <android.support.constraint.ConstraintLayout
@@ -301,5 +326,17 @@
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view_rrss"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/derecha"
+        app:layout_constraintStart_toStartOf="@+id/izquierda"
+        app:layout_constraintTop_toBottomOf="@+id/card_view_detail">
 
+
+    </android.support.v7.widget.CardView>
 </android.support.constraint.ConstraintLayout>
