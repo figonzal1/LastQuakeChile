@@ -1,10 +1,15 @@
 package cl.figonzal.lastquakechile;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
+
+import java.util.Locale;
 import java.util.Objects;
 
 public class QuakeDetailsActivity extends AppCompatActivity {
@@ -15,7 +20,7 @@ public class QuakeDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_quake_details);
 
         //Setting toolbar
-        Toolbar toolbar = findViewById(R.id.tool_bar);
+        Toolbar toolbar = findViewById(R.id.tool_bar_detail);
         setSupportActionBar(toolbar);
 
         //Muestra la flecha en toolbar para volver atras
@@ -24,20 +29,74 @@ public class QuakeDetailsActivity extends AppCompatActivity {
         //Obtener datos desde intent
         Bundle b = getIntent().getExtras();
 
+        //Find de recursos
+        TextView tv_escala = findViewById(R.id.tv_escala);
+        TextView tv_sensible = findViewById(R.id.tv_sensible);
+        TextView tv_magnitud = findViewById(R.id.tv_magnitud_detail);
+        TextView tv_profundidad = findViewById(R.id.tv_epicentro);
+        TextView tv_fecha_local = findViewById(R.id.tv_fecha);
+        ImageView iv_mag_color = findViewById(R.id.iv_mag_color);
+
         if (b != null) {
             String ciudad = b.getString(getString(R.string.INTENT_CIUDAD));
-            String referencia = b.getString(getString(R.string.INTENT_REFERENCIA));
             String latitud = b.getString(getString(R.string.INTENT_LATITUD));
             String longitud = b.getString(getString(R.string.INTENT_LONGITUD));
 
             String fecha_local = b.getString(getString(R.string.INTENT_FECHA_LOCAL));
+
             Double magnitud = b.getDouble(getString(R.string.INTENT_MAGNITUD));
             Double profundidad = b.getDouble(getString(R.string.INTENT_PROFUNDIDAD));
             String escala = b.getString(getString(R.string.INTENT_ESCALA));
             Boolean sensible = b.getBoolean(getString(R.string.INTENT_SENSIBLE));
+            String foto_url = b.getString(getString(R.string.INTENT_LINK_FOTO));
 
-            Log.d("INTENT", referencia);
-            Log.d("INTENT", String.valueOf(sensible));
+            //Setear titulo de ciudad en activity
+            getSupportActionBar().setTitle(ciudad);
+
+            //Setear magnitud en en circulo de color
+            tv_magnitud.setText(String.format(getString(R.string.magnitud), magnitud));
+
+            //Setear el color de background dependiendo de magnitud del sismo
+            iv_mag_color.setColorFilter(getColor(QuakeUtils.getMagnitudeColor(magnitud)));
+
+            //Setear profundidad
+            tv_profundidad.setText(String.format(Locale.US, getString(R.string.quake_details_profundidad), profundidad));
+
+            //Setear fecha
+            tv_fecha_local.setText(fecha_local);
+
+            /*
+                Seccion Tipo Escala
+             */
+            if (escala != null) {
+
+                switch (escala) {
+                    case "Ml":
+                        tv_escala.setText(String.format(getString(R.string.quake_details_escala), "Magnitud Local"));
+                        break;
+
+                    case "Mw":
+                        tv_escala.setText(String.format(getString(R.string.quake_details_escala), "Magnitud Momento"));
+                        break;
+
+                }
+            }
+
+            /*
+                Seccion Sismo sensible
+             */
+            if (sensible) {
+                tv_sensible.setText(String.format(getString(R.string.quake_details_sensible), "percibido"));
+            } else {
+                tv_sensible.setText(String.format(getString(R.string.quake_details_sensible), "no percibido"));
+            }
+
+            /*
+                Seccion image
+             */
+            Uri uri = Uri.parse(foto_url);
+            SimpleDraweeView draweeView = findViewById(R.id.iv_map_quake);
+            draweeView.setImageURI(uri);
         }
     }
 }
