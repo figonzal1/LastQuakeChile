@@ -7,10 +7,13 @@ import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.Locale;
 import java.util.Objects;
+
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 public class QuakeDetailsActivity extends AppCompatActivity {
 
@@ -36,6 +39,7 @@ public class QuakeDetailsActivity extends AppCompatActivity {
         TextView tv_profundidad = findViewById(R.id.tv_epicentro);
         TextView tv_fecha_local = findViewById(R.id.tv_fecha);
         ImageView iv_mag_color = findViewById(R.id.iv_mag_color);
+        ImageView iv_mapa = findViewById(R.id.iv_map_quake);
 
         if (b != null) {
             String ciudad = b.getString(getString(R.string.INTENT_CIUDAD));
@@ -95,8 +99,19 @@ public class QuakeDetailsActivity extends AppCompatActivity {
                 Seccion image
              */
             Uri uri = Uri.parse(foto_url);
-            SimpleDraweeView draweeView = findViewById(R.id.iv_map_quake);
-            draweeView.setImageURI(uri);
+            Glide.with(this)
+                    .load(uri)
+                    .apply(
+                            new RequestOptions()
+                                    .placeholder(R.drawable.placeholder)
+                                    .error(R.drawable.not_found)
+                    )
+                    .transition(withCrossFade())
+                    .into(iv_mapa);
+
+
+
         }
     }
+
 }
