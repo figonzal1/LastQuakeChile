@@ -20,15 +20,12 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements ResponseNetworkHandler {
 
@@ -44,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements ResponseNetworkHa
         setContentView(R.layout.activity_main);
 
         //Inicializar fresco
-        Fresco.initialize(this);
+        //Fresco.initialize(this);
 
         /*
             Firebase SECTION
@@ -176,26 +173,16 @@ public class MainActivity extends AppCompatActivity implements ResponseNetworkHa
     @Override
     public void getData() {
 
-        viewModel.getQuakeList().observe(this, new Observer<List<QuakeModel>>() {
-            @Override
-            public void onChanged(@Nullable List<QuakeModel> quakeModelList) {
+        //Se refresca el listado de sismos
+        viewModel.refreshQuakeList();
+        //Progressbar desaparece despues de la descarga de datos
+        progressBar.setVisibility(View.INVISIBLE);
 
+        //Llamar a showNackbar con el flag de update
+        showSnackBar(getApplicationContext(), getString(R.string.FLAG_UPDATE));
 
-                //Setear el adapter con la lista de quakes
-                QuakeAdapter adapter = new QuakeAdapter(quakeModelList, getApplicationContext());
-                adapter.notifyDataSetChanged();
-                rv.setAdapter(adapter);
-
-                //Progressbar desaparece despues de la descarga de datos
-                progressBar.setVisibility(View.INVISIBLE);
-
-                //Mostrar Snackbar de sismos actualizados
-                showSnackBar(getApplicationContext(), getString(R.string.FLAG_UPDATE));
-
-                //LOG ZONE
-                Log.d(getString(R.string.TAG_PROGRESS_FROM_REFRESH), getString(R.string.TAG_PROGRESS_FROM_REFRESH_UPDATE_RESPONSE));
-            }
-        });
+        //LOG ZONE
+        Log.d(getString(R.string.TAG_PROGRESS_FROM_REFRESH), getString(R.string.TAG_PROGRESS_FROM_REFRESH_UPDATE_RESPONSE));
     }
 
     /**

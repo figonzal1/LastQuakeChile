@@ -63,6 +63,9 @@ public class QuakeViewModel extends AndroidViewModel {
         return liveDataQuakes;
     }
 
+    /**
+     * La funcion fuerza el refresh de los datos
+     */
     void refreshQuakeList() {
         if (liveDataQuakes != null) {
             loadQuakes();
