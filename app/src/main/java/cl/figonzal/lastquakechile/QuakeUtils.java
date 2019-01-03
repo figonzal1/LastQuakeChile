@@ -23,7 +23,7 @@ class QuakeUtils {
      * @param fecha_local parametro que entrega la fecha local desde el modelo en cardview
      * @return retorna la diferencia en milisegundos
      */
-    private long calculateDiff(Date fecha_local) {
+    private static long calculateDiff(Date fecha_local) {
 
         long diff;
         Date currentTime = new Date();
@@ -45,7 +45,7 @@ class QuakeUtils {
      * @param fecha_local fecha local del modelo de sismo desde cardview
      * @param holder      viewholder que permite acceder a los textviews del cardview
      */
-    void timeToText(Context context, Date fecha_local, QuakeAdapter.QuakeViewHolder holder) {
+    static void timeToText(Context context, Date fecha_local, QuakeAdapter.QuakeViewHolder holder) {
 
         long diff = calculateDiff(fecha_local);
         long seconds = diff / 1000;
@@ -82,7 +82,7 @@ class QuakeUtils {
      * @param magnitude Magnitud del sismo desde el cardview
      * @return id recurso desde colors.xml
      */
-    int getMagnitudeColor(double magnitude) {
+    static int getMagnitudeColor(double magnitude) {
 
         int mag_floor = (int) Math.floor(magnitude);
         int mag_resource_id = 0;

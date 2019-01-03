@@ -72,16 +72,13 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
         holder.tv_referencia.setText(model.getReferencia());
 
         //Setea la magnitud con un maximo de 1 digito decimal.
-        holder.tv_magnitud.setText(String.format(Locale.US,"%.1f",model.getMagnitud()));
-
-        //Instancia de utilidades
-        QuakeUtils qt = new QuakeUtils();
+        holder.tv_magnitud.setText(String.format(context.getString(R.string.magnitud), model.getMagnitud()));
 
         //Setear el color de background dependiendo de magnitud del sismo
-        holder.iv_mag_color.setColorFilter(context.getColor(qt.getMagnitudeColor(model.getMagnitud())));
+        holder.iv_mag_color.setColorFilter(context.getColor(QuakeUtils.getMagnitudeColor(model.getMagnitud())));
 
         //Calcular el tiempo de sismo
-        qt.timeToText(context,model.getFecha_local(),holder);
+        QuakeUtils.timeToText(context, model.getFecha_local(), holder);
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,6 +101,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
                 b.putDouble(context.getString(R.string.INTENT_PROFUNDIDAD), model.getProfundidad());
                 b.putString(context.getString(R.string.INTENT_ESCALA), model.getEscala());
                 b.putBoolean(context.getString(R.string.INTENT_SENSIBLE), model.getSensible());
+                b.putString(context.getString(R.string.INTENT_LINK_FOTO), model.getImagen_url());
 
                 intent.putExtras(b);
                 context.startActivity(intent);
