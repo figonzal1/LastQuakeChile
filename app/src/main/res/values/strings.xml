@@ -9,7 +9,7 @@
     <!-- URL SERVIDOR HEROKU -->
     <string name="URL_GET">http://192.168.0.13/lastquake_server/public/get_quakes.php</string>
 
-    <!-- FORMATO DATE/TIME A USAR -->
+    <!-- FORMAT -->
     <string name="DATETIME_FORMAT">yyyy-MM-dd HH:mm:ss</string>
     <string name="TIME_FORMAT">HH:mm a</string>
 
@@ -41,6 +41,10 @@
     <string name="distancia">Distancia</string>
     <string name="icono_epicentro">Icono epicentro</string>
     <string name="profundidad">Profundidad</string>
+    <string name="quake_details_escala">Escala %1$s</string>
+    <string name="quake_details_sensible">Sismo %1$s por la comunidad</string>
+    <string name="quake_details_profundidad">%.1f km</string>
+    <string name="magnitud">%.1f</string>
 
 
     <!-- FIREBASE-->
@@ -89,6 +93,7 @@
     <string name="INTENT_PROFUNDIDAD">Profundidad</string>
     <string name="INTENT_ESCALA">Escala</string>
     <string name="INTENT_SENSIBLE">sensible</string>
+    <string name="INTENT_LINK_FOTO">Foto</string>
 
 
 </resources>
