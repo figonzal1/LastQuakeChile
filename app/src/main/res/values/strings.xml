@@ -34,6 +34,13 @@
     <string name="quake_time_hour">%1$d h</string>
     <string name="quake_time_minute">%1$d m</string>
     <string name="quake_time_second">%1$d s</string>
+    <string name="imagen_geografica_posicion_sismo">Imagen geografica posicion sismo</string>
+    <string name="icono_tiempo">Icono tiempo</string>
+    <string name="tiempo">Tiempo</string>
+    <string name="icono_distancia">Icono distancia</string>
+    <string name="distancia">Distancia</string>
+    <string name="icono_epicentro">Icono epicentro</string>
+    <string name="profundidad">Profundidad</string>
 
 
     <!-- FIREBASE-->
@@ -82,5 +89,6 @@
     <string name="INTENT_PROFUNDIDAD">Profundidad</string>
     <string name="INTENT_ESCALA">Escala</string>
     <string name="INTENT_SENSIBLE">sensible</string>
+
 
 </resources>
