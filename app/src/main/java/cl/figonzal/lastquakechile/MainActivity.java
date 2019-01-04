@@ -83,8 +83,10 @@ public class MainActivity extends AppCompatActivity implements ResponseNetworkHa
     public boolean onCreateOptionsMenu(Menu menuItem) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.toolbar_menu, menuItem);
+
         return super.onCreateOptionsMenu(menuItem);
     }
+
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
