@@ -44,8 +44,7 @@
     <string name="icono_escala">Icono escala</string>
     <string name="profundidad">Profundidad</string>
     <string name="escala">Escala</string>
-    <string name="quake_details_escala">Escala %1$s</string>
-    <string name="quake_details_sensible">Sismo %1$s por la comunidad</string>
+    <string name="quake_details_escala">%1$s</string>
     <string name="quake_details_profundidad">%.1f km</string>
     <string name="magnitud">%.1f</string>
 
