@@ -2,8 +2,8 @@
     <string name="app_name">LastQuakeChile</string>
 
     <!-- TOOLBAR STRINGS -->
-    <string name="refresh">Refresh</string>
-    <string name="settings">Settings</string>
+    <string name="refresh">Recargar</string>
+    <string name="settings">Configuración</string>
     <string name="search">Buscar</string>
 
     <!-- TODO: Cambiar la direccion hacia Heroku y Actualizar HEROKU con el nuevo config en xamp -->
@@ -96,5 +96,9 @@
     <string name="INTENT_SENSIBLE">sensible</string>
     <string name="INTENT_LINK_FOTO">Foto</string>
 
+    <!-- CARD VIEW DE INFORMACION -->
+    <string name="last_quakes_info_card_view_tittle">Últimos sismos</string>
+    <string name="last_quakes_info_card_view_button">Entendido</string>
+    <string name="last_quakes_info_card_view_description">En este listado se encuentran sismos de magnitud igual o superior a 3.0</string>
 
 </resources>
