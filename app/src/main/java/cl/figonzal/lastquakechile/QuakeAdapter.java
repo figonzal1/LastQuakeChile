@@ -1,12 +1,14 @@
 package cl.figonzal.lastquakechile;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -108,8 +110,14 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
                 b.putString(context.getString(R.string.INTENT_LINK_FOTO), model.getImagen_url());
 
                 intent.putExtras(b);
-                //context.startActivity(intent,ActivityOptions.makeSceneTransitionAnimation(activity).toBundle());
-                context.startActivity(intent);
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity,
+                        Pair.create((View) holder.iv_mag_color, "color_magnitud"),
+                        Pair.create((View) holder.tv_magnitud, "magnitud"),
+                        Pair.create((View) holder.tv_ciudad, "ciudad"),
+                        Pair.create((View) holder.tv_referencia, "referencia")
+                );
+                context.startActivity(intent, options.toBundle());
+                //context.startActivity(intent);
             }
         });
 

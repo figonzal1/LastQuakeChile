@@ -117,10 +117,11 @@
                 android:contentDescription="@string/circulo_pintado"
                 android:src="@drawable/circle_shape"
                 card_view:layout_constraintStart_toStartOf="parent"
-                card_view:layout_constraintTop_toTopOf="parent" />
+                card_view:layout_constraintTop_toTopOf="parent"
+                android:transitionName="color_magnitud" />
 
             <TextView
-                android:id="@+id/tv_escala"
+                android:id="@+id/tv_ciudad_detail"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -132,23 +133,26 @@
                 app:layout_constraintVertical_chainStyle="packed"
                 card_view:layout_constraintStart_toEndOf="@id/iv_mag_color"
                 card_view:layout_constraintTop_toTopOf="@+id/iv_mag_color"
-                tools:text="Nombre Escala" />
+                tools:text="Nombre Ciudad"
+                android:transitionName="ciudad" />
 
             <TextView
-                android:id="@+id/tv_sensible"
+                android:id="@+id/tv_referencia_detail"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginEnd="16dp"
                 android:alpha="0.6"
                 android:fontFamily="@font/roboto"
                 android:paddingTop="0dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textSize="14sp"
-                card_view:layout_constraintBottom_toBottomOf="@+id/iv_mag_color"
-                card_view:layout_constraintEnd_toEndOf="parent"
-                card_view:layout_constraintStart_toStartOf="@+id/tv_escala"
-                card_view:layout_constraintTop_toBottomOf="@+id/tv_escala"
-                tools:text="Sismo percibido por la comunidad" />
+                app:layout_constraintBottom_toBottomOf="@+id/iv_mag_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/tv_ciudad_detail"
+                app:layout_constraintTop_toBottomOf="@+id/tv_ciudad_detail"
+                tools:text="Referencia de la ciudad"
+                android:transitionName="referencia" />
 
 
             <TextView
@@ -164,7 +168,8 @@
                 card_view:layout_constraintEnd_toEndOf="@+id/iv_mag_color"
                 card_view:layout_constraintStart_toStartOf="@+id/iv_mag_color"
                 card_view:layout_constraintTop_toTopOf="@+id/iv_mag_color"
-                tools:text="9.5" />
+                tools:text="9.5"
+                android:transitionName="magnitud" />
 
             <ImageView
                 android:id="@+id/iv_reloj"
@@ -311,7 +316,7 @@
                 android:id="@+id/tv_epicentro"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="16dp"
                 android:alpha="0.6"
                 android:fontFamily="@font/roboto"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
@@ -322,6 +327,47 @@
                 app:layout_constraintStart_toStartOf="@+id/tv_titulo_epicentro"
                 app:layout_constraintTop_toBottomOf="@+id/tv_titulo_epicentro"
                 tools:text="83 km" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guia_vertical"
+                app:layout_constraintTop_toTopOf="@+id/barrier"
+                card_view:srcCompat="@drawable/ic_show_chart_black_24dp"
+                android:contentDescription="@string/icono_escala" />
+
+            <TextView
+                android:id="@+id/tv_titulo_escala"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:alpha="0.87"
+                android:fontFamily="@font/roboto"
+                android:text="@string/escala"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@+id/imageView"
+                app:layout_constraintTop_toTopOf="@+id/imageView" />
+
+            <TextView
+                android:id="@+id/tv_escala"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="16dp"
+                android:alpha="0.6"
+                android:fontFamily="@font/roboto"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/tv_titulo_escala"
+                app:layout_constraintTop_toBottomOf="@+id/tv_titulo_escala"
+                tools:text="Nombre Escala" />
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
