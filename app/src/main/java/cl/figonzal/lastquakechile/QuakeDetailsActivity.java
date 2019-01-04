@@ -121,9 +121,7 @@ public class QuakeDetailsActivity extends AppCompatActivity {
                             iv_mapa.setImageDrawable(resource);
                         }
                     });
-
         }
     }
-
-
 }
+

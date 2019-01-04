@@ -32,16 +32,12 @@ public class MainActivity extends AppCompatActivity implements ResponseNetworkHa
     private MenuItem item;
     private boolean suscrito = false;
     private QuakeViewModel viewModel;
-    private RecyclerView rv;
     private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //Inicializar fresco
-        //Fresco.initialize(this);
 
         /*
             Firebase SECTION
@@ -97,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements ResponseNetworkHa
             case R.id.refresh:
 
                 //Definicion de materiales a usar para checkear internet UI
-                rv = findViewById(R.id.recycle_view);
+                RecyclerView rv = findViewById(R.id.recycle_view);
                 progressBar = findViewById(R.id.progressBar);
                 progressBar.setVisibility(View.VISIBLE);
                 viewModel = ViewModelProviders.of(this).get(QuakeViewModel.class);
@@ -113,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements ResponseNetworkHa
                                     .setAction("Recargar", new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
-                                            viewModel.refreshQuakeList();
+                                            viewModel.refreshMutableQuakeList();
                                             progressBar.setVisibility(View.VISIBLE);
                                         }
                                     })
@@ -172,11 +168,15 @@ public class MainActivity extends AppCompatActivity implements ResponseNetworkHa
     }
 
 
+    /**
+     * Funcion encargada de refrescar los datos del viewmodel cuando se presiona icono refresh en toolbar
+     * Muestra snackbar de actualizacion de datos
+     */
     @Override
     public void getData() {
 
         //Se refresca el listado de sismos
-        viewModel.refreshQuakeList();
+        viewModel.refreshMutableQuakeList();
         //Progressbar desaparece despues de la descarga de datos
         progressBar.setVisibility(View.INVISIBLE);
 
