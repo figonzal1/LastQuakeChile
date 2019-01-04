@@ -59,7 +59,7 @@
         app:cardCornerRadius="4dp"
         android:elevation="4dp">
 
-        <ImageView
+        <com.ortiz.touchview.TouchImageView
             android:id="@+id/iv_map_quake"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
