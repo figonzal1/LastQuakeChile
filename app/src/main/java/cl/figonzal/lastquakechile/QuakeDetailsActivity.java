@@ -1,14 +1,20 @@
 package cl.figonzal.lastquakechile;
 
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -16,6 +22,7 @@ import java.util.Objects;
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 public class QuakeDetailsActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +46,8 @@ public class QuakeDetailsActivity extends AppCompatActivity {
         TextView tv_profundidad = findViewById(R.id.tv_epicentro);
         TextView tv_fecha_local = findViewById(R.id.tv_fecha);
         ImageView iv_mag_color = findViewById(R.id.iv_mag_color);
-        ImageView iv_mapa = findViewById(R.id.iv_map_quake);
+        final ImageView iv_mapa = findViewById(R.id.iv_map_quake);
+        CardView card_view_mapa = findViewById(R.id.card_view_map);
 
         if (b != null) {
             String ciudad = b.getString(getString(R.string.INTENT_CIUDAD));
@@ -107,11 +115,15 @@ public class QuakeDetailsActivity extends AppCompatActivity {
                                     .error(R.drawable.not_found)
                     )
                     .transition(withCrossFade())
-                    .into(iv_mapa);
-
-
+                    .into(new SimpleTarget<Drawable>() {
+                        @Override
+                        public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                            iv_mapa.setImageDrawable(resource);
+                        }
+                    });
 
         }
     }
+
 
 }
