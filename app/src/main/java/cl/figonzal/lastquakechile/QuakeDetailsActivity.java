@@ -40,8 +40,9 @@ public class QuakeDetailsActivity extends AppCompatActivity {
         Bundle b = getIntent().getExtras();
 
         //Find de recursos
+        TextView tv_ciudad = findViewById(R.id.tv_ciudad_detail);
+        TextView tv_referencia = findViewById(R.id.tv_referencia_detail);
         TextView tv_escala = findViewById(R.id.tv_escala);
-        TextView tv_sensible = findViewById(R.id.tv_sensible);
         TextView tv_magnitud = findViewById(R.id.tv_magnitud_detail);
         TextView tv_profundidad = findViewById(R.id.tv_epicentro);
         TextView tv_fecha_local = findViewById(R.id.tv_fecha);
@@ -51,6 +52,7 @@ public class QuakeDetailsActivity extends AppCompatActivity {
 
         if (b != null) {
             String ciudad = b.getString(getString(R.string.INTENT_CIUDAD));
+            String referencia = b.getString(getString(R.string.INTENT_REFERENCIA));
             String latitud = b.getString(getString(R.string.INTENT_LATITUD));
             String longitud = b.getString(getString(R.string.INTENT_LONGITUD));
 
@@ -64,6 +66,12 @@ public class QuakeDetailsActivity extends AppCompatActivity {
 
             //Setear titulo de ciudad en activity
             getSupportActionBar().setTitle(ciudad);
+
+            //Setear nombre ciudad
+            tv_ciudad.setText(ciudad);
+
+            //Setear referencia
+            tv_referencia.setText(referencia);
 
             //Setear magnitud en en circulo de color
             tv_magnitud.setText(String.format(getString(R.string.magnitud), magnitud));
@@ -97,11 +105,11 @@ public class QuakeDetailsActivity extends AppCompatActivity {
             /*
                 Seccion Sismo sensible
              */
-            if (sensible) {
+            /*if (sensible) {
                 tv_sensible.setText(String.format(getString(R.string.quake_details_sensible), "percibido"));
             } else {
                 tv_sensible.setText(String.format(getString(R.string.quake_details_sensible), "no percibido"));
-            }
+            }*/
 
             /*
                 Seccion image
