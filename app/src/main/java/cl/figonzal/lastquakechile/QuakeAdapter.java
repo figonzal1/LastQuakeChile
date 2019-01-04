@@ -1,5 +1,6 @@
 package cl.figonzal.lastquakechile;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,10 +21,13 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
 
     private List<QuakeModel> quakeModelList;
     private Context context;
+    private Activity activity;
 
-    QuakeAdapter(List<QuakeModel> quakeModelList, Context context){
+    QuakeAdapter(List<QuakeModel> quakeModelList, Context context, Activity activity) {
         this.quakeModelList=quakeModelList;
         this.context =context;
+        this.activity = activity;
+
     }
 
 
@@ -60,7 +64,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
     }
 
     @Override
-    public void onBindViewHolder(@NonNull QuakeViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final QuakeViewHolder holder, int position) {
 
         final QuakeModel model = quakeModelList.get(position);
 
@@ -104,6 +108,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
                 b.putString(context.getString(R.string.INTENT_LINK_FOTO), model.getImagen_url());
 
                 intent.putExtras(b);
+                //context.startActivity(intent,ActivityOptions.makeSceneTransitionAnimation(activity).toBundle());
                 context.startActivity(intent);
             }
         });
@@ -114,6 +119,4 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
     public int getItemCount() {
         return quakeModelList.size();
     }
-
-
 }

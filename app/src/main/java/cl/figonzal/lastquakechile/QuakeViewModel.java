@@ -36,8 +36,8 @@ import java.util.Locale;
  */
 public class QuakeViewModel extends AndroidViewModel {
 
-    private MutableLiveData<List<QuakeModel>> liveDataQuakes;
-    private List<QuakeModel> quakeModelList;
+    private MutableLiveData<List<QuakeModel>> liveDataQuakes;   //Permite la carga de sismos al inicio y al refresh del toolbar
+    private List<QuakeModel> quakeModelList;                    //Lista de sismos que se agrega despues al MutableLive
 
     //Mutable Live data muestra dos veces el aviso cuando hay rotacion
     //SingleLive event solo permite un evento en el fragment e ignora cualquier otro
@@ -53,7 +53,7 @@ public class QuakeViewModel extends AndroidViewModel {
      *
      * @return retorna un mutablelivedata de listado de sismos
      */
-    MutableLiveData<List<QuakeModel>> getQuakeList() {
+    MutableLiveData<List<QuakeModel>> getMutableQuakeList() {
 
         if (liveDataQuakes == null) {
             liveDataQuakes = new MutableLiveData<>();
@@ -62,16 +62,20 @@ public class QuakeViewModel extends AndroidViewModel {
         }
         return liveDataQuakes;
     }
-
     /**
-     * La funcion fuerza el refresh de los datos
+     * La funcion fuerza el refresh de los datos del mutable
      */
-    void refreshQuakeList() {
+    void refreshMutableQuakeList() {
         if (liveDataQuakes != null) {
             loadQuakes();
         }
     }
 
+    /**
+     * Funcion que permite enviar un mensaje de estado cuando hay error de servidor
+     *
+     * @return Retorna el MutableLiveData del mensaje estado
+     */
     MutableLiveData<String> getStatusData() {
 
         if (statusData == null) {
@@ -80,6 +84,45 @@ public class QuakeViewModel extends AndroidViewModel {
         return statusData;
     }
 
+    /**
+     * Funcion que realiza la busqueda sobre quakeModelList con el Parametro ortorgado
+     *
+     * @param s Texto que ingresa el usuario en la busqueda
+     * @return Lista Filtrada
+     */
+    List<QuakeModel> doSearch(String s) {
+
+        //Lista utilizada para el searchView
+        List<QuakeModel> filteredList = new ArrayList<>();
+        for (QuakeModel l : quakeModelList) {
+
+            //Filtrar por lugar de referencia
+            if (l.getReferencia().toLowerCase().contains(s)) {
+                filteredList.add(l);
+            }
+
+            //Filtrar por magnitud de sismo
+            if (l.getMagnitud().toString().contains(s)) {
+                filteredList.add(l);
+            }
+        }
+        return filteredList;
+    }
+
+    /**
+     * Funcion encargada de setear la nueva lista sobre el antiguo MutableLiveData
+     *
+     * @param filteredList con sismos filtrados
+     */
+    void setFilteredList(List<QuakeModel> filteredList) {
+
+        if (liveDataQuakes != null) {
+            liveDataQuakes.postValue(filteredList);
+        }
+
+        //livedataFilteredQuakes = new MutableLiveData<>();
+        //livedataFilteredQuakes.postValue(filteredList);
+    }
     /**
      * Funcion encargada de crear la request HTTP hacia el servidor y parsear el JSON con los sismos
      */
