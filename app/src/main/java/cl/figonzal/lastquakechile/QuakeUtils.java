@@ -39,7 +39,7 @@ class QuakeUtils {
      * Funcion encargada de entregar los tiempos calculados y retornarlos en dias,horas,minutos,segundos
      * @param fecha_local fecha local del modelo de sismo desde cardview
      */
-    static Map<String, Long> timeToText(Date fecha_local) {
+    static Map<String, Long> timeToText(Context context, Date fecha_local) {
 
         long diff = calculateDiff(fecha_local);
         long seconds = diff / 1000;
