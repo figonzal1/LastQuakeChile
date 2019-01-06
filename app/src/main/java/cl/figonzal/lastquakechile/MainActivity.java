@@ -27,6 +27,8 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import cl.figonzal.lastquakechile.messageservice.MyFirebaseMessagingService;
+
 public class MainActivity extends AppCompatActivity implements ResponseNetworkHandler {
 
     private MenuItem item;
@@ -52,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements ResponseNetworkHa
         });
 
         //Llamada a creacion de canal de notificaciones
-        QuakeUtils.createNotificationChannel(getApplicationContext());
+        MyFirebaseMessagingService.createNotificationChannel(getApplicationContext());
 
         //Buscar toolbar en resources
         Toolbar toolbar = findViewById(R.id.tool_bar);
@@ -72,7 +74,6 @@ public class MainActivity extends AppCompatActivity implements ResponseNetworkHa
         final CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitleEnabled(true);
         collapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.colorPrimary, getTheme()));
-
     }
 
     @Override
@@ -82,7 +83,6 @@ public class MainActivity extends AppCompatActivity implements ResponseNetworkHa
 
         return super.onCreateOptionsMenu(menuItem);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
@@ -166,7 +166,6 @@ public class MainActivity extends AppCompatActivity implements ResponseNetworkHa
                 return super.onOptionsItemSelected(item);
         }
     }
-
 
     /**
      * Funcion encargada de refrescar los datos del viewmodel cuando se presiona icono refresh en toolbar

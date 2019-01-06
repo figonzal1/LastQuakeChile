@@ -62,7 +62,7 @@
     <string name="FIREBASE_TOPIC_NAME">Quakes</string>
     <string name="FIREBASE_SNACKBAR_SUBSCRIBE_TOPIC_DELETED">Suscripcion eliminada</string>
 
-    <!-- Strings de Snackbars -->
+    <!-- Strings de Snackbars y LOGS -->
     <string name="FLAG_UPDATE">Update</string>
     <string name="FLAG_RETRY">Retry</string>
     <string name="TAG_PROGRESS_FROM_REFRESH">PROGRESS_REFRESH</string>
@@ -86,16 +86,16 @@
 
 
     <!-- KEY PARA INTENT -->
-    <string name="INTENT_CIUDAD">Ciudad</string>
-    <string name="INTENT_REFERENCIA">Referencia</string>
-    <string name="INTENT_LATITUD">Latitud</string>
-    <string name="INTENT_LONGITUD">Longitud</string>
-    <string name="INTENT_FECHA_LOCAL">Fecha_local</string>
-    <string name="INTENT_MAGNITUD">Magnitud</string>
-    <string name="INTENT_PROFUNDIDAD">Profundidad</string>
-    <string name="INTENT_ESCALA">Escala</string>
+    <string name="INTENT_CIUDAD">ciudad</string>
+    <string name="INTENT_REFERENCIA">referencia</string>
+    <string name="INTENT_LATITUD">latitud</string>
+    <string name="INTENT_LONGITUD">longitud</string>
+    <string name="INTENT_FECHA_LOCAL">fecha_local</string>
+    <string name="INTENT_MAGNITUD">magnitud</string>
+    <string name="INTENT_PROFUNDIDAD">profundidad</string>
+    <string name="INTENT_ESCALA">escala</string>
     <string name="INTENT_SENSIBLE">sensible</string>
-    <string name="INTENT_LINK_FOTO">Foto</string>
+    <string name="INTENT_LINK_FOTO">imagen_url</string>
 
     <!-- CARD VIEW DE INFORMACION -->
     <string name="last_quakes_info_card_view_tittle">Últimos sismos</string>

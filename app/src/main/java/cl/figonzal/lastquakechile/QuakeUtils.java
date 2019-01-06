@@ -1,14 +1,12 @@
 package cl.figonzal.lastquakechile;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
-import android.util.Log;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 class QuakeUtils {
 
@@ -38,14 +36,10 @@ class QuakeUtils {
     }
 
     /**
-     * Funcion encargada de setear el texto en el cardview
-     * segun los dias que han pasado del sismo
-     *
-     * @param context     Contexto necesario para usar los recursos strings de formato
+     * Funcion encargada de entregar los tiempos calculados y retornarlos en dias,horas,minutos,segundos
      * @param fecha_local fecha local del modelo de sismo desde cardview
-     * @param holder      viewholder que permite acceder a los textviews del cardview
      */
-    static void timeToText(Context context, Date fecha_local, QuakeAdapter.QuakeViewHolder holder) {
+    static Map<String, Long> timeToText(Date fecha_local) {
 
         long diff = calculateDiff(fecha_local);
         long seconds = diff / 1000;
@@ -53,26 +47,13 @@ class QuakeUtils {
         long hours = minutes / 60;
         long days = hours / 24;
 
-        //Condiciones días.
-        if (days == 0) {
+        Map<String, Long> tiempos = new HashMap<>();
+        tiempos.put("dias", days);
+        tiempos.put("horas", hours);
+        tiempos.put("minutos", minutes);
+        tiempos.put("segundos", seconds);
 
-            if (hours >= 1) {
-                holder.tv_hora.setText(String.format(context.getString(R.string.quake_time_hour), hours));
-            } else {
-                holder.tv_hora.setText(String.format(context.getString(R.string.quake_time_minute), minutes));
-
-                if (minutes < 1) {
-                    holder.tv_hora.setText(String.format(context.getString(R.string.quake_time_second), seconds));
-                }
-            }
-        } else if (days > 0) {
-
-            if (hours == 0) {
-                holder.tv_hora.setText(String.format(context.getString(R.string.quake_time_day), days));
-            } else if ((hours >= 1)) {
-                holder.tv_hora.setText(String.format(context.getString(R.string.quake_time_day_hour), days, hours / 24));
-            }
-        }
+        return tiempos;
     }
 
     /**
@@ -126,27 +107,5 @@ class QuakeUtils {
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
 
         return networkInfo != null && networkInfo.isConnected();
-    }
-
-
-    static void createNotificationChannel(Context context) {
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
-            //Definicion de atributos de canal de notificacion
-            String name = context.getString(R.string.FIREBASE_CHANNEL_NAME);
-            String description = context.getString(R.string.FIREBASE_CHANNEL_DESCRIPTION);
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-
-            NotificationChannel notificationChannel = new NotificationChannel(context.getString(R.string.FIREBASE_CHANNEL_ID), name, importance);
-            notificationChannel.setDescription(description);
-            notificationChannel.enableLights(true);
-            notificationChannel.setLightColor(R.color.magnitude4);
-
-            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(notificationChannel);
-
-            Log.d(context.getString(R.string.TAG_FIREBASE_CHANNEL), context.getString(R.string.FIREBASE_CHANNEL_CREATED_MESSAGE));
-        }
     }
 }
