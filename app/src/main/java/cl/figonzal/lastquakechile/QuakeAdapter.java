@@ -18,6 +18,7 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHolder> {
 
@@ -84,7 +85,28 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
         holder.iv_mag_color.setColorFilter(context.getColor(QuakeUtils.getMagnitudeColor(model.getMagnitud())));
 
         //Calcular el tiempo de sismo
-        QuakeUtils.timeToText(context, model.getFecha_local(), holder);
+        Map<String, Long> tiempos = QuakeUtils.timeToText(model.getFecha_local());
+
+        //Condiciones días.
+        if (tiempos.get("dias") == 0) {
+
+            if (tiempos.get("horas") >= 1) {
+                holder.tv_hora.setText(String.format(context.getString(R.string.quake_time_hour), tiempos.get("horas")));
+            } else {
+                holder.tv_hora.setText(String.format(context.getString(R.string.quake_time_minute), tiempos.get("minutos")));
+
+                if (tiempos.get("minutos") < 1) {
+                    holder.tv_hora.setText(String.format(context.getString(R.string.quake_time_second), tiempos.get("segundos")));
+                }
+            }
+        } else if (tiempos.get("dias") > 0) {
+
+            if (tiempos.get("horas") == 0) {
+                holder.tv_hora.setText(String.format(context.getString(R.string.quake_time_day), tiempos.get("dias")));
+            } else if ((tiempos.get("horas") >= 1)) {
+                holder.tv_hora.setText(String.format(context.getString(R.string.quake_time_day_hour), tiempos.get("dias"), tiempos.get("horas") / 24));
+            }
+        }
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,14 +132,18 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
                 b.putString(context.getString(R.string.INTENT_LINK_FOTO), model.getImagen_url());
 
                 intent.putExtras(b);
+
+                /*
+                    Seccion transiciones animadas de TextViews
+                 */
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity,
                         Pair.create((View) holder.iv_mag_color, "color_magnitud"),
                         Pair.create((View) holder.tv_magnitud, "magnitud"),
                         Pair.create((View) holder.tv_ciudad, "ciudad"),
-                        Pair.create((View) holder.tv_referencia, "referencia")
+                        Pair.create((View) holder.tv_referencia, "referencia"),
+                        Pair.create((View) holder.tv_hora, "hora")
                 );
                 context.startActivity(intent, options.toBundle());
-                //context.startActivity(intent);
             }
         });
 
