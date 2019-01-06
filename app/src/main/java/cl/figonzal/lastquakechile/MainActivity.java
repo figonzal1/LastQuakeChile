@@ -4,7 +4,6 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
@@ -18,11 +17,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -74,6 +70,9 @@ public class MainActivity extends AppCompatActivity implements ResponseNetworkHa
         final CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitleEnabled(true);
         collapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.colorPrimary, getTheme()));
+
+        //Suscribir automaticamente al tema (FIREBASE - Quakes)
+        MyFirebaseMessagingService.checkSuscription(this);
     }
 
     @Override
@@ -137,26 +136,6 @@ public class MainActivity extends AppCompatActivity implements ResponseNetworkHa
                 return true;
 
             case R.id.settings:
-
-
-                if (!suscrito) {
-                    FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.FIREBASE_TOPIC_NAME))
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        Toast.makeText(getApplicationContext(), getString(R.string.FIREBASE_SNACKBAR_SUBSCRIBE_TOPIC_SUCCESS), Toast.LENGTH_LONG).show();
-                                    }
-                                    Log.d(getString(R.string.TAG_FIREBASE_SUSCRIPTION), "SUSCRITO");
-                                }
-                            });
-
-                    suscrito = true;
-                } else {
-                    FirebaseMessaging.getInstance().unsubscribeFromTopic(getString(R.string.FIREBASE_TOPIC_NAME));
-                    Toast.makeText(getApplicationContext(), getString(R.string.FIREBASE_SNACKBAR_SUBSCRIBE_TOPIC_DELETED), Toast.LENGTH_LONG).show();
-                    Log.d(getString(R.string.TAG_FIREBASE_SUSCRIPTION), "SUSCRIPCION ELIMINADA");
-                }
 
                 return true;
 
