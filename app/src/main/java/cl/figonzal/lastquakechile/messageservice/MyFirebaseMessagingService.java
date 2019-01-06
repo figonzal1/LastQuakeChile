@@ -1,15 +1,22 @@
 package cl.figonzal.lastquakechile.messageservice;
 
+import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -156,6 +163,36 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             notificationManager.createNotificationChannel(notificationChannel);
 
             Log.d(context.getString(R.string.TAG_FIREBASE_CHANNEL), context.getString(R.string.FIREBASE_CHANNEL_CREATED_MESSAGE));
+        }
+    }
+
+    public static void checkSuscription(final Activity activity) {
+
+        final SharedPreferences sharedPreferences = activity.getPreferences(Context.MODE_PRIVATE);
+        Boolean suscrito = sharedPreferences.getBoolean(activity.getString(R.string.FIREBASE_SUSCRITO), false);
+
+        if (!suscrito) {
+            FirebaseMessaging.getInstance().subscribeToTopic(activity.getString(R.string.FIREBASE_TOPIC_NAME))
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+
+                                Toast.makeText(activity.getApplicationContext(), activity.getString(R.string.FIREBASE_SNACKBAR_SUBSCRIBE_TOPIC_SUCCESS), Toast.LENGTH_LONG).show();
+                                Log.d(activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION), "SUSCRITO");
+
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putBoolean(activity.getString(R.string.FIREBASE_SUSCRITO), true);
+                                editor.apply();
+                            }
+                        }
+                    });
+
+        } else {
+            //FirebaseMessaging.getInstance().unsubscribeFromTopic(activity.getString(R.string.FIREBASE_TOPIC_NAME));
+            //Toast.makeText(activity.getApplicationContext(), activity.getString(R.string.FIREBASE_SNACKBAR_SUBSCRIBE_TOPIC_DELETED), Toast.LENGTH_LONG).show();
+            //Log.d(activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION), "SUSCRIPCION ELIMINADA");
+            Log.d(activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION), "Ya esta SUSCRITO");
         }
     }
 

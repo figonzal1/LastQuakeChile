@@ -61,6 +61,7 @@
     <string name="FIREBASE_CHANNEL_CREATED_MESSAGE">Canal de notificacion creado</string>
     <string name="FIREBASE_TOPIC_NAME">Quakes</string>
     <string name="FIREBASE_SNACKBAR_SUBSCRIBE_TOPIC_DELETED">Suscripcion eliminada</string>
+    <string name="FIREBASE_SUSCRITO">suscrito</string>
 
     <!-- Strings de Snackbars y LOGS -->
     <string name="FLAG_UPDATE">Update</string>
