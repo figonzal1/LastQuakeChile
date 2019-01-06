@@ -74,11 +74,12 @@ public class QuakeDetailsActivity extends AppCompatActivity {
             }
 
             //Calcular el tiempo de sismo
-            Map<String, Long> tiempos = QuakeUtils.timeToText(fecha_local_date);
+            Map<String, Long> tiempos = QuakeUtils.timeToText(getApplicationContext(), fecha_local_date);
 
             Double magnitud = b.getDouble(getString(R.string.INTENT_MAGNITUD));
             Double profundidad = b.getDouble(getString(R.string.INTENT_PROFUNDIDAD));
             String escala = b.getString(getString(R.string.INTENT_ESCALA));
+            //TODO: Agregar sensible a los detalles del sismo
             Boolean sensible = b.getBoolean(getString(R.string.INTENT_SENSIBLE));
             String foto_url = b.getString(getString(R.string.INTENT_LINK_FOTO));
 
@@ -112,24 +113,29 @@ public class QuakeDetailsActivity extends AppCompatActivity {
             /*
                 SECCION HORA
              */
+            Long dias = tiempos.get(getString(R.string.UTILS_TIEMPO_DIAS));
+            Long minutos = tiempos.get(getString(R.string.UTILS_TIEMPO_MINUTOS));
+            Long horas = tiempos.get(getString(R.string.UTILS_TIEMPO_HORAS));
+            Long segundos = tiempos.get(getString(R.string.UTILS_TIEMPO_SEGUNDOS));
+
             //Condiciones días.
-            if (tiempos.get("dias") == 0) {
+            if (dias != null && dias == 0) {
 
-                if (tiempos.get("horas") >= 1) {
-                    tv_hora.setText(String.format(getString(R.string.quake_time_hour), tiempos.get("horas")));
+                if (horas != null && horas >= 1) {
+                    tv_hora.setText(String.format(getString(R.string.quake_time_hour), horas));
                 } else {
-                    tv_hora.setText(String.format(getString(R.string.quake_time_minute), tiempos.get("minutos")));
+                    tv_hora.setText(String.format(getString(R.string.quake_time_minute), minutos));
 
-                    if (tiempos.get("minutos") < 1) {
-                        tv_hora.setText(String.format(getString(R.string.quake_time_second), tiempos.get("segundos")));
+                    if (minutos != null && minutos < 1) {
+                        tv_hora.setText(String.format(getString(R.string.quake_time_second), segundos));
                     }
                 }
-            } else if (tiempos.get("dias") > 0) {
+            } else if (dias != null && dias > 0) {
 
-                if (tiempos.get("horas") == 0) {
-                    tv_hora.setText(String.format(getString(R.string.quake_time_day), tiempos.get("dias")));
-                } else if ((tiempos.get("horas") >= 1)) {
-                    tv_hora.setText(String.format(getString(R.string.quake_time_day_hour), tiempos.get("dias"), tiempos.get("horas") / 24));
+                if (horas != null && horas == 0) {
+                    tv_hora.setText(String.format(getString(R.string.quake_time_day), dias));
+                } else if (horas != null && horas >= 1) {
+                    tv_hora.setText(String.format(getString(R.string.quake_time_day_hour), dias, horas / 24));
                 }
             }
 

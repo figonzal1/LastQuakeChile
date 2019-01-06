@@ -102,4 +102,10 @@
     <string name="last_quakes_info_card_view_button">Entendido</string>
     <string name="last_quakes_info_card_view_description">En este listado se encuentran sismos de magnitud igual o superior a 3.0</string>
 
+    <!-- Strings para calculode tiempo -->
+    <string name="UTILS_TIEMPO_DIAS">dias</string>
+    <string name="UTILS_TIEMPO_HORAS">horas</string>
+    <string name="UTILS_TIEMPO_MINUTOS">minutos</string>
+    <string name="UTILS_TIEMPO_SEGUNDOS">segundos</string>
+
 </resources>

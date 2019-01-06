@@ -85,26 +85,31 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
         holder.iv_mag_color.setColorFilter(context.getColor(QuakeUtils.getMagnitudeColor(model.getMagnitud())));
 
         //Calcular el tiempo de sismo
-        Map<String, Long> tiempos = QuakeUtils.timeToText(model.getFecha_local());
+        Map<String, Long> tiempos = QuakeUtils.timeToText(context, model.getFecha_local());
+
+        Long dias = tiempos.get(context.getString(R.string.UTILS_TIEMPO_DIAS));
+        Long minutos = tiempos.get(context.getString(R.string.UTILS_TIEMPO_MINUTOS));
+        Long horas = tiempos.get(context.getString(R.string.UTILS_TIEMPO_HORAS));
+        Long segundos = tiempos.get(context.getString(R.string.UTILS_TIEMPO_SEGUNDOS));
 
         //Condiciones días.
-        if (tiempos.get("dias") == 0) {
+        if (dias != null && dias == 0) {
 
-            if (tiempos.get("horas") >= 1) {
-                holder.tv_hora.setText(String.format(context.getString(R.string.quake_time_hour), tiempos.get("horas")));
+            if (horas != null && horas >= 1) {
+                holder.tv_hora.setText(String.format(context.getString(R.string.quake_time_hour), horas));
             } else {
-                holder.tv_hora.setText(String.format(context.getString(R.string.quake_time_minute), tiempos.get("minutos")));
+                holder.tv_hora.setText(String.format(context.getString(R.string.quake_time_minute), minutos));
 
-                if (tiempos.get("minutos") < 1) {
-                    holder.tv_hora.setText(String.format(context.getString(R.string.quake_time_second), tiempos.get("segundos")));
+                if (minutos != null && minutos < 1) {
+                    holder.tv_hora.setText(String.format(context.getString(R.string.quake_time_second), segundos));
                 }
             }
-        } else if (tiempos.get("dias") > 0) {
+        } else if (dias != null && dias > 0) {
 
-            if (tiempos.get("horas") == 0) {
-                holder.tv_hora.setText(String.format(context.getString(R.string.quake_time_day), tiempos.get("dias")));
-            } else if ((tiempos.get("horas") >= 1)) {
-                holder.tv_hora.setText(String.format(context.getString(R.string.quake_time_day_hour), tiempos.get("dias"), tiempos.get("horas") / 24));
+            if (horas != null && horas == 0) {
+                holder.tv_hora.setText(String.format(context.getString(R.string.quake_time_day), dias));
+            } else if (horas != null && horas >= 1) {
+                holder.tv_hora.setText(String.format(context.getString(R.string.quake_time_day_hour), dias, horas / 24));
             }
         }
 
