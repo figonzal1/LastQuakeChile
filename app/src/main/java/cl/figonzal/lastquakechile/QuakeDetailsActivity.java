@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,7 +16,11 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
@@ -48,22 +51,42 @@ public class QuakeDetailsActivity extends AppCompatActivity {
         TextView tv_profundidad = findViewById(R.id.tv_epicentro);
         TextView tv_fecha_local = findViewById(R.id.tv_fecha);
         ImageView iv_mag_color = findViewById(R.id.iv_mag_color);
+        TextView tv_hora = findViewById(R.id.tv_hora_detail);
         final ImageView iv_mapa = findViewById(R.id.iv_map_quake);
-        CardView card_view_mapa = findViewById(R.id.card_view_map);
 
         if (b != null) {
+
+            /*
+                OBTENCION DE INFO DESDE INTENT
+             */
             String ciudad = b.getString(getString(R.string.INTENT_CIUDAD));
             String referencia = b.getString(getString(R.string.INTENT_REFERENCIA));
-            String latitud = b.getString(getString(R.string.INTENT_LATITUD));
-            String longitud = b.getString(getString(R.string.INTENT_LONGITUD));
+            //String latitud = b.getString(getString(R.string.INTENT_LATITUD));
+            //String longitud = b.getString(getString(R.string.INTENT_LONGITUD));
 
             String fecha_local = b.getString(getString(R.string.INTENT_FECHA_LOCAL));
+            SimpleDateFormat format = new SimpleDateFormat(getString(R.string.DATETIME_FORMAT), Locale.US);
+            Date fecha_local_date = null;
+            try {
+                fecha_local_date = format.parse(fecha_local);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            //Calcular el tiempo de sismo
+            Map<String, Long> tiempos = QuakeUtils.timeToText(fecha_local_date);
 
             Double magnitud = b.getDouble(getString(R.string.INTENT_MAGNITUD));
             Double profundidad = b.getDouble(getString(R.string.INTENT_PROFUNDIDAD));
             String escala = b.getString(getString(R.string.INTENT_ESCALA));
             Boolean sensible = b.getBoolean(getString(R.string.INTENT_SENSIBLE));
             String foto_url = b.getString(getString(R.string.INTENT_LINK_FOTO));
+
+
+
+            /*
+                SETEO DE TEXTVIEWS
+             */
 
             //Setear titulo de ciudad en activity
             getSupportActionBar().setTitle(ciudad);
@@ -85,6 +108,30 @@ public class QuakeDetailsActivity extends AppCompatActivity {
 
             //Setear fecha
             tv_fecha_local.setText(fecha_local);
+
+            /*
+                SECCION HORA
+             */
+            //Condiciones días.
+            if (tiempos.get("dias") == 0) {
+
+                if (tiempos.get("horas") >= 1) {
+                    tv_hora.setText(String.format(getString(R.string.quake_time_hour), tiempos.get("horas")));
+                } else {
+                    tv_hora.setText(String.format(getString(R.string.quake_time_minute), tiempos.get("minutos")));
+
+                    if (tiempos.get("minutos") < 1) {
+                        tv_hora.setText(String.format(getString(R.string.quake_time_second), tiempos.get("segundos")));
+                    }
+                }
+            } else if (tiempos.get("dias") > 0) {
+
+                if (tiempos.get("horas") == 0) {
+                    tv_hora.setText(String.format(getString(R.string.quake_time_day), tiempos.get("dias")));
+                } else if ((tiempos.get("horas") >= 1)) {
+                    tv_hora.setText(String.format(getString(R.string.quake_time_day_hour), tiempos.get("dias"), tiempos.get("horas") / 24));
+                }
+            }
 
             /*
                 Seccion Tipo Escala
