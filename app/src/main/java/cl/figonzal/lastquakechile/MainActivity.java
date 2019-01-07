@@ -3,6 +3,7 @@ package cl.figonzal.lastquakechile;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -28,7 +29,6 @@ import cl.figonzal.lastquakechile.messageservice.MyFirebaseMessagingService;
 public class MainActivity extends AppCompatActivity implements ResponseNetworkHandler {
 
     private MenuItem item;
-    private boolean suscrito = false;
     private QuakeViewModel viewModel;
     private ProgressBar progressBar;
 
@@ -135,7 +135,9 @@ public class MainActivity extends AppCompatActivity implements ResponseNetworkHa
 
                 return true;
 
-            case R.id.settings:
+            case R.id.contact:
+                Intent intent = new Intent(this, ContactActivity.class);
+                startActivity(intent);
 
                 return true;
 
