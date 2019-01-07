@@ -49,6 +49,8 @@ public class ContactActivity extends AppCompatActivity {
                         //Si gogle play no esta abre webview
                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + "com.facebook.katana")));
                     }
+                } else {
+                    startActivity(intent);
                 }
 
             }
@@ -70,6 +72,8 @@ public class ContactActivity extends AppCompatActivity {
                         //Si gogle play no esta abre webview
                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + "com.linkedin.android")));
                     }
+                } else {
+                    startActivity(intent);
                 }
 
 
