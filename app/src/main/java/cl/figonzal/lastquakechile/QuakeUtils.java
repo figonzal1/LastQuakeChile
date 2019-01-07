@@ -10,10 +10,6 @@ import java.util.Map;
 
 class QuakeUtils {
 
-    QuakeUtils() {
-
-    }
-
     /**
      * Funcion que calcula la diferencia en milisegundos
      * entre el tiempo del sismo y la hora actual
@@ -100,6 +96,7 @@ class QuakeUtils {
      * @param context es recibido para hacer uso del getSystemService
      * @return boolean, true para conectado, false celular sin conexion
      */
+    //TODO: ELIMINAR ESTA FUNCION
     static boolean checkInternet(Context context) {
 
         //Zona Network Information

@@ -25,17 +25,18 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
+import com.crashlytics.android.Crashlytics;
+
 import java.util.List;
 import java.util.Objects;
 
 
-public class QuakeFragment extends Fragment implements ResponseNetworkHandler, SearchView.OnQueryTextListener {
+public class QuakeFragment extends Fragment implements SearchView.OnQueryTextListener {
 
     private RecyclerView rv;
     private ProgressBar progressBar;
     private QuakeViewModel viewModel;
     private QuakeAdapter adapter;
-    private Button btn_cv_info;
     private CardView cv_info;
 
     public QuakeFragment() {
@@ -68,25 +69,35 @@ public class QuakeFragment extends Fragment implements ResponseNetworkHandler, S
 
         //Definicion de materiales a usar para checkear internet UI
         rv = v.findViewById(R.id.recycle_view);
-        progressBar = v.findViewById(R.id.progressBar);
+        progressBar = v.findViewById(R.id.progress_bar_fragment);
         progressBar.setVisibility(View.VISIBLE);
         viewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(QuakeViewModel.class);
 
 
         /*
-            Flujo de informacion dependiendo de la conexion a internet
+            Checkear los nuevos datos mediante un observable
          */
-        if (QuakeUtils.checkInternet(Objects.requireNonNull(getContext()))) {
-            getData();
-        } else {
-            //Mostrar Snackbar de retry de datos
-            showSnackBar(getActivity(), getString(R.string.FLAG_RETRY));
-            progressBar.setVisibility(View.INVISIBLE);
+        viewModel.getMutableQuakeList().observe(this, new Observer<List<QuakeModel>>() {
+            @Override
+            public void onChanged(@Nullable List<QuakeModel> quakeModelList) {
 
-            //LOG ZONE
-            Log.d(getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_RETRY_RESPONSE));
-        }
+                //Setear el adapter con la lista de quakes
+                adapter = new QuakeAdapter(quakeModelList, getContext(), getActivity());
+                adapter.notifyDataSetChanged();
+                rv.setAdapter(adapter);
 
+                //Progressbar desaparece despues de la descarga de datos
+                progressBar.setVisibility(View.INVISIBLE);
+
+                //LOG ZONE
+                Log.d(getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_UPDATE_RESPONSE));
+
+                Crashlytics.log(Log.DEBUG, getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_UPDATE_RESPONSE));
+
+            }
+
+
+        });
 
         /*
             Viewmodel encargado de mostrar mensajes de errores desde Volley (LoadDATA)
@@ -97,19 +108,42 @@ public class QuakeFragment extends Fragment implements ResponseNetworkHandler, S
                 if (status != null) {
 
                     progressBar.setVisibility(View.INVISIBLE);
-                    Snackbar
-                            .make(v, status, Snackbar.LENGTH_INDEFINITE)
-                            .setAction("Recargar", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    viewModel.refreshMutableQuakeList();
-                                    progressBar.setVisibility(View.VISIBLE);
-                                }
-                            })
-                            .show();
-                    Log.d(getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_ERROR_SERVER));
-                }
+                    if (status.equals(getString(R.string.VIEWMODEL_ERROR_SERVER))) {
+                        Snackbar
+                                .make(v, status, Snackbar.LENGTH_INDEFINITE)
+                                .setAction(getString(R.string.FLAG_RETRY), new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        viewModel.refreshMutableQuakeList();
+                                        progressBar.setVisibility(View.VISIBLE);
 
+                                        Crashlytics.setBool(getString(R.string.SNACKBAR_ERROR_SERVER_PRESSED), true);
+                                    }
+                                })
+                                .show();
+
+                        Log.d(getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_ERROR_SERVER));
+                        Crashlytics.log(Log.DEBUG, getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_ERROR_SERVER));
+                    } else if (status.equals(getString(R.string.VIEWMODEL_NOCONNECTION_ERROR))) {
+                        Snackbar
+                                .make(v, status, Snackbar.LENGTH_INDEFINITE)
+                                .setAction(getString(R.string.FLAG_RETRY), new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        viewModel.refreshMutableQuakeList();
+                                        progressBar.setVisibility(View.VISIBLE);
+
+                                        Crashlytics.setBool(getString(R.string.SNACKBAR_NOCONNECTION_SERVER_PRESSED), true);
+
+                                    }
+                                })
+                                .show();
+
+                        Log.d(getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_NOCONNECTION));
+                        Crashlytics.log(Log.DEBUG, getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_NOCONNECTION));
+                    }
+
+                }
             }
         });
 
@@ -118,20 +152,22 @@ public class QuakeFragment extends Fragment implements ResponseNetworkHandler, S
          */
 
         cv_info = v.findViewById(R.id.card_view_info);
-        final SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        String cv_visto = sharedPreferences.getString("EstadoCardView", null);
-        if (cv_visto != null && cv_visto.equals("entendido")) {
+        final SharedPreferences sharedPreferences = Objects.requireNonNull(getActivity()).getPreferences(Context.MODE_PRIVATE);
+        String cv_visto = sharedPreferences.getString(getString(R.string.shared_pref_status_card_view), null);
+
+        if (cv_visto != null && cv_visto.equals(getString(R.string.shared_pref_status_result_card_view))) {
+
             cv_info.setVisibility(View.GONE);
         }
 
 
-        btn_cv_info = v.findViewById(R.id.btn_info_accept);
+        Button btn_cv_info = v.findViewById(R.id.btn_info_accept);
         btn_cv_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("EstadoCardView", "entendido");
+                editor.putString(getString(R.string.shared_pref_status_card_view), getString(R.string.shared_pref_status_result_card_view));
                 editor.apply();
 
                 cv_info.animate()
@@ -145,6 +181,11 @@ public class QuakeFragment extends Fragment implements ResponseNetworkHandler, S
                                 cv_info.setVisibility(View.GONE);
                             }
                         });
+
+
+                //LOGS
+                Log.d(getString(R.string.shared_card_view_info), getString(R.string.shared_pref_status_result_card_view));
+                Crashlytics.log(Log.DEBUG, getString(R.string.shared_card_view_info), getString(R.string.shared_pref_status_result_card_view));
             }
         });
         return v;
@@ -158,60 +199,6 @@ public class QuakeFragment extends Fragment implements ResponseNetworkHandler, S
     @Override
     public void onStop() {
         super.onStop();
-    }
-
-
-    @Override
-    public void getData() {
-
-        viewModel.getMutableQuakeList().observe(this, new Observer<List<QuakeModel>>() {
-            @Override
-            public void onChanged(@Nullable List<QuakeModel> quakeModelList) {
-
-                //Setear el adapter con la lista de quakes
-                adapter = new QuakeAdapter(quakeModelList, getContext(), getActivity());
-                adapter.notifyDataSetChanged();
-                rv.setAdapter(adapter);
-
-                //Progressbar desaparece despues de la descarga de datos
-                progressBar.setVisibility(View.INVISIBLE);
-
-                //Mostrar snackbar de sismos actualizados
-                //showSnackBar(getActivity(), getString(R.string.FLAG_UPDATE));
-
-                //LOG ZONE
-                Log.d(getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_UPDATE_RESPONSE));
-
-            }
-
-
-        });
-    }
-
-    @Override
-    public void showSnackBar(Context context, String tipo) {
-
-        if (tipo.equals(getString(R.string.FLAG_RETRY))) {
-            Snackbar
-                    .make(Objects.requireNonNull(getActivity()).findViewById(R.id.main_container), getString(R.string.SNACKBAR_STATUS_MESSAGE_NOCONNECTION), Snackbar.LENGTH_INDEFINITE)
-                    .setAction(getString(R.string.FLAG_RETRY), new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                            if (QuakeUtils.checkInternet(Objects.requireNonNull(getContext()))) {
-                                progressBar.setVisibility(View.VISIBLE);
-                                getData();
-                            } else {
-                                showSnackBar(getActivity(), getString(R.string.FLAG_RETRY));
-                            }
-                        }
-                    })
-                    .show();
-        } else if (tipo.equals(getString(R.string.FLAG_UPDATE))) {
-            Snackbar
-                    .make(Objects.requireNonNull(getActivity()).findViewById(R.id.main_container), getString(R.string.SNACKBAR_STATUS_MESSAGE_UPDATE), Snackbar.LENGTH_LONG)
-                    .show();
-        }
     }
 
     @Override

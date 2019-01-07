@@ -54,15 +54,4 @@ class VolleySingleton {
     <T> void addToRequestQueue(Request<T> req) {
         getRequestQueue().add(req);
     }
-
-    /**
-     * Funcion para cancelar un request
-     *
-     * @param tag Tag de DATA para las solicitudes de volley
-     */
-    void cancelRequestQueue(Object tag) {
-        if (queue != null) {
-            queue.cancelAll(tag);
-        }
-    }
 }
