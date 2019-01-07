@@ -8,12 +8,15 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.crashlytics.android.Crashlytics;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -22,9 +25,9 @@ import java.util.Map;
 
 public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHolder> {
 
-    private List<QuakeModel> quakeModelList;
-    private Context context;
-    private Activity activity;
+    private final List<QuakeModel> quakeModelList;
+    private final Context context;
+    private final Activity activity;
 
     QuakeAdapter(List<QuakeModel> quakeModelList, Context context, Activity activity) {
         this.quakeModelList=quakeModelList;
@@ -37,11 +40,11 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
     static class QuakeViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tv_ciudad;
-        private TextView tv_referencia;
-        private TextView tv_magnitud;
-        protected TextView tv_hora;
-        private ImageView iv_mag_color;
-        private CardView cardView;
+        private final TextView tv_referencia;
+        private final TextView tv_magnitud;
+        private final TextView tv_hora;
+        private final ImageView iv_mag_color;
+        private final CardView cardView;
 
 
         private QuakeViewHolder(View itemView) {
@@ -137,6 +140,10 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
                 b.putString(context.getString(R.string.INTENT_LINK_FOTO), model.getImagen_url());
 
                 intent.putExtras(b);
+
+                //LOG
+                Log.d(context.getString(R.string.TAG_INTENT), context.getString(R.string.TRY_INTENT_DETALLE));
+                Crashlytics.log(Log.DEBUG, context.getString(R.string.TAG_INTENT), context.getString(R.string.TRY_INTENT_DETALLE));
 
                 /*
                     Seccion transiciones animadas de TextViews

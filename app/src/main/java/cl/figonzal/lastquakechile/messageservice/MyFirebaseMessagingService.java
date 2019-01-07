@@ -14,6 +14,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -39,12 +40,19 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
             Log.d(getString(R.string.TAG_FIREBASE_MESSAGE), "Message data payload: " + remoteMessage.getData());
+
+            Crashlytics.log(Log.DEBUG, getString(R.string.TAG_FIREBASE_MESSAGE), getString(R.string.TAG_FIREBASE_MESSAGE_INCOMING));
+            Crashlytics.setBool(getString(R.string.FIREBASE_MESSAGE_DATA_STATUS), true);
             showNotificationData(remoteMessage);
         }
 
         if (remoteMessage.getNotification() != null) {
 
             Log.d(getString(R.string.TAG_FIREBASE_MESSAGE), "Message notification: " + remoteMessage.getNotification().getTitle() + " - " + remoteMessage.getNotification().getBody());
+
+            Crashlytics.log(Log.DEBUG, getString(R.string.TAG_FIREBASE_MESSAGE), getString(R.string.TAG_FIREBASE_MESSAGE_INCOMING));
+            Crashlytics.setBool(getString(R.string.FIREBASE_MESSAGE_NOTIFICATION_STATUS), true);
+
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this, getString(R.string.FIREBASE_CHANNEL_ID))
                     .setSmallIcon(R.mipmap.ic_launcher_chile)
                     .setContentTitle(remoteMessage.getNotification().getTitle())
@@ -131,6 +139,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
 
+        Log.d(getString(R.string.TAG_INTENT), getString(R.string.TRY_INTENT_NOTIFICATION_1));
+        Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT), getString(R.string.TRY_INTENT_NOTIFICATION_1));
+        Crashlytics.setBool(getString(R.string.TRY_INTENT_NOTIFICATION), true);
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, getString(R.string.FIREBASE_CHANNEL_ID))
                 .setSmallIcon(R.mipmap.ic_launcher_chile)
                 .setContentTitle(titulo)
@@ -152,7 +164,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             //Definicion de atributos de canal de notificacion
             String name = context.getString(R.string.FIREBASE_CHANNEL_NAME);
             String description = context.getString(R.string.FIREBASE_CHANNEL_DESCRIPTION);
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            int importance = NotificationManager.IMPORTANCE_HIGH;
 
             NotificationChannel notificationChannel = new NotificationChannel(context.getString(R.string.FIREBASE_CHANNEL_ID), name, importance);
             notificationChannel.setDescription(description);
@@ -163,6 +175,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             notificationManager.createNotificationChannel(notificationChannel);
 
             Log.d(context.getString(R.string.TAG_FIREBASE_CHANNEL), context.getString(R.string.FIREBASE_CHANNEL_CREATED_MESSAGE));
+
+            //CRASH ANALYTICS & LOGS
+            Crashlytics.log(Log.DEBUG, context.getString(R.string.TAG_FIREBASE_CHANNEL), context.getString(R.string.FIREBASE_CHANNEL_CREATED_MESSAGE));
+            Crashlytics.setBool(context.getString(R.string.FIREBASE_CHANNEL_STATUS), true);
         }
     }
 
@@ -179,11 +195,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                             if (task.isSuccessful()) {
 
                                 Toast.makeText(activity.getApplicationContext(), activity.getString(R.string.FIREBASE_SNACKBAR_SUBSCRIBE_TOPIC_SUCCESS), Toast.LENGTH_LONG).show();
-                                Log.d(activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION), "SUSCRITO");
+                                Log.d(activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION), activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION_RESPONSE1));
 
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putBoolean(activity.getString(R.string.FIREBASE_SUSCRITO), true);
                                 editor.apply();
+
+                                //CRASH ANALYTIC LOG
+                                Crashlytics.setBool(activity.getString(R.string.FIREBASE_SUSCRITO), true);
+                                Crashlytics.log(Log.DEBUG, activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION), activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION_RESPONSE1));
                             }
                         }
                     });
@@ -192,7 +212,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             //FirebaseMessaging.getInstance().unsubscribeFromTopic(activity.getString(R.string.FIREBASE_TOPIC_NAME));
             //Toast.makeText(activity.getApplicationContext(), activity.getString(R.string.FIREBASE_SNACKBAR_SUBSCRIBE_TOPIC_DELETED), Toast.LENGTH_LONG).show();
             //Log.d(activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION), "SUSCRIPCION ELIMINADA");
-            Log.d(activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION), "Ya esta SUSCRITO");
+            Log.d(activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION), activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION_RESPONSE2));
+            Crashlytics.log(Log.DEBUG, activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION), activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION_RESPONSE2));
         }
     }
 
@@ -200,6 +221,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onNewToken(String s) {
         super.onNewToken(s);
         Log.d(getString(R.string.TAG_FIREBASE_TOKEN), "Refreshed Token:" + s);
+        Crashlytics.setUserIdentifier(s);
     }
 
     @Override

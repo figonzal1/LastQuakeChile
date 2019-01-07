@@ -146,11 +146,11 @@ public class QuakeDetailsActivity extends AppCompatActivity {
 
                 switch (escala) {
                     case "Ml":
-                        tv_escala.setText(String.format(getString(R.string.quake_details_escala), "Magnitud Local (Ml)"));
+                        tv_escala.setText(String.format(getString(R.string.quake_details_escala), getString(R.string.quake_details_magnitud_local)));
                         break;
 
                     case "Mw":
-                        tv_escala.setText(String.format(getString(R.string.quake_details_escala), "Magnitud Momento (Mw)"));
+                        tv_escala.setText(String.format(getString(R.string.quake_details_escala), getString(R.string.quake_details_magnitud_momento)));
                         break;
 
                 }

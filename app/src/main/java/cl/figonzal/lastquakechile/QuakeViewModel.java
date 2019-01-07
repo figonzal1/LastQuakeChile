@@ -17,6 +17,7 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.crashlytics.android.Crashlytics;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,7 +35,7 @@ import java.util.Locale;
  * Clase ideada para cargar UI bajo el cambio de orientacion de pantalla
  * independiente de la creacion de una nueva activity
  */
-public class QuakeViewModel extends AndroidViewModel {
+class QuakeViewModel extends AndroidViewModel {
 
     private MutableLiveData<List<QuakeModel>> liveDataQuakes;   //Permite la carga de sismos al inicio y al refresh del toolbar
     private List<QuakeModel> quakeModelList;                    //Lista de sismos que se agrega despues al MutableLive
@@ -178,12 +179,19 @@ public class QuakeViewModel extends AndroidViewModel {
                     liveDataQuakes.postValue(quakeModelList);
 
                 } catch (JSONException e) {
-                    Log.d("JSON_GENERAL_ERROR", e.getMessage());
+
+                    Log.d(getApplication().getString(R.string.JSON_GENERAL_ERROR), e.getMessage());
+                    Crashlytics.log(Log.DEBUG, getApplication().getString(R.string.JSON_GENERAL_ERROR), e.getMessage());
                 } catch (ParseException e) {
-                    Log.d("JSON_PARSE_ERROR", e.getMessage());
+
+                    Log.d(getApplication().getString(R.string.JSON_PARSE_ERROR), e.getMessage());
+                    Crashlytics.log(Log.DEBUG, getApplication().getString(R.string.JSON_PARSE_ERROR), e.getMessage());
                 }
 
-                Log.d("CONNECTION_OK", "Conexion correcta");
+                //LOGS
+                Log.d(getApplication().getString(R.string.CONNECTION_OK), getApplication().getString(R.string.CONNECTION_OK_RESPONSE));
+                Crashlytics.log(Log.DEBUG, getApplication().getString(R.string.CONNECTION_OK), getApplication().getString(R.string.CONNECTION_OK_RESPONSE));
+                Crashlytics.setBool(getApplication().getString(R.string.CONNECTED), true);
 
 
             }
@@ -193,10 +201,13 @@ public class QuakeViewModel extends AndroidViewModel {
 
                 if (error instanceof TimeoutError) {
                     Log.d(getApplication().getString(R.string.TAG_VOLLEY_ERROR), getApplication().getString(R.string.TAG_VOLLEY_ERROR_TIMEOUT));
-                    statusData.postValue("Servidor no responde. Intente más tarde");
+                    Crashlytics.log(Log.DEBUG, getApplication().getString(R.string.TAG_VOLLEY_ERROR), getApplication().getString(R.string.TAG_VOLLEY_ERROR_TIMEOUT));
+                    statusData.postValue(getApplication().getString(R.string.VIEWMODEL_ERROR_SERVER));
 
                 } else if (error instanceof NoConnectionError) {
                     Log.d(getApplication().getString(R.string.TAG_VOLLEY_ERROR), getApplication().getString(R.string.TAG_VOLLEY_ERROR_CONNECTION));
+                    Crashlytics.log(Log.DEBUG, getApplication().getString(R.string.TAG_VOLLEY_ERROR), getApplication().getString(R.string.TAG_VOLLEY_ERROR_CONNECTION));
+                    statusData.postValue(getApplication().getString(R.string.VIEWMODEL_NOCONNECTION_ERROR));
 
                 } else if (error instanceof AuthFailureError) {
                     Log.d(getApplication().getString(R.string.TAG_VOLLEY_ERROR), getApplication().getString(R.string.TAG_VOLLEY_ERROR_AUTH));
@@ -211,13 +222,12 @@ public class QuakeViewModel extends AndroidViewModel {
                     Log.d(getApplication().getString(R.string.TAG_VOLLEY_ERROR), getApplication().getString(R.string.TAG_VOLLEY_ERROR_PARSE));
 
                 }
-                VolleySingleton.getInstance(getApplication()).cancelRequestQueue("DATA");
+                //VolleySingleton.getInstance(getApplication()).cancelRequestQueue();
 
             }
         });
 
         jsonObjectRequest.setShouldCache(false);
-        jsonObjectRequest.setTag("DATA");
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(3000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         VolleySingleton.getInstance(getApplication()).addToRequestQueue(jsonObjectRequest);
     }
