@@ -54,7 +54,7 @@
     <string name="contact_email">felipe.gonzalezalarcon94@gmail.com</string>
     <string name="contact_nombre">Felipe González</string>
     <string name="contact_title_email">Email</string>
-    <string name="contact_title_name">Email</string>
+    <string name="contact_title_name">Nombre</string>
 
 
     <!-- FIREBASE-->
