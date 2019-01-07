@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cl.figonzal.lastquakechile"
-    android:installLocation="preferExternal">
+    android:installLocation="auto">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -37,7 +37,9 @@
             </intent-filter>
         </activity>
         <!-- Llamada a servicio de mensajeria -->
-        <service android:name=".messageservice.MyFirebaseMessagingService">
+        <service
+            android:name=".messageservice.MyFirebaseMessagingService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
@@ -46,6 +48,15 @@
         <!-- Activity detalle -->
         <activity
             android:name=".QuakeDetailsActivity"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+
+        <!-- Activity Contact-->
+        <activity
+            android:name=".ContactActivity"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

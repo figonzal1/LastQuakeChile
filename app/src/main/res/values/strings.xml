@@ -3,7 +3,7 @@
 
     <!-- TOOLBAR STRINGS -->
     <string name="refresh">Recargar</string>
-    <string name="settings">Configuración</string>
+    <string name="contact">Contacto</string>
     <string name="search">Buscar</string>
 
     <!-- TODO: Cambiar la direccion hacia Heroku y Actualizar HEROKU con el nuevo config en xamp -->
@@ -47,6 +47,14 @@
     <string name="quake_details_escala">%1$s</string>
     <string name="quake_details_profundidad">%.1f km</string>
     <string name="magnitud">%.1f</string>
+    <string name="icono_mail">Icono email</string>
+    <string name="icono_persona">Icono persona</string>
+    <string name="icono_facebook">Icono facebook</string>
+    <string name="icono_linkedin">Icono linkedin</string>
+    <string name="contact_email">felipe.gonzalezalarcon94@gmail.com</string>
+    <string name="contact_nombre">Felipe González</string>
+    <string name="contact_title_email">Email</string>
+    <string name="contact_title_name">Email</string>
 
 
     <!-- FIREBASE-->
@@ -108,5 +116,6 @@
     <string name="UTILS_TIEMPO_HORAS">horas</string>
     <string name="UTILS_TIEMPO_MINUTOS">minutos</string>
     <string name="UTILS_TIEMPO_SEGUNDOS">segundos</string>
+
 
 </resources>

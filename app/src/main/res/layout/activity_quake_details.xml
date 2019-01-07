@@ -75,7 +75,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintGuide_begin="8dp" />
 
     <android.support.constraint.Guideline
@@ -83,7 +83,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintGuide_end="8dp" />
 
     <android.support.constraint.Guideline
@@ -127,11 +127,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:alpha="0.87"
                 android:fontFamily="@font/roboto"
                 android:maxLines="1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:transitionName="ciudad"
                 app:layout_constraintEnd_toStartOf="@+id/tv_hora_detail"
                 app:layout_constraintVertical_chainStyle="packed"
@@ -144,30 +143,31 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginEnd="16dp"
-                android:alpha="0.6"
+                android:fontFamily="@font/roboto"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textSize="14sp"
+                android:transitionName="hora"
                 card_view:layout_constraintBottom_toBottomOf="@+id/tv_ciudad_detail"
                 card_view:layout_constraintEnd_toEndOf="parent"
                 card_view:layout_constraintTop_toTopOf="@+id/tv_ciudad_detail"
-                tools:text="XX D X h"
-                android:transitionName="hora" />
+                tools:text="XX D X h" />
 
             <TextView
                 android:id="@+id/tv_referencia_detail"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginEnd="16dp"
-                android:alpha="0.6"
                 android:fontFamily="@font/roboto"
                 android:paddingTop="0dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textSize="14sp"
+                android:transitionName="referencia"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_mag_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/tv_ciudad_detail"
                 app:layout_constraintTop_toBottomOf="@+id/tv_ciudad_detail"
-                tools:text="Referencia de la ciudad"
-                android:transitionName="referencia" />
+                tools:text="Referencia de la ciudad" />
 
 
             <TextView
@@ -213,12 +213,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:alpha="0.87"
                 android:fontFamily="@font/roboto"
                 android:gravity="center"
                 android:text="@string/tiempo"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/iv_reloj"
                 app:layout_constraintTop_toTopOf="@+id/iv_reloj" />
 
@@ -227,10 +226,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:alpha="0.6"
                 android:fontFamily="@font/roboto"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toStartOf="@+id/guia_vertical"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/tv_titulo_fecha"
@@ -240,9 +238,9 @@
             <android.support.constraint.Barrier
                 android:id="@+id/barrier"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 app:barrierDirection="bottom"
-                app:constraint_referenced_ids="tv_fecha,tv_epicentro"
+                app:constraint_referenced_ids="tv_epicentro,tv_fecha"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -267,11 +265,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:alpha="0.87"
                 android:fontFamily="@font/roboto"
                 android:text="@string/distancia"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:visibility="visible"
                 app:layout_constraintStart_toEndOf="@+id/iv_pin"
                 app:layout_constraintTop_toTopOf="@+id/iv_pin" />
@@ -281,10 +278,9 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginEnd="8dp"
-                android:alpha="0.6"
                 android:fontFamily="@font/roboto"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_pin"
                 app:layout_constraintEnd_toStartOf="@+id/guia_vertical"
@@ -319,11 +315,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:alpha="0.87"
                 android:fontFamily="@font/roboto"
                 android:text="@string/profundidad"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/iv_epicentro"
                 app:layout_constraintTop_toTopOf="@+id/iv_epicentro" />
 
@@ -332,10 +327,9 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginEnd="16dp"
-                android:alpha="0.6"
                 android:fontFamily="@font/roboto"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_epicentro"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -361,11 +355,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:alpha="0.87"
                 android:fontFamily="@font/roboto"
                 android:text="@string/escala"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
                 app:layout_constraintTop_toTopOf="@+id/imageView" />
 
@@ -374,10 +367,9 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginEnd="16dp"
-                android:alpha="0.6"
                 android:fontFamily="@font/roboto"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/tv_titulo_escala"
