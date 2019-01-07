@@ -12,8 +12,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 class FragmentPageAdapter extends FragmentPagerAdapter {
 
-    private final int PAGE_COUNT=1;
-    private String tabTitles[] = {"GUC"};
+    private final String[] tabTitles = {"GUC"};
 
 
     FragmentPageAdapter(FragmentManager fm) {
@@ -39,7 +38,7 @@ class FragmentPageAdapter extends FragmentPagerAdapter {
     }
     @Override
     public int getCount() {
-        return PAGE_COUNT;
+        return 1;
     }
 
     @Override

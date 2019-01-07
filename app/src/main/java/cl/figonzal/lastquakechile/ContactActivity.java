@@ -6,8 +6,11 @@ import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+
+import com.crashlytics.android.Crashlytics;
 
 import java.util.Objects;
 
@@ -44,12 +47,24 @@ public class ContactActivity extends AppCompatActivity {
                         intent = new Intent(Intent.ACTION_VIEW);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.setData(Uri.parse("market://details?id=" + "com.facebook.katana"));
+
+                        //LOG
+                        Log.d(getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_GOOGLEPLAY_FB));
+                        Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_GOOGLEPLAY_FB));
+
                         startActivity(intent);
                     } catch (android.content.ActivityNotFoundException anfe) {
+
                         //Si gogle play no esta abre webview
+                        Log.d(getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_NAVEGADOR_FB));
+                        Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_NAVEGADOR_FB));
+
                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + "com.facebook.katana")));
                     }
                 } else {
+
+                    Log.d(getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_INSTALADA_FB));
+                    Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_INSTALADA_FB));
                     startActivity(intent);
                 }
 
@@ -67,12 +82,24 @@ public class ContactActivity extends AppCompatActivity {
                         intent = new Intent(Intent.ACTION_VIEW);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.setData(Uri.parse("market://details?id=" + "com.linkedin.android"));
+
+                        //LOG
+                        Log.d(getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_GOOGLEPLAY_LK));
+                        Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_GOOGLEPLAY_LK));
+
                         startActivity(intent);
                     } catch (android.content.ActivityNotFoundException anfe) {
+
                         //Si gogle play no esta abre webview
+                        Log.d(getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_NAVEGADOR_LK));
+                        Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_NAVEGADOR_LK));
                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + "com.linkedin.android")));
                     }
                 } else {
+
+                    //LOG
+                    Log.d(getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_INSTALADA_LK));
+                    Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_INSTALADA_LK));
                     startActivity(intent);
                 }
 

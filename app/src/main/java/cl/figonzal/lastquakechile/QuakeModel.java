@@ -2,7 +2,7 @@ package cl.figonzal.lastquakechile;
 
 import java.util.Date;
 
-public class QuakeModel {
+class QuakeModel {
 
     private Date fecha_local;
     private Date fecha_utc;
@@ -92,7 +92,7 @@ public class QuakeModel {
         this.referencia = referencia;
     }
 
-    public String getImagen_url() {
+    String getImagen_url() {
         return imagen_url;
     }
 

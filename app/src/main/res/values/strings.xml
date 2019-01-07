@@ -12,7 +12,6 @@
 
     <!-- FORMAT -->
     <string name="DATETIME_FORMAT">yyyy-MM-dd HH:mm:ss</string>
-    <string name="TIME_FORMAT">HH:mm a</string>
 
     <!-- KEY DE JSON PARA PHP -->
     <string name="KEY_FECHA_LOCAL">fecha_local</string>
@@ -55,34 +54,45 @@
     <string name="contact_nombre">Felipe González</string>
     <string name="contact_title_email">Email</string>
     <string name="contact_title_name">Nombre</string>
+    <string name="quake_details_magnitud_local">Magnitud Local (Ml)</string>
+    <string name="quake_details_magnitud_momento">Magnitud Momento (Mw)</string>
 
 
     <!-- FIREBASE-->
     <string name="TAG_FIREBASE_TOKEN">TOKEN_FIREBASE</string>
     <string name="TAG_FIREBASE_SUSCRIPTION">FIREBASE_SUSCRIPCION</string>
+    <string name="TAG_FIREBASE_SUSCRIPTION_RESPONSE1">SUSCRITO</string>
+    <string name="TAG_FIREBASE_SUSCRIPTION_RESPONSE2">YA ESTABA SUSCRITO</string>
     <string name="FIREBASE_CHANNEL_ID">1</string>
     <string name="FIREBASE_CHANNEL_NAME">Alerta sismos</string>
     <string name="FIREBASE_CHANNEL_DESCRIPTION">Recibe alertas de los últimos sismos</string>
+    <string name="FIREBASE_CHANNEL_STATUS">CHANNEL_CREATED</string>
     <string name="TAG_FIREBASE_CHANNEL">FIREBASE_CHANNEL</string>
     <string name="TAG_FIREBASE_MESSAGE">FIREBASE_MESSAGE</string>
+    <string name="TAG_FIREBASE_MESSAGE_DATA_INCOMING">NotificacionData recibida</string>
+    <string name="TAG_FIREBASE_MESSAGE_INCOMING">Notificacion recibida</string>
+    <string name="FIREBASE_MESSAGE_DATA_STATUS">MESSAGE_DATA_RECEIVED</string>
+    <string name="FIREBASE_MESSAGE_NOTIFICATION_STATUS">MESSAGE_DATA_RECEIVED</string>
     <string name="FIREBASE_SNACKBAR_SUBSCRIBE_TOPIC_SUCCESS">Suscrito al tema</string>
     <string name="FIREBASE_CHANNEL_CREATED_MESSAGE">Canal de notificacion creado</string>
     <string name="FIREBASE_TOPIC_NAME">Quakes</string>
-    <string name="FIREBASE_SNACKBAR_SUBSCRIBE_TOPIC_DELETED">Suscripcion eliminada</string>
-    <string name="FIREBASE_SUSCRITO">suscrito</string>
+    <string name="FIREBASE_SUSCRITO">Suscrito</string>
 
     <!-- Strings de Snackbars y LOGS -->
-    <string name="FLAG_UPDATE">Update</string>
-    <string name="FLAG_RETRY">Retry</string>
+    <string name="FLAG_RETRY">Recargar</string>
     <string name="TAG_PROGRESS_FROM_REFRESH">PROGRESS_REFRESH</string>
-    <string name="TAG_PROGRESS_FROM_REFRESH_UPDATE_RESPONSE">UPDATED INFORMATION - TOOLBAR</string>
-    <string name="TAG_PROGRESS_FROM_REFRESH_RETRY_RESPONSE">RETRY CONNNECTION - TOOLBAR</string>
+    <string name="TAG_PROGRESS_FROM_REFRESH_UPDATE_RESPONSE">UPDATING INFORMATION - TOOLBAR</string>
     <string name="TAG_PROGRESS_FROM_FRAGMENT">PROGRESS_FRAGMENT</string>
     <string name="TAG_PROGRESS_FROM_FRAGMENT_UPDATE_RESPONSE">UPDATED INFORMATION - FRAGMENT</string>
-    <string name="TAG_PROGRESS_FROM_FRAGMENT_RETRY_RESPONSE">RETRY CONNNECTION - FRAGMENT</string>
     <string name="TAG_PROGRESS_FROM_FRAGMENT_ERROR_SERVER">ERROR SERVER CONNECTION - FRAGMENT</string>
-    <string name="SNACKBAR_STATUS_MESSAGE_NOCONNECTION">Sin conexion a internet</string>
-    <string name="SNACKBAR_STATUS_MESSAGE_UPDATE">Sismos Actualizados</string>
+    <string name="TAG_PROGRESS_FROM_FRAGMENT_NOCONNECTION">NO CONNECTION ERROR - FRAGMENT</string>
+    <string name="SNACKBAR_ERROR_SERVER_PRESSED">SNACKBAR_ERROR_SERVER</string>
+    <string name="SNACKBAR_NOCONNECTION_SERVER_PRESSED">SNACKBAR_NOCONNECTION</string>
+    <string name="JSON_GENERAL_ERROR">JSON_GENERAL_ERROR</string>
+    <string name="JSON_PARSE_ERROR">JSON_PARSE_ERROR</string>
+    <string name="CONNECTION_OK">CONNECTION_OK</string>
+    <string name="CONNECTION_OK_RESPONSE">Conexion correcta</string>
+    <string name="CONNECTED">CONNECTION_STATUS</string>
 
     <!-- Strings de Volley -->
     <string name="TAG_VOLLEY_ERROR">VOLLEY_ERROR</string>
@@ -110,12 +120,31 @@
     <string name="last_quakes_info_card_view_tittle">Últimos sismos</string>
     <string name="last_quakes_info_card_view_button">Entendido</string>
     <string name="last_quakes_info_card_view_description">En este listado se encuentran sismos de magnitud igual o superior a 3.0</string>
+    <string name="shared_card_view_info">CARD_VIEW_INFO</string>
+    <string name="shared_pref_status_card_view">estado_card_view_info</string>
+    <string name="shared_pref_status_result_card_view">entendido</string>
 
     <!-- Strings para calculode tiempo -->
     <string name="UTILS_TIEMPO_DIAS">dias</string>
     <string name="UTILS_TIEMPO_HORAS">horas</string>
     <string name="UTILS_TIEMPO_MINUTOS">minutos</string>
     <string name="UTILS_TIEMPO_SEGUNDOS">segundos</string>
+
+    <!-- VIEWMODEL ERROR MESSAGES -->
+    <string name="VIEWMODEL_ERROR_SERVER">Servidor no responde. Intente más tarde</string>
+    <string name="VIEWMODEL_NOCONNECTION_ERROR">NO hay conexión a Internet</string>
+
+    <!-- INTENT LOGS -->
+    <string name="TAG_INTENT">INTENT</string>
+    <string name="TAG_INTENT_GOOGLEPLAY_FB">Abriendo google play app - APP FB</string>
+    <string name="TAG_INTENT_NAVEGADOR_FB">Abriendo navegador - APP FB</string>
+    <string name="TAG_INTENT_INSTALADA_FB">Abriendo APP FB instalada</string>
+    <string name="TAG_INTENT_GOOGLEPLAY_LK">Abriendo google play app - APP LK</string>
+    <string name="TAG_INTENT_NAVEGADOR_LK">Abriendo navegador - APP LK</string>
+    <string name="TAG_INTENT_INSTALADA_LK">Abriendo APP LK instalada</string>
+    <string name="TRY_INTENT_NOTIFICATION_1">Realizando intent de notificacion</string>
+    <string name="TRY_INTENT_NOTIFICATION">TRY_INTENT_NOTIFICATION</string>
+    <string name="TRY_INTENT_DETALLE">Intent de detalle de sismo</string>
 
 
 </resources>

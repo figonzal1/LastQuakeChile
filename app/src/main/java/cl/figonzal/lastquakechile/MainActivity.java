@@ -1,16 +1,11 @@
 package cl.figonzal.lastquakechile;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -19,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
@@ -26,9 +22,8 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import cl.figonzal.lastquakechile.messageservice.MyFirebaseMessagingService;
 
-public class MainActivity extends AppCompatActivity implements ResponseNetworkHandler {
+public class MainActivity extends AppCompatActivity {
 
-    private MenuItem item;
     private QuakeViewModel viewModel;
     private ProgressBar progressBar;
 
@@ -36,6 +31,10 @@ public class MainActivity extends AppCompatActivity implements ResponseNetworkHa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Seteo de elementos a utilizar
+        progressBar = findViewById(R.id.progress_bar_main_activity);
+        viewModel = ViewModelProviders.of(this).get(QuakeViewModel.class);
 
         /*
             Firebase SECTION
@@ -45,7 +44,12 @@ public class MainActivity extends AppCompatActivity implements ResponseNetworkHa
             @Override
             public void onSuccess(InstanceIdResult instanceIdResult) {
                 String token = instanceIdResult.getToken();
-                Log.d(getString(R.string.TAG_FIREBASE_TOKEN), "Nuevo token: " + token);
+                Log.d(getString(R.string.TAG_FIREBASE_TOKEN), token);
+
+                //CRASH ANALYTICS LOG
+                Crashlytics.log(Log.DEBUG, getString(R.string.TAG_FIREBASE_TOKEN), token);
+
+                Crashlytics.setUserIdentifier(token);
             }
         });
 
@@ -62,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements ResponseNetworkHa
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(new FragmentPageAdapter(getSupportFragmentManager()));
 
+
         //Seteo de los eventos de tabs.
         //TabLayout tabLayout = (TabLayout)findViewById(R.id.tabs);;
         //tabLayout.setupWithViewPager(viewPager);
@@ -73,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements ResponseNetworkHa
 
         //Suscribir automaticamente al tema (FIREBASE - Quakes)
         MyFirebaseMessagingService.checkSuscription(this);
+
     }
 
     @Override
@@ -86,52 +92,16 @@ public class MainActivity extends AppCompatActivity implements ResponseNetworkHa
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
 
-        this.item = item;
         switch (item.getItemId()) {
 
             case R.id.refresh:
 
-                //Definicion de materiales a usar para checkear internet UI
-                RecyclerView rv = findViewById(R.id.recycle_view);
-                progressBar = findViewById(R.id.progressBar);
+                //Progress abr de main se vuelve a activar durante el refresh de datos
                 progressBar.setVisibility(View.VISIBLE);
-                viewModel = ViewModelProviders.of(this).get(QuakeViewModel.class);
+                getData();
 
-                viewModel.getStatusData().observe(this, new Observer<String>() {
-                    @Override
-                    public void onChanged(@Nullable String status) {
-                        if (status != null) {
-
-                            progressBar.setVisibility(View.INVISIBLE);
-                            Snackbar
-                                    .make(findViewById(R.id.main_container), status, Snackbar.LENGTH_INDEFINITE)
-                                    .setAction("Recargar", new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            viewModel.refreshMutableQuakeList();
-                                            progressBar.setVisibility(View.VISIBLE);
-                                        }
-                                    })
-                                    .show();
-                            Log.d(getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_ERROR_SERVER));
-                        }
-
-                    }
-                });
-
-                /*
-                    Flujo de informacion dependiendo de la conexion a internet
-                */
-                if (QuakeUtils.checkInternet(getApplicationContext())) {
-                    getData();
-                } else {
-                    //Mostrar Snackbar de Retry de datos
-                    showSnackBar(getApplicationContext(), getString(R.string.FLAG_RETRY));
-                    progressBar.setVisibility(View.INVISIBLE);
-
-                    //LOG ZONE
-                    Log.d(getString(R.string.TAG_PROGRESS_FROM_REFRESH), getString(R.string.TAG_PROGRESS_FROM_REFRESH_RETRY_RESPONSE));
-                }
+                Log.d(getString(R.string.TAG_PROGRESS_FROM_REFRESH), getString(R.string.TAG_PROGRESS_FROM_REFRESH_UPDATE_RESPONSE));
+                Crashlytics.log(Log.DEBUG, getString(R.string.TAG_PROGRESS_FROM_REFRESH), getString(R.string.TAG_PROGRESS_FROM_REFRESH_UPDATE_RESPONSE));
 
                 return true;
 
@@ -152,43 +122,10 @@ public class MainActivity extends AppCompatActivity implements ResponseNetworkHa
      * Funcion encargada de refrescar los datos del viewmodel cuando se presiona icono refresh en toolbar
      * Muestra snackbar de actualizacion de datos
      */
-    @Override
-    public void getData() {
-
+    private void getData() {
         //Se refresca el listado de sismos
         viewModel.refreshMutableQuakeList();
         //Progressbar desaparece despues de la descarga de datos
         progressBar.setVisibility(View.INVISIBLE);
-
-        //Llamar a showNackbar con el flag de update
-        showSnackBar(getApplicationContext(), getString(R.string.FLAG_UPDATE));
-
-        //LOG ZONE
-        Log.d(getString(R.string.TAG_PROGRESS_FROM_REFRESH), getString(R.string.TAG_PROGRESS_FROM_REFRESH_UPDATE_RESPONSE));
-    }
-
-    /**
-     * Funcion para mostrar SnackBar en caso de RETRY o UPDATE de informacion
-     *
-     * @param tipo String que sera RETRY-> Para intento de update sin internet y UPDATE -> Cuando la lista sea actualizada
-     */
-    @Override
-    public void showSnackBar(Context context, String tipo) {
-
-        if (tipo.equals(getString(R.string.FLAG_RETRY))) {
-            Snackbar
-                    .make(findViewById(R.id.main_container), getString(R.string.SNACKBAR_STATUS_MESSAGE_NOCONNECTION), Snackbar.LENGTH_INDEFINITE)
-                    .setAction(getString(R.string.FLAG_RETRY), new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            onOptionsItemSelected(item);
-                        }
-                    })
-                    .show();
-        } else if (tipo.equals(getString(R.string.FLAG_UPDATE))) {
-            Snackbar
-                    .make(findViewById(R.id.main_container), getString(R.string.SNACKBAR_STATUS_MESSAGE_UPDATE), Snackbar.LENGTH_LONG)
-                    .show();
-        }
     }
 }
