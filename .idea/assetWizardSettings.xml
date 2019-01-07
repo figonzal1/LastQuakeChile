@@ -72,7 +72,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/editor/ic_show_chart_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_account_box_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -82,8 +82,9 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_show_chart_black_24dp" />
-                            <entry key="sourceFile" value="C:\Users\figon" />
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="outputName" value="ic_linkedin" />
+                            <entry key="sourceFile" value="C:\Users\figon\Downloads\icons8-linkedin.svg" />
                           </map>
                         </option>
                       </PersistentState>
