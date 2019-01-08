@@ -9,6 +9,7 @@
     <!-- TODO: Cambiar la direccion hacia Heroku y Actualizar HEROKU con el nuevo config en xamp -->
     <!-- URL SERVIDOR HEROKU -->
     <string name="URL_GET">http://192.168.0.13/lastquake_server/public/get_quakes.php</string>
+    <!--<string name="URL_GET">https://lastquake-server.herokuapp.com/get_quakes.php</string>-->
 
     <!-- FORMAT -->
     <string name="DATETIME_FORMAT">yyyy-MM-dd HH:mm:ss</string>
@@ -65,7 +66,7 @@
     <string name="TAG_FIREBASE_SUSCRIPTION_RESPONSE2">YA ESTABA SUSCRITO</string>
     <string name="FIREBASE_CHANNEL_ID">1</string>
     <string name="FIREBASE_CHANNEL_NAME">Alerta sismos</string>
-    <string name="FIREBASE_CHANNEL_DESCRIPTION">Recibe alertas de los últimos sismos</string>
+    <string name="FIREBASE_CHANNEL_DESCRIPTION">Recibe alertas de sismos sobre 5 grados</string>
     <string name="FIREBASE_CHANNEL_STATUS">CHANNEL_CREATED</string>
     <string name="TAG_FIREBASE_CHANNEL">FIREBASE_CHANNEL</string>
     <string name="TAG_FIREBASE_MESSAGE">FIREBASE_MESSAGE</string>

@@ -32,8 +32,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         //Seteo de elementos a utilizar
         progressBar = findViewById(R.id.progress_bar_main_activity);
+
+        //Instancia de view model
         viewModel = ViewModelProviders.of(this).get(QuakeViewModel.class);
 
         /*
@@ -48,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
 
                 //CRASH ANALYTICS LOG
                 Crashlytics.log(Log.DEBUG, getString(R.string.TAG_FIREBASE_TOKEN), token);
-
                 Crashlytics.setUserIdentifier(token);
             }
         });

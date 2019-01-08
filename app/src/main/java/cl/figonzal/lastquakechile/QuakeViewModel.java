@@ -35,7 +35,7 @@ import java.util.Locale;
  * Clase ideada para cargar UI bajo el cambio de orientacion de pantalla
  * independiente de la creacion de una nueva activity
  */
-class QuakeViewModel extends AndroidViewModel {
+public class QuakeViewModel extends AndroidViewModel {
 
     private MutableLiveData<List<QuakeModel>> liveDataQuakes;   //Permite la carga de sismos al inicio y al refresh del toolbar
     private List<QuakeModel> quakeModelList;                    //Lista de sismos que se agrega despues al MutableLive
@@ -45,7 +45,7 @@ class QuakeViewModel extends AndroidViewModel {
     private MutableLiveData<String> statusData;
 
     //Contructor para usar context dentro de la clase ViewModel
-    QuakeViewModel(@NonNull Application application) {
+    public QuakeViewModel(@NonNull Application application) {
         super(application);
     }
 

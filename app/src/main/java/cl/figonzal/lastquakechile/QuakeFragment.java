@@ -71,6 +71,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         rv = v.findViewById(R.id.recycle_view);
         progressBar = v.findViewById(R.id.progress_bar_fragment);
         progressBar.setVisibility(View.VISIBLE);
+
+        //Instanciar viewmodel
         viewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(QuakeViewModel.class);
 
 
@@ -93,10 +95,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
                 Log.d(getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_UPDATE_RESPONSE));
 
                 Crashlytics.log(Log.DEBUG, getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_UPDATE_RESPONSE));
-
             }
-
-
         });
 
         /*

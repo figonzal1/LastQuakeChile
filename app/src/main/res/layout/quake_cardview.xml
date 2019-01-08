@@ -37,24 +37,23 @@
             android:layout_marginStart="16dp"
             android:maxLines="1"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:fontFamily="@font/roboto"
             card_view:layout_constraintBottom_toTopOf="@+id/tv_referencia"
             card_view:layout_constraintEnd_toStartOf="@+id/tv_hora"
             card_view:layout_constraintStart_toEndOf="@id/iv_mag_color"
             card_view:layout_constraintTop_toTopOf="@+id/iv_mag_color"
-            android:alpha="0.87"
             tools:text="Nombre Ciudad"/>
 
         <TextView
             android:id="@+id/tv_hora"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="14dp"
             card_view:layout_constraintBottom_toBottomOf="@+id/tv_ciudad"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintTop_toTopOf="@+id/tv_ciudad"
-            android:alpha="0.6"
             tools:text="XX D X h"/>
 
         <TextView
@@ -65,7 +64,6 @@
             android:paddingTop="0dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textSize="14sp"
-            android:alpha="0.6"
             android:fontFamily="@font/roboto"
             android:maxLines="1"
             card_view:layout_constraintBottom_toBottomOf="@+id/iv_mag_color"
