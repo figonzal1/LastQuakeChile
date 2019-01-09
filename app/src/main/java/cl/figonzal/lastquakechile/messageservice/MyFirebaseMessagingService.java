@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -203,7 +202,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
 
-                                Toast.makeText(activity.getApplicationContext(), activity.getString(R.string.FIREBASE_SNACKBAR_SUBSCRIBE_TOPIC_SUCCESS), Toast.LENGTH_LONG).show();
                                 Log.d(activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION), activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION_RESPONSE1));
 
                                 SharedPreferences.Editor editor = sharedPreferences.edit();

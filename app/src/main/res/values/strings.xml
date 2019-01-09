@@ -9,7 +9,7 @@
     <!-- TODO: Cambiar la direccion hacia Heroku y Actualizar HEROKU con el nuevo config en xamp -->
     <!-- URL SERVIDOR HEROKU -->
     <string name="URL_GET">http://192.168.0.13/lastquake_server/public/get_quakes.php</string>
-    <!--<string name="URL_GET">https://lastquake-server.herokuapp.com/get_quakes.php</string>-->
+    <!--<string name="URL_GET">https://lastquakechile-server.herokuapp.com/get_quakes.php</string>-->
 
     <!-- FORMAT -->
     <string name="DATETIME_FORMAT">yyyy-MM-dd HH:mm:ss</string>
@@ -148,6 +148,11 @@
     <string name="TRY_INTENT_NOTIFICATION_1">Realizando intent de notificacion</string>
     <string name="TRY_INTENT_NOTIFICATION">TRY_INTENT_NOTIFICATION</string>
     <string name="TRY_INTENT_DETALLE">Intent de detalle de sismo</string>
+
+    <!-- TAG GOOGLE PLAY -->
+    <string name="TAG_GOOGLE_PLAY">GOOGLE_PLAY</string>
+    <string name="TAG_GOOGLE_PLAY_NOSOPORTADO">Dispositivo no soportado</string>
+    <string name="TAG_GOOGLE_PLAY_ACTUALIZADO">Google Play actualizado</string>
 
 
 </resources>
