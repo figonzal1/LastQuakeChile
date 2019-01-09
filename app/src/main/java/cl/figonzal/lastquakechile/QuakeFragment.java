@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -50,14 +51,17 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, final ViewGroup container,
                              final Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
+
+        // Inflate the layout for thi{s fragment
         final View v = inflater.inflate(R.layout.fragment_quake, container, false);
-        setHasOptionsMenu(true);
+
 
         //Setear el recycle view
         rv = v.findViewById(R.id.recycle_view);
@@ -217,12 +221,38 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.fragment_menu, menu);
+        menu.clear();
+        inflater.inflate(R.menu.toolbar_menu, menu);
 
-        MenuItem searchItem = menu.findItem(R.id.search);
-        SearchView searchView = (SearchView) searchItem.getActionView();
+        MenuItem menuItem = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) menuItem.getActionView();
         searchView.setOnQueryTextListener(this);
 
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.refresh:
+
+                //Se refresca el listado de sismos
+                viewModel.refreshMutableQuakeList();
+
+                //Progress bar desaparece despues de la descarga de datos
+                progressBar.setVisibility(View.INVISIBLE);
+
+                return true;
+
+            case R.id.contact:
+
+                Intent intent = new Intent(getActivity(), ContactActivity.class);
+                startActivity(intent);
+
+                return true;
+
+        }
+        return true;
     }
 }

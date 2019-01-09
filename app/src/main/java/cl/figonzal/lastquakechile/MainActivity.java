@@ -2,17 +2,12 @@ package cl.figonzal.lastquakechile;
 
 import android.app.Dialog;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.ProgressBar;
 
 import com.crashlytics.android.Crashlytics;
@@ -28,23 +23,21 @@ import cl.figonzal.lastquakechile.messageservice.MyFirebaseMessagingService;
 public class MainActivity extends AppCompatActivity {
 
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-    private QuakeViewModel viewModel;
-    private ProgressBar progressBar;
-    private Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         //Verifica si el celular tiene googleplay services activado
         checkPlayServices();
 
         //Seteo de elementos a utilizar
-        progressBar = findViewById(R.id.progress_bar_main_activity);
+        ProgressBar progressBar = findViewById(R.id.progress_bar_main_activity);
 
         //Instancia de view model
-        viewModel = ViewModelProviders.of(this).get(QuakeViewModel.class);
+        QuakeViewModel viewModel = ViewModelProviders.of(this).get(QuakeViewModel.class);
 
         /*
             Firebase SECTION
@@ -96,56 +89,6 @@ public class MainActivity extends AppCompatActivity {
         checkPlayServices();
     }
 
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menuItem) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.toolbar_menu, menuItem);
-
-        return super.onCreateOptionsMenu(menuItem);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(final MenuItem item) {
-
-        switch (item.getItemId()) {
-
-            case R.id.refresh:
-
-                //Progress abr de main se vuelve a activar durante el refresh de datos
-                progressBar.setVisibility(View.VISIBLE);
-                getData();
-
-                Log.d(getString(R.string.TAG_PROGRESS_FROM_REFRESH), getString(R.string.TAG_PROGRESS_FROM_REFRESH_UPDATE_RESPONSE));
-                Crashlytics.log(Log.DEBUG, getString(R.string.TAG_PROGRESS_FROM_REFRESH), getString(R.string.TAG_PROGRESS_FROM_REFRESH_UPDATE_RESPONSE));
-
-                return true;
-
-            case R.id.contact:
-                Intent intent = new Intent(this, ContactActivity.class);
-                startActivity(intent);
-
-                return true;
-
-            default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    /**
-     * Funcion encargada de refrescar los datos del viewmodel cuando se presiona icono refresh en toolbar
-     * Muestra snackbar de actualizacion de datos
-     */
-    private void getData() {
-        //Se refresca el listado de sismos
-        viewModel.refreshMutableQuakeList();
-        //Progressbar desaparece despues de la descarga de datos
-        progressBar.setVisibility(View.INVISIBLE);
-    }
-
     private void checkPlayServices() {
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
         int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
@@ -155,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
             //Si el error puede ser resuelto por el usuario
             if (apiAvailability.isUserResolvableError(resultCode)) {
 
-                dialog = apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST);
+                Dialog dialog = apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST);
                 dialog.setCanceledOnTouchOutside(false);
                 dialog.show();
             } else {
