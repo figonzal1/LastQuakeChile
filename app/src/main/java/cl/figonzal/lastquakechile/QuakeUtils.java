@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-class QuakeUtils {
+public class QuakeUtils {
 
     /**
      * Funcion que calcula la diferencia en milisegundos
@@ -35,7 +35,7 @@ class QuakeUtils {
      * Funcion encargada de entregar los tiempos calculados y retornarlos en dias,horas,minutos,segundos
      * @param fecha_local fecha local del modelo de sismo desde cardview
      */
-    static Map<String, Long> timeToText(Context context, Date fecha_local) {
+    public static Map<String, Long> timeToText(Context context, Date fecha_local) {
 
         long diff = calculateDiff(fecha_local);
         long seconds = diff / 1000;
@@ -59,7 +59,7 @@ class QuakeUtils {
      * @param magnitude Magnitud del sismo desde el cardview
      * @return id recurso desde colors.xml
      */
-    static int getMagnitudeColor(double magnitude) {
+    public static int getMagnitudeColor(double magnitude) {
 
         int mag_floor = (int) Math.floor(magnitude);
         int mag_resource_id = 0;
@@ -97,7 +97,7 @@ class QuakeUtils {
      * @return boolean, true para conectado, false celular sin conexion
      */
     //TODO: ELIMINAR ESTA FUNCION
-    static boolean checkInternet(Context context) {
+    public static boolean checkInternet(Context context) {
 
         //Zona Network Information
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
