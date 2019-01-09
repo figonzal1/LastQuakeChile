@@ -1,5 +1,6 @@
 package cl.figonzal.lastquakechile;
 
+import android.app.Dialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +16,8 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
@@ -24,14 +27,18 @@ import cl.figonzal.lastquakechile.messageservice.MyFirebaseMessagingService;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private QuakeViewModel viewModel;
     private ProgressBar progressBar;
+    private Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Verifica si el celular tiene googleplay services activado
+        checkPlayServices();
 
         //Seteo de elementos a utilizar
         progressBar = findViewById(R.id.progress_bar_main_activity);
@@ -84,6 +91,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        checkPlayServices();
+    }
+
+
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menuItem) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.toolbar_menu, menuItem);
@@ -129,5 +144,31 @@ public class MainActivity extends AppCompatActivity {
         viewModel.refreshMutableQuakeList();
         //Progressbar desaparece despues de la descarga de datos
         progressBar.setVisibility(View.INVISIBLE);
+    }
+
+    private void checkPlayServices() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+
+        if (resultCode != ConnectionResult.SUCCESS) {
+
+            //Si el error puede ser resuelto por el usuario
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+
+                dialog = apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST);
+                dialog.setCanceledOnTouchOutside(false);
+                dialog.show();
+            } else {
+
+                //El error no puede ser resuelto por el usuario y la app se cierra
+                Log.d(getString(R.string.TAG_GOOGLE_PLAY), getString(R.string.TAG_GOOGLE_PLAY_NOSOPORTADO));
+                Crashlytics.log(Log.DEBUG, getString(R.string.TAG_GOOGLE_PLAY), getString(R.string.TAG_GOOGLE_PLAY_NOSOPORTADO));
+                finish();
+            }
+        } else {
+            //La app puede ser utilizada, google play esta actualizado
+            Log.d(getString(R.string.TAG_GOOGLE_PLAY), getString(R.string.TAG_GOOGLE_PLAY_ACTUALIZADO));
+            Crashlytics.log(Log.DEBUG, getString(R.string.TAG_GOOGLE_PLAY), getString(R.string.TAG_GOOGLE_PLAY_ACTUALIZADO));
+        }
     }
 }
