@@ -105,7 +105,9 @@
     <string name="TAG_VOLLEY_ERROR_PARSE">Parse error</string>
 
 
-    <!-- KEY PARA INTENT -->
+    <!-- KEY PARA INTENT & NOTIFICACIONES -->
+    <string name="INTENT_TITULO">titulo</string>
+    <string name="INTENT_DESCRIPCION">descripcion</string>
     <string name="INTENT_CIUDAD">ciudad</string>
     <string name="INTENT_REFERENCIA">referencia</string>
     <string name="INTENT_LATITUD">latitud</string>

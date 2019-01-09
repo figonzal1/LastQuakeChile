@@ -6,7 +6,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
-class VolleySingleton {
+public class VolleySingleton {
 
     private static VolleySingleton volleySingleton;
     private RequestQueue queue;
@@ -23,7 +23,7 @@ class VolleySingleton {
      * @param context Contexto necesario para uso de singleton
      * @return objecto volley singleton
      */
-    static synchronized VolleySingleton getInstance(Context context) {
+    public static synchronized VolleySingleton getInstance(Context context) {
 
         //Si la instancia no existe
         if (volleySingleton == null) {
@@ -51,7 +51,7 @@ class VolleySingleton {
      * @param req //
      * @param <T> //
      */
-    <T> void addToRequestQueue(Request<T> req) {
+    public <T> void addToRequestQueue(Request<T> req) {
         getRequestQueue().add(req);
     }
 }
