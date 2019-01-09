@@ -54,7 +54,7 @@ public class QuakeViewModel extends AndroidViewModel {
      *
      * @return retorna un mutablelivedata de listado de sismos
      */
-    MutableLiveData<List<QuakeModel>> getMutableQuakeList() {
+    public MutableLiveData<List<QuakeModel>> getMutableQuakeList() {
 
         if (liveDataQuakes == null) {
             liveDataQuakes = new MutableLiveData<>();
@@ -66,7 +66,7 @@ public class QuakeViewModel extends AndroidViewModel {
     /**
      * La funcion fuerza el refresh de los datos del mutable
      */
-    void refreshMutableQuakeList() {
+    public void refreshMutableQuakeList() {
         if (liveDataQuakes != null) {
             loadQuakes();
         }
@@ -77,7 +77,7 @@ public class QuakeViewModel extends AndroidViewModel {
      *
      * @return Retorna el MutableLiveData del mensaje estado
      */
-    MutableLiveData<String> getStatusData() {
+    public MutableLiveData<String> getStatusData() {
 
         if (statusData == null) {
             statusData = new MutableLiveData<>();
@@ -91,7 +91,7 @@ public class QuakeViewModel extends AndroidViewModel {
      * @param s Texto que ingresa el usuario en la busqueda
      * @return Lista Filtrada
      */
-    List<QuakeModel> doSearch(String s) {
+    public List<QuakeModel> doSearch(String s) {
 
         //Lista utilizada para el searchView
         List<QuakeModel> filteredList = new ArrayList<>();
@@ -115,7 +115,7 @@ public class QuakeViewModel extends AndroidViewModel {
      *
      * @param filteredList con sismos filtrados
      */
-    void setFilteredList(List<QuakeModel> filteredList) {
+    public void setFilteredList(List<QuakeModel> filteredList) {
 
         if (liveDataQuakes != null) {
             liveDataQuakes.postValue(filteredList);

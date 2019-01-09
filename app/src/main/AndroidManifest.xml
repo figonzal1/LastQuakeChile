@@ -19,15 +19,15 @@
             android:name="firebase_messaging_auto_init_enabled"
             android:value="false" />
 
-        <!-- Icono de notificaciones por defecto -->
+        <!-- Icono de notificaciones por defecto usado FCM console en background -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@mipmap/ic_launcher_chile" />
+            android:resource="@drawable/ic_lastquakechile" />
 
         <!-- Color Notificaciones -->
-        <meta-data
+        <!--<meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/colorPrimary" />
+            android:resource="@color/colorPrimary" />-->
 
         <activity
             android:name=".MainActivity"

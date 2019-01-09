@@ -29,7 +29,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
     private final Context context;
     private final Activity activity;
 
-    QuakeAdapter(List<QuakeModel> quakeModelList, Context context, Activity activity) {
+    public QuakeAdapter(List<QuakeModel> quakeModelList, Context context, Activity activity) {
         this.quakeModelList=quakeModelList;
         this.context =context;
         this.activity = activity;
@@ -37,7 +37,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
     }
 
 
-    static class QuakeViewHolder extends RecyclerView.ViewHolder {
+    public static class QuakeViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tv_ciudad;
         private final TextView tv_referencia;

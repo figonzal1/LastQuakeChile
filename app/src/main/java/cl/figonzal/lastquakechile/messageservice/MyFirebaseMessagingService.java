@@ -25,6 +25,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Map;
+import java.util.Objects;
+import java.util.Random;
 
 import cl.figonzal.lastquakechile.QuakeDetailsActivity;
 import cl.figonzal.lastquakechile.R;
@@ -48,22 +50,27 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         if (remoteMessage.getNotification() != null) {
 
+            showNotification(remoteMessage);
             Log.d(getString(R.string.TAG_FIREBASE_MESSAGE), "Message notification: " + remoteMessage.getNotification().getTitle() + " - " + remoteMessage.getNotification().getBody());
 
             Crashlytics.log(Log.DEBUG, getString(R.string.TAG_FIREBASE_MESSAGE), getString(R.string.TAG_FIREBASE_MESSAGE_INCOMING));
             Crashlytics.setBool(getString(R.string.FIREBASE_MESSAGE_NOTIFICATION_STATUS), true);
 
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, getString(R.string.FIREBASE_CHANNEL_ID))
-                    .setSmallIcon(R.mipmap.ic_launcher_chile)
-                    .setContentTitle(remoteMessage.getNotification().getTitle())
-                    .setContentText(remoteMessage.getNotification().getBody())
-                    .setAutoCancel(true);
-
-
-            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            notificationManager.notify(Integer.parseInt(getString(R.string.FIREBASE_CHANNEL_ID)), builder.build());
 
         }
+    }
+
+    private void showNotification(RemoteMessage remoteMessage) {
+
+        //Maneja la notificacion cuando esta en foreground
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, getString(R.string.FIREBASE_CHANNEL_ID))
+                .setContentTitle(Objects.requireNonNull(remoteMessage.getNotification()).getTitle())
+                .setContentText(remoteMessage.getNotification().getBody())
+                .setSmallIcon(R.drawable.ic_lastquakechile)
+                .setAutoCancel(true);
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.notify(Integer.parseInt(getString(R.string.FIREBASE_CHANNEL_ID)), builder.build());
     }
 
     private void showNotificationData(RemoteMessage remoteMessage) {
@@ -88,14 +95,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 
         try {
-            titulo = object.getString("titulo");
-            descripcion = object.getString("descripcion");
-            fecha_local = object.getString("fecha_local");
-            magnitud = object.getDouble("magnitud");
-            escala = object.getString("escala");
-            profundidad = object.getDouble("profundidad");
+            titulo = object.getString(getString(R.string.INTENT_TITULO));
+            descripcion = object.getString(getString(R.string.INTENT_DESCRIPCION));
+            fecha_local = object.getString(getString(R.string.INTENT_FECHA_LOCAL));
+            magnitud = object.getDouble(getString(R.string.INTENT_MAGNITUD));
+            escala = object.getString(getString(R.string.INTENT_ESCALA));
+            profundidad = object.getDouble(getString(R.string.INTENT_PROFUNDIDAD));
 
-            switch (object.getInt("sensible")) {
+            switch (object.getInt(getString(R.string.INTENT_SENSIBLE))) {
                 case 0:
                     sensible = false;
                     break;
@@ -103,12 +110,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     sensible = true;
                     break;
             }
-            referencia = object.getString("referencia");
+            referencia = object.getString(getString(R.string.INTENT_REFERENCIA));
             //Guarda despues de 'DE' en la ciudad
             int inicio = referencia.indexOf("de") + 3;
             ciudad = referencia.substring(inicio, referencia.length());
 
-            imagen_url = object.getString("imagen_url");
+            imagen_url = object.getString(getString(R.string.INTENT_LINK_FOTO));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -123,17 +130,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         Bundle b = new Bundle();
 
-        b.putString("titulo", titulo);
-        b.putString("descripcion", descripcion);
+        b.putString(getString(R.string.INTENT_TITULO), titulo);
+        b.putString(getString(R.string.INTENT_DESCRIPCION), descripcion);
 
-        b.putString("ciudad", ciudad);
-        b.putString("fecha_local", fecha_local);
-        b.putDouble("magnitud", magnitud);
-        b.putString("escala", escala);
-        b.putBoolean("sensible", sensible);
-        b.putDouble("profundidad", profundidad);
-        b.putString("referencia", referencia);
-        b.putString("imagen_url", imagen_url);
+        b.putString(getString(R.string.INTENT_CIUDAD), ciudad);
+        b.putString(getString(R.string.INTENT_FECHA_LOCAL), fecha_local);
+        b.putDouble(getString(R.string.INTENT_MAGNITUD), magnitud);
+        b.putString(getString(R.string.INTENT_ESCALA), escala);
+        b.putBoolean(getString(R.string.INTENT_SENSIBLE), sensible);
+        b.putDouble(getString(R.string.INTENT_PROFUNDIDAD), profundidad);
+        b.putString(getString(R.string.INTENT_REFERENCIA), referencia);
+        b.putString(getString(R.string.INTENT_LINK_FOTO), imagen_url);
 
         intent.putExtras(b);
 
@@ -144,7 +151,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Crashlytics.setBool(getString(R.string.TRY_INTENT_NOTIFICATION), true);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, getString(R.string.FIREBASE_CHANNEL_ID))
-                .setSmallIcon(R.mipmap.ic_launcher_chile)
+                .setSmallIcon(R.drawable.ic_lastquakechile)
                 .setContentTitle(titulo)
                 .setContentText(descripcion)
                 .setAutoCancel(true)
@@ -152,7 +159,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        notificationManager.notify(Integer.parseInt(getString(R.string.FIREBASE_CHANNEL_ID)), builder.build());
+        //Id necesario para que las notificaciones no se reemplacen
+        int notificationId = new Random().nextInt(60000);
+        notificationManager.notify(notificationId, builder.build());
 
 
     }
