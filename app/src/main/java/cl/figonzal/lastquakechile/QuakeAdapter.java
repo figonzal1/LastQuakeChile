@@ -33,6 +33,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
         this.quakeModelList=quakeModelList;
         this.context =context;
         this.activity = activity;
+        setHasStableIds(true);
 
     }
 
@@ -44,6 +45,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
         private final TextView tv_magnitud;
         private final TextView tv_hora;
         private final ImageView iv_mag_color;
+        private final ImageView iv_sensible;
         private final CardView cardView;
 
 
@@ -57,6 +59,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
             tv_hora = itemView.findViewById(R.id.tv_hora);
             iv_mag_color = itemView.findViewById(R.id.iv_mag_color);
             cardView = itemView.findViewById(R.id.card_view);
+            iv_sensible = itemView.findViewById(R.id.iv_sensible);
         }
     }
 
@@ -115,6 +118,11 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
             }
         }
 
+        //Sismo sensible
+        if (model.getSensible()) {
+            holder.iv_sensible.setVisibility(View.VISIBLE);
+        }
+
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -165,5 +173,16 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
     @Override
     public int getItemCount() {
         return quakeModelList.size();
+    }
+
+    //Permite tener los id's fijos y no tener problemas con boleano sensible.
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 }

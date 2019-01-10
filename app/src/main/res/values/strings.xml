@@ -57,6 +57,7 @@
     <string name="contact_title_name">Nombre</string>
     <string name="quake_details_magnitud_local">Magnitud Local (Ml)</string>
     <string name="quake_details_magnitud_momento">Magnitud Momento (Mw)</string>
+    <string name="icono_sensible">Icono sensible</string>
 
 
     <!-- FIREBASE-->
