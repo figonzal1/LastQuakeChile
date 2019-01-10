@@ -98,11 +98,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         app:cardElevation="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/derecha"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/izquierda"
         app:layout_constraintTop_toBottomOf="@+id/card_view_map"
+        app:layout_constraintVertical_bias="0.0"
         card_view:cardCornerRadius="4dp">
 
         <android.support.constraint.ConstraintLayout
@@ -117,16 +120,16 @@
                 android:layout_marginTop="16dp"
                 android:contentDescription="@string/circulo_pintado"
                 android:src="@drawable/circle_shape"
+                android:transitionName="color_magnitud"
                 card_view:layout_constraintStart_toStartOf="parent"
-                card_view:layout_constraintTop_toTopOf="parent"
-                android:transitionName="color_magnitud" />
+                card_view:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_ciudad_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:fontFamily="@font/roboto"
+                android:fontFamily="sans-serif"
                 android:maxLines="1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                 android:textSize="14sp"
@@ -142,22 +145,22 @@
                 android:layout_height="0dp"
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="8dp"
+                android:contentDescription="@string/icono_sensible"
+                android:visibility="invisible"
                 card_view:layout_constraintBottom_toBottomOf="@+id/tv_ciudad_detail"
                 card_view:layout_constraintEnd_toStartOf="@+id/tv_hora_detail"
                 card_view:layout_constraintHorizontal_bias="0.0"
                 card_view:layout_constraintStart_toEndOf="@+id/tv_ciudad_detail"
                 card_view:layout_constraintTop_toTopOf="@+id/tv_ciudad_detail"
                 card_view:srcCompat="@drawable/ic_warning_black_24dp"
-                android:visibility="invisible"
-                tools:visibility="visible"
-                android:contentDescription="@string/icono_sensible" />
+                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/tv_hora_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginEnd="16dp"
-                android:fontFamily="@font/roboto"
+                android:fontFamily="sans-serif"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textSize="14sp"
                 android:transitionName="hora"
@@ -171,7 +174,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:fontFamily="@font/roboto"
+                android:fontFamily="sans-serif"
                 android:paddingTop="0dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textSize="14sp"
@@ -188,17 +191,17 @@
                 android:id="@+id/tv_magnitud_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
+                android:fontFamily="sans-serif"
                 android:maxLength="4"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
                 android:textStyle="normal"
+                android:transitionName="magnitud"
                 card_view:layout_constraintBottom_toBottomOf="@+id/iv_mag_color"
                 card_view:layout_constraintEnd_toEndOf="@+id/iv_mag_color"
                 card_view:layout_constraintStart_toStartOf="@+id/iv_mag_color"
                 card_view:layout_constraintTop_toTopOf="@+id/iv_mag_color"
-                tools:text="9.5"
-                android:transitionName="magnitud" />
+                tools:text="9.5" />
 
             <ImageView
                 android:id="@+id/iv_reloj"
@@ -227,7 +230,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:fontFamily="@font/roboto"
+                android:fontFamily="sans-serif"
                 android:gravity="center"
                 android:text="@string/tiempo"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
@@ -240,7 +243,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:fontFamily="@font/roboto"
+                android:fontFamily="sans-serif"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toStartOf="@+id/guia_vertical"
@@ -279,7 +282,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:fontFamily="@font/roboto"
+                android:fontFamily="sans-serif"
                 android:text="@string/distancia"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                 android:textSize="14sp"
@@ -292,7 +295,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginEnd="8dp"
-                android:fontFamily="@font/roboto"
+                android:fontFamily="sans-serif"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textSize="14sp"
                 android:visibility="visible"
@@ -329,7 +332,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:fontFamily="@font/roboto"
+                android:fontFamily="sans-serif"
                 android:text="@string/profundidad"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                 android:textSize="14sp"
@@ -341,7 +344,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginEnd="16dp"
-                android:fontFamily="@font/roboto"
+                android:fontFamily="sans-serif"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_epicentro"
@@ -358,18 +361,18 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
+                android:contentDescription="@string/icono_escala"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guia_vertical"
                 app:layout_constraintTop_toTopOf="@+id/barrier"
-                card_view:srcCompat="@drawable/ic_show_chart_black_24dp"
-                android:contentDescription="@string/icono_escala" />
+                card_view:srcCompat="@drawable/ic_show_chart_black_24dp" />
 
             <TextView
                 android:id="@+id/tv_titulo_escala"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:fontFamily="@font/roboto"
+                android:fontFamily="sans-serif"
                 android:text="@string/escala"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                 android:textSize="14sp"
@@ -379,12 +382,13 @@
             <TextView
                 android:id="@+id/tv_escala"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginEnd="16dp"
-                android:fontFamily="@font/roboto"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="14dp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="sans-serif"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/tv_titulo_escala"
                 app:layout_constraintTop_toBottomOf="@+id/tv_titulo_escala"
@@ -393,17 +397,4 @@
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/card_view_rrss"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/derecha"
-        app:layout_constraintStart_toStartOf="@+id/izquierda"
-        app:layout_constraintTop_toBottomOf="@+id/card_view_detail">
-
-
-    </android.support.v7.widget.CardView>
 </android.support.constraint.ConstraintLayout>
