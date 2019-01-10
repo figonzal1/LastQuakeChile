@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 
 /**
@@ -148,11 +149,17 @@ public class QuakeViewModel extends AndroidViewModel {
                         QuakeModel model = new QuakeModel();
 
                         SimpleDateFormat format = new SimpleDateFormat(getApplication().getString(R.string.DATETIME_FORMAT), Locale.US);
-                        Date local_date = format.parse(object.getString(getApplication().getString(R.string.KEY_FECHA_LOCAL)));
+                        format.setTimeZone(TimeZone.getDefault());
+
+
+                        //OBTENER UTC DESDE PHP CONVERTIRLO A LOCAL DEL DISPOSITIVO
+
                         Date utc_date = format.parse(object.getString(getApplication().getString(R.string.KEY_FECHA_UTC)));
+                        Date local_date = QuakeUtils.utcToLocal(utc_date);
+
+                        Log.d("DATETIME", "UTC: " + format.format(utc_date) + "- LOCAL: " + format.format(local_date));
 
                         model.setFecha_local(local_date);
-                        model.setFecha_utc(utc_date);
                         model.setLatitud(object.getString(getApplication().getString(R.string.KEY_LATITUD)));
                         model.setLongitud(object.getString(getApplication().getString(R.string.KEY_LONGITUD)));
                         model.setMagnitud(object.getDouble(getApplication().getString(R.string.KEY_MAGNITUD)));

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,6 +23,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.TimeZone;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
@@ -49,7 +51,7 @@ public class QuakeDetailsActivity extends AppCompatActivity {
         TextView tv_escala = findViewById(R.id.tv_escala);
         TextView tv_magnitud = findViewById(R.id.tv_magnitud_detail);
         TextView tv_profundidad = findViewById(R.id.tv_epicentro);
-        TextView tv_fecha_local = findViewById(R.id.tv_fecha);
+        TextView tv_fecha = findViewById(R.id.tv_fecha);
         ImageView iv_mag_color = findViewById(R.id.iv_mag_color);
         TextView tv_hora = findViewById(R.id.tv_hora_detail);
         final ImageView iv_mapa = findViewById(R.id.iv_map_quake);
@@ -64,17 +66,45 @@ public class QuakeDetailsActivity extends AppCompatActivity {
             //String latitud = b.getString(getString(R.string.INTENT_LATITUD));
             //String longitud = b.getString(getString(R.string.INTENT_LONGITUD));
 
+            Map<String, Long> tiempos = null;
+
+            //Si el bundle viene del adapter
             String fecha_local = b.getString(getString(R.string.INTENT_FECHA_LOCAL));
-            SimpleDateFormat format = new SimpleDateFormat(getString(R.string.DATETIME_FORMAT), Locale.US);
-            Date fecha_local_date = null;
-            try {
-                fecha_local_date = format.parse(fecha_local);
-            } catch (ParseException e) {
-                e.printStackTrace();
+            if (fecha_local != null) {
+                SimpleDateFormat format = new SimpleDateFormat(getString(R.string.DATETIME_FORMAT), Locale.US);
+                Date local_date = null;
+                try {
+                    local_date = format.parse(fecha_local);
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                tiempos = QuakeUtils.timeToText(local_date);
+                Log.d("ADAPTER", "LOCAL: " + format.format(local_date));
             }
 
-            //Calcular el tiempo de sismo
-            Map<String, Long> tiempos = QuakeUtils.timeToText(getApplicationContext(), fecha_local_date);
+            //Si el bundle viene de notificacion
+            String fecha_utc = b.getString(getString(R.string.INTENT_FECHA_UTC));
+            if (fecha_utc != null) {
+                SimpleDateFormat format = new SimpleDateFormat(getString(R.string.DATETIME_FORMAT), Locale.US);
+                format.setTimeZone(TimeZone.getDefault());
+
+                Date utc_date = null;
+                try {
+                    utc_date = format.parse(fecha_utc);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                Date local_date = QuakeUtils.utcToLocal(Objects.requireNonNull(utc_date));
+                fecha_local = format.format(local_date);
+
+                tiempos = QuakeUtils.timeToText(local_date);
+
+                Log.d("NOTIFICATION", "UTC: " + fecha_utc + "- LOCAL: " + fecha_local);
+            }
+
 
             Double magnitud = b.getDouble(getString(R.string.INTENT_MAGNITUD));
             Double profundidad = b.getDouble(getString(R.string.INTENT_PROFUNDIDAD));
@@ -108,36 +138,42 @@ public class QuakeDetailsActivity extends AppCompatActivity {
             tv_profundidad.setText(String.format(Locale.US, getString(R.string.quake_details_profundidad), profundidad));
 
             //Setear fecha
-            tv_fecha_local.setText(fecha_local);
+
+            tv_fecha.setText(fecha_local);
 
             /*
                 SECCION HORA
              */
-            Long dias = tiempos.get(getString(R.string.UTILS_TIEMPO_DIAS));
-            Long minutos = tiempos.get(getString(R.string.UTILS_TIEMPO_MINUTOS));
-            Long horas = tiempos.get(getString(R.string.UTILS_TIEMPO_HORAS));
-            Long segundos = tiempos.get(getString(R.string.UTILS_TIEMPO_SEGUNDOS));
 
-            //Condiciones días.
-            if (dias != null && dias == 0) {
+            if (tiempos != null) {
 
-                if (horas != null && horas >= 1) {
-                    tv_hora.setText(String.format(getString(R.string.quake_time_hour), horas));
-                } else {
-                    tv_hora.setText(String.format(getString(R.string.quake_time_minute), minutos));
+                Long dias = tiempos.get(getString(R.string.UTILS_TIEMPO_DIAS));
+                Long minutos = tiempos.get(getString(R.string.UTILS_TIEMPO_MINUTOS));
+                Long horas = tiempos.get(getString(R.string.UTILS_TIEMPO_HORAS));
+                Long segundos = tiempos.get(getString(R.string.UTILS_TIEMPO_SEGUNDOS));
 
-                    if (minutos != null && minutos < 1) {
-                        tv_hora.setText(String.format(getString(R.string.quake_time_second), segundos));
+                //Condiciones días.
+                if (dias != null && dias == 0) {
+
+                    if (horas != null && horas >= 1) {
+                        tv_hora.setText(String.format(getString(R.string.quake_time_hour), horas));
+                    } else {
+                        tv_hora.setText(String.format(getString(R.string.quake_time_minute), minutos));
+
+                        if (minutos != null && minutos < 1) {
+                            tv_hora.setText(String.format(getString(R.string.quake_time_second), segundos));
+                        }
+                    }
+                } else if (dias != null && dias > 0) {
+
+                    if (horas != null && horas == 0) {
+                        tv_hora.setText(String.format(getString(R.string.quake_time_day), dias));
+                    } else if (horas != null && horas >= 1) {
+                        tv_hora.setText(String.format(getString(R.string.quake_time_day_hour), dias, horas / 24));
                     }
                 }
-            } else if (dias != null && dias > 0) {
-
-                if (horas != null && horas == 0) {
-                    tv_hora.setText(String.format(getString(R.string.quake_time_day), dias));
-                } else if (horas != null && horas >= 1) {
-                    tv_hora.setText(String.format(getString(R.string.quake_time_day_hour), dias, horas / 24));
-                }
             }
+
 
             /*
                 Seccion Tipo Escala
