@@ -55,7 +55,7 @@ public class QuakeViewModel extends AndroidViewModel {
      *
      * @return retorna un mutablelivedata de listado de sismos
      */
-    public MutableLiveData<List<QuakeModel>> getMutableQuakeList() {
+    MutableLiveData<List<QuakeModel>> getMutableQuakeList() {
 
         if (liveDataQuakes == null) {
             liveDataQuakes = new MutableLiveData<>();
@@ -67,7 +67,7 @@ public class QuakeViewModel extends AndroidViewModel {
     /**
      * La funcion fuerza el refresh de los datos del mutable
      */
-    public void refreshMutableQuakeList() {
+    void refreshMutableQuakeList() {
         if (liveDataQuakes != null) {
             loadQuakes();
         }
@@ -78,7 +78,7 @@ public class QuakeViewModel extends AndroidViewModel {
      *
      * @return Retorna el MutableLiveData del mensaje estado
      */
-    public MutableLiveData<String> getStatusData() {
+    MutableLiveData<String> getStatusData() {
 
         if (statusData == null) {
             statusData = new MutableLiveData<>();
@@ -92,7 +92,7 @@ public class QuakeViewModel extends AndroidViewModel {
      * @param s Texto que ingresa el usuario en la busqueda
      * @return Lista Filtrada
      */
-    public List<QuakeModel> doSearch(String s) {
+    List<QuakeModel> doSearch(String s) {
 
         //Lista utilizada para el searchView
         List<QuakeModel> filteredList = new ArrayList<>();
@@ -116,7 +116,7 @@ public class QuakeViewModel extends AndroidViewModel {
      *
      * @param filteredList con sismos filtrados
      */
-    public void setFilteredList(List<QuakeModel> filteredList) {
+    void setFilteredList(List<QuakeModel> filteredList) {
 
         if (liveDataQuakes != null) {
             liveDataQuakes.postValue(filteredList);
@@ -229,14 +229,14 @@ public class QuakeViewModel extends AndroidViewModel {
                     Log.d(getApplication().getString(R.string.TAG_VOLLEY_ERROR), getApplication().getString(R.string.TAG_VOLLEY_ERROR_PARSE));
 
                 }
-                //VolleySingleton.getInstance(getApplication()).cancelRequestQueue();
+                VolleySingleton.getInstance(getApplication()).cancelPendingRequests("TAG");
 
             }
         });
 
-        jsonObjectRequest.setShouldCache(false);
-        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(3000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        VolleySingleton.getInstance(getApplication()).addToRequestQueue(jsonObjectRequest);
+        jsonObjectRequest.setShouldCache(true);
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(2500, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        VolleySingleton.getInstance(getApplication()).addToRequestQueue(jsonObjectRequest, "TAG");
     }
 
 

@@ -1,9 +1,5 @@
 package cl.figonzal.lastquakechile;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -104,19 +100,4 @@ public class QuakeUtils {
         return mag_resource_id;
     }
 
-    /**
-     * Funcion encargada de checkear si el celular tiene red movil o wifi activada
-     *
-     * @param context es recibido para hacer uso del getSystemService
-     * @return boolean, true para conectado, false celular sin conexion
-     */
-    //TODO: ELIMINAR ESTA FUNCION
-    public static boolean checkInternet(Context context) {
-
-        //Zona Network Information
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-
-        return networkInfo != null && networkInfo.isConnected();
-    }
 }

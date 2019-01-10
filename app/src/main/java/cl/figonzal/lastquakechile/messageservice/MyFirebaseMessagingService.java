@@ -42,7 +42,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getData().size() > 0) {
             Log.d(getString(R.string.TAG_FIREBASE_MESSAGE), "Message data payload: " + remoteMessage.getData());
 
-            Crashlytics.log(Log.DEBUG, getString(R.string.TAG_FIREBASE_MESSAGE), getString(R.string.TAG_FIREBASE_MESSAGE_INCOMING));
+            Crashlytics.log(Log.DEBUG, getString(R.string.TAG_FIREBASE_MESSAGE), getString(R.string.TAG_FIREBASE_MESSAGE_DATA_INCOMING));
             Crashlytics.setBool(getString(R.string.FIREBASE_MESSAGE_DATA_STATUS), true);
             showNotificationData(remoteMessage);
         }
@@ -134,10 +134,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         b.putString(getString(R.string.INTENT_CIUDAD), ciudad);
         b.putString(getString(R.string.INTENT_FECHA_UTC), fecha_utc);
+
+        assert magnitud != null;
         b.putDouble(getString(R.string.INTENT_MAGNITUD), magnitud);
-        b.putString(getString(R.string.INTENT_ESCALA), escala);
+        assert sensible != null;
         b.putBoolean(getString(R.string.INTENT_SENSIBLE), sensible);
         b.putDouble(getString(R.string.INTENT_PROFUNDIDAD), profundidad);
+        b.putString(getString(R.string.INTENT_ESCALA), escala);
         b.putString(getString(R.string.INTENT_REFERENCIA), referencia);
         b.putString(getString(R.string.INTENT_LINK_FOTO), imagen_url);
 
