@@ -123,20 +123,34 @@
 
             <TextView
                 android:id="@+id/tv_ciudad_detail"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
                 android:fontFamily="@font/roboto"
                 android:maxLines="1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                 android:textSize="14sp"
                 android:transitionName="ciudad"
-                app:layout_constraintEnd_toStartOf="@+id/tv_hora_detail"
                 app:layout_constraintVertical_chainStyle="packed"
                 card_view:layout_constraintStart_toEndOf="@id/iv_mag_color"
                 card_view:layout_constraintTop_toTopOf="@+id/iv_mag_color"
                 tools:text="Nombre Ciudad" />
+
+            <ImageView
+                android:id="@+id/iv_sensible_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="8dp"
+                card_view:layout_constraintBottom_toBottomOf="@+id/tv_ciudad_detail"
+                card_view:layout_constraintEnd_toStartOf="@+id/tv_hora_detail"
+                card_view:layout_constraintHorizontal_bias="0.0"
+                card_view:layout_constraintStart_toEndOf="@+id/tv_ciudad_detail"
+                card_view:layout_constraintTop_toTopOf="@+id/tv_ciudad_detail"
+                card_view:srcCompat="@drawable/ic_warning_black_24dp"
+                android:visibility="invisible"
+                tools:visibility="visible"
+                android:contentDescription="@string/icono_sensible" />
 
             <TextView
                 android:id="@+id/tv_hora_detail"
@@ -155,7 +169,7 @@
             <TextView
                 android:id="@+id/tv_referencia_detail"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:fontFamily="@font/roboto"
                 android:paddingTop="0dp"
