@@ -87,8 +87,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
         //Setear el color de background dependiendo de magnitud del sismo
         holder.iv_mag_color.setColorFilter(context.getColor(QuakeUtils.getMagnitudeColor(model.getMagnitud())));
 
-        //Calcular el tiempo de sismo
-        Map<String, Long> tiempos = QuakeUtils.timeToText(context, model.getFecha_local());
+        Map<String, Long> tiempos = QuakeUtils.timeToText(model.getFecha_local());
 
         Long dias = tiempos.get(context.getString(R.string.UTILS_TIEMPO_DIAS));
         Long minutos = tiempos.get(context.getString(R.string.UTILS_TIEMPO_MINUTOS));
@@ -130,8 +129,10 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
                 b.putString(context.getString(R.string.INTENT_LATITUD), model.getLatitud());
                 b.putString(context.getString(R.string.INTENT_LONGITUD), model.getLongitud());
 
-                SimpleDateFormat format = new SimpleDateFormat(context.getString(R.string.DATETIME_FORMAT), Locale.US);
-                b.putString(context.getString(R.string.INTENT_FECHA_LOCAL), format.format(model.getFecha_local()));
+                //CAmbiar la fecha utc a string
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+                String fecha_local = format.format(model.getFecha_local());
+                b.putString(context.getString(R.string.INTENT_FECHA_LOCAL), fecha_local);
 
                 b.putDouble(context.getString(R.string.INTENT_MAGNITUD), model.getMagnitud());
                 b.putDouble(context.getString(R.string.INTENT_PROFUNDIDAD), model.getProfundidad());

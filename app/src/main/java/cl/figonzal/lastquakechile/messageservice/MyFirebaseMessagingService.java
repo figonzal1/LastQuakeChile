@@ -84,7 +84,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String descripcion = null;
 
         String ciudad = null;
-        String fecha_local = null;
+        String fecha_utc = null;
         Double magnitud = null;
         String escala = null;
         Double profundidad = null;
@@ -96,7 +96,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         try {
             titulo = object.getString(getString(R.string.INTENT_TITULO));
             descripcion = object.getString(getString(R.string.INTENT_DESCRIPCION));
-            fecha_local = object.getString(getString(R.string.INTENT_FECHA_LOCAL));
+            fecha_utc = object.getString(getString(R.string.INTENT_FECHA_UTC));
             magnitud = object.getDouble(getString(R.string.INTENT_MAGNITUD));
             escala = object.getString(getString(R.string.INTENT_ESCALA));
             profundidad = object.getDouble(getString(R.string.INTENT_PROFUNDIDAD));
@@ -133,7 +133,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         b.putString(getString(R.string.INTENT_DESCRIPCION), descripcion);
 
         b.putString(getString(R.string.INTENT_CIUDAD), ciudad);
-        b.putString(getString(R.string.INTENT_FECHA_LOCAL), fecha_local);
+        b.putString(getString(R.string.INTENT_FECHA_UTC), fecha_utc);
         b.putDouble(getString(R.string.INTENT_MAGNITUD), magnitud);
         b.putString(getString(R.string.INTENT_ESCALA), escala);
         b.putBoolean(getString(R.string.INTENT_SENSIBLE), sensible);

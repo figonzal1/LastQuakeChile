@@ -4,9 +4,11 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
 public class QuakeUtils {
 
@@ -32,12 +34,24 @@ public class QuakeUtils {
     }
 
     /**
-     * Funcion encargada de entregar los tiempos calculados y retornarlos en dias,horas,minutos,segundos
-     * @param fecha_local fecha local del modelo de sismo desde cardview
+     * Convierte desde UTC a Local de dispositivo
+     *
+     * @param date Parametro date Utc
+     * @return retorna el date en local
      */
-    public static Map<String, Long> timeToText(Context context, Date fecha_local) {
+    public static Date utcToLocal(Date date) {
 
-        long diff = calculateDiff(fecha_local);
+        String timeZone = Calendar.getInstance().getTimeZone().getID();
+        return new Date(date.getTime() + TimeZone.getTimeZone(timeZone).getOffset(date.getTime()));
+    }
+
+    /**
+     * Funcion encargada de entregar los tiempos calculados y retornarlos en dias,horas,minutos,segundos
+     * @param fecha fecha local del modelo de sismo desde cardview
+     */
+    public static Map<String, Long> timeToText(Date fecha) {
+
+        long diff = calculateDiff(fecha);
         long seconds = diff / 1000;
         long minutes = seconds / 60;
         long hours = minutes / 60;

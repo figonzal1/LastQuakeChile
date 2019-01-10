@@ -113,6 +113,7 @@
     <string name="INTENT_LATITUD">latitud</string>
     <string name="INTENT_LONGITUD">longitud</string>
     <string name="INTENT_FECHA_LOCAL">fecha_local</string>
+    <string name="INTENT_FECHA_UTC">fecha_utc</string>
     <string name="INTENT_MAGNITUD">magnitud</string>
     <string name="INTENT_PROFUNDIDAD">profundidad</string>
     <string name="INTENT_ESCALA">escala</string>
