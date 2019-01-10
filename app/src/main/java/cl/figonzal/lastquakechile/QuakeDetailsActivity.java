@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -52,6 +53,7 @@ public class QuakeDetailsActivity extends AppCompatActivity {
         TextView tv_magnitud = findViewById(R.id.tv_magnitud_detail);
         TextView tv_profundidad = findViewById(R.id.tv_epicentro);
         TextView tv_fecha = findViewById(R.id.tv_fecha);
+        ImageView iv_sensible = findViewById(R.id.iv_sensible_detail);
         ImageView iv_mag_color = findViewById(R.id.iv_mag_color);
         TextView tv_hora = findViewById(R.id.tv_hora_detail);
         final ImageView iv_mapa = findViewById(R.id.iv_map_quake);
@@ -68,7 +70,7 @@ public class QuakeDetailsActivity extends AppCompatActivity {
 
             Map<String, Long> tiempos = null;
 
-            //Si el bundle viene del adapter
+            //Si el bundle viene del adapter, usar directamente TIME LOCAL
             String fecha_local = b.getString(getString(R.string.INTENT_FECHA_LOCAL));
             if (fecha_local != null) {
                 SimpleDateFormat format = new SimpleDateFormat(getString(R.string.DATETIME_FORMAT), Locale.US);
@@ -84,7 +86,7 @@ public class QuakeDetailsActivity extends AppCompatActivity {
                 Log.d("ADAPTER", "LOCAL: " + format.format(local_date));
             }
 
-            //Si el bundle viene de notificacion
+            //Si el bundle viene de notificacion, transformar UTC a TIME LOCAL
             String fecha_utc = b.getString(getString(R.string.INTENT_FECHA_UTC));
             if (fecha_utc != null) {
                 SimpleDateFormat format = new SimpleDateFormat(getString(R.string.DATETIME_FORMAT), Locale.US);
@@ -195,11 +197,9 @@ public class QuakeDetailsActivity extends AppCompatActivity {
             /*
                 Seccion Sismo sensible
              */
-            /*if (sensible) {
-                tv_sensible.setText(String.format(getString(R.string.quake_details_sensible), "percibido"));
-            } else {
-                tv_sensible.setText(String.format(getString(R.string.quake_details_sensible), "no percibido"));
-            }*/
+            if (sensible) {
+                iv_sensible.setVisibility(View.VISIBLE);
+            }
 
             /*
                 Seccion image

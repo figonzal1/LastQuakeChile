@@ -1,14 +1,12 @@
 package cl.figonzal.lastquakechile;
 
 import android.app.Dialog;
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.widget.ProgressBar;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.common.ConnectionResult;
@@ -32,12 +30,6 @@ public class MainActivity extends AppCompatActivity {
 
         //Verifica si el celular tiene googleplay services activado
         checkPlayServices();
-
-        //Seteo de elementos a utilizar
-        ProgressBar progressBar = findViewById(R.id.progress_bar_main_activity);
-
-        //Instancia de view model
-        QuakeViewModel viewModel = ViewModelProviders.of(this).get(QuakeViewModel.class);
 
         /*
             Firebase SECTION
