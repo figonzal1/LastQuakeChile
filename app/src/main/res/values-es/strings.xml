@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="refresh">Recargar</string>
+    <string name="contact">Contacto</string>
+    <string name="search">Buscar</string>
+    <string name="circulo_pintado">Color magnitud sismo</string>
+    <string name="imagen_toolbar">Imagen toolbar</string>
+    <string name="imagen_geografica_posicion_sismo">Imagen geográfica posición sismo</string>
+    <string name="icono_tiempo">Icono tiempo</string>
+    <string name="tiempo">Fecha/Hora</string>
+    <string name="icono_distancia">Icono distancia</string>
+    <string name="distancia">Distancia</string>
+    <string name="icono_epicentro">Icono epicentro</string>
+    <string name="icono_escala">Icono escala</string>
+    <string name="profundidad">Profundidad</string>
+    <string name="escala">Escala</string>
+    <string name="icono_mail">Icono email</string>
+    <string name="icono_persona">Icono persona</string>
+    <string name="icono_facebook">Icono facebook</string>
+    <string name="icono_linkedin">Icono linkedin</string>
+    <string name="contact_title_email">Email</string>
+    <string name="contact_title_name">Nombre</string>
+    <string name="quake_details_magnitud_local">Magnitud local (Ml)</string>
+    <string name="quake_details_magnitud_momento">Magnitud Momento (Mw)</string>
+    <string name="icono_sensible">Icono sensible</string>
+    <string name="FIREBASE_CHANNEL_NAME">Alerta sismos</string>
+    <string name="FIREBASE_CHANNEL_DESCRIPTION">Recibe alertas de sismos sobre 5 grados</string>
+    <string name="last_quakes_info_card_view_tittle">Últimos sismos</string>
+    <string name="last_quakes_info_card_view_button">Entendido</string>
+    <string name="last_quakes_info_card_view_description">En este listado se encuentran sismos de magnitud igual o superior a 3.0</string>
+    <string name="VIEWMODEL_ERROR_SERVER">Servidor no responde, intente más tarde</string>
+    <string name="VIEWMODEL_NOCONNECTION_ERROR">No tienes conexión a Internet</string>
+</resources>

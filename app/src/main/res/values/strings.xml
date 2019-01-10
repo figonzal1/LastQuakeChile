@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">LastQuakeChile</string>
+    <string name="app_name" translatable="false">LastQuakeChile</string>
 
     <!-- TOOLBAR STRINGS -->
     <string name="refresh">Recargar</string>
@@ -8,33 +8,33 @@
 
     <!-- TODO: Cambiar la direccion hacia Heroku y Actualizar HEROKU con el nuevo config en xamp -->
     <!-- URL SERVIDOR HEROKU -->
-    <string name="URL_GET">http://192.168.0.13/lastquake_server/public/get_quakes.php</string>
+    <string name="URL_GET" translatable="false">http://192.168.0.13/lastquake_server/public/get_quakes.php</string>
     <!--<string name="URL_GET">https://lastquakechile-server.herokuapp.com/get_quakes.php</string>-->
 
     <!-- FORMAT -->
-    <string name="DATETIME_FORMAT">yyyy-MM-dd HH:mm:ss</string>
+    <string name="DATETIME_FORMAT" translatable="false">yyyy-MM-dd HH:mm:ss</string>
 
     <!-- KEY DE JSON PARA PHP -->
-    <string name="KEY_FECHA_UTC">fecha_utc</string>
-    <string name="KEY_LATITUD">latitud</string>
-    <string name="KEY_LONGITUD">longitud</string>
-    <string name="KEY_MAGNITUD">magnitud</string>
-    <string name="KEY_ESCALA">escala</string>
-    <string name="KEY_PROFUNDIDAD">profundidad</string>
-    <string name="KEY_AGENCIA">agencia</string>
-    <string name="KEY_REFERENCIA">referencia</string>
-    <string name="KEY_IMAGEN_URL">imagen_url</string>
-    <string name="KEY_SENSIBLE">sensible</string>
+    <string name="KEY_FECHA_UTC" translatable="false">fecha_utc</string>
+    <string name="KEY_LATITUD" translatable="false">latitud</string>
+    <string name="KEY_LONGITUD" translatable="false">longitud</string>
+    <string name="KEY_MAGNITUD" translatable="false">magnitud</string>
+    <string name="KEY_ESCALA" translatable="false">escala</string>
+    <string name="KEY_PROFUNDIDAD" translatable="false">profundidad</string>
+    <string name="KEY_AGENCIA" translatable="false">agencia</string>
+    <string name="KEY_REFERENCIA" translatable="false">referencia</string>
+    <string name="KEY_IMAGEN_URL" translatable="false">imagen_url</string>
+    <string name="KEY_SENSIBLE" translatable="false">sensible</string>
 
     <!-- STRINGS DE LAYOUTS-->
-    <string name="circulo_pintado">Circulo pintado</string>
+    <string name="circulo_pintado">Color magnitud sismo</string>
     <string name="imagen_toolbar">Imagen toolbar</string>
-    <string name="quake_time_day">%1$d d</string>
-    <string name="quake_time_day_hour">%1$d d %2$d h</string>
-    <string name="quake_time_hour">%1$d h</string>
-    <string name="quake_time_minute">%1$d m</string>
-    <string name="quake_time_second">%1$d s</string>
-    <string name="imagen_geografica_posicion_sismo">Imagen geografica posicion sismo</string>
+    <string name="quake_time_day" translatable="false">%1$d d</string>
+    <string name="quake_time_day_hour" translatable="false">%1$d d %2$d h</string>
+    <string name="quake_time_hour" translatable="false">%1$d h</string>
+    <string name="quake_time_minute" translatable="false">%1$d m</string>
+    <string name="quake_time_second" translatable="false">%1$d s</string>
+    <string name="imagen_geografica_posicion_sismo">Imagen geografica posición sismo</string>
     <string name="icono_tiempo">Icono tiempo</string>
     <string name="tiempo">Fecha/Hora</string>
     <string name="icono_distancia">Icono distancia</string>
@@ -43,15 +43,15 @@
     <string name="icono_escala">Icono escala</string>
     <string name="profundidad">Profundidad</string>
     <string name="escala">Escala</string>
-    <string name="quake_details_escala">%1$s</string>
-    <string name="quake_details_profundidad">%.1f km</string>
-    <string name="magnitud">%.1f</string>
+    <string name="quake_details_escala" translatable="false">%1$s</string>
+    <string name="quake_details_profundidad" translatable="false">%.1f km</string>
+    <string name="magnitud" translatable="false">%.1f</string>
     <string name="icono_mail">Icono email</string>
     <string name="icono_persona">Icono persona</string>
     <string name="icono_facebook">Icono facebook</string>
     <string name="icono_linkedin">Icono linkedin</string>
-    <string name="contact_email">felipe.gonzalezalarcon94@gmail.com</string>
-    <string name="contact_nombre">Felipe González</string>
+    <string name="contact_email" translatable="false">felipe.gonzalezalarcon94@gmail.com</string>
+    <string name="contact_nombre" translatable="false">Felipe González</string>
     <string name="contact_title_email">Email</string>
     <string name="contact_title_name">Nombre</string>
     <string name="quake_details_magnitud_local">Magnitud Local (Ml)</string>
@@ -60,97 +60,97 @@
 
 
     <!-- FIREBASE-->
-    <string name="TAG_FIREBASE_TOKEN">TOKEN_FIREBASE</string>
-    <string name="TAG_FIREBASE_SUSCRIPTION">FIREBASE_SUSCRIPCION</string>
-    <string name="TAG_FIREBASE_SUSCRIPTION_RESPONSE1">SUSCRITO</string>
-    <string name="TAG_FIREBASE_SUSCRIPTION_RESPONSE2">YA ESTABA SUSCRITO</string>
-    <string name="FIREBASE_CHANNEL_ID">1</string>
+    <string name="TAG_FIREBASE_TOKEN" translatable="false">TOKEN_FIREBASE</string>
+    <string name="TAG_FIREBASE_SUSCRIPTION" translatable="false">FIREBASE_SUSCRIPCION</string>
+    <string name="TAG_FIREBASE_SUSCRIPTION_RESPONSE1" translatable="false">SUBSCRIBED</string>
+    <string name="TAG_FIREBASE_SUSCRIPTION_RESPONSE2" translatable="false">YA ESTABA SUBSCRIBED</string>
+    <string name="FIREBASE_CHANNEL_ID" translatable="false">1</string>
     <string name="FIREBASE_CHANNEL_NAME">Alerta sismos</string>
     <string name="FIREBASE_CHANNEL_DESCRIPTION">Recibe alertas de sismos sobre 5 grados</string>
-    <string name="FIREBASE_CHANNEL_STATUS">CHANNEL_CREATED</string>
-    <string name="TAG_FIREBASE_CHANNEL">FIREBASE_CHANNEL</string>
-    <string name="TAG_FIREBASE_MESSAGE">FIREBASE_MESSAGE</string>
-    <string name="TAG_FIREBASE_MESSAGE_DATA_INCOMING">NotificacionData recibida</string>
-    <string name="TAG_FIREBASE_MESSAGE_INCOMING">Notificacion recibida</string>
-    <string name="FIREBASE_MESSAGE_DATA_STATUS">MESSAGE_DATA_RECEIVED</string>
-    <string name="FIREBASE_MESSAGE_NOTIFICATION_STATUS">MESSAGE_NOTIFICATION_RECEIVED</string>
-    <string name="FIREBASE_CHANNEL_CREATED_MESSAGE">Canal de notificacion creado</string>
-    <string name="FIREBASE_TOPIC_NAME">Quakes</string>
-    <string name="FIREBASE_SUSCRITO">Suscrito</string>
+    <string name="FIREBASE_CHANNEL_STATUS" translatable="false">CANAL_CREADO</string>
+    <string name="TAG_FIREBASE_CHANNEL" translatable="false">FIREBASE_CHANNEL</string>
+    <string name="TAG_FIREBASE_MESSAGE" translatable="false">FIREBASE_MESSAGE</string>
+    <string name="TAG_FIREBASE_MESSAGE_DATA_INCOMING" translatable="false">NotificacionData recibida</string>
+    <string name="TAG_FIREBASE_MESSAGE_INCOMING" translatable="false">Notificacion recibida</string>
+    <string name="FIREBASE_MESSAGE_DATA_STATUS" translatable="false">MESSAGE_DATA_RECEIVED</string>
+    <string name="FIREBASE_MESSAGE_NOTIFICATION_STATUS" translatable="false">MESSAGE_NOTIFICATION_RECEIVED</string>
+    <string name="FIREBASE_CHANNEL_CREATED_MESSAGE" translatable="false">Canal de notificacion creado</string>
+    <string name="FIREBASE_TOPIC_NAME" translatable="false">Quakes</string>
+    <string name="FIREBASE_SUSCRITO" translatable="false">Suscrito</string>
 
     <!-- Strings de Snackbars y LOGS -->
-    <string name="FLAG_RETRY">Recargar</string>
-    <string name="TAG_PROGRESS_FROM_FRAGMENT">PROGRESS_FRAGMENT</string>
-    <string name="TAG_PROGRESS_FROM_FRAGMENT_UPDATE_RESPONSE">UPDATED INFORMATION - FRAGMENT</string>
-    <string name="TAG_PROGRESS_FROM_FRAGMENT_ERROR_SERVER">ERROR SERVER CONNECTION - FRAGMENT</string>
-    <string name="TAG_PROGRESS_FROM_FRAGMENT_NOCONNECTION">NO CONNECTION ERROR - FRAGMENT</string>
-    <string name="SNACKBAR_ERROR_SERVER_PRESSED">SNACKBAR_ERROR_SERVER</string>
-    <string name="SNACKBAR_NOCONNECTION_SERVER_PRESSED">SNACKBAR_NOCONNECTION</string>
-    <string name="JSON_GENERAL_ERROR">JSON_GENERAL_ERROR</string>
-    <string name="JSON_PARSE_ERROR">JSON_PARSE_ERROR</string>
-    <string name="CONNECTION_OK">CONNECTION_OK</string>
-    <string name="CONNECTION_OK_RESPONSE">Conexion correcta</string>
-    <string name="CONNECTED">CONNECTION_STATUS</string>
+    <string name="FLAG_RETRY" translatable="false">Recargar</string>
+    <string name="TAG_PROGRESS_FROM_FRAGMENT" translatable="false">PROGRESS_FRAGMENT</string>
+    <string name="TAG_PROGRESS_FROM_FRAGMENT_UPDATE_RESPONSE" translatable="false">UPDATED INFORMATION - FRAGMENT</string>
+    <string name="TAG_PROGRESS_FROM_FRAGMENT_ERROR_SERVER" translatable="false">ERROR SERVER CONNECTION - FRAGMENT</string>
+    <string name="TAG_PROGRESS_FROM_FRAGMENT_NOCONNECTION" translatable="false">NO CONNECTION ERROR - FRAGMENT</string>
+    <string name="SNACKBAR_ERROR_SERVER_PRESSED" translatable="false">SNACKBAR_ERROR_SERVER</string>
+    <string name="SNACKBAR_NOCONNECTION_SERVER_PRESSED" translatable="false">SNACKBAR_NOCONNECTION</string>
+    <string name="JSON_GENERAL_ERROR" translatable="false">JSON_GENERAL_ERROR</string>
+    <string name="JSON_PARSE_ERROR" translatable="false">JSON_PARSE_ERROR</string>
+    <string name="CONNECTION_OK" translatable="false">CONNECTION_OK</string>
+    <string name="CONNECTION_OK_RESPONSE" translatable="false">Conexion correcta</string>
+    <string name="CONNECTED" translatable="false">CONNECTION_STATUS</string>
 
     <!-- Strings de Volley -->
-    <string name="TAG_VOLLEY_ERROR">VOLLEY_ERROR</string>
-    <string name="TAG_VOLLEY_ERROR_TIMEOUT">Servidor no responde</string>
-    <string name="TAG_VOLLEY_ERROR_CONNECTION">NoConnection error</string>
-    <string name="TAG_VOLLEY_ERROR_AUTH">Auth error</string>
-    <string name="TAG_VOLLEY_ERROR_SERVER">Server error</string>
-    <string name="TAG_VOLLEY_ERROR_NETWORK">Network error</string>
-    <string name="TAG_VOLLEY_ERROR_PARSE">Parse error</string>
+    <string name="TAG_VOLLEY_ERROR" translatable="false">VOLLEY_ERROR</string>
+    <string name="TAG_VOLLEY_ERROR_TIMEOUT" translatable="false">Servidor no responde</string>
+    <string name="TAG_VOLLEY_ERROR_CONNECTION" translatable="false">NoConnection error</string>
+    <string name="TAG_VOLLEY_ERROR_AUTH" translatable="false">Auth error</string>
+    <string name="TAG_VOLLEY_ERROR_SERVER" translatable="false">Server error</string>
+    <string name="TAG_VOLLEY_ERROR_NETWORK" translatable="false">Network error</string>
+    <string name="TAG_VOLLEY_ERROR_PARSE" translatable="false">Parse error</string>
 
 
     <!-- KEY PARA INTENT & NOTIFICACIONES -->
-    <string name="INTENT_TITULO">titulo</string>
-    <string name="INTENT_DESCRIPCION">descripcion</string>
-    <string name="INTENT_CIUDAD">ciudad</string>
-    <string name="INTENT_REFERENCIA">referencia</string>
-    <string name="INTENT_LATITUD">latitud</string>
-    <string name="INTENT_LONGITUD">longitud</string>
-    <string name="INTENT_FECHA_LOCAL">fecha_local</string>
-    <string name="INTENT_FECHA_UTC">fecha_utc</string>
-    <string name="INTENT_MAGNITUD">magnitud</string>
-    <string name="INTENT_PROFUNDIDAD">profundidad</string>
-    <string name="INTENT_ESCALA">escala</string>
-    <string name="INTENT_SENSIBLE">sensible</string>
-    <string name="INTENT_LINK_FOTO">imagen_url</string>
+    <string name="INTENT_TITULO" translatable="false">titulo</string>
+    <string name="INTENT_DESCRIPCION" translatable="false">descripcion</string>
+    <string name="INTENT_CIUDAD" translatable="false">ciudad</string>
+    <string name="INTENT_REFERENCIA" translatable="false">referencia</string>
+    <string name="INTENT_LATITUD" translatable="false">latitud</string>
+    <string name="INTENT_LONGITUD" translatable="false">longitud</string>
+    <string name="INTENT_FECHA_LOCAL" translatable="false">fecha_local</string>
+    <string name="INTENT_FECHA_UTC" translatable="false">fecha_utc</string>
+    <string name="INTENT_MAGNITUD" translatable="false">magnitud</string>
+    <string name="INTENT_PROFUNDIDAD" translatable="false">profundidad</string>
+    <string name="INTENT_ESCALA" translatable="false">escala</string>
+    <string name="INTENT_SENSIBLE" translatable="false">sensible</string>
+    <string name="INTENT_LINK_FOTO" translatable="false">imagen_url</string>
 
     <!-- CARD VIEW DE INFORMACION -->
     <string name="last_quakes_info_card_view_tittle">Últimos sismos</string>
     <string name="last_quakes_info_card_view_button">Entendido</string>
     <string name="last_quakes_info_card_view_description">En este listado se encuentran sismos de magnitud igual o superior a 3.0</string>
-    <string name="shared_card_view_info">CARD_VIEW_INFO</string>
-    <string name="shared_pref_status_card_view">estado_card_view_info</string>
-    <string name="shared_pref_status_result_card_view">entendido</string>
+    <string name="shared_card_view_info" translatable="false">CARD_VIEW_INFO</string>
+    <string name="shared_pref_status_card_view" translatable="false">estado_card_view_info</string>
+    <string name="shared_pref_status_result_card_view" translatable="false">entendido</string>
 
     <!-- Strings para calculode tiempo -->
-    <string name="UTILS_TIEMPO_DIAS">dias</string>
-    <string name="UTILS_TIEMPO_HORAS">horas</string>
-    <string name="UTILS_TIEMPO_MINUTOS">minutos</string>
-    <string name="UTILS_TIEMPO_SEGUNDOS">segundos</string>
+    <string name="UTILS_TIEMPO_DIAS" translatable="false">dias</string>
+    <string name="UTILS_TIEMPO_HORAS" translatable="false">horas</string>
+    <string name="UTILS_TIEMPO_MINUTOS" translatable="false">minutos</string>
+    <string name="UTILS_TIEMPO_SEGUNDOS" translatable="false">segundos</string>
 
     <!-- VIEWMODEL ERROR MESSAGES -->
     <string name="VIEWMODEL_ERROR_SERVER">Servidor no responde. Intente más tarde</string>
-    <string name="VIEWMODEL_NOCONNECTION_ERROR">No hay conexión a Internet</string>
+    <string name="VIEWMODEL_NOCONNECTION_ERROR">No tienes conexión a Internet</string>
 
     <!-- INTENT LOGS -->
-    <string name="TAG_INTENT">INTENT</string>
-    <string name="TAG_INTENT_GOOGLEPLAY_FB">Abriendo google play app - APP FB</string>
-    <string name="TAG_INTENT_NAVEGADOR_FB">Abriendo navegador - APP FB</string>
-    <string name="TAG_INTENT_INSTALADA_FB">Abriendo APP FB instalada</string>
-    <string name="TAG_INTENT_GOOGLEPLAY_LK">Abriendo google play app - APP LK</string>
-    <string name="TAG_INTENT_NAVEGADOR_LK">Abriendo navegador - APP LK</string>
-    <string name="TAG_INTENT_INSTALADA_LK">Abriendo APP LK instalada</string>
-    <string name="TRY_INTENT_NOTIFICATION_1">Realizando intent de notificacion</string>
-    <string name="TRY_INTENT_NOTIFICATION">TRY_INTENT_NOTIFICATION</string>
-    <string name="TRY_INTENT_DETALLE">Intent de detalle de sismo</string>
+    <string name="TAG_INTENT" translatable="false">INTENT</string>
+    <string name="TAG_INTENT_GOOGLEPLAY_FB" translatable="false">Abriendo google play app - APP FB</string>
+    <string name="TAG_INTENT_NAVEGADOR_FB" translatable="false">Abriendo navegador - APP FB</string>
+    <string name="TAG_INTENT_INSTALADA_FB" translatable="false">Abriendo APP FB instalada</string>
+    <string name="TAG_INTENT_GOOGLEPLAY_LK" translatable="false">Abriendo google play app - APP LK</string>
+    <string name="TAG_INTENT_NAVEGADOR_LK" translatable="false">Abriendo navegador - APP LK</string>
+    <string name="TAG_INTENT_INSTALADA_LK" translatable="false">Abriendo APP LK instalada</string>
+    <string name="TRY_INTENT_NOTIFICATION_1" translatable="false">Realizando intent de notificacion</string>
+    <string name="TRY_INTENT_NOTIFICATION" translatable="false">TRY_INTENT_NOTIFICATION</string>
+    <string name="TRY_INTENT_DETALLE" translatable="false">Intent de detalle de sismo</string>
 
     <!-- TAG GOOGLE PLAY -->
-    <string name="TAG_GOOGLE_PLAY">GOOGLE_PLAY</string>
-    <string name="TAG_GOOGLE_PLAY_NOSOPORTADO">Dispositivo no soportado</string>
-    <string name="TAG_GOOGLE_PLAY_ACTUALIZADO">Google Play actualizado</string>
+    <string name="TAG_GOOGLE_PLAY" translatable="false">GOOGLE_PLAY</string>
+    <string name="TAG_GOOGLE_PLAY_NOSOPORTADO" translatable="false">Dispositivo no soportado</string>
+    <string name="TAG_GOOGLE_PLAY_ACTUALIZADO" translatable="false">Google Play actualizado</string>
 
 
 </resources>
