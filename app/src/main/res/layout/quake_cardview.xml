@@ -35,7 +35,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:fontFamily="@font/roboto"
             android:maxLines="1"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:textSize="14sp"
@@ -59,7 +58,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:fontFamily="@font/roboto"
             android:maxLines="1"
             android:paddingTop="0dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
@@ -76,15 +74,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLength="4"
+            android:textColor="@android:color/white"
             android:textSize="18sp"
             android:textStyle="normal"
-            android:textColor="@android:color/white"
-            android:fontFamily="@font/roboto"
             card_view:layout_constraintBottom_toBottomOf="@+id/iv_mag_color"
             card_view:layout_constraintEnd_toEndOf="@+id/iv_mag_color"
             card_view:layout_constraintStart_toStartOf="@+id/iv_mag_color"
             card_view:layout_constraintTop_toTopOf="@+id/iv_mag_color"
-            tools:text="9.5"/>
+            tools:text="9.5" />
 
         <ImageView
             android:id="@+id/iv_sensible"
