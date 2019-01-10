@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">LastQuakeChile</string>
 
     <!-- TOOLBAR STRINGS -->
@@ -15,7 +15,6 @@
     <string name="DATETIME_FORMAT">yyyy-MM-dd HH:mm:ss</string>
 
     <!-- KEY DE JSON PARA PHP -->
-    <string name="KEY_FECHA_LOCAL">fecha_local</string>
     <string name="KEY_FECHA_UTC">fecha_utc</string>
     <string name="KEY_LATITUD">latitud</string>
     <string name="KEY_LONGITUD">longitud</string>
@@ -56,7 +55,7 @@
     <string name="contact_title_email">Email</string>
     <string name="contact_title_name">Nombre</string>
     <string name="quake_details_magnitud_local">Magnitud Local (Ml)</string>
-    <string name="quake_details_magnitud_momento">Magnitud Momento (Mw)</string>
+    <string name="quake_details_magnitud_momento" tools:ignore="Typos">Magnitud Momento (Mw)</string>
     <string name="icono_sensible">Icono sensible</string>
 
 
@@ -74,16 +73,13 @@
     <string name="TAG_FIREBASE_MESSAGE_DATA_INCOMING">NotificacionData recibida</string>
     <string name="TAG_FIREBASE_MESSAGE_INCOMING">Notificacion recibida</string>
     <string name="FIREBASE_MESSAGE_DATA_STATUS">MESSAGE_DATA_RECEIVED</string>
-    <string name="FIREBASE_MESSAGE_NOTIFICATION_STATUS">MESSAGE_DATA_RECEIVED</string>
-    <string name="FIREBASE_SNACKBAR_SUBSCRIBE_TOPIC_SUCCESS">Suscrito al tema</string>
+    <string name="FIREBASE_MESSAGE_NOTIFICATION_STATUS">MESSAGE_NOTIFICATION_RECEIVED</string>
     <string name="FIREBASE_CHANNEL_CREATED_MESSAGE">Canal de notificacion creado</string>
     <string name="FIREBASE_TOPIC_NAME">Quakes</string>
     <string name="FIREBASE_SUSCRITO">Suscrito</string>
 
     <!-- Strings de Snackbars y LOGS -->
     <string name="FLAG_RETRY">Recargar</string>
-    <string name="TAG_PROGRESS_FROM_REFRESH">PROGRESS_REFRESH</string>
-    <string name="TAG_PROGRESS_FROM_REFRESH_UPDATE_RESPONSE">UPDATING INFORMATION - TOOLBAR</string>
     <string name="TAG_PROGRESS_FROM_FRAGMENT">PROGRESS_FRAGMENT</string>
     <string name="TAG_PROGRESS_FROM_FRAGMENT_UPDATE_RESPONSE">UPDATED INFORMATION - FRAGMENT</string>
     <string name="TAG_PROGRESS_FROM_FRAGMENT_ERROR_SERVER">ERROR SERVER CONNECTION - FRAGMENT</string>
@@ -137,7 +133,7 @@
 
     <!-- VIEWMODEL ERROR MESSAGES -->
     <string name="VIEWMODEL_ERROR_SERVER">Servidor no responde. Intente más tarde</string>
-    <string name="VIEWMODEL_NOCONNECTION_ERROR">NO hay conexión a Internet</string>
+    <string name="VIEWMODEL_NOCONNECTION_ERROR">No hay conexión a Internet</string>
 
     <!-- INTENT LOGS -->
     <string name="TAG_INTENT">INTENT</string>

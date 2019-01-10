@@ -15,7 +15,7 @@ public class FragmentPageAdapter extends FragmentPagerAdapter {
     private final String[] tabTitles = {"GUC"};
 
 
-    public FragmentPageAdapter(FragmentManager fm) {
+    FragmentPageAdapter(FragmentManager fm) {
         super(fm);
 
     }
