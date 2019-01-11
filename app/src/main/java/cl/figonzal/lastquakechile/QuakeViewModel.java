@@ -209,7 +209,7 @@ public class QuakeViewModel extends AndroidViewModel {
                 if (error instanceof TimeoutError) {
                     Log.d(getApplication().getString(R.string.TAG_VOLLEY_ERROR), getApplication().getString(R.string.TAG_VOLLEY_ERROR_TIMEOUT));
                     Crashlytics.log(Log.DEBUG, getApplication().getString(R.string.TAG_VOLLEY_ERROR), getApplication().getString(R.string.TAG_VOLLEY_ERROR_TIMEOUT));
-                    statusData.postValue(getApplication().getString(R.string.VIEWMODEL_ERROR_SERVER));
+                    statusData.postValue(getApplication().getString(R.string.VIEWMODEL_TIMEOUT_ERROR));
 
                 } else if (error instanceof NoConnectionError) {
                     Log.d(getApplication().getString(R.string.TAG_VOLLEY_ERROR), getApplication().getString(R.string.TAG_VOLLEY_ERROR_CONNECTION));
@@ -221,6 +221,8 @@ public class QuakeViewModel extends AndroidViewModel {
 
                 } else if (error instanceof ServerError) {
                     Log.d(getApplication().getString(R.string.TAG_VOLLEY_ERROR), getApplication().getString(R.string.TAG_VOLLEY_ERROR_SERVER));
+                    Crashlytics.log(Log.DEBUG, getApplication().getString(R.string.TAG_VOLLEY_ERROR), getApplication().getString(R.string.TAG_VOLLEY_ERROR_SERVER));
+                    statusData.postValue(getApplication().getString(R.string.VIEWMODEL_SERVER_ERROR));
 
                 } else if (error instanceof NetworkError) {
                     Log.d(getApplication().getString(R.string.TAG_VOLLEY_ERROR), getApplication().getString(R.string.TAG_VOLLEY_ERROR_NETWORK));

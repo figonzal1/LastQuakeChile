@@ -2,11 +2,13 @@ package cl.figonzal.lastquakechile;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -27,6 +29,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.appinvite.AppInviteInvitation;
 
 import java.util.List;
 import java.util.Objects;
@@ -111,7 +114,9 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
                 if (status != null) {
 
                     progressBar.setVisibility(View.INVISIBLE);
-                    if (status.equals(getString(R.string.VIEWMODEL_ERROR_SERVER))) {
+
+                    //TIMEOUT ERROR
+                    if (status.equals(getString(R.string.VIEWMODEL_TIMEOUT_ERROR))) {
                         Snackbar
                                 .make(v, status, Snackbar.LENGTH_INDEFINITE)
                                 .setAction(getString(R.string.FLAG_RETRY), new View.OnClickListener() {
@@ -120,14 +125,38 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
                                         viewModel.refreshMutableQuakeList();
                                         progressBar.setVisibility(View.VISIBLE);
 
-                                        Crashlytics.setBool(getString(R.string.SNACKBAR_ERROR_SERVER_PRESSED), true);
+                                        Crashlytics.setBool(getString(R.string.SNACKBAR_TIMEOUT_ERROR_PRESSED), true);
                                     }
                                 })
                                 .show();
 
-                        Log.d(getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_ERROR_SERVER));
-                        Crashlytics.log(Log.DEBUG, getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_ERROR_SERVER));
-                    } else if (status.equals(getString(R.string.VIEWMODEL_NOCONNECTION_ERROR))) {
+                        Log.d(getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_TIMEOUT_ERROR));
+                        Crashlytics.log(Log.DEBUG, getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_TIMEOUT_ERROR));
+                    }
+
+                    //SERVER ERROR
+                    else if (status.equals(getString(R.string.VIEWMODEL_SERVER_ERROR))) {
+                        Snackbar
+                                .make(v, status, Snackbar.LENGTH_INDEFINITE)
+                                .setAction(getString(R.string.FLAG_RETRY), new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+
+                                        viewModel.refreshMutableQuakeList();
+                                        progressBar.setVisibility(View.VISIBLE);
+
+                                        Crashlytics.setBool(getString(R.string.SNACKBAR_SERVER_ERROR_PRESSED), true);
+                                    }
+                                })
+                                .show();
+
+                        Log.d(getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_SERVER_ERROR));
+                        Crashlytics.log(Log.DEBUG, getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_SERVER_ERROR));
+
+                    }
+
+                    //NOCONNECTION ERROR
+                    else if (status.equals(getString(R.string.VIEWMODEL_NOCONNECTION_ERROR))) {
                         Snackbar
                                 .make(v, status, Snackbar.LENGTH_INDEFINITE)
                                 .setAction(getString(R.string.FLAG_RETRY), new View.OnClickListener() {
@@ -136,8 +165,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
                                         viewModel.refreshMutableQuakeList();
                                         progressBar.setVisibility(View.VISIBLE);
 
-                                        Crashlytics.setBool(getString(R.string.SNACKBAR_NOCONNECTION_SERVER_PRESSED), true);
-
+                                        Crashlytics.setBool(getString(R.string.SNACKBAR_NOCONNECTION_ERROR_PRESSED), true);
                                     }
                                 })
                                 .show();
@@ -252,7 +280,51 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
                 return true;
 
+            case R.id.invite:
+                onInviteClicked();
+                return true;
         }
         return true;
     }
+
+    /**
+     * Funcion encargada de configurar el intent para la invitacion.
+     */
+    private void onInviteClicked() {
+        Intent intent = new AppInviteInvitation.IntentBuilder("¡Invita a tus amigos a usar la App!")
+                .setMessage("Descargala y recibe alertas de los últimos sismos en Chile")
+                //.setDeepLink(Uri.parse("https://lastquakechile.page.link/hJJ9"))
+                .setDeepLink(Uri.parse("https://lastquakechile-server.herokuapp.com"))
+                .setCallToActionText("Instalala aquí")
+                .build();
+        startActivityForResult(intent, 0);
+    }
+
+
+    /**
+     * Funcion encargada de manejar el envio de la invication
+     *
+     * @param requestCode Fija el resultado de la operacion desde la activity
+     * @param resultCode  Entrega el resultado del intent
+     * @param data        parametro que entrega la informacion de los contactos
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("INTENT", "onActivityResult: requestCode=" + requestCode + ", resultCode=" + resultCode);
+
+        if (requestCode == 0) {
+            if (resultCode == Activity.RESULT_OK) {
+                // Get the invitation IDs of all sent messages
+                String[] ids = AppInviteInvitation.getInvitationIds(resultCode, data);
+                for (String id : ids) {
+                    Log.d("INTENT", "Enviando invitacion a" + id);
+                }
+            } else {
+                Snackbar.make(Objects.requireNonNull(getActivity()).findViewById(R.id.fragment), "Invitación cancelada", Snackbar.LENGTH_LONG).show();
+            }
+        }
+    }
 }
+
+
