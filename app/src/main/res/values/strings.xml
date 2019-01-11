@@ -8,8 +8,8 @@
 
     <!-- TODO: Cambiar la direccion hacia Heroku y Actualizar HEROKU con el nuevo config en xamp -->
     <!-- URL SERVIDOR HEROKU -->
-    <string name="URL_GET" translatable="false">http://192.168.0.13/lastquake_server/public/get_quakes.php</string>
-    <!--<string name="URL_GET">https://lastquakechile-server.herokuapp.com/get_quakes.php</string>-->
+    <!--<string name="URL_GET" translatable="false">http://192.168.0.13/lastquake_server/public/get_quakes.php</string>-->
+    <string name="URL_GET" translatable="false">https://lastquakechile-server.herokuapp.com/get_quakes.php</string>
 
     <!-- FORMAT -->
     <string name="DATETIME_FORMAT" translatable="false">yyyy-MM-dd HH:mm:ss</string>
@@ -82,10 +82,12 @@
     <string name="FLAG_RETRY" translatable="false">Recargar</string>
     <string name="TAG_PROGRESS_FROM_FRAGMENT" translatable="false">PROGRESS_FRAGMENT</string>
     <string name="TAG_PROGRESS_FROM_FRAGMENT_UPDATE_RESPONSE" translatable="false">UPDATED INFORMATION - FRAGMENT</string>
-    <string name="TAG_PROGRESS_FROM_FRAGMENT_ERROR_SERVER" translatable="false">ERROR SERVER CONNECTION - FRAGMENT</string>
+    <string name="TAG_PROGRESS_FROM_FRAGMENT_TIMEOUT_ERROR" translatable="false">TIMEOUT ERROR - FRAGMENT</string>
+    <string name="TAG_PROGRESS_FROM_FRAGMENT_SERVER_ERROR" translatable="false">SERVER ERROR - FRAGMENT</string>
     <string name="TAG_PROGRESS_FROM_FRAGMENT_NOCONNECTION" translatable="false">NO CONNECTION ERROR - FRAGMENT</string>
-    <string name="SNACKBAR_ERROR_SERVER_PRESSED" translatable="false">SNACKBAR_ERROR_SERVER</string>
-    <string name="SNACKBAR_NOCONNECTION_SERVER_PRESSED" translatable="false">SNACKBAR_NOCONNECTION</string>
+    <string name="SNACKBAR_TIMEOUT_ERROR_PRESSED" translatable="false">SNACKBAR_TIMEOUT_ERROR</string>
+    <string name="SNACKBAR_NOCONNECTION_ERROR_PRESSED" translatable="false">SNACKBAR_NOCONNECTION_ERROR</string>
+    <string name="SNACKBAR_SERVER_ERROR_PRESSED" translatable="false">SNACKBAR_SERVER_ERROR</string>
     <string name="JSON_GENERAL_ERROR" translatable="false">JSON_GENERAL_ERROR</string>
     <string name="JSON_PARSE_ERROR" translatable="false">JSON_PARSE_ERROR</string>
     <string name="CONNECTION_OK" translatable="false">CONNECTION_OK</string>
@@ -94,7 +96,7 @@
 
     <!-- Strings de Volley -->
     <string name="TAG_VOLLEY_ERROR" translatable="false">VOLLEY_ERROR</string>
-    <string name="TAG_VOLLEY_ERROR_TIMEOUT" translatable="false">Servidor no responde</string>
+    <string name="TAG_VOLLEY_ERROR_TIMEOUT" translatable="false">Timeout error</string>
     <string name="TAG_VOLLEY_ERROR_CONNECTION" translatable="false">NoConnection error</string>
     <string name="TAG_VOLLEY_ERROR_AUTH" translatable="false">Auth error</string>
     <string name="TAG_VOLLEY_ERROR_SERVER" translatable="false">Server error</string>
@@ -132,8 +134,9 @@
     <string name="UTILS_TIEMPO_SEGUNDOS" translatable="false">segundos</string>
 
     <!-- VIEWMODEL ERROR MESSAGES -->
-    <string name="VIEWMODEL_ERROR_SERVER">Servidor no responde. Intente más tarde</string>
+    <string name="VIEWMODEL_TIMEOUT_ERROR">Servidor no responde, intente más tarde</string>
     <string name="VIEWMODEL_NOCONNECTION_ERROR">No tienes conexión a Internet</string>
+    <string name="VIEWMODEL_SERVER_ERROR">Servidor no responde, intente más tarde</string>
 
     <!-- INTENT LOGS -->
     <string name="TAG_INTENT" translatable="false">INTENT</string>
