@@ -28,6 +28,7 @@
     <string name="last_quakes_info_card_view_tittle">Últimos sismos</string>
     <string name="last_quakes_info_card_view_button">Entendido</string>
     <string name="last_quakes_info_card_view_description">En este listado se encuentran sismos de magnitud igual o superior a 3.0</string>
-    <string name="VIEWMODEL_ERROR_SERVER">Servidor no responde, intente más tarde</string>
+    <string name="VIEWMODEL_TIMEOUT_ERROR">Servidor no responde, intente más tarde</string>
     <string name="VIEWMODEL_NOCONNECTION_ERROR">No tienes conexión a Internet</string>
+    <string name="VIEWMODEL_SERVER_ERROR">Servidor no responde, intente más tarde</string>
 </resources>
