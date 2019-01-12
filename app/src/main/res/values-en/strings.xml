@@ -27,7 +27,7 @@
     <string name="FIREBASE_CHANNEL_DESCRIPTION">Receives quake alerts above 5 degrees</string>
     <string name="last_quakes_info_card_view_tittle">Last quakes</string>
     <string name="last_quakes_info_card_view_button">Ok</string>
-    <string name="last_quakes_info_card_view_description">This list includes quakes of magnitude greater than or equal to 3.0</string>
+    <string name="last_quakes_info_card_view_description">This list shows the last earthquakes in Chile</string>
     <string name="VIEWMODEL_TIMEOUT_ERROR">Server does not respond, try later</string>
     <string name="VIEWMODEL_NOCONNECTION_ERROR">You don\'t have an Internet connection</string>
     <string name="VIEWMODEL_SERVER_ERROR">Server does not respond, try later</string>
