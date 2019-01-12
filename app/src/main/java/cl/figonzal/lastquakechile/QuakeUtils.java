@@ -75,6 +75,13 @@ public class QuakeUtils {
         int mag_resource_id = 0;
         switch (mag_floor) {
 
+            case 1:
+                mag_resource_id = R.color.magnitude1;
+                break;
+
+            case 2:
+                mag_resource_id = R.color.magnitude2;
+                break;
             case 3:
                 mag_resource_id = R.color.magnitude3;
                 break;
@@ -95,6 +102,11 @@ public class QuakeUtils {
                 break;
             case 9:
                 mag_resource_id = R.color.magnitude8;
+                break;
+
+            //Si no nignuno se elige color por defecto
+            default:
+                mag_resource_id = R.color.colorAccent;
                 break;
         }
         return mag_resource_id;

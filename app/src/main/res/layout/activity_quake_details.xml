@@ -113,7 +113,7 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/iv_mag_color"
+                android:id="@+id/iv_mag_color_detail"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="16dp"
@@ -135,9 +135,11 @@
                 android:textSize="14sp"
                 android:transitionName="ciudad"
                 app:layout_constraintVertical_chainStyle="packed"
-                card_view:layout_constraintStart_toEndOf="@id/iv_mag_color"
-                card_view:layout_constraintTop_toTopOf="@+id/iv_mag_color"
-                tools:text="Nombre Ciudad" />
+                card_view:layout_constraintStart_toEndOf="@id/iv_mag_color_details"
+                card_view:layout_constraintTop_toTopOf="@+id/iv_mag_color_details"
+                tools:text="Nombre Ciudad"
+                app:layout_constraintStart_toEndOf="@id/iv_mag_color_detail"
+                app:layout_constraintTop_toTopOf="@+id/iv_mag_color_detail" />
 
             <ImageView
                 android:id="@+id/iv_sensible_detail"
@@ -179,7 +181,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textSize="14sp"
                 android:transitionName="referencia"
-                app:layout_constraintBottom_toBottomOf="@+id/iv_mag_color"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_mag_color_detail"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/tv_ciudad_detail"
@@ -197,11 +199,15 @@
                 android:textSize="18sp"
                 android:textStyle="normal"
                 android:transitionName="magnitud"
-                card_view:layout_constraintBottom_toBottomOf="@+id/iv_mag_color"
-                card_view:layout_constraintEnd_toEndOf="@+id/iv_mag_color"
-                card_view:layout_constraintStart_toStartOf="@+id/iv_mag_color"
-                card_view:layout_constraintTop_toTopOf="@+id/iv_mag_color"
-                tools:text="9.5" />
+                card_view:layout_constraintBottom_toBottomOf="@+id/iv_mag_color_details"
+                card_view:layout_constraintEnd_toEndOf="@+id/iv_mag_color_details"
+                card_view:layout_constraintStart_toStartOf="@+id/iv_mag_color_details"
+                card_view:layout_constraintTop_toTopOf="@+id/iv_mag_color_details"
+                tools:text="9.5"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_mag_color_detail"
+                app:layout_constraintEnd_toEndOf="@+id/iv_mag_color_detail"
+                app:layout_constraintStart_toStartOf="@+id/iv_mag_color_detail"
+                app:layout_constraintTop_toTopOf="@+id/iv_mag_color_detail" />
 
             <ImageView
                 android:id="@+id/iv_reloj"
@@ -223,7 +229,7 @@
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_mag_color" />
+                app:layout_constraintTop_toBottomOf="@+id/iv_mag_color_detail" />
 
             <TextView
                 android:id="@+id/tv_titulo_fecha"
