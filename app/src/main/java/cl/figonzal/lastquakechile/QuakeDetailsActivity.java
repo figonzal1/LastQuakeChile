@@ -54,7 +54,7 @@ public class QuakeDetailsActivity extends AppCompatActivity {
         TextView tv_profundidad = findViewById(R.id.tv_epicentro);
         TextView tv_fecha = findViewById(R.id.tv_fecha);
         ImageView iv_sensible = findViewById(R.id.iv_sensible_detail);
-        ImageView iv_mag_color = findViewById(R.id.iv_mag_color);
+        ImageView iv_mag_color = findViewById(R.id.iv_mag_color_detail);
         TextView tv_hora = findViewById(R.id.tv_hora_detail);
         final ImageView iv_mapa = findViewById(R.id.iv_map_quake);
 

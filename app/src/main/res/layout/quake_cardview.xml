@@ -24,11 +24,11 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="16dp"
-            android:src="@drawable/circle_shape"
             android:layout_marginTop="16dp"
+            android:contentDescription="@string/circulo_pintado"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="@string/circulo_pintado" />
+            card_view:srcCompat="@drawable/circle_shape" />
 
         <TextView
             android:id="@+id/tv_ciudad"
