@@ -1,23 +1,20 @@
 package cl.figonzal.lastquakechile;
 
 import android.app.Dialog;
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.appinvite.FirebaseAppInvite;
-import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
-import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -50,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
                 //CRASH ANALYTICS LOG
                 Crashlytics.log(Log.DEBUG, getString(R.string.TAG_FIREBASE_TOKEN), token);
                 Crashlytics.setUserIdentifier(token);
+
+
             }
         });
 
@@ -79,36 +78,14 @@ public class MainActivity extends AppCompatActivity {
         //Suscribir automaticamente al tema (FIREBASE - Quakes)
         MyFirebaseMessagingService.checkSuscription(this);
 
-
-        FirebaseDynamicLinks.getInstance()
-                .getDynamicLink(getIntent())
-                .addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
-                    @Override
-                    public void onSuccess(PendingDynamicLinkData data) {
-                        if (data == null) {
-                            Log.d("INTENT_INVITATCON", "getInvitation: no data");
-                            return;
-                        }
-
-                        // Get the deep link
-                        Uri deepLink = data.getLink();
-
-                        // Extract invite
-                        FirebaseAppInvite invite = FirebaseAppInvite.getInvitation(data);
-                        if (invite != null) {
-                            String invitationId = invite.getInvitationId();
-                        }
-
-                        // Handle the deep link
-                        // ...
-                    }
-                })
-                .addOnFailureListener(this, new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w("INVITACION", "getDynamicLink:onFailure", e);
-                    }
-                });
+        Button btn = findViewById(R.id.button);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), InvitationActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 

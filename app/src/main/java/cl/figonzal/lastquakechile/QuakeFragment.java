@@ -290,12 +290,13 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
     /**
      * Funcion encargada de configurar el intent para la invitacion.
      */
+    //TODO: Agregar un metodo para escoger entre compartir el link a redes sociales o enviarlo por mail
     private void onInviteClicked() {
         Intent intent = new AppInviteInvitation.IntentBuilder("¡Invita a tus amigos a usar la App!")
-                .setMessage("Descargala y recibe alertas de los últimos sismos en Chile")
-                //.setDeepLink(Uri.parse("https://lastquakechile.page.link/hJJ9"))
-                .setDeepLink(Uri.parse("https://lastquakechile-server.herokuapp.com"))
-                .setCallToActionText("Instalala aquí")
+                .setMessage("Descarga la App y recibe alertas de los últimos sismos en Chile")
+                .setDeepLink(Uri.parse("https://lastquakechile.page.link/hJJ9"))
+                .setEmailHtmlContent("<a href='%%APPINVITE_LINK_PLACEHOLDER%%'><h1>Check it out here!</h1><img src='https://appjoy.org/wp-content/uploads/2016/06/firebase-invites-logo.png'></a>")
+                .setEmailSubject("Descarga LastQuakeChile App")
                 .build();
         startActivityForResult(intent, 0);
     }
