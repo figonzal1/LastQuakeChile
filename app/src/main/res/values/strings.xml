@@ -155,5 +155,9 @@
     <string name="TAG_GOOGLE_PLAY_NOSOPORTADO" translatable="false">Dispositivo no soportado</string>
     <string name="TAG_GOOGLE_PLAY_ACTUALIZADO" translatable="false">Google Play actualizado</string>
 
+    <string name="title_activity_invitation">InvitationActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
 
 </resources>

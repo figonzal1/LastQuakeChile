@@ -12,7 +12,7 @@
 
     <!-- Colores para cada magnitud-->
     <color name="magnitude3">#F6BF65</color>
-    <color name="magnitude4">#EFA053</color>
+    <color name="magnitude4">#efa053</color>
     <color name="magnitude5">#E88241</color>
     <color name="magnitude6">#E1632F</color>
     <color name="magnitude7">#DA451D</color>
