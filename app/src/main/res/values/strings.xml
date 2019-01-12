@@ -125,7 +125,7 @@
     <!-- CARD VIEW DE INFORMACION -->
     <string name="last_quakes_info_card_view_tittle">Últimos sismos</string>
     <string name="last_quakes_info_card_view_button">Entendido</string>
-    <string name="last_quakes_info_card_view_description">En este listado se encuentran sismos de magnitud igual o superior a 3.0</string>
+    <string name="last_quakes_info_card_view_description">En este listado se muestran los últimos sismos en Chile</string>
     <string name="shared_card_view_info" translatable="false">CARD_VIEW_INFO</string>
     <string name="shared_pref_status_card_view" translatable="false">estado_card_view_info</string>
     <string name="shared_pref_status_result_card_view" translatable="false">entendido</string>
