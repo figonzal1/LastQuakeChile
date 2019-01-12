@@ -78,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
         //Suscribir automaticamente al tema (FIREBASE - Quakes)
         MyFirebaseMessagingService.checkSuscription(this);
 
+        //Intent para debug de activity invitacion
+        //TODO: Borrar para publicacion
         Button btn = findViewById(R.id.button);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override

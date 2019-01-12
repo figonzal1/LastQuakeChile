@@ -57,6 +57,9 @@
     <string name="quake_details_magnitud_local">Magnitud Local (Ml)</string>
     <string name="quake_details_magnitud_momento" tools:ignore="Typos">Magnitud Momento (Mw)</string>
     <string name="icono_sensible">Icono sensible</string>
+    <string name="icono_app">Icono app</string>
+    <string name="invitation_welcome">¡Bienvenido!</string>
+    <string name="icono_ondas">Icono ondas</string>
 
 
     <!-- FIREBASE-->
@@ -154,10 +157,5 @@
     <string name="TAG_GOOGLE_PLAY" translatable="false">GOOGLE_PLAY</string>
     <string name="TAG_GOOGLE_PLAY_NOSOPORTADO" translatable="false">Dispositivo no soportado</string>
     <string name="TAG_GOOGLE_PLAY_ACTUALIZADO" translatable="false">Google Play actualizado</string>
-
-    <string name="title_activity_invitation">InvitationActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-
 
 </resources>

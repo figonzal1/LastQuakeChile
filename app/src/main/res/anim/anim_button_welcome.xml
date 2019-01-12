@@ -5,17 +5,9 @@
     android:fillEnabled="true">
 
     <alpha
-
         android:duration="1000"
         android:fromAlpha="0.0"
         android:interpolator="@android:anim/accelerate_decelerate_interpolator"
         android:toAlpha="1.0" />
-
-    <!--<translate
-        android:interpolator="@android:anim/anticipate_overshoot_interpolator"
-        android:fromYDelta="0%"
-        android:toYDelta="80%"
-        android:duration="500"
-        android:repeatMode="reverse"/>-->
 
 </set>
