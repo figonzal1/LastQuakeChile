@@ -3,26 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/darker_gray"
+    android:background="@color/colorPrimary"
     android:id="@+id/invitation_container">
 
+
     <ImageView
-        android:id="@+id/iv_onda"
+        android:id="@+id/iv_waves"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:translationZ="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
-        app:layout_constraintEnd_toEndOf="@+id/imageButton"
-        app:layout_constraintStart_toStartOf="@+id/imageButton"
-        app:layout_constraintTop_toTopOf="@+id/imageButton"
-        app:srcCompat="@drawable/circle_shape" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.38"
+        app:srcCompat="@drawable/circle_shape"
+        android:contentDescription="@string/icono_ondas" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/iv_icon_app"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="Icono app"
+        android:contentDescription="@string/icono_app"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,26 +34,26 @@
         app:layout_constraintVertical_bias="0.36"
         app:srcCompat="@drawable/ic_lastquakechile" />
 
-
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tv_app_name"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:text="@string/app_name"
+        android:textColor="@color/grey"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton" />
+        app:layout_constraintTop_toBottomOf="@+id/iv_icon_app" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btn_welcome"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:text="¡Bienvenido!"
+        android:text="@string/invitation_welcome"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/imageButton"
-        app:layout_constraintStart_toStartOf="@+id/imageButton" />
+        app:layout_constraintEnd_toEndOf="@+id/iv_icon_app"
+        app:layout_constraintStart_toStartOf="@+id/iv_icon_app" />
 
 </android.support.constraint.ConstraintLayout>

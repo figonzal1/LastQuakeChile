@@ -31,4 +31,7 @@
     <string name="VIEWMODEL_TIMEOUT_ERROR">Server does not respond, try later</string>
     <string name="VIEWMODEL_NOCONNECTION_ERROR">You don\'t have an Internet connection</string>
     <string name="VIEWMODEL_SERVER_ERROR">Server does not respond, try later</string>
+    <string name="icono_app">App icon</string>
+    <string name="invitation_welcome">¡Welcome!</string>
+    <string name="icono_ondas">Waves icon</string>
 </resources>

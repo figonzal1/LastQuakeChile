@@ -1,5 +1,6 @@
 package cl.figonzal.lastquakechile;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,9 +9,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -25,30 +27,31 @@ public class InvitationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invitation);
 
-        ImageButton imageButton = findViewById(R.id.imageButton);
-        TextView tv_app = findViewById(R.id.textView);
-        final View btn_welcome = findViewById(R.id.button2);
+        ImageButton iv_icon = findViewById(R.id.iv_icon_app);
+        TextView tv_app = findViewById(R.id.tv_app_name);
+        Button btn_welcome = findViewById(R.id.btn_welcome);
+        ImageView iv_waves = findViewById(R.id.iv_waves);
 
-        //textView.setAlpha(0f);
-        //textView.setVisibility(View.VISIBLE);
-
-        /*textView.animate()
-                .alpha(1.0f)
-                .setDuration(700)
-                .setInterpolator(new DecelerateInterpolator());*/
-
+        //Setear las animaciones
         Animation pulse = AnimationUtils.loadAnimation(this, R.anim.anim_pulse);
         Animation anim_text = AnimationUtils.loadAnimation(this, R.anim.anim_fade);
-        final Animation anim_button = AnimationUtils.loadAnimation(this, R.anim.anim_button_welcome);
+        Animation anim_button = AnimationUtils.loadAnimation(this, R.anim.anim_button_welcome);
+        Animation anim_waves = AnimationUtils.loadAnimation(this, R.anim.anim_waves);
 
-        imageButton.startAnimation(pulse);
+        //iniciar las animaciones de icono, texto y boton.
+        iv_icon.startAnimation(pulse);
         tv_app.startAnimation(anim_text);
         btn_welcome.startAnimation(anim_button);
+        iv_waves.startAnimation(anim_waves);
 
+        //Boton para iniciar la app desde invitacion
         btn_welcome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Intent a main", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -72,12 +75,6 @@ public class InvitationActivity extends AppCompatActivity {
                                 Log.d("INVITACION_ID", invitationId);
                             }
                         }
-
-                        /*
-                        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                        startActivity(intent);*/
-
-
                     }
                 })
                 .addOnFailureListener(this, new OnFailureListener() {
@@ -96,6 +93,9 @@ public class InvitationActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Funcion que permite poner la actividad en panatalla completa
+     */
     private void hideSystemUI() {
 
         View view = getWindow().getDecorView();

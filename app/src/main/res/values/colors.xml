@@ -8,12 +8,13 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#00bbff</color>
     <color name="grey">#efefef</color>
+    <color name="grey_dark">#939393</color>
 
 
     <!-- Colores para cada magnitud-->
     <color name="magnitude1">#F6BF65</color>
     <color name="magnitude2">#F1A958</color>
-    <color name="magnitude3">#EC934B</color>
+    <color name="magnitude3">#ec934b</color>
     <color name="magnitude4">#E77D3E</color>
     <color name="magnitude5">#E26832</color>
     <color name="magnitude6">#DD5225</color>
