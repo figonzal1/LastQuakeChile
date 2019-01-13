@@ -34,4 +34,8 @@
     <string name="icono_app">Icono app</string>
     <string name="invitation_welcome">¡Bienvenido!</string>
     <string name="icono_ondas">Icono ondas</string>
+    <string name="invite">Invitar amigos</string>
+    <string name="INVITATION_TITLE">¡Invita a tus amigos a usar la App!</string>
+    <string name="INVITATION_MESSAGE">Descarga la App y recibe alertas de los últimos sismos en Chile</string>
+    <string name="INVITATION_SUBJECT">Descarga LastQuakeChile App</string>
 </resources>

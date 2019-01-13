@@ -29,6 +29,6 @@
         android:icon="@drawable/ic_date"
         app:showAsAction="never"
         android:orderInCategory="4"
-        android:title="Invitar amigos" />
+        android:title="@string/invite" />
 
 </menu>
