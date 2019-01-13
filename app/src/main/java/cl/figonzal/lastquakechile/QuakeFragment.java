@@ -296,9 +296,9 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
      */
     //TODO: Agregar un metodo para escoger entre compartir el link a redes sociales o enviarlo por mail
     private void onInviteClicked() {
-        Intent intent = new AppInviteInvitation.IntentBuilder("¡Invita a tus amigos a usar la App!")
-                .setMessage("Descarga la App y recibe alertas de los últimos sismos en Chile")
-                .setDeepLink(Uri.parse("https://lastquakechile.page.link/hJJ9"))
+        Intent intent = new AppInviteInvitation.IntentBuilder(getString(R.string.INVITATION_TITLE))
+                .setMessage(getString(R.string.INVITATION_MESSAGE))
+                .setDeepLink(Uri.parse(getString(R.string.INVITATION_DEEP_LINK)))
                 .setEmailHtmlContent("<!DOCTYPE html>\n" +
                         "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n" +
                         "<head>\n" +
@@ -555,7 +555,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
                         "  </table>\n" +
                         "</body>\n" +
                         "</html>")
-                .setEmailSubject("Descarga LastQuakeChile App")
+                .setEmailSubject(getString(R.string.INVITATION_SUBJECT))
                 .build();
         startActivityForResult(intent, 0);
     }
