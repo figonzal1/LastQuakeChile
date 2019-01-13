@@ -1,10 +1,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name" translatable="false">LastQuakeChile</string>
 
-    <!-- TOOLBAR STRINGS -->
+    <!-- TOOLBAR Menu STRINGS -->
     <string name="refresh">Recargar</string>
     <string name="contact">Contacto</string>
     <string name="search">Buscar</string>
+    <string name="invite">Invitar amigos</string>
 
     <!-- TODO: Cambiar la direccion hacia Heroku y Actualizar HEROKU con el nuevo config en xamp -->
     <!-- URL SERVIDOR HEROKU -->
@@ -157,5 +158,11 @@
     <string name="TAG_GOOGLE_PLAY" translatable="false">GOOGLE_PLAY</string>
     <string name="TAG_GOOGLE_PLAY_NOSOPORTADO" translatable="false">Dispositivo no soportado</string>
     <string name="TAG_GOOGLE_PLAY_ACTUALIZADO" translatable="false">Google Play actualizado</string>
+
+    <!-- INVITATION STRINGS -->
+    <string name="INVITATION_TITLE">¡Invita a tus amigos a usar la App!</string>
+    <string name="INVITATION_MESSAGE">Descarga la App y recibe alertas de los últimos sismos en Chile</string>
+    <string name="INVITATION_DEEP_LINK" translatable="false">https://lastquakechile.page.link/hJJ9</string>
+    <string name="INVITATION_SUBJECT">Descarga LastQuakeChile App</string>
 
 </resources>
