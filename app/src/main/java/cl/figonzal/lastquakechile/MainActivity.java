@@ -2,7 +2,9 @@ package cl.figonzal.lastquakechile;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +12,14 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -20,6 +29,8 @@ import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import cl.figonzal.lastquakechile.messageservice.MyFirebaseMessagingService;
+
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -74,6 +85,31 @@ public class MainActivity extends AppCompatActivity {
         final CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitleEnabled(true);
         collapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.colorPrimary, getTheme()));
+
+        //Setear imagen de toolbar con Glide
+        final ImageView iv_foto = findViewById(R.id.toolbar_image);
+        Glide.with(this)
+                .load(R.drawable.foto)
+                .apply(
+                        new RequestOptions()
+                                .placeholder(R.drawable.placeholder)
+                                .error(R.drawable.not_found)
+                )
+                .transition(withCrossFade())
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        iv_foto.setImageDrawable(getDrawable(R.drawable.not_found));
+                        return false;
+                    }
+
+                    //No es necesario usarlo (If u want)
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        return false;
+                    }
+                })
+                .into(iv_foto);
 
         //Suscribir automaticamente al tema (FIREBASE - Quakes)
         MyFirebaseMessagingService.checkSuscription(this);

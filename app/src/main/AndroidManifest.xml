@@ -25,7 +25,7 @@
         <!-- Icono de notificaciones por defecto usado FCM console en background -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_lastquakechile" />
+            android:resource="@drawable/ic_lastquakechile_1200" />
 
         <!-- Color Notificaciones -->
         <!--
