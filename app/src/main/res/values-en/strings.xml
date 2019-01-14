@@ -36,6 +36,6 @@
     <string name="icono_ondas">Waves icon</string>
     <string name="invite">Invite friends</string>
     <string name="INVITATION_TITLE">" Invite your friends to use the app!"</string>
-    <string name="INVITATION_MESSAGE">Download the app and receive alert of the last quakes in Chile</string>
+    <string name="INVITATION_MESSAGE">Download the app and receive alerts of the last quakes in Chile</string>
     <string name="INVITATION_SUBJECT">Download LastQuakeChile App</string>
 </resources>
