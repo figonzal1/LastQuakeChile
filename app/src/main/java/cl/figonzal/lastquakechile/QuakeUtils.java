@@ -72,7 +72,7 @@ public class QuakeUtils {
     public static int getMagnitudeColor(double magnitude) {
 
         int mag_floor = (int) Math.floor(magnitude);
-        int mag_resource_id = 0;
+        int mag_resource_id;
         switch (mag_floor) {
 
             case 1:

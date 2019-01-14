@@ -26,7 +26,7 @@
     <string name="FIREBASE_CHANNEL_NAME">Quake alerts</string>
     <string name="FIREBASE_CHANNEL_DESCRIPTION">Receives quake alerts above 5 degrees</string>
     <string name="last_quakes_info_card_view_tittle">Last quakes</string>
-    <string name="last_quakes_info_card_view_button">Ok</string>
+    <string name="last_quakes_info_card_view_button">OK</string>
     <string name="last_quakes_info_card_view_description">This list shows the last earthquakes in Chile</string>
     <string name="VIEWMODEL_TIMEOUT_ERROR">Server does not respond, try later</string>
     <string name="VIEWMODEL_NOCONNECTION_ERROR">You don\'t have an Internet connection</string>
@@ -36,6 +36,5 @@
     <string name="icono_ondas">Waves icon</string>
     <string name="invite">Invite friends</string>
     <string name="INVITATION_TITLE">" Invite your friends to use the app!"</string>
-    <string name="INVITATION_MESSAGE">Download the app and receive alerts of the last quakes in Chile</string>
     <string name="INVITATION_SUBJECT">Download LastQuakeChile App</string>
 </resources>
