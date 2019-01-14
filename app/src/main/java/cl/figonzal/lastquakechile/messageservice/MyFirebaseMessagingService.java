@@ -65,7 +65,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, getString(R.string.FIREBASE_CHANNEL_ID))
                 .setContentTitle(Objects.requireNonNull(remoteMessage.getNotification()).getTitle())
                 .setContentText(remoteMessage.getNotification().getBody())
-                .setSmallIcon(R.drawable.ic_lastquakechile)
+                .setSmallIcon(R.drawable.ic_lastquakechile_1200)
                 .setAutoCancel(true);
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -153,7 +153,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Crashlytics.setBool(getString(R.string.TRY_INTENT_NOTIFICATION), true);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, getString(R.string.FIREBASE_CHANNEL_ID))
-                .setSmallIcon(R.drawable.ic_lastquakechile)
+                .setSmallIcon(R.drawable.ic_lastquakechile_1200)
                 .setContentTitle(titulo)
                 .setContentText(descripcion)
                 .setAutoCancel(true)
