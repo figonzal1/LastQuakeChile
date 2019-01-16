@@ -21,6 +21,7 @@ import com.bumptech.glide.request.target.Target;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
@@ -56,6 +57,7 @@ public class QuakeDetailsActivity extends AppCompatActivity {
         ImageView iv_sensible = findViewById(R.id.iv_sensible_detail);
         ImageView iv_mag_color = findViewById(R.id.iv_mag_color_detail);
         TextView tv_hora = findViewById(R.id.tv_hora_detail);
+        TextView tv_gms = findViewById(R.id.tv_gms);
         final ImageView iv_mapa = findViewById(R.id.iv_map_quake);
 
         if (b != null) {
@@ -65,8 +67,40 @@ public class QuakeDetailsActivity extends AppCompatActivity {
              */
             String ciudad = b.getString(getString(R.string.INTENT_CIUDAD));
             String referencia = b.getString(getString(R.string.INTENT_REFERENCIA));
-            //String latitud = b.getString(getString(R.string.INTENT_LATITUD));
-            //String longitud = b.getString(getString(R.string.INTENT_LONGITUD));
+
+            String latitud = b.getString(getString(R.string.INTENT_LATITUD));
+            String longitud = b.getString(getString(R.string.INTENT_LONGITUD));
+
+
+            //Conversion de latitud a dms
+            String dms_lat;
+            double lat_ubicacion = Double.parseDouble(Objects.requireNonNull(latitud));
+            if (lat_ubicacion < 0) {
+                dms_lat = getString(R.string.coordenadas_sur);
+            } else {
+                dms_lat = getString(R.string.coordenadas_norte);
+            }
+
+            Map<String, Double> lat_dms = toDMS(lat_ubicacion);
+            Double lat_grados_dsm = lat_dms.get("grados");
+            Double lat_minutos_dsm = lat_dms.get("minutos");
+            Double lat_segundos_dsm = lat_dms.get("segundos");
+            dms_lat = String.format(Locale.US, "%.1f° %.1f' %.1f'' %s", lat_grados_dsm, lat_minutos_dsm, lat_segundos_dsm, dms_lat);
+
+            //Conversion de layiyud a dms
+            String dms_long;
+            double long_ubicacion = Double.parseDouble(Objects.requireNonNull(longitud));
+            if (long_ubicacion < 0) {
+                dms_long = getString(R.string.coordenadas_oeste);
+            } else {
+                dms_long = getString(R.string.coordenadas_este);
+            }
+            Map<String, Double> long_dms = toDMS(long_ubicacion);
+            Double long_grados_dsm = long_dms.get("grados");
+            Double long_minutos_dsm = long_dms.get("minutos");
+            Double long_segundos_dsm = long_dms.get("segundos");
+            dms_long = String.format(Locale.US, "%.1f° %.1f' %.1f'' %s", long_grados_dsm, long_minutos_dsm, long_segundos_dsm, dms_long);
+
 
             Map<String, Long> tiempos = null;
 
@@ -140,8 +174,10 @@ public class QuakeDetailsActivity extends AppCompatActivity {
             tv_profundidad.setText(String.format(Locale.US, getString(R.string.quake_details_profundidad), profundidad));
 
             //Setear fecha
-
             tv_fecha.setText(fecha_local);
+
+            //Setear posicionamiento
+            tv_gms.setText(dms_lat + "\n" + dms_long);
 
             /*
                 SECCION HORA
@@ -228,6 +264,24 @@ public class QuakeDetailsActivity extends AppCompatActivity {
                     })
                     .into(iv_mapa);
         }
+    }
+
+    private Map<String, Double> toDMS(double input) {
+
+        Map<String, Double> dms = new HashMap<>();
+
+        double abs = Math.abs(input);
+
+        double lat_grados_rest = Math.floor(abs); //71
+        double minutes = Math.floor((((abs - lat_grados_rest) * 3600) / 60)); // 71.43 -71 = 0.43 =25.8 = 25
+        //(71.43 - 71)*3600 /60 - (71.43-71)*3600/60 = 25.8 - 25 =0.8
+        double seconds = ((((abs - lat_grados_rest) * 3600) / 60) - Math.floor((((abs - lat_grados_rest) * 3600) / 60))) * 60;
+
+        dms.put("grados", Math.floor(Math.abs(input)));
+        dms.put("minutos", minutes);
+        dms.put("segundos", seconds);
+
+        return dms;
     }
 }
 

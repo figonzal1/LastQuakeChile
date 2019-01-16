@@ -39,13 +39,13 @@
     <string name="icono_tiempo">Icono tiempo</string>
     <string name="tiempo">Fecha/Hora</string>
     <string name="icono_distancia">Icono distancia</string>
-    <string name="distancia">Distancia</string>
+    <string name="distancia">Posición GMS</string>
     <string name="icono_epicentro">Icono epicentro</string>
     <string name="icono_escala">Icono escala</string>
     <string name="profundidad">Profundidad</string>
     <string name="escala">Escala</string>
     <string name="quake_details_escala" translatable="false">%1$s</string>
-    <string name="quake_details_profundidad" translatable="false">%.1f km</string>
+    <string name="quake_details_profundidad" translatable="false">%.1f Km</string>
     <string name="magnitud" translatable="false">%.1f</string>
     <string name="icono_mail">Icono email</string>
     <string name="icono_persona">Icono persona</string>
@@ -163,6 +163,9 @@
     <string name="INVITATION_TITLE">¡Invita a tus amigos a usar la App!</string>
     <string name="INVITATION_DEEP_LINK" translatable="false">https://lastquakechile.page.link/hJJ9</string>
     <string name="INVITATION_SUBJECT">Descarga LastQuakeChile App</string>
-    <string name="INVITATION_EMAIL" translatable="false"></string>
+    <string name="coordenadas_sur">S</string>
+    <string name="coordenadas_norte">N</string>
+    <string name="coordenadas_oeste">O</string>
+    <string name="coordenadas_este">E</string>
 
 </resources>
