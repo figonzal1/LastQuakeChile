@@ -9,7 +9,7 @@
     <string name="icono_tiempo">Icono tiempo</string>
     <string name="tiempo">Fecha/Hora</string>
     <string name="icono_distancia">Icono distancia</string>
-    <string name="distancia">Distancia</string>
+    <string name="distancia">Posición GMS</string>
     <string name="icono_epicentro">Icono epicentro</string>
     <string name="icono_escala">Icono escala</string>
     <string name="profundidad">Profundidad</string>
@@ -37,4 +37,8 @@
     <string name="invite">Invitar amigos</string>
     <string name="INVITATION_TITLE">¡Invita a tus amigos a usar la App!</string>
     <string name="INVITATION_SUBJECT">Descarga LastQuakeChile App</string>
+    <string name="coordenadas_sur">S</string>
+    <string name="coordenadas_norte">N</string>
+    <string name="coordenadas_oeste">O</string>
+    <string name="coordenadas_este">E</string>
 </resources>
