@@ -59,6 +59,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
+    /**
+     * Funcion que procesa notificaciones provenientes de FCM
+     *
+     * @param remoteMessage mensaje fcm
+     */
     private void showNotification(RemoteMessage remoteMessage) {
 
         //Maneja la notificacion cuando esta en foreground
@@ -72,6 +77,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         notificationManager.notify(Integer.parseInt(getString(R.string.FIREBASE_CHANNEL_ID)), builder.build());
     }
 
+    /**
+     * Funcion encargada de procesar notificaciones desde servidor LastQuakeChile
+     * @param remoteMessage mensaje desde servidor
+     */
     private void showNotificationData(RemoteMessage remoteMessage) {
 
         /*
@@ -85,6 +94,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         String ciudad = null;
         String fecha_utc = null;
+        String latitud = null;
+        String longitud = null;
         Double magnitud = null;
         String escala = null;
         Double profundidad = null;
@@ -97,6 +108,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             titulo = object.getString(getString(R.string.INTENT_TITULO));
             descripcion = object.getString(getString(R.string.INTENT_DESCRIPCION));
             fecha_utc = object.getString(getString(R.string.INTENT_FECHA_UTC));
+            latitud = object.getString(getString(R.string.INTENT_LATITUD));
+            longitud = object.getString(getString(R.string.INTENT_LONGITUD));
             magnitud = object.getDouble(getString(R.string.INTENT_MAGNITUD));
             escala = object.getString(getString(R.string.INTENT_ESCALA));
             profundidad = object.getDouble(getString(R.string.INTENT_PROFUNDIDAD));
@@ -134,6 +147,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         b.putString(getString(R.string.INTENT_CIUDAD), ciudad);
         b.putString(getString(R.string.INTENT_FECHA_UTC), fecha_utc);
+        b.putString(getString(R.string.INTENT_LATITUD), latitud);
+        b.putString(getString(R.string.INTENT_LONGITUD), longitud);
 
         assert magnitud != null;
         b.putDouble(getString(R.string.INTENT_MAGNITUD), magnitud);
