@@ -40,5 +40,5 @@
     <string name="coordenadas_sur">S</string>
     <string name="coordenadas_norte">N</string>
     <string name="coordenadas_oeste">W</string>
-    <string name="coordenadas_este">East</string>
+    <string name="coordenadas_este">E</string>
 </resources>
