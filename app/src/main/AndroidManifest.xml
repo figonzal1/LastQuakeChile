@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="cl.figonzal.lastquakechile"
     android:installLocation="auto">
 
@@ -37,7 +36,6 @@
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait">
-            <tools:validation testUrl="https://lastquakechile-server.herokuapp.com/" />
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -76,7 +74,8 @@
         <activity
             android:name=".InvitationActivity"
             android:screenOrientation="portrait">
-            <intent-filter>
+
+            <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -85,6 +84,16 @@
                 <data
                     android:host="lastquakechile-server.herokuapp.com"
                     android:scheme="https" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="https"
+                    android:host="www.figonzal.cl" />
             </intent-filter>
         </activity>
 
