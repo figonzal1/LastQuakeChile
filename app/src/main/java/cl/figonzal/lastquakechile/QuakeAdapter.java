@@ -79,7 +79,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
 
         //Guarda despues de 'DE' en la ciudad
         int inicio = model.getReferencia().indexOf("de")+3;
-        final String ciudad = model.getReferencia().substring(inicio, model.getReferencia().length());
+        final String ciudad = model.getReferencia().substring(inicio);
 
         holder.tv_ciudad.setText(ciudad);
         holder.tv_referencia.setText(model.getReferencia());

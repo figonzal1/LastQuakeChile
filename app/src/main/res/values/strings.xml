@@ -14,6 +14,7 @@
 
     <!-- FORMAT -->
     <string name="DATETIME_FORMAT" translatable="false">yyyy-MM-dd HH:mm:ss</string>
+    <string name="DATETIME_FORMAT_SLASH" translatable="false">yyyy/MM/dd HH:mm:ss</string>
 
     <!-- KEY DE JSON PARA PHP -->
     <string name="KEY_FECHA_UTC" translatable="false">fecha_utc</string>
