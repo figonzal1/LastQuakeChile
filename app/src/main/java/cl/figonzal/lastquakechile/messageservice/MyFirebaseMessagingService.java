@@ -125,7 +125,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             referencia = object.getString(getString(R.string.INTENT_REFERENCIA));
             //Guarda despues de 'DE' en la ciudad
             int inicio = referencia.indexOf("de") + 3;
-            ciudad = referencia.substring(inicio, referencia.length());
+            ciudad = referencia.substring(inicio);
 
             imagen_url = object.getString(getString(R.string.INTENT_LINK_FOTO));
         } catch (JSONException e) {
@@ -211,7 +211,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public static void checkSuscription(final Activity activity) {
 
         final SharedPreferences sharedPreferences = activity.getPreferences(Context.MODE_PRIVATE);
-        Boolean suscrito = sharedPreferences.getBoolean(activity.getString(R.string.FIREBASE_SUSCRITO), false);
+        boolean suscrito = sharedPreferences.getBoolean(activity.getString(R.string.FIREBASE_SUSCRITO), false);
 
         if (!suscrito) {
             FirebaseMessaging.getInstance().subscribeToTopic(activity.getString(R.string.FIREBASE_TOPIC_NAME))

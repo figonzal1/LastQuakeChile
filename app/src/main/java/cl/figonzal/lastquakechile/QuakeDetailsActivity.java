@@ -87,7 +87,7 @@ public class QuakeDetailsActivity extends AppCompatActivity {
             Double lat_segundos_dsm = lat_dms.get("segundos");
             dms_lat = String.format(Locale.US, "%.1f° %.1f' %.1f'' %s", lat_grados_dsm, lat_minutos_dsm, lat_segundos_dsm, dms_lat);
 
-            //Conversion de layiyud a dms
+            //Conversion de latitud a dms
             String dms_long;
             double long_ubicacion = Double.parseDouble(Objects.requireNonNull(longitud));
             if (long_ubicacion < 0) {
@@ -123,7 +123,7 @@ public class QuakeDetailsActivity extends AppCompatActivity {
             //Si el bundle viene de notificacion, transformar UTC a TIME LOCAL
             String fecha_utc = b.getString(getString(R.string.INTENT_FECHA_UTC));
             if (fecha_utc != null) {
-                SimpleDateFormat format = new SimpleDateFormat(getString(R.string.DATETIME_FORMAT), Locale.US);
+                SimpleDateFormat format = new SimpleDateFormat(getString(R.string.DATETIME_FORMAT_SLASH), Locale.US);
                 format.setTimeZone(TimeZone.getDefault());
 
                 Date utc_date = null;
@@ -142,11 +142,11 @@ public class QuakeDetailsActivity extends AppCompatActivity {
             }
 
 
-            Double magnitud = b.getDouble(getString(R.string.INTENT_MAGNITUD));
+            double magnitud = b.getDouble(getString(R.string.INTENT_MAGNITUD));
             Double profundidad = b.getDouble(getString(R.string.INTENT_PROFUNDIDAD));
             String escala = b.getString(getString(R.string.INTENT_ESCALA));
             //TODO: Agregar sensible a los detalles del sismo
-            Boolean sensible = b.getBoolean(getString(R.string.INTENT_SENSIBLE));
+            boolean sensible = b.getBoolean(getString(R.string.INTENT_SENSIBLE));
             String foto_url = b.getString(getString(R.string.INTENT_LINK_FOTO));
 
 
@@ -177,6 +177,7 @@ public class QuakeDetailsActivity extends AppCompatActivity {
             tv_fecha.setText(fecha_local);
 
             //Setear posicionamiento
+            //TODO: Corregir esto
             tv_gms.setText(dms_lat + "\n" + dms_long);
 
             /*
