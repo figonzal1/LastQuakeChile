@@ -177,8 +177,7 @@ public class QuakeDetailsActivity extends AppCompatActivity {
             tv_fecha.setText(fecha_local);
 
             //Setear posicionamiento
-            //TODO: Corregir esto
-            tv_gms.setText(dms_lat + "\n" + dms_long);
+            tv_gms.setText(String.format(getString(R.string.format_coordenadas), dms_lat, dms_long));
 
             /*
                 SECCION HORA
