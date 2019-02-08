@@ -72,7 +72,7 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
-            android:name=".InvitationActivity"
+            android:name=".WelcomeActivity"
             android:screenOrientation="portrait">
 
             <intent-filter android:autoVerify="true">
