@@ -1,7 +1,9 @@
 package cl.figonzal.lastquakechile;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -41,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Checkea si es primer inicio
+        checkFirstRun();
 
         //Verifica si el celular tiene googleplay services activado
         checkPlayServices();
@@ -120,12 +124,28 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), InvitationActivity.class);
+                Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
                 startActivity(intent);
             }
         });
     }
 
+    private void checkFirstRun() {
+        SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+
+        boolean firtsRun = sharedPreferences.getBoolean("first_run", true);
+
+        if (firtsRun) {
+            Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+        //Cambiar a falso, para que proxima vez no abra invitation.
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("first_run", false);
+        editor.apply();
+    }
 
 
     @Override
