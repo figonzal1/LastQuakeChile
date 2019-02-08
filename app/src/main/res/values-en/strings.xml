@@ -37,8 +37,6 @@
     <string name="invite">Invite friends</string>
     <string name="INVITATION_TITLE">" Invite your friends to use the app!"</string>
     <string name="INVITATION_SUBJECT">Download LastQuakeChile App</string>
-    <string name="coordenadas_sur">S</string>
-    <string name="coordenadas_norte">N</string>
     <string name="coordenadas_oeste">W</string>
     <string name="coordenadas_este">E</string>
 </resources>
