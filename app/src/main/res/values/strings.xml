@@ -62,8 +62,8 @@
     <string name="icono_app">Icono app</string>
     <string name="invitation_welcome">¡Bienvenido!</string>
     <string name="icono_ondas">Icono ondas</string>
-    <string name="coordenadas_sur">S</string>
-    <string name="coordenadas_norte">N</string>
+    <string name="coordenadas_sur" translatable="false">S</string>
+    <string name="coordenadas_norte" translatable="false">N</string>
     <string name="coordenadas_oeste">O</string>
     <string name="coordenadas_este">E</string>
     <string name="format_coordenadas" translatable="false">%s \n%s</string>
@@ -167,7 +167,7 @@
 
     <!-- INVITATION STRINGS -->
     <string name="INVITATION_TITLE">¡Invita a tus amigos a usar la App!</string>
-    <string name="INVITATION_DEEP_LINK" translatable="false">https://lastquakechile.page.link/hJJ9</string>
+    <string name="INVITATION_DEEP_LINK" translatable="false">https://lastquakechile.page.link/lqch</string>
     <string name="INVITATION_SUBJECT">Descarga LastQuakeChile App</string>
 
 
