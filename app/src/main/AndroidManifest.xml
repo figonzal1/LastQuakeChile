@@ -26,12 +26,26 @@
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_lastquakechile_1200" />
 
-        <!-- Color Notificaciones -->
-        <!--
+        <!-- FACEBOOK-->
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <provider
+            android:authorities="com.facebook.app.FacebookContentProvider1263072277140754"
+            android:name="com.facebook.FacebookContentProvider"
+            android:exported="true" />
+
+        <!-- Provider usado para buscar rutas de imagenes y pasarlas a Uri's-->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="cl.figonzal.lastquakechile.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
-            android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/colorPrimary" />
-        -->
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_provider" />
+        </provider>
 
         <activity
             android:name=".MainActivity"

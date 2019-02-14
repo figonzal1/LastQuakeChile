@@ -1,5 +1,15 @@
 package cl.figonzal.lastquakechile;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.support.v4.content.FileProvider;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -110,6 +120,63 @@ public class QuakeUtils {
                 break;
         }
         return mag_resource_id;
+    }
+
+    /**
+     * Funcion que permite cambiaar latitud o longitud a DMS
+     *
+     * @param input Longitud o Latitud
+     * @return grados, minutos, segundos en un Map
+     */
+    public static Map<String, Double> toDMS(double input) {
+
+        Map<String, Double> dms = new HashMap<>();
+
+        double abs = Math.abs(input);
+
+        double lat_grados_rest = Math.floor(abs); //71
+        double minutes = Math.floor((((abs - lat_grados_rest) * 3600) / 60)); // 71.43 -71 = 0.43 =25.8 = 25
+        //(71.43 - 71)*3600 /60 - (71.43-71)*3600/60 = 25.8 - 25 =0.8
+        double seconds = ((((abs - lat_grados_rest) * 3600) / 60) - Math.floor((((abs - lat_grados_rest) * 3600) / 60))) * 60;
+
+        dms.put("grados", Math.floor(Math.abs(input)));
+        dms.put("minutos", minutes);
+        dms.put("segundos", seconds);
+
+        return dms;
+    }
+
+    /**
+     * Funcion que guardar una imagen en cache desde la descarga de glide
+     *
+     * @param drawable imagen de la cual se buscara la ruta
+     * @param context  contexto de la actividad
+     * @return Uri retorna la direccion dentro del celular donde esta la imagen
+     */
+    static Uri getLocalBitmapUri(Drawable drawable, Context context) {
+
+        Bitmap bmp;
+
+        if (drawable instanceof BitmapDrawable) {
+            bmp = ((BitmapDrawable) drawable).getBitmap();
+        } else {
+            return null;
+        }
+
+        Uri bmpUri = null;
+
+        try {
+            File file = new File(context.getCacheDir(), "share_image_" + System.currentTimeMillis() + ".jpeg");
+            FileOutputStream out = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            out.close();
+
+            bmpUri = FileProvider.getUriForFile(context, "cl.figonzal.lastquakechile.fileprovider", file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bmpUri;
+
     }
 
 }
