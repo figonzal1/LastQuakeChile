@@ -9,6 +9,118 @@
     tools:context=".QuakeDetailsActivity"
     tools:layout_editor_absoluteY="25dp">
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_gmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#c71610"
+        app:elevation="6dp"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toBottomOf="@+id/fab_share"
+        app:layout_constraintEnd_toEndOf="@+id/fab_share"
+        app:layout_constraintStart_toStartOf="@+id/fab_share"
+        app:layout_constraintTop_toTopOf="@+id/fab_share"
+        app:srcCompat="@drawable/ic_fab_gmail" />
+
+    <TextView
+        android:id="@+id/fab_text_gm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:elevation="6dp"
+        android:fontFamily="sans-serif"
+        android:text="Gmail"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/fab_gmail"
+        app:layout_constraintEnd_toStartOf="@+id/fab_gmail"
+        app:layout_constraintTop_toTopOf="@+id/fab_gmail" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_wsp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#25D366"
+        app:elevation="6dp"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toBottomOf="@+id/fab_share"
+        app:layout_constraintEnd_toEndOf="@+id/fab_share"
+        app:layout_constraintStart_toStartOf="@+id/fab_share"
+        app:layout_constraintTop_toTopOf="@+id/fab_share"
+        app:srcCompat="@drawable/ic_fab_whatsapp" />
+
+    <TextView
+        android:id="@+id/fab_text_wsp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:elevation="6dp"
+        android:fontFamily="sans-serif"
+        android:text="Whatsapp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/fab_wsp"
+        app:layout_constraintEnd_toStartOf="@+id/fab_wsp"
+        app:layout_constraintTop_toTopOf="@+id/fab_wsp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_fb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#3b5998"
+        app:elevation="6dp"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toBottomOf="@+id/fab_share"
+        app:layout_constraintEnd_toEndOf="@+id/fab_share"
+        app:layout_constraintStart_toStartOf="@+id/fab_share"
+        app:layout_constraintTop_toTopOf="@+id/fab_share"
+        app:srcCompat="@drawable/ic_fab_facebook" />
+
+    <TextView
+        android:id="@+id/fab_text_fb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:elevation="6dp"
+        android:fontFamily="sans-serif"
+        android:text="Facebook"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/fab_fb"
+        app:layout_constraintEnd_toStartOf="@+id/fab_fb"
+        app:layout_constraintTop_toTopOf="@+id/fab_fb" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_share"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="visible"
+        app:backgroundTintMode="src_atop"
+        app:elevation="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_share_24px" />
+
+
+    <View
+        android:id="@+id/quake_details_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/colorPrimaryDark"
+        android:elevation="5dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_detail"
@@ -30,21 +142,14 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <!--<ImageView
-        android:id="@+id/iv_map_quake"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:contentDescription="@string/imagen_geografica_posicion_sismo"
-        app:layout_constraintBottom_toTopOf="@+id/barrera_imagen"
-        app:layout_constraintEnd_toStartOf="@+id/derecha"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/izquierda"
-        app:layout_constraintTop_toBottomOf="@+id/app_bar_detail"
-        fresco:placeholderImage="@drawable/placeholder"
-        fresco:failureImage="@drawable/not_found"
-        fresco:roundedCornerRadius="5dp"
-        fresco:actualImageScaleType="centerCrop"/>-->
+
+    <android.support.constraint.Guideline
+        android:id="@+id/izquierda"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="visible"
+        app:layout_constraintGuide_begin="8dp" />
 
     <android.support.v7.widget.CardView
         android:id="@+id/card_view_map"
@@ -53,6 +158,7 @@
         android:layout_marginTop="8dp"
         android:elevation="4dp"
         app:cardCornerRadius="4dp"
+        app:cardElevation="4dp"
         app:layout_constraintBottom_toTopOf="@+id/barrera_imagen"
         app:layout_constraintEnd_toStartOf="@+id/derecha"
         app:layout_constraintHorizontal_bias="0.0"
@@ -68,15 +174,6 @@
             tools:src="@drawable/placeholder" />
 
     </android.support.v7.widget.CardView>
-
-
-    <android.support.constraint.Guideline
-        android:id="@+id/izquierda"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="visible"
-        app:layout_constraintGuide_begin="8dp" />
 
     <android.support.constraint.Guideline
         android:id="@+id/derecha"
@@ -252,30 +349,27 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_titulo_fecha"
                 tools:text="22-14-2018 23:45:23" />
 
-            <android.support.constraint.Barrier
-                android:id="@+id/barrier"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:barrierDirection="bottom"
-                app:constraint_referenced_ids="tv_epicentro,tv_fecha"
-                app:layout_constraintBottom_toBottomOf="parent"
+            <View
+                android:id="@+id/view"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_fecha" />
 
             <ImageView
                 android:id="@+id/iv_pin"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
                 android:contentDescription="@string/icono_distancia"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/barrier"
-                app:layout_constraintVertical_bias="0.0"
+                app:layout_constraintTop_toBottomOf="@+id/view"
                 app:srcCompat="@drawable/ic_near_24dp" />
 
             <TextView
@@ -358,17 +452,16 @@
                 tools:text="83 km" />
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/iv_scale"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
                 android:contentDescription="@string/icono_escala"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guia_vertical"
-                app:layout_constraintTop_toTopOf="@+id/barrier"
-                app:layout_constraintVertical_bias="0.0"
+                app:layout_constraintTop_toBottomOf="@+id/view"
                 card_view:srcCompat="@drawable/ic_show_chart_black_24dp" />
 
             <TextView
@@ -380,8 +473,8 @@
                 android:text="@string/escala"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                 android:textSize="14sp"
-                app:layout_constraintStart_toEndOf="@+id/imageView"
-                app:layout_constraintTop_toTopOf="@+id/imageView" />
+                app:layout_constraintStart_toEndOf="@+id/iv_scale"
+                app:layout_constraintTop_toTopOf="@+id/iv_scale" />
 
             <TextView
                 android:id="@+id/tv_escala"
@@ -400,6 +493,7 @@
                 tools:text="Nombre Escala" />
 
         </android.support.constraint.ConstraintLayout>
+
     </android.support.v7.widget.CardView>
 
 </android.support.constraint.ConstraintLayout>
