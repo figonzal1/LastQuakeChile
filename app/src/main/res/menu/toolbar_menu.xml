@@ -26,7 +26,6 @@
 
     <item
         android:id="@+id/invite"
-        android:icon="@drawable/ic_date"
         app:showAsAction="never"
         android:orderInCategory="4"
         android:title="@string/invite" />

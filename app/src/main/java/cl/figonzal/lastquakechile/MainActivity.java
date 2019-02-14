@@ -12,8 +12,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -118,16 +116,6 @@ public class MainActivity extends AppCompatActivity {
         //Suscribir automaticamente al tema (FIREBASE - Quakes)
         MyFirebaseMessagingService.checkSuscription(this);
 
-        //Intent para debug de activity invitacion
-        //TODO: Borrar para publicacion
-        Button btn = findViewById(R.id.button);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     private void checkFirstRun() {
