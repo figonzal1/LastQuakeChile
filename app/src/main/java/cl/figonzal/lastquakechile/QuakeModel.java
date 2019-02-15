@@ -2,7 +2,7 @@ package cl.figonzal.lastquakechile;
 
 import java.util.Date;
 
-public class QuakeModel {
+class QuakeModel {
 
     private Date fecha_local;
     private String latitud;

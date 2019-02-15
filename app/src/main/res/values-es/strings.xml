@@ -39,4 +39,7 @@
     <string name="INVITATION_SUBJECT">Descarga LastQuakeChile App</string>
     <string name="coordenadas_oeste">O</string>
     <string name="coordenadas_este">E</string>
+    <string name="TAG_TOAST_SHARE_FB_ERROR">Error al compartir publicación</string>
+    <string name="TAG_TOAST_SHARE_FB_OK">Contenido compartido correctamente</string>
+    <string name="TAG_TOAST_SHARE_FB_CANCEL">Compartir publicación cancelada</string>
 </resources>
