@@ -36,7 +36,7 @@ import java.util.TimeZone;
  * Clase ideada para cargar UI bajo el cambio de orientacion de pantalla
  * independiente de la creacion de una nueva activity
  */
-public class QuakeViewModel extends AndroidViewModel {
+class QuakeViewModel extends AndroidViewModel {
 
     private MutableLiveData<List<QuakeModel>> liveDataQuakes;   //Permite la carga de sismos al inicio y al refresh del toolbar
     private List<QuakeModel> quakeModelList;                    //Lista de sismos que se agrega despues al MutableLive

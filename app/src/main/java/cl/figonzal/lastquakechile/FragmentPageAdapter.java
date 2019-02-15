@@ -10,7 +10,7 @@ import android.support.v4.app.FragmentPagerAdapter;
  */
 
 
-public class FragmentPageAdapter extends FragmentPagerAdapter {
+class FragmentPageAdapter extends FragmentPagerAdapter {
 
     private final String[] tabTitles = {"GUC"};
 
