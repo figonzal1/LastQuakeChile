@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
 
-public class QuakeUtils {
+class QuakeUtils {
 
     /**
      * Funcion que calcula la diferencia en milisegundos

@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -24,12 +25,12 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
+import com.crashlytics.android.Crashlytics;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.share.Sharer;
 import com.facebook.share.model.ShareHashtag;
-import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
@@ -46,10 +47,9 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
 
 public class QuakeDetailsActivity extends AppCompatActivity {
 
-    ShareDialog shareDialog;
-    SharePhotoContent sharePhotoContent;
-    ShareLinkContent shareLinkContent;
-    SharePhoto sharePhoto;
+    private ShareDialog shareDialog;
+    private SharePhotoContent sharePhotoContent;
+    private SharePhoto sharePhoto;
     private CallbackManager callbackManager;
     private Uri bitmapUri;
     private TextView tv_ciudad, tv_referencia, tv_escala, tv_magnitud, tv_profundidad, tv_fecha, tv_hora, tv_gms, fab_text_fb, fab_text_wsp, fab_text_gm;
@@ -116,8 +116,8 @@ public class QuakeDetailsActivity extends AppCompatActivity {
             /*
                 SECCION DE TRANSFORMACION LAT-LONG TO GMS
              */
-            String latitud = b.getString(getString(R.string.INTENT_LATITUD));
-            String longitud = b.getString(getString(R.string.INTENT_LONGITUD));
+            final String latitud = b.getString(getString(R.string.INTENT_LATITUD));
+            final String longitud = b.getString(getString(R.string.INTENT_LONGITUD));
 
             //Conversion de latitud a dms
             double lat_ubicacion = Double.parseDouble(Objects.requireNonNull(latitud));
@@ -224,7 +224,8 @@ public class QuakeDetailsActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     //TODO Corregir los datos enviados hacia facebook
-                    Log.d("SHARE_INTENT", "FACEBOOK SHARE INTENT");
+                    Log.d(getString(R.string.TAG_INTENT_SHARE), getString(R.string.TAG_INTENT_SHARE_FB));
+                    Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE), getString(R.string.TAG_INTENT_SHARE_FB));
 
                     callbackManager = CallbackManager.Factory.create();
                     shareDialog = new ShareDialog(QuakeDetailsActivity.this);
@@ -233,11 +234,13 @@ public class QuakeDetailsActivity extends AppCompatActivity {
                     //Share foto del sismo
                     sharePhoto = new SharePhoto.Builder()
                             .setBitmap(bitmapFB)
-                            .setUserGenerated(false)
                             .build();
 
+                    //TODO: revisar urls
                     sharePhotoContent = new SharePhotoContent.Builder()
                             .addPhoto(sharePhoto)
+                            .setRef("https://lastquakechile.page.link/lqch")
+                            .setContentUrl(Uri.parse("https://lastquakechile.page.link/lqch"))
                             .setShareHashtag(new ShareHashtag.Builder()
                                     .setHashtag("#SismoChile")
                                     .build())
@@ -246,22 +249,30 @@ public class QuakeDetailsActivity extends AppCompatActivity {
                     shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
                         @Override
                         public void onSuccess(Sharer.Result result) {
-                            Toast.makeText(getApplicationContext(), "Contenido compartido correctamente", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), getString(R.string.TAG_TOAST_SHARE_FB_OK), Toast.LENGTH_LONG).show();
+                            Log.d(getString(R.string.TAG_INTENT_SHARE_FB_LOG), getString(R.string.TAG_INTENT_SHARE_FB_OK_MESSAGE));
+                            Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE_FB_LOG), getString(R.string.TAG_INTENT_SHARE_FB_OK_MESSAGE));
                         }
 
                         @Override
                         public void onCancel() {
-                            Toast.makeText(getApplicationContext(), "Compartir publicación cancelada", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), getString(R.string.TAG_TOAST_SHARE_FB_CANCEL), Toast.LENGTH_LONG).show();
+                            Log.d(getString(R.string.TAG_INTENT_SHARE_FB_LOG), getString(R.string.TAG_INTENT_SHARE_FB_CANCEL_MESSAGE));
+                            Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE_FB_LOG), getString(R.string.TAG_INTENT_SHARE_FB_CANCEL_MESSAGE));
                         }
 
                         @Override
                         public void onError(FacebookException error) {
-                            Toast.makeText(getApplicationContext(), "Error al compartir publicación", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), getString(R.string.TAG_TOAST_SHARE_FB_ERROR), Toast.LENGTH_LONG).show();
+                            Log.d(getString(R.string.TAG_INTENT_SHARE_FB_LOG), getString(R.string.TAG_INTENT_SHARE_FB_ERROR_MESSAGE));
+                            Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE_FB_LOG), getString(R.string.TAG_INTENT_SHARE_FB_ERROR_MESSAGE));
                         }
                     });
 
                     if (ShareDialog.canShow(SharePhotoContent.class)) {
                         shareDialog.show(sharePhotoContent);
+                        Log.d(getString(R.string.TAG_INTENT_SHARE_DIALOG), getString(R.string.TAG_INTENT_SHARE_DIALOG_MESSAGE));
+                        Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE_DIALOG), getString(R.string.TAG_INTENT_SHARE_DIALOG_MESSAGE));
                     }
                 }
             });
@@ -270,8 +281,8 @@ public class QuakeDetailsActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     //TODO Corregir los datos enviados hacia wsp
-                    Log.d("SHARE_INTENT", "WHATSAPP SHARE INTENT");
-                    Toast.makeText(getApplicationContext(), "Whatsap share", Toast.LENGTH_LONG).show();
+                    Log.d(getString(R.string.TAG_INTENT_SHARE), getString(R.string.TAG_INTENT_SHARE_WSP));
+                    Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE), getString(R.string.TAG_INTENT_SHARE_WSP));
 
                     Intent wspIntent = new Intent();
                     wspIntent.setAction(Intent.ACTION_SEND);
@@ -290,18 +301,39 @@ public class QuakeDetailsActivity extends AppCompatActivity {
             fab_gmail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //TODO Corregir los datos enviados hacia gmail
-                    Log.d("SHARE_INTENT", "GMAIL SHARE INTENT");
-                    Toast.makeText(getApplicationContext(), "Gmail share", Toast.LENGTH_LONG).show();
+
+                    Log.d(getString(R.string.TAG_INTENT_SHARE), getString(R.string.TAG_INTENT_SHARE_GM));
+                    Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE), getString(R.string.TAG_INTENT_SHARE_GM));
 
                     Intent gmIntent = new Intent();
                     gmIntent.setAction(Intent.ACTION_SEND);
                     gmIntent.setPackage("com.google.android.gm");
-                    gmIntent.putExtra(Intent.EXTRA_SUBJECT, "[Alerta Sismica] - PUNITAQUI ");
-                    gmIntent.putExtra(Intent.EXTRA_TEXT, "Este texto esta en el parrafo del email");
+                    gmIntent.putExtra(Intent.EXTRA_SUBJECT, String.format(Locale.US, "[Alerta sísmica] - %1$.1f Richter en %2$s", magnitud, ciudad));
+                    gmIntent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(
+                            String.format(Locale.US,
+                                    "<h3>\n" +
+                                            "  Información sismológica\n" +
+                                            "</h3>\n" +
+                                            "\n" +
+                                            "<table>\n" +
+                                            "  <tr><td>Hora Local: </td><td>%1$s</td></tr><br>\n" +
+                                            "  <tr><td>Ciudad: </td><td>%2$s</td></tr><br>\n" +
+                                            "  <tr><td>Magnitud: </td><td>%3$.1f %4$s</td></tr><br>\n" +
+                                            "  <tr><td>Profundidad: </td><td>%5$.1f Km</td></tr><br>\n" +
+                                            "  <tr><td>Georeferencia: </td><td>%6$s</td></tr><br>\n" +
+                                            "  <tr><td>Latitud: </td><td>%7$s</td></tr><br>\n" +
+                                            "  <tr><td>Longitud: </td><td>%8$s</td></tr><br>\n" +
+                                            "  <tr><td>Posicion GMS: </td><td>%9$s - %10$s</td></tr><br>\n" +
+                                            " \n" +
+                                            "</table>\n" +
+                                            "\n" +
+                                            "<h5>\n" +
+                                            "  Para más información descarga la app aqui https://lastquakechile.page.link/lqch \n" +
+                                            "</h5>"
+                                    , fecha_local, ciudad, magnitud, escala, profundidad, referencia, latitud, longitud, dms_lat, dms_long)));
+
                     gmIntent.putExtra(Intent.EXTRA_STREAM, bitmapUri);
                     gmIntent.setType("image/*");
-                    gmIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
                     startActivity(gmIntent);
                 }
@@ -309,6 +341,10 @@ public class QuakeDetailsActivity extends AppCompatActivity {
         }
     }
 
+
+    /**
+     * Funcion que abre el floating button menu
+     */
     private void showFabMenu() {
         isFABOpen = true;
 
@@ -343,11 +379,14 @@ public class QuakeDetailsActivity extends AppCompatActivity {
 
         overlay.setAlpha(0f);
         overlay.setVisibility(View.VISIBLE);
-        overlay.animate().alpha(0.8f).setDuration(500);
+        overlay.animate().alpha(0.85f).setDuration(500);
 
 
     }
 
+    /**
+     * Funcion que cierra el floating button menu
+     */
     private void closeFabMenu() {
         isFABOpen = false;
         fab_fb.animate().translationY(0);
@@ -365,7 +404,7 @@ public class QuakeDetailsActivity extends AppCompatActivity {
         fab_text_gm.setVisibility(View.GONE);
         fab_text_fb.setVisibility(View.GONE);
 
-        overlay.setAlpha(0.8f);
+        overlay.setAlpha(0.85f);
         overlay.animate().alpha(0.0f).setDuration(500).setListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation, boolean isReverse) {
@@ -386,8 +425,8 @@ public class QuakeDetailsActivity extends AppCompatActivity {
     }
 
     /*
-            Funcion que permite el callback de facebook
-         */
+        Funcion que permite el callback de facebook
+    */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -497,6 +536,8 @@ public class QuakeDetailsActivity extends AppCompatActivity {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                         iv_mapa.setImageDrawable(getDrawable(R.drawable.not_found));
+                        Log.d(getString(R.string.TAG_INTENT_SHARE_BITMAP), getString(R.string.TAG_INTENT_SHARE_BITMAP_MESSAGE_FAIL));
+                        Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE_BITMAP), getString(R.string.TAG_INTENT_SHARE_BITMAP_MESSAGE_FAIL));
                         return false;
                     }
 
@@ -505,6 +546,8 @@ public class QuakeDetailsActivity extends AppCompatActivity {
                     public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                         bitmapUri = QuakeUtils.getLocalBitmapUri(resource, getApplicationContext());
                         bitmapFB = ((BitmapDrawable) resource).getBitmap();
+                        Log.d(getString(R.string.TAG_INTENT_SHARE_BITMAP), getString(R.string.TAG_INTENT_SHARE_BITMAP_MESSAGE));
+                        Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE_BITMAP), getString(R.string.TAG_INTENT_SHARE_BITMAP_MESSAGE));
                         return false;
                     }
                 })

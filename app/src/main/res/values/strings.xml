@@ -70,6 +70,9 @@
     <string name="coordenadas_oeste">O</string>
     <string name="coordenadas_este">E</string>
     <string name="format_coordenadas" translatable="false">%s \n%s</string>
+    <string name="fab_gmail" translatable="false">Gmail</string>
+    <string name="fab_whatsapp" translatable="false">Whatsapp</string>
+    <string name="fab_facebook" translatable="false">Facebook</string>
 
 
     <!-- FIREBASE-->
@@ -172,5 +175,24 @@
     <string name="INVITATION_TITLE">¡Invita a tus amigos a usar la App!</string>
     <string name="INVITATION_DEEP_LINK" translatable="false">https://lastquakechile.page.link/lqch</string>
     <string name="INVITATION_SUBJECT">Descarga LastQuakeChile App</string>
+
+    <!-- INTENT SHARE LOGS -->
+    <string name="TAG_INTENT_SHARE" translatable="false">SHARE_INTENT</string>
+    <string name="TAG_INTENT_SHARE_FB" translatable="false">FACEBOOK SHARE INTENT</string>
+    <string name="TAG_INTENT_SHARE_FB_LOG" translatable="false">FB_SHARE</string>
+    <string name="TAG_INTENT_SHARE_FB_OK_MESSAGE" translatable="false">SHARE OK</string>
+    <string name="TAG_INTENT_SHARE_FB_ERROR_MESSAGE" translatable="false">SHARE ERROR</string>
+    <string name="TAG_INTENT_SHARE_FB_CANCEL_MESSAGE" translatable="false">SHARE CANCEL</string>
+    <string name="TAG_TOAST_SHARE_FB_ERROR">Error al compartir publicación</string>
+    <string name="TAG_TOAST_SHARE_FB_OK">Contenido compartido correctamente</string>
+    <string name="TAG_TOAST_SHARE_FB_CANCEL">Compartir publicación cancelada</string>
+    <string name="TAG_INTENT_SHARE_DIALOG" translatable="false">FB_DIALOG</string>
+    <string name="TAG_INTENT_SHARE_DIALOG_MESSAGE" translatable="false">DIALOG MOSTRADO</string>
+    <string name="TAG_INTENT_SHARE_WSP" translatable="false">WHATSAPP SHARE INTENT</string>
+    <string name="TAG_INTENT_SHARE_GM" translatable="false">GMAIL SHARE INTENT</string>
+    <string name="TAG_INTENT_SHARE_BITMAP" translatable="false">BITMAPS</string>
+    <string name="TAG_INTENT_SHARE_BITMAP_MESSAGE" translatable="false">BITMAPS CARGADOS</string>
+    <string name="TAG_INTENT_SHARE_BITMAP_MESSAGE_FAIL" translatable="false">BITMAPS FAIL</string>
+
 
 </resources>
