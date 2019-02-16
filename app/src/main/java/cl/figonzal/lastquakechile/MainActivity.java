@@ -110,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
                     //No es necesario usarlo (If u want)
                     @Override
                     public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+
                         return false;
                     }
                 })
