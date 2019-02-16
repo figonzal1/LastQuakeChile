@@ -39,4 +39,7 @@
     <string name="INVITATION_SUBJECT">Descarga LastQuakeChile App</string>
     <string name="coordenadas_oeste">O</string>
     <string name="coordenadas_este">E</string>
+    <string name="imagen_toolbar_contact">Imagen toolbar contacto</string>
+    <string name="toolbar_title">Contacto</string>
+    <string name="seccion_listado_de_sismos">Seccion listado de sismos</string>
 </resources>

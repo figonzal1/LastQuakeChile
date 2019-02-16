@@ -31,6 +31,7 @@
     <!-- STRINGS DE LAYOUTS-->
     <string name="circulo_pintado">Color magnitud sismo</string>
     <string name="imagen_toolbar">Imagen toolbar</string>
+    <string name="imagen_toolbar_contact">Imagen toolbar contacto</string>
     <string name="quake_time_day" translatable="false">%1$d d</string>
     <string name="quake_time_day_hour" translatable="false">%1$d d %2$d h</string>
     <string name="quake_time_hour" translatable="false">%1$d h</string>
@@ -67,6 +68,8 @@
     <string name="coordenadas_oeste">O</string>
     <string name="coordenadas_este">E</string>
     <string name="format_coordenadas" translatable="false">%s \n%s</string>
+    <string name="toolbar_title">Contacto</string>
+    <string name="seccion_listado_de_sismos">Seccion listado de sismos</string>
 
 
     <!-- FIREBASE-->

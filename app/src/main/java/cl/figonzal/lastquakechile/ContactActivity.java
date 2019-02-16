@@ -37,7 +37,7 @@ public class ContactActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Felipe González");
+        getSupportActionBar().setTitle(R.string.toolbar_title);
 
         //Setear collapsing toolbar con titulo estatico superior y animacion de colores al recoger toolbar
         final CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar_contact);
