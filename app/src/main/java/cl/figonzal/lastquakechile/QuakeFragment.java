@@ -431,7 +431,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
                         "</tr>\n" +
                         "</table>\n" +
                         "<table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\"><tr><td align=\"left\"  style=\"padding:0px\"><table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" bgcolor=\"#\" align=\"left\" width=\"152\" height=\"59\"  style=\"border:0px none;background-color:#;height:auto\" class=\"full-width\"><tr><td valign=\"top\"  style=\"padding:0px\"><a \n" +
-                        "  href=\"https://lastquakechile.page.link/hJJ9\" target=\"_blank\" class=\"imglink\"><img \n" +
+                        "  href=\"https://lastquakechile.page.link/lqch\" target=\"_blank\" class=\"imglink\"><img \n" +
                         "  src=\"https://images.chamaileon.io/google-play-badge.png\" width=\"152\" height=\"59\" alt=\"\" border=\"0\"  style=\"display:block;width:100%;height:auto\" class=\"full-width img152x59\"  /></a></td>\n" +
                         "</tr>\n" +
                         "</table>\n" +
@@ -489,7 +489,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
                         "<!--[if gte mso 9]></td><td valign=\"top\" style=\"padding:0;\"><![endif]-->\n" +
                         "  <table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"left\" width=\"200\" id=\"c200p33r\"  style=\"float:left\" class=\"c200p33r\"><tr><td valign=\"top\"  style=\"padding:0px\"><table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\" bgcolor=\"#303f9f\"  style=\"border:0px none;background-color:#303f9f\"><tr><td valign=\"top\"  style=\"padding:0px\"><table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\"><tr><td  style=\"padding:0px\"><table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\"><tr><td align=\"center\"  style=\"padding:0px\"><table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\"  style=\"text-align:center;color:#000\"><tr><td valign=\"top\" align=\"center\"  style=\"padding:15px\"><table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" bgcolor=\"#0B7DFF\" \n" +
                         "    style=\"border:0px none;border-radius:5px;border-collapse:separate !important;background-color:#0B7DFF\"><tr><td valign=\"top\" align=\"justify\"  style=\"padding:10px\"><a\n" +
-                        "      href=\"https://lastquakechile.page.link/hJJ9\" target=\"_blank\"  style=\"text-decoration:none\" class=\"edm_button\"><span  style=\"font-family:Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;font-size:13px;color:#FFFFFF;line-height:13px;text-decoration:none\"><strong>Descargar aqu&#xED;</strong></span>\n" +
+                        "      href=\"https://lastquakechile.page.link/lqch\" target=\"_blank\"  style=\"text-decoration:none\" class=\"edm_button\"><span  style=\"font-family:Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;font-size:13px;color:#FFFFFF;line-height:18px;text-decoration:none\"><strong>Descargar aqu&#xED;</strong></span>\n" +
                         "    </a></td>\n" +
                         "  </tr>\n" +
                         "</table>\n" +
