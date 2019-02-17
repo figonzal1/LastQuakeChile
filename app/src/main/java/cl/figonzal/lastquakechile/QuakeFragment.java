@@ -179,14 +179,14 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         });
 
         /*
-            Seccion SHARED PREF
+            Seccion SHARED PREF CARD VIEW INFO
          */
 
         cv_info = v.findViewById(R.id.card_view_info);
         final SharedPreferences sharedPreferences = Objects.requireNonNull(getActivity()).getPreferences(Context.MODE_PRIVATE);
-        String cv_visto = sharedPreferences.getString(getString(R.string.shared_pref_status_card_view), null);
+        String cv_visto = sharedPreferences.getString(getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO), null);
 
-        if (cv_visto != null && cv_visto.equals(getString(R.string.shared_pref_status_result_card_view))) {
+        if (cv_visto != null && cv_visto.equals(getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO_RESULT))) {
 
             cv_info.setVisibility(View.GONE);
         }
@@ -198,7 +198,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
             public void onClick(View v) {
 
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(getString(R.string.shared_pref_status_card_view), getString(R.string.shared_pref_status_result_card_view));
+                editor.putString(getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO), getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO_RESULT));
                 editor.apply();
 
                 cv_info.animate()
@@ -215,8 +215,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
 
                 //LOGS
-                Log.d(getString(R.string.shared_card_view_info), getString(R.string.shared_pref_status_result_card_view));
-                Crashlytics.log(Log.DEBUG, getString(R.string.shared_card_view_info), getString(R.string.shared_pref_status_result_card_view));
+                Log.d(getString(R.string.TAG_CARD_VIEW_INFO), getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO_RESULT));
+                Crashlytics.log(Log.DEBUG, getString(R.string.TAG_CARD_VIEW_INFO), getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO_RESULT));
             }
         });
         return v;
