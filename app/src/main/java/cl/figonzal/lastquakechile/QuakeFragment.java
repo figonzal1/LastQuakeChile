@@ -179,14 +179,14 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         });
 
         /*
-            Seccion SHARED PREF
+            Seccion SHARED PREF CARD VIEW INFO
          */
 
         cv_info = v.findViewById(R.id.card_view_info);
         final SharedPreferences sharedPreferences = Objects.requireNonNull(getActivity()).getPreferences(Context.MODE_PRIVATE);
-        String cv_visto = sharedPreferences.getString(getString(R.string.shared_pref_status_card_view), null);
+        String cv_visto = sharedPreferences.getString(getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO), null);
 
-        if (cv_visto != null && cv_visto.equals(getString(R.string.shared_pref_status_result_card_view))) {
+        if (cv_visto != null && cv_visto.equals(getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO_RESULT))) {
 
             cv_info.setVisibility(View.GONE);
         }
@@ -198,7 +198,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
             public void onClick(View v) {
 
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(getString(R.string.shared_pref_status_card_view), getString(R.string.shared_pref_status_result_card_view));
+                editor.putString(getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO), getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO_RESULT));
                 editor.apply();
 
                 cv_info.animate()
@@ -215,8 +215,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
 
                 //LOGS
-                Log.d(getString(R.string.shared_card_view_info), getString(R.string.shared_pref_status_result_card_view));
-                Crashlytics.log(Log.DEBUG, getString(R.string.shared_card_view_info), getString(R.string.shared_pref_status_result_card_view));
+                Log.d(getString(R.string.TAG_CARD_VIEW_INFO), getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO_RESULT));
+                Crashlytics.log(Log.DEBUG, getString(R.string.TAG_CARD_VIEW_INFO), getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO_RESULT));
             }
         });
         return v;
@@ -431,7 +431,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
                         "</tr>\n" +
                         "</table>\n" +
                         "<table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\"><tr><td align=\"left\"  style=\"padding:0px\"><table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" bgcolor=\"#\" align=\"left\" width=\"152\" height=\"59\"  style=\"border:0px none;background-color:#;height:auto\" class=\"full-width\"><tr><td valign=\"top\"  style=\"padding:0px\"><a \n" +
-                        "  href=\"https://lastquakechile.page.link/hJJ9\" target=\"_blank\" class=\"imglink\"><img \n" +
+                        "  href=\"https://lastquakechile.page.link/lqch\" target=\"_blank\" class=\"imglink\"><img \n" +
                         "  src=\"https://images.chamaileon.io/google-play-badge.png\" width=\"152\" height=\"59\" alt=\"\" border=\"0\"  style=\"display:block;width:100%;height:auto\" class=\"full-width img152x59\"  /></a></td>\n" +
                         "</tr>\n" +
                         "</table>\n" +
@@ -489,7 +489,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
                         "<!--[if gte mso 9]></td><td valign=\"top\" style=\"padding:0;\"><![endif]-->\n" +
                         "  <table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"left\" width=\"200\" id=\"c200p33r\"  style=\"float:left\" class=\"c200p33r\"><tr><td valign=\"top\"  style=\"padding:0px\"><table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\" bgcolor=\"#303f9f\"  style=\"border:0px none;background-color:#303f9f\"><tr><td valign=\"top\"  style=\"padding:0px\"><table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\"><tr><td  style=\"padding:0px\"><table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\"><tr><td align=\"center\"  style=\"padding:0px\"><table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\"  style=\"text-align:center;color:#000\"><tr><td valign=\"top\" align=\"center\"  style=\"padding:15px\"><table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" bgcolor=\"#0B7DFF\" \n" +
                         "    style=\"border:0px none;border-radius:5px;border-collapse:separate !important;background-color:#0B7DFF\"><tr><td valign=\"top\" align=\"justify\"  style=\"padding:10px\"><a\n" +
-                        "      href=\"https://lastquakechile.page.link/hJJ9\" target=\"_blank\"  style=\"text-decoration:none\" class=\"edm_button\"><span  style=\"font-family:Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;font-size:13px;color:#FFFFFF;line-height:13px;text-decoration:none\"><strong>Descargar aqu&#xED;</strong></span>\n" +
+                        "      href=\"https://lastquakechile.page.link/lqch\" target=\"_blank\"  style=\"text-decoration:none\" class=\"edm_button\"><span  style=\"font-family:Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;font-size:13px;color:#FFFFFF;line-height:18px;text-decoration:none\"><strong>Descargar aqu&#xED;</strong></span>\n" +
                         "    </a></td>\n" +
                         "  </tr>\n" +
                         "</table>\n" +

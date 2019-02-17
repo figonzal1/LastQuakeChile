@@ -26,6 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:background="@drawable/foto"
+                android:foreground="#4D000000"
                 app:layout_collapseMode="parallax"
                 app:layout_collapseParallaxMultiplier="0.5"
                 android:scaleType="centerCrop"

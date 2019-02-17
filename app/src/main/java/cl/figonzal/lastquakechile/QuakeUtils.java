@@ -45,7 +45,7 @@ class QuakeUtils {
      * @param date Parametro date Utc
      * @return retorna el date en local
      */
-    public static Date utcToLocal(Date date) {
+    static Date utcToLocal(Date date) {
 
         String timeZone = Calendar.getInstance().getTimeZone().getID();
         return new Date(date.getTime() + TimeZone.getTimeZone(timeZone).getOffset(date.getTime()));
@@ -55,7 +55,7 @@ class QuakeUtils {
      * Funcion encargada de entregar los tiempos calculados y retornarlos en dias,horas,minutos,segundos
      * @param fecha fecha local del modelo de sismo desde cardview
      */
-    public static Map<String, Long> timeToText(Date fecha) {
+    static Map<String, Long> timeToText(Date fecha) {
 
         long diff = calculateDiff(fecha);
         long seconds = diff / 1000;
@@ -79,7 +79,7 @@ class QuakeUtils {
      * @param magnitude Magnitud del sismo desde el cardview
      * @return id recurso desde colors.xml
      */
-    public static int getMagnitudeColor(double magnitude) {
+    static int getMagnitudeColor(double magnitude) {
 
         int mag_floor = (int) Math.floor(magnitude);
         int mag_resource_id;
