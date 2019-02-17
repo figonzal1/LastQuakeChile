@@ -138,7 +138,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
                 b.putString(context.getString(R.string.INTENT_LONGITUD), model.getLongitud());
 
                 //CAmbiar la fecha utc a string
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+                SimpleDateFormat format = new SimpleDateFormat(context.getString(R.string.DATETIME_FORMAT), Locale.US);
                 String fecha_local = format.format(model.getFecha_local());
                 b.putString(context.getString(R.string.INTENT_FECHA_LOCAL), fecha_local);
 

@@ -41,5 +41,6 @@
     <string name="coordenadas_este">E</string>
     <string name="imagen_toolbar_contact">Imagen toolbar contacto</string>
     <string name="toolbar_title">Contacto</string>
-    <string name="seccion_listado_de_sismos">Seccion listado de sismos</string>
+    <string name="seccion_listado_de_sismos">Sección listado de sismos</string>
+    <string name="titulo_toolbar">Título toolbar</string>
 </resources>

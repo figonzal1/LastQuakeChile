@@ -12,8 +12,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -119,24 +117,18 @@ public class MainActivity extends AppCompatActivity {
         //Suscribir automaticamente al tema (FIREBASE - Quakes)
         MyFirebaseMessagingService.checkSuscription(this);
 
-        //Intent para debug de activity invitacion
-        //TODO: Borrar para publicacion
-        Button btn = findViewById(R.id.button);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     private void checkFirstRun() {
         SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
 
-        boolean firtsRun = sharedPreferences.getBoolean("first_run", true);
+        boolean firtsRun = sharedPreferences.getBoolean(getString(R.string.SHARED_PREF_FIRST_RUN), true);
+        Crashlytics.setBool(getString(R.string.SHARED_PREF_FIRST_RUN), true);
 
         if (firtsRun) {
+
+            Log.d(getString(R.string.TAG_FIRST_RUN_STATUS), getString(R.string.FIRST_RUN_STATUS_RESPONSE));
+
             Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
             startActivity(intent);
             finish();
@@ -144,8 +136,11 @@ public class MainActivity extends AppCompatActivity {
 
         //Cambiar a falso, para que proxima vez no abra invitation.
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean("first_run", false);
+        editor.putBoolean(getString(R.string.SHARED_PREF_FIRST_RUN), false);
         editor.apply();
+
+        //Log
+        Crashlytics.setBool(getString(R.string.SHARED_PREF_FIRST_RUN), false);
     }
 
 
@@ -170,14 +165,14 @@ public class MainActivity extends AppCompatActivity {
             } else {
 
                 //El error no puede ser resuelto por el usuario y la app se cierra
-                Log.d(getString(R.string.TAG_GOOGLE_PLAY), getString(R.string.TAG_GOOGLE_PLAY_NOSOPORTADO));
-                Crashlytics.log(Log.DEBUG, getString(R.string.TAG_GOOGLE_PLAY), getString(R.string.TAG_GOOGLE_PLAY_NOSOPORTADO));
+                Log.d(getString(R.string.TAG_GOOGLE_PLAY), getString(R.string.GOOGLE_PLAY_NOSOPORTADO));
+                Crashlytics.log(Log.DEBUG, getString(R.string.TAG_GOOGLE_PLAY), getString(R.string.GOOGLE_PLAY_NOSOPORTADO));
                 finish();
             }
         } else {
             //La app puede ser utilizada, google play esta actualizado
-            Log.d(getString(R.string.TAG_GOOGLE_PLAY), getString(R.string.TAG_GOOGLE_PLAY_ACTUALIZADO));
-            Crashlytics.log(Log.DEBUG, getString(R.string.TAG_GOOGLE_PLAY), getString(R.string.TAG_GOOGLE_PLAY_ACTUALIZADO));
+            Log.d(getString(R.string.TAG_GOOGLE_PLAY), getString(R.string.GOOGLE_PLAY_ACTUALIZADO));
+            Crashlytics.log(Log.DEBUG, getString(R.string.TAG_GOOGLE_PLAY), getString(R.string.GOOGLE_PLAY_ACTUALIZADO));
         }
     }
 }

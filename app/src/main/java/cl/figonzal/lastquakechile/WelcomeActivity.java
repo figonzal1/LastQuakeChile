@@ -62,17 +62,17 @@ public class WelcomeActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(PendingDynamicLinkData data) {
                         if (data == null) {
-                            Log.d("INTENT_INVITATCON", "Invitacion sin datos");
+                            Log.d(getString(R.string.TAG_DEEP_LINK_INVITATION), getString(R.string.INVITATION_STATUS));
                         } else {
                             // Get the deep link
                             Uri deepLink = data.getLink();
-                            Log.d("DEEP_LINK", String.valueOf(deepLink));
+                            Log.d(getString(R.string.TAG_DEEP_LINK_DATA), String.valueOf(deepLink));
 
                             // Extract invite
                             FirebaseAppInvite invite = FirebaseAppInvite.getInvitation(data);
                             if (invite != null) {
                                 String invitationId = invite.getInvitationId();
-                                Log.d("INVITACION_ID", invitationId);
+                                Log.d(getString(R.string.TAG_INVITATION_ID), invitationId);
                             }
                         }
                     }
@@ -80,7 +80,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 .addOnFailureListener(this, new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w("INVITACION", "getDynamicLink:onFailure", e);
+                        Log.w(getString(R.string.TAG_INVITATION_RECEIVE), "getDynamicLink:onFailure", e);
                     }
                 });
     }
