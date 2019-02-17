@@ -280,18 +280,28 @@ public class QuakeDetailsActivity extends AppCompatActivity {
             fab_whatsapp.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //TODO Corregir los datos enviados hacia wsp
                     Log.d(getString(R.string.TAG_INTENT_SHARE), getString(R.string.TAG_INTENT_SHARE_WSP));
                     Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE), getString(R.string.TAG_INTENT_SHARE_WSP));
 
                     Intent wspIntent = new Intent();
                     wspIntent.setAction(Intent.ACTION_SEND);
-                    wspIntent.putExtra(Intent.EXTRA_TEXT, "SISMO DE MEDIANA INTENSIDAD");
-                    wspIntent.putExtra(Intent.EXTRA_TITLE, "Titulo de intent share");
+                    wspIntent.setPackage("com.whatsapp");
+                    wspIntent.putExtra(Intent.EXTRA_TEXT, String.format(Locale.US,
+                            "[Alerta sísmica]\n\n" +
+                                    "Información sismológica\n" +
+                                    "Ciudad: %1$s\n" +
+                                    "Hora Local: %2$s\n" +
+                                    "Magnitud: %3$.1f %4$s\n" +
+                                    "Profundidad: %5$.1f Km\n" +
+                                    "Georeferencia: %6$s\n\n" +
+                                    "Para más información descarga la app LastQuakeChile aquí\n" +
+                                    "%7$s"
+                            , ciudad, fecha_local, magnitud, escala, profundidad, referencia, getString(R.string.DEEP_LINK)
+                    ));
                     wspIntent.putExtra(Intent.EXTRA_STREAM, bitmapUri);
                     wspIntent.setType("image/*");
-                    wspIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    wspIntent.setPackage("com.whatsapp");
+                    //wspIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
                     startActivity(wspIntent);
 
 
@@ -328,9 +338,9 @@ public class QuakeDetailsActivity extends AppCompatActivity {
                                             "</table>\n" +
                                             "\n" +
                                             "<h5>\n" +
-                                            "  Para más información descarga la app aqui https://lastquakechile.page.link/lqch \n" +
+                                            "  Para más información descarga la app LastQuakeChile aquí %10$s \n" +
                                             "</h5>"
-                                    , fecha_local, ciudad, magnitud, escala, profundidad, referencia, latitud, longitud, dms_lat, dms_long)));
+                                    , fecha_local, ciudad, magnitud, escala, profundidad, referencia, latitud, longitud, dms_lat, dms_long, getString(R.string.DEEP_LINK))));
 
                     gmIntent.putExtra(Intent.EXTRA_STREAM, bitmapUri);
                     gmIntent.setType("image/*");
@@ -397,24 +407,12 @@ public class QuakeDetailsActivity extends AppCompatActivity {
         fab_whatsapp.hide();
         fab_fb.hide();
 
-        fab_text_fb.animate().translationY(0).setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                fab_text_fb.setVisibility(View.GONE);
-            }
-        });
-        fab_text_gm.animate().translationY(0).setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                fab_text_gm.setVisibility(View.GONE);
-            }
-        });
-        fab_text_wsp.animate().translationY(0).setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                fab_text_wsp.setVisibility(View.GONE);
-            }
-        });
+        fab_text_fb.animate().translationY(0);
+        fab_text_fb.setVisibility(View.GONE);
+        fab_text_gm.animate().translationY(0);
+        fab_text_gm.setVisibility(View.GONE);
+        fab_text_wsp.animate().translationY(0);
+        fab_text_wsp.setVisibility(View.GONE);
 
         //Animacion de alpha para textos
         fab_text_wsp.animate().alpha(0.0f).setDuration(500);

@@ -297,7 +297,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
     //TODO: Agregar un metodo para escoger entre compartir el link a redes sociales o enviarlo por mail
     private void onInviteClicked() {
         Intent intent = new AppInviteInvitation.IntentBuilder(getString(R.string.INVITATION_TITLE))
-                .setDeepLink(Uri.parse(getString(R.string.INVITATION_DEEP_LINK)))
+                .setDeepLink(Uri.parse(getString(R.string.DEEP_LINK)))
                 .setEmailHtmlContent("<!DOCTYPE html>\n" +
                         "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n" +
                         "<head>\n" +
