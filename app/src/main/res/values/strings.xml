@@ -14,6 +14,7 @@
     <!-- URL SERVIDOR HEROKU -->
     <!--<string name="URL_GET" translatable="false">http://192.168.0.13/lastquake_server/public/get_quakes.php</string>-->
     <string name="URL_GET" translatable="false">https://lastquakechile-server.herokuapp.com/get_quakes.php</string>
+    <string name="DEEP_LINK" translatable="false">https://lastquakechile.page.link/lqch</string>
 
     <!-- FORMAT -->
     <string name="DATETIME_FORMAT" translatable="false">yyyy-MM-dd HH:mm:ss</string>
@@ -176,7 +177,6 @@
 
     <!-- INVITATION STRINGS -->
     <string name="INVITATION_TITLE">¡Invita a tus amigos a usar la App!</string>
-    <string name="INVITATION_DEEP_LINK" translatable="false">https://lastquakechile.page.link/lqch</string>
     <string name="INVITATION_SUBJECT">Descarga LastQuakeChile App</string>
     <string name="TAG_DEEP_LINK_INVITATION" translatable="false">INTENT_INVITACION</string>
     <string name="INVITATION_STATUS" translatable="false">Invitacion sin datos</string>
@@ -187,7 +187,7 @@
     <string name="SHARED_PREF_FIRST_RUN" translatable="false">first_run</string>
     <string name="SHARED_PREF_STATUS_CARD_VIEW_INFO" translatable="false">estado_card_view_info</string>
     <string name="SHARED_PREF_STATUS_CARD_VIEW_INFO_RESULT" translatable="false">entendido</string>
-    <string name="TAG_INVITATION_RECEIVE">INVITACION</string>
+    <string name="TAG_INVITATION_RECEIVE" translatable="false">INVITACION</string>
 
     <!-- INTENT SHARE LOGS -->
     <string name="TAG_INTENT_SHARE" translatable="false">SHARE_INTENT</string>
@@ -196,9 +196,9 @@
     <string name="TAG_INTENT_SHARE_FB_OK_MESSAGE" translatable="false">SHARE OK</string>
     <string name="TAG_INTENT_SHARE_FB_ERROR_MESSAGE" translatable="false">SHARE ERROR</string>
     <string name="TAG_INTENT_SHARE_FB_CANCEL_MESSAGE" translatable="false">SHARE CANCEL</string>
-    <string name="TAG_TOAST_SHARE_FB_ERROR">Error al compartir publicación</string>
-    <string name="TAG_TOAST_SHARE_FB_OK">Contenido compartido correctamente</string>
-    <string name="TAG_TOAST_SHARE_FB_CANCEL">Compartir publicación cancelada</string>
+    <string name="TAG_TOAST_SHARE_FB_ERROR" translatable="false">Error al compartir publicación</string>
+    <string name="TAG_TOAST_SHARE_FB_OK" translatable="false">Contenido compartido correctamente</string>
+    <string name="TAG_TOAST_SHARE_FB_CANCEL" translatable="false">Compartir publicación cancelada</string>
     <string name="TAG_INTENT_SHARE_DIALOG" translatable="false">FB_DIALOG</string>
     <string name="TAG_INTENT_SHARE_DIALOG_MESSAGE" translatable="false">DIALOG MOSTRADO</string>
     <string name="TAG_INTENT_SHARE_WSP" translatable="false">WHATSAPP SHARE INTENT</string>
