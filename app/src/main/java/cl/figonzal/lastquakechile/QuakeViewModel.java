@@ -187,17 +187,17 @@ class QuakeViewModel extends AndroidViewModel {
 
                 } catch (JSONException e) {
 
-                    Log.d(getApplication().getString(R.string.JSON_GENERAL_ERROR), e.getMessage());
-                    Crashlytics.log(Log.DEBUG, getApplication().getString(R.string.JSON_GENERAL_ERROR), e.getMessage());
+                    Log.d(getApplication().getString(R.string.TAG_JSON_GENERAL_ERROR), e.getMessage());
+                    Crashlytics.log(Log.DEBUG, getApplication().getString(R.string.TAG_JSON_GENERAL_ERROR), e.getMessage());
                 } catch (ParseException e) {
 
-                    Log.d(getApplication().getString(R.string.JSON_PARSE_ERROR), e.getMessage());
-                    Crashlytics.log(Log.DEBUG, getApplication().getString(R.string.JSON_PARSE_ERROR), e.getMessage());
+                    Log.d(getApplication().getString(R.string.TAG_JSON_PARSE_ERROR), e.getMessage());
+                    Crashlytics.log(Log.DEBUG, getApplication().getString(R.string.TAG_JSON_PARSE_ERROR), e.getMessage());
                 }
 
                 //LOGS
-                Log.d(getApplication().getString(R.string.CONNECTION_OK), getApplication().getString(R.string.CONNECTION_OK_RESPONSE));
-                Crashlytics.log(Log.DEBUG, getApplication().getString(R.string.CONNECTION_OK), getApplication().getString(R.string.CONNECTION_OK_RESPONSE));
+                Log.d(getApplication().getString(R.string.TAG_CONNECTION_OK), getApplication().getString(R.string.CONNECTION_OK_RESPONSE));
+                Crashlytics.log(Log.DEBUG, getApplication().getString(R.string.TAG_CONNECTION_OK), getApplication().getString(R.string.CONNECTION_OK_RESPONSE));
                 Crashlytics.setBool(getApplication().getString(R.string.CONNECTED), true);
 
 
