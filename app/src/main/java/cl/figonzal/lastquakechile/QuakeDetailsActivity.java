@@ -397,13 +397,31 @@ public class QuakeDetailsActivity extends AppCompatActivity {
         fab_whatsapp.hide();
         fab_fb.hide();
 
-        fab_text_fb.animate().translationY(0);
-        fab_text_gm.animate().translationY(0);
-        fab_text_wsp.animate().translationY(0);
-        fab_text_wsp.setVisibility(View.GONE);
-        fab_text_gm.setVisibility(View.GONE);
-        fab_text_fb.setVisibility(View.GONE);
+        fab_text_fb.animate().translationY(0).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                fab_text_fb.setVisibility(View.GONE);
+            }
+        });
+        fab_text_gm.animate().translationY(0).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                fab_text_gm.setVisibility(View.GONE);
+            }
+        });
+        fab_text_wsp.animate().translationY(0).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                fab_text_wsp.setVisibility(View.GONE);
+            }
+        });
 
+        //Animacion de alpha para textos
+        fab_text_wsp.animate().alpha(0.0f).setDuration(500);
+        fab_text_fb.animate().alpha(0.0f).setDuration(500);
+        fab_text_gm.animate().alpha(0.0f).setDuration(500);
+
+        //Animacion CLOSE de overlay
         overlay.setAlpha(0.85f);
         overlay.animate().alpha(0.0f).setDuration(500).setListener(new AnimatorListenerAdapter() {
             @Override
