@@ -24,27 +24,13 @@
             android:id="@+id/tool_bar_detail"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:contentDescription="@string/titulo_toolbar"
             app:layout_collapseMode="pin"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
 
     </android.support.design.widget.AppBarLayout>
 
-    <!--<ImageView
-        android:id="@+id/iv_map_quake"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:contentDescription="@string/imagen_geografica_posicion_sismo"
-        app:layout_constraintBottom_toTopOf="@+id/barrera_imagen"
-        app:layout_constraintEnd_toStartOf="@+id/derecha"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/izquierda"
-        app:layout_constraintTop_toBottomOf="@+id/app_bar_detail"
-        fresco:placeholderImage="@drawable/placeholder"
-        fresco:failureImage="@drawable/not_found"
-        fresco:roundedCornerRadius="5dp"
-        fresco:actualImageScaleType="centerCrop"/>-->
 
     <android.support.v7.widget.CardView
         android:id="@+id/card_view_map"
