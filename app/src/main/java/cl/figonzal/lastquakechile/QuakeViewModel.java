@@ -36,7 +36,7 @@ import java.util.TimeZone;
  * Clase ideada para cargar UI bajo el cambio de orientacion de pantalla
  * independiente de la creacion de una nueva activity
  */
-class QuakeViewModel extends AndroidViewModel {
+public class QuakeViewModel extends AndroidViewModel {
 
     private MutableLiveData<List<QuakeModel>> liveDataQuakes;   //Permite la carga de sismos al inicio y al refresh del toolbar
     private List<QuakeModel> quakeModelList;                    //Lista de sismos que se agrega despues al MutableLive
@@ -55,7 +55,7 @@ class QuakeViewModel extends AndroidViewModel {
      *
      * @return retorna un mutablelivedata de listado de sismos
      */
-    MutableLiveData<List<QuakeModel>> getMutableQuakeList() {
+    public MutableLiveData<List<QuakeModel>> getMutableQuakeList() {
 
         if (liveDataQuakes == null) {
             liveDataQuakes = new MutableLiveData<>();
@@ -67,7 +67,7 @@ class QuakeViewModel extends AndroidViewModel {
     /**
      * La funcion fuerza el refresh de los datos del mutable
      */
-    void refreshMutableQuakeList() {
+    public void refreshMutableQuakeList() {
         if (liveDataQuakes != null) {
             loadQuakes();
         }
@@ -78,7 +78,7 @@ class QuakeViewModel extends AndroidViewModel {
      *
      * @return Retorna el MutableLiveData del mensaje estado
      */
-    MutableLiveData<String> getStatusData() {
+    public MutableLiveData<String> getStatusData() {
 
         if (statusData == null) {
             statusData = new MutableLiveData<>();
@@ -92,7 +92,7 @@ class QuakeViewModel extends AndroidViewModel {
      * @param s Texto que ingresa el usuario en la busqueda
      * @return Lista Filtrada
      */
-    List<QuakeModel> doSearch(String s) {
+    public List<QuakeModel> doSearch(String s) {
 
         //Lista utilizada para el searchView
         List<QuakeModel> filteredList = new ArrayList<>();
@@ -116,7 +116,7 @@ class QuakeViewModel extends AndroidViewModel {
      *
      * @param filteredList con sismos filtrados
      */
-    void setFilteredList(List<QuakeModel> filteredList) {
+    public void setFilteredList(List<QuakeModel> filteredList) {
 
         if (liveDataQuakes != null) {
             liveDataQuakes.postValue(filteredList);
