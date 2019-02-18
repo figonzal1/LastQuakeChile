@@ -138,6 +138,7 @@
             android:id="@+id/tool_bar_detail"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:contentDescription="@string/titulo_toolbar"
             app:layout_collapseMode="pin"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
