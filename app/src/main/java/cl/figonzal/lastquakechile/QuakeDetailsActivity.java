@@ -223,7 +223,6 @@ public class QuakeDetailsActivity extends AppCompatActivity {
             fab_fb.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //TODO Corregir los datos enviados hacia facebook
                     Log.d(getString(R.string.TAG_INTENT_SHARE), getString(R.string.TAG_INTENT_SHARE_FB));
                     Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE), getString(R.string.TAG_INTENT_SHARE_FB));
 
@@ -235,12 +234,9 @@ public class QuakeDetailsActivity extends AppCompatActivity {
                     sharePhoto = new SharePhoto.Builder()
                             .setBitmap(bitmapFB)
                             .build();
-
-                    //TODO: revisar urls
+                    
                     sharePhotoContent = new SharePhotoContent.Builder()
                             .addPhoto(sharePhoto)
-                            .setRef("https://lastquakechile.page.link/lqch")
-                            .setContentUrl(Uri.parse("https://lastquakechile.page.link/lqch"))
                             .setShareHashtag(new ShareHashtag.Builder()
                                     .setHashtag("#SismoChile")
                                     .build())
@@ -264,8 +260,8 @@ public class QuakeDetailsActivity extends AppCompatActivity {
                         @Override
                         public void onError(FacebookException error) {
                             Toast.makeText(getApplicationContext(), getString(R.string.TAG_TOAST_SHARE_FB_ERROR), Toast.LENGTH_LONG).show();
-                            Log.d(getString(R.string.TAG_INTENT_SHARE_FB_LOG), getString(R.string.TAG_INTENT_SHARE_FB_ERROR_MESSAGE));
-                            Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE_FB_LOG), getString(R.string.TAG_INTENT_SHARE_FB_ERROR_MESSAGE));
+                            Log.d(getString(R.string.TAG_INTENT_SHARE_FB_LOG), getString(R.string.TAG_INTENT_SHARE_FB_ERROR_MESSAGE) + "-" + error);
+                            Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE_FB_LOG), getString(R.string.TAG_INTENT_SHARE_FB_ERROR_MESSAGE) + "-" + error);
                         }
                     });
 
@@ -338,7 +334,7 @@ public class QuakeDetailsActivity extends AppCompatActivity {
                                             "</table>\n" +
                                             "\n" +
                                             "<h5>\n" +
-                                            "  Para más información descarga la app LastQuakeChile aquí %10$s \n" +
+                                            "  Para más información descarga la app LastQuakeChile aquí %11$s \n" +
                                             "</h5>"
                                     , fecha_local, ciudad, magnitud, escala, profundidad, referencia, latitud, longitud, dms_lat, dms_long, getString(R.string.DEEP_LINK))));
 
