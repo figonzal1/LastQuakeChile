@@ -20,6 +20,12 @@
     <string name="DATETIME_FORMAT" translatable="false">yyyy-MM-dd HH:mm:ss</string>
     <string name="DATETIME_FORMAT_SLASH" translatable="false">yyyy/MM/dd HH:mm:ss</string>
 
+    <!-- PACKAGE NAMES -->
+    <string name="PACKAGE_NAME_FB" translatable="false">com.facebook.katana</string>
+    <string name="PACKAGE_NAME_WSP" translatable="false">com.whatsapp</string>
+    <string name="PACKAGE_NAME_GMAIL" translatable="false">com.google.android.gm</string>
+    <string name="PACKAGE_NAME_LINKEDIN" translatable="false">com.linkedin.android</string>
+
     <!-- KEY DE JSON PARA PHP -->
     <string name="KEY_FECHA_UTC" translatable="false">fecha_utc</string>
     <string name="KEY_LATITUD" translatable="false">latitud</string>

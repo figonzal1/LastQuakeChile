@@ -223,52 +223,61 @@ public class QuakeDetailsActivity extends AppCompatActivity {
             fab_fb.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d(getString(R.string.TAG_INTENT_SHARE), getString(R.string.TAG_INTENT_SHARE_FB));
-                    Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE), getString(R.string.TAG_INTENT_SHARE_FB));
+                    Intent intent = getPackageManager().getLaunchIntentForPackage(getString(R.string.PACKAGE_NAME_FB));
 
-                    callbackManager = CallbackManager.Factory.create();
-                    shareDialog = new ShareDialog(QuakeDetailsActivity.this);
+                    //Si no existe el paquete
+                    if (intent == null) {
+                        doInstallation(getString(R.string.PACKAGE_NAME_FB));
+                    } else {
+
+                        //Si esta instalada hacer share
+                        Log.d(getString(R.string.TAG_INTENT_SHARE), getString(R.string.TAG_INTENT_SHARE_FB));
+                        Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE), getString(R.string.TAG_INTENT_SHARE_FB));
+
+                        callbackManager = CallbackManager.Factory.create();
+                        shareDialog = new ShareDialog(QuakeDetailsActivity.this);
 
 
-                    //Share foto del sismo
-                    sharePhoto = new SharePhoto.Builder()
-                            .setBitmap(bitmapFB)
-                            .build();
-                    
-                    sharePhotoContent = new SharePhotoContent.Builder()
-                            .addPhoto(sharePhoto)
-                            .setShareHashtag(new ShareHashtag.Builder()
-                                    .setHashtag("#SismoChile")
-                                    .build())
-                            .build();
+                        //Share foto del sismo
+                        sharePhoto = new SharePhoto.Builder()
+                                .setBitmap(bitmapFB)
+                                .build();
 
-                    shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
-                        @Override
-                        public void onSuccess(Sharer.Result result) {
-                            Toast.makeText(getApplicationContext(), getString(R.string.TAG_TOAST_SHARE_FB_OK), Toast.LENGTH_LONG).show();
-                            Log.d(getString(R.string.TAG_INTENT_SHARE_FB_LOG), getString(R.string.TAG_INTENT_SHARE_FB_OK_MESSAGE));
-                            Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE_FB_LOG), getString(R.string.TAG_INTENT_SHARE_FB_OK_MESSAGE));
+                        sharePhotoContent = new SharePhotoContent.Builder()
+                                .addPhoto(sharePhoto)
+                                .setShareHashtag(new ShareHashtag.Builder()
+                                        .setHashtag("#SismoChile")
+                                        .build())
+                                .build();
+
+                        shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
+                            @Override
+                            public void onSuccess(Sharer.Result result) {
+                                Toast.makeText(getApplicationContext(), getString(R.string.TAG_TOAST_SHARE_FB_OK), Toast.LENGTH_LONG).show();
+                                Log.d(getString(R.string.TAG_INTENT_SHARE_FB_LOG), getString(R.string.TAG_INTENT_SHARE_FB_OK_MESSAGE));
+                                Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE_FB_LOG), getString(R.string.TAG_INTENT_SHARE_FB_OK_MESSAGE));
+                            }
+
+                            @Override
+                            public void onCancel() {
+                                Toast.makeText(getApplicationContext(), getString(R.string.TAG_TOAST_SHARE_FB_CANCEL), Toast.LENGTH_LONG).show();
+                                Log.d(getString(R.string.TAG_INTENT_SHARE_FB_LOG), getString(R.string.TAG_INTENT_SHARE_FB_CANCEL_MESSAGE));
+                                Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE_FB_LOG), getString(R.string.TAG_INTENT_SHARE_FB_CANCEL_MESSAGE));
+                            }
+
+                            @Override
+                            public void onError(FacebookException error) {
+                                Toast.makeText(getApplicationContext(), getString(R.string.TAG_TOAST_SHARE_FB_ERROR), Toast.LENGTH_LONG).show();
+                                Log.d(getString(R.string.TAG_INTENT_SHARE_FB_LOG), getString(R.string.TAG_INTENT_SHARE_FB_ERROR_MESSAGE) + "-" + error);
+                                Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE_FB_LOG), getString(R.string.TAG_INTENT_SHARE_FB_ERROR_MESSAGE) + "-" + error);
+                            }
+                        });
+
+                        if (ShareDialog.canShow(SharePhotoContent.class)) {
+                            shareDialog.show(sharePhotoContent);
+                            Log.d(getString(R.string.TAG_INTENT_SHARE_DIALOG), getString(R.string.TAG_INTENT_SHARE_DIALOG_MESSAGE));
+                            Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE_DIALOG), getString(R.string.TAG_INTENT_SHARE_DIALOG_MESSAGE));
                         }
-
-                        @Override
-                        public void onCancel() {
-                            Toast.makeText(getApplicationContext(), getString(R.string.TAG_TOAST_SHARE_FB_CANCEL), Toast.LENGTH_LONG).show();
-                            Log.d(getString(R.string.TAG_INTENT_SHARE_FB_LOG), getString(R.string.TAG_INTENT_SHARE_FB_CANCEL_MESSAGE));
-                            Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE_FB_LOG), getString(R.string.TAG_INTENT_SHARE_FB_CANCEL_MESSAGE));
-                        }
-
-                        @Override
-                        public void onError(FacebookException error) {
-                            Toast.makeText(getApplicationContext(), getString(R.string.TAG_TOAST_SHARE_FB_ERROR), Toast.LENGTH_LONG).show();
-                            Log.d(getString(R.string.TAG_INTENT_SHARE_FB_LOG), getString(R.string.TAG_INTENT_SHARE_FB_ERROR_MESSAGE) + "-" + error);
-                            Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE_FB_LOG), getString(R.string.TAG_INTENT_SHARE_FB_ERROR_MESSAGE) + "-" + error);
-                        }
-                    });
-
-                    if (ShareDialog.canShow(SharePhotoContent.class)) {
-                        shareDialog.show(sharePhotoContent);
-                        Log.d(getString(R.string.TAG_INTENT_SHARE_DIALOG), getString(R.string.TAG_INTENT_SHARE_DIALOG_MESSAGE));
-                        Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE_DIALOG), getString(R.string.TAG_INTENT_SHARE_DIALOG_MESSAGE));
                     }
                 }
             });
@@ -276,31 +285,36 @@ public class QuakeDetailsActivity extends AppCompatActivity {
             fab_whatsapp.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d(getString(R.string.TAG_INTENT_SHARE), getString(R.string.TAG_INTENT_SHARE_WSP));
-                    Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE), getString(R.string.TAG_INTENT_SHARE_WSP));
+                    Intent intent = getPackageManager().getLaunchIntentForPackage(getString(R.string.PACKAGE_NAME_WSP));
 
-                    Intent wspIntent = new Intent();
-                    wspIntent.setAction(Intent.ACTION_SEND);
-                    wspIntent.setPackage("com.whatsapp");
-                    wspIntent.putExtra(Intent.EXTRA_TEXT, String.format(Locale.US,
-                            "[Alerta sísmica]\n\n" +
-                                    "Información sismológica\n" +
-                                    "Ciudad: %1$s\n" +
-                                    "Hora Local: %2$s\n" +
-                                    "Magnitud: %3$.1f %4$s\n" +
-                                    "Profundidad: %5$.1f Km\n" +
-                                    "Georeferencia: %6$s\n\n" +
-                                    "Para más información descarga la app LastQuakeChile aquí\n" +
-                                    "%7$s"
-                            , ciudad, fecha_local, magnitud, escala, profundidad, referencia, getString(R.string.DEEP_LINK)
-                    ));
-                    wspIntent.putExtra(Intent.EXTRA_STREAM, bitmapUri);
-                    wspIntent.setType("image/*");
-                    //wspIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    //Si no existe el paquete
+                    if (intent == null) {
+                        doInstallation(getString(R.string.PACKAGE_NAME_WSP));
+                    } else {
+                        Log.d(getString(R.string.TAG_INTENT_SHARE), getString(R.string.TAG_INTENT_SHARE_WSP));
+                        Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE), getString(R.string.TAG_INTENT_SHARE_WSP));
 
-                    startActivity(wspIntent);
+                        Intent wspIntent = new Intent();
+                        wspIntent.setAction(Intent.ACTION_SEND);
+                        wspIntent.setPackage(getString(R.string.PACKAGE_NAME_WSP));
+                        wspIntent.putExtra(Intent.EXTRA_TEXT, String.format(Locale.US,
+                                "[Alerta sísmica]\n\n" +
+                                        "Información sismológica\n" +
+                                        "Ciudad: %1$s\n" +
+                                        "Hora Local: %2$s\n" +
+                                        "Magnitud: %3$.1f %4$s\n" +
+                                        "Profundidad: %5$.1f Km\n" +
+                                        "Georeferencia: %6$s\n\n" +
+                                        "Para más información descarga la app LastQuakeChile aquí\n" +
+                                        "%7$s"
+                                , ciudad, fecha_local, magnitud, escala, profundidad, referencia, getString(R.string.DEEP_LINK)
+                        ));
+                        wspIntent.putExtra(Intent.EXTRA_STREAM, bitmapUri);
+                        wspIntent.setType("image/*");
+                        //wspIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-
+                        startActivity(wspIntent);
+                    }
                 }
             });
 
@@ -308,40 +322,48 @@ public class QuakeDetailsActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    Log.d(getString(R.string.TAG_INTENT_SHARE), getString(R.string.TAG_INTENT_SHARE_GM));
-                    Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE), getString(R.string.TAG_INTENT_SHARE_GM));
+                    Intent intent = getPackageManager().getLaunchIntentForPackage(getString(R.string.PACKAGE_NAME_GMAIL));
 
-                    Intent gmIntent = new Intent();
-                    gmIntent.setAction(Intent.ACTION_SEND);
-                    gmIntent.setPackage("com.google.android.gm");
-                    gmIntent.putExtra(Intent.EXTRA_SUBJECT, String.format(Locale.US, "[Alerta sísmica] - %1$.1f Richter en %2$s", magnitud, ciudad));
-                    gmIntent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(
-                            String.format(Locale.US,
-                                    "<h3>\n" +
-                                            "  Información sismológica\n" +
-                                            "</h3>\n" +
-                                            "\n" +
-                                            "<table>\n" +
-                                            "  <tr><td>Hora Local: </td><td>%1$s</td></tr><br>\n" +
-                                            "  <tr><td>Ciudad: </td><td>%2$s</td></tr><br>\n" +
-                                            "  <tr><td>Magnitud: </td><td>%3$.1f %4$s</td></tr><br>\n" +
-                                            "  <tr><td>Profundidad: </td><td>%5$.1f Km</td></tr><br>\n" +
-                                            "  <tr><td>Georeferencia: </td><td>%6$s</td></tr><br>\n" +
-                                            "  <tr><td>Latitud: </td><td>%7$s</td></tr><br>\n" +
-                                            "  <tr><td>Longitud: </td><td>%8$s</td></tr><br>\n" +
-                                            "  <tr><td>Posicion GMS: </td><td>%9$s - %10$s</td></tr><br>\n" +
-                                            " \n" +
-                                            "</table>\n" +
-                                            "\n" +
-                                            "<h5>\n" +
-                                            "  Para más información descarga la app LastQuakeChile aquí %11$s \n" +
-                                            "</h5>"
-                                    , fecha_local, ciudad, magnitud, escala, profundidad, referencia, latitud, longitud, dms_lat, dms_long, getString(R.string.DEEP_LINK))));
+                    //Si no existe el paquete
+                    if (intent == null) {
+                        doInstallation(getString(R.string.PACKAGE_NAME_GMAIL));
+                    } else {
 
-                    gmIntent.putExtra(Intent.EXTRA_STREAM, bitmapUri);
-                    gmIntent.setType("image/*");
+                        Log.d(getString(R.string.TAG_INTENT_SHARE), getString(R.string.TAG_INTENT_SHARE_GM));
+                        Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE), getString(R.string.TAG_INTENT_SHARE_GM));
 
-                    startActivity(gmIntent);
+                        Intent gmIntent = new Intent();
+                        gmIntent.setAction(Intent.ACTION_SEND);
+                        gmIntent.setPackage(getString(R.string.PACKAGE_NAME_GMAIL));
+                        gmIntent.putExtra(Intent.EXTRA_SUBJECT, String.format(Locale.US, "[Alerta sísmica] - %1$.1f Richter en %2$s", magnitud, ciudad));
+                        gmIntent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(
+                                String.format(Locale.US,
+                                        "<h3>\n" +
+                                                "  Información sismológica\n" +
+                                                "</h3>\n" +
+                                                "\n" +
+                                                "<table>\n" +
+                                                "  <tr><td>Hora Local: </td><td>%1$s</td></tr><br>\n" +
+                                                "  <tr><td>Ciudad: </td><td>%2$s</td></tr><br>\n" +
+                                                "  <tr><td>Magnitud: </td><td>%3$.1f %4$s</td></tr><br>\n" +
+                                                "  <tr><td>Profundidad: </td><td>%5$.1f Km</td></tr><br>\n" +
+                                                "  <tr><td>Georeferencia: </td><td>%6$s</td></tr><br>\n" +
+                                                "  <tr><td>Latitud: </td><td>%7$s</td></tr><br>\n" +
+                                                "  <tr><td>Longitud: </td><td>%8$s</td></tr><br>\n" +
+                                                "  <tr><td>Posicion GMS: </td><td>%9$s - %10$s</td></tr><br>\n" +
+                                                " \n" +
+                                                "</table>\n" +
+                                                "\n" +
+                                                "<h5>\n" +
+                                                "  Para más información descarga la app LastQuakeChile aquí %11$s \n" +
+                                                "</h5>"
+                                        , fecha_local, ciudad, magnitud, escala, profundidad, referencia, latitud, longitud, dms_lat, dms_long, getString(R.string.DEEP_LINK))));
+
+                        gmIntent.putExtra(Intent.EXTRA_STREAM, bitmapUri);
+                        gmIntent.setType("image/*");
+
+                        startActivity(gmIntent);
+                    }
                 }
             });
         }
@@ -566,6 +588,31 @@ public class QuakeDetailsActivity extends AppCompatActivity {
                 .into(iv_mapa);
 
 
+    }
+
+
+    private void doInstallation(String packageName) {
+
+        try {
+            //Abrir app en google play
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.setData(Uri.parse("market://details?id=" + packageName));
+
+            //LOG
+            Log.d(getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_GOOGLEPLAY_LK));
+            Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_GOOGLEPLAY_LK));
+
+            startActivity(intent);
+        } catch (android.content.ActivityNotFoundException anfe) {
+
+            //Si gogle play no esta abre webview
+            Log.d(getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_NAVEGADOR_LK));
+            Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_NAVEGADOR_LK));
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + packageName)));
+        }
     }
 
 }

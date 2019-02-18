@@ -76,13 +76,13 @@ public class ContactActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = getPackageManager().getLaunchIntentForPackage("com.facebook.katana");
+                Intent intent = getPackageManager().getLaunchIntentForPackage(getString(R.string.PACKAGE_NAME_FB));
                 if (intent == null) {
                     try {
                         //Intenta abrir google play
                         intent = new Intent(Intent.ACTION_VIEW);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.setData(Uri.parse("market://details?id=" + "com.facebook.katana"));
+                        intent.setData(Uri.parse("market://details?id=" + getString(R.string.PACKAGE_NAME_FB)));
 
                         //LOG
                         Log.d(getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_GOOGLEPLAY_FB));
@@ -95,7 +95,7 @@ public class ContactActivity extends AppCompatActivity {
                         Log.d(getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_NAVEGADOR_FB));
                         Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_NAVEGADOR_FB));
 
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + "com.facebook.katana")));
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + getString(R.string.PACKAGE_NAME_FB))));
                     }
                 } else {
 
@@ -111,13 +111,13 @@ public class ContactActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = getPackageManager().getLaunchIntentForPackage("com.linkedin.android");
+                Intent intent = getPackageManager().getLaunchIntentForPackage(getString(R.string.PACKAGE_NAME_LINKEDIN));
                 if (intent == null) {
                     try {
                         //Intenta abrir google play
                         intent = new Intent(Intent.ACTION_VIEW);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.setData(Uri.parse("market://details?id=" + "com.linkedin.android"));
+                        intent.setData(Uri.parse("market://details?id=" + getString(R.string.PACKAGE_NAME_LINKEDIN)));
 
                         //LOG
                         Log.d(getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_GOOGLEPLAY_LK));
@@ -129,7 +129,7 @@ public class ContactActivity extends AppCompatActivity {
                         //Si gogle play no esta abre webview
                         Log.d(getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_NAVEGADOR_LK));
                         Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_NAVEGADOR_LK));
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + "com.linkedin.android")));
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + getString(R.string.PACKAGE_NAME_LINKEDIN))));
                     }
                 } else {
 
