@@ -87,6 +87,10 @@
     <string name="fab_gmail" translatable="false">Gmail</string>
     <string name="fab_whatsapp" translatable="false">Whatsapp</string>
     <string name="fab_facebook" translatable="false">Facebook</string>
+    <string name="boton_flotante_gmail">Botón flotante gmail</string>
+    <string name="boton_flotante_whatsapp">Botón flotante whatsapp</string>
+    <string name="boton_flotante_facebook">Botón flotante Facebook</string>
+    <string name="boton_compartir_sismo">Botón compartir sismo</string>
 
 
     <!-- FIREBASE-->
