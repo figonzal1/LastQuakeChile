@@ -43,4 +43,8 @@
     <string name="toolbar_title">Contacto</string>
     <string name="seccion_listado_de_sismos">Sección listado de sismos</string>
     <string name="titulo_toolbar">Título toolbar</string>
+    <string name="boton_flotante_gmail">Botón flotante gmail</string>
+    <string name="boton_flotante_whatsapp">Botón flotante whatsapp</string>
+    <string name="boton_flotante_facebook">Botón flotante Facebook</string>
+    <string name="boton_compartir_sismo">Botón compartir sismo</string>
 </resources>
