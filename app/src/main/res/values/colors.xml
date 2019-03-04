@@ -9,6 +9,7 @@
     <color name="colorAccent">#00bbff</color>
     <color name="grey">#efefef</color>
     <color name="grey_dark">#939393</color>
+    <color name="green_dark">#008e4d</color>
 
 
     <!-- Colores para cada magnitud-->
