@@ -37,6 +37,7 @@
     <string name="KEY_REFERENCIA" translatable="false">referencia</string>
     <string name="KEY_IMAGEN_URL" translatable="false">imagen_url</string>
     <string name="KEY_SENSIBLE" translatable="false">sensible</string>
+    <string name="KEY_ESTADO" translatable="false">estado</string>
 
     <!-- STRINGS DE LAYOUTS-->
     <string name="circulo_pintado">Color magnitud sismo</string>
@@ -156,6 +157,7 @@
     <string name="INTENT_ESCALA" translatable="false">escala</string>
     <string name="INTENT_SENSIBLE" translatable="false">sensible</string>
     <string name="INTENT_LINK_FOTO" translatable="false">imagen_url</string>
+    <string name="INTENT_ESTADO" translatable="false">estado</string>
 
     <!-- Strings para calculode tiempo -->
     <string name="UTILS_TIEMPO_DIAS" translatable="false">dias</string>
