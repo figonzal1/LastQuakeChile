@@ -47,4 +47,5 @@
     <string name="boton_flotante_whatsapp">Floating button Whatsapp</string>
     <string name="boton_flotante_facebook">Floating button Facebook</string>
     <string name="boton_compartir_sismo">Button to share quake</string>
+    <string name="imagen_estado_sismo">Quake status image</string>
 </resources>

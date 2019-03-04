@@ -47,4 +47,5 @@
     <string name="boton_flotante_whatsapp">Botón flotante whatsapp</string>
     <string name="boton_flotante_facebook">Botón flotante Facebook</string>
     <string name="boton_compartir_sismo">Botón compartir sismo</string>
+    <string name="imagen_estado_sismo">Imagen estado sismo</string>
 </resources>
