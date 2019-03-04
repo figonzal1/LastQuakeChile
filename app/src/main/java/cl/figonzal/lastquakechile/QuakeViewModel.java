@@ -168,6 +168,7 @@ public class QuakeViewModel extends AndroidViewModel {
                         model.setAgencia(object.getString(getApplication().getString(R.string.KEY_AGENCIA)));
                         model.setReferencia(object.getString(getApplication().getString(R.string.KEY_REFERENCIA)));
                         model.setImagen_url(object.getString(getApplication().getString(R.string.KEY_IMAGEN_URL)));
+                        model.setEstado(object.getString(getApplication().getString(R.string.KEY_ESTADO)));
 
                         switch (object.getInt(getApplication().getString(R.string.KEY_SENSIBLE))) {
 

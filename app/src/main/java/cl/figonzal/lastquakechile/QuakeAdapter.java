@@ -147,6 +147,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
                 b.putString(context.getString(R.string.INTENT_ESCALA), model.getEscala());
                 b.putBoolean(context.getString(R.string.INTENT_SENSIBLE), model.getSensible());
                 b.putString(context.getString(R.string.INTENT_LINK_FOTO), model.getImagen_url());
+                b.putString(context.getString(R.string.INTENT_ESTADO), model.getEstado());
 
                 intent.putExtras(b);
 
