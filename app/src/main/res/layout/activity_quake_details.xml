@@ -336,11 +336,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
                 android:fontFamily="sans-serif"
                 android:gravity="center"
                 android:text="@string/tiempo"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                 android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/guia_vertical"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/iv_reloj"
                 app:layout_constraintTop_toTopOf="@+id/iv_reloj" />
 
@@ -372,7 +375,6 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
                 android:contentDescription="@string/icono_distancia"
                 android:visibility="visible"
@@ -386,11 +388,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
                 android:fontFamily="sans-serif"
                 android:text="@string/distancia"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                 android:textSize="14sp"
                 android:visibility="visible"
+                app:layout_constraintEnd_toStartOf="@+id/guia_vertical"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/iv_pin"
                 app:layout_constraintTop_toTopOf="@+id/iv_pin" />
 
@@ -438,10 +443,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 android:fontFamily="sans-serif"
                 android:text="@string/profundidad"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                 android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/iv_epicentro"
                 app:layout_constraintTop_toTopOf="@+id/iv_epicentro" />
 
@@ -465,7 +473,6 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
                 android:contentDescription="@string/icono_escala"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -478,10 +485,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 android:fontFamily="sans-serif"
                 android:text="@string/escala"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                 android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/iv_scale"
                 app:layout_constraintTop_toTopOf="@+id/iv_scale" />
 
