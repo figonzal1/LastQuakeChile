@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.Pair;
@@ -46,7 +46,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
         private final TextView tv_hora;
         private final ImageView iv_mag_color;
         private final ImageView iv_sensible;
-        private final CardView cardView;
+        private final ConstraintLayout item;
 
 
         private QuakeViewHolder(View itemView) {
@@ -58,7 +58,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
             tv_magnitud = itemView.findViewById(R.id.tv_magnitud);
             tv_hora = itemView.findViewById(R.id.tv_hora);
             iv_mag_color = itemView.findViewById(R.id.iv_mag_color);
-            cardView = itemView.findViewById(R.id.card_view);
+            item = itemView.findViewById(R.id.card_view);
             iv_sensible = itemView.findViewById(R.id.iv_sensible);
         }
     }
@@ -123,7 +123,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
             holder.iv_sensible.setVisibility(View.VISIBLE);
         }
 
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
+        holder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -147,6 +147,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
                 b.putString(context.getString(R.string.INTENT_ESCALA), model.getEscala());
                 b.putBoolean(context.getString(R.string.INTENT_SENSIBLE), model.getSensible());
                 b.putString(context.getString(R.string.INTENT_LINK_FOTO), model.getImagen_url());
+                b.putString(context.getString(R.string.INTENT_ESTADO), model.getEstado());
 
                 intent.putExtras(b);
 

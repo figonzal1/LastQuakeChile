@@ -14,9 +14,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#c71610"
+        android:contentDescription="@string/boton_flotante_gmail"
         app:elevation="6dp"
         app:fabSize="mini"
-        android:contentDescription="@string/boton_flotante_gmail"
         app:layout_constraintBottom_toBottomOf="@+id/fab_share"
         app:layout_constraintEnd_toEndOf="@+id/fab_share"
         app:layout_constraintStart_toStartOf="@+id/fab_share"
@@ -44,9 +44,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#25D366"
+        android:contentDescription="@string/boton_flotante_whatsapp"
         app:elevation="6dp"
         app:fabSize="mini"
-        android:contentDescription="@string/boton_flotante_whatsapp"
         app:layout_constraintBottom_toBottomOf="@+id/fab_share"
         app:layout_constraintEnd_toEndOf="@+id/fab_share"
         app:layout_constraintStart_toStartOf="@+id/fab_share"
@@ -74,9 +74,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#3b5998"
+        android:contentDescription="@string/boton_flotante_facebook"
         app:elevation="6dp"
         app:fabSize="mini"
-        android:contentDescription="@string/boton_flotante_facebook"
         app:layout_constraintBottom_toBottomOf="@+id/fab_share"
         app:layout_constraintEnd_toEndOf="@+id/fab_share"
         app:layout_constraintStart_toStartOf="@+id/fab_share"
@@ -105,13 +105,13 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:visibility="visible"
-        app:rippleColor="@color/colorPrimaryDark"
         android:contentDescription="@string/boton_compartir_sismo"
+        android:visibility="visible"
         app:backgroundTintMode="src_atop"
         app:elevation="7dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:rippleColor="@color/colorPrimaryDark"
         app:srcCompat="@drawable/ic_share_24px" />
 
 
@@ -218,8 +218,8 @@
 
             <ImageView
                 android:id="@+id/iv_mag_color_detail"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:contentDescription="@string/circulo_pintado"
@@ -233,6 +233,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
                 android:fontFamily="sans-serif"
                 android:maxLines="1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
@@ -266,7 +267,7 @@
                 android:layout_marginEnd="16dp"
                 android:fontFamily="sans-serif"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:transitionName="hora"
                 card_view:layout_constraintBottom_toBottomOf="@+id/tv_ciudad_detail"
                 card_view:layout_constraintEnd_toEndOf="parent"
@@ -278,6 +279,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
+                android:layout_marginBottom="4dp"
                 android:fontFamily="sans-serif"
                 android:paddingTop="0dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
@@ -298,7 +300,7 @@
                 android:fontFamily="sans-serif"
                 android:maxLength="4"
                 android:textColor="@android:color/white"
-                android:textSize="18sp"
+                android:textSize="21sp"
                 android:textStyle="normal"
                 android:transitionName="magnitud"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_mag_color_detail"
@@ -502,5 +504,52 @@
         </android.support.constraint.ConstraintLayout>
 
     </android.support.v7.widget.CardView>
+
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guia_estado_izq"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.30" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guia_estado_der"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.69" />
+
+    <ImageView
+        android:id="@+id/iv_estado"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="@string/imagen_estado_sismo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tv_estado"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="@+id/guia_estado_izq"
+        app:layout_constraintTop_toBottomOf="@+id/card_view_detail"
+        app:srcCompat="@drawable/ic_baseline_check_circle_24px" />
+
+    <TextView
+        android:id="@+id/tv_estado"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_estado"
+        app:layout_constraintEnd_toStartOf="@+id/guia_estado_der"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/iv_estado"
+        app:layout_constraintTop_toTopOf="@+id/iv_estado"
+        app:layout_constraintVertical_bias="1.0"
+        tools:text="Sismo preliminar" />
 
 </android.support.constraint.ConstraintLayout>

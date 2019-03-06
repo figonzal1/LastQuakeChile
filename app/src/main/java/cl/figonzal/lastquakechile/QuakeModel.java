@@ -14,6 +14,7 @@ class QuakeModel {
     private String agencia;
     private String referencia;
     private String imagen_url;
+    private String estado;
 
     public QuakeModel() {
     }
@@ -70,7 +71,6 @@ class QuakeModel {
         return agencia;
     }
 
-
     void setAgencia(String agencia) {
         this.agencia = agencia;
     }
@@ -97,5 +97,13 @@ class QuakeModel {
 
     void setSensible(Boolean sensible) {
         this.sensible = sensible;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 }

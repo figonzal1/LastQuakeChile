@@ -52,9 +52,9 @@ public class QuakeDetailsActivity extends AppCompatActivity {
     private SharePhoto sharePhoto;
     private CallbackManager callbackManager;
     private Uri bitmapUri;
-    private TextView tv_ciudad, tv_referencia, tv_escala, tv_magnitud, tv_profundidad, tv_fecha, tv_hora, tv_gms, fab_text_fb, fab_text_wsp, fab_text_gm;
-    private ImageView iv_mapa, iv_sensible, iv_mag_color;
-    private String ciudad, referencia, dms_lat, dms_long, fecha_local, escala, foto_url;
+    private TextView tv_ciudad, tv_referencia, tv_escala, tv_magnitud, tv_profundidad, tv_fecha, tv_hora, tv_gms, fab_text_fb, fab_text_wsp, fab_text_gm, tv_estado;
+    private ImageView iv_mapa, iv_sensible, iv_mag_color, iv_estado;
+    private String ciudad, referencia, dms_lat, dms_long, fecha_local, escala, foto_url, estado;
     private Double magnitud, profundidad;
     private Map<String, Long> tiempos;
     private boolean sensible;
@@ -91,11 +91,12 @@ public class QuakeDetailsActivity extends AppCompatActivity {
         tv_fecha = findViewById(R.id.tv_fecha);
         tv_gms = findViewById(R.id.tv_gms);
         tv_hora = findViewById(R.id.tv_hora_detail);
+        tv_estado = findViewById(R.id.tv_estado);
 
         //IMAGE VIEWS
         iv_sensible = findViewById(R.id.iv_sensible_detail);
         iv_mag_color = findViewById(R.id.iv_mag_color_detail);
-
+        iv_estado = findViewById(R.id.iv_estado);
 
         iv_mapa = findViewById(R.id.iv_map_quake);
 
@@ -112,6 +113,7 @@ public class QuakeDetailsActivity extends AppCompatActivity {
             //TODO: Agregar sensible a los detalles del sismo
             sensible = b.getBoolean(getString(R.string.INTENT_SENSIBLE));
             foto_url = b.getString(getString(R.string.INTENT_LINK_FOTO));
+            estado = b.getString(getString(R.string.INTENT_ESTADO));
 
             /*
                 SECCION DE TRANSFORMACION LAT-LONG TO GMS
@@ -496,9 +498,20 @@ public class QuakeDetailsActivity extends AppCompatActivity {
         //Setear posicionamiento
         tv_gms.setText(String.format(getString(R.string.format_coordenadas), dms_lat, dms_long));
 
-            /*
-                SECCION HORA
-             */
+        /*
+            SECCION ESTADO
+         */
+        if (estado.equals("preliminar")) {
+            tv_estado.setText(String.format(Locale.US, "Sismo %s", estado));
+            iv_estado.setImageDrawable(getDrawable(R.drawable.ic_progress_check_24));
+        } else if (estado.equals("verificado")) {
+            tv_estado.setText(String.format(Locale.US, "Sismo %s", estado));
+            iv_estado.setImageDrawable(getDrawable(R.drawable.ic_baseline_check_circle_24px));
+        }
+
+        /*
+            SECCION HORA
+         */
 
         if (tiempos != null) {
 
@@ -530,9 +543,9 @@ public class QuakeDetailsActivity extends AppCompatActivity {
         }
 
 
-            /*
-                Seccion Tipo Escala
-             */
+        /*
+            Seccion Tipo Escala
+         */
         if (escala != null) {
 
             switch (escala) {
