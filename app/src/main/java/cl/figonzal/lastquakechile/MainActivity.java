@@ -41,8 +41,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Checkea si es primer inicio
-        checkFirstRun();
+        Bundle bundleWelcome = getIntent().getExtras();
+
+        if (bundleWelcome != null) {
+
+            //Si el usuario viene desde deep link, no se realiza first check
+            //Si viene desde Google play, se realiza el check
+            if (!bundleWelcome.getBoolean(getString(R.string.desde_deep_link))) {
+                checkFirstRun();
+            }
+        }
 
         //Verifica si el celular tiene googleplay services activado
         checkPlayServices();
