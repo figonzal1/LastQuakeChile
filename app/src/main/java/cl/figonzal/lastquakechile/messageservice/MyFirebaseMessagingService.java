@@ -94,6 +94,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         String ciudad = null;
         String fecha_utc = null;
+        String estado = null;
         String latitud = null;
         String longitud = null;
         Double magnitud = null;
@@ -113,6 +114,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             magnitud = object.getDouble(getString(R.string.INTENT_MAGNITUD));
             escala = object.getString(getString(R.string.INTENT_ESCALA));
             profundidad = object.getDouble(getString(R.string.INTENT_PROFUNDIDAD));
+            estado = object.getString(getString(R.string.INTENT_ESTADO));
 
             switch (object.getInt(getString(R.string.INTENT_SENSIBLE))) {
                 case 0:
@@ -158,6 +160,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         b.putString(getString(R.string.INTENT_ESCALA), escala);
         b.putString(getString(R.string.INTENT_REFERENCIA), referencia);
         b.putString(getString(R.string.INTENT_LINK_FOTO), imagen_url);
+        b.putString(getString(R.string.INTENT_ESTADO), estado);
 
         intent.putExtras(b);
 
