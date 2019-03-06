@@ -133,7 +133,7 @@ public class QuakeViewModel extends AndroidViewModel {
 
         //Codigo que retorna la data desde internet
         quakeModelList = new ArrayList<>();
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, getApplication().getString(R.string.URL_GET), null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, getApplication().getString(R.string.URL_GET_PROD), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 
