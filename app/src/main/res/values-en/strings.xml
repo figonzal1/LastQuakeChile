@@ -27,7 +27,7 @@
     <string name="FIREBASE_CHANNEL_DESCRIPTION">Receives quake alerts above 5 degrees</string>
     <string name="last_quakes_info_card_view_tittle">Last quakes</string>
     <string name="last_quakes_info_card_view_button">OK</string>
-    <string name="last_quakes_info_card_view_description">This list shows the last earthquakes in Chile</string>
+    <string name="last_quakes_info_card_view_description">This list shows the last 15 earthquakes that occurred in Chile</string>
     <string name="VIEWMODEL_TIMEOUT_ERROR">Server does not respond, try later</string>
     <string name="VIEWMODEL_NOCONNECTION_ERROR">You don\'t have an Internet connection</string>
     <string name="VIEWMODEL_SERVER_ERROR">Server does not respond, try later</string>
@@ -47,4 +47,5 @@
     <string name="boton_flotante_whatsapp">Floating button Whatsapp</string>
     <string name="boton_flotante_facebook">Floating button Facebook</string>
     <string name="boton_compartir_sismo">Button to share quake</string>
+    <string name="imagen_estado_sismo">Quake status image</string>
 </resources>

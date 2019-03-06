@@ -13,7 +13,7 @@
     <!-- TODO: Cambiar la direccion hacia Heroku y Actualizar HEROKU con el nuevo config en xamp -->
     <!-- URL SERVIDOR HEROKU -->
     <!--<string name="URL_GET" translatable="false">http://192.168.0.13/lastquake_server/public/get_quakes.php</string>-->
-    <string name="URL_GET" translatable="false">https://lastquakechile-server.herokuapp.com/get_quakes.php</string>
+    <string name="URL_GET_PROD" translatable="false">https://lastquakechile-server-prod.herokuapp.com/get_quakes.php</string>
     <string name="DEEP_LINK" translatable="false">https://lastquakechile.page.link/lqch</string>
 
     <!-- FORMAT -->
@@ -37,6 +37,7 @@
     <string name="KEY_REFERENCIA" translatable="false">referencia</string>
     <string name="KEY_IMAGEN_URL" translatable="false">imagen_url</string>
     <string name="KEY_SENSIBLE" translatable="false">sensible</string>
+    <string name="KEY_ESTADO" translatable="false">estado</string>
 
     <!-- STRINGS DE LAYOUTS-->
     <string name="circulo_pintado">Color magnitud sismo</string>
@@ -83,7 +84,7 @@
     <string name="titulo_toolbar">Título toolbar</string>
     <string name="last_quakes_info_card_view_tittle">Últimos sismos</string>
     <string name="last_quakes_info_card_view_button">Entendido</string>
-    <string name="last_quakes_info_card_view_description">En este listado se muestran los últimos sismos en Chile</string>
+    <string name="last_quakes_info_card_view_description">En este listado se muestran los últimos 15 sismos ocurridos en Chile</string>
     <string name="fab_gmail" translatable="false">Gmail</string>
     <string name="fab_whatsapp" translatable="false">Whatsapp</string>
     <string name="fab_facebook" translatable="false">Facebook</string>
@@ -91,6 +92,7 @@
     <string name="boton_flotante_whatsapp">Botón flotante whatsapp</string>
     <string name="boton_flotante_facebook">Botón flotante Facebook</string>
     <string name="boton_compartir_sismo">Botón compartir sismo</string>
+    <string name="imagen_estado_sismo">Imagen estado sismo</string>
 
 
     <!-- FIREBASE-->
@@ -156,6 +158,7 @@
     <string name="INTENT_ESCALA" translatable="false">escala</string>
     <string name="INTENT_SENSIBLE" translatable="false">sensible</string>
     <string name="INTENT_LINK_FOTO" translatable="false">imagen_url</string>
+    <string name="INTENT_ESTADO" translatable="false">estado</string>
 
     <!-- Strings para calculode tiempo -->
     <string name="UTILS_TIEMPO_DIAS" translatable="false">dias</string>
