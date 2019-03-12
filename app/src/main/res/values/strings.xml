@@ -13,7 +13,7 @@
     <!-- TODO: Cambiar la direccion hacia Heroku y Actualizar HEROKU con el nuevo config en xamp -->
     <!-- URL SERVIDOR HEROKU -->
     <!--<string name="URL_GET" translatable="false">http://192.168.0.13/lastquake_server/public/get_quakes.php</string>-->
-    <string name="URL_GET_PROD" translatable="false">https://lastquakechile-server-prod.herokuapp.com/get_quakes.php</string>
+    <string name="URL_GET_PROD" translatable="false">https://lastquakechile-server-dev.herokuapp.com/get_quakes.php</string>
     <string name="DEEP_LINK" translatable="false">https://lastquakechile.page.link/lqch</string>
     <string name="desde_deep_link" translatable="false">desdeDeepLink</string>
 
