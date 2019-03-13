@@ -71,6 +71,9 @@ public class QuakeRepository {
      * @return MutableLiveData con los sismos
      */
     public MutableLiveData<List<QuakeModel>> getMutableQuakeList() {
+        if (quakeList.size() > 0) {
+            quakeList.clear();
+        }
         loadQuakes();
         return quakeMutableList;
     }
