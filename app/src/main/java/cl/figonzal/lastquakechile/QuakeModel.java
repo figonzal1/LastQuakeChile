@@ -43,7 +43,7 @@ public class QuakeModel {
         this.longitud = longitud;
     }
 
-    Double getMagnitud() {
+    public Double getMagnitud() {
         return magnitud;
     }
 
@@ -75,7 +75,7 @@ public class QuakeModel {
         this.agencia = agencia;
     }
 
-    String getReferencia() {
+    public String getReferencia() {
         return referencia;
     }
 
@@ -99,7 +99,7 @@ public class QuakeModel {
         this.sensible = sensible;
     }
 
-    public String getEstado() {
+    String getEstado() {
         return estado;
     }
 

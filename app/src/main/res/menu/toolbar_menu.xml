@@ -6,28 +6,31 @@
     <item
         android:id="@+id/refresh"
         android:icon="@drawable/ic_refresh_white_24dp"
-        app:showAsAction="ifRoom|collapseActionView"
+        app:showAsAction="always|collapseActionView"
         android:orderInCategory="2"
         android:title="@string/refresh" />
     <item
         android:id="@+id/search"
         android:icon="@drawable/ic_search_white_24dp"
-        app:showAsAction="always"
+        app:showAsAction="always|collapseActionView"
         android:title="@string/search"
         android:orderInCategory="1"
         app:actionViewClass="android.support.v7.widget.SearchView" />
 
-    <item
-        android:id="@+id/contact"
-        android:icon="@drawable/ic_more_vert_white_24dp"
-        app:showAsAction="never"
-        android:orderInCategory="3"
-        android:title="@string/contact" />
+    <group android:id="@+id/dot">
+        <item
+            android:id="@+id/contact"
+            android:icon="@drawable/ic_more_vert_white_24dp"
+            app:showAsAction="never"
+            android:orderInCategory="3"
+            android:title="@string/contact" />
 
-    <item
-        android:id="@+id/invite"
-        app:showAsAction="never"
-        android:orderInCategory="4"
-        android:title="@string/invite" />
+        <item
+            android:id="@+id/invite"
+            app:showAsAction="never"
+            android:orderInCategory="4"
+            android:title="@string/invite" />
+    </group>
+
 
 </menu>

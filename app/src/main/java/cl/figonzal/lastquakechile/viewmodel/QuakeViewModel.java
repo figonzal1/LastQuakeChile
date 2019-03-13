@@ -5,6 +5,7 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cl.figonzal.lastquakechile.QuakeModel;
@@ -36,7 +37,7 @@ public class QuakeViewModel extends AndroidViewModel {
             quakeMutableList = new MutableLiveData<>();
 
             repository = QuakeRepository.getIntance(getApplication());
-            quakeMutableList = repository.getQuakeList();
+            quakeMutableList = repository.getMutableQuakeList();
         }
         return quakeMutableList;
     }
@@ -45,12 +46,11 @@ public class QuakeViewModel extends AndroidViewModel {
      */
     public void refreshMutableQuakeList() {
         repository = QuakeRepository.getIntance(getApplication());
-        quakeMutableList = repository.getQuakeList();
+        quakeMutableList = repository.getMutableQuakeList();
     }
 
     /**
      * Funcion recibe el status de la peticion desde el repositorio y permite que la View pueda acceder el status
-     *
      * @return Retorna el MutableLiveData del mensaje estado
      */
     public MutableLiveData<String> showStatusData() {
@@ -68,36 +68,31 @@ public class QuakeViewModel extends AndroidViewModel {
      * @param s Texto que ingresa el usuario en la busqueda
      * @return Lista Filtrada
      */
-    /*public List<QuakeModel> doSearch(String s) {
+    public void doSearch(String s) {
 
-        //Lista utilizada para el searchView
-        List<QuakeModel> filteredList = new ArrayList<>();
-        for (QuakeModel l : quakeModelList) {
+        repository = QuakeRepository.getIntance(getApplication());
+        List<QuakeModel> quakeList = repository.getQuakeList();
 
-            //Filtrar por lugar de referencia
-            if (l.getReferencia().toLowerCase().contains(s)) {
-                filteredList.add(l);
+        if (quakeList.size() > 0 && !s.isEmpty()) {
+            //Lista utilizada para el searchView
+            List<QuakeModel> filteredList = new ArrayList<>();
+
+            for (QuakeModel l : quakeList) {
+
+                //Filtrar por lugar de referencia
+                if (l.getReferencia().toLowerCase().contains(s)) {
+                    filteredList.add(l);
+                }
+
+                //Filtrar por magnitud de sismo
+                if (l.getMagnitud().toString().contains(s)) {
+                    filteredList.add(l);
+                }
             }
-
-            //Filtrar por magnitud de sismo
-            if (l.getMagnitud().toString().contains(s)) {
-                filteredList.add(l);
-            }
-        }
-        return filteredList;
-    }*/
-
-    /**
-     * Funcion encargada de setear la nueva lista sobre el antiguo MutableLiveData
-     *
-     * @param
-     */
-    /*public void setFilteredList(List<QuakeModel> filteredList) {
-
-        if (quakeMutableList != null) {
             quakeMutableList.postValue(filteredList);
         }
-    }*/
+
+    }
 
 
     @Override
