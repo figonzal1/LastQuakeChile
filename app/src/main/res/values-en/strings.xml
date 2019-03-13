@@ -28,7 +28,7 @@
     <string name="last_quakes_info_card_view_tittle">Last quakes</string>
     <string name="last_quakes_info_card_view_button">OK</string>
     <string name="last_quakes_info_card_view_description">This list shows the last 15 earthquakes that occurred in Chile</string>
-    <string name="VIEWMODEL_TIMEOUT_ERROR">Server does not respond, try later</string>
+    <string name="VIEWMODEL_TIMEOUT_ERROR">Timeout</string>
     <string name="VIEWMODEL_NOCONNECTION_ERROR">You don\'t have an Internet connection</string>
     <string name="VIEWMODEL_SERVER_ERROR">Server does not respond, try later</string>
     <string name="icono_app">App icon</string>
