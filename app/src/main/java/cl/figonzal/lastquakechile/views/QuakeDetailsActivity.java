@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile;
+package cl.figonzal.lastquakechile.views;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -42,6 +42,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TimeZone;
+
+import cl.figonzal.lastquakechile.R;
+import cl.figonzal.lastquakechile.services.QuakeUtils;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 

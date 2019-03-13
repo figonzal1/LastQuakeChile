@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile;
+package cl.figonzal.lastquakechile.views;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -19,6 +19,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.appinvite.FirebaseAppInvite;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
+
+import cl.figonzal.lastquakechile.R;
 
 public class WelcomeActivity extends AppCompatActivity {
 

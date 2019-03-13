@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile;
+package cl.figonzal.lastquakechile.services;
 
 import android.content.Context;
 
@@ -6,7 +6,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
-class VolleySingleton {
+public class VolleySingleton {
 
     private static VolleySingleton volleySingleton;
     private RequestQueue queue;
@@ -23,7 +23,7 @@ class VolleySingleton {
      * @param context Contexto necesario para uso de singleton
      * @return objecto volley singleton
      */
-    static synchronized VolleySingleton getInstance(Context context) {
+    public static synchronized VolleySingleton getInstance(Context context) {
 
         //Si la instancia no existe
         if (volleySingleton == null) {
@@ -51,12 +51,12 @@ class VolleySingleton {
      * @param req //
      * @param <T> //
      */
-    <T> void addToRequestQueue(Request<T> req, Object tag) {
+    public <T> void addToRequestQueue(Request<T> req, Object tag) {
         req.setTag(tag);
         getRequestQueue().add(req);
     }
 
-    void cancelPendingRequests(Object tag) {
+    public void cancelPendingRequests(Object tag) {
         if (queue != null) {
             queue.cancelAll(tag);
         }

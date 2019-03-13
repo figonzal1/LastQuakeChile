@@ -23,6 +23,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import cl.figonzal.lastquakechile.services.QuakeUtils;
+import cl.figonzal.lastquakechile.views.QuakeDetailsActivity;
+
 public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHolder> {
 
     private final List<QuakeModel> quakeModelList;
