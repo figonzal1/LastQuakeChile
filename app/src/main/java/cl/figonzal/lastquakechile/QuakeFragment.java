@@ -42,6 +42,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
     private QuakeViewModel viewModel;
     private QuakeAdapter adapter;
     private CardView cv_info;
+    private static Snackbar snackbar;
 
     public QuakeFragment() {
 
@@ -55,6 +56,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
     }
 
     @Override
@@ -74,8 +76,6 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         LinearLayoutManager ly = new LinearLayoutManager(getContext());
         rv.setLayoutManager(ly);
 
-        //Definicion de materiales a usar para checkear internet UI
-        rv = v.findViewById(R.id.recycle_view);
         progressBar = v.findViewById(R.id.progress_bar_fragment);
         progressBar.setVisibility(View.VISIBLE);
 
@@ -86,7 +86,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         /*
             Checkear los nuevos datos mediante un observable
          */
-        viewModel.getMutableQuakeList().observe(this, new Observer<List<QuakeModel>>() {
+        viewModel.showQuakeList().observe(this, new Observer<List<QuakeModel>>() {
             @Override
             public void onChanged(@Nullable List<QuakeModel> quakeModelList) {
 
@@ -108,17 +108,15 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         /*
             Viewmodel encargado de mostrar mensajes de errores desde Volley (LoadDATA)
          */
-        viewModel.getStatusData().observe(this, new Observer<String>() {
+        viewModel.showStatusData().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String status) {
                 if (status != null) {
-
                     progressBar.setVisibility(View.INVISIBLE);
 
                     //TIMEOUT ERROR
                     if (status.equals(getString(R.string.VIEWMODEL_TIMEOUT_ERROR))) {
-                        Snackbar
-                                .make(v, status, Snackbar.LENGTH_INDEFINITE)
+                        snackbar = Snackbar.make(v, status, Snackbar.LENGTH_INDEFINITE)
                                 .setAction(getString(R.string.FLAG_RETRY), new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
@@ -127,8 +125,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
                                         Crashlytics.setBool(getString(R.string.SNACKBAR_TIMEOUT_ERROR_PRESSED), true);
                                     }
-                                })
-                                .show();
+                                });
+                        snackbar.show();
 
                         Log.d(getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_TIMEOUT_ERROR));
                         Crashlytics.log(Log.DEBUG, getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_TIMEOUT_ERROR));
@@ -136,8 +134,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
                     //SERVER ERROR
                     else if (status.equals(getString(R.string.VIEWMODEL_SERVER_ERROR))) {
-                        Snackbar
-                                .make(v, status, Snackbar.LENGTH_INDEFINITE)
+                        snackbar = Snackbar.make(v, status, Snackbar.LENGTH_INDEFINITE)
                                 .setAction(getString(R.string.FLAG_RETRY), new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
@@ -147,8 +144,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
                                         Crashlytics.setBool(getString(R.string.SNACKBAR_SERVER_ERROR_PRESSED), true);
                                     }
-                                })
-                                .show();
+                                });
+                        snackbar.show();
 
                         Log.d(getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_SERVER_ERROR));
                         Crashlytics.log(Log.DEBUG, getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_SERVER_ERROR));
@@ -157,7 +154,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
                     //NOCONNECTION ERROR
                     else if (status.equals(getString(R.string.VIEWMODEL_NOCONNECTION_ERROR))) {
-                        Snackbar
+                        snackbar = Snackbar
                                 .make(v, status, Snackbar.LENGTH_INDEFINITE)
                                 .setAction(getString(R.string.FLAG_RETRY), new View.OnClickListener() {
                                     @Override
@@ -167,13 +164,12 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
                                         Crashlytics.setBool(getString(R.string.SNACKBAR_NOCONNECTION_ERROR_PRESSED), true);
                                     }
-                                })
-                                .show();
+                                });
+                        snackbar.show();
 
                         Log.d(getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_NOCONNECTION));
                         Crashlytics.log(Log.DEBUG, getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_NOCONNECTION));
                     }
-
                 }
             }
         });
@@ -222,6 +218,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         return v;
     }
 
+
     @Override
     public void onResume() {
         super.onResume();
@@ -241,9 +238,9 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
     @Override
     public boolean onQueryTextChange(String s) {
-        String input = s.toLowerCase();
-        List<QuakeModel> filteredList = viewModel.doSearch(input);
-        viewModel.setFilteredList(filteredList);
+        //String input = s.toLowerCase();
+        //List<QuakeModel> filteredList = viewModel.doSearch(input);
+        //viewModel.setFilteredList(filteredList);
         return true;
     }
 
@@ -268,8 +265,9 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
                 //Se refresca el listado de sismos
                 viewModel.refreshMutableQuakeList();
 
-                //Progress bar desaparece despues de la descarga de datos
-                progressBar.setVisibility(View.INVISIBLE);
+                if (snackbar != null && snackbar.isShown()) {
+                    snackbar.dismiss();
+                }
 
                 return true;
 
