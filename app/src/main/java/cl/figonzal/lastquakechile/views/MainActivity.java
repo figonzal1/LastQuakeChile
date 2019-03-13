@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile;
+package cl.figonzal.lastquakechile.views;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -28,7 +28,9 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import cl.figonzal.lastquakechile.messageservice.MyFirebaseMessagingService;
+import cl.figonzal.lastquakechile.FragmentPageAdapter;
+import cl.figonzal.lastquakechile.R;
+import cl.figonzal.lastquakechile.services.MyFirebaseMessagingService;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 

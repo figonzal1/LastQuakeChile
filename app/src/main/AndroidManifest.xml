@@ -48,7 +48,7 @@
         </provider>
 
         <activity
-            android:name=".MainActivity"
+            android:name=".views.MainActivity"
             android:screenOrientation="portrait">
 
             <intent-filter>
@@ -59,7 +59,7 @@
         </activity>
         <!-- Llamada a servicio de mensajeria -->
         <service
-            android:name=".messageservice.MyFirebaseMessagingService"
+            android:name=".services.MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -68,25 +68,25 @@
 
         <!-- Activity detalle -->
         <activity
-            android:name=".QuakeDetailsActivity"
-            android:parentActivityName=".MainActivity"
+            android:name=".views.QuakeDetailsActivity"
+            android:parentActivityName=".views.MainActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".views.MainActivity" />
         </activity>
 
         <!-- Activity Contact -->
         <activity
-            android:name=".ContactActivity"
-            android:parentActivityName=".MainActivity"
+            android:name=".views.ContactActivity"
+            android:parentActivityName=".views.MainActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".views.MainActivity" />
         </activity>
         <activity
-            android:name=".WelcomeActivity"
+            android:name=".views.WelcomeActivity"
             android:screenOrientation="portrait">
 
             <intent-filter>

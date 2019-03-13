@@ -2,7 +2,7 @@ package cl.figonzal.lastquakechile;
 
 import java.util.Date;
 
-class QuakeModel {
+public class QuakeModel {
 
     private Date fecha_local;
     private String latitud;
@@ -23,7 +23,7 @@ class QuakeModel {
         return fecha_local;
     }
 
-    void setFecha_local(Date fecha_local) {
+    public void setFecha_local(Date fecha_local) {
         this.fecha_local = fecha_local;
     }
 
@@ -31,7 +31,7 @@ class QuakeModel {
         return latitud;
     }
 
-    void setLatitud(String latitud) {
+    public void setLatitud(String latitud) {
         this.latitud = latitud;
     }
 
@@ -39,7 +39,7 @@ class QuakeModel {
         return longitud;
     }
 
-    void setLongitud(String longitud) {
+    public void setLongitud(String longitud) {
         this.longitud = longitud;
     }
 
@@ -47,7 +47,7 @@ class QuakeModel {
         return magnitud;
     }
 
-    void setMagnitud(Double magnitud) {
+    public void setMagnitud(Double magnitud) {
         this.magnitud = magnitud;
     }
 
@@ -55,7 +55,7 @@ class QuakeModel {
         return escala;
     }
 
-    void setEscala(String escala) {
+    public void setEscala(String escala) {
         this.escala = escala;
     }
 
@@ -63,7 +63,7 @@ class QuakeModel {
         return profundidad;
     }
 
-    void setProfundidad(Double profundidad) {
+    public void setProfundidad(Double profundidad) {
         this.profundidad = profundidad;
     }
 
@@ -71,7 +71,7 @@ class QuakeModel {
         return agencia;
     }
 
-    void setAgencia(String agencia) {
+    public void setAgencia(String agencia) {
         this.agencia = agencia;
     }
 
@@ -79,7 +79,7 @@ class QuakeModel {
         return referencia;
     }
 
-    void setReferencia(String referencia) {
+    public void setReferencia(String referencia) {
         this.referencia = referencia;
     }
 
@@ -87,7 +87,7 @@ class QuakeModel {
         return imagen_url;
     }
 
-    void setImagen_url(String imagen_url) {
+    public void setImagen_url(String imagen_url) {
         this.imagen_url = imagen_url;
     }
 
@@ -95,7 +95,7 @@ class QuakeModel {
         return sensible;
     }
 
-    void setSensible(Boolean sensible) {
+    public void setSensible(Boolean sensible) {
         this.sensible = sensible;
     }
 

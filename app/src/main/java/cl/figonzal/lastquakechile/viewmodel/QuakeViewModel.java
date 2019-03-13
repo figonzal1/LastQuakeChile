@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile;
+package cl.figonzal.lastquakechile.viewmodel;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
@@ -6,6 +6,9 @@ import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 
 import java.util.List;
+
+import cl.figonzal.lastquakechile.QuakeModel;
+import cl.figonzal.lastquakechile.repository.QuakeRepository;
 
 
 /**
@@ -16,7 +19,6 @@ public class QuakeViewModel extends AndroidViewModel {
 
     private QuakeRepository repository;
     private MutableLiveData<List<QuakeModel>> quakeMutableList;
-    private MutableLiveData<String> statusData;
 
     //Contructor para usar context dentro de la clase ViewModel
     public QuakeViewModel(@NonNull Application application) {
@@ -52,7 +54,7 @@ public class QuakeViewModel extends AndroidViewModel {
      * @return Retorna el MutableLiveData del mensaje estado
      */
     public MutableLiveData<String> showStatusData() {
-        statusData = new MutableLiveData<>();
+        MutableLiveData<String> statusData;
 
         repository = QuakeRepository.getIntance(getApplication());
         statusData = repository.getStatusData();

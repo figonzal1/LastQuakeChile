@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile;
+package cl.figonzal.lastquakechile.repository;
 
 import android.app.Application;
 import android.arch.lifecycle.MutableLiveData;
@@ -28,6 +28,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
+
+import cl.figonzal.lastquakechile.QuakeModel;
+import cl.figonzal.lastquakechile.R;
+import cl.figonzal.lastquakechile.services.QuakeUtils;
+import cl.figonzal.lastquakechile.services.VolleySingleton;
 
 
 public class QuakeRepository {
