@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile;
+package cl.figonzal.lastquakechile.views;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -33,6 +33,11 @@ import com.google.android.gms.appinvite.AppInviteInvitation;
 
 import java.util.List;
 import java.util.Objects;
+
+import cl.figonzal.lastquakechile.QuakeAdapter;
+import cl.figonzal.lastquakechile.QuakeModel;
+import cl.figonzal.lastquakechile.R;
+import cl.figonzal.lastquakechile.viewmodel.QuakeViewModel;
 
 
 public class QuakeFragment extends Fragment implements SearchView.OnQueryTextListener {

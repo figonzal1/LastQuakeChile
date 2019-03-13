@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile;
+package cl.figonzal.lastquakechile.services;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -16,7 +16,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
 
-class QuakeUtils {
+import cl.figonzal.lastquakechile.R;
+
+public class QuakeUtils {
 
     /**
      * Funcion que calcula la diferencia en milisegundos
@@ -45,7 +47,7 @@ class QuakeUtils {
      * @param date Parametro date Utc
      * @return retorna el date en local
      */
-    static Date utcToLocal(Date date) {
+    public static Date utcToLocal(Date date) {
 
         String timeZone = Calendar.getInstance().getTimeZone().getID();
         return new Date(date.getTime() + TimeZone.getTimeZone(timeZone).getOffset(date.getTime()));
@@ -55,7 +57,7 @@ class QuakeUtils {
      * Funcion encargada de entregar los tiempos calculados y retornarlos en dias,horas,minutos,segundos
      * @param fecha fecha local del modelo de sismo desde cardview
      */
-    static Map<String, Long> timeToText(Date fecha) {
+    public static Map<String, Long> timeToText(Date fecha) {
 
         long diff = calculateDiff(fecha);
         long seconds = diff / 1000;
@@ -79,7 +81,7 @@ class QuakeUtils {
      * @param magnitude Magnitud del sismo desde el cardview
      * @return id recurso desde colors.xml
      */
-    static int getMagnitudeColor(double magnitude) {
+    public static int getMagnitudeColor(double magnitude) {
 
         int mag_floor = (int) Math.floor(magnitude);
         int mag_resource_id;
@@ -153,7 +155,7 @@ class QuakeUtils {
      * @param context  contexto de la actividad
      * @return Uri retorna la direccion dentro del celular donde esta la imagen
      */
-    static Uri getLocalBitmapUri(Drawable drawable, Context context) {
+    public static Uri getLocalBitmapUri(Drawable drawable, Context context) {
 
         Bitmap bmp;
 

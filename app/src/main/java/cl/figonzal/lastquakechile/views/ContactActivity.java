@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile;
+package cl.figonzal.lastquakechile.views;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -22,6 +22,8 @@ import com.bumptech.glide.request.target.Target;
 import com.crashlytics.android.Crashlytics;
 
 import java.util.Objects;
+
+import cl.figonzal.lastquakechile.R;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 

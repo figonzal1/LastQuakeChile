@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile.messageservice;
+package cl.figonzal.lastquakechile.services;
 
 import android.app.Activity;
 import android.app.NotificationChannel;
@@ -27,8 +27,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 
-import cl.figonzal.lastquakechile.QuakeDetailsActivity;
 import cl.figonzal.lastquakechile.R;
+import cl.figonzal.lastquakechile.views.QuakeDetailsActivity;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 

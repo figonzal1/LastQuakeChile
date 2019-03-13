@@ -5,17 +5,19 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import cl.figonzal.lastquakechile.views.QuakeFragment;
+
 /**
  * Created by figon on 28-12-2016.
  */
 
 
-class FragmentPageAdapter extends FragmentPagerAdapter {
+public class FragmentPageAdapter extends FragmentPagerAdapter {
 
     private final String[] tabTitles = {"GUC"};
 
 
-    FragmentPageAdapter(FragmentManager fm) {
+    public FragmentPageAdapter(FragmentManager fm) {
         super(fm);
 
     }

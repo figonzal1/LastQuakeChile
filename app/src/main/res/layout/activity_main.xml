@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".views.MainActivity"
     android:id="@+id/main_container"
     android:background="@color/grey">
 
@@ -17,7 +17,7 @@
     <!-- Fragment de la lista de quakes -->
     <fragment
         android:id="@+id/fragment"
-        class="cl.figonzal.lastquakechile.QuakeFragment"
+        class="cl.figonzal.lastquakechile.views.QuakeFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
