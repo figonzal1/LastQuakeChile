@@ -70,13 +70,22 @@ public class QuakeRepository {
      *
      * @return MutableLiveData con los sismos
      */
-    public MutableLiveData<List<QuakeModel>> getQuakeList() {
+    public MutableLiveData<List<QuakeModel>> getMutableQuakeList() {
         loadQuakes();
         return quakeMutableList;
     }
 
+    /**
+     * Funcion encargada de enviar el status data al viewmodel
+     *
+     * @return MutableLiveData de status data
+     */
     public MutableLiveData<String> getStatusData() {
         return statusData;
+    }
+
+    public List<QuakeModel> getQuakeList() {
+        return quakeList;
     }
 
     /**
