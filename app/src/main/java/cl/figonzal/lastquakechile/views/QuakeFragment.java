@@ -243,20 +243,47 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
     @Override
     public boolean onQueryTextChange(String s) {
-        //String input = s.toLowerCase();
-        //List<QuakeModel> filteredList = viewModel.doSearch(input);
-        //viewModel.setFilteredList(filteredList);
+        String input = s.toLowerCase();
+        viewModel.doSearch(input);
         return true;
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
         menu.clear();
         inflater.inflate(R.menu.toolbar_menu, menu);
 
-        MenuItem menuItem = menu.findItem(R.id.search);
-        SearchView searchView = (SearchView) menuItem.getActionView();
+        MenuItem searchItem = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setOnQueryTextListener(this);
+
+        MenuItem.OnActionExpandListener onActionExpandListener = new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                menu.findItem(R.id.refresh).setVisible(false);
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                viewModel.refreshMutableQuakeList();
+                menu.findItem(R.id.refresh).setVisible(true);
+                return true;
+            }
+        };
+        searchItem.setOnActionExpandListener(onActionExpandListener);
+        /*searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus){
+                    viewModel.refreshMutableQuakeList();
+                    Toast.makeText(getContext(),"CERRANDO",Toast.LENGTH_SHORT).show();
+                    refreshItem.setVisible(true);
+                }else{
+                    refreshItem.setVisible(false);
+                }
+            }
+        });*/
 
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -564,6 +591,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
             }
         }
     }
+
 }
 
 
