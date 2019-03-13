@@ -30,6 +30,7 @@
       <w>appspot</w>
       <w>aquí</w>
       <w>argumento</w>
+      <w>asincronamente</w>
       <w>atras</w>
       <w>atributos</w>
       <w>automaticamente</w>
@@ -38,6 +39,7 @@
       <w>bgcolor</w>
       <w>bienvenido</w>
       <w>boleano</w>
+      <w>booleano</w>
       <w>boton</w>
       <w>botón</w>
       <w>bufb</w>
@@ -54,6 +56,7 @@
       <w>cambiar</w>
       <w>cambio</w>
       <w>cancelada</w>
+      <w>caracter</w>
       <w>cardview</w>
       <w>carga</w>
       <w>cargados</w>
@@ -73,6 +76,7 @@
       <w>compartir</w>
       <w>compilacion</w>
       <w>completa</w>
+      <w>componentes</w>
       <w>condiciones</w>
       <w>conexion</w>
       <w>conexión</w>
@@ -81,6 +85,7 @@
       <w>contactos</w>
       <w>contenido</w>
       <w>contexto</w>
+      <w>contiene</w>
       <w>contructor</w>
       <w>convertirlo</w>
       <w>convierte</w>
@@ -129,6 +134,7 @@
       <w>ellos</w>
       <w>encargada</w>
       <w>encargado</w>
+      <w>encargados</w>
       <w>entendido</w>
       <w>entre</w>
       <w>entrega</w>
@@ -160,6 +166,7 @@
       <w>fijos</w>
       <w>fileprovider</w>
       <w>filtrada</w>
+      <w>filtrado</w>
       <w>filtrados</w>
       <w>filtrar</w>
       <w>firebase</w>
@@ -188,6 +195,7 @@
       <w>heroku</w>
       <w>icono</w>
       <w>ideada</w>
+      <w>identificar</w>
       <w>ignora</w>
       <w>imagen</w>
       <w>imagenes</w>
@@ -197,6 +205,7 @@
       <w>informacion</w>
       <w>información</w>
       <w>ingresa</w>
+      <w>ingresada</w>
       <w>iniciacion</w>
       <w>iniciar</w>
       <w>inicio</w>
@@ -244,6 +253,7 @@
       <w>minutos</w>
       <w>mobilesdk</w>
       <w>modelo</w>
+      <w>moestrar</w>
       <w>momento</w>
       <w>mostrado</w>
       <w>mostrar</w>
@@ -252,6 +262,7 @@
       <w>mutablelivedata</w>
       <w>navegador</w>
       <w>nbmqol</w>
+      <w>necesaria</w>
       <w>necesario</w>
       <w>neue</w>
       <w>nignuno</w>
@@ -266,15 +277,19 @@
       <w>nuevo</w>
       <w>nuevos</w>
       <w>objecto</w>
+      <w>observación</w>
       <w>obtencion</w>
       <w>obtener</w>
+      <w>oculta</w>
       <w>ocurridos</w>
       <w>oeste</w>
       <w>ondas</w>
       <w>operacion</w>
       <w>orientacion</w>
       <w>ortorgado</w>
+      <w>otorgado</w>
       <w>otro</w>
+      <w>palabra</w>
       <w>paleta</w>
       <w>panatalla</w>
       <w>pantalla</w>
@@ -292,6 +307,7 @@
       <w>posición</w>
       <w>preliminar</w>
       <w>preparacion</w>
+      <w>presiona</w>
       <w>problemas</w>
       <w>procesa</w>
       <w>procesada</w>
@@ -305,6 +321,7 @@
       <w>pxgdfurq</w>
       <w>realiza</w>
       <w>realizando</w>
+      <w>realizar</w>
       <w>recargar</w>
       <w>recibe</w>
       <w>recibida</w>
@@ -339,6 +356,7 @@
       <w>seteado</w>
       <w>setear</w>
       <w>seteo</w>
+      <w>simos</w>
       <w>sismo</w>
       <w>sismologia</w>
       <w>sismológica</w>
@@ -381,7 +399,9 @@
       <w>usarlo</w>
       <w>usuario</w>
       <w>utilizada</w>
+      <w>utilizado</w>
       <w>valign</w>
+      <w>vardview</w>
       <w>veces</w>
       <w>verifica</w>
       <w>verificado</w>
@@ -391,6 +411,7 @@
       <w>visto</w>
       <w>volver</w>
       <w>vrakli</w>
+      <w>vuelve</w>
       <w>webview</w>
       <w>whatsapp</w>
       <w>xamp</w>

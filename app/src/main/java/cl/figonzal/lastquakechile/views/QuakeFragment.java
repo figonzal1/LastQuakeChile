@@ -87,9 +87,28 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         //Instanciar viewmodel
         viewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(QuakeViewModel.class);
 
+        /*
+            ViewModels en observación
+         */
+        viewModelObservers(v);
 
         /*
-            Checkear los nuevos datos mediante un observable
+            Seccion SHARED PREF CARD VIEW INFO
+         */
+        showCardViewInformation(v);
+
+        return v;
+    }
+
+    /**
+     * Funcion que contiene los ViewModels encargados de cargar los datos asincronamente a la UI
+     *
+     * @param v Vista necesaria para mostrar componentes UI
+     */
+    private void viewModelObservers(final View v) {
+
+        /*
+            Viewmodel encargado de cargar los datos desde internet
          */
         viewModel.showQuakeList().observe(this, new Observer<List<QuakeModel>>() {
             @Override
@@ -111,77 +130,38 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         });
 
         /*
-            Viewmodel encargado de mostrar mensajes de errores desde Volley (LoadDATA)
+          Viewmodel encargado de mostrar los mensajes de estado en los snackbar
          */
         viewModel.showStatusData().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String status) {
                 if (status != null) {
                     progressBar.setVisibility(View.INVISIBLE);
-
-                    //TIMEOUT ERROR
-                    if (status.equals(getString(R.string.VIEWMODEL_TIMEOUT_ERROR))) {
-                        snackbar = Snackbar.make(v, status, Snackbar.LENGTH_INDEFINITE)
-                                .setAction(getString(R.string.FLAG_RETRY), new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        viewModel.refreshMutableQuakeList();
-                                        progressBar.setVisibility(View.VISIBLE);
-
-                                        Crashlytics.setBool(getString(R.string.SNACKBAR_TIMEOUT_ERROR_PRESSED), true);
-                                    }
-                                });
-                        snackbar.show();
-
-                        Log.d(getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_TIMEOUT_ERROR));
-                        Crashlytics.log(Log.DEBUG, getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_TIMEOUT_ERROR));
-                    }
-
-                    //SERVER ERROR
-                    else if (status.equals(getString(R.string.VIEWMODEL_SERVER_ERROR))) {
-                        snackbar = Snackbar.make(v, status, Snackbar.LENGTH_INDEFINITE)
-                                .setAction(getString(R.string.FLAG_RETRY), new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-
-                                        viewModel.refreshMutableQuakeList();
-                                        progressBar.setVisibility(View.VISIBLE);
-
-                                        Crashlytics.setBool(getString(R.string.SNACKBAR_SERVER_ERROR_PRESSED), true);
-                                    }
-                                });
-                        snackbar.show();
-
-                        Log.d(getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_SERVER_ERROR));
-                        Crashlytics.log(Log.DEBUG, getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_SERVER_ERROR));
-
-                    }
-
-                    //NOCONNECTION ERROR
-                    else if (status.equals(getString(R.string.VIEWMODEL_NOCONNECTION_ERROR))) {
-                        snackbar = Snackbar
-                                .make(v, status, Snackbar.LENGTH_INDEFINITE)
-                                .setAction(getString(R.string.FLAG_RETRY), new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        viewModel.refreshMutableQuakeList();
-                                        progressBar.setVisibility(View.VISIBLE);
-
-                                        Crashlytics.setBool(getString(R.string.SNACKBAR_NOCONNECTION_ERROR_PRESSED), true);
-                                    }
-                                });
-                        snackbar.show();
-
-                        Log.d(getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_NOCONNECTION));
-                        Crashlytics.log(Log.DEBUG, getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_NOCONNECTION));
-                    }
+                    showSnackBar(status, v);
                 }
             }
         });
 
         /*
-            Seccion SHARED PREF CARD VIEW INFO
+            ViewModel encargado de cargar los datos de sismos post-busqueda de usuario en SearchView
          */
+        viewModel.showFilteredQuakeList().observe(this, new Observer<List<QuakeModel>>() {
+            @Override
+            public void onChanged(@Nullable List<QuakeModel> quakeModels) {
+                //Setear el adapter con la lista de quakes
+                adapter = new QuakeAdapter(quakeModels, getContext(), getActivity());
+                adapter.notifyDataSetChanged();
+                rv.setAdapter(adapter);
+            }
+        });
+    }
+
+    /**
+     * Funcion encargada de moestrar un cardview de aviso al usuario sobre el listado de 15 sismos.
+     *
+     * @param v Vista necesaria para mostrar el vardview
+     */
+    private void showCardViewInformation(View v) {
 
         cv_info = v.findViewById(R.id.card_view_info);
         final SharedPreferences sharedPreferences = Objects.requireNonNull(getActivity()).getPreferences(Context.MODE_PRIVATE);
@@ -220,7 +200,72 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
                 Crashlytics.log(Log.DEBUG, getString(R.string.TAG_CARD_VIEW_INFO), getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO_RESULT));
             }
         });
-        return v;
+    }
+
+    /**
+     * Funcion encargada de mostrar el mensaje de snackbar de los mensajes de error de datos.
+     *
+     * @param status Estado del mensaje (Timeout,server error, etc)
+     * @param v      (Vista necesaria para mostrar snackbar en coordinator layout)
+     */
+    private void showSnackBar(String status, View v) {
+
+        //TIMEOUT ERROR
+        if (status.equals(getString(R.string.VIEWMODEL_TIMEOUT_ERROR))) {
+            snackbar = Snackbar.make(v, status, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(getString(R.string.FLAG_RETRY), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            viewModel.refreshMutableQuakeList();
+                            progressBar.setVisibility(View.VISIBLE);
+
+                            Crashlytics.setBool(getString(R.string.SNACKBAR_TIMEOUT_ERROR_PRESSED), true);
+                        }
+                    });
+            snackbar.show();
+
+            Log.d(getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_TIMEOUT_ERROR));
+            Crashlytics.log(Log.DEBUG, getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_TIMEOUT_ERROR));
+        }
+
+        //SERVER ERROR
+        else if (status.equals(getString(R.string.VIEWMODEL_SERVER_ERROR))) {
+            snackbar = Snackbar.make(v, status, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(getString(R.string.FLAG_RETRY), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            viewModel.refreshMutableQuakeList();
+                            progressBar.setVisibility(View.VISIBLE);
+
+                            Crashlytics.setBool(getString(R.string.SNACKBAR_SERVER_ERROR_PRESSED), true);
+                        }
+                    });
+            snackbar.show();
+
+            Log.d(getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_SERVER_ERROR));
+            Crashlytics.log(Log.DEBUG, getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_SERVER_ERROR));
+
+        }
+
+        //NOCONNECTION ERROR
+        else if (status.equals(getString(R.string.VIEWMODEL_NOCONNECTION_ERROR))) {
+            snackbar = Snackbar
+                    .make(v, status, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(getString(R.string.FLAG_RETRY), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            viewModel.refreshMutableQuakeList();
+                            progressBar.setVisibility(View.VISIBLE);
+
+                            Crashlytics.setBool(getString(R.string.SNACKBAR_NOCONNECTION_ERROR_PRESSED), true);
+                        }
+                    });
+            snackbar.show();
+
+            Log.d(getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_NOCONNECTION));
+            Crashlytics.log(Log.DEBUG, getString(R.string.TAG_PROGRESS_FROM_FRAGMENT), getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_NOCONNECTION));
+        }
     }
 
 
@@ -241,6 +286,11 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         return false;
     }
 
+    /**
+     * Funcion encargada de realizar la busqueda de sismos cada vez que el usuario ingresa un caracter.
+     * @param s Caracter o palabra ingresada por el usuario.
+     * @return Booleano
+     */
     @Override
     public boolean onQueryTextChange(String s) {
         String input = s.toLowerCase();
@@ -257,33 +307,28 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setOnQueryTextListener(this);
 
+        /*
+            Action expand utilizado para identificar cuando el usuario presiona el SEARCH VIEW
+         */
         MenuItem.OnActionExpandListener onActionExpandListener = new MenuItem.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
+
+                //Se oculta boton refresh
                 menu.findItem(R.id.refresh).setVisible(false);
                 return true;
             }
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
+
                 viewModel.refreshMutableQuakeList();
+                //Se vuelve a mostrar boton refresh
                 menu.findItem(R.id.refresh).setVisible(true);
                 return true;
             }
         };
         searchItem.setOnActionExpandListener(onActionExpandListener);
-        /*searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus){
-                    viewModel.refreshMutableQuakeList();
-                    Toast.makeText(getContext(),"CERRANDO",Toast.LENGTH_SHORT).show();
-                    refreshItem.setVisible(true);
-                }else{
-                    refreshItem.setVisible(false);
-                }
-            }
-        });*/
 
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -297,6 +342,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
                 //Se refresca el listado de sismos
                 viewModel.refreshMutableQuakeList();
 
+                //Si el snackbar de estado de datos esta ON y el usuario presiona refresh desde toolbar
+                //el snackbar se oculta
                 if (snackbar != null && snackbar.isShown()) {
                     snackbar.dismiss();
                 }

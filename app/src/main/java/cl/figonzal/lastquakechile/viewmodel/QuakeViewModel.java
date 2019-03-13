@@ -20,6 +20,7 @@ public class QuakeViewModel extends AndroidViewModel {
 
     private QuakeRepository repository;
     private MutableLiveData<List<QuakeModel>> quakeMutableList;
+    private MutableLiveData<List<QuakeModel>> quakeMutableFilteredList = new MutableLiveData<>();
 
     //Contructor para usar context dentro de la clase ViewModel
     public QuakeViewModel(@NonNull Application application) {
@@ -28,7 +29,6 @@ public class QuakeViewModel extends AndroidViewModel {
 
     /**
      * Funcion encargada de recibir los datos de repositorio y que la View pueda acceder a ellos
-     *
      * @return retorna un mutablelivedata de listado de sismos
      */
     public MutableLiveData<List<QuakeModel>> showQuakeList() {
@@ -54,19 +54,23 @@ public class QuakeViewModel extends AndroidViewModel {
      * @return Retorna el MutableLiveData del mensaje estado
      */
     public MutableLiveData<String> showStatusData() {
-        MutableLiveData<String> statusData;
 
         repository = QuakeRepository.getIntance(getApplication());
-        statusData = repository.getStatusData();
-
-        return statusData;
+        return repository.getStatusData();
     }
 
     /**
-     * Funcion que realiza la busqueda sobre quakeModelList con el Parametro ortorgado
+     * Funcion encargada de enviar el listado filtrado post busqueda hacia la View
      *
+     * @return MutableLiveData de los simos filtrados
+     */
+    public MutableLiveData<List<QuakeModel>> showFilteredQuakeList() {
+        return quakeMutableFilteredList;
+    }
+
+    /**
+     * Funcion que realiza la busqueda sobre quakeModelList con el Parametro otorgado
      * @param s Texto que ingresa el usuario en la busqueda
-     * @return Lista Filtrada
      */
     public void doSearch(String s) {
 
@@ -89,11 +93,10 @@ public class QuakeViewModel extends AndroidViewModel {
                     filteredList.add(l);
                 }
             }
-            quakeMutableList.postValue(filteredList);
+            quakeMutableFilteredList.postValue(filteredList);
         }
 
     }
-
 
     @Override
     protected void onCleared() {
