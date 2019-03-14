@@ -31,7 +31,7 @@ public class QuakeUtils {
      * @param fecha_local parametro que entrega la fecha local desde el modelo en cardview
      * @return retorna la diferencia en milisegundos
      */
-    private static long calculateDiff(Date fecha_local) {
+    public static long calculateDiff(Date fecha_local) {
 
         long diff;
         Date currentTime = new Date();
@@ -146,8 +146,8 @@ public class QuakeUtils {
         double seconds = ((((abs - lat_grados_rest) * 3600) / 60) - Math.floor((((abs - lat_grados_rest) * 3600) / 60))) * 60;
 
         dms.put("grados", Math.floor(Math.abs(input)));
-        dms.put("minutos", minutes);
-        dms.put("segundos", seconds);
+        dms.put("minutos", (double) Math.round(minutes));
+        dms.put("segundos", (double) Math.round(seconds));
 
         return dms;
     }
