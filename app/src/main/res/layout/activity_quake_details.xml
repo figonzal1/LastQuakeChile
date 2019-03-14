@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -6,8 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/grey"
-    tools:context=".views.QuakeDetailsActivity"
-    tools:layout_editor_absoluteY="25dp">
+    tools:context=".views.QuakeDetailsActivity">
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_gmail"
@@ -150,416 +151,434 @@
     </android.support.design.widget.AppBarLayout>
 
 
-    <android.support.constraint.Guideline
-        android:id="@+id/izquierda"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="visible"
-        app:layout_constraintGuide_begin="8dp" />
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/card_view_map"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:elevation="4dp"
-        app:cardCornerRadius="4dp"
-        app:cardElevation="4dp"
-        app:layout_constraintBottom_toTopOf="@+id/barrera_imagen"
-        app:layout_constraintEnd_toStartOf="@+id/derecha"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/izquierda"
-        app:layout_constraintTop_toBottomOf="@+id/app_bar_detail">
-
-        <ImageView
-            android:id="@+id/iv_map_quake"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/imagen_geografica_posicion_sismo"
-            android:scaleType="centerCrop"
-            tools:src="@drawable/placeholder" />
-
-    </android.support.v7.widget.CardView>
-
-    <android.support.constraint.Guideline
-        android:id="@+id/derecha"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="visible"
-        app:layout_constraintGuide_end="8dp" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/barrera_imagen"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/card_view_detail"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        app:cardElevation="2dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/derecha"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/izquierda"
-        app:layout_constraintTop_toBottomOf="@+id/card_view_map"
-        app:layout_constraintVertical_bias="0.0"
-        card_view:cardCornerRadius="4dp">
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/iv_mag_color_detail"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:contentDescription="@string/circulo_pintado"
-                android:src="@drawable/circle_shape"
-                android:transitionName="color_magnitud"
-                card_view:layout_constraintStart_toStartOf="parent"
-                card_view:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_ciudad_detail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="4dp"
-                android:fontFamily="sans-serif"
-                android:maxLines="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:textSize="14sp"
-                android:transitionName="ciudad"
-                app:layout_constraintStart_toEndOf="@id/iv_mag_color_detail"
-                app:layout_constraintTop_toTopOf="@+id/iv_mag_color_detail"
-                app:layout_constraintVertical_chainStyle="packed"
-                tools:text="Nombre Ciudad" />
-
-            <ImageView
-                android:id="@+id/iv_sensible_detail"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="8dp"
-                android:contentDescription="@string/icono_sensible"
-                android:visibility="invisible"
-                card_view:layout_constraintBottom_toBottomOf="@+id/tv_ciudad_detail"
-                card_view:layout_constraintEnd_toStartOf="@+id/tv_hora_detail"
-                card_view:layout_constraintHorizontal_bias="0.0"
-                card_view:layout_constraintStart_toEndOf="@+id/tv_ciudad_detail"
-                card_view:layout_constraintTop_toTopOf="@+id/tv_ciudad_detail"
-                card_view:srcCompat="@drawable/ic_warning_black_24dp"
-                tools:visibility="visible" />
-
-            <TextView
-                android:id="@+id/tv_hora_detail"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginEnd="16dp"
-                android:fontFamily="sans-serif"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textSize="12sp"
-                android:transitionName="hora"
-                card_view:layout_constraintBottom_toBottomOf="@+id/tv_ciudad_detail"
-                card_view:layout_constraintEnd_toEndOf="parent"
-                card_view:layout_constraintTop_toTopOf="@+id/tv_ciudad_detail"
-                tools:text="XX D X h" />
-
-            <TextView
-                android:id="@+id/tv_referencia_detail"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="4dp"
-                android:fontFamily="sans-serif"
-                android:paddingTop="0dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textSize="14sp"
-                android:transitionName="referencia"
-                app:layout_constraintBottom_toBottomOf="@+id/iv_mag_color_detail"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/tv_ciudad_detail"
-                app:layout_constraintTop_toBottomOf="@+id/tv_ciudad_detail"
-                tools:text="Referencia de la ciudad" />
-
-
-            <TextView
-                android:id="@+id/tv_magnitud_detail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:maxLength="4"
-                android:textColor="@android:color/white"
-                android:textSize="21sp"
-                android:textStyle="normal"
-                android:transitionName="magnitud"
-                app:layout_constraintBottom_toBottomOf="@+id/iv_mag_color_detail"
-                app:layout_constraintEnd_toEndOf="@+id/iv_mag_color_detail"
-                app:layout_constraintStart_toStartOf="@+id/iv_mag_color_detail"
-                app:layout_constraintTop_toTopOf="@+id/iv_mag_color_detail"
-                tools:text="9.5" />
-
-            <ImageView
-                android:id="@+id/iv_reloj"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:contentDescription="@string/icono_tiempo"
-                android:src="@drawable/ic_date"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/separador" />
-
-            <View
-                android:id="@+id/separador"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_marginTop="16dp"
-                android:background="?attr/dividerHorizontal"
-                android:visibility="visible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_mag_color_detail" />
-
-            <TextView
-                android:id="@+id/tv_titulo_fecha"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="8dp"
-                android:fontFamily="sans-serif"
-                android:gravity="center"
-                android:text="@string/tiempo"
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toStartOf="@+id/guia_vertical"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/iv_reloj"
-                app:layout_constraintTop_toTopOf="@+id/iv_reloj" />
-
-            <TextView
-                android:id="@+id/tv_fecha"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:fontFamily="sans-serif"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toStartOf="@+id/guia_vertical"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/tv_titulo_fecha"
-                app:layout_constraintTop_toBottomOf="@+id/tv_titulo_fecha"
-                tools:text="22-14-2018 23:45:23" />
-
-            <View
-                android:id="@+id/view"
-                android:layout_width="wrap_content"
-                android:layout_height="1dp"
-                android:layout_marginTop="8dp"
-                android:visibility="invisible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_fecha" />
-
-            <ImageView
-                android:id="@+id/iv_pin"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="16dp"
-                android:contentDescription="@string/icono_distancia"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view"
-                app:srcCompat="@drawable/ic_near_24dp" />
-
-            <TextView
-                android:id="@+id/tv_titulo_gms"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="8dp"
-                android:fontFamily="sans-serif"
-                android:text="@string/distancia"
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:textSize="14sp"
-                android:visibility="visible"
-                app:layout_constraintEnd_toStartOf="@+id/guia_vertical"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/iv_pin"
-                app:layout_constraintTop_toTopOf="@+id/iv_pin" />
-
-            <TextView
-                android:id="@+id/tv_gms"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="sans-serif"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textSize="14sp"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/guia_vertical"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/tv_titulo_gms"
-                app:layout_constraintTop_toBottomOf="@+id/tv_titulo_gms"
-                app:layout_constraintVertical_bias="0.0"
-                tools:text="28° 28' 33'' S \n72° 83' 72'' W" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
             <android.support.constraint.Guideline
-                android:id="@+id/guia_vertical"
+                android:id="@+id/izquierda"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintGuide_percent="0.5"
-                app:layout_constraintTop_toTopOf="parent"
-                card_view:layout_constraintGuide_begin="194dp" />
+                android:visibility="visible"
+                app:layout_constraintGuide_begin="8dp" />
 
-            <ImageView
-                android:id="@+id/iv_epicentro"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:contentDescription="@string/icono_epicentro"
-                app:layout_constraintStart_toStartOf="@+id/guia_vertical"
-                app:layout_constraintTop_toBottomOf="@+id/separador"
-                card_view:srcCompat="@drawable/ic_adjust_24dp" />
-
-            <TextView
-                android:id="@+id/tv_titulo_epicentro"
+            <android.support.constraint.Guideline
+                android:id="@+id/derecha"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:fontFamily="sans-serif"
-                android:text="@string/profundidad"
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/iv_epicentro"
-                app:layout_constraintTop_toTopOf="@+id/iv_epicentro" />
+                android:orientation="vertical"
+                android:visibility="visible"
+                app:layout_constraintGuide_end="8dp" />
 
-            <TextView
-                android:id="@+id/tv_epicentro"
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_view_map"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginEnd="16dp"
-                android:fontFamily="sans-serif"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="@+id/iv_epicentro"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="65dp"
+                android:elevation="4dp"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="4dp"
+                app:layout_constraintBottom_toTopOf="@+id/barrera_imagen"
+                app:layout_constraintEnd_toStartOf="@+id/derecha"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/tv_titulo_epicentro"
-                app:layout_constraintTop_toBottomOf="@+id/tv_titulo_epicentro"
-                tools:text="83 km" />
+                app:layout_constraintStart_toStartOf="@+id/izquierda"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/iv_scale"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="16dp"
-                android:contentDescription="@string/icono_escala"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/guia_vertical"
-                app:layout_constraintTop_toBottomOf="@+id/view"
-                card_view:srcCompat="@drawable/ic_show_chart_black_24dp" />
+                <ImageView
+                    android:id="@+id/iv_map_quake"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/imagen_geografica_posicion_sismo"
+                    android:scaleType="centerCrop"
+                    tools:src="@drawable/placeholder" />
 
-            <TextView
-                android:id="@+id/tv_titulo_escala"
+            </android.support.v7.widget.CardView>
+
+
+            <android.support.constraint.Guideline
+                android:id="@+id/barrera_imagen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:fontFamily="sans-serif"
-                android:text="@string/escala"
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/iv_scale"
-                app:layout_constraintTop_toTopOf="@+id/iv_scale" />
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.4" />
 
-            <TextView
-                android:id="@+id/tv_escala"
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_view_detail"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:fontFamily="sans-serif"
+                app:cardElevation="2dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/derecha"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/izquierda"
+                app:layout_constraintTop_toBottomOf="@+id/card_view_map"
+                app:layout_constraintVertical_bias="0.0"
+                card_view:cardCornerRadius="4dp">
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/iv_mag_color_detail"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:contentDescription="@string/circulo_pintado"
+                        android:src="@drawable/circle_shape"
+                        android:transitionName="color_magnitud"
+                        card_view:layout_constraintStart_toStartOf="parent"
+                        card_view:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_ciudad_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="sans-serif"
+                        android:maxLines="1"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                        android:textSize="14sp"
+                        android:transitionName="ciudad"
+                        app:layout_constraintStart_toEndOf="@id/iv_mag_color_detail"
+                        app:layout_constraintTop_toTopOf="@+id/iv_mag_color_detail"
+                        app:layout_constraintVertical_chainStyle="packed"
+                        tools:text="Nombre Ciudad" />
+
+                    <ImageView
+                        android:id="@+id/iv_sensible_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="8dp"
+                        android:contentDescription="@string/icono_sensible"
+                        android:visibility="invisible"
+                        card_view:layout_constraintBottom_toBottomOf="@+id/tv_ciudad_detail"
+                        card_view:layout_constraintEnd_toStartOf="@+id/tv_hora_detail"
+                        card_view:layout_constraintHorizontal_bias="0.0"
+                        card_view:layout_constraintStart_toEndOf="@+id/tv_ciudad_detail"
+                        card_view:layout_constraintTop_toTopOf="@+id/tv_ciudad_detail"
+                        card_view:srcCompat="@drawable/ic_warning_black_24dp"
+                        tools:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/tv_hora_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="16dp"
+                        android:fontFamily="sans-serif"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textSize="12sp"
+                        android:transitionName="hora"
+                        card_view:layout_constraintBottom_toBottomOf="@+id/tv_ciudad_detail"
+                        card_view:layout_constraintEnd_toEndOf="parent"
+                        card_view:layout_constraintTop_toTopOf="@+id/tv_ciudad_detail"
+                        tools:text="XX D X h" />
+
+                    <TextView
+                        android:id="@+id/tv_referencia_detail"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="4dp"
+                        android:fontFamily="sans-serif"
+                        android:paddingTop="0dp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textSize="14sp"
+                        android:transitionName="referencia"
+                        app:layout_constraintBottom_toBottomOf="@+id/iv_mag_color_detail"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="@+id/tv_ciudad_detail"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_ciudad_detail"
+                        tools:text="Referencia de la ciudad" />
+
+
+                    <TextView
+                        android:id="@+id/tv_magnitud_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:maxLength="4"
+                        android:textColor="@android:color/white"
+                        android:textSize="21sp"
+                        android:textStyle="normal"
+                        android:transitionName="magnitud"
+                        app:layout_constraintBottom_toBottomOf="@+id/iv_mag_color_detail"
+                        app:layout_constraintEnd_toEndOf="@+id/iv_mag_color_detail"
+                        app:layout_constraintStart_toStartOf="@+id/iv_mag_color_detail"
+                        app:layout_constraintTop_toTopOf="@+id/iv_mag_color_detail"
+                        tools:text="9.5" />
+
+                    <ImageView
+                        android:id="@+id/iv_reloj"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:contentDescription="@string/icono_tiempo"
+                        android:src="@drawable/ic_date"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/separador" />
+
+                    <View
+                        android:id="@+id/separador"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="16dp"
+                        android:background="?attr/dividerHorizontal"
+                        android:visibility="visible"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/iv_mag_color_detail" />
+
+                    <android.support.constraint.Barrier
+                        android:id="@+id/barrier"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:barrierDirection="bottom"
+                        app:constraint_referenced_ids="tv_fecha,tv_epicentro"
+                        tools:layout_editor_absoluteY="349dp" />
+
+                    <TextView
+                        android:id="@+id/tv_titulo_fecha"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:fontFamily="sans-serif"
+                        android:gravity="center"
+                        android:text="@string/tiempo"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toStartOf="@+id/guia_vertical"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/iv_reloj"
+                        app:layout_constraintTop_toTopOf="@+id/iv_reloj" />
+
+                    <TextView
+                        android:id="@+id/tv_fecha"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:fontFamily="sans-serif"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toTopOf="@+id/barrier"
+                        app:layout_constraintEnd_toStartOf="@+id/guia_vertical"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="@+id/tv_titulo_fecha"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_titulo_fecha"
+                        tools:text="22-14-2018 23:45:23" />
+
+                    <ImageView
+                        android:id="@+id/iv_pin"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:contentDescription="@string/icono_distancia"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/barrier"
+                        app:srcCompat="@drawable/ic_near_24dp" />
+
+                    <TextView
+                        android:id="@+id/tv_titulo_gms"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:fontFamily="sans-serif"
+                        android:text="@string/distancia"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                        android:textSize="14sp"
+                        android:visibility="visible"
+                        app:layout_constraintEnd_toStartOf="@+id/guia_vertical"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/iv_pin"
+                        app:layout_constraintTop_toTopOf="@+id/iv_pin" />
+
+                    <TextView
+                        android:id="@+id/tv_gms"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:fontFamily="sans-serif"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textSize="14sp"
+                        android:visibility="visible"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/guia_vertical"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="@+id/tv_titulo_gms"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_titulo_gms"
+                        app:layout_constraintVertical_bias="0.0"
+                        tools:text="28° 28' 33'' S \n72° 83' 72'' W" />
+
+                    <android.support.constraint.Guideline
+                        android:id="@+id/guia_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintGuide_percent="0.5"
+                        app:layout_constraintTop_toTopOf="parent"
+                        card_view:layout_constraintGuide_begin="194dp" />
+
+                    <ImageView
+                        android:id="@+id/iv_epicentro"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="16dp"
+                        android:contentDescription="@string/icono_epicentro"
+                        app:layout_constraintStart_toStartOf="@+id/guia_vertical"
+                        app:layout_constraintTop_toBottomOf="@+id/separador"
+                        card_view:srcCompat="@drawable/ic_adjust_24dp" />
+
+                    <TextView
+                        android:id="@+id/tv_titulo_epicentro"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:fontFamily="sans-serif"
+                        android:text="@string/profundidad"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/iv_epicentro"
+                        app:layout_constraintTop_toTopOf="@+id/iv_epicentro" />
+
+                    <TextView
+                        android:id="@+id/tv_epicentro"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="8dp"
+                        android:fontFamily="sans-serif"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toTopOf="@+id/barrier"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="@+id/tv_titulo_epicentro"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_titulo_epicentro"
+                        app:layout_constraintVertical_bias="0.0"
+                        tools:text="83 km" />
+
+                    <ImageView
+                        android:id="@+id/iv_scale"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:contentDescription="@string/icono_escala"
+                        app:layout_constraintStart_toStartOf="@+id/guia_vertical"
+                        app:layout_constraintTop_toTopOf="@+id/barrier"
+                        card_view:srcCompat="@drawable/ic_show_chart_black_24dp" />
+
+                    <TextView
+                        android:id="@+id/tv_titulo_escala"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:fontFamily="sans-serif"
+                        android:text="@string/escala"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/iv_scale"
+                        app:layout_constraintTop_toTopOf="@+id/iv_scale" />
+
+                    <TextView
+                        android:id="@+id/tv_escala"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="8dp"
+                        android:fontFamily="sans-serif"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/tv_titulo_escala"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_titulo_escala"
+                        app:layout_constraintVertical_bias="0.0"
+                        tools:text="Nombre Escala" />
+
+                </android.support.constraint.ConstraintLayout>
+
+            </android.support.v7.widget.CardView>
+
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guia_estado_izq"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.30" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guia_estado_der"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.69" />
+
+            <ImageView
+                android:id="@+id/iv_estado"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:contentDescription="@string/imagen_estado_sismo"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tv_estado"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="@+id/guia_estado_izq"
+                app:layout_constraintTop_toBottomOf="@+id/card_view_detail"
+                app:layout_constraintVertical_bias="0.20"
+                app:srcCompat="@drawable/ic_baseline_check_circle_24px" />
+
+            <TextView
+                android:id="@+id/tv_estado"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginEnd="8dp"
+                android:gravity="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/tv_titulo_escala"
-                app:layout_constraintTop_toBottomOf="@+id/tv_titulo_escala"
-                app:layout_constraintVertical_bias="0.0"
-                tools:text="Nombre Escala" />
+                app:layout_constraintBottom_toBottomOf="@+id/iv_estado"
+                app:layout_constraintEnd_toStartOf="@+id/guia_estado_der"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/iv_estado"
+                app:layout_constraintTop_toTopOf="@+id/iv_estado"
+                app:layout_constraintVertical_bias="1.0"
+                tools:text="Sismo preliminar" />
 
         </android.support.constraint.ConstraintLayout>
 
-    </android.support.v7.widget.CardView>
 
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guia_estado_izq"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.30" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guia_estado_der"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.69" />
-
-    <ImageView
-        android:id="@+id/iv_estado"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:contentDescription="@string/imagen_estado_sismo"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/tv_estado"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="@+id/guia_estado_izq"
-        app:layout_constraintTop_toBottomOf="@+id/card_view_detail"
-        app:srcCompat="@drawable/ic_baseline_check_circle_24px" />
-
-    <TextView
-        android:id="@+id/tv_estado"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginEnd="8dp"
-        android:gravity="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_estado"
-        app:layout_constraintEnd_toStartOf="@+id/guia_estado_der"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/iv_estado"
-        app:layout_constraintTop_toTopOf="@+id/iv_estado"
-        app:layout_constraintVertical_bias="1.0"
-        tools:text="Sismo preliminar" />
+    </android.support.v4.widget.NestedScrollView>
 
 </android.support.constraint.ConstraintLayout>
