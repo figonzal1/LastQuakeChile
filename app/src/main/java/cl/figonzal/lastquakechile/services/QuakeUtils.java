@@ -1,11 +1,15 @@
 package cl.figonzal.lastquakechile.services;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v4.content.FileProvider;
+import android.util.Log;
+
+import com.crashlytics.android.Crashlytics;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -179,6 +183,36 @@ public class QuakeUtils {
         }
         return bmpUri;
 
+    }
+
+    /**
+     * Funcion que realiza la instalacion de un paquete dado
+     *
+     * @param packageName Nombre del paquete
+     * @param context     Contexto que permite utilizar recursos de strings
+     */
+    public static void doInstallation(String packageName, Context context) {
+
+        Intent intent;
+        try {
+            //Intenta abrir google play
+            intent = new Intent(Intent.ACTION_VIEW);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setData(Uri.parse("market://details?id=" + packageName));
+
+            //LOG
+            Log.d(context.getString(R.string.TAG_INTENT), context.getString(R.string.TAG_INTENT_GOOGLEPLAY));
+            Crashlytics.log(Log.DEBUG, context.getString(R.string.TAG_INTENT), context.getString(R.string.TAG_INTENT_GOOGLEPLAY));
+
+            context.startActivity(intent);
+        } catch (android.content.ActivityNotFoundException anfe) {
+
+            //Si gogle play no esta abre webview
+            Log.d(context.getString(R.string.TAG_INTENT), context.getString(R.string.TAG_INTENT_NAVEGADOR));
+            Crashlytics.log(Log.DEBUG, context.getString(R.string.TAG_INTENT), context.getString(R.string.TAG_INTENT_NAVEGADOR));
+
+            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + packageName)));
+        }
     }
 
 }

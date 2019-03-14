@@ -232,7 +232,7 @@ public class QuakeDetailsActivity extends AppCompatActivity {
 
                     //Si no existe el paquete
                     if (intent == null) {
-                        doInstallation(getString(R.string.PACKAGE_NAME_FB));
+                        QuakeUtils.doInstallation(getString(R.string.PACKAGE_NAME_FB), getApplicationContext());
                     } else {
 
                         //Si esta instalada hacer share
@@ -294,7 +294,7 @@ public class QuakeDetailsActivity extends AppCompatActivity {
 
                     //Si no existe el paquete
                     if (intent == null) {
-                        doInstallation(getString(R.string.PACKAGE_NAME_WSP));
+                        QuakeUtils.doInstallation(getString(R.string.PACKAGE_NAME_WSP), getApplicationContext());
                     } else {
                         Log.d(getString(R.string.TAG_INTENT_SHARE), getString(R.string.TAG_INTENT_SHARE_WSP));
                         Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE), getString(R.string.TAG_INTENT_SHARE_WSP));
@@ -331,7 +331,7 @@ public class QuakeDetailsActivity extends AppCompatActivity {
 
                     //Si no existe el paquete
                     if (intent == null) {
-                        doInstallation(getString(R.string.PACKAGE_NAME_GMAIL));
+                        QuakeUtils.doInstallation(getString(R.string.PACKAGE_NAME_GMAIL), getApplicationContext());
                     } else {
 
                         Log.d(getString(R.string.TAG_INTENT_SHARE), getString(R.string.TAG_INTENT_SHARE_GM));
@@ -605,31 +605,5 @@ public class QuakeDetailsActivity extends AppCompatActivity {
 
 
     }
-
-
-    private void doInstallation(String packageName) {
-
-        try {
-            //Abrir app en google play
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.addFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.setData(Uri.parse("market://details?id=" + packageName));
-
-            //LOG
-            Log.d(getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_GOOGLEPLAY_LK));
-            Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_GOOGLEPLAY_LK));
-
-            startActivity(intent);
-        } catch (android.content.ActivityNotFoundException anfe) {
-
-            //Si gogle play no esta abre webview
-            Log.d(getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_NAVEGADOR_LK));
-            Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_NAVEGADOR_LK));
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + packageName)));
-        }
-    }
-
 }
 

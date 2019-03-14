@@ -2,7 +2,6 @@ package cl.figonzal.lastquakechile.views;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -24,10 +23,13 @@ import com.crashlytics.android.Crashlytics;
 import java.util.Objects;
 
 import cl.figonzal.lastquakechile.R;
+import cl.figonzal.lastquakechile.services.QuakeUtils;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 public class ContactActivity extends AppCompatActivity {
+
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,53 @@ public class ContactActivity extends AppCompatActivity {
         collapsingToolbarLayout.setTitleEnabled(true);
         collapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.colorPrimary, getTheme()));
 
+        //Cargar imagen toolbar
+        loadImageToolbar();
+
+        ImageButton ib_facebook = findViewById(R.id.ib_facebook);
+        ImageButton ib_linkedin = findViewById(R.id.ib_linkedin);
+
+        ib_facebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                intent = getPackageManager().getLaunchIntentForPackage(getString(R.string.PACKAGE_NAME_FB));
+                if (intent == null) {
+                    QuakeUtils.doInstallation(getString(R.string.PACKAGE_NAME_FB), getApplicationContext());
+                } else {
+
+                    Log.d(getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_INSTALADA));
+                    Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_INSTALADA));
+                    startActivity(intent);
+                }
+
+            }
+        });
+
+        ib_linkedin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                intent = getPackageManager().getLaunchIntentForPackage(getString(R.string.PACKAGE_NAME_LINKEDIN));
+                if (intent == null) {
+                    QuakeUtils.doInstallation(getString(R.string.PACKAGE_NAME_LINKEDIN), getApplicationContext());
+                } else {
+
+                    //LOG
+                    Log.d(getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_INSTALADA));
+                    Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_INSTALADA));
+                    startActivity(intent);
+                }
+
+
+            }
+        });
+    }
+
+    /**
+     * Funcion para cargar la imagen del toolbar en el Image View
+     */
+    private void loadImageToolbar() {
         final ImageView iv_foto = findViewById(R.id.toolbar_image_contact);
         Glide.with(this)
                 .load(R.drawable.foto)
@@ -69,80 +118,6 @@ public class ContactActivity extends AppCompatActivity {
                     }
                 })
                 .into(iv_foto);
-
-
-        ImageButton ib_facebook = findViewById(R.id.ib_facebook);
-        ImageButton ib_linkedin = findViewById(R.id.ib_linkedin);
-
-        ib_facebook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = getPackageManager().getLaunchIntentForPackage(getString(R.string.PACKAGE_NAME_FB));
-                if (intent == null) {
-                    try {
-                        //Intenta abrir google play
-                        intent = new Intent(Intent.ACTION_VIEW);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.setData(Uri.parse("market://details?id=" + getString(R.string.PACKAGE_NAME_FB)));
-
-                        //LOG
-                        Log.d(getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_GOOGLEPLAY_FB));
-                        Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_GOOGLEPLAY_FB));
-
-                        startActivity(intent);
-                    } catch (android.content.ActivityNotFoundException anfe) {
-
-                        //Si gogle play no esta abre webview
-                        Log.d(getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_NAVEGADOR_FB));
-                        Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_NAVEGADOR_FB));
-
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + getString(R.string.PACKAGE_NAME_FB))));
-                    }
-                } else {
-
-                    Log.d(getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_INSTALADA_FB));
-                    Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_INSTALADA_FB));
-                    startActivity(intent);
-                }
-
-            }
-        });
-
-        ib_linkedin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = getPackageManager().getLaunchIntentForPackage(getString(R.string.PACKAGE_NAME_LINKEDIN));
-                if (intent == null) {
-                    try {
-                        //Intenta abrir google play
-                        intent = new Intent(Intent.ACTION_VIEW);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.setData(Uri.parse("market://details?id=" + getString(R.string.PACKAGE_NAME_LINKEDIN)));
-
-                        //LOG
-                        Log.d(getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_GOOGLEPLAY_LK));
-                        Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_GOOGLEPLAY_LK));
-
-                        startActivity(intent);
-                    } catch (android.content.ActivityNotFoundException anfe) {
-
-                        //Si gogle play no esta abre webview
-                        Log.d(getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_NAVEGADOR_LK));
-                        Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_NAVEGADOR_LK));
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + getString(R.string.PACKAGE_NAME_LINKEDIN))));
-                    }
-                } else {
-
-                    //LOG
-                    Log.d(getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_INSTALADA_LK));
-                    Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_INSTALADA_LK));
-                    startActivity(intent);
-                }
-
-
-            }
-        });
     }
+
 }
