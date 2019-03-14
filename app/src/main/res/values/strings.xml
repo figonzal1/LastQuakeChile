@@ -174,12 +174,9 @@
 
     <!-- INTENT LOGS -->
     <string name="TAG_INTENT" translatable="false">INTENT</string>
-    <string name="TAG_INTENT_GOOGLEPLAY_FB" translatable="false">Abriendo google play app - APP FB</string>
-    <string name="TAG_INTENT_NAVEGADOR_FB" translatable="false">Abriendo navegador - APP FB</string>
-    <string name="TAG_INTENT_INSTALADA_FB" translatable="false">Abriendo APP FB instalada</string>
-    <string name="TAG_INTENT_GOOGLEPLAY_LK" translatable="false">Abriendo google play app - APP LK</string>
-    <string name="TAG_INTENT_NAVEGADOR_LK" translatable="false">Abriendo navegador - APP LK</string>
-    <string name="TAG_INTENT_INSTALADA_LK" translatable="false">Abriendo APP LK instalada</string>
+    <string name="TAG_INTENT_GOOGLEPLAY" translatable="false">Abriendo google play app - $s</string>
+    <string name="TAG_INTENT_NAVEGADOR" translatable="false">Abriendo navegador - $s</string>
+    <string name="TAG_INTENT_INSTALADA" translatable="false">Abriendo APP instalada - $s</string>
     <string name="TRY_INTENT_NOTIFICATION_1" translatable="false">Realizando intent de notificacion</string>
     <string name="TRY_INTENT_NOTIFICATION" translatable="false">TRY_INTENT_NOTIFICATION</string>
     <string name="TRY_INTENT_DETALLE" translatable="false">Intent de detalle de sismo</string>
