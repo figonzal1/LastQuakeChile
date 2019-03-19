@@ -177,7 +177,7 @@ public class QuakeDetailsActivity extends AppCompatActivity {
             //Si el bundle viene de notificacion, transformar UTC a TIME LOCAL
             String fecha_utc = b.getString(getString(R.string.INTENT_FECHA_UTC));
             if (fecha_utc != null) {
-                SimpleDateFormat format = new SimpleDateFormat(getString(R.string.DATETIME_FORMAT_SLASH), Locale.US);
+                SimpleDateFormat format = new SimpleDateFormat(getString(R.string.DATETIME_FORMAT), Locale.US);
                 format.setTimeZone(TimeZone.getDefault());
 
                 Date utc_date = null;
