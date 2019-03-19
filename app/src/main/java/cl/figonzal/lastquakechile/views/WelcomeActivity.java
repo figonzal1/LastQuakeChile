@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,7 +28,7 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invitation);
 
-        ImageButton iv_icon = findViewById(R.id.iv_icon_app);
+        ImageView iv_icon = findViewById(R.id.iv_icon_app);
         TextView tv_app = findViewById(R.id.tv_app_name);
         Button btn_welcome = findViewById(R.id.btn_welcome);
         ImageView iv_waves = findViewById(R.id.iv_waves);

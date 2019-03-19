@@ -20,11 +20,10 @@
         app:srcCompat="@drawable/circle_shape"
         android:contentDescription="@string/icono_ondas" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/iv_icon_app"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/icono_app"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
