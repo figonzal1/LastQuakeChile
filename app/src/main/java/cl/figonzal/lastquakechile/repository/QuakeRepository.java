@@ -96,14 +96,15 @@ public class QuakeRepository {
      */
     private void loadQuakes() {
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, application.getString(R.string.URL_GET_PROD), null, new Response.Listener<JSONObject>() {
+        String limite = "15";
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, String.format(Locale.US, application.getString(R.string.URL_GET_PROD), limite), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 
                 //Parseando la informacion desde heroku get_quakes.php
                 try {
 
-                    JSONArray jsonArray = response.getJSONArray("quakes");
+                    JSONArray jsonArray = response.getJSONArray(application.getString(R.string.KEY_QUAKES));
 
                     for (int i = 0; i < jsonArray.length(); i++) {
 
