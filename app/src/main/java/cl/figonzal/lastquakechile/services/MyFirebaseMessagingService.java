@@ -70,6 +70,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, getString(R.string.FIREBASE_CHANNEL_ID))
                 .setContentTitle(Objects.requireNonNull(remoteMessage.getNotification()).getTitle())
                 .setContentText(remoteMessage.getNotification().getBody())
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText(remoteMessage.getNotification().getBody()))
                 .setSmallIcon(R.drawable.ic_lastquakechile_1200)
                 .setAutoCancel(true);
 
@@ -174,6 +176,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setSmallIcon(R.drawable.ic_lastquakechile_1200)
                 .setContentTitle(titulo)
                 .setContentText(descripcion)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(descripcion))
+                .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent);
 
@@ -197,6 +201,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
             NotificationChannel notificationChannel = new NotificationChannel(context.getString(R.string.FIREBASE_CHANNEL_ID), name, importance);
             notificationChannel.setDescription(description);
+            notificationChannel.setImportance(NotificationManager.IMPORTANCE_HIGH);
             notificationChannel.enableLights(true);
             notificationChannel.setLightColor(R.color.colorAccent);
 
