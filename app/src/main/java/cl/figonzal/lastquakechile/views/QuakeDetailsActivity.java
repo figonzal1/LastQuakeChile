@@ -505,10 +505,10 @@ public class QuakeDetailsActivity extends AppCompatActivity {
             SECCION ESTADO
          */
         if (estado.equals("preliminar")) {
-            tv_estado.setText(String.format(Locale.US, "Sismo %s", estado));
+            tv_estado.setText(String.format(Locale.US, getString(R.string.quakes_details_estado_sismo), getString(R.string.quakes_details_estado_sismo_preliminar)));
             iv_estado.setImageDrawable(getDrawable(R.drawable.ic_progress_check_24));
         } else if (estado.equals("verificado")) {
-            tv_estado.setText(String.format(Locale.US, "Sismo %s", estado));
+            tv_estado.setText(String.format(Locale.US, getString(R.string.quakes_details_estado_sismo), getString(R.string.quakes_details_estado_sismo_verificado)));
             iv_estado.setImageDrawable(getDrawable(R.drawable.ic_baseline_check_circle_24px));
         }
 

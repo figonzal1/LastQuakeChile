@@ -93,6 +93,9 @@
     <string name="boton_flotante_facebook">Botón flotante Facebook</string>
     <string name="boton_compartir_sismo">Botón compartir sismo</string>
     <string name="imagen_estado_sismo">Imagen estado sismo</string>
+    <string name="quakes_details_estado_sismo">Sismo %s</string>
+    <string name="quakes_details_estado_sismo_preliminar">preliminar</string>
+    <string name="quakes_details_estado_sismo_verificado">verificado</string>
 
 
     <!-- FIREBASE-->
