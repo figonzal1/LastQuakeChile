@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="cl.figonzal.lastquakechile"
     android:installLocation="auto">
 
@@ -56,6 +57,17 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="http"
+                    android:host="figonzal.cl"
+                    android:pathPattern="/lastquakechile/" />
+            </intent-filter>
         </activity>
         <!-- Llamada a servicio de mensajeria -->
         <service
@@ -89,15 +101,17 @@
             android:name=".views.WelcomeActivity"
             android:screenOrientation="portrait">
 
-            <intent-filter>
+            <tools:validation testUrl="http://lastquakechile-server-dev.herokuapp.com/lastquakechile/" />
+            <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:scheme="https"
-                    android:host="www.figonzal.cl" />
+                    android:scheme="http"
+                    android:host="lastquakechile-server-dev.herokuapp.com"
+                    android:path="/lastquakechile/" />
             </intent-filter>
         </activity>
 
