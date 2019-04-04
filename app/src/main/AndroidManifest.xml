@@ -52,21 +52,13 @@
             android:name=".views.MainActivity"
             android:screenOrientation="portrait">
 
+            <tools:validation testUrl="https://figonzal.cl/lastquakechile/" />
+            <tools:validation testUrl="https://figonzal.cl/lastquakechile" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:scheme="http"
-                    android:host="figonzal.cl"
-                    android:pathPattern="/lastquakechile/" />
             </intent-filter>
         </activity>
         <!-- Llamada a servicio de mensajeria -->
@@ -101,7 +93,11 @@
             android:name=".views.WelcomeActivity"
             android:screenOrientation="portrait">
 
-            <tools:validation testUrl="http://lastquakechile-server-dev.herokuapp.com/lastquakechile/" />
+            <tools:validation testUrl="https://figonzal.cl/lastquakechile/" />
+            <tools:validation testUrl="https://figonzal.cl/lastquakechile" />
+            <tools:validation testUrl="https://lastquakechile-server-dev.herokuapp.com/lastquakechile/" />
+            <tools:validation testUrl="https://lastquakechile-server-dev.herokuapp.com/lastquakechile" />
+
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
 
@@ -109,9 +105,20 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:scheme="http"
+                    android:scheme="https"
                     android:host="lastquakechile-server-dev.herokuapp.com"
-                    android:path="/lastquakechile/" />
+                    android:pathPattern="/lastquakechile.*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="https"
+                    android:host="figonzal.cl"
+                    android:pathPattern="/lastquakechile.*" />
             </intent-filter>
         </activity>
 
