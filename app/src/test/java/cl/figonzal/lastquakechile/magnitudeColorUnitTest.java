@@ -36,8 +36,8 @@ public class magnitudeColorUnitTest {
         });
     }
 
-    private double magnitud;
-    private int colorEsperado;
+    private final double magnitud;
+    private final int colorEsperado;
 
     public magnitudeColorUnitTest(double magnitud, int colorEsperado) {
         this.colorEsperado = colorEsperado;

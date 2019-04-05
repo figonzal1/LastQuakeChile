@@ -52,8 +52,8 @@ public class toDMSUnitTest {
         this.map_esperado = map_esperado;
     }
 
-    private double actual_lat_long;
-    private Map<String, Double> map_esperado;
+    private final double actual_lat_long;
+    private final Map<String, Double> map_esperado;
 
     @Test
     public void give_lat_or_long_return_dms() {

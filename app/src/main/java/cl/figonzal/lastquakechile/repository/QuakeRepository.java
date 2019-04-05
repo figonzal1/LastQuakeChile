@@ -38,10 +38,10 @@ import cl.figonzal.lastquakechile.services.VolleySingleton;
 public class QuakeRepository {
 
     private static QuakeRepository intance;
-    private MutableLiveData<List<QuakeModel>> quakeMutableList = new MutableLiveData<>();
-    private List<QuakeModel> quakeList = new ArrayList<>();
-    private Application application;
-    private MutableLiveData<String> statusData = new MutableLiveData<>();
+    private final MutableLiveData<List<QuakeModel>> quakeMutableList = new MutableLiveData<>();
+    private final List<QuakeModel> quakeList = new ArrayList<>();
+    private final Application application;
+    private final MutableLiveData<String> statusData = new MutableLiveData<>();
 
     /**
      * Funcion singleton que permite instanciar el repositorio
