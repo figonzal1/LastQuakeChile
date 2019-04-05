@@ -20,7 +20,7 @@ public class QuakeViewModel extends AndroidViewModel {
 
     private QuakeRepository repository;
     private MutableLiveData<List<QuakeModel>> quakeMutableList;
-    private MutableLiveData<List<QuakeModel>> quakeMutableFilteredList = new MutableLiveData<>();
+    private final MutableLiveData<List<QuakeModel>> quakeMutableFilteredList = new MutableLiveData<>();
 
     //Contructor para usar context dentro de la clase ViewModel
     public QuakeViewModel(@NonNull Application application) {

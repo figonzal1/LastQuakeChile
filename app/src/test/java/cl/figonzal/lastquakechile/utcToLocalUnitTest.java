@@ -35,8 +35,8 @@ public class utcToLocalUnitTest {
         });
     }
 
-    private String actual_utc;
-    private String esperado_local;
+    private final String actual_utc;
+    private final String esperado_local;
 
     public utcToLocalUnitTest(String actual_utc, String esperado_local) {
         this.actual_utc = actual_utc;
