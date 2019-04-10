@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -89,9 +90,9 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(new FragmentPageAdapter(getSupportFragmentManager()));
 
 
-        //Seteo de los eventos de tabs.
-        //TabLayout tabLayout = (TabLayout)findViewById(R.id.tabs);;
-        //tabLayout.setupWithViewPager(viewPager);
+        //Seteo de tabs.
+        TabLayout tabLayout = findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
 
         //Setear collapsing toolbar con titulo estatico superior y animacion de colores al recoger toolbar
         final CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
