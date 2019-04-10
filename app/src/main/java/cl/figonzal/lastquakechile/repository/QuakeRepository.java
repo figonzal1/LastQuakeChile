@@ -129,6 +129,7 @@ public class QuakeRepository {
                         Log.d("DATETIME", "UTC: " + format.format(utc_date) + "- LOCAL: " + format.format(local_date));
 
                         model.setFecha_local(local_date);
+                        model.setCiudad(object.getString(application.getString(R.string.KEY_CIUDAD)));
                         model.setLatitud(object.getString(application.getString(R.string.KEY_LATITUD)));
                         model.setLongitud(object.getString(application.getString(R.string.KEY_LONGITUD)));
                         model.setMagnitud(object.getDouble(application.getString(R.string.KEY_MAGNITUD)));

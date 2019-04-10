@@ -5,6 +5,7 @@ import java.util.Date;
 public class QuakeModel {
 
     private Date fecha_local;
+    private String ciudad;
     private String latitud;
     private String longitud;
     private Double magnitud;
@@ -25,6 +26,14 @@ public class QuakeModel {
 
     public void setFecha_local(Date fecha_local) {
         this.fecha_local = fecha_local;
+    }
+
+    public String getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
     }
 
     public String getLatitud() {
