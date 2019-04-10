@@ -14,7 +14,7 @@ import cl.figonzal.lastquakechile.views.QuakeFragment;
 
 public class FragmentPageAdapter extends FragmentPagerAdapter {
 
-    private final String[] tabTitles = {"GUC"};
+    private final String[] tabTitles = {"GUC", "Mapa"};
 
 
     public FragmentPageAdapter(FragmentManager fm) {
@@ -30,6 +30,10 @@ public class FragmentPageAdapter extends FragmentPagerAdapter {
             case 0:
                 f= QuakeFragment.newInstance();
                 break;
+
+            case 1:
+                f = QuakeFragment.newInstance();
+                break;
         }
         return f;
     }
@@ -40,7 +44,7 @@ public class FragmentPageAdapter extends FragmentPagerAdapter {
     }
     @Override
     public int getCount() {
-        return 1;
+        return 2;
     }
 
     @Override
