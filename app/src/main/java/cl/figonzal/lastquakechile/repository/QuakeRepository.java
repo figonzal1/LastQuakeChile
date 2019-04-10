@@ -87,6 +87,11 @@ public class QuakeRepository {
         return statusData;
     }
 
+    /**
+     * Funcion del repositorio que envia directamente el listado de sismos al viewmodel
+     *
+     * @return Lista de sismos normal
+     */
     public List<QuakeModel> getQuakeList() {
         return quakeList;
     }
