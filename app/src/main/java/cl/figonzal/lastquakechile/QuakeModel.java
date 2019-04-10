@@ -19,7 +19,7 @@ public class QuakeModel {
     public QuakeModel() {
     }
 
-    Date getFecha_local() {
+    public Date getFecha_local() {
         return fecha_local;
     }
 
@@ -27,7 +27,7 @@ public class QuakeModel {
         this.fecha_local = fecha_local;
     }
 
-    String getLatitud() {
+    public String getLatitud() {
         return latitud;
     }
 
@@ -35,7 +35,7 @@ public class QuakeModel {
         this.latitud = latitud;
     }
 
-    String getLongitud() {
+    public String getLongitud() {
         return longitud;
     }
 
@@ -51,7 +51,7 @@ public class QuakeModel {
         this.magnitud = magnitud;
     }
 
-    String getEscala() {
+    public String getEscala() {
         return escala;
     }
 
@@ -59,7 +59,7 @@ public class QuakeModel {
         this.escala = escala;
     }
 
-    Double getProfundidad() {
+    public Double getProfundidad() {
         return profundidad;
     }
 
@@ -83,7 +83,7 @@ public class QuakeModel {
         this.referencia = referencia;
     }
 
-    String getImagen_url() {
+    public String getImagen_url() {
         return imagen_url;
     }
 
@@ -91,7 +91,7 @@ public class QuakeModel {
         this.imagen_url = imagen_url;
     }
 
-    Boolean getSensible() {
+    public Boolean getSensible() {
         return sensible;
     }
 
@@ -99,7 +99,7 @@ public class QuakeModel {
         this.sensible = sensible;
     }
 
-    String getEstado() {
+    public String getEstado() {
         return estado;
     }
 
