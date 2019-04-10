@@ -111,6 +111,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             titulo = object.getString(getString(R.string.INTENT_TITULO));
             descripcion = object.getString(getString(R.string.INTENT_DESCRIPCION));
             fecha_utc = object.getString(getString(R.string.INTENT_FECHA_UTC));
+            ciudad = object.getString(getString(R.string.INTENT_CIUDAD));
+            referencia = object.getString(getString(R.string.INTENT_REFERENCIA));
             latitud = object.getString(getString(R.string.INTENT_LATITUD));
             longitud = object.getString(getString(R.string.INTENT_LONGITUD));
             magnitud = object.getDouble(getString(R.string.INTENT_MAGNITUD));
@@ -126,10 +128,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     sensible = true;
                     break;
             }
-            referencia = object.getString(getString(R.string.INTENT_REFERENCIA));
-            //Guarda despues de 'DE' en la ciudad
-            int inicio = referencia.indexOf("de") + 3;
-            ciudad = referencia.substring(inicio);
 
             imagen_url = object.getString(getString(R.string.INTENT_LINK_FOTO));
         } catch (JSONException e) {
