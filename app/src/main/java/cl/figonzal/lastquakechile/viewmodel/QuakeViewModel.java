@@ -98,6 +98,16 @@ public class QuakeViewModel extends AndroidViewModel {
 
     }
 
+    /**
+     * Funcion que permitira enviar el listado directo al mapa
+     *
+     * @return Retorna una lista normal de sismos (No mutable)
+     */
+    public List<QuakeModel> getDirectQuakeList() {
+        repository = QuakeRepository.getIntance(getApplication());
+        return repository.getQuakeList();
+    }
+
     @Override
     protected void onCleared() {
         super.onCleared();

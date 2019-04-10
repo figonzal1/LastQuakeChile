@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import cl.figonzal.lastquakechile.views.MapFragment;
 import cl.figonzal.lastquakechile.views.QuakeFragment;
 
 /**
@@ -14,7 +15,7 @@ import cl.figonzal.lastquakechile.views.QuakeFragment;
 
 public class FragmentPageAdapter extends FragmentPagerAdapter {
 
-    private final String[] tabTitles = {"GUC", "Mapa"};
+    private final String[] tabTitles = {"Listado", "Mapa"};
 
 
     public FragmentPageAdapter(FragmentManager fm) {
@@ -32,7 +33,7 @@ public class FragmentPageAdapter extends FragmentPagerAdapter {
                 break;
 
             case 1:
-                f = QuakeFragment.newInstance();
+                f = MapFragment.newInstance();
                 break;
         }
         return f;
