@@ -83,8 +83,8 @@ public class QuakeViewModel extends AndroidViewModel {
 
             for (QuakeModel l : quakeList) {
 
-                //Filtrar por lugar de referencia
-                if (l.getReferencia().toLowerCase().contains(s)) {
+                //Filtrar por ciudad
+                if (l.getCiudad().toLowerCase().contains(s)) {
                     filteredList.add(l);
                 }
 
