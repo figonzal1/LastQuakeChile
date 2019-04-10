@@ -80,11 +80,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
 
         final QuakeModel model = quakeModelList.get(position);
 
-        //Guarda despues de 'DE' en la ciudad
-        int inicio = model.getReferencia().indexOf("de")+3;
-        final String ciudad = model.getReferencia().substring(inicio);
-
-        holder.tv_ciudad.setText(ciudad);
+        holder.tv_ciudad.setText(model.getCiudad());
         holder.tv_referencia.setText(model.getReferencia());
 
         //Setea la magnitud con un maximo de 1 digito decimal.
@@ -135,7 +131,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
                  */
                 Intent intent = new Intent(context, QuakeDetailsActivity.class);
                 Bundle b = new Bundle();
-                b.putString(context.getString(R.string.INTENT_CIUDAD), ciudad);
+                b.putString(context.getString(R.string.INTENT_CIUDAD), model.getCiudad());
                 b.putString(context.getString(R.string.INTENT_REFERENCIA), model.getReferencia());
                 b.putString(context.getString(R.string.INTENT_LATITUD), model.getLatitud());
                 b.putString(context.getString(R.string.INTENT_LONGITUD), model.getLongitud());

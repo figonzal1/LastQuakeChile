@@ -28,6 +28,7 @@
 
     <!-- KEY DE JSON PARA PHP -->
     <string name="KEY_FECHA_UTC" translatable="false">fecha_utc</string>
+    <string name="KEY_CIUDAD" translatable="false">ciudad</string>
     <string name="KEY_LATITUD" translatable="false">latitud</string>
     <string name="KEY_LONGITUD" translatable="false">longitud</string>
     <string name="KEY_MAGNITUD" translatable="false">magnitud</string>
