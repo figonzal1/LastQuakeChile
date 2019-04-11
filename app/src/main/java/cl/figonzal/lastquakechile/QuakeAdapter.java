@@ -87,7 +87,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
         holder.tv_magnitud.setText(String.format(context.getString(R.string.magnitud), model.getMagnitud()));
 
         //Setear el color de background dependiendo de magnitud del sismo
-        holder.iv_mag_color.setColorFilter(context.getColor(QuakeUtils.getMagnitudeColor(model.getMagnitud())));
+        holder.iv_mag_color.setColorFilter(context.getColor(QuakeUtils.getMagnitudeColor(model.getMagnitud(), false)));
 
         Map<String, Long> tiempos = QuakeUtils.timeToText(model.getFecha_local());
 
