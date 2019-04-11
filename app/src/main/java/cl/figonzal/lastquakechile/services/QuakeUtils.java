@@ -85,42 +85,82 @@ public class QuakeUtils {
      * @param magnitude Magnitud del sismo desde el cardview
      * @return id recurso desde colors.xml
      */
-    public static int getMagnitudeColor(double magnitude) {
+    public static int getMagnitudeColor(double magnitude, boolean forMapa) {
 
         int mag_floor = (int) Math.floor(magnitude);
         int mag_resource_id;
         switch (mag_floor) {
 
             case 1:
-                mag_resource_id = R.color.magnitude1;
+                if (forMapa) {
+                    mag_resource_id = R.color.magnitude1_alpha;
+                } else {
+                    mag_resource_id = R.color.magnitude1;
+                }
                 break;
 
             case 2:
-                mag_resource_id = R.color.magnitude2;
+                if (forMapa) {
+                    mag_resource_id = R.color.magnitude2_alpha;
+                } else {
+                    mag_resource_id = R.color.magnitude2;
+                }
                 break;
             case 3:
-                mag_resource_id = R.color.magnitude3;
+
+                if (forMapa) {
+                    mag_resource_id = R.color.magnitude3_alpha;
+                } else {
+                    mag_resource_id = R.color.magnitude3;
+                }
                 break;
             case 4:
-                mag_resource_id = R.color.magnitude4;
+
+                if (forMapa) {
+                    mag_resource_id = R.color.magnitude4_alpha;
+                } else {
+                    mag_resource_id = R.color.magnitude4;
+                }
                 break;
             case 5:
-                mag_resource_id = R.color.magnitude5;
+
+                if (forMapa) {
+                    mag_resource_id = R.color.magnitude5_alpha;
+                } else {
+                    mag_resource_id = R.color.magnitude5;
+                }
                 break;
             case 6:
-                mag_resource_id = R.color.magnitude6;
+
+                if (forMapa) {
+                    mag_resource_id = R.color.magnitude6_alpha;
+                } else {
+                    mag_resource_id = R.color.magnitude6;
+                }
                 break;
             case 7:
-                mag_resource_id = R.color.magnitude7;
+                if (forMapa) {
+                    mag_resource_id = R.color.magnitude7_alpha;
+                } else {
+                    mag_resource_id = R.color.magnitude7;
+                }
                 break;
             case 8:
-                mag_resource_id = R.color.magnitude8;
+                if (forMapa) {
+                    mag_resource_id = R.color.magnitude8_alpha;
+                } else {
+                    mag_resource_id = R.color.magnitude8;
+                }
                 break;
             case 9:
-                mag_resource_id = R.color.magnitude8;
+                if (forMapa) {
+                    mag_resource_id = R.color.magnitude8_alpha;
+                } else {
+                    mag_resource_id = R.color.magnitude8;
+                }
                 break;
 
-            //Si no nignuno se elige color por defecto
+            //Si no, se elige color por defecto
             default:
                 mag_resource_id = R.color.colorAccent;
                 break;

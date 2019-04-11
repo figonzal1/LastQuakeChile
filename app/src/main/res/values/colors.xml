@@ -13,12 +13,23 @@
 
 
     <!-- Colores para cada magnitud-->
-    <color name="magnitude1">#F6BF65</color>
-    <color name="magnitude2">#F1A958</color>
-    <color name="magnitude3">#ec934b</color>
-    <color name="magnitude4">#E77D3E</color>
-    <color name="magnitude5">#E26832</color>
-    <color name="magnitude6">#DD5225</color>
-    <color name="magnitude7">#D83C18</color>
-    <color name="magnitude8">#D4270C</color>
+    <color name="magnitude1">#006400</color>
+    <color name="magnitude2">#2a7900</color>
+    <color name="magnitude3">#6c9800</color>
+    <color name="magnitude4">#c6c000</color>
+    <color name="magnitude5">#ffb000</color>
+    <color name="magnitude6">#f56b0b</color>
+    <color name="magnitude7">#d83618</color>
+    <color name="magnitude8">#b22222</color>
+
+    <!-- Colores para mapa-->
+    <color name="grey_dark_alpha">#B3939393</color>
+    <color name="magnitude1_alpha">#80006400</color>
+    <color name="magnitude2_alpha">#802A7900</color>
+    <color name="magnitude3_alpha">#806C9800</color>
+    <color name="magnitude4_alpha">#80C6C000</color>
+    <color name="magnitude5_alpha">#80FFB000</color>
+    <color name="magnitude6_alpha">#80F56B0B</color>
+    <color name="magnitude7_alpha">#80D83618</color>
+    <color name="magnitude8_alpha">#80B22222</color>
 </resources>
