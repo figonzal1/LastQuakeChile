@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/info_windows"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/iv_iw_mag_color"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="@string/circulo_pintado"
+        card_view:layout_constraintBottom_toBottomOf="@+id/textView"
+        card_view:layout_constraintStart_toStartOf="parent"
+        card_view:layout_constraintTop_toTopOf="@+id/tv_iw_referencia"
+        card_view:srcCompat="@drawable/circle_shape" />
+
+    <TextView
+        android:id="@+id/tv_iw_referencia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textSize="10sp"
+        card_view:layout_constraintEnd_toEndOf="parent"
+        card_view:layout_constraintHorizontal_bias="0.0"
+        card_view:layout_constraintStart_toEndOf="@+id/iv_iw_mag_color"
+        card_view:layout_constraintTop_toTopOf="parent"
+        tools:text="Referencia de la ciudad" />
+
+
+    <TextView
+        android:id="@+id/tv_iw_magnitud"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLength="4"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        android:textStyle="normal"
+        card_view:layout_constraintBottom_toBottomOf="@+id/iv_iw_mag_color"
+        card_view:layout_constraintEnd_toEndOf="@+id/iv_iw_mag_color"
+        card_view:layout_constraintStart_toStartOf="@+id/iv_iw_mag_color"
+        card_view:layout_constraintTop_toTopOf="@+id/iv_iw_mag_color"
+        tools:text="9.5" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hace: 1 d 2 h"
+        android:textSize="10sp"
+        card_view:layout_constraintStart_toStartOf="@+id/textView2"
+        card_view:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Profundidad: 55km"
+        android:textSize="10sp"
+        card_view:layout_constraintStart_toStartOf="@+id/tv_iw_referencia"
+        card_view:layout_constraintTop_toBottomOf="@+id/tv_iw_referencia" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="4dp"
+        card_view:layout_constraintBottom_toBottomOf="@+id/textView3"
+        card_view:layout_constraintEnd_toStartOf="@+id/textView3"
+        card_view:layout_constraintHorizontal_chainStyle="packed"
+        card_view:layout_constraintStart_toStartOf="parent"
+        card_view:layout_constraintTop_toTopOf="@+id/textView3"
+        card_view:srcCompat="@drawable/ic_baseline_check_circle_24px" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Sismo verficado "
+        android:textSize="10sp"
+        card_view:layout_constraintBottom_toBottomOf="parent"
+        card_view:layout_constraintEnd_toEndOf="@+id/tv_iw_referencia"
+        card_view:layout_constraintHorizontal_bias="0.5"
+        card_view:layout_constraintStart_toEndOf="@+id/imageView"
+        card_view:layout_constraintTop_toBottomOf="@+id/textView" />
+
+</android.support.constraint.ConstraintLayout>
