@@ -26,6 +26,16 @@
         app:layout_constraintTop_toBottomOf="@+id/include"
         tools:layout="@layout/fragment_quake" />
 
+    <fragment
+        android:id="@+id/fragmentmap"
+        class="cl.figonzal.lastquakechile.views.MapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include"
+        tools:layout="@layout/fragment_map" />
 
 
 </android.support.constraint.ConstraintLayout>
