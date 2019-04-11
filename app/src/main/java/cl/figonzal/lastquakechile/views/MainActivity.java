@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -85,6 +86,9 @@ public class MainActivity extends AppCompatActivity {
         //Setear el toolbar sobre el main activity
         setSupportActionBar(toolbar);
 
+        //Appbar layout para minimizar el collapse toolbar cuando se presiona el tab de mapa
+        final AppBarLayout appBarLayout = findViewById(R.id.app_bar);
+
         //View pager para los fragments (Solo 1 fragment en esta app)
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(new FragmentPageAdapter(getSupportFragmentManager()));
@@ -93,6 +97,28 @@ public class MainActivity extends AppCompatActivity {
         //Seteo de tabs.
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (tab.getPosition() == 1) {
+
+                    appBarLayout.setExpanded(false);
+                } else {
+                    appBarLayout.setExpanded(true);
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
         //Setear collapsing toolbar con titulo estatico superior y animacion de colores al recoger toolbar
         final CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
