@@ -47,6 +47,6 @@ public class magnitudeColorUnitTest {
 
     @Test
     public void give_magnitude_return_magnitud_color() {
-        assertEquals(colorEsperado, QuakeUtils.getMagnitudeColor(magnitud));
+        assertEquals(colorEsperado, QuakeUtils.getMagnitudeColor(magnitud, false));
     }
 }

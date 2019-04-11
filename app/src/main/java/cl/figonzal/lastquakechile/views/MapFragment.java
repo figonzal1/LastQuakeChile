@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -16,6 +18,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
 import java.util.Objects;
@@ -26,7 +30,7 @@ import cl.figonzal.lastquakechile.services.QuakeUtils;
 import cl.figonzal.lastquakechile.viewmodel.QuakeViewModel;
 
 
-public class MapFragment extends Fragment implements OnMapReadyCallback {
+public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.InfoWindowAdapter {
 
     private MapView mapView;
     private GoogleMap gMap;
@@ -58,6 +62,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
         mapView.onCreate(mapViewBundle);
         mapView.getMapAsync(this);
+        mapView.onResume();
 
         QuakeViewModel viewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(QuakeViewModel.class);
         quakeModelsList = viewModel.getDirectQuakeList();
@@ -96,6 +101,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         LatLng punto_central = new LatLng(prom_lat, prom_long);
         gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(punto_central, 5.0f), 2000, null);
+
+        gMap.setInfoWindowAdapter(this);
     }
 
     private void cargarDatos(GoogleMap googleMap) {
@@ -109,11 +116,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             prom_long += Double.parseDouble(model.getLongitud());
 
             //Marcador de epicentro
-            /*googleMap.addMarker(new MarkerOptions()
+            googleMap.addMarker(new MarkerOptions()
                     .position(latLng)
                     .title(String.valueOf(model.getMagnitud()))
-                    .alpha(0.7f)
-            );*/
+                    .alpha(0.0f)
+            ).setTag(model);
 
             //Buscar color
             int id_color = QuakeUtils.getMagnitudeColor(model.getMagnitud(), true);
@@ -165,5 +172,32 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
 
         mapView.onSaveInstanceState(mapViewBundle);
+    }
+
+    @Override
+    public View getInfoWindow(Marker marker) {
+        return null;
+    }
+
+    @Override
+    public View getInfoContents(Marker marker) {
+
+        View v = getLayoutInflater().inflate(R.layout.info_windows, null);
+
+        Object object = marker.getTag();
+        QuakeModel model = (QuakeModel) object;
+
+        //TextView tv_ciudad = v.findViewById(R.id.tv_iw_ciudad);
+        TextView tv_magnitud = v.findViewById(R.id.tv_iw_magnitud);
+        TextView tv_referencia = v.findViewById(R.id.tv_iw_referencia);
+        ImageView iv_mag_color = v.findViewById(R.id.iv_iw_mag_color);
+
+
+        //tv_ciudad.setText(model.getCiudad());
+        tv_referencia.setText(model.getReferencia());
+        tv_magnitud.setText(String.format(getContext().getString(R.string.magnitud), model.getMagnitud()));
+        iv_mag_color.setColorFilter(getContext().getColor(QuakeUtils.getMagnitudeColor(model.getMagnitud(), false)));
+
+        return v;
     }
 }
