@@ -490,7 +490,7 @@ public class QuakeDetailsActivity extends AppCompatActivity {
         tv_magnitud.setText(String.format(getString(R.string.magnitud), magnitud));
 
         //Setear el color de background dependiendo de magnitud del sismo
-        iv_mag_color.setColorFilter(getColor(QuakeUtils.getMagnitudeColor(magnitud)));
+        iv_mag_color.setColorFilter(getColor(QuakeUtils.getMagnitudeColor(magnitud, false)));
 
         //Setear profundidad
         tv_profundidad.setText(String.format(Locale.US, getString(R.string.quake_details_profundidad), profundidad));

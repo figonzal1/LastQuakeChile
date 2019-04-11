@@ -16,13 +16,13 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
 import java.util.Objects;
 
 import cl.figonzal.lastquakechile.QuakeModel;
 import cl.figonzal.lastquakechile.R;
+import cl.figonzal.lastquakechile.services.QuakeUtils;
 import cl.figonzal.lastquakechile.viewmodel.QuakeViewModel;
 
 
@@ -109,16 +109,21 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             prom_long += Double.parseDouble(model.getLongitud());
 
             //Marcador de epicentro
-            googleMap.addMarker(new MarkerOptions()
+            /*googleMap.addMarker(new MarkerOptions()
                     .position(latLng)
                     .title(String.valueOf(model.getMagnitud()))
                     .alpha(0.7f)
-            );
+            );*/
+
+            //Buscar color
+            int id_color = QuakeUtils.getMagnitudeColor(model.getMagnitud(), true);
 
             //Circulo en pin
             CircleOptions circleOptions = new CircleOptions()
                     .center(latLng)
-                    .radius(10000 * model.getMagnitud());
+                    .radius(10000 * model.getMagnitud())
+                    .fillColor(Objects.requireNonNull(getContext()).getColor(id_color))
+                    .strokeColor(getContext().getColor(R.color.grey_dark_alpha));
             googleMap.addCircle(circleOptions);
             Log.d("SISMO", model.getCiudad());
 
