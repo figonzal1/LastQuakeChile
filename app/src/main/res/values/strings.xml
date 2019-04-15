@@ -49,6 +49,11 @@
     <string name="quake_time_hour" translatable="false">%1$d h</string>
     <string name="quake_time_minute" translatable="false">%1$d m</string>
     <string name="quake_time_second" translatable="false">%1$d s</string>
+    <string name="quake_time_day_info_windows" translatable="false">Hace: %1$d d</string>
+    <string name="quake_time_day_hour_info_windows" translatable="false">Hace: %1$d d %2$d h</string>
+    <string name="quake_time_hour_info_windows" translatable="false">Hace: %1$d h</string>
+    <string name="quake_time_minute_info_windows" translatable="false">Hace: %1$d m</string>
+    <string name="quake_time_second_info_windows" translatable="false">Hace: %1$d s</string>
     <string name="imagen_geografica_posicion_sismo">Imagen geografica posición sismo</string>
     <string name="icono_tiempo">Icono tiempo</string>
     <string name="tiempo">Fecha/Hora</string>
@@ -60,6 +65,7 @@
     <string name="escala">Escala</string>
     <string name="quake_details_escala" translatable="false">%1$s</string>
     <string name="quake_details_profundidad" translatable="false">%.1f Km</string>
+    <string name="profundidad_info_windows" translatable="false">Profundidad %.1f Km</string>
     <string name="magnitud" translatable="false">%.1f</string>
     <string name="icono_mail">Icono email</string>
     <string name="icono_persona">Icono persona</string>
