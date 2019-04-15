@@ -122,13 +122,14 @@ public class QuakeRepository {
 
 
                         //OBTENER UTC DESDE PHP CONVERTIRLO A LOCAL DEL DISPOSITIVO
-
                         Date utc_date = format.parse(object.getString(application.getString(R.string.KEY_FECHA_UTC)));
                         Date local_date = QuakeUtils.utcToLocal(utc_date);
 
                         Log.d("DATETIME", "UTC: " + format.format(utc_date) + "- LOCAL: " + format.format(local_date));
-
+	                    //LOCAL CALCULADO, NO PROVIENE DE CAMPO EN PHP
                         model.setFecha_local(local_date);
+
+	                    model.setFecha_utc(utc_date);
                         model.setCiudad(object.getString(application.getString(R.string.KEY_CIUDAD)));
                         model.setLatitud(object.getString(application.getString(R.string.KEY_LATITUD)));
                         model.setLongitud(object.getString(application.getString(R.string.KEY_LONGITUD)));
