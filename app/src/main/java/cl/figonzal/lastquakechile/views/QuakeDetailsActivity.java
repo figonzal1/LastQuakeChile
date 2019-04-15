@@ -54,8 +54,16 @@ public class QuakeDetailsActivity extends AppCompatActivity {
     private Uri bitmapUri;
     private TextView tv_ciudad, tv_referencia, tv_escala, tv_magnitud, tv_profundidad, tv_fecha, tv_hora, tv_gms, fab_text_fb, fab_text_wsp, fab_text_gm, tv_estado;
     private ImageView iv_mapa, iv_sensible, iv_mag_color, iv_estado;
-	private String ciudad, referencia, dms_lat, dms_long, sFechaLocal, sFechaUtc, escala, foto_url,
-			estado;
+	private String ciudad;
+	private String referencia;
+	private String dms_lat;
+	private String dms_long;
+	private String sFechaLocal;
+	private String escala;
+	private String foto_url;
+	private String estado;
+	private String latitud;
+	private String longitud;
     private Double magnitud, profundidad;
     private Map<String, Long> tiempos;
     private boolean sensible;
@@ -79,10 +87,6 @@ public class QuakeDetailsActivity extends AppCompatActivity {
         //Obtener datos desde intent
         Bundle b = getIntent().getExtras();
 
-        /*
-            INICIACION DE RECURSOS
-         */
-
         //TEXTVIEWS
         tv_ciudad = findViewById(R.id.tv_ciudad_detail);
         tv_referencia = findViewById(R.id.tv_referencia_detail);
@@ -98,8 +102,13 @@ public class QuakeDetailsActivity extends AppCompatActivity {
         iv_sensible = findViewById(R.id.iv_sensible_detail);
         iv_mag_color = findViewById(R.id.iv_mag_color_detail);
         iv_estado = findViewById(R.id.iv_estado);
-
         iv_mapa = findViewById(R.id.iv_map_quake);
+
+	    //SETEO DE FLOATING BUTTONS
+	    fab_share = findViewById(R.id.fab_share);
+	    fab_fb = findViewById(R.id.fab_fb);
+	    fab_whatsapp = findViewById(R.id.fab_wsp);
+	    fab_gmail = findViewById(R.id.fab_gmail);
 
         if (b != null) {
 
@@ -113,243 +122,303 @@ public class QuakeDetailsActivity extends AppCompatActivity {
             sensible = b.getBoolean(getString(R.string.INTENT_SENSIBLE));
             foto_url = b.getString(getString(R.string.INTENT_LINK_FOTO));
             estado = b.getString(getString(R.string.INTENT_ESTADO));
+	        latitud = b.getString(getString(R.string.INTENT_LATITUD));
+	        longitud = b.getString(getString(R.string.INTENT_LONGITUD));
 
-	        //SECCION DE TRANSFORMACION LAT-LONG TO GMS
-            final String latitud = b.getString(getString(R.string.INTENT_LATITUD));
-            final String longitud = b.getString(getString(R.string.INTENT_LONGITUD));
+	        //Calculo de Grados,Minutos y segundos de
+	        //latitud y longitud
+	        calculateGMS(latitud, longitud);
 
-            //Conversion de latitud a dms
-            double lat_ubicacion = Double.parseDouble(Objects.requireNonNull(latitud));
-            if (lat_ubicacion < 0) {
-                dms_lat = getString(R.string.coordenadas_sur);
-            } else {
-                dms_lat = getString(R.string.coordenadas_norte);
-            }
+	        //Configuración de fechas locales y utc
+	        dateConfig(b);
 
-            //Calculo de lat to GMS
-	        Map<String, Double> lat_dms = QuakeUtils.latLonToDMS(lat_ubicacion);
-            Double lat_grados_dsm = lat_dms.get("grados");
-            Double lat_minutos_dsm = lat_dms.get("minutos");
-            Double lat_segundos_dsm = lat_dms.get("segundos");
-            dms_lat = String.format(Locale.US, "%.1f° %.1f' %.1f'' %s", lat_grados_dsm, lat_minutos_dsm, lat_segundos_dsm, dms_lat);
-
-            double long_ubicacion = Double.parseDouble(Objects.requireNonNull(longitud));
-            if (long_ubicacion < 0) {
-                dms_long = getString(R.string.coordenadas_oeste);
-            } else {
-                dms_long = getString(R.string.coordenadas_este);
-            }
-
-            //Calculo de long to GMS
-	        Map<String, Double> long_dms = QuakeUtils.latLonToDMS(long_ubicacion);
-            Double long_grados_dsm = long_dms.get("grados");
-            Double long_minutos_dsm = long_dms.get("minutos");
-            Double long_segundos_dsm = long_dms.get("segundos");
-            dms_long = String.format(Locale.US, "%.1f° %.1f' %.1f'' %s", long_grados_dsm, long_minutos_dsm, long_segundos_dsm, dms_long);
-
-
-	        //SECCION CONVERSION DE TIEMPO UTC-LOCAL (DEPENDIENDO SI VIENE DE ADAPTER O DE
-	        // NOTIFICACION)
-	        sFechaLocal = b.getString(getString(R.string.INTENT_FECHA_LOCAL));
-	        sFechaUtc = b.getString(getString(R.string.INTENT_FECHA_UTC));
-
-	        //SI INTENT VIENE DE ADAPTER
-	        //Convertir sFechaLocal a Date
-	        //Calcular DHMS de Date fecha_local
-	        if (sFechaLocal != null) {
-		        Date fecha_local = QuakeUtils.stringToDate(getApplicationContext(), sFechaLocal);
-		        tiempos = QuakeUtils.dateToDHMS(fecha_local);
-	        }
-
-	        //Si el intent viene de notificacion
-	        //Convertir sFechaUtc a Date fecha_utc
-	        //Convertir Date fecha_utc a Date fecha_local
-	        //Calcular DHMS de Date fecha_local
-	        if (sFechaUtc != null) {
-		        Date fecha_utc = QuakeUtils.stringToDate(getApplicationContext(), sFechaUtc);
-		        Date fecha_local = QuakeUtils.utcToLocal(fecha_utc);
-		        tiempos = QuakeUtils.dateToDHMS(fecha_local);
-	        }
-
-	        //SETEO DE TEXTVIEWS EN DETALLE
+	        //Seteo de textview
             setTextViews();
 
-	        //SETEO DE FLOATING BUTTONS
-            fab_share = findViewById(R.id.fab_share);
-            fab_fb = findViewById(R.id.fab_fb);
-            fab_whatsapp = findViewById(R.id.fab_wsp);
-            fab_gmail = findViewById(R.id.fab_gmail);
-
-            fab_share.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    overlay = findViewById(R.id.quake_details_container);
-
-                    if (!isFABOpen) {
-                        showFabMenu();
-
-                    } else {
-                        closeFabMenu();
-                    }
-                }
-            });
-
-
-            fab_fb.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = getPackageManager().getLaunchIntentForPackage(getString(R.string.PACKAGE_NAME_FB));
-
-                    //Si no existe el paquete
-                    if (intent == null) {
-                        QuakeUtils.doInstallation(getString(R.string.PACKAGE_NAME_FB), getApplicationContext());
-                    } else {
-
-                        //Si esta instalada hacer share
-                        Log.d(getString(R.string.TAG_INTENT_SHARE), getString(R.string.TAG_INTENT_SHARE_FB));
-                        Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE), getString(R.string.TAG_INTENT_SHARE_FB));
-
-                        callbackManager = CallbackManager.Factory.create();
-                        shareDialog = new ShareDialog(QuakeDetailsActivity.this);
-
-
-                        //Share foto del sismo
-                        sharePhoto = new SharePhoto.Builder()
-                                .setBitmap(bitmapFB)
-                                .build();
-
-                        sharePhotoContent = new SharePhotoContent.Builder()
-                                .addPhoto(sharePhoto)
-                                .setShareHashtag(new ShareHashtag.Builder()
-                                        .setHashtag("#SismoChile")
-                                        .build())
-                                .build();
-
-                        shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
-                            @Override
-                            public void onSuccess(Sharer.Result result) {
-                                Toast.makeText(getApplicationContext(), getString(R.string.TAG_TOAST_SHARE_FB_OK), Toast.LENGTH_LONG).show();
-                                Log.d(getString(R.string.TAG_INTENT_SHARE_FB_LOG), getString(R.string.TAG_INTENT_SHARE_FB_OK_MESSAGE));
-                                Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE_FB_LOG), getString(R.string.TAG_INTENT_SHARE_FB_OK_MESSAGE));
-                            }
-
-                            @Override
-                            public void onCancel() {
-                                Toast.makeText(getApplicationContext(), getString(R.string.TAG_TOAST_SHARE_FB_CANCEL), Toast.LENGTH_LONG).show();
-                                Log.d(getString(R.string.TAG_INTENT_SHARE_FB_LOG), getString(R.string.TAG_INTENT_SHARE_FB_CANCEL_MESSAGE));
-                                Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE_FB_LOG), getString(R.string.TAG_INTENT_SHARE_FB_CANCEL_MESSAGE));
-                            }
-
-                            @Override
-                            public void onError(FacebookException error) {
-                                Toast.makeText(getApplicationContext(), getString(R.string.TAG_TOAST_SHARE_FB_ERROR), Toast.LENGTH_LONG).show();
-                                Log.d(getString(R.string.TAG_INTENT_SHARE_FB_LOG), getString(R.string.TAG_INTENT_SHARE_FB_ERROR_MESSAGE) + "-" + error);
-                                Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE_FB_LOG), getString(R.string.TAG_INTENT_SHARE_FB_ERROR_MESSAGE) + "-" + error);
-                            }
-                        });
-
-                        if (ShareDialog.canShow(SharePhotoContent.class)) {
-                            shareDialog.show(sharePhotoContent);
-                            Log.d(getString(R.string.TAG_INTENT_SHARE_DIALOG), getString(R.string.TAG_INTENT_SHARE_DIALOG_MESSAGE));
-                            Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE_DIALOG), getString(R.string.TAG_INTENT_SHARE_DIALOG_MESSAGE));
-                        }
-                    }
-                }
-            });
-
-            fab_whatsapp.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = getPackageManager().getLaunchIntentForPackage(getString(R.string.PACKAGE_NAME_WSP));
-
-                    //Si no existe el paquete
-                    if (intent == null) {
-                        QuakeUtils.doInstallation(getString(R.string.PACKAGE_NAME_WSP), getApplicationContext());
-                    } else {
-                        Log.d(getString(R.string.TAG_INTENT_SHARE), getString(R.string.TAG_INTENT_SHARE_WSP));
-                        Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE), getString(R.string.TAG_INTENT_SHARE_WSP));
-
-                        Intent wspIntent = new Intent();
-                        wspIntent.setAction(Intent.ACTION_SEND);
-                        wspIntent.setPackage(getString(R.string.PACKAGE_NAME_WSP));
-                        wspIntent.putExtra(Intent.EXTRA_TEXT, String.format(Locale.US,
-                                "[Alerta sísmica]\n\n" +
-                                        "Información sismológica\n" +
-                                        "Ciudad: %1$s\n" +
-                                        "Hora Local: %2$s\n" +
-                                        "Magnitud: %3$.1f %4$s\n" +
-                                        "Profundidad: %5$.1f Km\n" +
-                                        "Georeferencia: %6$s\n\n" +
-                                        "Para más información descarga la app LastQuakeChile aquí\n" +
-                                        "%7$s"
-		                        , ciudad, sFechaLocal, magnitud, escala, profundidad, referencia,
-		                        getString(R.string.DEEP_LINK)
-                        ));
-                        wspIntent.putExtra(Intent.EXTRA_STREAM, bitmapUri);
-                        wspIntent.setType("image/*");
-                        //wspIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-                        startActivity(wspIntent);
-                    }
-                }
-            });
-
-            fab_gmail.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    Intent intent = getPackageManager().getLaunchIntentForPackage(getString(R.string.PACKAGE_NAME_GMAIL));
-
-                    //Si no existe el paquete
-                    if (intent == null) {
-                        QuakeUtils.doInstallation(getString(R.string.PACKAGE_NAME_GMAIL), getApplicationContext());
-                    } else {
-
-                        Log.d(getString(R.string.TAG_INTENT_SHARE), getString(R.string.TAG_INTENT_SHARE_GM));
-                        Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE), getString(R.string.TAG_INTENT_SHARE_GM));
-
-                        Intent gmIntent = new Intent();
-                        gmIntent.setAction(Intent.ACTION_SEND);
-                        gmIntent.setPackage(getString(R.string.PACKAGE_NAME_GMAIL));
-                        gmIntent.putExtra(Intent.EXTRA_SUBJECT, String.format(Locale.US, "[Alerta sísmica] - %1$.1f Richter en %2$s", magnitud, ciudad));
-                        gmIntent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(
-                                String.format(Locale.US,
-                                        "<h3>\n" +
-                                                "  Información sismológica\n" +
-                                                "</h3>\n" +
-                                                "\n" +
-                                                "<table>\n" +
-                                                "  <tr><td>Hora Local: </td><td>%1$s</td></tr><br>\n" +
-                                                "  <tr><td>Ciudad: </td><td>%2$s</td></tr><br>\n" +
-                                                "  <tr><td>Magnitud: </td><td>%3$.1f %4$s</td></tr><br>\n" +
-                                                "  <tr><td>Profundidad: </td><td>%5$.1f Km</td></tr><br>\n" +
-                                                "  <tr><td>Georeferencia: </td><td>%6$s</td></tr><br>\n" +
-                                                "  <tr><td>Latitud: </td><td>%7$s</td></tr><br>\n" +
-                                                "  <tr><td>Longitud: </td><td>%8$s</td></tr><br>\n" +
-                                                "  <tr><td>Posicion GMS: </td><td>%9$s - %10$s</td></tr><br>\n" +
-                                                " \n" +
-                                                "</table>\n" +
-                                                "\n" +
-                                                "<h5>\n" +
-                                                "  Para más información descarga la app LastQuakeChile aquí %11$s \n" +
-                                                "</h5>"
-		                                , sFechaLocal, ciudad, magnitud, escala, profundidad,
-		                                referencia, latitud, longitud, dms_lat, dms_long,
-		                                getString(R.string.DEEP_LINK))));
-
-                        gmIntent.putExtra(Intent.EXTRA_STREAM, bitmapUri);
-                        gmIntent.setType("image/*");
-
-                        startActivity(gmIntent);
-                    }
-                }
-            });
+	        //Seteo de floating buttons
+	        setFloatingButtons();
         }
     }
 
+	/**
+	 * Funcion encargada de la logica de los botones flotantes
+	 */
+	private void setFloatingButtons () {
 
-    /**
+		fab_share.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick (View v) {
+
+				overlay = findViewById(R.id.quake_details_container);
+
+				if (!isFABOpen) {
+					showFabMenu();
+
+				} else {
+					closeFabMenu();
+				}
+			}
+		});
+
+
+		fab_fb.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick (View v) {
+				Intent intent =
+						getPackageManager().getLaunchIntentForPackage(getString(R.string.PACKAGE_NAME_FB));
+
+				//Si no existe el paquete
+				if (intent == null) {
+					QuakeUtils.doInstallation(getString(R.string.PACKAGE_NAME_FB),
+							getApplicationContext());
+				} else {
+
+					//Si esta instalada hacer share
+					Log.d(getString(R.string.TAG_INTENT_SHARE),
+							getString(R.string.TAG_INTENT_SHARE_FB));
+					Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE),
+							getString(R.string.TAG_INTENT_SHARE_FB));
+
+					callbackManager = CallbackManager.Factory.create();
+					shareDialog = new ShareDialog(QuakeDetailsActivity.this);
+
+
+					//Share foto del sismo
+					sharePhoto = new SharePhoto.Builder()
+							.setBitmap(bitmapFB)
+							.build();
+
+					sharePhotoContent = new SharePhotoContent.Builder()
+							.addPhoto(sharePhoto)
+							.setShareHashtag(new ShareHashtag.Builder()
+									.setHashtag("#SismoChile")
+									.build())
+							.build();
+
+					shareDialog.registerCallback(callbackManager,
+							new FacebookCallback<Sharer.Result>() {
+						@Override
+						public void onSuccess (Sharer.Result result) {
+							Toast.makeText(getApplicationContext(),
+									getString(R.string.TAG_TOAST_SHARE_FB_OK), Toast.LENGTH_LONG).show();
+							Log.d(getString(R.string.TAG_INTENT_SHARE_FB_LOG),
+									getString(R.string.TAG_INTENT_SHARE_FB_OK_MESSAGE));
+							Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE_FB_LOG)
+									, getString(R.string.TAG_INTENT_SHARE_FB_OK_MESSAGE));
+						}
+
+						@Override
+						public void onCancel () {
+							Toast.makeText(getApplicationContext(),
+									getString(R.string.TAG_TOAST_SHARE_FB_CANCEL),
+									Toast.LENGTH_LONG).show();
+							Log.d(getString(R.string.TAG_INTENT_SHARE_FB_LOG),
+									getString(R.string.TAG_INTENT_SHARE_FB_CANCEL_MESSAGE));
+							Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE_FB_LOG)
+									, getString(R.string.TAG_INTENT_SHARE_FB_CANCEL_MESSAGE));
+						}
+
+						@Override
+						public void onError (FacebookException error) {
+							Toast.makeText(getApplicationContext(),
+									getString(R.string.TAG_TOAST_SHARE_FB_ERROR),
+									Toast.LENGTH_LONG).show();
+							Log.d(getString(R.string.TAG_INTENT_SHARE_FB_LOG),
+									getString(R.string.TAG_INTENT_SHARE_FB_ERROR_MESSAGE) + "-" + error);
+							Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE_FB_LOG)
+									,
+									getString(R.string.TAG_INTENT_SHARE_FB_ERROR_MESSAGE) + "-" + error);
+						}
+					});
+
+					if (ShareDialog.canShow(SharePhotoContent.class)) {
+						shareDialog.show(sharePhotoContent);
+						Log.d(getString(R.string.TAG_INTENT_SHARE_DIALOG),
+								getString(R.string.TAG_INTENT_SHARE_DIALOG_MESSAGE));
+						Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE_DIALOG),
+								getString(R.string.TAG_INTENT_SHARE_DIALOG_MESSAGE));
+					}
+				}
+			}
+		});
+
+		fab_whatsapp.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick (View v) {
+				Intent intent =
+						getPackageManager().getLaunchIntentForPackage(getString(R.string.PACKAGE_NAME_WSP));
+
+				//Si no existe el paquete
+				if (intent == null) {
+					QuakeUtils.doInstallation(getString(R.string.PACKAGE_NAME_WSP),
+							getApplicationContext());
+				} else {
+					Log.d(getString(R.string.TAG_INTENT_SHARE),
+							getString(R.string.TAG_INTENT_SHARE_WSP));
+					Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE),
+							getString(R.string.TAG_INTENT_SHARE_WSP));
+
+					Intent wspIntent = new Intent();
+					wspIntent.setAction(Intent.ACTION_SEND);
+					wspIntent.setPackage(getString(R.string.PACKAGE_NAME_WSP));
+					wspIntent.putExtra(Intent.EXTRA_TEXT, String.format(Locale.US,
+							"[Alerta sísmica]\n\n" +
+									"Información sismológica\n" +
+									"Ciudad: %1$s\n" +
+									"Hora Local: %2$s\n" +
+									"Magnitud: %3$.1f %4$s\n" +
+									"Profundidad: %5$.1f Km\n" +
+									"Georeferencia: %6$s\n\n" +
+									"Para más información descarga la app LastQuakeChile aquí\n" +
+									"%7$s"
+							, ciudad, sFechaLocal, magnitud, escala, profundidad, referencia,
+							getString(R.string.DEEP_LINK)
+					));
+					wspIntent.putExtra(Intent.EXTRA_STREAM, bitmapUri);
+					wspIntent.setType("image/*");
+					//wspIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+					startActivity(wspIntent);
+				}
+			}
+		});
+
+		fab_gmail.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick (View v) {
+
+				Intent intent =
+						getPackageManager().getLaunchIntentForPackage(getString(R.string.PACKAGE_NAME_GMAIL));
+
+				//Si no existe el paquete
+				if (intent == null) {
+					QuakeUtils.doInstallation(getString(R.string.PACKAGE_NAME_GMAIL),
+							getApplicationContext());
+				} else {
+
+					Log.d(getString(R.string.TAG_INTENT_SHARE),
+							getString(R.string.TAG_INTENT_SHARE_GM));
+					Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE),
+							getString(R.string.TAG_INTENT_SHARE_GM));
+
+					Intent gmIntent = new Intent();
+					gmIntent.setAction(Intent.ACTION_SEND);
+					gmIntent.setPackage(getString(R.string.PACKAGE_NAME_GMAIL));
+					gmIntent.putExtra(Intent.EXTRA_SUBJECT, String.format(Locale.US, "[Alerta " +
+							"sísmica] - %1$.1f Richter en %2$s", magnitud, ciudad));
+					gmIntent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(
+							String.format(Locale.US,
+									"<h3>\n" +
+											"  Información sismológica\n" +
+											"</h3>\n" +
+											"\n" +
+											"<table>\n" +
+											"  <tr><td>Hora Local: </td><td>%1$s</td></tr><br>\n" +
+											"  <tr><td>Ciudad: </td><td>%2$s</td></tr><br>\n" +
+											"  <tr><td>Magnitud: </td><td>%3$.1f " +
+											"%4$s</td></tr><br>\n" +
+											"  <tr><td>Profundidad: </td><td>%5$.1f " +
+											"Km</td></tr><br>\n" +
+											"  <tr><td>Georeferencia: " +
+											"</td><td>%6$s</td></tr><br>\n" +
+											"  <tr><td>Latitud: </td><td>%7$s</td></tr><br>\n" +
+											"  <tr><td>Longitud: </td><td>%8$s</td></tr><br>\n" +
+											"  <tr><td>Posicion GMS: </td><td>%9$s - " +
+											"%10$s</td></tr><br>\n" +
+											" \n" +
+											"</table>\n" +
+											"\n" +
+											"<h5>\n" +
+											"  Para más información descarga la app LastQuakeChile" +
+											" aquí %11$s \n" +
+											"</h5>"
+									, sFechaLocal, ciudad, magnitud, escala, profundidad,
+									referencia, latitud, longitud, dms_lat, dms_long,
+									getString(R.string.DEEP_LINK))));
+
+					gmIntent.putExtra(Intent.EXTRA_STREAM, bitmapUri);
+					gmIntent.setType("image/*");
+
+					startActivity(gmIntent);
+				}
+			}
+		});
+	}
+
+	/**
+	 * Funcion encargada de la logica del calculo de grados,minutos y segundo, tanto de lalatitud
+	 * como de la longitud
+	 *
+	 * @param latitud  Latitud del sismo
+	 * @param longitud Longitud del sismo
+	 */
+	private void calculateGMS (String latitud, String longitud) {
+
+		//Conversion de latitud a dms
+		double lat_ubicacion = Double.parseDouble(Objects.requireNonNull(latitud));
+		if (lat_ubicacion < 0) {
+			dms_lat = getString(R.string.coordenadas_sur);
+		} else {
+			dms_lat = getString(R.string.coordenadas_norte);
+		}
+
+		//Calculo de lat to GMS
+		Map<String, Double> lat_dms = QuakeUtils.latLonToDMS(lat_ubicacion);
+		Double lat_grados_dsm = lat_dms.get("grados");
+		Double lat_minutos_dsm = lat_dms.get("minutos");
+		Double lat_segundos_dsm = lat_dms.get("segundos");
+		dms_lat = String.format(Locale.US, "%.1f° %.1f' %.1f'' %s", lat_grados_dsm,
+				lat_minutos_dsm, lat_segundos_dsm, dms_lat);
+
+		double long_ubicacion = Double.parseDouble(Objects.requireNonNull(longitud));
+		if (long_ubicacion < 0) {
+			dms_long = getString(R.string.coordenadas_oeste);
+		} else {
+			dms_long = getString(R.string.coordenadas_este);
+		}
+
+		//Calculo de long to GMS
+		Map<String, Double> long_dms = QuakeUtils.latLonToDMS(long_ubicacion);
+		Double long_grados_dsm = long_dms.get("grados");
+		Double long_minutos_dsm = long_dms.get("minutos");
+		Double long_segundos_dsm = long_dms.get("segundos");
+		dms_long = String.format(Locale.US, "%.1f° %.1f' %.1f'' %s", long_grados_dsm,
+				long_minutos_dsm, long_segundos_dsm, dms_long);
+	}
+
+	/**
+	 * Funcion encargada de la logica de las fechas de los sismos.
+	 *
+	 * @param b Bundle con los datos
+	 */
+	private void dateConfig (Bundle b) {
+
+		//SECCION CONVERSION DE TIEMPO UTC-LOCAL (DEPENDIENDO SI VIENE DE ADAPTER O DE
+		// NOTIFICACION)
+		sFechaLocal = b.getString(getString(R.string.INTENT_FECHA_LOCAL));
+		String sFechaUtc = b.getString(getString(R.string.INTENT_FECHA_UTC));
+
+		//SI INTENT VIENE DE ADAPTER
+		//Convertir sFechaLocal a Date
+		//Calcular DHMS de Date fecha_local
+		if (sFechaLocal != null) {
+			Date fecha_local = QuakeUtils.stringToDate(getApplicationContext(), sFechaLocal);
+			tiempos = QuakeUtils.dateToDHMS(fecha_local);
+		}
+
+		//Si el intent viene de notificacion
+		//Convertir sFechaUtc a Date fecha_utc
+		//Convertir Date fecha_utc a Date fecha_local
+		//Calcular DHMS de Date fecha_local
+		if (sFechaUtc != null) {
+			Date fecha_utc = QuakeUtils.stringToDate(getApplicationContext(), sFechaUtc);
+			Date fecha_local = QuakeUtils.utcToLocal(fecha_utc);
+			tiempos = QuakeUtils.dateToDHMS(fecha_local);
+		}
+	}
+
+
+	/**
      * Funcion que abre el floating button menu
      */
     private void showFabMenu() {
