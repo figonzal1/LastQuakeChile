@@ -57,6 +57,6 @@ public class toDMSUnitTest {
 
     @Test
     public void give_lat_or_long_return_dms() {
-        assertEquals(map_esperado, QuakeUtils.toDMS(actual_lat_long));
+	    assertEquals(map_esperado, QuakeUtils.latLonToDMS(actual_lat_long));
     }
 }

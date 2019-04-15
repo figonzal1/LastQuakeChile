@@ -89,33 +89,10 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
         //Setear el color de background dependiendo de magnitud del sismo
         holder.iv_mag_color.setColorFilter(context.getColor(QuakeUtils.getMagnitudeColor(model.getMagnitud(), false)));
 
-        Map<String, Long> tiempos = QuakeUtils.timeToText(model.getFecha_local());
 
-        Long dias = tiempos.get(context.getString(R.string.UTILS_TIEMPO_DIAS));
-        Long minutos = tiempos.get(context.getString(R.string.UTILS_TIEMPO_MINUTOS));
-        Long horas = tiempos.get(context.getString(R.string.UTILS_TIEMPO_HORAS));
-        Long segundos = tiempos.get(context.getString(R.string.UTILS_TIEMPO_SEGUNDOS));
-
-        //Condiciones días.
-        if (dias != null && dias == 0) {
-
-            if (horas != null && horas >= 1) {
-                holder.tv_hora.setText(String.format(context.getString(R.string.quake_time_hour), horas));
-            } else {
-                holder.tv_hora.setText(String.format(context.getString(R.string.quake_time_minute), minutos));
-
-                if (minutos != null && minutos < 1) {
-                    holder.tv_hora.setText(String.format(context.getString(R.string.quake_time_second), segundos));
-                }
-            }
-        } else if (dias != null && dias > 0) {
-
-            if (horas != null && horas == 0) {
-                holder.tv_hora.setText(String.format(context.getString(R.string.quake_time_day), dias));
-            } else if (horas != null && horas >= 1) {
-                holder.tv_hora.setText(String.format(context.getString(R.string.quake_time_day_hour), dias, horas / 24));
-            }
-        }
+	    //SETEO DE Textview HORA
+	    Map<String, Long> tiempos = QuakeUtils.dateToDHMS(model.getFecha_local());
+	    QuakeUtils.setTimeToTextView(context, tiempos, holder.tv_hora);
 
         //Sismo sensible
         if (model.getSensible()) {
@@ -136,7 +113,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
                 b.putString(context.getString(R.string.INTENT_LATITUD), model.getLatitud());
                 b.putString(context.getString(R.string.INTENT_LONGITUD), model.getLongitud());
 
-                //CAmbiar la fecha utc a string
+	            //CAmbiar la fecha local a string
                 SimpleDateFormat format = new SimpleDateFormat(context.getString(R.string.DATETIME_FORMAT), Locale.US);
                 String fecha_local = format.format(model.getFecha_local());
                 b.putString(context.getString(R.string.INTENT_FECHA_LOCAL), fecha_local);

@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class QuakeModel {
 
+	private Date fecha_utc;
     private Date fecha_local;
     private String ciudad;
     private String latitud;
@@ -19,6 +20,14 @@ public class QuakeModel {
 
     public QuakeModel() {
     }
+
+	public Date getFecha_utc () {
+		return fecha_utc;
+	}
+
+	public void setFecha_utc (Date fecha_utc) {
+		this.fecha_utc = fecha_utc;
+	}
 
     public Date getFecha_local() {
         return fecha_local;

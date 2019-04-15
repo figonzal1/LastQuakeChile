@@ -22,6 +22,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import cl.figonzal.lastquakechile.QuakeModel;
@@ -187,13 +188,26 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         Object object = marker.getTag();
         QuakeModel model = (QuakeModel) object;
 
-        //TextView tv_ciudad = v.findViewById(R.id.tv_iw_ciudad);
         TextView tv_magnitud = v.findViewById(R.id.tv_iw_magnitud);
         TextView tv_referencia = v.findViewById(R.id.tv_iw_referencia);
         ImageView iv_mag_color = v.findViewById(R.id.iv_iw_mag_color);
+	    TextView tv_profundidad = v.findViewById(R.id.tv_iw_profundaid);
+	    TextView tv_hora = v.findViewById(R.id.tv_iw_hora);
+	    TextView tv_estado = v.findViewById(R.id.tv_iw_estado);
+	    ImageView iv_estado = v.findViewById(R.id.iv_iw_estado);
+
+	    String estado = Objects.requireNonNull(model).getEstado();
+
+	    //SECCION ESTADO
+	    QuakeUtils.setStatusImage(getContext(), estado, tv_estado, iv_estado);
+
+	    //Calcular tiempos (Dates a DHMS)
+	    Map<String, Long> tiempos = QuakeUtils.dateToDHMS(model.getFecha_local());
+
+	    //SECCION HORA
+	    QuakeUtils.setTimeToTextView(Objects.requireNonNull(getContext()), tiempos, tv_hora);
 
 
-        //tv_ciudad.setText(model.getCiudad());
         tv_referencia.setText(model.getReferencia());
         tv_magnitud.setText(String.format(getContext().getString(R.string.magnitud), model.getMagnitud()));
         iv_mag_color.setColorFilter(getContext().getColor(QuakeUtils.getMagnitudeColor(model.getMagnitud(), false)));

@@ -8,15 +8,20 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -31,7 +36,7 @@ public class QuakeUtils {
      * @param fecha_local parametro que entrega la fecha local desde el modelo en cardview
      * @return retorna la diferencia en milisegundos
      */
-    public static long calculateDiff(Date fecha_local) {
+    private static long calculateDiff (Date fecha_local) {
 
         long diff;
         Date currentTime = new Date();
@@ -46,7 +51,7 @@ public class QuakeUtils {
     }
 
     /**
-     * Convierte desde UTC a Local de dispositivo
+     * Convierte desde UTC a Local de dispositivo (Según zona horaria)
      *
      * @param date Parametro date Utc
      * @return retorna el date en local
@@ -58,10 +63,11 @@ public class QuakeUtils {
     }
 
     /**
-     * Funcion encargada de entregar los tiempos calculados y retornarlos en dias,horas,minutos,segundos
+     * Funcion encargada de entregar un mapeo los tiempos calculados y retornarlos en dias,horas,
+     * minutos, segundos, de alguna fecha.
      * @param fecha fecha local del modelo de sismo desde cardview
      */
-    public static Map<String, Long> timeToText(Date fecha) {
+    public static Map<String, Long> dateToDHMS (Date fecha) {
 
         long diff = calculateDiff(fecha);
         long seconds = diff / 1000;
@@ -76,6 +82,30 @@ public class QuakeUtils {
         tiempos.put("segundos", seconds);
 
         return tiempos;
+    }
+
+    /**
+     * Funcion encargada de transformar un String a un Date
+     *
+     * @param context Requerido para el uso de recursos strings
+     * @param sFecha  Fecha en string que será convertida en date
+     *
+     * @return dFecha Fecha en Date entregada por le funcion
+     */
+    public static Date stringToDate (Context context, String sFecha) {
+
+        SimpleDateFormat format = new SimpleDateFormat(context.getString(R.string.DATETIME_FORMAT),
+                Locale.US);
+        Date dFecha = null;
+
+        try {
+            dFecha = format.parse(sFecha);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return dFecha;
     }
 
     /**
@@ -174,7 +204,7 @@ public class QuakeUtils {
      * @param input Longitud o Latitud
      * @return grados, minutos, segundos en un Map
      */
-    public static Map<String, Double> toDMS(double input) {
+    public static Map<String, Double> latLonToDMS (double input) {
 
         Map<String, Double> dms = new HashMap<>();
 
@@ -251,7 +281,93 @@ public class QuakeUtils {
             Log.d(context.getString(R.string.TAG_INTENT), context.getString(R.string.TAG_INTENT_NAVEGADOR));
             Crashlytics.log(Log.DEBUG, context.getString(R.string.TAG_INTENT), context.getString(R.string.TAG_INTENT_NAVEGADOR));
 
-            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + packageName)));
+            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google" +
+                    ".com/store/apps/details?id=" + packageName)));
+        }
+    }
+
+
+    /**
+     * Funcion encargada de setear el tiempo en los text views
+     *
+     * @param context Contexto para utilizar recursos
+     * @param tiempos Variable que cuenta con el mapeo de dias,horas,minutos y segundos
+     * @param tv_hora Textview que será usado para fijar el tiempo
+     */
+    public static void setTimeToTextView (Context context, Map<String, Long> tiempos,
+                                          TextView tv_hora) {
+        Long dias = tiempos.get(context.getString(R.string.UTILS_TIEMPO_DIAS));
+        Long minutos = tiempos.get(context.getString(R.string.UTILS_TIEMPO_MINUTOS));
+        Long horas = tiempos.get(context.getString(R.string.UTILS_TIEMPO_HORAS));
+        Long segundos = tiempos.get(context.getString(R.string.UTILS_TIEMPO_SEGUNDOS));
+
+        //Condiciones días.
+        if (dias != null && dias == 0) {
+
+            if (horas != null && horas >= 1) {
+                tv_hora.setText(String.format(context.getString(R.string.quake_time_hour), horas));
+            } else {
+                tv_hora.setText(String.format(context.getString(R.string.quake_time_minute),
+                        minutos));
+
+                if (minutos != null && minutos < 1) {
+                    tv_hora.setText(String.format(context.getString(R.string.quake_time_second),
+                            segundos));
+                }
+            }
+        } else if (dias != null && dias > 0) {
+
+            if (horas != null && horas == 0) {
+                tv_hora.setText(String.format(context.getString(R.string.quake_time_day), dias));
+            } else if (horas != null && horas >= 1) {
+                tv_hora.setText(String.format(context.getString(R.string.quake_time_day_hour),
+                        dias, horas / 24));
+            }
+        }
+    }
+
+    /**
+     * Funcion que permite setear la imagen de estado del sismos (Preliminar o Verificado)
+     *
+     * @param context   Contexto que permite acceder a los recursos de strings
+     * @param estado    Estado del sismos (preliminar/verificado)
+     * @param tv_estado Texview que tendrá el valor de estado
+     * @param iv_estado ImageView fijada dependiendo del valor de estado
+     */
+    public static void setStatusImage (Context context, String estado, TextView tv_estado,
+                                       ImageView iv_estado) {
+        if (estado.equals("preliminar")) {
+            tv_estado.setText(String.format(Locale.US,
+                    context.getString(R.string.quakes_details_estado_sismo),
+                    context.getString(R.string.quakes_details_estado_sismo_preliminar)));
+            iv_estado.setImageDrawable(context.getDrawable(R.drawable.ic_progress_check_24));
+        } else if (estado.equals("verificado")) {
+            tv_estado.setText(String.format(Locale.US,
+                    context.getString(R.string.quakes_details_estado_sismo),
+                    context.getString(R.string.quakes_details_estado_sismo_verificado)));
+            iv_estado.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_check_circle_24px));
+        }
+    }
+
+    /**
+     * Funcion que permite setear el textview de escala dependiendo del valor del string
+     *
+     * @param context   Contexto utilizado para el uso de recursos
+     * @param escala    Escala del sismo puede ser Ml o Mw
+     * @param tv_escala Textview que será fijado con el valor de escala
+     */
+    public static void setEscala (Context context, String escala, TextView tv_escala) {
+
+        switch (escala) {
+            case "Ml":
+                tv_escala.setText(String.format(context.getString(R.string.quake_details_escala),
+                        context.getString(R.string.quake_details_magnitud_local)));
+                break;
+
+            case "Mw":
+                tv_escala.setText(String.format(context.getString(R.string.quake_details_escala), context.getString(R.string.quake_details_magnitud_momento)));
+                break;
+
         }
     }
 
