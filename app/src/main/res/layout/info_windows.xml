@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/iv_iw_mag_color"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
@@ -28,8 +28,7 @@
         android:layout_marginEnd="8dp"
         android:ellipsize="end"
         android:maxLines="1"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        android:textSize="10sp"
+        android:textSize="14sp"
         card_view:layout_constraintEnd_toEndOf="parent"
         card_view:layout_constraintHorizontal_bias="0.0"
         card_view:layout_constraintStart_toEndOf="@+id/iv_iw_mag_color"
@@ -43,7 +42,7 @@
         android:layout_height="wrap_content"
         android:maxLength="4"
         android:textColor="@android:color/white"
-        android:textSize="12sp"
+        android:textSize="14sp"
         android:textStyle="normal"
         card_view:layout_constraintBottom_toBottomOf="@+id/iv_iw_mag_color"
         card_view:layout_constraintEnd_toEndOf="@+id/iv_iw_mag_color"
@@ -55,19 +54,25 @@
         android:id="@+id/tv_iw_hora"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hace: 1 d 2 h"
-        android:textSize="10sp"
-        card_view:layout_constraintStart_toStartOf="@+id/tv_iw_profundaid"
-        card_view:layout_constraintTop_toBottomOf="@+id/tv_iw_profundaid" />
+        android:layout_marginEnd="8dp"
+        android:textSize="14sp"
+        card_view:layout_constraintEnd_toEndOf="parent"
+        card_view:layout_constraintHorizontal_bias="0.0"
+        card_view:layout_constraintStart_toStartOf="@+id/tv_iw_profundidad"
+        card_view:layout_constraintTop_toBottomOf="@+id/tv_iw_profundidad"
+        tools:text="Hace: 1 d 2 h" />
 
     <TextView
-        android:id="@+id/tv_iw_profundaid"
+        android:id="@+id/tv_iw_profundidad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Profundidad: 55km"
-        android:textSize="10sp"
+        android:layout_marginEnd="8dp"
+        android:textSize="14sp"
+        card_view:layout_constraintEnd_toEndOf="parent"
+        card_view:layout_constraintHorizontal_bias="0.0"
         card_view:layout_constraintStart_toStartOf="@+id/tv_iw_referencia"
-        card_view:layout_constraintTop_toBottomOf="@+id/tv_iw_referencia" />
+        card_view:layout_constraintTop_toBottomOf="@+id/tv_iw_referencia"
+        tools:text="Profundidad: 55km" />
 
     <ImageView
         android:id="@+id/iv_iw_estado"
@@ -89,12 +94,13 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Sismo verficado "
-        android:textSize="10sp"
+        android:textSize="14sp"
         card_view:layout_constraintBottom_toBottomOf="parent"
         card_view:layout_constraintEnd_toEndOf="@+id/tv_iw_referencia"
         card_view:layout_constraintHorizontal_bias="0.5"
         card_view:layout_constraintStart_toEndOf="@+id/iv_iw_estado"
-        card_view:layout_constraintTop_toBottomOf="@+id/tv_iw_hora" />
+        card_view:layout_constraintTop_toBottomOf="@+id/tv_iw_hora"
+        card_view:layout_constraintVertical_bias="1.0"
+        tools:text="Sismo verficado " />
 
 </android.support.constraint.ConstraintLayout>

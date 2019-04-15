@@ -191,26 +191,58 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         TextView tv_magnitud = v.findViewById(R.id.tv_iw_magnitud);
         TextView tv_referencia = v.findViewById(R.id.tv_iw_referencia);
         ImageView iv_mag_color = v.findViewById(R.id.iv_iw_mag_color);
-	    TextView tv_profundidad = v.findViewById(R.id.tv_iw_profundaid);
+	    TextView tv_profundidad = v.findViewById(R.id.tv_iw_profundidad);
 	    TextView tv_hora = v.findViewById(R.id.tv_iw_hora);
 	    TextView tv_estado = v.findViewById(R.id.tv_iw_estado);
 	    ImageView iv_estado = v.findViewById(R.id.iv_iw_estado);
 
-	    String estado = Objects.requireNonNull(model).getEstado();
 
 	    //SECCION ESTADO
+	    String estado = Objects.requireNonNull(model).getEstado();
 	    QuakeUtils.setStatusImage(getContext(), estado, tv_estado, iv_estado);
+
+	    tv_referencia.setText(model.getReferencia());
+	    tv_magnitud.setText(String.format(Objects.requireNonNull(getContext()).getString(R.string.magnitud), model.getMagnitud()));
+	    iv_mag_color.setColorFilter(getContext().getColor(QuakeUtils.getMagnitudeColor(model.getMagnitud(), false)));
+	    tv_profundidad.setText(String.format(getString(R.string.profundidad_info_windows),
+			    model.getProfundidad()));
 
 	    //Calcular tiempos (Dates a DHMS)
 	    Map<String, Long> tiempos = QuakeUtils.dateToDHMS(model.getFecha_local());
 
 	    //SECCION HORA
-	    QuakeUtils.setTimeToTextView(Objects.requireNonNull(getContext()), tiempos, tv_hora);
+	    Long dias = tiempos.get(getString(R.string.UTILS_TIEMPO_DIAS));
+	    Long minutos = tiempos.get(getString(R.string.UTILS_TIEMPO_MINUTOS));
+	    Long horas = tiempos.get(getString(R.string.UTILS_TIEMPO_HORAS));
+	    Long segundos = tiempos.get(getString(R.string.UTILS_TIEMPO_SEGUNDOS));
+
+	    //Condiciones días.
+	    if (dias != null && dias == 0) {
+
+		    if (horas != null && horas >= 1) {
+			    tv_hora.setText(String.format(getString(R.string.quake_time_hour_info_windows),
+					    horas));
+		    } else {
+			    tv_hora.setText(String.format(getString(R.string.quake_time_minute_info_windows),
+					    minutos));
+
+			    if (minutos != null && minutos < 1) {
+				    tv_hora.setText(String.format(getString(R.string.quake_time_second_info_windows),
+						    segundos));
+			    }
+		    }
+	    } else if (dias != null && dias > 0) {
+
+		    if (horas != null && horas == 0) {
+			    tv_hora.setText(String.format(getString(R.string.quake_time_day_info_windows),
+					    dias));
+		    } else if (horas != null && horas >= 1) {
+			    tv_hora.setText(String.format(getString(R.string.quake_time_day_hour_info_windows),
+					    dias, horas / 24));
+		    }
+	    }
 
 
-        tv_referencia.setText(model.getReferencia());
-        tv_magnitud.setText(String.format(getContext().getString(R.string.magnitud), model.getMagnitud()));
-        iv_mag_color.setColorFilter(getContext().getColor(QuakeUtils.getMagnitudeColor(model.getMagnitud(), false)));
 
         return v;
     }
