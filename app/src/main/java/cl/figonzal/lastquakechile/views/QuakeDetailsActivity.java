@@ -35,13 +35,10 @@ import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
-import java.util.TimeZone;
 
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.services.QuakeUtils;
@@ -57,7 +54,8 @@ public class QuakeDetailsActivity extends AppCompatActivity {
     private Uri bitmapUri;
     private TextView tv_ciudad, tv_referencia, tv_escala, tv_magnitud, tv_profundidad, tv_fecha, tv_hora, tv_gms, fab_text_fb, fab_text_wsp, fab_text_gm, tv_estado;
     private ImageView iv_mapa, iv_sensible, iv_mag_color, iv_estado;
-    private String ciudad, referencia, dms_lat, dms_long, fecha_local, escala, foto_url, estado;
+	private String ciudad, referencia, dms_lat, dms_long, sFechaLocal, sFechaUtc, escala, foto_url,
+			estado;
     private Double magnitud, profundidad;
     private Map<String, Long> tiempos;
     private boolean sensible;
@@ -105,9 +103,7 @@ public class QuakeDetailsActivity extends AppCompatActivity {
 
         if (b != null) {
 
-            /*
-                OBTENCION DE INFO DESDE INTENT
-             */
+	        //OBTENCION DE INFO DESDE INTENT
             ciudad = b.getString(getString(R.string.INTENT_CIUDAD));
             referencia = b.getString(getString(R.string.INTENT_REFERENCIA));
             magnitud = b.getDouble(getString(R.string.INTENT_MAGNITUD));
@@ -118,9 +114,7 @@ public class QuakeDetailsActivity extends AppCompatActivity {
             foto_url = b.getString(getString(R.string.INTENT_LINK_FOTO));
             estado = b.getString(getString(R.string.INTENT_ESTADO));
 
-            /*
-                SECCION DE TRANSFORMACION LAT-LONG TO GMS
-             */
+	        //SECCION DE TRANSFORMACION LAT-LONG TO GMS
             final String latitud = b.getString(getString(R.string.INTENT_LATITUD));
             final String longitud = b.getString(getString(R.string.INTENT_LONGITUD));
 
@@ -133,7 +127,7 @@ public class QuakeDetailsActivity extends AppCompatActivity {
             }
 
             //Calculo de lat to GMS
-            Map<String, Double> lat_dms = QuakeUtils.toDMS(lat_ubicacion);
+	        Map<String, Double> lat_dms = QuakeUtils.latLonToDMS(lat_ubicacion);
             Double lat_grados_dsm = lat_dms.get("grados");
             Double lat_minutos_dsm = lat_dms.get("minutos");
             Double lat_segundos_dsm = lat_dms.get("segundos");
@@ -147,63 +141,40 @@ public class QuakeDetailsActivity extends AppCompatActivity {
             }
 
             //Calculo de long to GMS
-            Map<String, Double> long_dms = QuakeUtils.toDMS(long_ubicacion);
+	        Map<String, Double> long_dms = QuakeUtils.latLonToDMS(long_ubicacion);
             Double long_grados_dsm = long_dms.get("grados");
             Double long_minutos_dsm = long_dms.get("minutos");
             Double long_segundos_dsm = long_dms.get("segundos");
             dms_long = String.format(Locale.US, "%.1f° %.1f' %.1f'' %s", long_grados_dsm, long_minutos_dsm, long_segundos_dsm, dms_long);
 
 
-            /*
-                SECCION CONVERSION DE TIEMPO UTC-LOCAL
-             */
-            tiempos = null;
-            //Si el bundle viene del adapter, usar directamente TIME LOCAL
-            fecha_local = b.getString(getString(R.string.INTENT_FECHA_LOCAL));
-            if (fecha_local != null) {
-                SimpleDateFormat format = new SimpleDateFormat(getString(R.string.DATETIME_FORMAT), Locale.US);
-                Date local_date = null;
-                try {
-                    local_date = format.parse(fecha_local);
+	        //SECCION CONVERSION DE TIEMPO UTC-LOCAL (DEPENDIENDO SI VIENE DE ADAPTER O DE
+	        // NOTIFICACION)
+	        sFechaLocal = b.getString(getString(R.string.INTENT_FECHA_LOCAL));
+	        sFechaUtc = b.getString(getString(R.string.INTENT_FECHA_UTC));
 
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+	        //SI INTENT VIENE DE ADAPTER
+	        //Convertir sFechaLocal a Date
+	        //Calcular DHMS de Date fecha_local
+	        if (sFechaLocal != null) {
+		        Date fecha_local = QuakeUtils.stringToDate(getApplicationContext(), sFechaLocal);
+		        tiempos = QuakeUtils.dateToDHMS(fecha_local);
+	        }
 
-                tiempos = QuakeUtils.timeToText(local_date);
-                Log.d("ADAPTER", "LOCAL: " + format.format(local_date));
-            }
+	        //Si el intent viene de notificacion
+	        //Convertir sFechaUtc a Date fecha_utc
+	        //Convertir Date fecha_utc a Date fecha_local
+	        //Calcular DHMS de Date fecha_local
+	        if (sFechaUtc != null) {
+		        Date fecha_utc = QuakeUtils.stringToDate(getApplicationContext(), sFechaUtc);
+		        Date fecha_local = QuakeUtils.utcToLocal(fecha_utc);
+		        tiempos = QuakeUtils.dateToDHMS(fecha_local);
+	        }
 
-            //Si el bundle viene de notificacion, transformar UTC a TIME LOCAL
-            String fecha_utc = b.getString(getString(R.string.INTENT_FECHA_UTC));
-            if (fecha_utc != null) {
-                SimpleDateFormat format = new SimpleDateFormat(getString(R.string.DATETIME_FORMAT), Locale.US);
-                format.setTimeZone(TimeZone.getDefault());
-
-                Date utc_date = null;
-                try {
-                    utc_date = format.parse(fecha_utc);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                Date local_date = QuakeUtils.utcToLocal(Objects.requireNonNull(utc_date));
-                fecha_local = format.format(local_date);
-                tiempos = QuakeUtils.timeToText(local_date);
-
-                Log.d("NOTIFICATION", "UTC: " + fecha_utc + "- LOCAL: " + fecha_local);
-            }
-
-            /*
-                SECCION DE SETEO DE TEXTVIEWS
-             */
+	        //SETEO DE TEXTVIEWS EN DETALLE
             setTextViews();
 
-            
-            /*
-                SECCION DE FLOATING BUTTONS
-             */
-
-
+	        //SETEO DE FLOATING BUTTONS
             fab_share = findViewById(R.id.fab_share);
             fab_fb = findViewById(R.id.fab_fb);
             fab_whatsapp = findViewById(R.id.fab_wsp);
@@ -312,7 +283,8 @@ public class QuakeDetailsActivity extends AppCompatActivity {
                                         "Georeferencia: %6$s\n\n" +
                                         "Para más información descarga la app LastQuakeChile aquí\n" +
                                         "%7$s"
-                                , ciudad, fecha_local, magnitud, escala, profundidad, referencia, getString(R.string.DEEP_LINK)
+		                        , ciudad, sFechaLocal, magnitud, escala, profundidad, referencia,
+		                        getString(R.string.DEEP_LINK)
                         ));
                         wspIntent.putExtra(Intent.EXTRA_STREAM, bitmapUri);
                         wspIntent.setType("image/*");
@@ -362,7 +334,9 @@ public class QuakeDetailsActivity extends AppCompatActivity {
                                                 "<h5>\n" +
                                                 "  Para más información descarga la app LastQuakeChile aquí %11$s \n" +
                                                 "</h5>"
-                                        , fecha_local, ciudad, magnitud, escala, profundidad, referencia, latitud, longitud, dms_lat, dms_long, getString(R.string.DEEP_LINK))));
+		                                , sFechaLocal, ciudad, magnitud, escala, profundidad,
+		                                referencia, latitud, longitud, dms_lat, dms_long,
+		                                getString(R.string.DEEP_LINK))));
 
                         gmIntent.putExtra(Intent.EXTRA_STREAM, bitmapUri);
                         gmIntent.setType("image/*");
@@ -496,83 +470,32 @@ public class QuakeDetailsActivity extends AppCompatActivity {
         tv_profundidad.setText(String.format(Locale.US, getString(R.string.quake_details_profundidad), profundidad));
 
         //Setear fecha
-        tv_fecha.setText(fecha_local);
+	    tv_fecha.setText(sFechaLocal);
 
         //Setear posicionamiento
         tv_gms.setText(String.format(getString(R.string.format_coordenadas), dms_lat, dms_long));
 
-        /*
-            SECCION ESTADO
-         */
-        if (estado.equals("preliminar")) {
-            tv_estado.setText(String.format(Locale.US, getString(R.string.quakes_details_estado_sismo), getString(R.string.quakes_details_estado_sismo_preliminar)));
-            iv_estado.setImageDrawable(getDrawable(R.drawable.ic_progress_check_24));
-        } else if (estado.equals("verificado")) {
-            tv_estado.setText(String.format(Locale.US, getString(R.string.quakes_details_estado_sismo), getString(R.string.quakes_details_estado_sismo_verificado)));
-            iv_estado.setImageDrawable(getDrawable(R.drawable.ic_baseline_check_circle_24px));
+	    //SETEO DE ESTADO
+	    if (estado != null) {
+		    QuakeUtils.setStatusImage(getApplicationContext(), estado, tv_estado, iv_estado);
         }
 
-        /*
-            SECCION HORA
-         */
-
+	    //SETEO DE HORA
         if (tiempos != null) {
-
-            Long dias = tiempos.get(getString(R.string.UTILS_TIEMPO_DIAS));
-            Long minutos = tiempos.get(getString(R.string.UTILS_TIEMPO_MINUTOS));
-            Long horas = tiempos.get(getString(R.string.UTILS_TIEMPO_HORAS));
-            Long segundos = tiempos.get(getString(R.string.UTILS_TIEMPO_SEGUNDOS));
-
-            //Condiciones días.
-            if (dias != null && dias == 0) {
-
-                if (horas != null && horas >= 1) {
-                    tv_hora.setText(String.format(getString(R.string.quake_time_hour), horas));
-                } else {
-                    tv_hora.setText(String.format(getString(R.string.quake_time_minute), minutos));
-
-                    if (minutos != null && minutos < 1) {
-                        tv_hora.setText(String.format(getString(R.string.quake_time_second), segundos));
-                    }
-                }
-            } else if (dias != null && dias > 0) {
-
-                if (horas != null && horas == 0) {
-                    tv_hora.setText(String.format(getString(R.string.quake_time_day), dias));
-                } else if (horas != null && horas >= 1) {
-                    tv_hora.setText(String.format(getString(R.string.quake_time_day_hour), dias, horas / 24));
-                }
-            }
+	        QuakeUtils.setTimeToTextView(getApplicationContext(), tiempos, tv_hora);
         }
 
-
-        /*
-            Seccion Tipo Escala
-         */
-        if (escala != null) {
-
-            switch (escala) {
-                case "Ml":
-                    tv_escala.setText(String.format(getString(R.string.quake_details_escala), getString(R.string.quake_details_magnitud_local)));
-                    break;
-
-                case "Mw":
-                    tv_escala.setText(String.format(getString(R.string.quake_details_escala), getString(R.string.quake_details_magnitud_momento)));
-                    break;
-
-            }
+	    //SETEO DE ESCALA
+	    if (escala != null) {
+		    QuakeUtils.setEscala(getApplicationContext(), escala, tv_escala);
         }
 
-        /*
-            Seccion Sismo sensible
-         */
+	    //SETEO SISMO SENSIBLE
         if (sensible) {
             iv_sensible.setVisibility(View.VISIBLE);
         }
 
-        /*
-            SECCION IMAGEN MAPA
-         */
+	    //SETEO DE IMAGEN MAPA
         final Uri uri = Uri.parse(foto_url);
         Glide.with(this)
                 .load(uri)
