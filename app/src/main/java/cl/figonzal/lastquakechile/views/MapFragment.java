@@ -1,8 +1,10 @@
 package cl.figonzal.lastquakechile.views;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,12 +33,12 @@ import cl.figonzal.lastquakechile.services.QuakeUtils;
 import cl.figonzal.lastquakechile.viewmodel.QuakeViewModel;
 
 
-public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.InfoWindowAdapter {
+public class MapFragment extends Fragment {
 
     private MapView mapView;
     private GoogleMap gMap;
-    private List<QuakeModel> quakeModelsList;
     private double prom_lat, prom_long;
+	private Bundle mapViewBundle;
 
     private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
 
@@ -47,84 +49,183 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+	    mapViewBundle = null;
+	    if (savedInstanceState != null) {
+		    mapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY);
+	    }
+	    setRetainInstance(true);
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.fragment_map, container, false);
+	    View v = inflater.inflate(R.layout.fragment_map, container, false);
 
-        mapView = v.findViewById(R.id.map);
+	    QuakeViewModel viewModel =
+			    ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(QuakeViewModel.class);
+	    //quakeModelsList = viewModel.getDirectQuakeList();
 
-        Bundle mapViewBundle = null;
-        if (savedInstanceState != null) {
-            mapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY);
-        }
-        mapView.onCreate(mapViewBundle);
-        mapView.getMapAsync(this);
-        mapView.onResume();
+	    mapView = v.findViewById(R.id.map);
 
-        QuakeViewModel viewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(QuakeViewModel.class);
-        quakeModelsList = viewModel.getDirectQuakeList();
+	    mapView.onCreate(mapViewBundle);
+
+
+	    viewModel.showQuakeList().observe(this, new Observer<List<QuakeModel>>() {
+		    @Override
+		    public void onChanged (@Nullable final List<QuakeModel> quakeModels) {
+
+			    mapView.getMapAsync(new OnMapReadyCallback() {
+				    @Override
+				    public void onMapReady (GoogleMap googleMap) {
+					    Log.d("ONMAPREADY", "MAP");
+					    gMap = googleMap;
+					    gMap.clear();
+					    //Setear limites del mapa
+					    LatLngBounds CHILE = new LatLngBounds(new LatLng(-55.15, -78.06),
+							    new LatLng(-15.6, -66.5));
+					    gMap.setLatLngBoundsForCameraTarget(CHILE);
+
+					    gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+					    gMap.setMinZoomPreference(5.0f);
+
+					    gMap.getUiSettings().setZoomControlsEnabled(true);
+					    gMap.getUiSettings().setTiltGesturesEnabled(true);
+					    gMap.getUiSettings().setMapToolbarEnabled(true);
+					    gMap.getUiSettings().setZoomGesturesEnabled(true);
+
+					    gMap.getUiSettings().setRotateGesturesEnabled(false);
+					    gMap.getUiSettings().setCompassEnabled(false);
+
+					    prom_lat = 0.0;
+					    prom_long = 0.0;
+
+					    cargarPins(quakeModels);
+
+					    //Calculo de promedios
+					    prom_lat /= quakeModels.size();
+					    prom_long /= quakeModels.size();
+
+					    LatLng punto_central = new LatLng(prom_lat, prom_long);
+					    gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(punto_central, 5.0f),
+							    2000, null);
+
+					    gMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+						    @Override
+						    public View getInfoWindow (Marker marker) {
+							    return null;
+						    }
+
+						    @Override
+						    public View getInfoContents (Marker marker) {
+							    View v = getLayoutInflater().inflate(R.layout.info_windows, null);
+
+							    Object object = marker.getTag();
+							    QuakeModel model = (QuakeModel) object;
+
+							    TextView tv_magnitud = v.findViewById(R.id.tv_iw_magnitud);
+							    TextView tv_referencia = v.findViewById(R.id.tv_iw_referencia);
+							    ImageView iv_mag_color = v.findViewById(R.id.iv_iw_mag_color);
+							    TextView tv_profundidad = v.findViewById(R.id.tv_iw_profundidad);
+							    TextView tv_hora = v.findViewById(R.id.tv_iw_hora);
+							    TextView tv_estado = v.findViewById(R.id.tv_iw_estado);
+							    ImageView iv_estado = v.findViewById(R.id.iv_iw_estado);
+
+
+							    //SECCION ESTADO
+							    String estado = Objects.requireNonNull(model).getEstado();
+							    QuakeUtils.setStatusImage(getContext(), estado, tv_estado,
+									    iv_estado);
+
+							    tv_referencia.setText(model.getReferencia());
+							    tv_magnitud.setText(String.format(Objects.requireNonNull(getContext()).getString(R.string.magnitud), model.getMagnitud()));
+							    iv_mag_color.setColorFilter(getContext().getColor(QuakeUtils.getMagnitudeColor(model.getMagnitud(), false)));
+							    tv_profundidad.setText(String.format(getString(R.string.profundidad_info_windows),
+									    model.getProfundidad()));
+
+							    //Calcular tiempos (Dates a DHMS)
+							    Map<String, Long> tiempos =
+									    QuakeUtils.dateToDHMS(model.getFecha_local());
+
+							    //SECCION HORA
+							    Long dias = tiempos.get(getString(R.string.UTILS_TIEMPO_DIAS));
+							    Long minutos =
+									    tiempos.get(getString(R.string.UTILS_TIEMPO_MINUTOS));
+							    Long horas = tiempos.get(getString(R.string.UTILS_TIEMPO_HORAS));
+							    Long segundos =
+									    tiempos.get(getString(R.string.UTILS_TIEMPO_SEGUNDOS));
+
+							    //Condiciones días.
+							    if (dias != null && dias == 0) {
+
+								    if (horas != null && horas >= 1) {
+									    tv_hora.setText(String.format(getString(R.string.quake_time_hour_info_windows),
+											    horas));
+								    } else {
+									    tv_hora.setText(String.format(getString(R.string.quake_time_minute_info_windows),
+											    minutos));
+
+									    if (minutos != null && minutos < 1) {
+										    tv_hora.setText(String.format(getString(R.string.quake_time_second_info_windows),
+												    segundos));
+									    }
+								    }
+							    } else if (dias != null && dias > 0) {
+
+								    if (horas != null && horas == 0) {
+									    tv_hora.setText(String.format(getString(R.string.quake_time_day_info_windows),
+											    dias));
+								    } else if (horas != null && horas >= 1) {
+									    tv_hora.setText(String.format(getString(R.string.quake_time_day_hour_info_windows),
+											    dias, horas / 24));
+								    }
+							    }
+							    return v;
+						    }
+					    });
+				    }
+			    });
+		    }
+	    });
+
+
 
         return v;
     }
 
+	@Override
+	public void onSaveInstanceState (Bundle outState) {
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
+		Bundle mapViewBundle = outState.getBundle(MAPVIEW_BUNDLE_KEY);
+		if (mapViewBundle == null) {
+			mapViewBundle = new Bundle();
+			outState.putBundle(MAPVIEW_BUNDLE_KEY, mapViewBundle);
+		}
 
-        gMap = googleMap;
-        //Setear limites del mapa
-        LatLngBounds CHILE = new LatLngBounds(new LatLng(-55.15, -78.06), new LatLng(-15.6, -66.5));
-        gMap.setLatLngBoundsForCameraTarget(CHILE);
+		mapView.onSaveInstanceState(mapViewBundle);
 
-        gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        gMap.setMinZoomPreference(5.0f);
+		super.onSaveInstanceState(outState);
+	}
 
-        gMap.getUiSettings().setZoomControlsEnabled(true);
-        gMap.getUiSettings().setTiltGesturesEnabled(true);
-        gMap.getUiSettings().setMapToolbarEnabled(true);
-        gMap.getUiSettings().setZoomGesturesEnabled(true);
+	private void cargarPins (List<QuakeModel> quakeModels) {
+		for (int i = 0; i < quakeModels.size(); i++) {
 
-        gMap.getUiSettings().setRotateGesturesEnabled(false);
-        gMap.getUiSettings().setCompassEnabled(false);
-
-        prom_lat = 0.0;
-        prom_long = 0.0;
-
-        cargarDatos(gMap);
-
-        //Calculo de promedios
-        prom_lat /= quakeModelsList.size();
-        prom_long /= quakeModelsList.size();
-
-        LatLng punto_central = new LatLng(prom_lat, prom_long);
-        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(punto_central, 5.0f), 2000, null);
-
-        gMap.setInfoWindowAdapter(this);
-    }
-
-    private void cargarDatos(GoogleMap googleMap) {
-        for (int i = 0; i < quakeModelsList.size(); i++) {
-
-            QuakeModel model = quakeModelsList.get(i);
+			QuakeModel model = quakeModels.get(i);
             LatLng latLng = new LatLng(Double.parseDouble(model.getLatitud()), Double.parseDouble(model.getLongitud()));
 
             //Suma de lat y long
             prom_lat += Double.parseDouble(model.getLatitud());
             prom_long += Double.parseDouble(model.getLongitud());
 
-            //Marcador de epicentro
-            googleMap.addMarker(new MarkerOptions()
-                    .position(latLng)
-                    .title(String.valueOf(model.getMagnitud()))
-                    .alpha(0.0f)
-            ).setTag(model);
+			//Buscar color
+			int id_color = QuakeUtils.getMagnitudeColor(model.getMagnitud(), true);
 
-            //Buscar color
-            int id_color = QuakeUtils.getMagnitudeColor(model.getMagnitud(), true);
+            //Marcador de epicentro
+			gMap.addMarker(new MarkerOptions()
+                    .position(latLng)
+					.alpha(0.9f)
+            ).setTag(model);
 
             //Circulo en pin
             CircleOptions circleOptions = new CircleOptions()
@@ -132,7 +233,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                     .radius(10000 * model.getMagnitud())
                     .fillColor(Objects.requireNonNull(getContext()).getColor(id_color))
                     .strokeColor(getContext().getColor(R.color.grey_dark_alpha));
-            googleMap.addCircle(circleOptions);
+			gMap.addCircle(circleOptions);
             Log.d("SISMO", model.getCiudad());
 
         }
@@ -142,6 +243,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     public void onResume() {
         super.onResume();
         mapView.onResume();
+
     }
 
 
@@ -161,89 +263,5 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     public void onLowMemory() {
         super.onLowMemory();
         mapView.onLowMemory();
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        Bundle mapViewBundle = outState.getBundle(MAPVIEW_BUNDLE_KEY);
-        if (mapViewBundle == null) {
-            mapViewBundle = new Bundle();
-            outState.putBundle(MAPVIEW_BUNDLE_KEY, mapViewBundle);
-        }
-
-        mapView.onSaveInstanceState(mapViewBundle);
-    }
-
-    @Override
-    public View getInfoWindow(Marker marker) {
-        return null;
-    }
-
-    @Override
-    public View getInfoContents(Marker marker) {
-
-        View v = getLayoutInflater().inflate(R.layout.info_windows, null);
-
-        Object object = marker.getTag();
-        QuakeModel model = (QuakeModel) object;
-
-        TextView tv_magnitud = v.findViewById(R.id.tv_iw_magnitud);
-        TextView tv_referencia = v.findViewById(R.id.tv_iw_referencia);
-        ImageView iv_mag_color = v.findViewById(R.id.iv_iw_mag_color);
-	    TextView tv_profundidad = v.findViewById(R.id.tv_iw_profundidad);
-	    TextView tv_hora = v.findViewById(R.id.tv_iw_hora);
-	    TextView tv_estado = v.findViewById(R.id.tv_iw_estado);
-	    ImageView iv_estado = v.findViewById(R.id.iv_iw_estado);
-
-
-	    //SECCION ESTADO
-	    String estado = Objects.requireNonNull(model).getEstado();
-	    QuakeUtils.setStatusImage(getContext(), estado, tv_estado, iv_estado);
-
-	    tv_referencia.setText(model.getReferencia());
-	    tv_magnitud.setText(String.format(Objects.requireNonNull(getContext()).getString(R.string.magnitud), model.getMagnitud()));
-	    iv_mag_color.setColorFilter(getContext().getColor(QuakeUtils.getMagnitudeColor(model.getMagnitud(), false)));
-	    tv_profundidad.setText(String.format(getString(R.string.profundidad_info_windows),
-			    model.getProfundidad()));
-
-	    //Calcular tiempos (Dates a DHMS)
-	    Map<String, Long> tiempos = QuakeUtils.dateToDHMS(model.getFecha_local());
-
-	    //SECCION HORA
-	    Long dias = tiempos.get(getString(R.string.UTILS_TIEMPO_DIAS));
-	    Long minutos = tiempos.get(getString(R.string.UTILS_TIEMPO_MINUTOS));
-	    Long horas = tiempos.get(getString(R.string.UTILS_TIEMPO_HORAS));
-	    Long segundos = tiempos.get(getString(R.string.UTILS_TIEMPO_SEGUNDOS));
-
-	    //Condiciones días.
-	    if (dias != null && dias == 0) {
-
-		    if (horas != null && horas >= 1) {
-			    tv_hora.setText(String.format(getString(R.string.quake_time_hour_info_windows),
-					    horas));
-		    } else {
-			    tv_hora.setText(String.format(getString(R.string.quake_time_minute_info_windows),
-					    minutos));
-
-			    if (minutos != null && minutos < 1) {
-				    tv_hora.setText(String.format(getString(R.string.quake_time_second_info_windows),
-						    segundos));
-			    }
-		    }
-	    } else if (dias != null && dias > 0) {
-
-		    if (horas != null && horas == 0) {
-			    tv_hora.setText(String.format(getString(R.string.quake_time_day_info_windows),
-					    dias));
-		    } else if (horas != null && horas >= 1) {
-			    tv_hora.setText(String.format(getString(R.string.quake_time_day_hour_info_windows),
-					    dias, horas / 24));
-		    }
-	    }
-
-
-
-        return v;
     }
 }
