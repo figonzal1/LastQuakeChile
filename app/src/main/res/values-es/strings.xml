@@ -51,4 +51,10 @@
     <string name="quakes_details_estado_sismo">Sismo %s</string>
     <string name="quakes_details_estado_sismo_preliminar">preliminar</string>
     <string name="quakes_details_estado_sismo_verificado">verificado</string>
+    <string name="quake_time_day_info_windows">Hace: %1$d d</string>
+    <string name="quake_time_day_hour_info_windows">"Hace: %1$d d %2$d "</string>
+    <string name="quake_time_hour_info_windows">Hace: %1$d h</string>
+    <string name="quake_time_minute_info_windows">Hace: %1$d m</string>
+    <string name="quake_time_second_info_windows">Hace: %1$d s</string>
+    <string name="profundidad_info_windows">Profundidad: %.1f km</string>
 </resources>
