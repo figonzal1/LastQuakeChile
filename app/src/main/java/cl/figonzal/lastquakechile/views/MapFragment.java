@@ -2,6 +2,7 @@ package cl.figonzal.lastquakechile.views;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,7 +25,9 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -34,12 +37,15 @@ import cl.figonzal.lastquakechile.services.QuakeUtils;
 import cl.figonzal.lastquakechile.viewmodel.QuakeViewModel;
 
 
-public class MapFragment extends Fragment implements GoogleMap.InfoWindowAdapter {
+public class MapFragment extends Fragment implements OnMapReadyCallback,
+		GoogleMap.InfoWindowAdapter,
+		GoogleMap.OnInfoWindowClickListener {
 
 	private MapView mapView;
 	private GoogleMap gMap;
 	private double prom_lat, prom_long;
 	private Bundle mapViewBundle;
+	private List<QuakeModel> quakeModelList;
 
 	private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
 
@@ -75,58 +81,61 @@ public class MapFragment extends Fragment implements GoogleMap.InfoWindowAdapter
 			@Override
 			public void onChanged (@Nullable final List<QuakeModel> quakeModels) {
 
-				mapView.getMapAsync(new OnMapReadyCallback() {
-					@Override
-					public void onMapReady (GoogleMap googleMap) {
-
-						gMap = googleMap;
-						gMap.clear();
-						//Setear limites del mapa
-						LatLngBounds CHILE = new LatLngBounds(new LatLng(-55.15, -78.06),
-								new LatLng(-15.6, -66.5));
-						gMap.setLatLngBoundsForCameraTarget(CHILE);
-
-						gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-						gMap.setMinZoomPreference(5.0f);
-
-						gMap.getUiSettings().setZoomControlsEnabled(true);
-						gMap.getUiSettings().setTiltGesturesEnabled(true);
-						gMap.getUiSettings().setMapToolbarEnabled(true);
-						gMap.getUiSettings().setZoomGesturesEnabled(true);
-
-						gMap.getUiSettings().setRotateGesturesEnabled(false);
-						gMap.getUiSettings().setCompassEnabled(false);
-
-						prom_lat = 0.0;
-						prom_long = 0.0;
-
-						//Cargar pines y circulos
-						cargarPins(Objects.requireNonNull(quakeModels));
-
-						//Calculo de promedios
-						prom_lat /= quakeModels.size();
-						prom_long /= quakeModels.size();
-
-						//Calcular punto central de pines y ubicar camara en posicion promedio
-						LatLng punto_central = new LatLng(prom_lat, prom_long);
-						//gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(punto_central, 5
-						// .0f),
-						//	    2000, null);
-						gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(punto_central, 5.0f));
-
-						//Setear info windows
-						gMap.setInfoWindowAdapter(MapFragment.this);
-
-						//Log zone
-						Log.d(getString(R.string.TAG_MAP_FRAGMENT),
-								getString(R.string.TAG_MAP_READY_RESPONSE));
-						Crashlytics.log(Log.DEBUG, getString(R.string.TAG_MAP_FRAGMENT),
-								getString(R.string.TAG_MAP_READY_RESPONSE));
-					}
-				});
+				quakeModelList = quakeModels;
+				mapView.getMapAsync(MapFragment.this);
 			}
 		});
 		return v;
+	}
+
+	@Override
+	public void onMapReady (GoogleMap googleMap) {
+		gMap = googleMap;
+		gMap.clear();
+
+		//Setear info windows
+		gMap.setInfoWindowAdapter(MapFragment.this);
+
+		//Setear info windows click listener
+		gMap.setOnInfoWindowClickListener(MapFragment.this);
+
+		//Setear limites del mapa
+		LatLngBounds CHILE = new LatLngBounds(new LatLng(-55.15, -78.06),
+				new LatLng(-15.6, -66.5));
+		gMap.setLatLngBoundsForCameraTarget(CHILE);
+
+		//Configuraciones de mapa
+		gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+		gMap.setMinZoomPreference(5.0f);
+		gMap.getUiSettings().setZoomControlsEnabled(true);
+		gMap.getUiSettings().setTiltGesturesEnabled(true);
+		gMap.getUiSettings().setMapToolbarEnabled(true);
+		gMap.getUiSettings().setZoomGesturesEnabled(true);
+		gMap.getUiSettings().setRotateGesturesEnabled(false);
+		gMap.getUiSettings().setCompassEnabled(false);
+
+		prom_lat = 0.0;
+		prom_long = 0.0;
+
+		//Cargar pines y circulos
+		cargarPins(Objects.requireNonNull(quakeModelList));
+
+		//Calculo de promedios
+		prom_lat /= quakeModelList.size();
+		prom_long /= quakeModelList.size();
+
+		//Calcular punto central de pines y ubicar camara en posicion promedio
+		LatLng punto_central = new LatLng(prom_lat, prom_long);
+		//gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(punto_central, 5
+		// .0f),
+		//	    2000, null);
+		gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(punto_central, 5.0f));
+
+		//Log zone
+		Log.d(getString(R.string.TAG_MAP_FRAGMENT),
+				getString(R.string.TAG_MAP_READY_RESPONSE));
+		Crashlytics.log(Log.DEBUG, getString(R.string.TAG_MAP_FRAGMENT),
+				getString(R.string.TAG_MAP_READY_RESPONSE));
 	}
 
 	/**
@@ -166,45 +175,6 @@ public class MapFragment extends Fragment implements GoogleMap.InfoWindowAdapter
 					.strokeColor(getContext().getColor(R.color.grey_dark_alpha));
 			gMap.addCircle(circleOptions);
 		}
-	}
-
-	@Override
-	public void onSaveInstanceState (@NonNull Bundle outState) {
-
-		Bundle mapViewBundle = outState.getBundle(MAPVIEW_BUNDLE_KEY);
-		if (mapViewBundle == null) {
-			mapViewBundle = new Bundle();
-			outState.putBundle(MAPVIEW_BUNDLE_KEY, mapViewBundle);
-		}
-
-		mapView.onSaveInstanceState(mapViewBundle);
-
-		super.onSaveInstanceState(outState);
-	}
-
-	@Override
-	public void onResume () {
-		super.onResume();
-		mapView.onResume();
-
-	}
-
-	@Override
-	public void onPause () {
-		super.onPause();
-		mapView.onPause();
-	}
-
-	@Override
-	public void onDestroy () {
-		super.onDestroy();
-		mapView.onDestroy();
-	}
-
-	@Override
-	public void onLowMemory () {
-		super.onLowMemory();
-		mapView.onLowMemory();
 	}
 
 	@Override
@@ -291,4 +261,82 @@ public class MapFragment extends Fragment implements GoogleMap.InfoWindowAdapter
 				getString(R.string.TAG_INFO_WINDOWS_RESPONSE));
 		return v;
 	}
+
+	@Override
+	public void onInfoWindowClick (Marker marker) {
+
+		Object object = marker.getTag();
+		QuakeModel model = (QuakeModel) object;
+
+		Intent intent = new Intent(getContext(), QuakeDetailsActivity.class);
+		Bundle b = new Bundle();
+
+		Log.d("ENTRE", "AQUI");
+		if (model != null) {
+			b.putString(getString(R.string.INTENT_CIUDAD), model.getCiudad());
+			b.putString(getString(R.string.INTENT_REFERENCIA), model.getReferencia());
+			b.putString(getString(R.string.INTENT_LATITUD), model.getLatitud());
+			b.putString(getString(R.string.INTENT_LONGITUD), model.getLongitud());
+
+			//Cambiar la fecha local a string
+			SimpleDateFormat format = new SimpleDateFormat(getString(R.string.DATETIME_FORMAT),
+					Locale.US);
+			String fecha_local = format.format(model.getFecha_local());
+			b.putString(getString(R.string.INTENT_FECHA_LOCAL), fecha_local);
+
+			b.putDouble(getString(R.string.INTENT_MAGNITUD), model.getMagnitud());
+			b.putDouble(getString(R.string.INTENT_PROFUNDIDAD), model.getProfundidad());
+			b.putString(getString(R.string.INTENT_ESCALA), model.getEscala());
+			b.putBoolean(getString(R.string.INTENT_SENSIBLE), model.getSensible());
+			b.putString(getString(R.string.INTENT_LINK_FOTO), model.getImagen_url());
+			b.putString(getString(R.string.INTENT_ESTADO), model.getEstado());
+
+			intent.putExtras(b);
+
+			Log.d(getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_INFO_WINDOWS));
+			Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT),
+					getString(R.string.TAG_INTENT_INFO_WINDOWS));
+
+			startActivity(intent);
+		}
+	}
+	@Override
+	public void onSaveInstanceState (@NonNull Bundle outState) {
+
+		Bundle mapViewBundle = outState.getBundle(MAPVIEW_BUNDLE_KEY);
+		if (mapViewBundle == null) {
+			mapViewBundle = new Bundle();
+			outState.putBundle(MAPVIEW_BUNDLE_KEY, mapViewBundle);
+		}
+
+		mapView.onSaveInstanceState(mapViewBundle);
+
+		super.onSaveInstanceState(outState);
+	}
+
+	@Override
+	public void onResume () {
+		super.onResume();
+		mapView.onResume();
+
+	}
+
+	@Override
+	public void onPause () {
+		super.onPause();
+		mapView.onPause();
+	}
+
+	@Override
+	public void onDestroy () {
+		super.onDestroy();
+		mapView.onDestroy();
+	}
+
+	@Override
+	public void onLowMemory () {
+		super.onLowMemory();
+		mapView.onLowMemory();
+	}
+
 }

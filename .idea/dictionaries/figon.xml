@@ -18,6 +18,7 @@
       <w>ahora</w>
       <w>alerta</w>
       <w>alertas</w>
+      <w>alguna</w>
       <w>ambiar</w>
       <w>analitycs</w>
       <w>anfe</w>
@@ -41,6 +42,7 @@
       <w>boleano</w>
       <w>booleano</w>
       <w>boton</w>
+      <w>botones</w>
       <w>botón</w>
       <w>bufb</w>
       <w>buscar</w>
@@ -48,13 +50,17 @@
       <w>busqueda</w>
       <w>cada</w>
       <w>calcula</w>
+      <w>calculado</w>
       <w>calculados</w>
+      <w>calcular</w>
       <w>calculo</w>
       <w>calculode</w>
       <w>calh</w>
+      <w>camara</w>
       <w>cambiaar</w>
       <w>cambiar</w>
       <w>cambio</w>
+      <w>campo</w>
       <w>cancelada</w>
       <w>caracter</w>
       <w>cardview</w>
@@ -66,11 +72,15 @@
       <w>celular</w>
       <w>checkear</w>
       <w>cierra</w>
+      <w>circulares</w>
       <w>circulo</w>
+      <w>circulos</w>
       <w>ciudad</w>
       <w>clase</w>
       <w>codigo</w>
       <w>colapso</w>
+      <w>coloreado</w>
+      <w>colorear</w>
       <w>colores</w>
       <w>compartido</w>
       <w>compartir</w>
@@ -80,6 +90,7 @@
       <w>condiciones</w>
       <w>conexion</w>
       <w>conexión</w>
+      <w>configuración</w>
       <w>configurar</w>
       <w>contacto</w>
       <w>contactos</w>
@@ -87,6 +98,8 @@
       <w>contexto</w>
       <w>contiene</w>
       <w>contructor</w>
+      <w>convertida</w>
+      <w>convertir</w>
       <w>convertirlo</w>
       <w>convierte</w>
       <w>coordenadas</w>
@@ -99,6 +112,7 @@
       <w>cual</w>
       <w>cualquier</w>
       <w>cuando</w>
+      <w>cuenta</w>
       <w>cyhv</w>
       <w>datos</w>
       <w>defecto</w>
@@ -117,10 +131,13 @@
       <w>detalle</w>
       <w>detalles</w>
       <w>devuelve</w>
+      <w>dhms</w>
+      <w>dibujar</w>
       <w>diferencia</w>
       <w>digito</w>
       <w>direccion</w>
       <w>directamente</w>
+      <w>directo</w>
       <w>dispositivo</w>
       <w>distancia</w>
       <w>doctype</w>
@@ -138,7 +155,9 @@
       <w>entendido</w>
       <w>entre</w>
       <w>entrega</w>
+      <w>entregada</w>
       <w>entregar</w>
+      <w>envia</w>
       <w>enviando</w>
       <w>enviar</w>
       <w>enviarlo</w>
@@ -147,6 +166,7 @@
       <w>errores</w>
       <w>escala</w>
       <w>escoger</w>
+      <w>esimo</w>
       <w>esperado</w>
       <w>estaba</w>
       <w>estado</w>
@@ -161,9 +181,13 @@
       <w>falso</w>
       <w>fccb</w>
       <w>fecha</w>
+      <w>fechas</w>
       <w>figon</w>
       <w>figonzal</w>
       <w>fija</w>
+      <w>fijada</w>
+      <w>fijado</w>
+      <w>fijar</w>
       <w>fijos</w>
       <w>fileprovider</w>
       <w>filtrada</w>
@@ -174,7 +198,9 @@
       <w>firts</w>
       <w>flecha</w>
       <w>flotante</w>
+      <w>flotantes</w>
       <w>foto</w>
+      <w>fragmentmap</w>
       <w>fuerza</w>
       <w>fullwidthhalfinner</w>
       <w>fullwidthhalfleft</w>
@@ -191,10 +217,12 @@
       <w>guarda</w>
       <w>guardar</w>
       <w>guia</w>
+      <w>hace</w>
       <w>hacer</w>
       <w>hacia</w>
       <w>heroku</w>
       <w>herokuapp</w>
+      <w>horaria</w>
       <w>icono</w>
       <w>ideada</w>
       <w>identificar</w>
@@ -226,16 +254,20 @@
       <w>invitar</w>
       <w>izquierda</w>
       <w>katana</w>
+      <w>lalatitud</w>
       <w>lastquake</w>
       <w>lastquakechile</w>
       <w>latitud</w>
+      <w>latlong</w>
       <w>leftmargin</w>
       <w>limite</w>
+      <w>limites</w>
       <w>linkedin</w>
       <w>lista</w>
       <w>listado</w>
       <w>livedata</w>
       <w>llamada</w>
+      <w>logica</w>
       <w>longitud</w>
       <w>lspace</w>
       <w>lugar</w>
@@ -243,6 +275,10 @@
       <w>maneja</w>
       <w>manejar</w>
       <w>mapa</w>
+      <w>mapeo</w>
+      <w>mapview</w>
+      <w>marcador</w>
+      <w>marcas</w>
       <w>marginheight</w>
       <w>marginwidth</w>
       <w>materiales</w>
@@ -254,6 +290,7 @@
       <w>messageservice</w>
       <w>metodo</w>
       <w>milisegundos</w>
+      <w>minimizar</w>
       <w>minutos</w>
       <w>mobilesdk</w>
       <w>modelo</w>
@@ -284,6 +321,7 @@
       <w>observación</w>
       <w>obtencion</w>
       <w>obtener</w>
+      <w>obtenido</w>
       <w>oculta</w>
       <w>ocurridos</w>
       <w>oeste</w>
@@ -303,6 +341,7 @@
       <w>parsear</w>
       <w>pasarlas</w>
       <w>permite</w>
+      <w>permitira</w>
       <w>peticion</w>
       <w>pintado</w>
       <w>poner</w>
@@ -317,11 +356,16 @@
       <w>procesada</w>
       <w>procesar</w>
       <w>profundidad</w>
+      <w>promedio</w>
+      <w>promedios</w>
+      <w>proveniente</w>
       <w>provenientes</w>
+      <w>proviene</w>
       <w>proxima</w>
       <w>publicación</w>
       <w>pueda</w>
       <w>puede</w>
+      <w>punto</w>
       <w>pxgdfurq</w>
       <w>quakeutils</w>
       <w>realiza</w>
@@ -341,6 +385,7 @@
       <w>refresca</w>
       <w>reloj</w>
       <w>repositorio</w>
+      <w>requerido</w>
       <w>responde</w>
       <w>resuelto</w>
       <w>resultado</w>
@@ -353,9 +398,12 @@
       <w>seccion</w>
       <w>sección</w>
       <w>segundos</w>
+      <w>según</w>
       <w>separador</w>
+      <w>separar</w>
       <w>servicio</w>
       <w>servidor</w>
+      <w>será</w>
       <w>sete</w>
       <w>setea</w>
       <w>seteado</w>
@@ -373,19 +421,23 @@
       <w>solicitudes</w>
       <w>soportado</w>
       <w>soqh</w>
+      <w>suma</w>
       <w>suscribir</w>
       <w>suscripcion</w>
       <w>suscription</w>
       <w>suscrito</w>
       <w>sísmica</w>
+      <w>tanto</w>
       <w>tarde</w>
       <w>tema</w>
+      <w>tendrá</w>
       <w>tener</w>
       <w>testea</w>
       <w>texto</w>
       <w>textos</w>
       <w>textview</w>
       <w>textviews</w>
+      <w>texview</w>
       <w>tiempo</w>
       <w>tiempos</w>
       <w>tiene</w>
@@ -400,6 +452,7 @@
       <w>trasnlaciones</w>
       <w>título</w>
       <w>ubicacion</w>
+      <w>ubicar</w>
       <w>usado</w>
       <w>usar</w>
       <w>usarlo</w>
@@ -410,6 +463,7 @@
       <w>valign</w>
       <w>vardview</w>
       <w>veces</w>
+      <w>verficado</w>
       <w>verifica</w>
       <w>verificado</w>
       <w>vert</w>
@@ -422,6 +476,7 @@
       <w>webview</w>
       <w>whatsapp</w>
       <w>xamp</w>
+      <w>zona</w>
       <w>últimos</w>
     </words>
   </dictionary>
