@@ -10,7 +10,6 @@
     <string name="search">Buscar</string>
     <string name="invite">Invitar amigos</string>
 
-
     <!-- URL SERVIDOR HEROKU -->
     <string name="URL_GET_PROD" translatable="false">https://lastquakechile-server-dev.herokuapp.com/lastquakechile/api/quakes/?limite=%1$s</string>
     <string name="DEEP_LINK" translatable="false">https://lastquakechile.page.link/lqch</string>
@@ -39,6 +38,22 @@
     <string name="KEY_IMAGEN_URL" translatable="false">imagen_url</string>
     <string name="KEY_SENSIBLE" translatable="false">sensible</string>
     <string name="KEY_ESTADO" translatable="false">estado</string>
+
+    <!-- KEY PARA INTENT & NOTIFICACIONES -->
+    <string name="INTENT_TITULO" translatable="false">titulo</string>
+    <string name="INTENT_DESCRIPCION" translatable="false">descripcion</string>
+    <string name="INTENT_CIUDAD" translatable="false">ciudad</string>
+    <string name="INTENT_REFERENCIA" translatable="false">referencia</string>
+    <string name="INTENT_LATITUD" translatable="false">latitud</string>
+    <string name="INTENT_LONGITUD" translatable="false">longitud</string>
+    <string name="INTENT_FECHA_LOCAL" translatable="false">fecha_local</string>
+    <string name="INTENT_FECHA_UTC" translatable="false">fecha_utc</string>
+    <string name="INTENT_MAGNITUD" translatable="false">magnitud</string>
+    <string name="INTENT_PROFUNDIDAD" translatable="false">profundidad</string>
+    <string name="INTENT_ESCALA" translatable="false">escala</string>
+    <string name="INTENT_SENSIBLE" translatable="false">sensible</string>
+    <string name="INTENT_LINK_FOTO" translatable="false">imagen_url</string>
+    <string name="INTENT_ESTADO" translatable="false">estado</string>
 
     <!-- STRINGS DE LAYOUTS-->
     <string name="circulo_pintado">Color magnitud sismo</string>
@@ -104,7 +119,6 @@
     <string name="quakes_details_estado_sismo_preliminar">preliminar</string>
     <string name="quakes_details_estado_sismo_verificado">verificado</string>
 
-
     <!-- FIREBASE-->
     <string name="TAG_FIREBASE_TOKEN" translatable="false">TOKEN_FIREBASE</string>
     <string name="TAG_FIREBASE_SUSCRIPTION" translatable="false">FIREBASE_SUSCRIPCION</string>
@@ -124,17 +138,18 @@
     <string name="FIREBASE_TOPIC_NAME" translatable="false">Quakes</string>
     <string name="FIREBASE_SUSCRITO" translatable="false">Suscrito</string>
 
-    <!-- Strings de Snackbars y LOGS -->
-    <!-- TAG PARA ETIQUETA (primer argumento de logs) -->
+    <!-- Strings de Snackbars -->
+    <string name="SNACKBAR_TIMEOUT_ERROR_PRESSED" translatable="false">SNACKBAR_TIMEOUT_ERROR</string>
+    <string name="SNACKBAR_NOCONNECTION_ERROR_PRESSED" translatable="false">SNACKBAR_NOCONNECTION_ERROR</string>
+    <string name="SNACKBAR_SERVER_ERROR_PRESSED" translatable="false">SNACKBAR_SERVER_ERROR</string>
+
+    <!-- LOGS De QuakeFragment y  Miscelaneos-->
     <string name="FLAG_RETRY" translatable="false">Recargar</string>
     <string name="TAG_PROGRESS_FROM_FRAGMENT" translatable="false">PROGRESS_FRAGMENT</string>
     <string name="TAG_PROGRESS_FROM_FRAGMENT_UPDATE_RESPONSE" translatable="false">UPDATED INFORMATION - FRAGMENT</string>
     <string name="TAG_PROGRESS_FROM_FRAGMENT_TIMEOUT_ERROR" translatable="false">TIMEOUT ERROR - FRAGMENT</string>
     <string name="TAG_PROGRESS_FROM_FRAGMENT_SERVER_ERROR" translatable="false">SERVER ERROR - FRAGMENT</string>
     <string name="TAG_PROGRESS_FROM_FRAGMENT_NOCONNECTION" translatable="false">NO CONNECTION ERROR - FRAGMENT</string>
-    <string name="SNACKBAR_TIMEOUT_ERROR_PRESSED" translatable="false">SNACKBAR_TIMEOUT_ERROR</string>
-    <string name="SNACKBAR_NOCONNECTION_ERROR_PRESSED" translatable="false">SNACKBAR_NOCONNECTION_ERROR</string>
-    <string name="SNACKBAR_SERVER_ERROR_PRESSED" translatable="false">SNACKBAR_SERVER_ERROR</string>
     <string name="TAG_JSON_GENERAL_ERROR" translatable="false">JSON_GENERAL_ERROR</string>
     <string name="TAG_JSON_PARSE_ERROR" translatable="false">JSON_PARSE_ERROR</string>
     <string name="TAG_CONNECTION_OK" translatable="false">CONNECTION_OK</string>
@@ -153,24 +168,7 @@
     <string name="TAG_VOLLEY_ERROR_NETWORK" translatable="false">Network error</string>
     <string name="TAG_VOLLEY_ERROR_PARSE" translatable="false">Parse error</string>
 
-
-    <!-- KEY PARA INTENT & NOTIFICACIONES -->
-    <string name="INTENT_TITULO" translatable="false">titulo</string>
-    <string name="INTENT_DESCRIPCION" translatable="false">descripcion</string>
-    <string name="INTENT_CIUDAD" translatable="false">ciudad</string>
-    <string name="INTENT_REFERENCIA" translatable="false">referencia</string>
-    <string name="INTENT_LATITUD" translatable="false">latitud</string>
-    <string name="INTENT_LONGITUD" translatable="false">longitud</string>
-    <string name="INTENT_FECHA_LOCAL" translatable="false">fecha_local</string>
-    <string name="INTENT_FECHA_UTC" translatable="false">fecha_utc</string>
-    <string name="INTENT_MAGNITUD" translatable="false">magnitud</string>
-    <string name="INTENT_PROFUNDIDAD" translatable="false">profundidad</string>
-    <string name="INTENT_ESCALA" translatable="false">escala</string>
-    <string name="INTENT_SENSIBLE" translatable="false">sensible</string>
-    <string name="INTENT_LINK_FOTO" translatable="false">imagen_url</string>
-    <string name="INTENT_ESTADO" translatable="false">estado</string>
-
-    <!-- Strings para calculode tiempo -->
+    <!-- Strings para calculo de tiempo -->
     <string name="UTILS_TIEMPO_DIAS" translatable="false">dias</string>
     <string name="UTILS_TIEMPO_HORAS" translatable="false">horas</string>
     <string name="UTILS_TIEMPO_MINUTOS" translatable="false">minutos</string>
@@ -226,11 +224,12 @@
     <string name="TAG_INTENT_SHARE_BITMAP" translatable="false">BITMAPS</string>
     <string name="TAG_INTENT_SHARE_BITMAP_MESSAGE" translatable="false">BITMAPS CARGADOS</string>
     <string name="TAG_INTENT_SHARE_BITMAP_MESSAGE_FAIL" translatable="false">BITMAPS FAIL</string>
+
+    <!-- MAPA -->
     <string name="TAG_MAP_FRAGMENT" translatable="false">MAP FRAGMENT</string>
     <string name="TAG_INFO_WINDOWS_RESPONSE" translatable="false">INFO WINDOWS OPEN</string>
     <string name="TAG_MAP_READY_RESPONSE" translatable="false">MAP READY</string>
-
-    <!-- LOG MAPA -->
+    <string name="TAG_INTENT_INFO_WINDOWS" translatable="false">Intent de infowindows a detalle de sismo</string>
 
 
 </resources>
