@@ -12,6 +12,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.ImageView;
@@ -127,8 +128,14 @@ public class MainActivity extends AppCompatActivity {
 		// toolbar
 		CollapsingToolbarLayout mCollapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
 		mCollapsingToolbarLayout.setTitleEnabled(true);
-		mCollapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.colorPrimary,
-				getTheme()));
+
+		if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+			mCollapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.colorPrimaryNightMode
+					, getTheme()));
+		} else {
+			mCollapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.colorPrimary,
+					getTheme()));
+		}
 
 		//Setear imagen de toolbar con Glide
 		mIvFoto = findViewById(R.id.toolbar_image);

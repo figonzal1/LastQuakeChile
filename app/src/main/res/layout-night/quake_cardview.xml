@@ -1,0 +1,109 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    android:background="@color/backgroundNightMode"
+    android:clickable="true"
+    android:elevation="0dp"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground">
+
+    <ImageView
+        android:id="@+id/iv_mag_color"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/circulo_pintado"
+        card_view:layout_constraintStart_toStartOf="parent"
+        card_view:layout_constraintTop_toTopOf="parent"
+        card_view:srcCompat="@drawable/circle_shape" />
+
+    <TextView
+        android:id="@+id/tv_ciudad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:textSize="14sp"
+        card_view:layout_constraintStart_toEndOf="@id/iv_mag_color"
+        card_view:layout_constraintTop_toTopOf="@+id/iv_mag_color"
+        tools:text="Nombre Ciudad" />
+
+    <TextView
+        android:id="@+id/tv_hora"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textSize="12sp"
+        card_view:layout_constraintBottom_toBottomOf="@+id/tv_ciudad"
+        card_view:layout_constraintEnd_toEndOf="parent"
+        card_view:layout_constraintTop_toTopOf="@+id/tv_ciudad"
+        tools:text="XX D X h" />
+
+    <TextView
+        android:id="@+id/tv_referencia"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="4dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingTop="0dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textSize="14sp"
+        card_view:layout_constraintBottom_toBottomOf="@+id/iv_mag_color"
+        card_view:layout_constraintEnd_toEndOf="parent"
+        card_view:layout_constraintStart_toStartOf="@+id/tv_ciudad"
+        card_view:layout_constraintTop_toBottomOf="@+id/tv_ciudad"
+        tools:text="Referencia de la ciudad" />
+
+
+    <TextView
+        android:id="@+id/tv_magnitud"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLength="4"
+        android:textColor="@android:color/white"
+        android:textSize="21sp"
+        android:textStyle="normal"
+        card_view:layout_constraintBottom_toBottomOf="@+id/iv_mag_color"
+        card_view:layout_constraintEnd_toEndOf="@+id/iv_mag_color"
+        card_view:layout_constraintStart_toStartOf="@+id/iv_mag_color"
+        card_view:layout_constraintTop_toTopOf="@+id/iv_mag_color"
+        tools:text="9.5" />
+
+    <ImageView
+        android:id="@+id/iv_sensible"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="8dp"
+        android:contentDescription="@string/icono_sensible"
+        android:visibility="invisible"
+        card_view:layout_constraintBottom_toBottomOf="@+id/tv_ciudad"
+        card_view:layout_constraintEnd_toStartOf="@+id/tv_hora"
+        card_view:layout_constraintHorizontal_bias="0.0"
+        card_view:layout_constraintStart_toEndOf="@+id/tv_ciudad"
+        card_view:layout_constraintTop_toTopOf="@+id/tv_ciudad"
+        card_view:srcCompat="@drawable/ic_warning_black_24dp" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="0dp"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="16dp"
+        android:background="?attr/dividerHorizontal"
+        android:visibility="visible"
+        card_view:layout_constraintBottom_toBottomOf="parent"
+        card_view:layout_constraintEnd_toEndOf="@+id/tv_hora"
+        card_view:layout_constraintStart_toStartOf="@+id/tv_referencia"
+        card_view:layout_constraintTop_toBottomOf="@+id/iv_mag_color" />
+
+</android.support.constraint.ConstraintLayout>
