@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -33,6 +34,8 @@ public class ContactActivity extends AppCompatActivity {
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
+		AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+		setTheme(R.style.DarkAppTheme);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_contact);
 
