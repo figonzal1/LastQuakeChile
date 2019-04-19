@@ -3,6 +3,7 @@ package cl.figonzal.lastquakechile.views;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,6 +23,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -91,6 +93,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 	public void onMapReady (GoogleMap googleMap) {
 		mGoogleMap = googleMap;
 		mGoogleMap.clear();
+
+		boolean sucess = false;
+		int nightModeFlags =
+				getContext().getResources().getConfiguration().uiMode &
+						Configuration.UI_MODE_NIGHT_MASK;
+		switch (nightModeFlags) {
+			case Configuration.UI_MODE_NIGHT_YES:
+				sucess =
+						mGoogleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(getContext(),
+								R.raw.map_night_mode));
+				break;
+		}
+
+		Log.e("HOLA", String.valueOf(sucess));
 
 		//Setear info windows
 		mGoogleMap.setInfoWindowAdapter(MapFragment.this);
