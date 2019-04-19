@@ -18,98 +18,94 @@ import cl.figonzal.lastquakechile.repository.QuakeRepository;
  */
 public class QuakeViewModel extends AndroidViewModel {
 
-    private QuakeRepository repository;
-    private MutableLiveData<List<QuakeModel>> quakeMutableList;
-    private final MutableLiveData<List<QuakeModel>> quakeMutableFilteredList = new MutableLiveData<>();
+	private final MutableLiveData<List<QuakeModel>> mQuakeMutableFilterList =
+			new MutableLiveData<>();
+	private QuakeRepository mQuakeRepository;
+	private MutableLiveData<List<QuakeModel>> mQuakeMutableList;
 
-    //Contructor para usar context dentro de la clase ViewModel
-    public QuakeViewModel(@NonNull Application application) {
-        super(application);
-    }
+	//Contructor para usar context dentro de la clase ViewModel
+	public QuakeViewModel (@NonNull Application application) {
+		super(application);
+	}
 
-    /**
-     * Funcion encargada de recibir los datos de repositorio y que la View pueda acceder a ellos
-     * @return retorna un mutablelivedata de listado de sismos
-     */
-    public MutableLiveData<List<QuakeModel>> showQuakeList() {
+	/**
+	 * Funcion encargada de recibir los datos de repositorio y que la View pueda acceder a ellos
+	 *
+	 * @return retorna un mutablelivedata de listado de sismos
+	 */
+	public MutableLiveData<List<QuakeModel>> showQuakeList () {
 
-        if (quakeMutableList == null) {
-            quakeMutableList = new MutableLiveData<>();
+		if (mQuakeMutableList == null) {
+			mQuakeMutableList = new MutableLiveData<>();
 
-            repository = QuakeRepository.getIntance(getApplication());
-            quakeMutableList = repository.getMutableQuakeList();
-        }
-        return quakeMutableList;
-    }
-    /**
-     * La funcion fuerza el refresh de los datos del mutable
-     */
-    public void refreshMutableQuakeList() {
-        repository = QuakeRepository.getIntance(getApplication());
-        quakeMutableList = repository.getMutableQuakeList();
-    }
+			mQuakeRepository = QuakeRepository.getIntance(getApplication());
+			mQuakeMutableList = mQuakeRepository.getMutableQuakeList();
+		}
+		return mQuakeMutableList;
+	}
 
-    /**
-     * Funcion recibe el status de la peticion desde el repositorio y permite que la View pueda acceder el status
-     * @return Retorna el MutableLiveData del mensaje estado
-     */
-    public MutableLiveData<String> showStatusData() {
+	/**
+	 * La funcion fuerza el refresh de los datos del mutable
+	 */
+	public void refreshMutableQuakeList () {
+		mQuakeRepository = QuakeRepository.getIntance(getApplication());
+		mQuakeMutableList = mQuakeRepository.getMutableQuakeList();
+	}
 
-        repository = QuakeRepository.getIntance(getApplication());
-        return repository.getStatusData();
-    }
+	/**
+	 * Funcion recibe el status de la peticion desde el repositorio y permite que la View pueda
+	 * acceder el status
+	 *
+	 * @return Retorna el MutableLiveData del mensaje estado
+	 */
+	public MutableLiveData<String> showStatusData () {
 
-    /**
-     * Funcion encargada de enviar el listado filtrado post busqueda hacia la View
-     *
-     * @return MutableLiveData de los simos filtrados
-     */
-    public MutableLiveData<List<QuakeModel>> showFilteredQuakeList() {
-        return quakeMutableFilteredList;
-    }
+		mQuakeRepository = QuakeRepository.getIntance(getApplication());
+		return mQuakeRepository.getStatusData();
+	}
 
-    /**
-     * Funcion que realiza la busqueda sobre quakeModelList con el Parametro otorgado
-     * @param s Texto que ingresa el usuario en la busqueda
-     */
-    public void doSearch(String s) {
+	/**
+	 * Funcion encargada de enviar el listado filtrado post busqueda hacia la View
+	 *
+	 * @return MutableLiveData de los simos filtrados
+	 */
+	public MutableLiveData<List<QuakeModel>> showFilteredQuakeList () {
+		return mQuakeMutableFilterList;
+	}
 
-        repository = QuakeRepository.getIntance(getApplication());
-        List<QuakeModel> quakeList = repository.getQuakeList();
+	/**
+	 * Funcion que realiza la busqueda sobre quakeModelList con el Parametro otorgado
+	 *
+	 * @param s Texto que ingresa el usuario en la busqueda
+	 */
+	public void doSearch (String s) {
 
-        if (quakeList.size() > 0 && !s.isEmpty()) {
-            //Lista utilizada para el searchView
-            List<QuakeModel> filteredList = new ArrayList<>();
+		mQuakeRepository = QuakeRepository.getIntance(getApplication());
+		List<QuakeModel> mQuakeList = mQuakeRepository.getQuakeList();
 
-            for (QuakeModel l : quakeList) {
+		if (mQuakeList.size() > 0 && !s.isEmpty()) {
+			//Lista utilizada para el searchView
+			List<QuakeModel> filteredList = new ArrayList<>();
 
-                //Filtrar por ciudad
-                if (l.getCiudad().toLowerCase().contains(s)) {
-                    filteredList.add(l);
-                }
+			for (QuakeModel l : mQuakeList) {
 
-                //Filtrar por magnitud de sismo
-                if (l.getMagnitud().toString().contains(s)) {
-                    filteredList.add(l);
-                }
-            }
-            quakeMutableFilteredList.postValue(filteredList);
-        }
+				//Filtrar por ciudad
+				if (l.getCiudad().toLowerCase().contains(s)) {
+					filteredList.add(l);
+				}
 
-    }
+				//Filtrar por magnitud de sismo
+				if (l.getMagnitud().toString().contains(s)) {
+					filteredList.add(l);
+				}
+			}
+			mQuakeMutableFilterList.postValue(filteredList);
+		}
 
-    /**
-     * Funcion que permitira enviar el listado directo al mapa
-     *
-     * @return Retorna una lista normal de sismos (No mutable)
-     */
-    public List<QuakeModel> getDirectQuakeList() {
-        repository = QuakeRepository.getIntance(getApplication());
-        return repository.getQuakeList();
-    }
+	}
 
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-    }
+	@Override
+	protected void onCleared () {
+		super.onCleared();
+	}
 }
