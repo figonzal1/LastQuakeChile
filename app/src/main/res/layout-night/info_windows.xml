@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/info_windows"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/backgroundNightMode">
+
+    <ImageView
+        android:id="@+id/iv_iw_mag_color"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="@string/circulo_pintado"
+        card_view:layout_constraintBottom_toBottomOf="@+id/tv_iw_hora"
+        card_view:layout_constraintStart_toStartOf="parent"
+        card_view:layout_constraintTop_toTopOf="@+id/tv_iw_referencia"
+        card_view:srcCompat="@drawable/circle_shape" />
+
+    <TextView
+        android:id="@+id/tv_iw_referencia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textSize="14sp"
+        card_view:layout_constraintEnd_toEndOf="parent"
+        card_view:layout_constraintHorizontal_bias="0.0"
+        card_view:layout_constraintStart_toEndOf="@+id/iv_iw_mag_color"
+        card_view:layout_constraintTop_toTopOf="parent"
+        tools:text="Referencia de la ciudad" />
+
+
+    <TextView
+        android:id="@+id/tv_iw_magnitud"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLength="4"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:textStyle="normal"
+        card_view:layout_constraintBottom_toBottomOf="@+id/iv_iw_mag_color"
+        card_view:layout_constraintEnd_toEndOf="@+id/iv_iw_mag_color"
+        card_view:layout_constraintStart_toStartOf="@+id/iv_iw_mag_color"
+        card_view:layout_constraintTop_toTopOf="@+id/iv_iw_mag_color"
+        tools:text="9.5" />
+
+    <TextView
+        android:id="@+id/tv_iw_hora"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:textSize="14sp"
+        card_view:layout_constraintEnd_toEndOf="parent"
+        card_view:layout_constraintHorizontal_bias="0.0"
+        card_view:layout_constraintStart_toStartOf="@+id/tv_iw_profundidad"
+        card_view:layout_constraintTop_toBottomOf="@+id/tv_iw_profundidad"
+        tools:text="Hace: 1 d 2 h" />
+
+    <TextView
+        android:id="@+id/tv_iw_profundidad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:textSize="14sp"
+        card_view:layout_constraintEnd_toEndOf="parent"
+        card_view:layout_constraintHorizontal_bias="0.0"
+        card_view:layout_constraintStart_toStartOf="@+id/tv_iw_referencia"
+        card_view:layout_constraintTop_toBottomOf="@+id/tv_iw_referencia"
+        tools:text="Profundidad: 55km" />
+
+    <ImageView
+        android:id="@+id/iv_iw_estado"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="4dp"
+        android:contentDescription="@string/imagen_estado_sismo"
+        card_view:layout_constraintBottom_toBottomOf="@+id/tv_iw_estado"
+        card_view:layout_constraintEnd_toStartOf="@+id/tv_iw_estado"
+        card_view:layout_constraintHorizontal_chainStyle="packed"
+        card_view:layout_constraintStart_toStartOf="parent"
+        card_view:layout_constraintTop_toTopOf="@+id/tv_iw_estado"
+        card_view:srcCompat="@drawable/ic_baseline_check_circle_24px" />
+
+    <TextView
+        android:id="@+id/tv_iw_estado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:textSize="14sp"
+        card_view:layout_constraintBottom_toBottomOf="parent"
+        card_view:layout_constraintEnd_toEndOf="@+id/tv_iw_referencia"
+        card_view:layout_constraintHorizontal_bias="0.5"
+        card_view:layout_constraintStart_toEndOf="@+id/iv_iw_estado"
+        card_view:layout_constraintTop_toBottomOf="@+id/tv_iw_hora"
+        card_view:layout_constraintVertical_bias="1.0"
+        tools:text="Sismo verficado " />
+
+</android.support.constraint.ConstraintLayout>
