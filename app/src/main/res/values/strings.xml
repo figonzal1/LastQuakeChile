@@ -11,7 +11,7 @@
     <string name="invite">Invitar amigos</string>
 
     <!-- URL SERVIDOR HEROKU -->
-    <string name="URL_GET_PROD" translatable="false">https://lastquakechile-server-dev.herokuapp.com/lastquakechile/api/quakes/?limite=%1$s</string>
+    <string name="URL_GET_PROD" translatable="false">https://lastquakechile-server-prod.herokuapp.com/lastquakechile/api/quakes/?limite=%1$s</string>
     <string name="DEEP_LINK" translatable="false">https://lastquakechile.page.link/lqch</string>
     <string name="desde_deep_link" translatable="false">desdeDeepLink</string>
     <string name="KEY_QUAKES" translatable="false">sismos</string>

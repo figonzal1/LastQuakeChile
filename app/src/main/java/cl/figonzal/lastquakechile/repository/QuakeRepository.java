@@ -37,179 +37,202 @@ import cl.figonzal.lastquakechile.services.VolleySingleton;
 
 public class QuakeRepository {
 
-    private static QuakeRepository intance;
-    private final MutableLiveData<List<QuakeModel>> quakeMutableList = new MutableLiveData<>();
-    private final List<QuakeModel> quakeList = new ArrayList<>();
-    private final Application application;
-    private final MutableLiveData<String> statusData = new MutableLiveData<>();
+	private static QuakeRepository sInstanceRepository;
+	private final MutableLiveData<List<QuakeModel>> mQuakeMutableList = new MutableLiveData<>();
+	private final List<QuakeModel> mQuakeList = new ArrayList<>();
+	private final Application mApplication;
+	private final MutableLiveData<String> mStatusData = new MutableLiveData<>();
 
-    /**
-     * Funcion singleton que permite instanciar el repositorio
-     *
-     * @return Instancia de repositorio
-     */
-    public static QuakeRepository getIntance(Application application) {
+	/**
+	 * Contructor que permite instanciar el contexto de la acitivity
+	 *
+	 * @param application Permite acceder a los strings
+	 */
+	private QuakeRepository (Application application) {
+		this.mApplication = application;
+	}
 
-        if (intance == null) {
-            intance = new QuakeRepository(application);
-        }
-        return intance;
-    }
+	/**
+	 * Funcion singleton que permite instanciar el repositorio
+	 *
+	 * @return Instancia de repositorio
+	 */
+	public static QuakeRepository getIntance (Application application) {
 
-    /**
-     * Contructor que permite instanciar el contexto de la acitivity
-     *
-     * @param application Permite acceder a los strings
-     */
-    private QuakeRepository(Application application) {
-        this.application = application;
-    }
+		if (sInstanceRepository == null) {
+			sInstanceRepository = new QuakeRepository(application);
+		}
+		return sInstanceRepository;
+	}
 
-    /**
-     * Funcion encargada de cargar la lista de sismos desde la red en sismologia.cl
-     *
-     * @return MutableLiveData con los sismos
-     */
-    public MutableLiveData<List<QuakeModel>> getMutableQuakeList() {
-        if (quakeList.size() > 0) {
-            quakeList.clear();
-        }
-        loadQuakes();
-        return quakeMutableList;
-    }
+	/**
+	 * Funcion encargada de cargar la lista de sismos desde la red en sismologia.cl
+	 *
+	 * @return MutableLiveData con los sismos
+	 */
+	public MutableLiveData<List<QuakeModel>> getMutableQuakeList () {
+		if (mQuakeList.size() > 0) {
+			mQuakeList.clear();
+		}
+		loadQuakes();
+		return mQuakeMutableList;
+	}
 
-    /**
-     * Funcion encargada de enviar el status data al viewmodel
-     *
-     * @return MutableLiveData de status data
-     */
-    public MutableLiveData<String> getStatusData() {
-        return statusData;
-    }
+	/**
+	 * Funcion encargada de enviar el status data al viewmodel
+	 *
+	 * @return MutableLiveData de status data
+	 */
+	public MutableLiveData<String> getStatusData () {
+		return mStatusData;
+	}
 
-    /**
-     * Funcion del repositorio que envia directamente el listado de sismos al viewmodel
-     *
-     * @return Lista de sismos normal
-     */
-    public List<QuakeModel> getQuakeList() {
-        return quakeList;
-    }
+	/**
+	 * Funcion del repositorio que envia directamente el listado de sismos al viewmodel
+	 *
+	 * @return Lista de sismos normal
+	 */
+	public List<QuakeModel> getQuakeList () {
+		return mQuakeList;
+	}
 
-    /**
-     * Funcion encargada de crear la request HTTP hacia el servidor y parsear el JSON con los sismos
-     */
-    private void loadQuakes() {
+	/**
+	 * Funcion encargada de crear la request HTTP hacia el servidor y parsear el JSON con los
+	 * sismos
+	 */
+	private void loadQuakes () {
 
-        String limite = "15";
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, String.format(Locale.US, application.getString(R.string.URL_GET_PROD), limite), null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
+		String limite = "15";
+		JsonObjectRequest mRequest = new JsonObjectRequest(Request.Method.GET,
+				String.format(Locale.US, mApplication.getString(R.string.URL_GET_PROD), limite),
+				null, new Response.Listener<JSONObject>() {
+			@Override
+			public void onResponse (JSONObject response) {
 
-                //Parseando la informacion desde heroku get_quakes.php
-                try {
+				//Parseando la informacion desde heroku get_quakes.php
+				try {
 
-                    JSONArray jsonArray = response.getJSONArray(application.getString(R.string.KEY_QUAKES));
+					JSONArray mJsonArray =
+							response.getJSONArray(mApplication.getString(R.string.KEY_QUAKES));
 
-                    for (int i = 0; i < jsonArray.length(); i++) {
+					for (int i = 0; i < mJsonArray.length(); i++) {
 
-                        JSONObject object = jsonArray.getJSONObject(i);
+						JSONObject mObject = mJsonArray.getJSONObject(i);
 
-                        QuakeModel model = new QuakeModel();
+						QuakeModel mModel = new QuakeModel();
 
-                        SimpleDateFormat format = new SimpleDateFormat(application.getString(R.string.DATETIME_FORMAT), Locale.US);
-                        format.setTimeZone(TimeZone.getDefault());
-
-
-                        //OBTENER UTC DESDE PHP CONVERTIRLO A LOCAL DEL DISPOSITIVO
-                        Date utc_date = format.parse(object.getString(application.getString(R.string.KEY_FECHA_UTC)));
-                        Date local_date = QuakeUtils.utcToLocal(utc_date);
-
-                        Log.d("DATETIME", "UTC: " + format.format(utc_date) + "- LOCAL: " + format.format(local_date));
-	                    //LOCAL CALCULADO, NO PROVIENE DE CAMPO EN PHP
-                        model.setFecha_local(local_date);
-
-	                    model.setFecha_utc(utc_date);
-                        model.setCiudad(object.getString(application.getString(R.string.KEY_CIUDAD)));
-                        model.setLatitud(object.getString(application.getString(R.string.KEY_LATITUD)));
-                        model.setLongitud(object.getString(application.getString(R.string.KEY_LONGITUD)));
-                        model.setMagnitud(object.getDouble(application.getString(R.string.KEY_MAGNITUD)));
-                        model.setEscala(object.getString(application.getString(R.string.KEY_ESCALA)));
-                        model.setProfundidad(object.getDouble(application.getString(R.string.KEY_PROFUNDIDAD)));
-                        model.setAgencia(object.getString(application.getString(R.string.KEY_AGENCIA)));
-                        model.setReferencia(object.getString(application.getString(R.string.KEY_REFERENCIA)));
-                        model.setImagen_url(object.getString(application.getString(R.string.KEY_IMAGEN_URL)));
-                        model.setEstado(object.getString(application.getString(R.string.KEY_ESTADO)));
-
-                        switch (object.getInt(application.getString(R.string.KEY_SENSIBLE))) {
-
-                            case 0:
-                                model.setSensible(false);
-                                break;
-                            case 1:
-                                model.setSensible(true);
-                                break;
-                        }
-
-                        quakeList.add(model);
-
-                    }
-
-                    quakeMutableList.postValue(quakeList);
-
-                } catch (JSONException e) {
-
-                    Log.d(application.getString(R.string.TAG_JSON_GENERAL_ERROR), e.getMessage());
-                    Crashlytics.log(Log.DEBUG, application.getString(R.string.TAG_JSON_GENERAL_ERROR), e.getMessage());
-                } catch (ParseException e) {
-
-                    Log.d(application.getString(R.string.TAG_JSON_PARSE_ERROR), e.getMessage());
-                    Crashlytics.log(Log.DEBUG, application.getString(R.string.TAG_JSON_PARSE_ERROR), e.getMessage());
-                }
-
-                //LOGS
-                Log.d(application.getString(R.string.TAG_CONNECTION_OK), application.getString(R.string.CONNECTION_OK_RESPONSE));
-                Crashlytics.log(Log.DEBUG, application.getString(R.string.TAG_CONNECTION_OK), application.getString(R.string.CONNECTION_OK_RESPONSE));
-                Crashlytics.setBool(application.getString(R.string.CONNECTED), true);
+						SimpleDateFormat mFormat =
+								new SimpleDateFormat(mApplication.getString(R.string.DATETIME_FORMAT), Locale.US);
+						mFormat.setTimeZone(TimeZone.getDefault());
 
 
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
+						//OBTENER UTC DESDE PHP CONVERTIRLO A LOCAL DEL DISPOSITIVO
+						Date mUtcDate =
+								mFormat.parse(mObject.getString(mApplication.getString(R.string.KEY_FECHA_UTC)));
+						Date mLocalDate = QuakeUtils.utcToLocal(mUtcDate);
 
-                if (error instanceof TimeoutError) {
-                    Log.d(application.getString(R.string.TAG_VOLLEY_ERROR), application.getString(R.string.TAG_VOLLEY_ERROR_TIMEOUT));
-                    Crashlytics.log(Log.DEBUG, application.getString(R.string.TAG_VOLLEY_ERROR), application.getString(R.string.TAG_VOLLEY_ERROR_TIMEOUT));
-                    //statusData.postValue(application.getString(R.string.VIEWMODEL_TIMEOUT_ERROR));
+						Log.d("DATETIME",
+								"UTC: " + mFormat.format(mUtcDate) + "- LOCAL: " + mFormat.format(mLocalDate));
+						//LOCAL CALCULADO, NO PROVIENE DE CAMPO EN PHP
+						mModel.setFechaLocal(mLocalDate);
 
-                } else if (error instanceof NoConnectionError) {
-                    Log.d(application.getString(R.string.TAG_VOLLEY_ERROR), application.getString(R.string.TAG_VOLLEY_ERROR_CONNECTION));
-                    Crashlytics.log(Log.DEBUG, application.getString(R.string.TAG_VOLLEY_ERROR), application.getString(R.string.TAG_VOLLEY_ERROR_CONNECTION));
-                    statusData.postValue(application.getString(R.string.VIEWMODEL_NOCONNECTION_ERROR));
+						mModel.setFechaUtc(mUtcDate);
+						mModel.setCiudad(mObject.getString(mApplication.getString(R.string.KEY_CIUDAD)));
+						mModel.setLatitud(mObject.getString(mApplication.getString(R.string.KEY_LATITUD)));
+						mModel.setLongitud(mObject.getString(mApplication.getString(R.string.KEY_LONGITUD)));
+						mModel.setMagnitud(mObject.getDouble(mApplication.getString(R.string.KEY_MAGNITUD)));
+						mModel.setEscala(mObject.getString(mApplication.getString(R.string.KEY_ESCALA)));
+						mModel.setProfundidad(mObject.getDouble(mApplication.getString(R.string.KEY_PROFUNDIDAD)));
+						mModel.setAgencia(mObject.getString(mApplication.getString(R.string.KEY_AGENCIA)));
+						mModel.setReferencia(mObject.getString(mApplication.getString(R.string.KEY_REFERENCIA)));
+						mModel.setImagenUrl(mObject.getString(mApplication.getString(R.string.KEY_IMAGEN_URL)));
+						mModel.setEstado(mObject.getString(mApplication.getString(R.string.KEY_ESTADO)));
 
-                } else if (error instanceof AuthFailureError) {
-                    Log.d(application.getString(R.string.TAG_VOLLEY_ERROR), application.getString(R.string.TAG_VOLLEY_ERROR_AUTH));
+						switch (mObject.getInt(mApplication.getString(R.string.KEY_SENSIBLE))) {
 
-                } else if (error instanceof ServerError) {
-                    Log.d(application.getString(R.string.TAG_VOLLEY_ERROR), application.getString(R.string.TAG_VOLLEY_ERROR_SERVER));
-                    Crashlytics.log(Log.DEBUG, application.getString(R.string.TAG_VOLLEY_ERROR), application.getString(R.string.TAG_VOLLEY_ERROR_SERVER));
-                    statusData.postValue(application.getString(R.string.VIEWMODEL_SERVER_ERROR));
+							case 0:
+								mModel.setSensible(false);
+								break;
+							case 1:
+								mModel.setSensible(true);
+								break;
+						}
 
-                } else if (error instanceof NetworkError) {
-                    Log.d(application.getString(R.string.TAG_VOLLEY_ERROR), application.getString(R.string.TAG_VOLLEY_ERROR_NETWORK));
+						mQuakeList.add(mModel);
 
-                } else if (error instanceof ParseError) {
-                    Log.d(application.getString(R.string.TAG_VOLLEY_ERROR), application.getString(R.string.TAG_VOLLEY_ERROR_PARSE));
+					}
 
-                }
-                VolleySingleton.getInstance(application).cancelPendingRequests("TAG");
+					mQuakeMutableList.postValue(mQuakeList);
 
-            }
-        });
+				} catch (JSONException e) {
 
-        jsonObjectRequest.setShouldCache(true);
-        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(2500, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        VolleySingleton.getInstance(application).addToRequestQueue(jsonObjectRequest, "TAG");
-    }
+					Log.d(mApplication.getString(R.string.TAG_JSON_GENERAL_ERROR), e.getMessage());
+					Crashlytics.log(Log.DEBUG,
+							mApplication.getString(R.string.TAG_JSON_GENERAL_ERROR),
+							e.getMessage());
+				} catch (ParseException e) {
+
+					Log.d(mApplication.getString(R.string.TAG_JSON_PARSE_ERROR), e.getMessage());
+					Crashlytics.log(Log.DEBUG,
+							mApplication.getString(R.string.TAG_JSON_PARSE_ERROR), e.getMessage());
+				}
+
+				//LOGS
+				Log.d(mApplication.getString(R.string.TAG_CONNECTION_OK),
+						mApplication.getString(R.string.CONNECTION_OK_RESPONSE));
+				Crashlytics.log(Log.DEBUG, mApplication.getString(R.string.TAG_CONNECTION_OK),
+						mApplication.getString(R.string.CONNECTION_OK_RESPONSE));
+				Crashlytics.setBool(mApplication.getString(R.string.CONNECTED), true);
+
+
+			}
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse (VolleyError error) {
+
+				if (error instanceof TimeoutError) {
+					Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR),
+							mApplication.getString(R.string.TAG_VOLLEY_ERROR_TIMEOUT));
+					Crashlytics.log(Log.DEBUG, mApplication.getString(R.string.TAG_VOLLEY_ERROR),
+							mApplication.getString(R.string.TAG_VOLLEY_ERROR_TIMEOUT));
+					//mStatusData.postValue(mApplication.getString(R.string
+					// .VIEWMODEL_TIMEOUT_ERROR));
+
+				} else if (error instanceof NoConnectionError) {
+					Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR),
+							mApplication.getString(R.string.TAG_VOLLEY_ERROR_CONNECTION));
+					Crashlytics.log(Log.DEBUG, mApplication.getString(R.string.TAG_VOLLEY_ERROR),
+							mApplication.getString(R.string.TAG_VOLLEY_ERROR_CONNECTION));
+					mStatusData.postValue(mApplication.getString(R.string.VIEWMODEL_NOCONNECTION_ERROR));
+
+				} else if (error instanceof AuthFailureError) {
+					Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR),
+							mApplication.getString(R.string.TAG_VOLLEY_ERROR_AUTH));
+
+				} else if (error instanceof ServerError) {
+					Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR),
+							mApplication.getString(R.string.TAG_VOLLEY_ERROR_SERVER));
+					Crashlytics.log(Log.DEBUG, mApplication.getString(R.string.TAG_VOLLEY_ERROR),
+							mApplication.getString(R.string.TAG_VOLLEY_ERROR_SERVER));
+					mStatusData.postValue(mApplication.getString(R.string.VIEWMODEL_SERVER_ERROR));
+
+				} else if (error instanceof NetworkError) {
+					Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR),
+							mApplication.getString(R.string.TAG_VOLLEY_ERROR_NETWORK));
+
+				} else if (error instanceof ParseError) {
+					Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR),
+							mApplication.getString(R.string.TAG_VOLLEY_ERROR_PARSE));
+
+				}
+				VolleySingleton.getInstance(mApplication).cancelPendingRequests("TAG");
+
+			}
+		});
+
+		mRequest.setShouldCache(true);
+		mRequest.setRetryPolicy(new DefaultRetryPolicy(2500, 0,
+				DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+		VolleySingleton.getInstance(mApplication).addToRequestQueue(mRequest, "TAG");
+	}
 }

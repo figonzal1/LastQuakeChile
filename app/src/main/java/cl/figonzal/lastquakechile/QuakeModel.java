@@ -4,124 +4,124 @@ import java.util.Date;
 
 public class QuakeModel {
 
-	private Date fecha_utc;
-    private Date fecha_local;
-    private String ciudad;
-    private String latitud;
-    private String longitud;
-    private Double magnitud;
-    private String escala;
-    private Double profundidad;
-    private Boolean sensible;
-    private String agencia;
-    private String referencia;
-    private String imagen_url;
-    private String estado;
+	private Date mFechaUtc;
+	private Date mFechaLocal;
+	private String mCiudad;
+	private String mLatitud;
+	private String mLongitud;
+	private Double mMagnitud;
+	private String mEscala;
+	private Double mProfundidad;
+	private Boolean mSensible;
+	private String mAgencia;
+	private String mReferencia;
+	private String mImagenUrl;
+	private String mEstado;
 
-    public QuakeModel() {
-    }
-
-	public Date getFecha_utc () {
-		return fecha_utc;
+	public QuakeModel () {
 	}
 
-	public void setFecha_utc (Date fecha_utc) {
-		this.fecha_utc = fecha_utc;
+	public Date getFechaUtc () {
+		return mFechaUtc;
 	}
 
-    public Date getFecha_local() {
-        return fecha_local;
-    }
+	public void setFechaUtc (Date fecha_utc) {
+		this.mFechaUtc = fecha_utc;
+	}
 
-    public void setFecha_local(Date fecha_local) {
-        this.fecha_local = fecha_local;
-    }
+	public Date getFechaLocal () {
+		return mFechaLocal;
+	}
 
-    public String getCiudad() {
-        return ciudad;
-    }
+	public void setFechaLocal (Date fechaLocal) {
+		this.mFechaLocal = fechaLocal;
+	}
 
-    public void setCiudad(String ciudad) {
-        this.ciudad = ciudad;
-    }
+	public String getCiudad () {
+		return mCiudad;
+	}
 
-    public String getLatitud() {
-        return latitud;
-    }
+	public void setCiudad (String ciudad) {
+		this.mCiudad = ciudad;
+	}
 
-    public void setLatitud(String latitud) {
-        this.latitud = latitud;
-    }
+	public String getLatitud () {
+		return mLatitud;
+	}
 
-    public String getLongitud() {
-        return longitud;
-    }
+	public void setLatitud (String latitud) {
+		this.mLatitud = latitud;
+	}
 
-    public void setLongitud(String longitud) {
-        this.longitud = longitud;
-    }
+	public String getLongitud () {
+		return mLongitud;
+	}
 
-    public Double getMagnitud() {
-        return magnitud;
-    }
+	public void setLongitud (String longitud) {
+		this.mLongitud = longitud;
+	}
 
-    public void setMagnitud(Double magnitud) {
-        this.magnitud = magnitud;
-    }
+	public Double getMagnitud () {
+		return mMagnitud;
+	}
 
-    public String getEscala() {
-        return escala;
-    }
+	public void setMagnitud (Double magnitud) {
+		this.mMagnitud = magnitud;
+	}
 
-    public void setEscala(String escala) {
-        this.escala = escala;
-    }
+	public String getEscala () {
+		return mEscala;
+	}
 
-    public Double getProfundidad() {
-        return profundidad;
-    }
+	public void setEscala (String escala) {
+		this.mEscala = escala;
+	}
 
-    public void setProfundidad(Double profundidad) {
-        this.profundidad = profundidad;
-    }
+	public Double getProfundidad () {
+		return mProfundidad;
+	}
 
-    public String getAgencia() {
-        return agencia;
-    }
+	public void setProfundidad (Double profundidad) {
+		this.mProfundidad = profundidad;
+	}
 
-    public void setAgencia(String agencia) {
-        this.agencia = agencia;
-    }
+	public String getAgencia () {
+		return mAgencia;
+	}
 
-    public String getReferencia() {
-        return referencia;
-    }
+	public void setAgencia (String agencia) {
+		this.mAgencia = agencia;
+	}
 
-    public void setReferencia(String referencia) {
-        this.referencia = referencia;
-    }
+	public String getReferencia () {
+		return mReferencia;
+	}
 
-    public String getImagen_url() {
-        return imagen_url;
-    }
+	public void setReferencia (String referencia) {
+		this.mReferencia = referencia;
+	}
 
-    public void setImagen_url(String imagen_url) {
-        this.imagen_url = imagen_url;
-    }
+	public String getImagenUrl () {
+		return mImagenUrl;
+	}
 
-    public Boolean getSensible() {
-        return sensible;
-    }
+	public void setImagenUrl (String imagen_url) {
+		this.mImagenUrl = imagen_url;
+	}
 
-    public void setSensible(Boolean sensible) {
-        this.sensible = sensible;
-    }
+	public Boolean getSensible () {
+		return mSensible;
+	}
 
-    public String getEstado() {
-        return estado;
-    }
+	public void setSensible (Boolean sensible) {
+		this.mSensible = sensible;
+	}
 
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
+	public String getEstado () {
+		return mEstado;
+	}
+
+	public void setEstado (String estado) {
+		this.mEstado = estado;
+	}
 }

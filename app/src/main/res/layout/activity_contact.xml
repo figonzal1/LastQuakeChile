@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="match_parent">
 
     <!-- AppBar -->
     <android.support.constraint.Guideline
@@ -41,12 +41,12 @@
                 android:id="@+id/toolbar_image_contact"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:background="@drawable/foto"
-                android:foreground="#4D000000"
                 android:contentDescription="@string/imagen_toolbar_contact"
+                android:foreground="#4D000000"
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax"
-                app:layout_collapseParallaxMultiplier="0.5" />
+                app:layout_collapseParallaxMultiplier="0.5"
+                tools:background="@drawable/foto" />
 
             <android.support.v7.widget.Toolbar
 
@@ -87,10 +87,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
+        android:contentDescription="@string/icono_mail"
         app:layout_constraintStart_toStartOf="@+id/izquierda"
         app:layout_constraintTop_toBottomOf="@+id/separador1"
-        app:srcCompat="@drawable/ic_email_black_24dp"
-        android:contentDescription="@string/icono_mail" />
+        app:srcCompat="@drawable/ic_email_black_24dp" />
 
     <TextView
         android:id="@+id/tv_title_email_contact"
@@ -133,10 +133,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
+        android:contentDescription="@string/icono_persona"
         app:layout_constraintStart_toStartOf="@+id/izquierda"
         app:layout_constraintTop_toTopOf="@+id/barrier2"
-        app:srcCompat="@drawable/ic_account_box_black_24dp"
-        android:contentDescription="@string/icono_persona" />
+        app:srcCompat="@drawable/ic_account_box_black_24dp" />
 
     <TextView
         android:id="@+id/tv_name_contact"
@@ -167,11 +167,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/icono_facebook"
         app:layout_constraintEnd_toStartOf="@+id/ib_linkedin"
         app:layout_constraintStart_toEndOf="@+id/izquierda"
         app:layout_constraintTop_toBottomOf="@+id/separador2"
-        app:srcCompat="@drawable/ic_facebook"
-        android:contentDescription="@string/icono_facebook" />
+        app:srcCompat="@drawable/ic_facebook" />
 
     <ImageButton
         android:id="@+id/ib_linkedin"
@@ -179,10 +179,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/icono_linkedin"
         app:layout_constraintEnd_toStartOf="@+id/derecha"
         app:layout_constraintStart_toEndOf="@+id/ib_facebook"
         app:layout_constraintTop_toBottomOf="@+id/separador2"
-        app:srcCompat="@drawable/ic_linkedin"
-        android:contentDescription="@string/icono_linkedin" />
+        app:srcCompat="@drawable/ic_linkedin" />
 
 </android.support.constraint.ConstraintLayout>

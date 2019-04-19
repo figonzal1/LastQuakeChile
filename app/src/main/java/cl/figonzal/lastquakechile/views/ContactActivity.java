@@ -29,95 +29,111 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
 
 public class ContactActivity extends AppCompatActivity {
 
-    private Intent intent;
+	private Intent mIntent;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_contact);
+	@Override
+	protected void onCreate (Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_contact);
 
-        //Sete de toolbar
-        Toolbar toolbar = findViewById(R.id.tool_bar_contact);
-        setSupportActionBar(toolbar);
+		//Sete de toolbar
+		Toolbar mToolbar = findViewById(R.id.tool_bar_contact);
+		setSupportActionBar(mToolbar);
 
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(R.string.toolbar_title);
+		Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setTitle(R.string.toolbar_title);
 
-        //Setear collapsing toolbar con titulo estatico superior y animacion de colores al recoger toolbar
-        final CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar_contact);
-        collapsingToolbarLayout.setTitleEnabled(true);
-        collapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.colorPrimary, getTheme()));
+		//Setear collapsing toolbar con titulo estatico superior y animacion de colores al recoger
+		// toolbar
+		final CollapsingToolbarLayout mCollapsingToolbarLayout =
+				findViewById(R.id.collapsing_toolbar_contact);
+		mCollapsingToolbarLayout.setTitleEnabled(true);
+		mCollapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.colorPrimary
+				, getTheme()));
 
-        //Cargar imagen toolbar
-        loadImageToolbar();
+		//Cargar imagen toolbar
+		loadImageToolbar();
 
-        ImageButton ib_facebook = findViewById(R.id.ib_facebook);
-        ImageButton ib_linkedin = findViewById(R.id.ib_linkedin);
+		ImageButton mIbFacebook = findViewById(R.id.ib_facebook);
+		ImageButton mIbLinkedin = findViewById(R.id.ib_linkedin);
 
-        ib_facebook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+		mIbFacebook.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick (View v) {
 
-                intent = getPackageManager().getLaunchIntentForPackage(getString(R.string.PACKAGE_NAME_FB));
-                if (intent == null) {
-                    QuakeUtils.doInstallation(getString(R.string.PACKAGE_NAME_FB), getApplicationContext());
-                } else {
+				mIntent =
+						getPackageManager().getLaunchIntentForPackage(getString(R.string.PACKAGE_NAME_FB));
+				if (mIntent == null) {
+					QuakeUtils.doInstallation(getString(R.string.PACKAGE_NAME_FB),
+							getApplicationContext());
+				} else {
 
-                    Log.d(getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_INSTALADA));
-                    Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_INSTALADA));
-                    startActivity(intent);
-                }
+					Log.d(getString(R.string.TAG_INTENT),
+							getString(R.string.TAG_INTENT_INSTALADA));
+					Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT),
+							getString(R.string.TAG_INTENT_INSTALADA));
+					startActivity(mIntent);
+				}
 
-            }
-        });
+			}
+		});
 
-        ib_linkedin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+		mIbLinkedin.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick (View v) {
 
-                intent = getPackageManager().getLaunchIntentForPackage(getString(R.string.PACKAGE_NAME_LINKEDIN));
-                if (intent == null) {
-                    QuakeUtils.doInstallation(getString(R.string.PACKAGE_NAME_LINKEDIN), getApplicationContext());
-                } else {
+				mIntent =
+						getPackageManager().getLaunchIntentForPackage(getString(R.string.PACKAGE_NAME_LINKEDIN));
+				if (mIntent == null) {
+					QuakeUtils.doInstallation(getString(R.string.PACKAGE_NAME_LINKEDIN),
+							getApplicationContext());
+				} else {
 
-                    //LOG
-                    Log.d(getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_INSTALADA));
-                    Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_INSTALADA));
-                    startActivity(intent);
-                }
+					//LOG
+					Log.d(getString(R.string.TAG_INTENT),
+							getString(R.string.TAG_INTENT_INSTALADA));
+					Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT),
+							getString(R.string.TAG_INTENT_INSTALADA));
+					startActivity(mIntent);
+				}
 
 
-            }
-        });
-    }
+			}
+		});
+	}
 
-    /**
-     * Funcion para cargar la imagen del toolbar en el Image View
-     */
-    private void loadImageToolbar() {
-        final ImageView iv_foto = findViewById(R.id.toolbar_image_contact);
-        Glide.with(this)
-                .load(R.drawable.foto)
-                .apply(
-                        new RequestOptions()
-                                .placeholder(R.drawable.placeholder)
-                                .error(R.drawable.not_found)
-                )
-                .transition(withCrossFade())
-                .listener(new RequestListener<Drawable>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                        iv_foto.setImageDrawable(getDrawable(R.drawable.not_found));
-                        return false;
-                    }
+	/**
+	 * Funcion para cargar la imagen del toolbar en el Image View
+	 */
+	private void loadImageToolbar () {
+		final ImageView mIvFoto = findViewById(R.id.toolbar_image_contact);
+		Glide.with(this)
+				.load(R.drawable.foto)
+				.apply(
+						new RequestOptions()
+								.placeholder(R.drawable.placeholder)
+								.error(R.drawable.not_found)
+				)
+				.transition(withCrossFade())
+				.listener(new RequestListener<Drawable>() {
+					@Override
+					public boolean onLoadFailed (@Nullable GlideException e, Object model,
+					                             Target<Drawable> target,
+					                             boolean isFirstResource) {
+						mIvFoto.setImageDrawable(getDrawable(R.drawable.not_found));
+						return false;
+					}
 
-                    //No es necesario usarlo (If u want)
-                    @Override
-                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                        return false;
-                    }
-                })
-                .into(iv_foto);
-    }
+					//No es necesario usarlo (If u want)
+					@Override
+					public boolean onResourceReady (Drawable resource, Object model,
+					                                Target<Drawable> target,
+					                                DataSource dataSource,
+					                                boolean isFirstResource) {
+						return false;
+					}
+				})
+				.into(mIvFoto);
+	}
 
 }
