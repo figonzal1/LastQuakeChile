@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -47,14 +48,32 @@ public class MainActivity extends AppCompatActivity {
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
-		if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+		AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+
+		//MODO MANUAL
+		/*if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
 			setTheme(R.style.DarkAppTheme);
 		} else {
 			setTheme(R.style.AppTheme);
-		}
+		}*/
+
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		//DETECTAR MODO AUTO
+		int nightModeFlags =
+				getResources().getConfiguration().uiMode &
+						Configuration.UI_MODE_NIGHT_MASK;
+		switch (nightModeFlags) {
+			case Configuration.UI_MODE_NIGHT_YES:
+				setTheme(R.style.DarkAppTheme);
+				break;
+
+			case Configuration.UI_MODE_NIGHT_NO:
+				setTheme(R.style.AppTheme);
+				break;
+		}
 
 		Switch hola = findViewById(R.id.switchs);
 
@@ -158,12 +177,26 @@ public class MainActivity extends AppCompatActivity {
 		CollapsingToolbarLayout mCollapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
 		mCollapsingToolbarLayout.setTitleEnabled(true);
 
-		if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+
+
+		/*if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
 			mCollapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.colorPrimaryNightMode
 					, getTheme()));
 		} else {
 			mCollapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.colorPrimary,
 					getTheme()));
+		}*/
+
+		switch (nightModeFlags) {
+			case Configuration.UI_MODE_NIGHT_YES:
+				mCollapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.colorPrimaryNightMode
+						, getTheme()));
+				break;
+
+			case Configuration.UI_MODE_NIGHT_NO:
+				mCollapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.colorPrimary,
+						getTheme()));
+				break;
 		}
 
 		//Setear imagen de toolbar con Glide
