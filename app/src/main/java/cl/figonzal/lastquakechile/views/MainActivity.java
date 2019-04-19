@@ -15,7 +15,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -45,8 +47,35 @@ public class MainActivity extends AppCompatActivity {
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
+		if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+			setTheme(R.style.DarkAppTheme);
+		} else {
+			setTheme(R.style.AppTheme);
+		}
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+
+		Switch hola = findViewById(R.id.switchs);
+
+		if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+			hola.setChecked(true);
+		} else {
+			hola.setChecked(false);
+		}
+		hola.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged (CompoundButton buttonView, boolean isChecked) {
+				if (isChecked) {
+					AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+					recreate();
+				} else {
+					AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+					recreate();
+				}
+			}
+		});
+
 
 		Bundle mBundleWelcome = getIntent().getExtras();
 

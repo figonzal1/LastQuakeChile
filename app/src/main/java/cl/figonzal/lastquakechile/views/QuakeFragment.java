@@ -14,7 +14,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -69,8 +68,6 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 	public View onCreateView (@NonNull final LayoutInflater inflater, final ViewGroup container,
 	                          final Bundle savedInstanceState) {
 
-		AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-		getActivity().setTheme(R.style.DarkAppTheme);
 
 		// Inflate the layout for thi{s fragment
 		final View mView = inflater.inflate(R.layout.fragment_quake, container, false);

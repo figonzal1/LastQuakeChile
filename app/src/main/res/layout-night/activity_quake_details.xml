@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey"
+    android:background="@color/backgroundNightMode"
+    android:theme="@style/DarkAppTheme"
     tools:context=".views.QuakeDetailsActivity">
 
     <android.support.design.widget.FloatingActionButton
@@ -110,7 +111,7 @@
         app:elevation="7dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:rippleColor="@color/colorPrimaryDark"
+        app:rippleColor="@color/colorPrimaryDarknightMode"
         app:srcCompat="@drawable/ic_share_24px" />
 
 
@@ -119,7 +120,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:alpha="0.85"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/colorPrimaryDarknightMode"
         android:elevation="5dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -578,8 +579,5 @@
                 tools:text="Sismo preliminar" />
 
         </android.support.constraint.ConstraintLayout>
-
-
     </android.support.v4.widget.NestedScrollView>
-
 </android.support.constraint.ConstraintLayout>

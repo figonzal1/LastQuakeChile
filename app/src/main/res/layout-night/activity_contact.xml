@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundNightMode">
+    android:background="@color/backgroundNightMode"
+    android:theme="@style/DarkAppTheme">
 
     <!-- AppBar -->
     <android.support.constraint.Guideline
@@ -98,7 +99,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/contact_title_email"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="@+id/tv_email_contact"
         app:layout_constraintHorizontal_bias="0.0"

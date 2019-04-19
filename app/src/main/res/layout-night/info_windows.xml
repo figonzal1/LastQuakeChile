@@ -5,7 +5,8 @@
     android:id="@+id/info_windows"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/backgroundNightMode">
+    android:background="@color/backgroundNightMode"
+    android:theme="@style/DarkAppTheme">
 
     <ImageView
         android:id="@+id/iv_iw_mag_color"
