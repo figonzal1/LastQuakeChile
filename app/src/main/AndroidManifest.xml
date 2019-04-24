@@ -61,7 +61,7 @@
 
         <!-- Provider usado para buscar rutas de imagenes y pasarlas a Uri's-->
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="cl.figonzal.lastquakechile.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
