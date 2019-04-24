@@ -6,10 +6,11 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.core.content.FileProvider;
 
 import com.crashlytics.android.Crashlytics;
 

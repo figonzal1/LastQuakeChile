@@ -1,8 +1,9 @@
 package cl.figonzal.lastquakechile.repository;
 
 import android.app.Application;
-import android.arch.lifecycle.MutableLiveData;
 import android.util.Log;
+
+import androidx.lifecycle.MutableLiveData;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
