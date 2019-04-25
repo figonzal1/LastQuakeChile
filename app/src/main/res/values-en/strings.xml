@@ -40,7 +40,6 @@
     <string name="coordenadas_oeste">W</string>
     <string name="coordenadas_este">E</string>
     <string name="imagen_toolbar_contact">Toolbar image contact</string>
-    <string name="toolbar_title">Contact</string>
     <string name="seccion_listado_de_sismos">List of quakes section</string>
     <string name="titulo_toolbar">Toolbar title</string>
     <string name="boton_flotante_gmail">Floating button Gmail</string>
@@ -57,4 +56,5 @@
     <string name="quake_time_day_hour_info_windows">%1$d d %2$d h ago</string>
     <string name="quake_time_day_info_windows">%1$d d ago</string>
     <string name="profundidad_info_windows">Depth: %.1f Km</string>
+    <string name="settings">Settings</string>
 </resources>
