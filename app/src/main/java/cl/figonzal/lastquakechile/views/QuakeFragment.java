@@ -38,6 +38,7 @@ import java.util.Objects;
 import cl.figonzal.lastquakechile.QuakeAdapter;
 import cl.figonzal.lastquakechile.QuakeModel;
 import cl.figonzal.lastquakechile.R;
+import cl.figonzal.lastquakechile.SettingsActivity;
 import cl.figonzal.lastquakechile.viewmodel.QuakeViewModel;
 
 
@@ -310,7 +311,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 	}
 
 	@Override
-	public void onCreateOptionsMenu (final Menu menu, MenuInflater inflater) {
+	public void onCreateOptionsMenu (@NonNull final Menu menu, @NonNull MenuInflater inflater) {
 		menu.clear();
 		inflater.inflate(R.menu.toolbar_menu, menu);
 
@@ -347,8 +348,16 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 	}
 
 	@Override
-	public boolean onOptionsItemSelected (MenuItem item) {
+	public boolean onOptionsItemSelected (@NonNull MenuItem item) {
+
+		Intent intent;
+
 		switch (item.getItemId()) {
+
+			case R.id.settings:
+				intent = new Intent(getActivity(), SettingsActivity.class);
+				startActivity(intent);
+				return true;
 
 			case R.id.refresh:
 
@@ -367,7 +376,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 			case R.id.contact:
 
 				//Intent de contacto
-				Intent intent = new Intent(getActivity(), ContactActivity.class);
+				intent = new Intent(getActivity(), ContactActivity.class);
 				startActivity(intent);
 
 				return true;

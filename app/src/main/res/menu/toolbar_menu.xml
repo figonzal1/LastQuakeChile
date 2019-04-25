@@ -17,18 +17,26 @@
         app:showAsAction="always|collapseActionView" />
 
     <group android:id="@+id/dot">
-        <item
-            android:id="@+id/contact"
-            android:icon="@drawable/ic_more_vert_white_24dp"
-            android:orderInCategory="3"
-            android:title="@string/contact"
-            app:showAsAction="never" />
 
         <item
             android:id="@+id/invite"
             android:orderInCategory="4"
             android:title="@string/invite"
             app:showAsAction="never" />
+        <item
+            android:id="@+id/contact"
+            android:icon="@drawable/ic_more_vert_white_24dp"
+            android:orderInCategory="5"
+            android:title="@string/contact"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/settings"
+            android:icon="@drawable/circle_shape"
+            android:orderInCategory="3"
+            android:title="@string/settings"
+            app:showAsAction="never" />
+
+
     </group>
 
 

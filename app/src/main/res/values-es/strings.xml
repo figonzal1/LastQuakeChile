@@ -40,7 +40,6 @@
     <string name="coordenadas_oeste">O</string>
     <string name="coordenadas_este">E</string>
     <string name="imagen_toolbar_contact">Imagen toolbar contacto</string>
-    <string name="toolbar_title">Contacto</string>
     <string name="seccion_listado_de_sismos">Sección listado de sismos</string>
     <string name="titulo_toolbar">Título toolbar</string>
     <string name="boton_flotante_gmail">Botón flotante gmail</string>
@@ -57,4 +56,5 @@
     <string name="quake_time_minute_info_windows">Hace: %1$d m</string>
     <string name="quake_time_second_info_windows">Hace: %1$d s</string>
     <string name="profundidad_info_windows">Profundidad: %.1f km</string>
+    <string name="settings">Configuración</string>
 </resources>

@@ -42,7 +42,7 @@ public class ContactActivity extends AppCompatActivity {
 		setSupportActionBar(mToolbar);
 
 		Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setTitle(R.string.toolbar_title);
+		getSupportActionBar().setTitle(R.string.contact);
 
 		//Setear collapsing toolbar con titulo estatico superior y animacion de colores al recoger
 		// toolbar

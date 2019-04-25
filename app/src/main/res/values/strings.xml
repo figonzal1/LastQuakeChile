@@ -9,6 +9,7 @@
     <string name="contact">Contacto</string>
     <string name="search">Buscar</string>
     <string name="invite">Invitar amigos</string>
+    <string name="settings">Configuración</string>
 
     <!-- URL SERVIDOR HEROKU -->
     <string name="URL_GET_PROD" translatable="false">https://lastquakechile-server-prod.herokuapp.com/lastquakechile/api/quakes/?limite=%1$s</string>
@@ -101,7 +102,6 @@
     <string name="coordenadas_oeste">O</string>
     <string name="coordenadas_este">E</string>
     <string name="format_coordenadas" translatable="false">%s \n%s</string>
-    <string name="toolbar_title">Contacto</string>
     <string name="seccion_listado_de_sismos">Sección listado de sismos</string>
     <string name="titulo_toolbar">Título toolbar</string>
     <string name="last_quakes_info_card_view_tittle">Últimos sismos</string>
@@ -230,6 +230,22 @@
     <string name="TAG_INFO_WINDOWS_RESPONSE" translatable="false">INFO WINDOWS OPEN</string>
     <string name="TAG_MAP_READY_RESPONSE" translatable="false">MAP READY</string>
     <string name="TAG_INTENT_INFO_WINDOWS" translatable="false">Intent de infowindows a detalle de sismo</string>
+    <string name="title_activity_settings">Configuración</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
 
 
 </resources>
