@@ -1,21 +1,15 @@
 package cl.figonzal.lastquakechile.views;
 
-import android.app.Dialog;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.Switch;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
+import androidx.preference.PreferenceManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
@@ -25,8 +19,6 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.crashlytics.android.Crashlytics;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -38,82 +30,41 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import cl.figonzal.lastquakechile.FragmentPageAdapter;
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.services.MyFirebaseMessagingService;
+import cl.figonzal.lastquakechile.services.QuakeUtils;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 public class MainActivity extends AppCompatActivity {
 
-	private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+
 	private AppBarLayout mAppBarLayout;
 	private ImageView mIvFoto;
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
-		AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+		//Setear configuracion por defecto
+		PreferenceManager.setDefaultValues(this, R.xml.root_preferences, false);
 
-		//MODO MANUAL
-		/*if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-			setTheme(R.style.DarkAppTheme);
-		} else {
-			setTheme(R.style.AppTheme);
-		}*/
-
+		//Checkear si preferencias tiene modo noche
+		QuakeUtils.checkNightMode(this);
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		//DETECTAR MODO AUTO
-		int nightModeFlags =
-				getResources().getConfiguration().uiMode &
-						Configuration.UI_MODE_NIGHT_MASK;
-		switch (nightModeFlags) {
-			case Configuration.UI_MODE_NIGHT_YES:
-				setTheme(R.style.DarkAppTheme);
-				break;
-
-			case Configuration.UI_MODE_NIGHT_NO:
-				setTheme(R.style.AppTheme);
-				break;
-		}
-
-		Switch hola = findViewById(R.id.switchs);
-
-		if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-			hola.setChecked(true);
-		} else {
-			hola.setChecked(false);
-		}
-		hola.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged (CompoundButton buttonView, boolean isChecked) {
-				if (isChecked) {
-					AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-					recreate();
-				} else {
-					AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-					recreate();
-				}
-			}
-		});
-
 
 		Bundle mBundleWelcome = getIntent().getExtras();
-
 		if (mBundleWelcome != null) {
-
 			//Si el usuario viene desde deep link, no se realiza first check
 			//Si viene desde Google play, se realiza el check
 			if (!mBundleWelcome.getBoolean(getString(R.string.desde_deep_link))) {
-				checkFirstRun();
+				QuakeUtils.checkFirstRun(this);
 			}
 		}
 
 		//Verifica si el celular tiene googleplay services activado
-		checkPlayServices();
+		QuakeUtils.checkPlayServices(this);
 
-        /*
-            Firebase SECTION
-         */
+		//FIREBASE SECTION
 		FirebaseMessaging.getInstance().setAutoInitEnabled(true);
 		FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(this,
 				new OnSuccessListener<InstanceIdResult>() {
@@ -178,32 +129,21 @@ public class MainActivity extends AppCompatActivity {
 		CollapsingToolbarLayout mCollapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
 		mCollapsingToolbarLayout.setTitleEnabled(true);
 
+		int modeNightType = getResources().getConfiguration().uiMode &
+				Configuration.UI_MODE_NIGHT_MASK;
 
-
-		/*if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+		//Detecta modo noche automatico como YES
+		if (modeNightType == Configuration.UI_MODE_NIGHT_YES) {
 			mCollapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.colorPrimaryNightMode
 					, getTheme()));
-		} else {
+		} else if (modeNightType == Configuration.UI_MODE_NIGHT_NO) {
 			mCollapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.colorPrimary,
 					getTheme()));
-		}*/
-
-		switch (nightModeFlags) {
-			case Configuration.UI_MODE_NIGHT_YES:
-				mCollapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.colorPrimaryNightMode
-						, getTheme()));
-				break;
-
-			case Configuration.UI_MODE_NIGHT_NO:
-				mCollapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.colorPrimary,
-						getTheme()));
-				break;
 		}
 
 		//Setear imagen de toolbar con Glide
 		mIvFoto = findViewById(R.id.toolbar_image);
 		loadImage();
-
 
 		//Suscribir automaticamente al tema (FIREBASE - Quakes)
 		MyFirebaseMessagingService.checkSuscription(this);
@@ -244,73 +184,12 @@ public class MainActivity extends AppCompatActivity {
 				.into(mIvFoto);
 	}
 
-	/**
-	 * Funcion encargada de checkear si la aplicación se ha abierto por primera vez
-	 */
-	private void checkFirstRun () {
-		SharedPreferences mSharedPref = getPreferences(Context.MODE_PRIVATE);
-
-		boolean mFirstRun = mSharedPref.getBoolean(getString(R.string.SHARED_PREF_FIRST_RUN),
-				true);
-		Crashlytics.setBool(getString(R.string.SHARED_PREF_FIRST_RUN), true);
-
-		if (mFirstRun) {
-
-			Log.d(getString(R.string.TAG_FIRST_RUN_STATUS),
-					getString(R.string.FIRST_RUN_STATUS_RESPONSE));
-
-			Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
-			startActivity(intent);
-			finish();
-		}
-
-		//Cambiar a falso, para que proxima vez no abra invitation.
-		SharedPreferences.Editor editor = mSharedPref.edit();
-		editor.putBoolean(getString(R.string.SHARED_PREF_FIRST_RUN), false);
-		editor.apply();
-
-		//Log
-		Crashlytics.setBool(getString(R.string.SHARED_PREF_FIRST_RUN), false);
-	}
-
 
 	@Override
 	protected void onResume () {
 		super.onResume();
-		checkPlayServices();
+		QuakeUtils.checkPlayServices(this);
 	}
 
-	/**
-	 * Funcion que verifica si el dispositivo cuenta con GooglePlayServices actualizado
-	 */
-	private void checkPlayServices () {
-		GoogleApiAvailability mGoogleApiAvailability = GoogleApiAvailability.getInstance();
-		int resultCode = mGoogleApiAvailability.isGooglePlayServicesAvailable(this);
 
-		if (resultCode != ConnectionResult.SUCCESS) {
-
-			//Si el error puede ser resuelto por el usuario
-			if (mGoogleApiAvailability.isUserResolvableError(resultCode)) {
-
-				Dialog dialog = mGoogleApiAvailability.getErrorDialog(this, resultCode,
-						PLAY_SERVICES_RESOLUTION_REQUEST);
-				dialog.setCanceledOnTouchOutside(false);
-				dialog.show();
-			} else {
-
-				//El error no puede ser resuelto por el usuario y la app se cierra
-				Log.d(getString(R.string.TAG_GOOGLE_PLAY),
-						getString(R.string.GOOGLE_PLAY_NOSOPORTADO));
-				Crashlytics.log(Log.DEBUG, getString(R.string.TAG_GOOGLE_PLAY),
-						getString(R.string.GOOGLE_PLAY_NOSOPORTADO));
-				finish();
-			}
-		} else {
-			//La app puede ser utilizada, google play esta actualizado
-			Log.d(getString(R.string.TAG_GOOGLE_PLAY),
-					getString(R.string.GOOGLE_PLAY_ACTUALIZADO));
-			Crashlytics.log(Log.DEBUG, getString(R.string.TAG_GOOGLE_PLAY),
-					getString(R.string.GOOGLE_PLAY_ACTUALIZADO));
-		}
-	}
 }
