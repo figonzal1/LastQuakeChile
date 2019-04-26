@@ -95,17 +95,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 		mGoogleMap = googleMap;
 		mGoogleMap.clear();
 
-		boolean sucess = false;
+		//NIGHT MODE MAPA
 		int nightModeFlags =
 				getContext().getResources().getConfiguration().uiMode &
 						Configuration.UI_MODE_NIGHT_MASK;
 		if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
-			sucess =
-					mGoogleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(getContext(),
+			googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(getContext(),
 							R.raw.map_night_mode));
 		}
-
-		Log.e("HOLA", String.valueOf(sucess));
 
 		//Setear info windows
 		mGoogleMap.setInfoWindowAdapter(MapFragment.this);
