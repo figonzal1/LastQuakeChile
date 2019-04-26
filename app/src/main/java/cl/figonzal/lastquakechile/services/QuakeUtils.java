@@ -1,7 +1,10 @@
 package cl.figonzal.lastquakechile.services;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -10,9 +13,13 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.FileProvider;
+import androidx.preference.PreferenceManager;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -27,6 +34,7 @@ import java.util.Map;
 import java.util.TimeZone;
 
 import cl.figonzal.lastquakechile.R;
+import cl.figonzal.lastquakechile.views.WelcomeActivity;
 
 public class QuakeUtils {
 
@@ -387,6 +395,102 @@ public class QuakeUtils {
 				break;
 
 		}
+	}
+
+	public static void checkNightMode (Activity activity) {
+
+		//Leer preference settings
+		SharedPreferences sharedPreferences =
+				PreferenceManager.getDefaultSharedPreferences(activity);
+
+		boolean manual_night_mode = sharedPreferences.getBoolean("pref_manual_night_mode", false);
+		boolean auto_night_mode = sharedPreferences.getBoolean("pref_auto_night_mode", false);
+
+		if (manual_night_mode) {
+			AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+			activity.setTheme(R.style.DarkAppTheme);
+
+			Log.e("NIGHT MODE MANUAL", "ON");
+		} else if (auto_night_mode) {
+			AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+			Log.e("NIGHT MODE AUTO", "ON");
+		} else {
+			AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+			activity.setTheme(R.style.AppTheme);
+
+			Log.e("NIGHT MODE", "OFF");
+		}
+	}
+
+	/**
+	 * Funcion que verifica si el dispositivo cuenta con GooglePlayServices actualizado
+	 */
+	public static void checkPlayServices (Activity activity) {
+
+		int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+		GoogleApiAvailability mGoogleApiAvailability = GoogleApiAvailability.getInstance();
+		int resultCode = mGoogleApiAvailability.isGooglePlayServicesAvailable(activity);
+
+		//Si existe algun problema con google play
+		if (resultCode != ConnectionResult.SUCCESS) {
+
+			//Si el error puede ser resuelto por el usuario
+			if (mGoogleApiAvailability.isUserResolvableError(resultCode)) {
+
+				Dialog dialog = mGoogleApiAvailability.getErrorDialog(activity, resultCode,
+						PLAY_SERVICES_RESOLUTION_REQUEST);
+				dialog.setCanceledOnTouchOutside(false);
+				dialog.show();
+			} else {
+
+				//El error no puede ser resuelto por el usuario y la app se cierra
+				Log.d(activity.getString(R.string.TAG_GOOGLE_PLAY),
+						activity.getString(R.string.GOOGLE_PLAY_NOSOPORTADO));
+				Crashlytics.log(Log.DEBUG, activity.getString(R.string.TAG_GOOGLE_PLAY),
+						activity.getString(R.string.GOOGLE_PLAY_NOSOPORTADO));
+				activity.finish();
+			}
+		}
+		//La app puede ser utilizada, google play esta actualizado
+		else {
+
+			Log.d(activity.getString(R.string.TAG_GOOGLE_PLAY),
+					activity.getString(R.string.GOOGLE_PLAY_ACTUALIZADO));
+			Crashlytics.log(Log.DEBUG, activity.getString(R.string.TAG_GOOGLE_PLAY),
+					activity.getString(R.string.GOOGLE_PLAY_ACTUALIZADO));
+		}
+	}
+
+	/**
+	 * Funcion encargada de checkear si la aplicación se ha abierto por primera vez
+	 */
+	public static void checkFirstRun (Activity activity) {
+
+		//Abrir shared pref para la actividad
+		SharedPreferences mSharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+
+		boolean mFirstRun =
+				mSharedPref.getBoolean(activity.getString(R.string.SHARED_PREF_FIRST_RUN),
+						true);
+		Crashlytics.setBool(activity.getString(R.string.SHARED_PREF_FIRST_RUN), true);
+
+		if (mFirstRun) {
+
+			Log.d(activity.getString(R.string.TAG_FIRST_RUN_STATUS),
+					activity.getString(R.string.FIRST_RUN_STATUS_RESPONSE));
+
+			Intent intent = new Intent(activity, WelcomeActivity.class);
+			activity.startActivity(intent);
+			activity.finish();
+		}
+
+		//Cambiar a falso, para que proxima vez no abra invitation.
+		SharedPreferences.Editor editor = mSharedPref.edit();
+		editor.putBoolean(activity.getString(R.string.SHARED_PREF_FIRST_RUN), false);
+		editor.apply();
+
+		//Log
+		Crashlytics.setBool(activity.getString(R.string.SHARED_PREF_FIRST_RUN), false);
 	}
 
 }
