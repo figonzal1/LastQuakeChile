@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -413,6 +414,16 @@ public class QuakeUtils {
 			Log.e("NIGHT MODE MANUAL", "ON");
 		} else if (auto_night_mode) {
 			AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+
+			int modeNightType = activity.getResources().getConfiguration().uiMode &
+					Configuration.UI_MODE_NIGHT_MASK;
+			//Detecta modo noche automatico como YES
+			if (modeNightType == Configuration.UI_MODE_NIGHT_YES) {
+				activity.setTheme(R.style.DarkAppTheme);
+			} else if (modeNightType == Configuration.UI_MODE_NIGHT_NO) {
+				activity.setTheme(R.style.AppTheme);
+			}
+
 			Log.e("NIGHT MODE AUTO", "ON");
 		} else {
 			AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
