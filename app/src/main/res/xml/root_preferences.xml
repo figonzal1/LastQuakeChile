@@ -33,12 +33,12 @@
             app:useSimpleSummaryProvider="true" />
 
         <SwitchPreference
-            app:defaultValue="false"
+            app:defaultValue="true"
             app:iconSpaceReserved="false"
             app:key="pref_auto_night_mode"
             app:summaryOff="Desactivado"
             app:summaryOn="Activado (10pm-7am)"
-            app:title="Automatico"
+            app:title="Automático"
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>

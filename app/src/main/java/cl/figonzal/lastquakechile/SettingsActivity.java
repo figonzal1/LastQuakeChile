@@ -2,6 +2,7 @@ package cl.figonzal.lastquakechile;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,13 +31,19 @@ public class SettingsActivity extends AppCompatActivity {
 
 		Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setTitle(R.string.settings);
-
 	}
 
+
+	@Override
+	protected void onResume () {
+		super.onResume();
+		QuakeUtils.checkNightMode(this);
+	}
 
 	public static class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
 		private Activity activity;
+
 		@Override
 		public void onCreatePreferences (Bundle savedInstanceState, String rootKey) {
 			setPreferencesFromResource(R.xml.root_preferences, rootKey);
@@ -58,8 +65,36 @@ public class SettingsActivity extends AppCompatActivity {
 					activity.recreate();
 
 					//Preference pref = findPreference("pref_auto_night_mode");
-					//pref.setSelectable(false);
+					//pref.setEnabled(false);
+					SharedPreferences.Editor edit = sharedPreferences.edit();
+					edit.putBoolean("pref_auto_night_mode", false);
+					edit.apply();
+
 				} else {
+					AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+					activity.setTheme(R.style.AppTheme);
+					activity.recreate();
+				}
+			} else if (key.equals("pref_auto_night_mode")) {
+
+				//Si automatico esta activado, preguntar el estado del modo
+				if (sharedPreferences.getBoolean("pref_auto_night_mode", false)) {
+					AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+
+					//Obtener el estado del modo
+					int modeNightType = activity.getResources().getConfiguration().uiMode &
+							Configuration.UI_MODE_NIGHT_MASK;
+
+					//Detecta modo noche automatico como YES
+					if (modeNightType == Configuration.UI_MODE_NIGHT_YES) {
+						activity.setTheme(R.style.DarkAppTheme);
+					} else if (modeNightType == Configuration.UI_MODE_NIGHT_NO) {
+						activity.setTheme(R.style.AppTheme);
+					}
+					activity.recreate();
+				}
+				//Si auto esta desactivado, tema claro por defecto
+				else {
 					AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 					activity.setTheme(R.style.AppTheme);
 					activity.recreate();
