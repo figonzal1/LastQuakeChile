@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,7 @@ import androidx.core.app.NotificationCompat;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -66,12 +68,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 	public static void checkSuscription (final Activity activity) {
 
-		final SharedPreferences mSharedPref = activity.getPreferences(Context.MODE_PRIVATE);
-		boolean suscrito =
-				mSharedPref.getBoolean(activity.getString(R.string.FIREBASE_SUSCRITO), false);
+		final SharedPreferences sharedPreferences =
+				PreferenceManager.getDefaultSharedPreferences(activity);
 
-		if (!suscrito) {
-			FirebaseMessaging.getInstance().subscribeToTopic(activity.getString(R.string.FIREBASE_TOPIC_NAME))
+		boolean mSuscrito = sharedPreferences.getBoolean("pref_suscrito_quake", true);
+
+		if (mSuscrito) {
+			FirebaseMessaging.getInstance().subscribeToTopic("Test")
 					.addOnCompleteListener(new OnCompleteListener<Void>() {
 						@Override
 						public void onComplete (@NonNull Task<Void> task) {
@@ -79,11 +82,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 								Log.d(activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION),
 										activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION_RESPONSE1));
-
-								SharedPreferences.Editor editor = mSharedPref.edit();
-								editor.putBoolean(activity.getString(R.string.FIREBASE_SUSCRITO),
-										true);
-								editor.apply();
 
 								//CRASH ANALYTIC LOG
 								Crashlytics.setBool(activity.getString(R.string.FIREBASE_SUSCRITO)
@@ -96,16 +94,32 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 					});
 
 		} else {
-			//FirebaseMessaging.getInstance().unsubscribeFromTopic(activity.getString(R.string
-			// .FIREBASE_TOPIC_NAME));
+			//Eliminacion de la suscripcion
+			FirebaseMessaging.getInstance().unsubscribeFromTopic("Test")
+					.addOnCompleteListener(new OnCompleteListener<Void>() {
+						@Override
+						public void onComplete (@NonNull Task<Void> task) {
+							Log.d("FIREBASE_SUSCRIPCION", "ELIMINADA");
+
+							//Modificar valor en sharepref de settings
+							sharedPreferences.edit().putBoolean("pref_suscrito_quakes", false).apply();
+						}
+					})
+					.addOnFailureListener(new OnFailureListener() {
+						@Override
+						public void onFailure (@NonNull Exception e) {
+							Log.d(activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION),
+									activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION_RESPONSE2));
+							Crashlytics.log(Log.DEBUG,
+									activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION),
+									activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION_RESPONSE2));
+						}
+					});
 			//Toast.makeText(activity.getApplicationContext(), activity.getString(R.string
 			// .FIREBASE_SNACKBAR_SUBSCRIBE_TOPIC_DELETED), Toast.LENGTH_LONG).show();
 			//Log.d(activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION), "SUSCRIPCION
 			// ELIMINADA");
-			Log.d(activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION),
-					activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION_RESPONSE2));
-			Crashlytics.log(Log.DEBUG, activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION),
-					activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION_RESPONSE2));
+
 		}
 	}
 

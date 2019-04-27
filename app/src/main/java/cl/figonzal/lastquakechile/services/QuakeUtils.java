@@ -398,6 +398,11 @@ public class QuakeUtils {
 		}
 	}
 
+	/**
+	 * Funcion que permite revisar y establecer el modo noche desde Shared Preference Settings
+	 *
+	 * @param activity Actividad para utilizar recursos
+	 */
 	public static void checkNightMode (Activity activity) {
 
 		//Leer preference settings

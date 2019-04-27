@@ -21,10 +21,6 @@ public class QuakeModel {
 	public QuakeModel () {
 	}
 
-	public Date getFechaUtc () {
-		return mFechaUtc;
-	}
-
 	public void setFechaUtc (Date fecha_utc) {
 		this.mFechaUtc = fecha_utc;
 	}
