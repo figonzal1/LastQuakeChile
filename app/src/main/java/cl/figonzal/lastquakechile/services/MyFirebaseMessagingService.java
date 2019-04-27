@@ -35,6 +35,11 @@ import cl.figonzal.lastquakechile.views.QuakeDetailsActivity;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
+	/**
+	 * Funcion que crea el canal para notificaciones necesario para celulares > a API 26
+	 *
+	 * @param context Contexto necesario para el uso de recursos
+	 */
 	public static void createNotificationChannel (Context context) {
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -66,59 +71,70 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 		}
 	}
 
+	/**
+	 * Funcion encargada de checkear la suscripcion del usuario al canal de alertas de sismos
+	 *
+	 * @param activity Necesario para el uso de recursos de string
+	 */
 	public static void checkSuscription (final Activity activity) {
 
 		final SharedPreferences sharedPreferences =
 				PreferenceManager.getDefaultSharedPreferences(activity);
 
-		boolean mSuscrito = sharedPreferences.getBoolean("pref_suscrito_quake", true);
+		boolean mSuscrito =
+				sharedPreferences.getBoolean(activity.getString(R.string.FIREBASE_PREF_KEY), true);
 
 		if (mSuscrito) {
-			FirebaseMessaging.getInstance().subscribeToTopic("Test")
+			FirebaseMessaging.getInstance().subscribeToTopic(activity.getString(R.string.FIREBASE_TOPIC_NAME))
 					.addOnCompleteListener(new OnCompleteListener<Void>() {
 						@Override
 						public void onComplete (@NonNull Task<Void> task) {
 							if (task.isSuccessful()) {
 
 								Log.d(activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION),
-										activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION_RESPONSE1));
+										activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION_OK));
 
 								//CRASH ANALYTIC LOG
-								Crashlytics.setBool(activity.getString(R.string.FIREBASE_SUSCRITO)
+								Crashlytics.setBool(activity.getString(R.string.FIREBASE_PREF_KEY)
 										, true);
 								Crashlytics.log(Log.DEBUG,
 										activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION),
-										activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION_RESPONSE1));
+										activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION_OK));
 							}
 						}
 					});
 
 		} else {
 			//Eliminacion de la suscripcion
-			FirebaseMessaging.getInstance().unsubscribeFromTopic("Test")
+			FirebaseMessaging.getInstance().unsubscribeFromTopic(activity.getString(R.string.FIREBASE_TOPIC_NAME))
 					.addOnCompleteListener(new OnCompleteListener<Void>() {
 						@Override
 						public void onComplete (@NonNull Task<Void> task) {
-							Log.d("FIREBASE_SUSCRIPCION", "ELIMINADA");
 
 							//Modificar valor en sharepref de settings
-							sharedPreferences.edit().putBoolean("pref_suscrito_quakes", false).apply();
+							sharedPreferences.edit().putBoolean(activity.getString(R.string.FIREBASE_PREF_KEY),
+									false).apply();
+
+							//LOG ZONE
+							Log.d(activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION),
+									activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION_DELETE));
+							Crashlytics.log(Log.DEBUG,
+									activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION),
+									activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION_DELETE));
+							Crashlytics.setBool(activity.getString(R.string.FIREBASE_PREF_KEY)
+									, false);
 						}
 					})
 					.addOnFailureListener(new OnFailureListener() {
 						@Override
 						public void onFailure (@NonNull Exception e) {
 							Log.d(activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION),
-									activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION_RESPONSE2));
+									activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION_ALREADY));
 							Crashlytics.log(Log.DEBUG,
 									activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION),
-									activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION_RESPONSE2));
+									activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION_ALREADY));
 						}
 					});
-			//Toast.makeText(activity.getApplicationContext(), activity.getString(R.string
-			// .FIREBASE_SNACKBAR_SUBSCRIBE_TOPIC_DELETED), Toast.LENGTH_LONG).show();
-			//Log.d(activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION), "SUSCRIPCION
-			// ELIMINADA");
 
 		}
 	}

@@ -58,31 +58,35 @@ public class SettingsActivity extends AppCompatActivity {
 		                                       String key) {
 
 			//Preferencia modo noche manual
-			if (key.equals("pref_manual_night_mode")) {
+			if (key.equals(activity.getString(R.string.NIGHT_MODE_MANUAL_KEY))) {
 
 				//Si el modo manual esta activado
-				if (sharedPreferences.getBoolean("pref_manual_night_mode", false)) {
+				if (sharedPreferences.getBoolean(activity.getString(R.string.NIGHT_MODE_MANUAL_KEY), false)) {
 					AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 					activity.setTheme(R.style.DarkAppTheme);
 					activity.recreate();
 
-					//Preference pref = findPreference("pref_auto_night_mode");
-					//pref.setEnabled(false);
+					//Setear automatico como false si manual esta activado
 					SharedPreferences.Editor edit = sharedPreferences.edit();
-					edit.putBoolean("pref_auto_night_mode", false);
+					edit.putBoolean(activity.getString(R.string.NIGHT_MODE_AUTO_KEY), false);
 					edit.apply();
 
-				} else {
+				}
+				//Si modo manual no esta activado
+				else {
 					AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 					activity.setTheme(R.style.AppTheme);
 					activity.recreate();
 				}
 			}
+
+			//MODO AUTOMATICO
 			//Preferencia modo noche automatico
-			else if (key.equals("pref_auto_night_mode")) {
+			else if (key.equals(activity.getString(R.string.NIGHT_MODE_AUTO_KEY))) {
 
 				//Si automatico esta activado, preguntar el estado del modo
-				if (sharedPreferences.getBoolean("pref_auto_night_mode", false)) {
+				if (sharedPreferences.getBoolean(activity.getString(R.string.NIGHT_MODE_AUTO_KEY),
+						false)) {
 					AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
 
 					//Obtener el estado del modo
@@ -96,6 +100,11 @@ public class SettingsActivity extends AppCompatActivity {
 						activity.setTheme(R.style.AppTheme);
 					}
 					activity.recreate();
+
+					//Setear automatico como false si manual esta activado
+					SharedPreferences.Editor edit = sharedPreferences.edit();
+					edit.putBoolean(activity.getString(R.string.NIGHT_MODE_MANUAL_KEY), false);
+					edit.apply();
 				}
 				//Si auto esta desactivado, tema claro por defecto
 				else {
@@ -105,49 +114,8 @@ public class SettingsActivity extends AppCompatActivity {
 				}
 			}
 
-
-			if (key.equals("pref_suscrito_quake")) {
-
-				//Si esta suscrito
-				if (sharedPreferences.getBoolean("pref_suscrito_quake", true)) {
-
-					MyFirebaseMessagingService.checkSuscription(Objects.requireNonNull(getActivity()));
-					/*FirebaseMessaging.getInstance().subscribeToTopic(activity.getString(R
-					.string.FIREBASE_TOPIC_NAME))
-					 */
-							/*.addOnCompleteListener(new OnCompleteListener<Void>() {
-								@Override
-								public void onComplete (@NonNull Task<Void> task) {
-									if (task.isSuccessful()) {
-
-										Log.d(activity.getString(R.string
-										.TAG_FIREBASE_SUSCRIPTION),
-												activity.getString(R.string
-												.TAG_FIREBASE_SUSCRIPTION_RESPONSE1));
-
-										/*SharedPreferences.Editor editor = sharedPreferences
-										.edit();
-										 */
-					//editor.putBoolean(activity.getString(R.string
-					// .FIREBASE_SUSCRITO),
-					//		true);
-					//editor.apply();*/
-
-					//CRASH ANALYTIC LOG
-										/*Crashlytics.setBool(activity.getString(R.string
-										.FIREBASE_SUSCRITO)
-												, true);
-										Crashlytics.log(Log.DEBUG,
-												activity.getString(R.string
-												.TAG_FIREBASE_SUSCRIPTION),
-												activity.getString(R.string
-												.TAG_FIREBASE_SUSCRIPTION_RESPONSE1));
-									}
-								}
-							});*/
-				} else {
-
-				}
+			if (key.equals(activity.getString(R.string.FIREBASE_PREF_KEY))) {
+				MyFirebaseMessagingService.checkSuscription(activity);
 			}
 
 		}
