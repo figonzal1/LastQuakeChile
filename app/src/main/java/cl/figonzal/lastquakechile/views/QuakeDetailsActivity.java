@@ -76,6 +76,7 @@ public class QuakeDetailsActivity extends AppCompatActivity {
 
 	@Override
 	public void onCreate (Bundle savedInstanceState) {
+		QuakeUtils.checkNightMode(this);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_quake_details);
 
