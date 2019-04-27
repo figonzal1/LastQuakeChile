@@ -9,7 +9,7 @@
         <SwitchPreferenceCompat
             app:defaultValue="true"
             app:iconSpaceReserved="false"
-            app:key="pref_suscrito_quake_test"
+            app:key="pref_suscrito_quake"
             app:summaryOff="Desactivadas"
             app:summaryOn="Activadas"
             app:title="Alertas de sismos"

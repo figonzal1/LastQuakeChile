@@ -12,6 +12,7 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import java.util.Objects;
 
+import cl.figonzal.lastquakechile.services.MyFirebaseMessagingService;
 import cl.figonzal.lastquakechile.services.QuakeUtils;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -53,9 +54,10 @@ public class SettingsActivity extends AppCompatActivity {
 		}
 
 		@Override
-		public void onSharedPreferenceChanged (SharedPreferences sharedPreferences, String key) {
+		public void onSharedPreferenceChanged (final SharedPreferences sharedPreferences,
+		                                       String key) {
 
-			//Preferencia modo manual
+			//Preferencia modo noche manual
 			if (key.equals("pref_manual_night_mode")) {
 
 				//Si el modo manual esta activado
@@ -75,7 +77,9 @@ public class SettingsActivity extends AppCompatActivity {
 					activity.setTheme(R.style.AppTheme);
 					activity.recreate();
 				}
-			} else if (key.equals("pref_auto_night_mode")) {
+			}
+			//Preferencia modo noche automatico
+			else if (key.equals("pref_auto_night_mode")) {
 
 				//Si automatico esta activado, preguntar el estado del modo
 				if (sharedPreferences.getBoolean("pref_auto_night_mode", false)) {
@@ -101,6 +105,50 @@ public class SettingsActivity extends AppCompatActivity {
 				}
 			}
 
+
+			if (key.equals("pref_suscrito_quake")) {
+
+				//Si esta suscrito
+				if (sharedPreferences.getBoolean("pref_suscrito_quake", true)) {
+
+					MyFirebaseMessagingService.checkSuscription(Objects.requireNonNull(getActivity()));
+					/*FirebaseMessaging.getInstance().subscribeToTopic(activity.getString(R
+					.string.FIREBASE_TOPIC_NAME))
+					 */
+							/*.addOnCompleteListener(new OnCompleteListener<Void>() {
+								@Override
+								public void onComplete (@NonNull Task<Void> task) {
+									if (task.isSuccessful()) {
+
+										Log.d(activity.getString(R.string
+										.TAG_FIREBASE_SUSCRIPTION),
+												activity.getString(R.string
+												.TAG_FIREBASE_SUSCRIPTION_RESPONSE1));
+
+										/*SharedPreferences.Editor editor = sharedPreferences
+										.edit();
+										 */
+					//editor.putBoolean(activity.getString(R.string
+					// .FIREBASE_SUSCRITO),
+					//		true);
+					//editor.apply();*/
+
+					//CRASH ANALYTIC LOG
+										/*Crashlytics.setBool(activity.getString(R.string
+										.FIREBASE_SUSCRITO)
+												, true);
+										Crashlytics.log(Log.DEBUG,
+												activity.getString(R.string
+												.TAG_FIREBASE_SUSCRIPTION),
+												activity.getString(R.string
+												.TAG_FIREBASE_SUSCRIPTION_RESPONSE1));
+									}
+								}
+							});*/
+				} else {
+
+				}
+			}
 
 		}
 

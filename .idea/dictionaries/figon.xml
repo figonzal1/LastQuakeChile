@@ -1,12 +1,14 @@
 <component name="ProjectDictionaryState">
   <dictionary name="figon">
     <words>
+      <w>abierto</w>
       <w>abre</w>
       <w>abriendo</w>
       <w>abrir</w>
       <w>abvcfke</w>
       <w>acceder</w>
       <w>acitivity</w>
+      <w>activadas</w>
       <w>activado</w>
       <w>actividad</w>
       <w>actualizado</w>
@@ -18,6 +20,7 @@
       <w>ahora</w>
       <w>alerta</w>
       <w>alertas</w>
+      <w>algun</w>
       <w>alguna</w>
       <w>ambiar</w>
       <w>analitycs</w>
@@ -27,14 +30,18 @@
       <w>animadas</w>
       <w>antiguo</w>
       <w>apiladas</w>
+      <w>aplicación</w>
       <w>appinvite</w>
       <w>appspot</w>
+      <w>aqui</w>
       <w>aquí</w>
       <w>argumento</w>
       <w>asincronamente</w>
       <w>atras</w>
       <w>atributos</w>
       <w>automaticamente</w>
+      <w>automatico</w>
+      <w>automático</w>
       <w>aviso</w>
       <w>bajo</w>
       <w>bgcolor</w>
@@ -62,6 +69,7 @@
       <w>cambio</w>
       <w>campo</w>
       <w>cancelada</w>
+      <w>cansancio</w>
       <w>caracter</w>
       <w>cardview</w>
       <w>carga</w>
@@ -70,12 +78,14 @@
       <w>cellpadding</w>
       <w>cellspacing</w>
       <w>celular</w>
+      <w>chamaileon</w>
       <w>checkear</w>
       <w>cierra</w>
       <w>circulares</w>
       <w>circulo</w>
       <w>circulos</w>
       <w>ciudad</w>
+      <w>claro</w>
       <w>clase</w>
       <w>codigo</w>
       <w>colapso</w>
@@ -90,6 +100,8 @@
       <w>condiciones</w>
       <w>conexion</w>
       <w>conexión</w>
+      <w>configuracion</w>
+      <w>configuraciones</w>
       <w>configuración</w>
       <w>configurar</w>
       <w>contacto</w>
@@ -114,6 +126,7 @@
       <w>cuando</w>
       <w>cuenta</w>
       <w>cyhv</w>
+      <w>darknight</w>
       <w>datos</w>
       <w>defecto</w>
       <w>definicion</w>
@@ -121,6 +134,8 @@
       <w>dependiendo</w>
       <w>derecha</w>
       <w>desactiva</w>
+      <w>desactivadas</w>
+      <w>desactivado</w>
       <w>desaparece</w>
       <w>descarga</w>
       <w>descargar</w>
@@ -130,6 +145,7 @@
       <w>despues</w>
       <w>detalle</w>
       <w>detalles</w>
+      <w>detecta</w>
       <w>devuelve</w>
       <w>dhms</w>
       <w>dibujar</w>
@@ -175,6 +191,7 @@
       <w>etiqueta</w>
       <w>evento</w>
       <w>eventos</w>
+      <w>evitar</w>
       <w>ewcvpme</w>
       <w>existe</w>
       <w>fabs</w>
@@ -199,6 +216,7 @@
       <w>flecha</w>
       <w>flotante</w>
       <w>flotantes</w>
+      <w>fondo</w>
       <w>foto</w>
       <w>fragmentmap</w>
       <w>fuerza</w>
@@ -234,6 +252,7 @@
       <w>inflar</w>
       <w>informacion</w>
       <w>información</w>
+      <w>infowindows</w>
       <w>ingresa</w>
       <w>ingresada</w>
       <w>iniciacion</w>
@@ -292,8 +311,10 @@
       <w>milisegundos</w>
       <w>minimizar</w>
       <w>minutos</w>
+      <w>miscelaneos</w>
       <w>mobilesdk</w>
       <w>modelo</w>
+      <w>modo</w>
       <w>moestrar</w>
       <w>momento</w>
       <w>mostrado</w>
@@ -307,6 +328,7 @@
       <w>necesario</w>
       <w>neue</w>
       <w>nignuno</w>
+      <w>noche</w>
       <w>noconnection</w>
       <w>nombre</w>
       <w>norte</w>
@@ -348,9 +370,14 @@
       <w>posicion</w>
       <w>posicionamiento</w>
       <w>posición</w>
+      <w>preferencia</w>
+      <w>preferencias</w>
+      <w>preguntar</w>
       <w>preliminar</w>
       <w>preparacion</w>
       <w>presiona</w>
+      <w>primera</w>
+      <w>problema</w>
       <w>problemas</w>
       <w>procesa</w>
       <w>procesada</w>
@@ -386,6 +413,7 @@
       <w>reloj</w>
       <w>repositorio</w>
       <w>requerido</w>
+      <w>resourse</w>
       <w>responde</w>
       <w>resuelto</w>
       <w>resultado</w>
@@ -420,7 +448,9 @@
       <w>sociales</w>
       <w>solicitudes</w>
       <w>soportado</w>
+      <w>soporte</w>
       <w>soqh</w>
+      <w>stylers</w>
       <w>suma</w>
       <w>suscribir</w>
       <w>suscripcion</w>
