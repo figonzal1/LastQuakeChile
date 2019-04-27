@@ -97,7 +97,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
 		//NIGHT MODE MAPA
 		int nightModeFlags =
-				getContext().getResources().getConfiguration().uiMode &
+				Objects.requireNonNull(getContext()).getResources().getConfiguration().uiMode &
 						Configuration.UI_MODE_NIGHT_MASK;
 		if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
 			googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(getContext(),

@@ -44,7 +44,7 @@ import cl.figonzal.lastquakechile.viewmodel.QuakeViewModel;
 
 public class QuakeFragment extends Fragment implements SearchView.OnQueryTextListener {
 
-	private static Snackbar sSnackbar;
+	private Snackbar sSnackbar;
 	private RecyclerView mRecycleView;
 	private ProgressBar mProgressBar;
 	private QuakeViewModel mViewModel;
