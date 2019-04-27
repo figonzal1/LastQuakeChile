@@ -409,19 +409,35 @@ public class QuakeUtils {
 		SharedPreferences sharedPreferences =
 				PreferenceManager.getDefaultSharedPreferences(activity);
 
-		boolean manual_night_mode = sharedPreferences.getBoolean("pref_manual_night_mode", false);
-		boolean auto_night_mode = sharedPreferences.getBoolean("pref_auto_night_mode", false);
+		boolean manual_night_mode =
+				sharedPreferences.getBoolean(activity.getString(R.string.NIGHT_MODE_MANUAL_KEY),
+				false);
+		boolean auto_night_mode =
+				sharedPreferences.getBoolean(activity.getString(R.string.NIGHT_MODE_AUTO_KEY),
+						false);
 
+		//MODO MANUAL
+		//Si el modo manual esta activado
 		if (manual_night_mode) {
 			AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 			activity.setTheme(R.style.DarkAppTheme);
 
-			Log.e("NIGHT MODE MANUAL", "ON");
-		} else if (auto_night_mode) {
+			Log.d(activity.getString(R.string.TAG_NIGHT_MODE_MANUAL),
+					activity.getString(R.string.TAG_NIGHT_MODE_STATUS_ON));
+
+			Crashlytics.log(Log.DEBUG, activity.getString(R.string.TAG_NIGHT_MODE_MANUAL),
+					activity.getString(R.string.TAG_NIGHT_MODE_STATUS_ON));
+		}
+
+		//MODO AUTOMATICO
+		//Si el modo automatico esta activado
+		else if (auto_night_mode) {
+
 			AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
 
 			int modeNightType = activity.getResources().getConfiguration().uiMode &
 					Configuration.UI_MODE_NIGHT_MASK;
+
 			//Detecta modo noche automatico como YES
 			if (modeNightType == Configuration.UI_MODE_NIGHT_YES) {
 				activity.setTheme(R.style.DarkAppTheme);
@@ -429,12 +445,24 @@ public class QuakeUtils {
 				activity.setTheme(R.style.AppTheme);
 			}
 
-			Log.e("NIGHT MODE AUTO", "ON");
-		} else {
+			Log.d(activity.getString(R.string.TAG_NIGHT_MODE_AUTO),
+					activity.getString(R.string.TAG_NIGHT_MODE_STATUS_ON));
+
+			Crashlytics.log(Log.DEBUG, activity.getString(R.string.TAG_NIGHT_MODE_AUTO),
+					activity.getString(R.string.TAG_NIGHT_MODE_STATUS_ON));
+		}
+
+		//DESACTIVADO
+		//Si el modo nocturno esta desactivado
+		else {
 			AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 			activity.setTheme(R.style.AppTheme);
 
-			Log.e("NIGHT MODE", "OFF");
+			Log.d(activity.getString(R.string.TAG_NIGHT_MODE),
+					activity.getString(R.string.TAG_NIGHT_MODE_STATUS_OFF));
+
+			Crashlytics.log(Log.DEBUG, activity.getString(R.string.TAG_NIGHT_MODE),
+					activity.getString(R.string.TAG_NIGHT_MODE_STATUS_OFF));
 		}
 	}
 

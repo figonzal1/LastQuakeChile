@@ -122,21 +122,22 @@
     <!-- FIREBASE-->
     <string name="TAG_FIREBASE_TOKEN" translatable="false">TOKEN_FIREBASE</string>
     <string name="TAG_FIREBASE_SUSCRIPTION" translatable="false">FIREBASE_SUSCRIPCION</string>
-    <string name="TAG_FIREBASE_SUSCRIPTION_RESPONSE1" translatable="false">SUBSCRIBED</string>
-    <string name="TAG_FIREBASE_SUSCRIPTION_RESPONSE2" translatable="false">YA ESTABA SUBSCRIBED</string>
-    <string name="FIREBASE_CHANNEL_ID" translatable="false">1</string>
-    <string name="FIREBASE_CHANNEL_NAME">Alerta sismos</string>
-    <string name="FIREBASE_CHANNEL_DESCRIPTION">Recibe alertas de sismos sobre 5 grados</string>
-    <string name="FIREBASE_CHANNEL_STATUS" translatable="false">CANAL_CREADO</string>
+    <string name="TAG_FIREBASE_SUSCRIPTION_OK" translatable="false">SUSCRITO</string>
+    <string name="TAG_FIREBASE_SUSCRIPTION_ALREADY" translatable="false">YA ESTABA SUSCRITO</string>
+    <string name="TAG_FIREBASE_SUSCRIPTION_DELETE" translatable="false">ELIMINADA</string>
     <string name="TAG_FIREBASE_CHANNEL" translatable="false">FIREBASE_CHANNEL</string>
     <string name="TAG_FIREBASE_MESSAGE" translatable="false">FIREBASE_MESSAGE</string>
     <string name="TAG_FIREBASE_MESSAGE_DATA_INCOMING" translatable="false">NotificacionData recibida</string>
     <string name="TAG_FIREBASE_MESSAGE_INCOMING" translatable="false">Notificacion recibida</string>
+    <string name="FIREBASE_CHANNEL_ID" translatable="false">1</string>
+    <string name="FIREBASE_CHANNEL_NAME">Alerta sismos</string>
+    <string name="FIREBASE_CHANNEL_DESCRIPTION">Recibe alertas de sismos sobre 5 grados</string>
+    <string name="FIREBASE_CHANNEL_STATUS" translatable="false">CANAL_CREADO</string>
     <string name="FIREBASE_MESSAGE_DATA_STATUS" translatable="false">MESSAGE_DATA_RECEIVED</string>
     <string name="FIREBASE_MESSAGE_NOTIFICATION_STATUS" translatable="false">MESSAGE_NOTIFICATION_RECEIVED</string>
     <string name="FIREBASE_CHANNEL_CREATED_MESSAGE" translatable="false">Canal de notificacion creado</string>
+    <string name="FIREBASE_PREF_KEY" translatable="false">pref_suscrito_quake</string>
     <string name="FIREBASE_TOPIC_NAME" translatable="false">Quakes</string>
-    <string name="FIREBASE_SUSCRITO" translatable="false">Suscrito</string>
 
     <!-- Strings de Snackbars -->
     <string name="SNACKBAR_TIMEOUT_ERROR_PRESSED" translatable="false">SNACKBAR_TIMEOUT_ERROR</string>
@@ -230,5 +231,15 @@
     <string name="TAG_INFO_WINDOWS_RESPONSE" translatable="false">INFO WINDOWS OPEN</string>
     <string name="TAG_MAP_READY_RESPONSE" translatable="false">MAP READY</string>
     <string name="TAG_INTENT_INFO_WINDOWS" translatable="false">Intent de infowindows a detalle de sismo</string>
+
+    <!-- NightMode -->
+    <string name="NIGHT_MODE_MANUAL_KEY" translatable="false">pref_manual_night_mode</string>
+    <string name="NIGHT_MODE_AUTO_KEY" translatable="false">pref_auto_night_mode</string>
+    <string name="TAG_NIGHT_MODE_MANUAL" translatable="false">NIGHT MODE MANUAL</string>
+    <string name="TAG_NIGHT_MODE_STATUS_ON" translatable="false">ON</string>
+    <string name="TAG_NIGHT_MODE_STATUS_OFF" translatable="false">OFF</string>
+    <string name="TAG_NIGHT_MODE_AUTO" translatable="false">NIGHT MODE AUTO</string>
+    <string name="TAG_NIGHT_MODE" translatable="false">NIGHT MODE</string>
+
 
 </resources>

@@ -37,7 +37,7 @@
             app:iconSpaceReserved="false"
             app:key="pref_auto_night_mode"
             app:summaryOff="Desactivado"
-            app:summaryOn="Activado (10pm-7am)"
+            app:summaryOn="Activado (10pm-6am)"
             app:title="Automático"
             app:useSimpleSummaryProvider="true" />
 
