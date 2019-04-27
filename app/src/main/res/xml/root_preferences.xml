@@ -19,7 +19,7 @@
 
     <PreferenceCategory
         app:iconSpaceReserved="false"
-        app:summary="Evitar tu cansancio ocular"
+        app:summary="Evita tu cansancio ocular"
         app:title="Modo noche"
         app:useSimpleSummaryProvider="true">
 

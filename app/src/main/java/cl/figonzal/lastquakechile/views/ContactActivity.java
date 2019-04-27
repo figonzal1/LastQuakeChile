@@ -1,6 +1,7 @@
 package cl.figonzal.lastquakechile.views;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,6 +35,7 @@ public class ContactActivity extends AppCompatActivity {
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
+		QuakeUtils.checkNightMode(this);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_contact);
 
@@ -49,8 +51,17 @@ public class ContactActivity extends AppCompatActivity {
 		final CollapsingToolbarLayout mCollapsingToolbarLayout =
 				findViewById(R.id.collapsing_toolbar_contact);
 		mCollapsingToolbarLayout.setTitleEnabled(true);
-		mCollapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.colorPrimary
-				, getTheme()));
+		int modeNightType = getResources().getConfiguration().uiMode &
+				Configuration.UI_MODE_NIGHT_MASK;
+
+		//Detecta modo noche automatico como YES
+		if (modeNightType == Configuration.UI_MODE_NIGHT_YES) {
+			mCollapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.colorPrimaryNightMode
+					, getTheme()));
+		} else if (modeNightType == Configuration.UI_MODE_NIGHT_NO) {
+			mCollapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.colorPrimary,
+					getTheme()));
+		}
 
 		//Cargar imagen toolbar
 		loadImageToolbar();
