@@ -14,7 +14,7 @@ import cl.figonzal.lastquakechile.services.QuakeUtils;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
-public class toDMSUnitTest {
+public class latLongToDMSUnitTest {
 
     @Parameterized.Parameters(name = "{0} = {1}")
     public static Collection<Object[]> data() {
@@ -47,7 +47,7 @@ public class toDMSUnitTest {
         });
     }
 
-    public toDMSUnitTest(double actual_lat_long, Map<String, Double> map_esperado) {
+    public latLongToDMSUnitTest (double actual_lat_long, Map<String, Double> map_esperado) {
         this.actual_lat_long = actual_lat_long;
         this.map_esperado = map_esperado;
     }

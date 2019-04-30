@@ -100,7 +100,6 @@ public class QuakeUtils {
 	/**
 	 * Funcion encargada de transformar un String a un Date
 	 *
-	 * @param context Requerido para el uso de recursos strings
 	 * @param sFecha  Fecha en string que será convertida en date
 	 *
 	 * @return dFecha Fecha en Date entregada por le funcion
