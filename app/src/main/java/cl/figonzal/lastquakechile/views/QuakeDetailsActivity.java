@@ -411,7 +411,7 @@ public class QuakeDetailsActivity extends AppCompatActivity {
 		//Convertir mFechaLocal a Date
 		//Calcular DHMS de Date fecha_local
 		if (mFechaLocal != null) {
-			Date mFechaLocal = QuakeUtils.stringToDate(getApplicationContext(), this.mFechaLocal);
+			Date mFechaLocal = QuakeUtils.stringToDate(this, this.mFechaLocal);
 			mTiempos = QuakeUtils.dateToDHMS(mFechaLocal);
 		}
 
@@ -420,7 +420,7 @@ public class QuakeDetailsActivity extends AppCompatActivity {
 		//Convertir Date fecha_utc a Date fecha_local
 		//Calcular DHMS de Date fecha_local
 		if (mFechaUtc != null) {
-			Date mDateFechaUtc = QuakeUtils.stringToDate(getApplicationContext(), mFechaUtc);
+			Date mDateFechaUtc = QuakeUtils.stringToDate(this, mFechaUtc);
 			Date mDateFechaLocal = QuakeUtils.utcToLocal(mDateFechaUtc);
 			mTiempos = QuakeUtils.dateToDHMS(mDateFechaLocal);
 		}
