@@ -2,10 +2,13 @@ package cl.figonzal.lastquakechile.views;
 
 
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.filters.LargeTest;
+import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
 import androidx.test.rule.ActivityTestRule;
 
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import cl.figonzal.lastquakechile.R;
 
@@ -16,6 +19,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
+@RunWith(AndroidJUnit4ClassRunner.class)
+@LargeTest
 public class ContactActivityTest {
 
 	@Rule
@@ -55,5 +60,17 @@ public class ContactActivityTest {
 
 		//Si esta desplegedo
 		ivEmail.check(matches(isDisplayed()));
+	}
+
+	@Test
+	public void check_rss_icons () {
+		ViewInteraction ivIconFB = onView(withId(R.id.ib_facebook));
+		ViewInteraction ivIconLinkedin = onView(withId(R.id.ib_linkedin));
+
+		//Revisar si fb fue mostrado
+		ivIconFB.check(matches(isDisplayed()));
+
+		//Revisar si linkedin fue mostrado
+		ivIconLinkedin.check(matches(isDisplayed()));
 	}
 }

@@ -3,6 +3,7 @@ package cl.figonzal.lastquakechile.views;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -80,6 +81,7 @@ public class ContactActivity extends AppCompatActivity {
 							getApplicationContext());
 				} else {
 
+					mIntent.setData(Uri.parse("https://www.facebook.com/figonzal1"));
 					Log.d(getString(R.string.TAG_INTENT),
 							getString(R.string.TAG_INTENT_INSTALADA));
 					Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT),
@@ -101,6 +103,7 @@ public class ContactActivity extends AppCompatActivity {
 							getApplicationContext());
 				} else {
 
+					mIntent.setData(Uri.parse("https://www.linkedin.com/in/figonzal/"));
 					//LOG
 					Log.d(getString(R.string.TAG_INTENT),
 							getString(R.string.TAG_INTENT_INSTALADA));
