@@ -12,12 +12,12 @@ import cl.figonzal.lastquakechile.services.QuakeUtils;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
-public class magnitudeColorUnitTest {
+public class MagnitudeColorUnitTest {
 
 	private final double magnitud;
 	private final int colorEsperado;
 
-	public magnitudeColorUnitTest (double magnitud, int colorEsperado) {
+	public MagnitudeColorUnitTest (double magnitud, int colorEsperado) {
 		this.colorEsperado = colorEsperado;
 		this.magnitud = magnitud;
 	}

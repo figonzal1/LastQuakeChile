@@ -21,7 +21,7 @@ import static org.junit.Assert.assertEquals;
  */
 
 @RunWith(Parameterized.class)
-public class utcToLocalUnitTest {
+public class UtcToLocalUnitTest {
 
     @Parameterized.Parameters(name = "{index}: {0} = utcToLocal({1})")
     public static Collection<Object[]> data() {
@@ -38,7 +38,7 @@ public class utcToLocalUnitTest {
     private final String actual_utc;
     private final String esperado_local;
 
-    public utcToLocalUnitTest(String actual_utc, String esperado_local) {
+    public UtcToLocalUnitTest (String actual_utc, String esperado_local) {
         this.actual_utc = actual_utc;
         this.esperado_local = esperado_local;
     }
