@@ -19,12 +19,12 @@ import cl.figonzal.lastquakechile.services.QuakeUtils;
 import static junit.framework.TestCase.assertEquals;
 
 @RunWith(Parameterized.class)
-public class stringToDateTest {
+public class StringToDateTest {
 
 	private String actual, esperada;
 	private Context context;
 
-	public stringToDateTest (String actual, String esperada) {
+	public StringToDateTest (String actual, String esperada) {
 		this.actual = actual;
 		this.esperada = esperada;
 	}
