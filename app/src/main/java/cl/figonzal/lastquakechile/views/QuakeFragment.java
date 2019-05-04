@@ -161,12 +161,24 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 		mCardViewInfo = v.findViewById(R.id.card_view_info);
 		final SharedPreferences sharedPreferences =
 				Objects.requireNonNull(getActivity()).getPreferences(Context.MODE_PRIVATE);
-		String mCvVisto =
+		/*String mCvVisto =
 				sharedPreferences.getString(getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO)
-						, null);
+						, null);*/
+		boolean isCardViewShow =
+				sharedPreferences.getBoolean(getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO)
+						, true);
 
-		if (mCvVisto != null && mCvVisto.equals(getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO_RESULT))) {
+		/*if (mCvVisto != null && mCvVisto.equals(getString(R.string
+		.SHARED_PREF_STATUS_CARD_VIEW_INFO_RESULT))) {
+		 */
 
+		//mCardViewInfo.setVisibility(View.GONE);
+		//}else{
+		//	mCardViewInfo.setVisibility(View.VISIBLE);
+		//}
+		if (isCardViewShow) {
+			mCardViewInfo.setVisibility(View.VISIBLE);
+		} else {
 			mCardViewInfo.setVisibility(View.GONE);
 		}
 
@@ -177,8 +189,9 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 			public void onClick (View v) {
 
 				SharedPreferences.Editor editor = sharedPreferences.edit();
-				editor.putString(getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO),
-						getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO_RESULT));
+				//editor.putString(getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO),
+				//		getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO_RESULT));
+				editor.putBoolean(getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO), false);
 				editor.apply();
 
 				mCardViewInfo.animate()
