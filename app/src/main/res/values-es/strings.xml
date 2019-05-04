@@ -57,4 +57,11 @@
     <string name="quake_time_second_info_windows">Hace: %1$d s</string>
     <string name="profundidad_info_windows">Profundidad: %.1f km</string>
     <string name="settings">Configuración</string>
+    <string name="FIREBASE_PREF_KEY_TOAST_ALERTAS_OFF">Alertas desactivadas</string>
+    <string name="FIREBASE_PREF_KEY_TOAST_ALERTAS_ON">Alertas activadas</string>
+    <string name="NIGHT_MODE_AUTO_KEY_TOAST_OFF">Automático desactivado</string>
+    <string name="NIGHT_MODE_AUTO_KEY_TOAST_ON">Automático activado</string>
+    <string name="NIGHT_MODE_MANUAL_KEY_TOAST_OFF">Manual desactivado</string>
+    <string name="NIGHT_MODE_MANUAL_KEY_TOAST_ON">Manual activado</string>
+    <string name="more_options">Más optiones</string>
 </resources>
