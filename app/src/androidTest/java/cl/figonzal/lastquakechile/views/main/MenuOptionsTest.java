@@ -9,6 +9,7 @@ import androidx.test.espresso.ViewInteraction;
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
+import androidx.test.uiautomator.UiDevice;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -40,6 +41,8 @@ public class MenuOptionsTest {
 	public ActivityTestRule<MainActivity> testRule = new ActivityTestRule<>(MainActivity.class);
 
 	private Context mContext;
+	private static final int TIME_TO_TEST = 1000;
+	private UiDevice device;
 
 	private static Matcher<View> childAtPosition (
 			final Matcher<View> parentMatcher, final int position) {
@@ -63,6 +66,7 @@ public class MenuOptionsTest {
 	@Before
 	public void setup () {
 		mContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+		device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
 	}
 
 	@Test
@@ -76,6 +80,12 @@ public class MenuOptionsTest {
 								2),
 						isDisplayed()));
 		overflow.perform(click());
+
+		try {
+			Thread.sleep(TIME_TO_TEST);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 
 	}
 
@@ -92,6 +102,12 @@ public class MenuOptionsTest {
 						isDisplayed()));
 		overflow.perform(click());
 
+		try {
+			Thread.sleep(TIME_TO_TEST);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
 		ViewInteraction appCompatTextView = onView(
 				Matchers.allOf(withId(R.id.title), withText(mContext.getString(R.string.settings)),
 						childAtPosition(
@@ -101,6 +117,12 @@ public class MenuOptionsTest {
 								0),
 						isDisplayed()));
 		appCompatTextView.perform(click());
+
+		try {
+			Thread.sleep(TIME_TO_TEST);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test
@@ -114,6 +136,11 @@ public class MenuOptionsTest {
 								2),
 						isDisplayed()));
 		overflow.perform(click());
+		try {
+			Thread.sleep(TIME_TO_TEST);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 
 		ViewInteraction appCompatTextView = onView(
 				Matchers.allOf(withId(R.id.title), withText(mContext.getString(R.string.invite)),
@@ -124,5 +151,13 @@ public class MenuOptionsTest {
 								0),
 						isDisplayed()));
 		appCompatTextView.perform(click());
+
+		device.pressBack();
+
+		try {
+			Thread.sleep(TIME_TO_TEST);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }
