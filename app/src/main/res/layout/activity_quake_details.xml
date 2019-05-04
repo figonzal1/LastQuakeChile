@@ -385,7 +385,7 @@
                         tools:text="2018-08-06 23:45:23" />
 
                     <ImageView
-                        android:id="@+id/iv_pin"
+                        android:id="@+id/iv_posicion_gms"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_marginStart="16dp"
@@ -409,8 +409,8 @@
                         android:visibility="visible"
                         app:layout_constraintEnd_toStartOf="@+id/guia_vertical"
                         app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toEndOf="@+id/iv_pin"
-                        app:layout_constraintTop_toTopOf="@+id/iv_pin" />
+                        app:layout_constraintStart_toEndOf="@+id/iv_posicion_gms"
+                        app:layout_constraintTop_toTopOf="@+id/iv_posicion_gms" />
 
                     <TextView
                         android:id="@+id/tv_gms"
@@ -484,7 +484,7 @@
                         tools:text="83 km" />
 
                     <ImageView
-                        android:id="@+id/iv_scale"
+                        android:id="@+id/iv_escala"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_marginStart="8dp"
@@ -506,8 +506,8 @@
                         android:textSize="14sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toEndOf="@+id/iv_scale"
-                        app:layout_constraintTop_toTopOf="@+id/iv_scale" />
+                        app:layout_constraintStart_toEndOf="@+id/iv_escala"
+                        app:layout_constraintTop_toTopOf="@+id/iv_escala" />
 
                     <TextView
                         android:id="@+id/tv_escala"

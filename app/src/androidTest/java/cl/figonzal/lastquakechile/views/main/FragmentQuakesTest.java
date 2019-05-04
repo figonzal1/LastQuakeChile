@@ -44,6 +44,7 @@ public class FragmentQuakesTest {
 	@Rule
 	public ActivityTestRule<MainActivity> testRule = new ActivityTestRule<>(MainActivity.class);
 
+	private static final int TIME_TO_TEST = 1000;
 	private Context mContext;
 	private SharedPreferences sharedPreferences;
 
@@ -77,8 +78,7 @@ public class FragmentQuakesTest {
 	}
 
 	@Test
-	public void test1_click_card_view_info () {
-
+	public void test2_click_card_view_info () {
 
 		ViewInteraction button = onView(
 				allOf(withId(R.id.btn_info_accept),
@@ -90,10 +90,17 @@ public class FragmentQuakesTest {
 								2),
 						isDisplayed()));
 		button.perform(click());
+
+		try {
+			Thread.sleep(TIME_TO_TEST);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test
-	public void test2_click_on_item () {
+	public void test1_click_on_item () {
+
 		ViewInteraction quakeItem = onView(
 				allOf(withId(R.id.card_view),
 						childAtPosition(
