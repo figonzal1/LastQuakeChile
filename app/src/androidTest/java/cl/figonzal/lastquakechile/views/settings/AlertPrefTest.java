@@ -9,6 +9,7 @@ import android.view.ViewParent;
 
 import androidx.preference.PreferenceManager;
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.filters.LargeTest;
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
@@ -30,17 +31,17 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
-import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.AllOf.allOf;
-import static org.hamcrest.core.IsNot.not;
+
 
 @RunWith(AndroidJUnit4ClassRunner.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@LargeTest
 public class AlertPrefTest {
 
 	@Rule
@@ -75,12 +76,12 @@ public class AlertPrefTest {
 		mContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 		mActivity = testRule.getActivity();
 		editor = PreferenceManager.getDefaultSharedPreferences(testRule.getActivity()).edit();
+
 	}
 
 	@Test
 	public void test1_check_switch_notificaciones_on () {
 
-		//fijar valor de sharedPref como falso
 		editor.putBoolean(mContext.getString(R.string.FIREBASE_PREF_KEY), false);
 		editor.apply();
 
@@ -93,15 +94,32 @@ public class AlertPrefTest {
 										withId(android.R.id.list_container),
 										0)),
 						1),
-						isDisplayed(), isEnabled(), isClickable()));
+						isDisplayed()));
+
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 
 		//Realizar click
 		switchNotificaciones.perform(click());
 
-		//Checkear display de Toast de shared pref TRUE
-		onView(withText(R.string.FIREBASE_PREF_KEY_TOAST_ALERTAS_ON)).inRoot(withDecorView(not(is(mActivity.getWindow().getDecorView()))))
-				.check(matches(isDisplayed()));
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 
+		onView(withText(R.string.FIREBASE_PREF_KEY_TOAST_ALERTAS_ON)).
+				inRoot(withDecorView(not(is(mActivity.getWindow().getDecorView())))).
+				check(matches(isDisplayed()));
+
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test
@@ -116,14 +134,31 @@ public class AlertPrefTest {
 										withId(android.R.id.list_container),
 										0)),
 						1),
-						isDisplayed(), isEnabled(), isClickable()));
+						isDisplayed()));
+
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 
 		//Realizar click
 		switchNotificaciones.perform(click());
+
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 
 		//Checkear display de Toast de shared pref TRUE
 		onView(withText(R.string.FIREBASE_PREF_KEY_TOAST_ALERTAS_OFF)).inRoot(withDecorView(not(is(mActivity.getWindow().getDecorView()))))
 				.check(matches(isDisplayed()));
 
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }
