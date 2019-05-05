@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.filters.LargeTest;
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
@@ -35,13 +36,14 @@ import static org.hamcrest.core.AllOf.allOf;
 
 @RunWith(AndroidJUnit4ClassRunner.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@LargeTest
 public class MenuOptionsTest {
 
 	@Rule
 	public ActivityTestRule<MainActivity> testRule = new ActivityTestRule<>(MainActivity.class);
 
 	private Context mContext;
-	private static final int TIME_TO_TEST = 1000;
+	private static final int TIME_TO_TEST = 5000;
 	private UiDevice device;
 
 	private static Matcher<View> childAtPosition (
@@ -103,7 +105,7 @@ public class MenuOptionsTest {
 		overflow.perform(click());
 
 		try {
-			Thread.sleep(TIME_TO_TEST);
+			Thread.sleep(2000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -137,7 +139,7 @@ public class MenuOptionsTest {
 						isDisplayed()));
 		overflow.perform(click());
 		try {
-			Thread.sleep(TIME_TO_TEST);
+			Thread.sleep(2000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
