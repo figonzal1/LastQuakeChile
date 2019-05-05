@@ -36,7 +36,6 @@ public class ViewPagerTest {
 	@Rule
 	public ActivityTestRule<MainActivity> testRule = new ActivityTestRule<>(MainActivity.class);
 
-	private static final int TIME_TO_TEST = 1000;
 	private static Matcher<View> childAtPosition (
 			final Matcher<View> parentMatcher, final int position) {
 
@@ -67,7 +66,20 @@ public class ViewPagerTest {
 										0),
 								1),
 						isDisplayed()));
+
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
 		tabView.perform(click());
+
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test
@@ -81,6 +93,19 @@ public class ViewPagerTest {
 										0),
 								0),
 						isDisplayed()));
+
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
 		tabView2.perform(click());
+
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }
