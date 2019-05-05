@@ -44,7 +44,7 @@ public class FragmentQuakesTest {
 	@Rule
 	public ActivityTestRule<MainActivity> testRule = new ActivityTestRule<>(MainActivity.class);
 
-	private static final int TIME_TO_TEST = 1000;
+	private static final int TIME_TO_TEST = 5000;
 	private Context mContext;
 	private SharedPreferences sharedPreferences;
 
