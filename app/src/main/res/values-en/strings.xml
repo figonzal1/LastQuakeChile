@@ -64,4 +64,17 @@
     <string name="NIGHT_MODE_MANUAL_KEY_TOAST_OFF">Manual disabled</string>
     <string name="NIGHT_MODE_MANUAL_KEY_TOAST_ON">Manual enabled</string>
     <string name="more_options">More options</string>
+    <string name="alert_pref_summary_off">Disabled</string>
+    <string name="alert_pref_title">Notifications</string>
+    <string name="alert_pref_title_switch">Quake alerts</string>
+    <string name="alert_pref_summary_on">Enabled</string>
+    <string name="alert_pref_summary">Receive quakes notifications of +5.0 degrees</string>
+    <string name="night_mode_auto_pref_summary_off">Disabled</string>
+    <string name="night_mode_auto_pref_summary_on">Enabled (10pm-6am)</string>
+    <string name="night_mode_auto_pref_title_switch">Automatic</string>
+    <string name="night_mode_manual_pref_summary_off">Disabled</string>
+    <string name="night_mode_manual_pref_summary_on">Enabled</string>
+    <string name="night_mode_manual_pref_title_switch">Manual</string>
+    <string name="night_mode_pref_summary">"Avoid eye fatigue "</string>
+    <string name="night_mode_pref_title">Night mode</string>
 </resources>

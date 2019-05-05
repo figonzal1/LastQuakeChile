@@ -64,4 +64,17 @@
     <string name="NIGHT_MODE_MANUAL_KEY_TOAST_OFF">Manual desactivado</string>
     <string name="NIGHT_MODE_MANUAL_KEY_TOAST_ON">Manual activado</string>
     <string name="more_options">Más optiones</string>
+    <string name="alert_pref_summary_off">Desactivadas</string>
+    <string name="alert_pref_summary_on">Activadas</string>
+    <string name="alert_pref_title">Notificaciones</string>
+    <string name="alert_pref_title_switch">Alertas de sismos</string>
+    <string name="alert_pref_summary">Recibe notificaciones de sismos de +5.0 grados</string>
+    <string name="night_mode_auto_pref_summary_off">Desactivado</string>
+    <string name="night_mode_auto_pref_summary_on">Activado (10pm-6am)</string>
+    <string name="night_mode_auto_pref_title_switch">Automático</string>
+    <string name="night_mode_manual_pref_summary_off">Desactivado</string>
+    <string name="night_mode_manual_pref_summary_on">Activado</string>
+    <string name="night_mode_manual_pref_title_switch">Manual</string>
+    <string name="night_mode_pref_summary">Evita tu cansancio ocular</string>
+    <string name="night_mode_pref_title">Modo noche</string>
 </resources>
