@@ -32,9 +32,7 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
-import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.is;
@@ -92,14 +90,32 @@ public class NightModePrefTest {
 										withId(android.R.id.list_container),
 										0)),
 						3),
-						isDisplayed(), isEnabled(), isClickable()));
+						isDisplayed()));
+
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 
 		//Realizar click
 		switchManual.perform(click());
 
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
 		//Checkear display de Toast de shared pref TRUE
 		onView(withText(R.string.NIGHT_MODE_MANUAL_KEY_TOAST_ON)).inRoot(withDecorView(not(is(mActivity.getWindow().getDecorView()))))
 				.check(matches(isDisplayed()));
+
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test
@@ -116,14 +132,32 @@ public class NightModePrefTest {
 										withId(android.R.id.list_container),
 										0)),
 						3),
-						isDisplayed(), isEnabled(), isClickable()));
+						isDisplayed()));
+
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 
 		//Realizar click
 		switchManual.perform(click());
 
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
 		//Checkear display de Toast de shared pref TRUE
 		onView(withText(R.string.NIGHT_MODE_MANUAL_KEY_TOAST_OFF)).inRoot(withDecorView(not(is(mActivity.getWindow().getDecorView()))))
 				.check(matches(isDisplayed()));
+
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test
@@ -139,14 +173,31 @@ public class NightModePrefTest {
 										withId(android.R.id.list_container),
 										0)),
 						4),
-						isDisplayed(), isEnabled(), isClickable()));
+						isDisplayed()));
 
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		//Realizar click
 		switchAuto.perform(click());
+
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 
 		//Checkear display de Toast de shared pref TRUE
 		onView(withText(R.string.NIGHT_MODE_AUTO_KEY_TOAST_ON)).inRoot(withDecorView(not(is(mActivity.getWindow().getDecorView()))))
 				.check(matches(isDisplayed()));
+
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test
@@ -162,13 +213,31 @@ public class NightModePrefTest {
 										withId(android.R.id.list_container),
 										0)),
 						4),
-						isDisplayed(), isEnabled(), isClickable()));
+						isDisplayed()));
+
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 
 		//Realizar click
 		switchAuto.perform(click());
 
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
 		//Checkear display de Toast de shared pref TRUE
 		onView(withText(R.string.NIGHT_MODE_AUTO_KEY_TOAST_OFF)).inRoot(withDecorView(not(is(mActivity.getWindow().getDecorView()))))
 				.check(matches(isDisplayed()));
+
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }
