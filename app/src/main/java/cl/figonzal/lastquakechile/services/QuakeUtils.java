@@ -507,7 +507,7 @@ public class QuakeUtils {
 	/**
 	 * Funcion encargada de checkear si la aplicación se ha abierto por primera vez
 	 */
-	public static void checkFirstRun (Activity activity) {
+	public static void checkFirstRun (Activity activity, boolean test) {
 
 		//Abrir shared pref para la actividad
 		SharedPreferences mSharedPref = activity.getPreferences(Context.MODE_PRIVATE);
@@ -517,23 +517,25 @@ public class QuakeUtils {
 						true);
 		Crashlytics.setBool(activity.getString(R.string.SHARED_PREF_FIRST_RUN), true);
 
-		if (mFirstRun) {
+		if (!test) {
+			if (mFirstRun) {
 
-			Log.d(activity.getString(R.string.TAG_FIRST_RUN_STATUS),
-					activity.getString(R.string.FIRST_RUN_STATUS_RESPONSE));
+				Log.d(activity.getString(R.string.TAG_FIRST_RUN_STATUS),
+						activity.getString(R.string.FIRST_RUN_STATUS_RESPONSE));
 
-			Intent intent = new Intent(activity, WelcomeActivity.class);
-			activity.startActivity(intent);
-			activity.finish();
+				Intent intent = new Intent(activity, WelcomeActivity.class);
+				activity.startActivity(intent);
+				activity.finish();
+			}
+
+			//Cambiar a falso, para que proxima vez no abra invitation.
+			SharedPreferences.Editor editor = mSharedPref.edit();
+			editor.putBoolean(activity.getString(R.string.SHARED_PREF_FIRST_RUN), false);
+			editor.apply();
+
+			//Log
+			Crashlytics.setBool(activity.getString(R.string.SHARED_PREF_FIRST_RUN), false);
 		}
-
-		//Cambiar a falso, para que proxima vez no abra invitation.
-		SharedPreferences.Editor editor = mSharedPref.edit();
-		editor.putBoolean(activity.getString(R.string.SHARED_PREF_FIRST_RUN), false);
-		editor.apply();
-
-		//Log
-		Crashlytics.setBool(activity.getString(R.string.SHARED_PREF_FIRST_RUN), false);
 	}
 
 }

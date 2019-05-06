@@ -59,10 +59,10 @@ public class SettingsActivity extends AppCompatActivity {
 		                                       String key) {
 
 			//Preferencia modo noche manual
-			if (key.equals(getString(R.string.NIGHT_MODE_MANUAL_KEY))) {
+			if (key.equals(activity.getString(R.string.NIGHT_MODE_MANUAL_KEY))) {
 
 				//Si el modo manual esta activado
-				if (sharedPreferences.getBoolean(getString(R.string.NIGHT_MODE_MANUAL_KEY),
+				if (sharedPreferences.getBoolean(activity.getString(R.string.NIGHT_MODE_MANUAL_KEY),
 						false)) {
 					AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 					activity.setTheme(R.style.DarkAppTheme);
@@ -75,7 +75,7 @@ public class SettingsActivity extends AppCompatActivity {
 
 					//Setear automatico como false si manual esta activado
 					SharedPreferences.Editor edit = sharedPreferences.edit();
-					edit.putBoolean(getString(R.string.NIGHT_MODE_AUTO_KEY), false);
+					edit.putBoolean(activity.getString(R.string.NIGHT_MODE_AUTO_KEY), false);
 					edit.apply();
 
 				}
@@ -87,17 +87,17 @@ public class SettingsActivity extends AppCompatActivity {
 
 					//Mostrar toast modo manual desactivado
 					Toast.makeText(activity.getApplicationContext(),
-							getString(R.string.NIGHT_MODE_MANUAL_KEY_TOAST_OFF),
+							activity.getString(R.string.NIGHT_MODE_MANUAL_KEY_TOAST_OFF),
 							Toast.LENGTH_LONG).show();
 				}
 			}
 
 			//MODO AUTOMATICO
 			//Preferencia modo noche automatico
-			else if (key.equals(getString(R.string.NIGHT_MODE_AUTO_KEY))) {
+			else if (key.equals(activity.getString(R.string.NIGHT_MODE_AUTO_KEY))) {
 
 				//Si automatico esta activado, preguntar el estado del modo
-				if (sharedPreferences.getBoolean(getString(R.string.NIGHT_MODE_AUTO_KEY),
+				if (sharedPreferences.getBoolean(activity.getString(R.string.NIGHT_MODE_AUTO_KEY),
 						false)) {
 					AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
 
@@ -115,11 +115,11 @@ public class SettingsActivity extends AppCompatActivity {
 
 					//Mostrar toast con mensaje de modo noche automatico activado
 					Toast.makeText(activity.getApplicationContext(),
-							getString(R.string.NIGHT_MODE_AUTO_KEY_TOAST_ON),
+							activity.getString(R.string.NIGHT_MODE_AUTO_KEY_TOAST_ON),
 							Toast.LENGTH_LONG).show();
 					//Setear automatico como false si manual esta activado
 					SharedPreferences.Editor edit = sharedPreferences.edit();
-					edit.putBoolean(getString(R.string.NIGHT_MODE_MANUAL_KEY), false);
+					edit.putBoolean(activity.getString(R.string.NIGHT_MODE_MANUAL_KEY), false);
 					edit.apply();
 				}
 				//Si auto esta desactivado, tema claro por defecto
@@ -130,26 +130,27 @@ public class SettingsActivity extends AppCompatActivity {
 
 					//Mostrar toast con mensaje de modo noche automatico desactivado
 					Toast.makeText(activity.getApplicationContext(),
-							getString(R.string.NIGHT_MODE_AUTO_KEY_TOAST_OFF),
+							activity.getString(R.string.NIGHT_MODE_AUTO_KEY_TOAST_OFF),
 							Toast.LENGTH_LONG).show();
 				}
 			}
 
 			//PREFERENCIA DE ALERTAS
-			if (key.equals(getString(R.string.FIREBASE_PREF_KEY))) {
+			if (key.equals(activity.getString(R.string.FIREBASE_PREF_KEY))) {
 				MyFirebaseMessagingService.checkSuscription(activity);
 
 				//Si el switch esta ON, lanzar toast con SUSCRITO
-				if (sharedPreferences.getBoolean(getString(R.string.FIREBASE_PREF_KEY), true)) {
+				if (sharedPreferences.getBoolean(activity.getString(R.string.FIREBASE_PREF_KEY),
+						true)) {
 					Toast.makeText(getContext(),
-							getString(R.string.FIREBASE_PREF_KEY_TOAST_ALERTAS_ON),
+							activity.getString(R.string.FIREBASE_PREF_KEY_TOAST_ALERTAS_ON),
 							Toast.LENGTH_LONG).show();
 
 				}
 				//Si el switch esta off lanzar toast con NO SUSCRITO
 				else {
 					Toast.makeText(getContext(),
-							getString(R.string.FIREBASE_PREF_KEY_TOAST_ALERTAS_OFF),
+							activity.getString(R.string.FIREBASE_PREF_KEY_TOAST_ALERTAS_OFF),
 							Toast.LENGTH_LONG).show();
 				}
 
