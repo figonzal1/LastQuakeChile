@@ -152,7 +152,13 @@ public class MenuOptionsTest {
 										0),
 								0),
 						isDisplayed()));
-		appCompatTextView.perform(click());
+		/*appCompatTextView.perform(click());
+
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 
 		device.pressBack();
 
@@ -160,6 +166,6 @@ public class MenuOptionsTest {
 			Thread.sleep(TIME_TO_TEST);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 }

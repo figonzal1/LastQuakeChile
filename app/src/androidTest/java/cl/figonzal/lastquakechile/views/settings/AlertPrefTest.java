@@ -80,10 +80,7 @@ public class AlertPrefTest {
 	}
 
 	@Test
-	public void test1_check_switch_notificaciones_on () {
-
-		editor.putBoolean(mContext.getString(R.string.FIREBASE_PREF_KEY), false);
-		editor.apply();
+	public void test1_check_switch_notificaciones_off () {
 
 		//Checkear si el switch esta desplegado, habilitado y es clickeable, la preferencia de
 		// notificaciones
@@ -106,7 +103,47 @@ public class AlertPrefTest {
 		switchNotificaciones.perform(click());
 
 		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		//Checkear display de Toast de shared pref TRUE
+		onView(withText(R.string.FIREBASE_PREF_KEY_TOAST_ALERTAS_OFF)).inRoot(withDecorView(not(is(mActivity.getWindow().getDecorView()))))
+				.check(matches(isDisplayed()));
+
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void test2_check_switch_notificaciones_on () {
+
+		//Checkear si el switch esta desplegado, habilitado y es clickeable, la preferencia de
+		// notificaciones
+		ViewInteraction switchNotificaciones = onView(
+				allOf(childAtPosition(
+						allOf(withId(R.id.recycler_view),
+								childAtPosition(
+										withId(android.R.id.list_container),
+										0)),
+						1),
+						isDisplayed()));
+
+		try {
 			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		//Realizar click
+		switchNotificaciones.perform(click());
+
+		try {
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -122,43 +159,5 @@ public class AlertPrefTest {
 		}
 	}
 
-	@Test
-	public void test2_check_switch_notificaciones_off () {
 
-		//Checkear si el switch esta desplegado, habilitado y es clickeable, la preferencia de
-		// notificaciones
-		ViewInteraction switchNotificaciones = onView(
-				allOf(childAtPosition(
-						allOf(withId(R.id.recycler_view),
-								childAtPosition(
-										withId(android.R.id.list_container),
-										0)),
-						1),
-						isDisplayed()));
-
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
-		//Realizar click
-		switchNotificaciones.perform(click());
-
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
-		//Checkear display de Toast de shared pref TRUE
-		onView(withText(R.string.FIREBASE_PREF_KEY_TOAST_ALERTAS_OFF)).inRoot(withDecorView(not(is(mActivity.getWindow().getDecorView()))))
-				.check(matches(isDisplayed()));
-
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
 }
