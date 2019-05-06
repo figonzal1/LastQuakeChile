@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 			//Si el usuario viene desde deep link, no se realiza first check
 			//Si viene desde Google play, se realiza el check
 			if (!mBundleWelcome.getBoolean(getString(R.string.desde_deep_link))) {
-				QuakeUtils.checkFirstRun(this);
+				QuakeUtils.checkFirstRun(this, true);
 			}
 		}
 
