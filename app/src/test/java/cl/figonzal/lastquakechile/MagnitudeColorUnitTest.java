@@ -22,7 +22,7 @@ public class MagnitudeColorUnitTest {
 		this.magnitud = magnitud;
 	}
 
-	@Parameterized.Parameters(name = "{0} = {1}")
+	@Parameterized.Parameters(name = "{0} = getMagnitudeColor({1})")
 	public static Collection<Object[]> data () {
 		return Arrays.asList(new Object[][]{
 				{1.2, R.color.magnitude1}
