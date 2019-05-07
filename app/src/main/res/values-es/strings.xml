@@ -77,4 +77,6 @@
     <string name="night_mode_manual_pref_title_switch">Manual</string>
     <string name="night_mode_pref_summary">Evita tu cansancio ocular</string>
     <string name="night_mode_pref_title">Modo noche</string>
+    <string name="tab_map">Mapa</string>
+    <string name="tab_list">Lista</string>
 </resources>
