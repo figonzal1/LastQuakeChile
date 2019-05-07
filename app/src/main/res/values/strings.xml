@@ -12,6 +12,10 @@
     <string name="settings">Configuración</string>
     <string name="more_options">Más opciones</string>
 
+    <!--TABS -->
+    <string name="tab_map">Mapa</string>
+    <string name="tab_list">Listado</string>
+
     <!-- URL SERVIDOR HEROKU -->
     <string name="URL_GET_PROD" translatable="false">https://lastquakechile-server-prod.herokuapp.com/lastquakechile/api/quakes/?limite=%1$s</string>
     <string name="DEEP_LINK" translatable="false">https://lastquakechile.page.link/lqch</string>

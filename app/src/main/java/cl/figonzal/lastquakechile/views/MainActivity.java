@@ -95,7 +95,8 @@ public class MainActivity extends AppCompatActivity {
 
 		//View pager para los fragments (Solo 1 fragment en esta app)
 		ViewPager mViewPager = findViewById(R.id.view_pager);
-		mViewPager.setAdapter(new FragmentPageAdapter(getSupportFragmentManager()));
+		mViewPager.setAdapter(new FragmentPageAdapter(getSupportFragmentManager(),
+				getApplicationContext()));
 
 
 		//Seteo de tabs.

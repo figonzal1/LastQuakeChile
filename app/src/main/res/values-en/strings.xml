@@ -77,4 +77,6 @@
     <string name="night_mode_manual_pref_title_switch">Manual</string>
     <string name="night_mode_pref_summary">"Avoid eye fatigue "</string>
     <string name="night_mode_pref_title">Night mode</string>
+    <string name="tab_map">Map</string>
+    <string name="tab_list">List</string>
 </resources>

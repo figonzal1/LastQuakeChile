@@ -1,5 +1,7 @@
 package cl.figonzal.lastquakechile;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -11,12 +13,13 @@ import cl.figonzal.lastquakechile.views.QuakeFragment;
 
 public class FragmentPageAdapter extends FragmentPagerAdapter {
 
-	private final String[] mTabTitles = {"Listado", "Mapa"};
+	private final String[] mTabTitles = new String[2];
 
 
-	public FragmentPageAdapter (FragmentManager fm) {
+	public FragmentPageAdapter (FragmentManager fm, Context context) {
 		super(fm);
-
+		mTabTitles[0] = context.getString(R.string.tab_list);
+		mTabTitles[1] = context.getString(R.string.tab_map);
 	}
 
 	@Override
