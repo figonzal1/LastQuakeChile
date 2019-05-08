@@ -24,24 +24,32 @@
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_api_key" /> <!-- FIREBASE -->
+            android:value="@string/google_api_key" />
+
+        <!-- FIREBASE -->
         <!-- FCM disable auto init -->
         <meta-data
             android:name="firebase_messaging_auto_init_enabled"
-            android:value="false" /> <!-- Icono de notificaciones por defecto usado FCM console en background -->
+            android:value="false" />
+        <!-- Icono de notificaciones por defecto usado FCM console en background -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_lastquakechile_1200" />
-        <meta-data
+        <!-- Desactiva por completo performance-->
+        <!--<meta-data
             android:name="firebase_performance_collection_deactivated"
-            android:value="true" /> <!-- Llamada a servicio de mensajeria -->
+            android:value="true" />-->
+
+        <!-- Llamada a servicio de mensajeria -->
         <service
             android:name=".services.MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-        </service> <!-- FACEBOOK -->
+        </service>
+
+        <!-- FACEBOOK -->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
