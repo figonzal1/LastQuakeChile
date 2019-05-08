@@ -1,5 +1,6 @@
 package cl.figonzal.lastquakechile.views.main;
 
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -7,11 +8,13 @@ import android.view.ViewParent;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.filters.LargeTest;
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
+import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
@@ -55,11 +58,18 @@ public class ViewPagerTest {
 		};
 	}
 
+	private Context mContext;
+
+	@Before
+	public void setup () {
+		mContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+	}
+
 	@Test
 	public void test1_click_tab_map () {
 		//Checkear el texto mapa
 		ViewInteraction tabView = onView(
-				allOf(withContentDescription("Mapa"),
+				allOf(withContentDescription(mContext.getString(R.string.tab_map)),
 						childAtPosition(
 								childAtPosition(
 										withId(R.id.tabs),
@@ -86,7 +96,7 @@ public class ViewPagerTest {
 	public void test2_click_tab_listado () {
 		//Checkear texto Listado
 		ViewInteraction tabView2 = onView(
-				allOf(withContentDescription("Listado"),
+				allOf(withContentDescription(mContext.getString(R.string.tab_list)),
 						childAtPosition(
 								childAtPosition(
 										withId(R.id.tabs),
