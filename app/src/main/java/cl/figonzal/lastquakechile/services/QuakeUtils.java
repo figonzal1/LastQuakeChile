@@ -100,7 +100,7 @@ public class QuakeUtils {
 	/**
 	 * Funcion encargada de transformar un String a un Date
 	 *
-	 * @param sFecha  Fecha en string que será convertida en date
+	 * @param sFecha Fecha en string que será convertida en date
 	 *
 	 * @return dFecha Fecha en Date entregada por le funcion
 	 */
@@ -410,7 +410,7 @@ public class QuakeUtils {
 
 		boolean manual_night_mode =
 				sharedPreferences.getBoolean(activity.getString(R.string.NIGHT_MODE_MANUAL_KEY),
-				false);
+						false);
 		boolean auto_night_mode =
 				sharedPreferences.getBoolean(activity.getString(R.string.NIGHT_MODE_AUTO_KEY),
 						false);
