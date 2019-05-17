@@ -519,17 +519,20 @@ public class QuakeDetailsActivity extends AppCompatActivity {
 	@Override
 	public boolean onOptionsItemSelected (MenuItem item) {
 
-		switch (item.getItemId()) {
-			// Respond to the action bar's Up/Home button
-			case android.R.id.home:
-				Log.d("HOME UP PRESS", String.valueOf(true));
-				//NavUtils.navigateUpFromSameTask(this);
+		// Respond to the action bar's Up/Home button
+		if (item.getItemId() == android.R.id.home) {
 
-				Intent intent = new Intent(this, MainActivity.class);
-				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(intent);
-				finish();
-				return true;
+			Log.d(getString(R.string.TAG_INTENT_DETALLE_HOME_UP),
+					getString(R.string.TAG_INTENT_DETALLE_HOME_UP_RESPONSE));
+
+			Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_DETALLE_HOME_UP),
+					getString(R.string.TAG_INTENT_DETALLE_HOME_UP_RESPONSE));
+
+			Intent intent = new Intent(this, MainActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent);
+			finish();
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
