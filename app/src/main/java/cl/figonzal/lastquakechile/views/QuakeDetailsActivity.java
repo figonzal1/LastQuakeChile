@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -430,6 +431,7 @@ public class QuakeDetailsActivity extends AppCompatActivity {
 				//Setear string que será usado en textviews de detalle con la fecha transformada
 				// de utc a local desde notificacion
 				mFechaLocal = QuakeUtils.dateToString(this, mDateFechaLocal);
+
 			}
 		}
 
@@ -512,6 +514,24 @@ public class QuakeDetailsActivity extends AppCompatActivity {
 			}
 		});
 
+	}
+
+	@Override
+	public boolean onOptionsItemSelected (MenuItem item) {
+
+		switch (item.getItemId()) {
+			// Respond to the action bar's Up/Home button
+			case android.R.id.home:
+				Log.d("HOME UP PRESS", String.valueOf(true));
+				//NavUtils.navigateUpFromSameTask(this);
+
+				Intent intent = new Intent(this, MainActivity.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
+				finish();
+				return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
