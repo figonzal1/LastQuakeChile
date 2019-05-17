@@ -407,6 +407,7 @@ public class QuakeDetailsActivity extends AppCompatActivity {
 		mFechaLocal = b.getString(getString(R.string.INTENT_FECHA_LOCAL));
 		String mFechaUtc = b.getString(getString(R.string.INTENT_FECHA_UTC));
 
+
 		//SI INTENT VIENE DE ADAPTER
 		//Convertir mFechaLocal a Date
 		//Calcular DHMS de Date fecha_local
@@ -419,11 +420,19 @@ public class QuakeDetailsActivity extends AppCompatActivity {
 		//Convertir sFechaUtc a Date fecha_utc
 		//Convertir Date fecha_utc a Date fecha_local
 		//Calcular DHMS de Date fecha_local
-		if (mFechaUtc != null) {
-			Date mDateFechaUtc = QuakeUtils.stringToDate(this, mFechaUtc);
-			Date mDateFechaLocal = QuakeUtils.utcToLocal(mDateFechaUtc);
-			mTiempos = QuakeUtils.dateToDHMS(mDateFechaLocal);
+		else {
+
+			if (mFechaUtc != null) {
+				Date mDateFechaUtc = QuakeUtils.stringToDate(this, mFechaUtc);
+				Date mDateFechaLocal = QuakeUtils.utcToLocal(mDateFechaUtc);
+				mTiempos = QuakeUtils.dateToDHMS(mDateFechaLocal);
+
+				//Setear string que será usado en textviews de detalle con la fecha transformada
+				// de utc a local desde notificacion
+				mFechaLocal = QuakeUtils.dateToString(this, mDateFechaLocal);
+			}
 		}
+
 	}
 
 

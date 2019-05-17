@@ -63,7 +63,7 @@
     <string name="NIGHT_MODE_AUTO_KEY_TOAST_ON">Automático activado</string>
     <string name="NIGHT_MODE_MANUAL_KEY_TOAST_OFF">Manual desactivado</string>
     <string name="NIGHT_MODE_MANUAL_KEY_TOAST_ON">Manual activado</string>
-    <string name="more_options">Más optiones</string>
+    <string name="more_options">Más opciones</string>
     <string name="alert_pref_summary_off">Desactivadas</string>
     <string name="alert_pref_summary_on">Activadas</string>
     <string name="alert_pref_title">Notificaciones</string>
