@@ -104,9 +104,8 @@ public class FragmentQuakesTest {
 		ViewInteraction quakeItem = onView(
 				allOf(withId(R.id.card_view),
 						childAtPosition(
-								allOf(withId(R.id.recycle_view), withContentDescription("List of" +
-												" " +
-												"quakes section"),
+								allOf(withId(R.id.recycle_view),
+										withContentDescription(mContext.getString(R.string.seccion_listado_de_sismos)),
 										childAtPosition(
 												withClassName(Matchers.is("androidx" +
 														".constraintlayout.widget" +

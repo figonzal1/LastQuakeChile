@@ -10,7 +10,6 @@ import androidx.test.espresso.intent.rule.IntentsTestRule;
 import androidx.test.filters.LargeTest;
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
 import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.uiautomator.UiDevice;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -43,7 +42,6 @@ public class WspShareTest {
 			new IntentsTestRule<>(MainActivity.class);
 
 	private Context mContext;
-	private UiDevice device;
 
 	private static Matcher<View> childAtPosition (
 			final Matcher<View> parentMatcher, final int position) {
@@ -84,9 +82,8 @@ public class WspShareTest {
 		ViewInteraction quakeItem = onView(
 				allOf(withId(R.id.card_view),
 						childAtPosition(
-								allOf(withId(R.id.recycle_view), withContentDescription("List of" +
-												" " +
-												"quakes section"),
+								allOf(withId(R.id.recycle_view),
+										withContentDescription(mContext.getString(R.string.seccion_listado_de_sismos)),
 										childAtPosition(
 												withClassName(Matchers.is("androidx" +
 														".constraintlayout.widget" +
