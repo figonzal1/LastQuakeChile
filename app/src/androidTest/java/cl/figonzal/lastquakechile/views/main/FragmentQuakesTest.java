@@ -42,11 +42,11 @@ import static org.hamcrest.Matchers.allOf;
 public class FragmentQuakesTest {
 
 	@Rule
-	public ActivityTestRule<MainActivity> testRule = new ActivityTestRule<>(MainActivity.class);
+	public final ActivityTestRule<MainActivity> testRule =
+			new ActivityTestRule<>(MainActivity.class);
 
 	private static final int TIME_TO_TEST = 5000;
 	private Context mContext;
-	private SharedPreferences sharedPreferences;
 
 	private static Matcher<View> childAtPosition (
 			final Matcher<View> parentMatcher, final int position) {
@@ -70,7 +70,9 @@ public class FragmentQuakesTest {
 	@Before
 	public void setup () {
 		mContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-		sharedPreferences = testRule.getActivity().getPreferences(Context.MODE_PRIVATE);
+
+		SharedPreferences sharedPreferences =
+				testRule.getActivity().getPreferences(Context.MODE_PRIVATE);
 
 		SharedPreferences.Editor editor = sharedPreferences.edit();
 		editor.putBoolean(mContext.getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO), true);

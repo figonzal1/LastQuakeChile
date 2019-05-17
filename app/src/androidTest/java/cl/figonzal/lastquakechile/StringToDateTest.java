@@ -22,8 +22,8 @@ import static junit.framework.TestCase.assertEquals;
 @RunWith(Parameterized.class)
 public class StringToDateTest {
 
-	private String sActual;
-	private Date dEsperada;
+	private final String sActual;
+	private final Date dEsperada;
 	private Context context;
 
 	public StringToDateTest (String sActual, Date dEsperada) {

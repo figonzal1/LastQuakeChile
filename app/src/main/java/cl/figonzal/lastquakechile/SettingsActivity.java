@@ -42,7 +42,7 @@ public class SettingsActivity extends AppCompatActivity {
 		QuakeUtils.checkNightMode(this);
 	}
 
-	public static class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
+	private static class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
 		private Activity activity;
 

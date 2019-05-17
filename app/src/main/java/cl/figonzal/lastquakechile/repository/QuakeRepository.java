@@ -43,6 +43,8 @@ public class QuakeRepository {
 	private final List<QuakeModel> mQuakeList = new ArrayList<>();
 	private final Application mApplication;
 	private final MutableLiveData<String> mStatusData = new MutableLiveData<>();
+	private boolean volleyError = false;
+	private int contador_request = 0;
 
 	/**
 	 * Contructor que permite instanciar el contexto de la acitivity
@@ -103,13 +105,9 @@ public class QuakeRepository {
 	 */
 	private void loadQuakes () {
 
-		String limite = "15";
-		JsonObjectRequest mRequest = new JsonObjectRequest(Request.Method.GET,
-				String.format(Locale.US, mApplication.getString(R.string.URL_GET_PROD), limite),
-				null, new Response.Listener<JSONObject>() {
+		Response.Listener<JSONObject> listener = new Response.Listener<JSONObject>() {
 			@Override
 			public void onResponse (JSONObject response) {
-
 				//Parseando la informacion desde heroku get_quakes.php
 				try {
 
@@ -137,7 +135,6 @@ public class QuakeRepository {
 						//LOCAL CALCULADO, NO PROVIENE DE CAMPO EN PHP
 						mModel.setFechaLocal(mLocalDate);
 
-						mModel.setFechaUtc(mUtcDate);
 						mModel.setCiudad(mObject.getString(mApplication.getString(R.string.KEY_CIUDAD)));
 						mModel.setLatitud(mObject.getString(mApplication.getString(R.string.KEY_LATITUD)));
 						mModel.setLongitud(mObject.getString(mApplication.getString(R.string.KEY_LONGITUD)));
@@ -158,11 +155,8 @@ public class QuakeRepository {
 								mModel.setSensible(true);
 								break;
 						}
-
 						mQuakeList.add(mModel);
-
 					}
-
 					mQuakeMutableList.postValue(mQuakeList);
 
 				} catch (JSONException e) {
@@ -185,52 +179,99 @@ public class QuakeRepository {
 						mApplication.getString(R.string.CONNECTION_OK_RESPONSE));
 				Crashlytics.setBool(mApplication.getString(R.string.CONNECTED), true);
 
-
+				volleyError = false;
 			}
-		}, new Response.ErrorListener() {
+		};
+
+		Response.ErrorListener errorListener = new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse (VolleyError error) {
 
-				if (error instanceof TimeoutError) {
-					Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR),
-							mApplication.getString(R.string.TAG_VOLLEY_ERROR_TIMEOUT));
-					Crashlytics.log(Log.DEBUG, mApplication.getString(R.string.TAG_VOLLEY_ERROR),
-							mApplication.getString(R.string.TAG_VOLLEY_ERROR_TIMEOUT));
-					//mStatusData.postValue(mApplication.getString(R.string
-					// .VIEWMODEL_TIMEOUT_ERROR));
+				volleyError = true;
+				if (contador_request >= 2) {
 
-				} else if (error instanceof NoConnectionError) {
-					Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR),
-							mApplication.getString(R.string.TAG_VOLLEY_ERROR_CONNECTION));
-					Crashlytics.log(Log.DEBUG, mApplication.getString(R.string.TAG_VOLLEY_ERROR),
-							mApplication.getString(R.string.TAG_VOLLEY_ERROR_CONNECTION));
-					mStatusData.postValue(mApplication.getString(R.string.VIEWMODEL_NOCONNECTION_ERROR));
+					if (error instanceof TimeoutError) {
+						Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR),
+								mApplication.getString(R.string.TAG_VOLLEY_ERROR_TIMEOUT));
+						Crashlytics.log(Log.DEBUG,
+								mApplication.getString(R.string.TAG_VOLLEY_ERROR),
+								mApplication.getString(R.string.TAG_VOLLEY_ERROR_TIMEOUT));
+						//mStatusData.postValue(mApplication.getString(R.string
+						// .VIEWMODEL_TIMEOUT_ERROR));
 
-				} else if (error instanceof AuthFailureError) {
-					Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR),
-							mApplication.getString(R.string.TAG_VOLLEY_ERROR_AUTH));
+					} else if (error instanceof NoConnectionError) {
+						Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR),
+								mApplication.getString(R.string.TAG_VOLLEY_ERROR_CONNECTION));
+						Crashlytics.log(Log.DEBUG,
+								mApplication.getString(R.string.TAG_VOLLEY_ERROR),
+								mApplication.getString(R.string.TAG_VOLLEY_ERROR_CONNECTION));
+						mStatusData.postValue(mApplication.getString(R.string.VIEWMODEL_NOCONNECTION_ERROR));
 
-				} else if (error instanceof ServerError) {
-					Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR),
-							mApplication.getString(R.string.TAG_VOLLEY_ERROR_SERVER));
-					Crashlytics.log(Log.DEBUG, mApplication.getString(R.string.TAG_VOLLEY_ERROR),
-							mApplication.getString(R.string.TAG_VOLLEY_ERROR_SERVER));
-					mStatusData.postValue(mApplication.getString(R.string.VIEWMODEL_SERVER_ERROR));
+					} else if (error instanceof AuthFailureError) {
+						Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR),
+								mApplication.getString(R.string.TAG_VOLLEY_ERROR_AUTH));
 
-				} else if (error instanceof NetworkError) {
-					Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR),
-							mApplication.getString(R.string.TAG_VOLLEY_ERROR_NETWORK));
+					} else if (error instanceof ServerError) {
+						Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR),
+								mApplication.getString(R.string.TAG_VOLLEY_ERROR_SERVER));
+						Crashlytics.log(Log.DEBUG,
+								mApplication.getString(R.string.TAG_VOLLEY_ERROR),
+								mApplication.getString(R.string.TAG_VOLLEY_ERROR_SERVER));
+						mStatusData.postValue(mApplication.getString(R.string.VIEWMODEL_SERVER_ERROR));
 
-				} else if (error instanceof ParseError) {
-					Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR),
-							mApplication.getString(R.string.TAG_VOLLEY_ERROR_PARSE));
+					} else if (error instanceof NetworkError) {
+						Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR),
+								mApplication.getString(R.string.TAG_VOLLEY_ERROR_NETWORK));
 
+					} else if (error instanceof ParseError) {
+						Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR),
+								mApplication.getString(R.string.TAG_VOLLEY_ERROR_PARSE));
+
+					}
+				} else {
+					VolleySingleton.getInstance(mApplication).cancelPendingRequests("TAG");
+					loadQuakes();
 				}
-				VolleySingleton.getInstance(mApplication).cancelPendingRequests("TAG");
 
 			}
-		});
+		};
 
+		/*
+		SECCION CONEXION DE RESPALDOS
+		 */
+		String limite = "15";
+
+		//Si servidor oficial arroja error, conectar a dev
+		JsonObjectRequest mRequest;
+		if (volleyError) {
+			contador_request += 1;
+			mRequest = new JsonObjectRequest(Request.Method.GET,
+					String.format(Locale.US, mApplication.getString(R.string.URL_GET_DEV), limite),
+					null, listener, errorListener);
+
+			Log.d(mApplication.getString(R.string.TAG_CONNECTION_SERVER_RESPALDO),
+					mApplication.getString(R.string.TAG_CONNECTION_SERVER_RESPALDO_RESPONSE));
+
+			Crashlytics.log(Log.DEBUG,
+					mApplication.getString(R.string.TAG_CONNECTION_SERVER_RESPALDO),
+					mApplication.getString(R.string.TAG_CONNECTION_SERVER_RESPALDO_RESPONSE));
+		}
+
+		//Si servidor oficial funciona conectarse a él
+		else {
+			contador_request += 1;
+			mRequest = new JsonObjectRequest(Request.Method.GET,
+					String.format(Locale.US, mApplication.getString(R.string.URL_GET_PROD),
+							limite),
+					null, listener, errorListener);
+			Log.d(mApplication.getString(R.string.TAG_CONNECTION_SERVER_OFICIAL),
+					mApplication.getString(R.string.TAG_CONNECTION_SERVER_OFICIAL_RESPONSE));
+
+			Crashlytics.log(Log.DEBUG,
+					mApplication.getString(R.string.TAG_CONNECTION_SERVER_OFICIAL),
+					mApplication.getString(R.string.TAG_CONNECTION_SERVER_OFICIAL_RESPONSE));
+
+		}
 		mRequest.setShouldCache(true);
 		mRequest.setRetryPolicy(new DefaultRetryPolicy(2500, 0,
 				DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
