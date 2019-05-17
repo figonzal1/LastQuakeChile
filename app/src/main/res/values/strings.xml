@@ -18,6 +18,7 @@
 
     <!-- URL SERVIDOR HEROKU -->
     <string name="URL_GET_PROD" translatable="false">https://lastquakechile-server-prod.herokuapp.com/lastquakechile/api/quakes/?limite=%1$s</string>
+    <string name="URL_GET_DEV" translatable="false">https://lastquakechile-server-dev.herokuapp.com/lastquakechile/api/quakes/?limite=%1$s</string>
     <string name="DEEP_LINK" translatable="false">https://lastquakechile.page.link/lqch</string>
     <string name="desde_deep_link" translatable="false">desdeDeepLink</string>
     <string name="KEY_QUAKES" translatable="false">sismos</string>
@@ -201,6 +202,8 @@
     <string name="TRY_INTENT_NOTIFICATION_1" translatable="false">Realizando intent de notificacion</string>
     <string name="TRY_INTENT_NOTIFICATION" translatable="false">TRY_INTENT_NOTIFICATION</string>
     <string name="TRY_INTENT_DETALLE" translatable="false">Intent de detalle de sismo</string>
+    <string name="TAG_INTENT_DETALLE_HOME_UP" translatable="false">QUAKE_DETAILS</string>
+    <string name="TAG_INTENT_DETALLE_HOME_UP_RESPONSE" translatable="false">HOME UP PARENT CLICKEADO</string>
 
     <!-- TAG GOOGLE PLAY -->
     <string name="TAG_GOOGLE_PLAY" translatable="false">GOOGLE_PLAY</string>
@@ -265,6 +268,10 @@
     <string name="night_mode_auto_pref_title_switch">Automático</string>
     <string name="night_mode_auto_pref_summary_on">Activado (10pm-6am)</string>
     <string name="night_mode_auto_pref_summary_off">Desactivado</string>
+    <string name="TAG_CONNECTION_SERVER_RESPALDO" translatable="false">SERVIDOR RESPALDO</string>
+    <string name="TAG_CONNECTION_SERVER_RESPALDO_RESPONSE" translatable="false">INTENTO DE CONEXION A RESPALDO (DEVELOPMENT)</string>
+    <string name="TAG_CONNECTION_SERVER_OFICIAL" translatable="false">SERVIDOR OFICIAL</string>
+    <string name="TAG_CONNECTION_SERVER_OFICIAL_RESPONSE" translatable="false">INTENTO DE CONEXION A OFICIAL (PRODUCTION)</string>
 
 
 </resources>

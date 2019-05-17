@@ -1,17 +1,13 @@
 package cl.figonzal.lastquakechile.views.settings;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
-import androidx.preference.PreferenceManager;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.filters.LargeTest;
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
-import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
 import org.hamcrest.Description;
@@ -45,12 +41,10 @@ import static org.hamcrest.core.AllOf.allOf;
 public class AlertPrefTest {
 
 	@Rule
-	public ActivityTestRule<SettingsActivity> testRule =
+	public final ActivityTestRule<SettingsActivity> testRule =
 			new ActivityTestRule<>(SettingsActivity.class);
 
-	private Context mContext;
 	private Activity mActivity;
-	private SharedPreferences.Editor editor;
 
 	private static Matcher<View> childAtPosition (
 			final Matcher<View> parentMatcher, final int position) {
@@ -73,9 +67,7 @@ public class AlertPrefTest {
 
 	@Before
 	public void setup () {
-		mContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 		mActivity = testRule.getActivity();
-		editor = PreferenceManager.getDefaultSharedPreferences(testRule.getActivity()).edit();
 
 	}
 

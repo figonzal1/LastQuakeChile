@@ -23,8 +23,8 @@ import static org.junit.Assert.assertEquals;
 @RunWith(Parameterized.class)
 public class DateToStringTest {
 
-	private String sEsperado;
-	private Date dActual;
+	private final String sEsperado;
+	private final Date dActual;
 	private Context context;
 
 	public DateToStringTest (Date dActual, String sEsperado) {
