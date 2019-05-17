@@ -19,7 +19,7 @@ import cl.figonzal.lastquakechile.services.QuakeUtils;
 public class SettingsActivity extends AppCompatActivity {
 
 	@Override
-	protected void onCreate (Bundle savedInstanceState) {
+	public void onCreate (Bundle savedInstanceState) {
 		QuakeUtils.checkNightMode(this);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.settings_activity);
@@ -42,7 +42,7 @@ public class SettingsActivity extends AppCompatActivity {
 		QuakeUtils.checkNightMode(this);
 	}
 
-	private static class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
+	public static class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
 		private Activity activity;
 
