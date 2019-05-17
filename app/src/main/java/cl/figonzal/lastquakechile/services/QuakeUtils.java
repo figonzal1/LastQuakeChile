@@ -122,6 +122,21 @@ public class QuakeUtils {
 	}
 
 	/**
+	 * Funcion que convierte una fecha date en un string
+	 *
+	 * @param context Contexto utilizado para el uso de strings
+	 * @param dFecha  Fecha que será convertida
+	 *
+	 * @return String de la fecha
+	 */
+	public static String dateToString (Context context, Date dFecha) {
+		SimpleDateFormat mFormat =
+				new SimpleDateFormat(context.getString(R.string.DATETIME_FORMAT), Locale.US);
+
+		return mFormat.format(dFecha);
+	}
+
+	/**
 	 * Funcion encargada de setear los colores de background
 	 * dependiendo de la magnitud del sismo
 	 *
