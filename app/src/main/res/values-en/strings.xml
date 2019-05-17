@@ -79,4 +79,5 @@
     <string name="night_mode_pref_title">Night mode</string>
     <string name="tab_map">Map</string>
     <string name="tab_list">List</string>
+    <string name="recycle_view_content_description_test">List of quakes section</string>
 </resources>

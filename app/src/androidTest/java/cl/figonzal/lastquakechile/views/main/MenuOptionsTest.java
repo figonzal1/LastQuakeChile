@@ -10,7 +10,6 @@ import androidx.test.filters.LargeTest;
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
-import androidx.test.uiautomator.UiDevice;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -28,6 +27,7 @@ import cl.figonzal.lastquakechile.views.MainActivity;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -44,7 +44,6 @@ public class MenuOptionsTest {
 
 	private Context mContext;
 	private static final int TIME_TO_TEST = 5000;
-	private UiDevice device;
 
 	private static Matcher<View> childAtPosition (
 			final Matcher<View> parentMatcher, final int position) {
@@ -68,7 +67,7 @@ public class MenuOptionsTest {
 	@Before
 	public void setup () {
 		mContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-		device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+		//device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
 	}
 
 	@Test
@@ -152,6 +151,7 @@ public class MenuOptionsTest {
 										0),
 								0),
 						isDisplayed()));
+		appCompatTextView.check(matches(isDisplayed()));
 		/*appCompatTextView.perform(click());
 
 		try {
