@@ -79,4 +79,5 @@
     <string name="night_mode_pref_title">Modo noche</string>
     <string name="tab_map">Mapa</string>
     <string name="tab_list">Lista</string>
+    <string name="recycle_view_content_description_test">Sección listado de sismos</string>
 </resources>
