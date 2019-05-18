@@ -17,6 +17,7 @@ android {
             storePassword keystoreProperties['storePassword']
         }
     }
+    
     compileSdkVersion 28
     buildToolsVersion "28.0.3"
 
@@ -43,13 +44,6 @@ android {
             //ext.enableCrashlytics = true
             //ext.alwaysUpdateBuildId = false
         }*/
-
-    }
-
-    testOptions { // <-- You need this
-        unitTests {
-            returnDefaultValues = true
-        }
     }
 }
 
@@ -102,10 +96,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.1.0'
-
-    //UI AUTOMATOR
-    //androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
-
 }
 
 apply plugin: 'com.google.gms.google-services'
