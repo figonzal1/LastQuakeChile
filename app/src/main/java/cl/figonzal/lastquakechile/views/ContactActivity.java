@@ -35,7 +35,7 @@ public class ContactActivity extends AppCompatActivity {
 	private Intent mIntent;
 
 	@Override
-	protected void onCreate (Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		QuakeUtils.checkNightMode(this);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_contact);
@@ -72,7 +72,7 @@ public class ContactActivity extends AppCompatActivity {
 
 		mIbFacebook.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick (View v) {
+			public void onClick(View v) {
 
 				mIntent =
 						getPackageManager().getLaunchIntentForPackage(getString(R.string.PACKAGE_NAME_FB));
@@ -94,7 +94,7 @@ public class ContactActivity extends AppCompatActivity {
 
 		mIbLinkedin.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick (View v) {
+			public void onClick(View v) {
 
 				mIntent =
 						getPackageManager().getLaunchIntentForPackage(getString(R.string.PACKAGE_NAME_LINKEDIN));
@@ -120,7 +120,7 @@ public class ContactActivity extends AppCompatActivity {
 	/**
 	 * Funcion para cargar la imagen del toolbar en el Image View
 	 */
-	private void loadImageToolbar () {
+	private void loadImageToolbar() {
 		final ImageView mIvFoto = findViewById(R.id.toolbar_image_contact);
 		Glide.with(this)
 				.load(R.drawable.foto)
@@ -132,19 +132,19 @@ public class ContactActivity extends AppCompatActivity {
 				.transition(withCrossFade())
 				.listener(new RequestListener<Drawable>() {
 					@Override
-					public boolean onLoadFailed (@Nullable GlideException e, Object model,
-					                             Target<Drawable> target,
-					                             boolean isFirstResource) {
+					public boolean onLoadFailed(@Nullable GlideException e, Object model,
+					                            Target<Drawable> target,
+					                            boolean isFirstResource) {
 						mIvFoto.setImageDrawable(getDrawable(R.drawable.not_found));
 						return false;
 					}
 
 					//No es necesario usarlo (If u want)
 					@Override
-					public boolean onResourceReady (Drawable resource, Object model,
-					                                Target<Drawable> target,
-					                                DataSource dataSource,
-					                                boolean isFirstResource) {
+					public boolean onResourceReady(Drawable resource, Object model,
+					                               Target<Drawable> target,
+					                               DataSource dataSource,
+					                               boolean isFirstResource) {
 						return false;
 					}
 				})

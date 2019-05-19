@@ -51,12 +51,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 	private Bundle mMapViewBundle;
 	private List<QuakeModel> mListQuakeModel;
 
-	public static MapFragment newInstance () {
+	public static MapFragment newInstance() {
 		return new MapFragment();
 	}
 
 	@Override
-	public void onCreate (Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		mMapViewBundle = null;
@@ -67,8 +67,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 	}
 
 	@Override
-	public View onCreateView (@NonNull LayoutInflater inflater, ViewGroup container,
-	                          Bundle savedInstanceState) {
+	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+	                         Bundle savedInstanceState) {
 
 		View mView = inflater.inflate(R.layout.fragment_map, container, false);
 
@@ -81,7 +81,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
 		mQuakeViewModel.showQuakeList().observe(this, new Observer<List<QuakeModel>>() {
 			@Override
-			public void onChanged (@Nullable final List<QuakeModel> quakeModels) {
+			public void onChanged(@Nullable final List<QuakeModel> quakeModels) {
 
 				mListQuakeModel = quakeModels;
 				mMapView.getMapAsync(MapFragment.this);
@@ -91,7 +91,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 	}
 
 	@Override
-	public void onMapReady (GoogleMap googleMap) {
+	public void onMapReady(GoogleMap googleMap) {
 		mGoogleMap = googleMap;
 		mGoogleMap.clear();
 
@@ -101,7 +101,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 						Configuration.UI_MODE_NIGHT_MASK;
 		if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
 			googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(getContext(),
-							R.raw.map_night_mode));
+					R.raw.map_night_mode));
 		}
 
 		//Setear info windows
@@ -155,7 +155,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 	 *
 	 * @param quakeModels Listado de sismos proveniente de viewModel
 	 */
-	private void cargarPins (List<QuakeModel> quakeModels) {
+	private void cargarPins(List<QuakeModel> quakeModels) {
 
 		for (int i = 0; i < quakeModels.size(); i++) {
 
@@ -190,12 +190,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 	}
 
 	@Override
-	public View getInfoWindow (Marker marker) {
+	public View getInfoWindow(Marker marker) {
 		return null;
 	}
 
 	@Override
-	public View getInfoContents (Marker marker) {
+	public View getInfoContents(Marker marker) {
 		View mView = getLayoutInflater().inflate(R.layout.info_windows, null);
 
 		Object mObject = marker.getTag();
@@ -275,7 +275,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 	}
 
 	@Override
-	public void onInfoWindowClick (Marker marker) {
+	public void onInfoWindowClick(Marker marker) {
 
 		Object mObject = marker.getTag();
 		QuakeModel mModel = (QuakeModel) mObject;
@@ -313,7 +313,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 	}
 
 	@Override
-	public void onSaveInstanceState (@NonNull Bundle outState) {
+	public void onSaveInstanceState(@NonNull Bundle outState) {
 
 		Bundle mMapViewBundle = outState.getBundle(MAPVIEW_BUNDLE_KEY);
 		if (mMapViewBundle == null) {
@@ -327,26 +327,26 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 	}
 
 	@Override
-	public void onResume () {
+	public void onResume() {
 		super.onResume();
 		mMapView.onResume();
 
 	}
 
 	@Override
-	public void onPause () {
+	public void onPause() {
 		super.onPause();
 		mMapView.onPause();
 	}
 
 	@Override
-	public void onDestroy () {
+	public void onDestroy() {
 		super.onDestroy();
 		mMapView.onDestroy();
 	}
 
 	@Override
-	public void onLowMemory () {
+	public void onLowMemory() {
 		super.onLowMemory();
 		mMapView.onLowMemory();
 	}

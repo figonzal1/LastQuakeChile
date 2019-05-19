@@ -27,13 +27,13 @@ public class DateToStringTest {
 	private final Date dActual;
 	private Context context;
 
-	public DateToStringTest (Date dActual, String sEsperado) {
+	public DateToStringTest(Date dActual, String sEsperado) {
 		this.dActual = dActual;
 		this.sEsperado = sEsperado;
 	}
 
 	@Parameterized.Parameters(name = "{0} = dateToString({1})")
-	public static Collection<Object[]> data () throws ParseException {
+	public static Collection<Object[]> data() throws ParseException {
 		return Arrays.asList(new Object[][]{
 				{new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 						.parse("2019-03-13 14:00:00"), "2019-03-13 14:00:00"},
@@ -51,12 +51,12 @@ public class DateToStringTest {
 	}
 
 	@Before
-	public void setup () {
+	public void setup() {
 		context = InstrumentationRegistry.getInstrumentation().getTargetContext();
 	}
 
 	@Test
-	public void date_to_string () {
+	public void date_to_string() {
 		String sActual = QuakeUtils.dateToString(context, dActual);
 
 		assertEquals(sEsperado, sActual);

@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 	private ImageView mIvFoto;
 
 	@Override
-	protected void onCreate (Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		//Setear configuracion por defecto
 		PreferenceManager.setDefaultValues(this, R.xml.root_preferences, false);
 
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 		FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(this,
 				new OnSuccessListener<InstanceIdResult>() {
 					@Override
-					public void onSuccess (InstanceIdResult instanceIdResult) {
+					public void onSuccess(InstanceIdResult instanceIdResult) {
 						String token = instanceIdResult.getToken();
 						Log.d(getString(R.string.TAG_FIREBASE_TOKEN), token);
 
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
 		mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 
 			@Override
-			public void onTabSelected (TabLayout.Tab tab) {
+			public void onTabSelected(TabLayout.Tab tab) {
 				if (tab.getPosition() == 1) {
 
 					mAppBarLayout.setExpanded(false);
@@ -115,12 +115,12 @@ public class MainActivity extends AppCompatActivity {
 			}
 
 			@Override
-			public void onTabUnselected (TabLayout.Tab tab) {
+			public void onTabUnselected(TabLayout.Tab tab) {
 
 			}
 
 			@Override
-			public void onTabReselected (TabLayout.Tab tab) {
+			public void onTabReselected(TabLayout.Tab tab) {
 
 			}
 		});
@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
 	/**
 	 * Funcion encargada de cargar la imagen de fondo en el toolbar
 	 */
-	private void loadImage () {
+	private void loadImage() {
 		Glide.with(this)
 				.load(R.drawable.foto)
 				.apply(
@@ -165,19 +165,19 @@ public class MainActivity extends AppCompatActivity {
 				.transition(withCrossFade())
 				.listener(new RequestListener<Drawable>() {
 					@Override
-					public boolean onLoadFailed (@Nullable GlideException e, Object model,
-					                             Target<Drawable> target,
-					                             boolean isFirstResource) {
+					public boolean onLoadFailed(@Nullable GlideException e, Object model,
+					                            Target<Drawable> target,
+					                            boolean isFirstResource) {
 						mIvFoto.setImageDrawable(getDrawable(R.drawable.not_found));
 						return false;
 					}
 
 					//No es necesario usarlo (If u want)
 					@Override
-					public boolean onResourceReady (Drawable resource, Object model,
-					                                Target<Drawable> target,
-					                                DataSource dataSource,
-					                                boolean isFirstResource) {
+					public boolean onResourceReady(Drawable resource, Object model,
+					                               Target<Drawable> target,
+					                               DataSource dataSource,
+					                               boolean isFirstResource) {
 
 						return false;
 					}
@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 	@Override
-	protected void onResume () {
+	protected void onResume() {
 		super.onResume();
 		QuakeUtils.checkPlayServices(this);
 	}

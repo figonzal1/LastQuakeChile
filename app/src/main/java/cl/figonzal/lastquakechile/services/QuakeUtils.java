@@ -44,10 +44,9 @@ public class QuakeUtils {
 	 * entre el tiempo del sismo y la hora actual
 	 *
 	 * @param fecha_local parametro que entrega la fecha local desde el modelo en cardview
-	 *
 	 * @return retorna la diferencia en milisegundos
 	 */
-	private static long calculateDiff (Date fecha_local) {
+	private static long calculateDiff(Date fecha_local) {
 
 		long mDiff;
 		Date mCurrentTime = new Date();
@@ -65,10 +64,9 @@ public class QuakeUtils {
 	 * Convierte desde UTC a Local de dispositivo (Según zona horaria)
 	 *
 	 * @param date Parametro date Utc
-	 *
 	 * @return retorna el date en local
 	 */
-	public static Date utcToLocal (Date date) {
+	public static Date utcToLocal(Date date) {
 
 		String mTimeZone = Calendar.getInstance().getTimeZone().getID();
 		return new Date(date.getTime() + TimeZone.getTimeZone(mTimeZone).getOffset(date.getTime()));
@@ -80,7 +78,7 @@ public class QuakeUtils {
 	 *
 	 * @param fecha fecha local del modelo de sismo desde cardview
 	 */
-	public static Map<String, Long> dateToDHMS (Date fecha) {
+	public static Map<String, Long> dateToDHMS(Date fecha) {
 
 		long mDiff = calculateDiff(fecha);
 		long mSeconds = mDiff / 1000;
@@ -101,10 +99,9 @@ public class QuakeUtils {
 	 * Funcion encargada de transformar un String a un Date
 	 *
 	 * @param sFecha Fecha en string que será convertida en date
-	 *
 	 * @return dFecha Fecha en Date entregada por le funcion
 	 */
-	public static Date stringToDate (Context context, String sFecha) {
+	public static Date stringToDate(Context context, String sFecha) {
 
 		SimpleDateFormat mFormat =
 				new SimpleDateFormat(context.getString(R.string.DATETIME_FORMAT),
@@ -126,10 +123,9 @@ public class QuakeUtils {
 	 *
 	 * @param context Contexto utilizado para el uso de strings
 	 * @param dFecha  Fecha que será convertida
-	 *
 	 * @return String de la fecha
 	 */
-	public static String dateToString (Context context, Date dFecha) {
+	public static String dateToString(Context context, Date dFecha) {
 		SimpleDateFormat mFormat =
 				new SimpleDateFormat(context.getString(R.string.DATETIME_FORMAT), Locale.US);
 
@@ -141,10 +137,9 @@ public class QuakeUtils {
 	 * dependiendo de la magnitud del sismo
 	 *
 	 * @param magnitude Magnitud del sismo desde el cardview
-	 *
 	 * @return id recurso desde colors.xml
 	 */
-	public static int getMagnitudeColor (double magnitude, boolean forMapa) {
+	public static int getMagnitudeColor(double magnitude, boolean forMapa) {
 
 		int mMagFloor = (int) Math.floor(magnitude);
 		int mMagResourseId;
@@ -231,10 +226,9 @@ public class QuakeUtils {
 	 * Funcion que permite cambiaar latitud o longitud a DMS
 	 *
 	 * @param input Longitud o Latitud
-	 *
 	 * @return grados, minutos, segundos en un Map
 	 */
-	public static Map<String, Double> latLonToDMS (double input) {
+	public static Map<String, Double> latLonToDMS(double input) {
 
 		Map<String, Double> mDMS = new HashMap<>();
 
@@ -259,10 +253,9 @@ public class QuakeUtils {
 	 *
 	 * @param drawable imagen de la cual se buscara la ruta
 	 * @param context  contexto de la actividad
-	 *
 	 * @return Uri retorna la direccion dentro del celular donde esta la imagen
 	 */
-	public static Uri getLocalBitmapUri (Drawable drawable, Context context) {
+	public static Uri getLocalBitmapUri(Drawable drawable, Context context) {
 
 		Bitmap mBmp;
 
@@ -296,7 +289,7 @@ public class QuakeUtils {
 	 * @param packageName Nombre del paquete
 	 * @param context     Contexto que permite utilizar recursos de strings
 	 */
-	public static void doInstallation (String packageName, Context context) {
+	public static void doInstallation(String packageName, Context context) {
 
 		Intent mIntent;
 		try {
@@ -333,8 +326,8 @@ public class QuakeUtils {
 	 * @param tiempos Variable que cuenta con el mapeo de dias,horas,minutos y segundos
 	 * @param tv_hora Textview que será usado para fijar el tiempo
 	 */
-	public static void setTimeToTextView (Context context, Map<String, Long> tiempos,
-	                                      TextView tv_hora) {
+	public static void setTimeToTextView(Context context, Map<String, Long> tiempos,
+	                                     TextView tv_hora) {
 		Long mDays = tiempos.get(context.getString(R.string.UTILS_TIEMPO_DIAS));
 		Long mMinutes = tiempos.get(context.getString(R.string.UTILS_TIEMPO_MINUTOS));
 		Long mHours = tiempos.get(context.getString(R.string.UTILS_TIEMPO_HORAS));
@@ -374,8 +367,8 @@ public class QuakeUtils {
 	 * @param tv_estado Texview que tendrá el valor de estado
 	 * @param iv_estado ImageView fijada dependiendo del valor de estado
 	 */
-	public static void setStatusImage (Context context, String estado, TextView tv_estado,
-	                                   ImageView iv_estado) {
+	public static void setStatusImage(Context context, String estado, TextView tv_estado,
+	                                  ImageView iv_estado) {
 		if (estado.equals("preliminar")) {
 			tv_estado.setText(String.format(Locale.US,
 					context.getString(R.string.quakes_details_estado_sismo),
@@ -396,7 +389,7 @@ public class QuakeUtils {
 	 * @param escala    Escala del sismo puede ser Ml o Mw
 	 * @param tv_escala Textview que será fijado con el valor de escala
 	 */
-	public static void setEscala (Context context, String escala, TextView tv_escala) {
+	public static void setEscala(Context context, String escala, TextView tv_escala) {
 
 		switch (escala) {
 			case "Ml":
@@ -417,7 +410,7 @@ public class QuakeUtils {
 	 *
 	 * @param activity Actividad para utilizar recursos
 	 */
-	public static void checkNightMode (Activity activity) {
+	public static void checkNightMode(Activity activity) {
 
 		//Leer preference settings
 		SharedPreferences sharedPreferences =
@@ -483,7 +476,7 @@ public class QuakeUtils {
 	/**
 	 * Funcion que verifica si el dispositivo cuenta con GooglePlayServices actualizado
 	 */
-	public static void checkPlayServices (Activity activity) {
+	public static void checkPlayServices(Activity activity) {
 
 		int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 		GoogleApiAvailability mGoogleApiAvailability = GoogleApiAvailability.getInstance();
@@ -522,7 +515,7 @@ public class QuakeUtils {
 	/**
 	 * Funcion encargada de checkear si la aplicación se ha abierto por primera vez
 	 */
-	public static void checkFirstRun (Activity activity, boolean test) {
+	public static void checkFirstRun(Activity activity, boolean test) {
 
 		//Abrir shared pref para la actividad
 		SharedPreferences mSharedPref = activity.getPreferences(Context.MODE_PRIVATE);

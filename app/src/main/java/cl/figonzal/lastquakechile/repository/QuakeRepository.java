@@ -51,7 +51,7 @@ public class QuakeRepository {
 	 *
 	 * @param application Permite acceder a los strings
 	 */
-	private QuakeRepository (Application application) {
+	private QuakeRepository(Application application) {
 		this.mApplication = application;
 	}
 
@@ -60,7 +60,7 @@ public class QuakeRepository {
 	 *
 	 * @return Instancia de repositorio
 	 */
-	public static QuakeRepository getIntance (Application application) {
+	public static QuakeRepository getIntance(Application application) {
 
 		if (sInstanceRepository == null) {
 			sInstanceRepository = new QuakeRepository(application);
@@ -73,7 +73,7 @@ public class QuakeRepository {
 	 *
 	 * @return MutableLiveData con los sismos
 	 */
-	public MutableLiveData<List<QuakeModel>> getMutableQuakeList () {
+	public MutableLiveData<List<QuakeModel>> getMutableQuakeList() {
 		if (mQuakeList.size() > 0) {
 			mQuakeList.clear();
 		}
@@ -86,7 +86,7 @@ public class QuakeRepository {
 	 *
 	 * @return MutableLiveData de status data
 	 */
-	public MutableLiveData<String> getStatusData () {
+	public MutableLiveData<String> getStatusData() {
 		return mStatusData;
 	}
 
@@ -95,7 +95,7 @@ public class QuakeRepository {
 	 *
 	 * @return Lista de sismos normal
 	 */
-	public List<QuakeModel> getQuakeList () {
+	public List<QuakeModel> getQuakeList() {
 		return mQuakeList;
 	}
 
@@ -103,11 +103,11 @@ public class QuakeRepository {
 	 * Funcion encargada de crear la request HTTP hacia el servidor y parsear el JSON con los
 	 * sismos
 	 */
-	private void loadQuakes () {
+	private void loadQuakes() {
 
 		Response.Listener<JSONObject> listener = new Response.Listener<JSONObject>() {
 			@Override
-			public void onResponse (JSONObject response) {
+			public void onResponse(JSONObject response) {
 				//Parseando la informacion desde heroku get_quakes.php
 				try {
 
@@ -185,7 +185,7 @@ public class QuakeRepository {
 
 		Response.ErrorListener errorListener = new Response.ErrorListener() {
 			@Override
-			public void onErrorResponse (VolleyError error) {
+			public void onErrorResponse(VolleyError error) {
 
 				volleyError = true;
 				if (contador_request >= 2) {

@@ -43,18 +43,18 @@ public class WspShareTest {
 
 	private Context mContext;
 
-	private static Matcher<View> childAtPosition (
+	private static Matcher<View> childAtPosition(
 			final Matcher<View> parentMatcher, final int position) {
 
 		return new TypeSafeMatcher<View>() {
 			@Override
-			public void describeTo (Description description) {
+			public void describeTo(Description description) {
 				description.appendText("Child at position " + position + " in parent ");
 				parentMatcher.describeTo(description);
 			}
 
 			@Override
-			public boolean matchesSafely (View view) {
+			public boolean matchesSafely(View view) {
 				ViewParent parent = view.getParent();
 				return parent instanceof ViewGroup && parentMatcher.matches(parent)
 						&& view.equals(((ViewGroup) parent).getChildAt(position));
@@ -63,12 +63,12 @@ public class WspShareTest {
 	}
 
 	@Before
-	public void start () {
+	public void start() {
 		mContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 	}
 
 	@Test
-	public void test_click_wsp_button () {
+	public void test_click_wsp_button() {
 
 		click_first_item();
 
@@ -77,7 +77,7 @@ public class WspShareTest {
 		check_and_click_wsp();
 	}
 
-	private void click_first_item () {
+	private void click_first_item() {
 		//Hacer click en el primer item de la lista
 		ViewInteraction quakeItem = onView(
 				allOf(withId(R.id.card_view),
@@ -106,7 +106,7 @@ public class WspShareTest {
 		}
 	}
 
-	private void check_and_click_share () {
+	private void check_and_click_share() {
 
 		//Click sobre el boton de compartir
 		ViewInteraction buttonShare = onView(withId(R.id.fab_share));
@@ -130,7 +130,7 @@ public class WspShareTest {
 		}
 	}
 
-	private void check_and_click_wsp () {
+	private void check_and_click_wsp() {
 
 		//Buscar boton
 		ViewInteraction buttonWsp = onView(withId(R.id.fab_wsp));

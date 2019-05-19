@@ -25,7 +25,7 @@ public class QuakeViewModel extends AndroidViewModel {
 	private MutableLiveData<List<QuakeModel>> mQuakeMutableList;
 
 	//Contructor para usar context dentro de la clase ViewModel
-	public QuakeViewModel (@NonNull Application application) {
+	public QuakeViewModel(@NonNull Application application) {
 		super(application);
 	}
 
@@ -34,7 +34,7 @@ public class QuakeViewModel extends AndroidViewModel {
 	 *
 	 * @return retorna un mutablelivedata de listado de sismos
 	 */
-	public MutableLiveData<List<QuakeModel>> showQuakeList () {
+	public MutableLiveData<List<QuakeModel>> showQuakeList() {
 
 		if (mQuakeMutableList == null) {
 			mQuakeMutableList = new MutableLiveData<>();
@@ -48,7 +48,7 @@ public class QuakeViewModel extends AndroidViewModel {
 	/**
 	 * La funcion fuerza el refresh de los datos del mutable
 	 */
-	public void refreshMutableQuakeList () {
+	public void refreshMutableQuakeList() {
 		mQuakeRepository = QuakeRepository.getIntance(getApplication());
 		mQuakeMutableList = mQuakeRepository.getMutableQuakeList();
 	}
@@ -59,7 +59,7 @@ public class QuakeViewModel extends AndroidViewModel {
 	 *
 	 * @return Retorna el MutableLiveData del mensaje estado
 	 */
-	public MutableLiveData<String> showStatusData () {
+	public MutableLiveData<String> showStatusData() {
 
 		mQuakeRepository = QuakeRepository.getIntance(getApplication());
 		return mQuakeRepository.getStatusData();
@@ -70,7 +70,7 @@ public class QuakeViewModel extends AndroidViewModel {
 	 *
 	 * @return MutableLiveData de los simos filtrados
 	 */
-	public MutableLiveData<List<QuakeModel>> showFilteredQuakeList () {
+	public MutableLiveData<List<QuakeModel>> showFilteredQuakeList() {
 		return mQuakeMutableFilterList;
 	}
 
@@ -79,7 +79,7 @@ public class QuakeViewModel extends AndroidViewModel {
 	 *
 	 * @param s Texto que ingresa el usuario en la busqueda
 	 */
-	public void doSearch (String s) {
+	public void doSearch(String s) {
 
 		mQuakeRepository = QuakeRepository.getIntance(getApplication());
 		List<QuakeModel> mQuakeList = mQuakeRepository.getQuakeList();
@@ -106,7 +106,7 @@ public class QuakeViewModel extends AndroidViewModel {
 	}
 
 	@Override
-	protected void onCleared () {
+	protected void onCleared() {
 		super.onCleared();
 	}
 }

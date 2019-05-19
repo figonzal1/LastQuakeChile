@@ -40,7 +40,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 	 *
 	 * @param context Contexto necesario para el uso de recursos
 	 */
-	public static void createNotificationChannel (Context context) {
+	public static void createNotificationChannel(Context context) {
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
@@ -76,7 +76,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 	 *
 	 * @param activity Necesario para el uso de recursos de string
 	 */
-	public static void checkSuscription (final Activity activity) {
+	public static void checkSuscription(final Activity activity) {
 
 		final SharedPreferences sharedPreferences =
 				PreferenceManager.getDefaultSharedPreferences(activity);
@@ -88,7 +88,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 			FirebaseMessaging.getInstance().subscribeToTopic(activity.getString(R.string.FIREBASE_TOPIC_NAME))
 					.addOnCompleteListener(new OnCompleteListener<Void>() {
 						@Override
-						public void onComplete (@NonNull Task<Void> task) {
+						public void onComplete(@NonNull Task<Void> task) {
 							if (task.isSuccessful()) {
 
 								Log.d(activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION),
@@ -109,7 +109,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 			FirebaseMessaging.getInstance().unsubscribeFromTopic(activity.getString(R.string.FIREBASE_TOPIC_NAME))
 					.addOnCompleteListener(new OnCompleteListener<Void>() {
 						@Override
-						public void onComplete (@NonNull Task<Void> task) {
+						public void onComplete(@NonNull Task<Void> task) {
 
 							//Modificar valor en sharepref de settings
 							sharedPreferences.edit().putBoolean(activity.getString(R.string.FIREBASE_PREF_KEY),
@@ -127,7 +127,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 					})
 					.addOnFailureListener(new OnFailureListener() {
 						@Override
-						public void onFailure (@NonNull Exception e) {
+						public void onFailure(@NonNull Exception e) {
 							Log.d(activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION),
 									activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION_ALREADY));
 							Crashlytics.log(Log.DEBUG,
@@ -140,7 +140,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 	}
 
 	@Override
-	public void onMessageReceived (RemoteMessage remoteMessage) {
+	public void onMessageReceived(RemoteMessage remoteMessage) {
 		super.onMessageReceived(remoteMessage);
 
 		Log.d(getString(R.string.TAG_FIREBASE_MESSAGE), "From: " + remoteMessage.getFrom());
@@ -173,7 +173,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 	 *
 	 * @param remoteMessage mensaje fcm
 	 */
-	private void showNotification (RemoteMessage remoteMessage) {
+	private void showNotification(RemoteMessage remoteMessage) {
 
 		//Maneja la notificacion cuando esta en foreground
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this,
@@ -196,7 +196,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 	 *
 	 * @param remoteMessage mensaje desde servidor
 	 */
-	private void showNotificationData (RemoteMessage remoteMessage) {
+	private void showNotificationData(RemoteMessage remoteMessage) {
 
 		//Obtener datos desde send_notification.php en servidor
 		Map<String, String> mParams = remoteMessage.getData();
@@ -304,14 +304,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 	}
 
 	@Override
-	public void onNewToken (String s) {
+	public void onNewToken(String s) {
 		super.onNewToken(s);
 		Log.d(getString(R.string.TAG_FIREBASE_TOKEN), "Refreshed Token:" + s);
 		Crashlytics.setUserIdentifier(s);
 	}
 
 	@Override
-	public void onDeletedMessages () {
+	public void onDeletedMessages() {
 		super.onDeletedMessages();
 	}
 }
