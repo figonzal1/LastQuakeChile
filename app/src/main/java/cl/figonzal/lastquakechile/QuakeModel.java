@@ -17,102 +17,102 @@ public class QuakeModel {
 	private String mImagenUrl;
 	private String mEstado;
 
-	public QuakeModel () {
+	public QuakeModel() {
 	}
 
-	public Date getFechaLocal () {
+	public Date getFechaLocal() {
 		return mFechaLocal;
 	}
 
-	public void setFechaLocal (Date fechaLocal) {
+	public void setFechaLocal(Date fechaLocal) {
 		this.mFechaLocal = fechaLocal;
 	}
 
-	public String getCiudad () {
+	public String getCiudad() {
 		return mCiudad;
 	}
 
-	public void setCiudad (String ciudad) {
+	public void setCiudad(String ciudad) {
 		this.mCiudad = ciudad;
 	}
 
-	public String getLatitud () {
+	public String getLatitud() {
 		return mLatitud;
 	}
 
-	public void setLatitud (String latitud) {
+	public void setLatitud(String latitud) {
 		this.mLatitud = latitud;
 	}
 
-	public String getLongitud () {
+	public String getLongitud() {
 		return mLongitud;
 	}
 
-	public void setLongitud (String longitud) {
+	public void setLongitud(String longitud) {
 		this.mLongitud = longitud;
 	}
 
-	public Double getMagnitud () {
+	public Double getMagnitud() {
 		return mMagnitud;
 	}
 
-	public void setMagnitud (Double magnitud) {
+	public void setMagnitud(Double magnitud) {
 		this.mMagnitud = magnitud;
 	}
 
-	public String getEscala () {
+	public String getEscala() {
 		return mEscala;
 	}
 
-	public void setEscala (String escala) {
+	public void setEscala(String escala) {
 		this.mEscala = escala;
 	}
 
-	public Double getProfundidad () {
+	public Double getProfundidad() {
 		return mProfundidad;
 	}
 
-	public void setProfundidad (Double profundidad) {
+	public void setProfundidad(Double profundidad) {
 		this.mProfundidad = profundidad;
 	}
 
-	public String getAgencia () {
+	public String getAgencia() {
 		return mAgencia;
 	}
 
-	public void setAgencia (String agencia) {
+	public void setAgencia(String agencia) {
 		this.mAgencia = agencia;
 	}
 
-	public String getReferencia () {
+	public String getReferencia() {
 		return mReferencia;
 	}
 
-	public void setReferencia (String referencia) {
+	public void setReferencia(String referencia) {
 		this.mReferencia = referencia;
 	}
 
-	public String getImagenUrl () {
+	public String getImagenUrl() {
 		return mImagenUrl;
 	}
 
-	public void setImagenUrl (String imagen_url) {
+	public void setImagenUrl(String imagen_url) {
 		this.mImagenUrl = imagen_url;
 	}
 
-	public Boolean getSensible () {
+	public Boolean getSensible() {
 		return mSensible;
 	}
 
-	public void setSensible (Boolean sensible) {
+	public void setSensible(Boolean sensible) {
 		this.mSensible = sensible;
 	}
 
-	public String getEstado () {
+	public String getEstado() {
 		return mEstado;
 	}
 
-	public void setEstado (String estado) {
+	public void setEstado(String estado) {
 		this.mEstado = estado;
 	}
 }

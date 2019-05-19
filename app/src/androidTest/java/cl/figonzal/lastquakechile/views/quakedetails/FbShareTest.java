@@ -43,18 +43,18 @@ public class FbShareTest {
 
 	private Context mContext;
 
-	private static Matcher<View> childAtPosition (
+	private static Matcher<View> childAtPosition(
 			final Matcher<View> parentMatcher, final int position) {
 
 		return new TypeSafeMatcher<View>() {
 			@Override
-			public void describeTo (Description description) {
+			public void describeTo(Description description) {
 				description.appendText("Child at position " + position + " in parent ");
 				parentMatcher.describeTo(description);
 			}
 
 			@Override
-			public boolean matchesSafely (View view) {
+			public boolean matchesSafely(View view) {
 				ViewParent parent = view.getParent();
 				return parent instanceof ViewGroup && parentMatcher.matches(parent)
 						&& view.equals(((ViewGroup) parent).getChildAt(position));
@@ -63,12 +63,12 @@ public class FbShareTest {
 	}
 
 	@Before
-	public void start () {
+	public void start() {
 		mContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 	}
 
 	@Test
-	public void test_click_fb_button () {
+	public void test_click_fb_button() {
 		click_first_item();
 
 		check_and_click_share();
@@ -76,7 +76,7 @@ public class FbShareTest {
 		check_and_click_fb();
 	}
 
-	private void click_first_item () {
+	private void click_first_item() {
 		//Hacer click en el primer item de la lista
 		ViewInteraction quakeItem = onView(
 				allOf(withId(R.id.card_view),
@@ -105,7 +105,7 @@ public class FbShareTest {
 		}
 	}
 
-	private void check_and_click_share () {
+	private void check_and_click_share() {
 
 		//Click sobre el boton de compartir
 		ViewInteraction buttonShare = onView(withId(R.id.fab_share));
@@ -129,7 +129,7 @@ public class FbShareTest {
 		}
 	}
 
-	private void check_and_click_fb () {
+	private void check_and_click_fb() {
 		//Buscar boton
 		ViewInteraction buttonFB = onView(withId(R.id.fab_fb));
 

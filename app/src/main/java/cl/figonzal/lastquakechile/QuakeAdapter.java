@@ -33,7 +33,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
 	private final Context context;
 	private final Activity activity;
 
-	public QuakeAdapter (List<QuakeModel> quakeModelList, Context context, Activity activity) {
+	public QuakeAdapter(List<QuakeModel> quakeModelList, Context context, Activity activity) {
 		this.quakeModelList = quakeModelList;
 		this.context = context;
 		this.activity = activity;
@@ -43,7 +43,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
 
 	@NonNull
 	@Override
-	public QuakeViewHolder onCreateViewHolder (@NonNull ViewGroup viewGroup, int i) {
+	public QuakeViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
 		//Inflar de layout del cardview
 		View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.quake_cardview,
@@ -52,7 +52,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
 	}
 
 	@Override
-	public void onBindViewHolder (@NonNull final QuakeViewHolder holder, int position) {
+	public void onBindViewHolder(@NonNull final QuakeViewHolder holder, int position) {
 
 		final QuakeModel model = quakeModelList.get(position);
 
@@ -78,7 +78,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
 
 		holder.item.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick (View v) {
+			public void onClick(View v) {
 
                 /*
                     Datos para mostrar en el detalle de sismos
@@ -130,18 +130,18 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
 	}
 
 	@Override
-	public int getItemCount () {
+	public int getItemCount() {
 		return quakeModelList.size();
 	}
 
 	//Permite tener los id's fijos y no tener problemas con boleano sensible.
 	@Override
-	public long getItemId (int position) {
+	public long getItemId(int position) {
 		return position;
 	}
 
 	@Override
-	public int getItemViewType (int position) {
+	public int getItemViewType(int position) {
 		return position;
 	}
 
@@ -156,7 +156,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
 		private TextView tv_ciudad;
 
 
-		private QuakeViewHolder (View itemView) {
+		private QuakeViewHolder(View itemView) {
 			super(itemView);
 
 			tv_ciudad = itemView.findViewById(R.id.tv_ciudad);
