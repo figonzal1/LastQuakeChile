@@ -19,7 +19,7 @@ import cl.figonzal.lastquakechile.services.QuakeUtils;
 public class SettingsActivity extends AppCompatActivity {
 
 	@Override
-	public void onCreate (Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		QuakeUtils.checkNightMode(this);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.settings_activity);
@@ -37,7 +37,7 @@ public class SettingsActivity extends AppCompatActivity {
 
 
 	@Override
-	protected void onResume () {
+	protected void onResume() {
 		super.onResume();
 		QuakeUtils.checkNightMode(this);
 	}
@@ -47,7 +47,7 @@ public class SettingsActivity extends AppCompatActivity {
 		private Activity activity;
 
 		@Override
-		public void onCreatePreferences (Bundle savedInstanceState, String rootKey) {
+		public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
 			setPreferencesFromResource(R.xml.root_preferences, rootKey);
 			if (getActivity() != null) {
 				activity = getActivity();
@@ -55,8 +55,8 @@ public class SettingsActivity extends AppCompatActivity {
 		}
 
 		@Override
-		public void onSharedPreferenceChanged (final SharedPreferences sharedPreferences,
-		                                       String key) {
+		public void onSharedPreferenceChanged(final SharedPreferences sharedPreferences,
+		                                      String key) {
 
 			//Preferencia modo noche manual
 			if (key.equals(activity.getString(R.string.NIGHT_MODE_MANUAL_KEY))) {
@@ -159,13 +159,13 @@ public class SettingsActivity extends AppCompatActivity {
 		}
 
 		@Override
-		public void onResume () {
+		public void onResume() {
 			super.onResume();
 			getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 		}
 
 		@Override
-		public void onPause () {
+		public void onPause() {
 			super.onPause();
 			getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
 		}

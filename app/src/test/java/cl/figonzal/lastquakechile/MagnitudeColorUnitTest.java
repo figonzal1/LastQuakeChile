@@ -17,13 +17,13 @@ public class MagnitudeColorUnitTest {
 	private final double magnitud;
 	private final int colorEsperado;
 
-	public MagnitudeColorUnitTest (double magnitud, int colorEsperado) {
+	public MagnitudeColorUnitTest(double magnitud, int colorEsperado) {
 		this.colorEsperado = colorEsperado;
 		this.magnitud = magnitud;
 	}
 
 	@Parameterized.Parameters(name = "{0} = getMagnitudeColor({1})")
-	public static Collection<Object[]> data () {
+	public static Collection<Object[]> data() {
 		return Arrays.asList(new Object[][]{
 				{1.2, R.color.magnitude1}
 				, {1.9, R.color.magnitude1}
@@ -45,7 +45,7 @@ public class MagnitudeColorUnitTest {
 	}
 
 	@Test
-	public void give_magnitude_return_magnitud_color () {
+	public void give_magnitude_return_magnitud_color() {
 		assertEquals(colorEsperado, QuakeUtils.getMagnitudeColor(magnitud, false));
 	}
 }

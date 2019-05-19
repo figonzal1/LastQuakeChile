@@ -25,7 +25,7 @@ import cl.figonzal.lastquakechile.R;
 public class WelcomeActivity extends AppCompatActivity {
 
 	@Override
-	protected void onCreate (Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_invitation);
 
@@ -49,7 +49,7 @@ public class WelcomeActivity extends AppCompatActivity {
 		//Boton para iniciar la app desde invitacion
 		mBtnWelcome.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick (View v) {
+			public void onClick(View v) {
 				Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
 				intent.putExtra(getString(R.string.desde_deep_link), true);
 				startActivity(intent);
@@ -62,7 +62,7 @@ public class WelcomeActivity extends AppCompatActivity {
 				.getDynamicLink(getIntent())
 				.addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
 					@Override
-					public void onSuccess (PendingDynamicLinkData data) {
+					public void onSuccess(PendingDynamicLinkData data) {
 						if (data == null) {
 							Log.d(getString(R.string.TAG_DEEP_LINK_INVITATION),
 									getString(R.string.INVITATION_STATUS));
@@ -83,7 +83,7 @@ public class WelcomeActivity extends AppCompatActivity {
 				})
 				.addOnFailureListener(this, new OnFailureListener() {
 					@Override
-					public void onFailure (@NonNull Exception e) {
+					public void onFailure(@NonNull Exception e) {
 						Log.w(getString(R.string.TAG_INVITATION_RECEIVE), "getDynamicLink" +
 								":onFailure", e);
 					}
@@ -91,7 +91,7 @@ public class WelcomeActivity extends AppCompatActivity {
 	}
 
 	@Override
-	public void onWindowFocusChanged (boolean hasFocus) {
+	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
 		if (hasFocus) {
 			hideSystemUI();
@@ -101,7 +101,7 @@ public class WelcomeActivity extends AppCompatActivity {
 	/**
 	 * Funcion que permite poner la actividad en panatalla completa
 	 */
-	private void hideSystemUI () {
+	private void hideSystemUI() {
 
 		View mView = getWindow().getDecorView();
 

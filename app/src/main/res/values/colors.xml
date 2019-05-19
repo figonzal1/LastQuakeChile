@@ -1,41 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--<color name="colorPrimary">#007c6b</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>-->
+	<!--<color name="colorPrimary">#007c6b</color>
+	<color name="colorPrimaryDark">#00574B</color>
+	<color name="colorAccent">#D81B60</color>-->
 
-    <color name="colorPrimary">#3f51b5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#00bbff</color>
-    <color name="grey">#efefef</color>
-    <color name="grey_dark">#ADADAD</color>
-    <color name="green_dark">#008e4d</color>
+	<color name="colorPrimary">#3f51b5</color>
+	<color name="colorPrimaryDark">#303F9F</color>
+	<color name="colorAccent">#00bbff</color>
+	<color name="grey">#efefef</color>
+	<color name="grey_dark">#ADADAD</color>
+	<color name="green_dark">#008e4d</color>
 
-    <!-- Night Color-->
-    <color name="colorPrimaryNightMode">#253561</color>
-    <color name="colorPrimaryDarknightMode">#1C2746</color>
-    <color name="colorAccentNightMode">#006994</color>
-    <color name="backgroundNightMode">#28282C</color>
+	<!-- Night Color-->
+	<color name="colorPrimaryNightMode">#253561</color>
+	<color name="colorPrimaryDarknightMode">#1C2746</color>
+	<color name="colorAccentNightMode">#006994</color>
+	<color name="backgroundNightMode">#28282C</color>
 
 
-    <!-- Colores para cada magnitud-->
-    <color name="magnitude1">#006400</color>
-    <color name="magnitude2">#2a7900</color>
-    <color name="magnitude3">#6c9800</color>
-    <color name="magnitude4">#c6c000</color>
-    <color name="magnitude5">#ffb000</color>
-    <color name="magnitude6">#f56b0b</color>
-    <color name="magnitude7">#d83618</color>
-    <color name="magnitude8">#b22222</color>
+	<!-- Colores para cada magnitud-->
+	<color name="magnitude1">#006400</color>
+	<color name="magnitude2">#2a7900</color>
+	<color name="magnitude3">#6c9800</color>
+	<color name="magnitude4">#c6c000</color>
+	<color name="magnitude5">#ffb000</color>
+	<color name="magnitude6">#f56b0b</color>
+	<color name="magnitude7">#d83618</color>
+	<color name="magnitude8">#b22222</color>
 
-    <!-- Colores para mapa-->
-    <color name="grey_dark_alpha">#B3939393</color>
-    <color name="magnitude1_alpha">#80006400</color>
-    <color name="magnitude2_alpha">#802A7900</color>
-    <color name="magnitude3_alpha">#806C9800</color>
-    <color name="magnitude4_alpha">#80C6C000</color>
-    <color name="magnitude5_alpha">#80FFB000</color>
-    <color name="magnitude6_alpha">#80F56B0B</color>
-    <color name="magnitude7_alpha">#80D83618</color>
-    <color name="magnitude8_alpha">#80B22222</color>
+	<!-- Colores para mapa-->
+	<color name="grey_dark_alpha">#B3939393</color>
+	<color name="magnitude1_alpha">#80006400</color>
+	<color name="magnitude2_alpha">#802A7900</color>
+	<color name="magnitude3_alpha">#806C9800</color>
+	<color name="magnitude4_alpha">#80C6C000</color>
+	<color name="magnitude5_alpha">#80FFB000</color>
+	<color name="magnitude6_alpha">#80F56B0B</color>
+	<color name="magnitude7_alpha">#80D83618</color>
+	<color name="magnitude8_alpha">#80B22222</color>
 </resources>

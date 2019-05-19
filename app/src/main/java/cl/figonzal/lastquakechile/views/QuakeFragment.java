@@ -51,24 +51,24 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 	private QuakeAdapter mAdapter;
 	private CardView mCardViewInfo;
 
-	public QuakeFragment () {
+	public QuakeFragment() {
 
 	}
 
-	public static QuakeFragment newInstance () {
+	public static QuakeFragment newInstance() {
 		return new QuakeFragment();
 	}
 
 	@Override
-	public void onCreate (Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
 
 	}
 
 	@Override
-	public View onCreateView (@NonNull final LayoutInflater inflater, final ViewGroup container,
-	                          final Bundle savedInstanceState) {
+	public View onCreateView(@NonNull final LayoutInflater inflater, final ViewGroup container,
+	                         final Bundle savedInstanceState) {
 
 
 		// Inflate the layout for thi{s fragment
@@ -104,12 +104,12 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 	 *
 	 * @param v Vista necesaria para mostrar componentes UI
 	 */
-	private void viewModelObservers (final View v) {
+	private void viewModelObservers(final View v) {
 
 		//Viewmodel encargado de cargar los datos desde internet
 		mViewModel.showQuakeList().observe(this, new Observer<List<QuakeModel>>() {
 			@Override
-			public void onChanged (@Nullable List<QuakeModel> quakeModelList) {
+			public void onChanged(@Nullable List<QuakeModel> quakeModelList) {
 
 				//Setear el mAdapter con la lista de quakes
 				mAdapter = new QuakeAdapter(quakeModelList, getContext(), getActivity());
@@ -131,7 +131,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 		//Viewmodel encargado de mostrar los mensajes de estado en los sSnackbar
 		mViewModel.showStatusData().observe(this, new Observer<String>() {
 			@Override
-			public void onChanged (@Nullable String status) {
+			public void onChanged(@Nullable String status) {
 				if (status != null) {
 					mProgressBar.setVisibility(View.INVISIBLE);
 					showSnackBar(status, v);
@@ -142,7 +142,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 		//ViewModel encargado de cargar los datos de sismos post-busqueda de usuario en SearchView
 		mViewModel.showFilteredQuakeList().observe(this, new Observer<List<QuakeModel>>() {
 			@Override
-			public void onChanged (@Nullable List<QuakeModel> quakeModels) {
+			public void onChanged(@Nullable List<QuakeModel> quakeModels) {
 				//Setear el mAdapter con la lista de quakes
 				mAdapter = new QuakeAdapter(quakeModels, getContext(), getActivity());
 				mAdapter.notifyDataSetChanged();
@@ -156,7 +156,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 	 *
 	 * @param v Vista necesaria para mostrar el vardview
 	 */
-	private void showCardViewInformation (View v) {
+	private void showCardViewInformation(View v) {
 
 		mCardViewInfo = v.findViewById(R.id.card_view_info);
 		final SharedPreferences sharedPreferences =
@@ -186,7 +186,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 		Button mBtnCvInfo = v.findViewById(R.id.btn_info_accept);
 		mBtnCvInfo.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick (View v) {
+			public void onClick(View v) {
 
 				SharedPreferences.Editor editor = sharedPreferences.edit();
 				//editor.putString(getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO),
@@ -200,7 +200,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 						.setDuration(500)
 						.setListener(new AnimatorListenerAdapter() {
 							@Override
-							public void onAnimationEnd (Animator animation) {
+							public void onAnimationEnd(Animator animation) {
 								super.onAnimationEnd(animation);
 								mCardViewInfo.setVisibility(View.GONE);
 							}
@@ -222,14 +222,14 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 	 * @param status Estado del mensaje (Timeout,server error, etc)
 	 * @param v      (Vista necesaria para mostrar sSnackbar en coordinator layout)
 	 */
-	private void showSnackBar (String status, View v) {
+	private void showSnackBar(String status, View v) {
 
 		//TIMEOUT ERROR
 		if (status.equals(getString(R.string.VIEWMODEL_TIMEOUT_ERROR))) {
 			sSnackbar = Snackbar.make(v, status, Snackbar.LENGTH_INDEFINITE)
 					.setAction(getString(R.string.FLAG_RETRY), new View.OnClickListener() {
 						@Override
-						public void onClick (View v) {
+						public void onClick(View v) {
 							mViewModel.refreshMutableQuakeList();
 							mProgressBar.setVisibility(View.VISIBLE);
 
@@ -250,7 +250,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 			sSnackbar = Snackbar.make(v, status, Snackbar.LENGTH_INDEFINITE)
 					.setAction(getString(R.string.FLAG_RETRY), new View.OnClickListener() {
 						@Override
-						public void onClick (View v) {
+						public void onClick(View v) {
 
 							mViewModel.refreshMutableQuakeList();
 							mProgressBar.setVisibility(View.VISIBLE);
@@ -274,7 +274,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 					.make(v, status, Snackbar.LENGTH_INDEFINITE)
 					.setAction(getString(R.string.FLAG_RETRY), new View.OnClickListener() {
 						@Override
-						public void onClick (View v) {
+						public void onClick(View v) {
 							mViewModel.refreshMutableQuakeList();
 							mProgressBar.setVisibility(View.VISIBLE);
 
@@ -292,17 +292,17 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
 
 	@Override
-	public void onResume () {
+	public void onResume() {
 		super.onResume();
 	}
 
 	@Override
-	public void onStop () {
+	public void onStop() {
 		super.onStop();
 	}
 
 	@Override
-	public boolean onQueryTextSubmit (String s) {
+	public boolean onQueryTextSubmit(String s) {
 		//List<QuakeModel> filteredList= mViewModel.doSearch(s);
 		//mViewModel.setFilteredList(filteredList);
 		return false;
@@ -313,18 +313,17 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 	 * caracter.
 	 *
 	 * @param s Caracter o palabra ingresada por el usuario.
-	 *
 	 * @return Booleano
 	 */
 	@Override
-	public boolean onQueryTextChange (String s) {
+	public boolean onQueryTextChange(String s) {
 		String input = s.toLowerCase();
 		mViewModel.doSearch(input);
 		return true;
 	}
 
 	@Override
-	public void onCreateOptionsMenu (@NonNull final Menu menu, @NonNull MenuInflater inflater) {
+	public void onCreateOptionsMenu(@NonNull final Menu menu, @NonNull MenuInflater inflater) {
 		menu.clear();
 		inflater.inflate(R.menu.toolbar_menu, menu);
 
@@ -339,7 +338,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 		MenuItem.OnActionExpandListener onActionExpandListener =
 				new MenuItem.OnActionExpandListener() {
 					@Override
-					public boolean onMenuItemActionExpand (MenuItem item) {
+					public boolean onMenuItemActionExpand(MenuItem item) {
 
 						//Se oculta boton refresh
 						menu.findItem(R.id.refresh).setVisible(false);
@@ -347,7 +346,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 					}
 
 					@Override
-					public boolean onMenuItemActionCollapse (MenuItem item) {
+					public boolean onMenuItemActionCollapse(MenuItem item) {
 
 						mViewModel.refreshMutableQuakeList();
 						//Se vuelve a mostrar boton refresh
@@ -361,7 +360,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 	}
 
 	@Override
-	public boolean onOptionsItemSelected (@NonNull MenuItem item) {
+	public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
 		Intent intent;
 
@@ -409,7 +408,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 	 */
 	//TODO: Agregar un metodo para escoger entre compartir el link a redes sociales o enviarlo por
 	// mail
-	private void onInviteClicked () {
+	private void onInviteClicked() {
 		Intent mIntent =
 				new AppInviteInvitation.IntentBuilder(getString(R.string.INVITATION_TITLE))
 						.setDeepLink(Uri.parse(getString(R.string.DEEP_LINK)))
@@ -448,7 +447,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 								"  body, p{margin:0; padding:0; margin-bottom:0; " +
 								"-webkit-text-size-adjust:none; -ms-text-size-adjust:none;} " +
 								"img{line-height:100%; outline:none; text-decoration:none; " +
-								"-ms-interpolation-mode: bicubic;} a img{border: none;} a, a:link," +
+								"-ms-interpolation-mode: bicubic;} a img{border: none;} a, " +
+								"a:link," +
 								" " +
 								".no-detect-local a, .appleLinks a{color:#5555ff !important; " +
 								"text-decoration: underline;} .ExternalClass {display: block " +
@@ -460,7 +460,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 								"line-height: inherit; } table td {border-collapse:collapse;" +
 								"mso-table-lspace: 0pt; mso-table-rspace: 0pt;} sup{position: " +
 								"relative; " +
-								"top: 4px; line-height:7px !important;font-size:11px !important;}" +
+								"top: 4px; line-height:7px !important;font-size:11px !important;" +
+								"}" +
 								" " +
 								".mobile_link a[href^=\"tel\"], .mobile_link a[href^=\"sms\"] " +
 								"{text-decoration: default; color: #5555ff !important;\n" +
@@ -468,7 +469,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 								"a{text-decoration:" +
 								" none; color: #5555ff; pointer-events: auto; cursor: default;} " +
 								"{color: " +
-								"#5555ff;} span {color: inherit; border-bottom: none;} span:hover " +
+								"#5555ff;} span {color: inherit; border-bottom: none;} span:hover" +
+								" " +
 								"{ " +
 								"background-color: transparent; }\n" +
 								"\n" +
@@ -484,13 +486,17 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 								"      background: #707070;\n" +
 								"    }\n" +
 								"    body { min-width: 280px; width: 100%;}\n" +
-								"    td[class=\"pattern\"] .c363p67r { width: 67.30769230769232%;" +
+								"    td[class=\"pattern\"] .c363p67r { width: 67" +
+								".30769230769232%;" +
 								"}\n" +
-								"    td[class=\"pattern\"] .c176p32r { width: 32.69230769230768%;" +
+								"    td[class=\"pattern\"] .c176p32r { width: 32" +
+								".69230769230768%;" +
 								"}\n" +
-								"    td[class=\"pattern\"] .c399p66r { width: 66.66666666666666%;" +
+								"    td[class=\"pattern\"] .c399p66r { width: 66" +
+								".66666666666666%;" +
 								"}\n" +
-								"    td[class=\"pattern\"] .c200p33r { width: 33.33333333333334%;" +
+								"    td[class=\"pattern\"] .c200p33r { width: 33" +
+								".33333333333334%;" +
 								"}\n" +
 								"\n" +
 								"  </style>\n" +
@@ -500,7 +506,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 								"  only screen and (max-width: 400px),\n" +
 								"  only screen and (max-device-width: 400px) {\n" +
 								"   .email-root-wrapper { width: 100% !important; }\n" +
-								"   .full-width { width: 100% !important; height: auto !important;" +
+								"   .full-width { width: 100% !important; height: auto " +
+								"!important;" +
 								" " +
 								"text-align:center;}\n" +
 								"   .fullwidthhalfleft {width:100% !important;}\n" +
@@ -537,7 +544,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 								"only screen and (max-device-width: 599px),\n" +
 								"only screen and (max-width: 400px),\n" +
 								"only screen and (max-device-width: 400px) {\n" +
-								"  table[class=\"email-root-wrapper\"] { width: 100% !important; " +
+								"  table[class=\"email-root-wrapper\"] { width: 100% !important;" +
+								" " +
 								"}\n" +
 								"  td[class=\"wrap\"] .full-width { width: 100% !important; " +
 								"height: auto" +
@@ -546,9 +554,11 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 								"\n" +
 								"  td[class=\"wrap\"] .fullwidthhalfleft {width:100% !important;" +
 								"}\n" +
-								"  td[class=\"wrap\"] .fullwidthhalfright {width:100% !important;" +
+								"  td[class=\"wrap\"] .fullwidthhalfright {width:100% " +
+								"!important;" +
 								"}\n" +
-								"  td[class=\"wrap\"] .fullwidthhalfinner {width:100% !important; " +
+								"  td[class=\"wrap\"] .fullwidthhalfinner {width:100% !important;" +
+								" " +
 								"margin:" +
 								" " +
 								"0 auto !important; float: none !important; margin-left: auto " +
@@ -569,7 +579,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 								"</style>\n" +
 								"<STYLE type=\"text/css\" media=\"(pointer) and " +
 								"(min-color-index:0)\">\n" +
-								"html, body {background-image: none !important; background-color:" +
+								"html, body {background-image: none !important; " +
+								"background-color:" +
 								" " +
 								"transparent !important; margin:0 !important; padding:0 " +
 								"!important;}\n" +
@@ -579,7 +590,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 								"<body leftmargin=\"0\" marginwidth=\"0\" topmargin=\"0\" " +
 								"marginheight=\"0\" offset=\"0\" style=\"font-family:Arial, " +
 								"sans-serif; " +
-								"font-size:0px;margin:0;padding:0;background: #707070 !important;" +
+								"font-size:0px;margin:0;padding:0;background: #707070 " +
+								"!important;" +
 								"\" " +
 								"bgcolor=\"#707070\">\n" +
 								"  <!--[if t]><![endif]--><!--[if t]><![endif]--><!--[if " +
@@ -589,7 +601,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 								"  <table align=\"center\" border=\"0\" cellpadding=\"0\" " +
 								"cellspacing=\"0\" height=\"100%\" width=\"100%\"  " +
 								"bgcolor=\"#707070\" " +
-								"style=\"margin:0; padding:0; width:100% !important; background: " +
+								"style=\"margin:0; padding:0; width:100% !important; background:" +
+								" " +
 								"#707070" +
 								" " +
 								"!important;\">\n" +
@@ -606,12 +619,14 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 								"align=\"center\"  " +
 								"style=\"max-width:600px;min-width:240px;margin:0 auto\" " +
 								"class=\"email-root-wrapper\"><tr><td valign=\"top\"  " +
-								"style=\"padding:0px\"><table cellpadding=\"0\" cellspacing=\"0\"" +
+								"style=\"padding:0px\"><table cellpadding=\"0\" " +
+								"cellspacing=\"0\"" +
 								" " +
 								"border=\"0\" width=\"100%\" bgcolor=\"#303f9f\"  " +
 								"style=\"border:0px " +
 								"none;background-color:#303f9f\"><tr><td valign=\"top\"  " +
-								"style=\"padding:0px\"><table cellpadding=\"0\" cellspacing=\"0\"" +
+								"style=\"padding:0px\"><table cellpadding=\"0\" " +
+								"cellspacing=\"0\"" +
 								" " +
 								"width=\"100%\"><tr><td  style=\"padding:0px\"><table " +
 								"cellpadding=\"0\" " +
@@ -626,9 +641,11 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 								"mso-text-raise:4px\"><h1 style=\"font-family:Roboto, Helvetica " +
 								"Neue, " +
 								"Helvetica, Arial, sans-serif; font-size: 28px; color: #FFFFFF; " +
-								"line-height: 40px; mso-line-height: exactly; mso-text-raise: 6px;" +
+								"line-height: 40px; mso-line-height: exactly; mso-text-raise: " +
+								"6px;" +
 								" " +
-								"padding: 0; margin: 0;\"><span class=\"mso-font-fix-arial\">Last " +
+								"padding: 0; margin: 0;\"><span class=\"mso-font-fix-arial\">Last" +
+								" " +
 								"Quake " +
 								"Chile</span></h1></div></td>\n" +
 								"          </tr>\n" +
@@ -653,7 +670,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 								"align=\"center\"  " +
 								"style=\"max-width:600px;min-width:240px;margin:0 auto\" " +
 								"class=\"email-root-wrapper\"><tr><td valign=\"top\"  " +
-								"style=\"padding:0px\"><table cellpadding=\"0\" cellspacing=\"0\"" +
+								"style=\"padding:0px\"><table cellpadding=\"0\" " +
+								"cellspacing=\"0\"" +
 								" " +
 								"border=\"0\" width=\"100%\" bgcolor=\"#282828\"  " +
 								"style=\"border:0px " +
@@ -661,7 +679,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 								"('https://images" +
 								".chamaileon.io/foto_v2.png');background-repeat:repeat-y;" +
 								"background-position:center top\"><tr><td valign=\"top\"  " +
-								"style=\"padding:30px\"><table cellpadding=\"0\" cellspacing=\"0\"" +
+								"style=\"padding:30px\"><table cellpadding=\"0\" " +
+								"cellspacing=\"0\"" +
 								" " +
 								"width=\"100%\"><tr><td  style=\"padding:0px\" " +
 								"class=\"pattern\"><table " +
@@ -672,20 +691,24 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 								"  style=\"padding:0;mso-cellspacing:0in\"><table " +
 								"cellpadding=\"0\" " +
 								"cellspacing=\"0\" border=\"0\" align=\"left\" width=\"363\" " +
-								"id=\"c363p67r\"  style=\"float:left\" class=\"c363p67r\"><tr><td" +
+								"id=\"c363p67r\"  style=\"float:left\" " +
+								"class=\"c363p67r\"><tr><td" +
 								" " +
 								"valign=\"top\"  style=\"padding:0px\"><table cellpadding=\"0\" " +
 								"cellspacing=\"0\" border=\"0\" width=\"100%\" bgcolor=\"#\"  " +
 								"style=\"border:0px none;background-color:#\"><tr><td " +
 								"valign=\"top\"  " +
-								"style=\"padding:30px\"><table cellpadding=\"0\" cellspacing=\"0\"" +
+								"style=\"padding:30px\"><table cellpadding=\"0\" " +
+								"cellspacing=\"0\"" +
 								" " +
 								"width=\"100%\"><tr><td  style=\"padding:0px\"><div  " +
-								"style=\"text-align:left;font-family:Bitter, Georgia, Times, Times" +
+								"style=\"text-align:left;font-family:Bitter, Georgia, Times, " +
+								"Times" +
 								" New " +
 								"Roman, serif;font-size:14px;color:#000000;line-height:22px;" +
 								"mso-line-height:exactly;mso-text-raise:4px\"><h1\n" +
-								"    style=\"font-family:Roboto, Helvetica Neue, Helvetica, Arial," +
+								"    style=\"font-family:Roboto, Helvetica Neue, Helvetica, " +
+								"Arial," +
 								" " +
 								"sans-serif; font-size: 28px; color: #FFFFFF; line-height: 40px;" +
 								" " +
@@ -700,7 +723,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 								" " +
 								"Helvetica Neue, Helvetica, Arial, sans-serif;font-size:14px;" +
 								"color:#FFFFFF;line-height:30px;mso-line-height:exactly;" +
-								"mso-text-raise:8px\"><p style=\"padding: 0; margin: 0;text-align:" +
+								"mso-text-raise:8px\"><p style=\"padding: 0; margin: 0;" +
+								"text-align:" +
 								" " +
 								"justify;\">Recibe alertas de los últimos sismos ocurridos en " +
 								"Chile</p></div></td>\n" +
@@ -710,7 +734,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 								"width=\"100%\"><tr><td valign=\"top\"  " +
 								"style=\"padding:10px\"><table " +
 								"cellpadding=\"0\" cellspacing=\"0\" width=\"100%\"><tr><td  " +
-								"style=\"padding:0px\"><table cellpadding=\"0\" cellspacing=\"0\"" +
+								"style=\"padding:0px\"><table cellpadding=\"0\" " +
+								"cellspacing=\"0\"" +
 								" " +
 								"border=\"0\" width=\"100%\"  style=\"border-top:2px solid " +
 								"transparent\"><tr><td valign=\"top\"><table cellpadding=\"0\" " +
@@ -727,7 +752,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 								"</td>\n" +
 								"</tr>\n" +
 								"</table>\n" +
-								"<table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\"><tr><td" +
+								"<table cellpadding=\"0\" cellspacing=\"0\" " +
+								"width=\"100%\"><tr><td" +
 								" " +
 								"align=\"left\"  style=\"padding:0px\"><table cellpadding=\"0\" " +
 								"cellspacing=\"0\" border=\"0\" bgcolor=\"#\" align=\"left\" " +
@@ -740,7 +766,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 								"class=\"imglink\"><img \n" +
 								"  src=\"https://images.chamaileon.io/google-play-badge.png\" " +
 								"width=\"152\" height=\"59\" alt=\"\" border=\"0\"  " +
-								"style=\"display:block;width:100%;height:auto\" class=\"full-width" +
+								"style=\"display:block;width:100%;height:auto\" " +
+								"class=\"full-width" +
 								" " +
 								"img152x59\"  /></a></td>\n" +
 								"</tr>\n" +
@@ -767,7 +794,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 								"style=\"padding:0px\"><table" +
 								" " +
 								"cellpadding=\"0\" cellspacing=\"0\" width=\"100%\"><tr><td " +
-								"align=\"center\"  style=\"padding:0px\"><table cellpadding=\"0\"" +
+								"align=\"center\"  style=\"padding:0px\"><table " +
+								"cellpadding=\"0\"" +
 								" " +
 								"cellspacing=\"0\" border=\"0\" align=\"center\" width=\"170\" " +
 								"height=\"343\"  style=\"border:0px none;height:auto\" " +
@@ -778,7 +806,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 								"    src=\"https://images.chamaileon.io/lastquakechile_pantalla" +
 								".png\" " +
 								"width=\"170\" height=\"343\" alt=\"\" border=\"0\"  " +
-								"style=\"display:block;width:100%;height:auto\" class=\"full-width" +
+								"style=\"display:block;width:100%;height:auto\" " +
+								"class=\"full-width" +
 								" " +
 								"img170x343\"  /></td>\n" +
 								"  </tr>\n" +
@@ -812,12 +841,14 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 								"align=\"center\"  " +
 								"style=\"max-width:600px;min-width:240px;margin:0 auto\" " +
 								"class=\"email-root-wrapper\"><tr><td valign=\"top\"  " +
-								"style=\"padding:0px\"><table cellpadding=\"0\" cellspacing=\"0\"" +
+								"style=\"padding:0px\"><table cellpadding=\"0\" " +
+								"cellspacing=\"0\"" +
 								" " +
 								"border=\"0\" width=\"100%\" bgcolor=\"#303f9f\"  " +
 								"style=\"border:0px " +
 								"none;background-color:#303f9f\"><tr><td valign=\"top\"  " +
-								"style=\"padding:0px\"><table cellpadding=\"0\" cellspacing=\"0\"" +
+								"style=\"padding:0px\"><table cellpadding=\"0\" " +
+								"cellspacing=\"0\"" +
 								" " +
 								"width=\"100%\"><tr><td  style=\"padding:0px\" " +
 								"class=\"pattern\"><table " +
@@ -828,14 +859,17 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 								"cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"left\"" +
 								" " +
 								"width=\"399\" id=\"c399p66r\" \n" +
-								"  style=\"float:left\" class=\"c399p66r\"><tr><td valign=\"top\" " +
+								"  style=\"float:left\" class=\"c399p66r\"><tr><td valign=\"top\"" +
 								" " +
-								"style=\"padding:0px\"><table cellpadding=\"0\" cellspacing=\"0\"" +
+								" " +
+								"style=\"padding:0px\"><table cellpadding=\"0\" " +
+								"cellspacing=\"0\"" +
 								" " +
 								"border=\"0\" width=\"100%\" bgcolor=\"#303f9f\"  " +
 								"style=\"border:0px " +
 								"none;background-color:#303f9f\"><tr><td valign=\"top\"  " +
-								"style=\"padding:0px\"><table cellpadding=\"0\" cellspacing=\"0\"" +
+								"style=\"padding:0px\"><table cellpadding=\"0\" " +
+								"cellspacing=\"0\"" +
 								" " +
 								"width=\"100%\"><tr><td  style=\"padding:0px\"><table " +
 								"cellpadding=\"0\" " +
@@ -847,7 +881,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 								"font-family:Roboto, " +
 								"Helvetica Neue, Helvetica, Arial, sans-serif;font-size:20px;" +
 								"color:#FFFFFF;line-height:22px;mso-line-height:exactly;" +
-								"mso-text-raise:1px\"><p style=\"padding: 0; margin: 0;text-align:" +
+								"mso-text-raise:1px\"><p style=\"padding: 0; margin: 0;" +
+								"text-align:" +
 								" " +
 								"center;\">¡Haz recibido invitación de un amigo " +
 								"!</p></div></td>\n" +
@@ -875,16 +910,19 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 								" " +
 								"bgcolor=\"#303f9f\"  style=\"border:0px none;" +
 								"background-color:#303f9f\"><tr><td valign=\"top\"  " +
-								"style=\"padding:0px\"><table cellpadding=\"0\" cellspacing=\"0\"" +
+								"style=\"padding:0px\"><table cellpadding=\"0\" " +
+								"cellspacing=\"0\"" +
 								" " +
 								"width=\"100%\"><tr><td  style=\"padding:0px\"><table " +
 								"cellpadding=\"0\" " +
 								"cellspacing=\"0\" width=\"100%\"><tr><td align=\"center\"  " +
-								"style=\"padding:0px\"><table cellpadding=\"0\" cellspacing=\"0\"" +
+								"style=\"padding:0px\"><table cellpadding=\"0\" " +
+								"cellspacing=\"0\"" +
 								" " +
 								"border=\"0\" align=\"center\"  style=\"text-align:center;" +
 								"color:#000\"><tr><td valign=\"top\" align=\"center\"  " +
-								"style=\"padding:15px\"><table cellpadding=\"0\" cellspacing=\"0\"" +
+								"style=\"padding:15px\"><table cellpadding=\"0\" " +
+								"cellspacing=\"0\"" +
 								" " +
 								"border=\"0\" bgcolor=\"#0B7DFF\" \n" +
 								"    style=\"border:0px none;border-radius:5px;" +
@@ -954,7 +992,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 	 * @param data        parametro que entrega la informacion de los contactos
 	 */
 	@Override
-	public void onActivityResult (int requestCode, int resultCode, Intent data) {
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
 		Log.d("INTENT",

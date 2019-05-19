@@ -16,14 +16,14 @@ public class FragmentPageAdapter extends FragmentPagerAdapter {
 	private final String[] mTabTitles = new String[2];
 
 
-	public FragmentPageAdapter (FragmentManager fm, Context context) {
+	public FragmentPageAdapter(FragmentManager fm, Context context) {
 		super(fm);
 		mTabTitles[0] = context.getString(R.string.tab_list);
 		mTabTitles[1] = context.getString(R.string.tab_map);
 	}
 
 	@Override
-	public Fragment getItem (int position) {
+	public Fragment getItem(int position) {
 		Fragment f = null;
 
 		switch (position) {
@@ -39,17 +39,17 @@ public class FragmentPageAdapter extends FragmentPagerAdapter {
 	}
 
 	@Override
-	public int getItemPosition (@NonNull Object obj) {
+	public int getItemPosition(@NonNull Object obj) {
 		return POSITION_NONE;
 	}
 
 	@Override
-	public int getCount () {
+	public int getCount() {
 		return 2;
 	}
 
 	@Override
-	public CharSequence getPageTitle (int position) {
+	public CharSequence getPageTitle(int position) {
 		return mTabTitles[position];
 	}
 

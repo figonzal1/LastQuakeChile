@@ -39,18 +39,18 @@ public class ViewPagerTest {
 	@Rule
 	public ActivityTestRule<MainActivity> testRule = new ActivityTestRule<>(MainActivity.class);
 
-	private static Matcher<View> childAtPosition (
+	private static Matcher<View> childAtPosition(
 			final Matcher<View> parentMatcher, final int position) {
 
 		return new TypeSafeMatcher<View>() {
 			@Override
-			public void describeTo (Description description) {
+			public void describeTo(Description description) {
 				description.appendText("Child at position " + position + " in parent ");
 				parentMatcher.describeTo(description);
 			}
 
 			@Override
-			public boolean matchesSafely (View view) {
+			public boolean matchesSafely(View view) {
 				ViewParent parent = view.getParent();
 				return parent instanceof ViewGroup && parentMatcher.matches(parent)
 						&& view.equals(((ViewGroup) parent).getChildAt(position));
@@ -61,12 +61,12 @@ public class ViewPagerTest {
 	private Context mContext;
 
 	@Before
-	public void setup () {
+	public void setup() {
 		mContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 	}
 
 	@Test
-	public void test1_click_tab_map () {
+	public void test1_click_tab_map() {
 		//Checkear el texto mapa
 		ViewInteraction tabView = onView(
 				allOf(withContentDescription(mContext.getString(R.string.tab_map)),
@@ -93,7 +93,7 @@ public class ViewPagerTest {
 	}
 
 	@Test
-	public void test2_click_tab_listado () {
+	public void test2_click_tab_listado() {
 		//Checkear texto Listado
 		ViewInteraction tabView2 = onView(
 				allOf(withContentDescription(mContext.getString(R.string.tab_list)),

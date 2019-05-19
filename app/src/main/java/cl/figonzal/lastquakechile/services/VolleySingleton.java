@@ -12,7 +12,7 @@ public class VolleySingleton {
 	private static Context mContext;
 	private RequestQueue mQueue;
 
-	private VolleySingleton (Context context) {
+	private VolleySingleton(Context context) {
 		mContext = context.getApplicationContext();
 		mQueue = getRequestQueue();
 	}
@@ -21,10 +21,9 @@ public class VolleySingleton {
 	 * Funcion que genera el singleton del Volley
 	 *
 	 * @param context Contexto necesario para uso de singleton
-	 *
 	 * @return objecto volley singleton
 	 */
-	public static synchronized VolleySingleton getInstance (Context context) {
+	public static synchronized VolleySingleton getInstance(Context context) {
 
 		//Si la instancia no existe
 		if (sVolleySingleton == null) {
@@ -38,7 +37,7 @@ public class VolleySingleton {
 	 *
 	 * @return retorna la cola de solicitudes apiladas en volley
 	 */
-	private RequestQueue getRequestQueue () {
+	private RequestQueue getRequestQueue() {
 
 		if (mQueue == null) {
 			mQueue = Volley.newRequestQueue(mContext);
@@ -52,12 +51,12 @@ public class VolleySingleton {
 	 * @param req //
 	 * @param <T> //
 	 */
-	public <T> void addToRequestQueue (Request<T> req, Object tag) {
+	public <T> void addToRequestQueue(Request<T> req, Object tag) {
 		req.setTag(tag);
 		getRequestQueue().add(req);
 	}
 
-	public void cancelPendingRequests (Object tag) {
+	public void cancelPendingRequests(Object tag) {
 		if (mQueue != null) {
 			mQueue.cancelAll(tag);
 		}
