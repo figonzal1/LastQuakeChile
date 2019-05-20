@@ -5,13 +5,15 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.preference.PreferenceManager;
 import androidx.viewpager.widget.ViewPager;
-
+import cl.figonzal.lastquakechile.FragmentPageAdapter;
+import cl.figonzal.lastquakechile.R;
+import cl.figonzal.lastquakechile.services.MyFirebaseMessagingService;
+import cl.figonzal.lastquakechile.services.QuakeUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
@@ -26,11 +28,6 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
-
-import cl.figonzal.lastquakechile.FragmentPageAdapter;
-import cl.figonzal.lastquakechile.R;
-import cl.figonzal.lastquakechile.services.MyFirebaseMessagingService;
-import cl.figonzal.lastquakechile.services.QuakeUtils;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
@@ -57,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 			//Si el usuario viene desde deep link, no se realiza first check
 			//Si viene desde Google play, se realiza el check
 			if (!mBundleWelcome.getBoolean(getString(R.string.desde_deep_link))) {
-				QuakeUtils.checkFirstRun(this, true);
+				QuakeUtils.checkFirstRun(this, false);
 			}
 		}
 
