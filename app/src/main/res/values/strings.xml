@@ -287,6 +287,7 @@
 	<string name="TAG_FAB_MENU_CLOSE" translatable="false">CLOSE</string>
 	<string name="TAG_OVERLAY_DETAILS" translatable="false">OVERLAY-DETAILS</string>
 	<string name="TAG_OVERLAY_DETAILS_RESULT" translatable="false">CLICKED</string>
+	<string name="HOME_PARENT">Navegar hacia arriba</string>
 
 	<!-- MAPA -->
 	<string name="TAG_MAP_FRAGMENT" translatable="false">MAP FRAGMENT</string>
