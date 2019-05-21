@@ -11,6 +11,7 @@
     </codeStyleSettings>
     <codeStyleSettings language="XML">
       <option name="RIGHT_MARGIN" value="100" />
+      <option name="WRAP_ON_TYPING" value="0" />
       <option name="SOFT_MARGINS" value="100" />
       <indentOptions>
         <option name="USE_TAB_CHARACTER" value="true" />
