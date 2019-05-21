@@ -9,15 +9,9 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.Button;
 import android.widget.ProgressBar;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
@@ -27,19 +21,18 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
+import cl.figonzal.lastquakechile.QuakeAdapter;
+import cl.figonzal.lastquakechile.QuakeModel;
+import cl.figonzal.lastquakechile.R;
+import cl.figonzal.lastquakechile.SettingsActivity;
+import cl.figonzal.lastquakechile.services.WrapContentLinearLayoutManager;
+import cl.figonzal.lastquakechile.viewmodel.QuakeViewModel;
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.appinvite.AppInviteInvitation;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 import java.util.Objects;
-
-import cl.figonzal.lastquakechile.QuakeAdapter;
-import cl.figonzal.lastquakechile.QuakeModel;
-import cl.figonzal.lastquakechile.R;
-import cl.figonzal.lastquakechile.SettingsActivity;
-import cl.figonzal.lastquakechile.viewmodel.QuakeViewModel;
 
 
 public class QuakeFragment extends Fragment implements SearchView.OnQueryTextListener {
@@ -80,7 +73,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 		mRecycleView.setHasFixedSize(true);
 
 		//Setear el layout de la lista
-		LinearLayoutManager ly = new LinearLayoutManager(getContext());
+		LinearLayoutManager ly = new WrapContentLinearLayoutManager(getContext());
 		mRecycleView.setLayoutManager(ly);
 
 		mProgressBar = mView.findViewById(R.id.progress_bar_fragment);

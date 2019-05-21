@@ -115,17 +115,17 @@
 
 
     <View
-        android:id="@+id/quake_details_container"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:alpha="0.85"
-        android:background="@color/colorPrimaryDark"
-        android:elevation="5dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+		    android:id="@+id/quake_details_container"
+		    android:layout_width="0dp"
+		    android:layout_height="0dp"
+		    android:alpha="0.85"
+		    android:background="@color/colorPrimaryDark"
+		    android:elevation="5dp"
+		    android:visibility="gone"
+		    app:layout_constraintBottom_toBottomOf="parent"
+		    app:layout_constraintEnd_toEndOf="parent"
+		    app:layout_constraintStart_toStartOf="parent"
+		    app:layout_constraintTop_toTopOf="parent"/>
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_detail"

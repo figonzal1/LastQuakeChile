@@ -1,7 +1,5 @@
 package cl.figonzal.lastquakechile.views;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -15,11 +13,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
+import cl.figonzal.lastquakechile.R;
+import cl.figonzal.lastquakechile.services.QuakeUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
@@ -41,9 +39,6 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
-
-import cl.figonzal.lastquakechile.R;
-import cl.figonzal.lastquakechile.services.QuakeUtils;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
@@ -114,6 +109,10 @@ public class QuakeDetailsActivity extends AppCompatActivity {
 		mFabWSP = findViewById(R.id.fab_wsp);
 		mFabGM = findViewById(R.id.fab_gmail);
 
+		//Overlay
+		mOverlay = findViewById(R.id.quake_details_container);
+		mOverlay.setVisibility(View.GONE);
+
 		if (mBundle != null) {
 
 			//OBTENCION DE INFO DESDE INTENT
@@ -149,22 +148,39 @@ public class QuakeDetailsActivity extends AppCompatActivity {
 	 */
 	private void setFloatingButtons() {
 
+		//Boton compartir central
 		mFabShare.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 
-				mOverlay = findViewById(R.id.quake_details_container);
+				Log.d("FAB SHARE", "CLICKED");
 
 				if (!mIsFabOpen) {
 					showFabMenu();
-
 				} else {
 					closeFabMenu();
 				}
 			}
 		});
 
+		//Logica de overlay
+		mOverlay.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
 
+				Log.d(getString(R.string.TAG_OVERLAY_DETAILS),
+						getString(R.string.TAG_OVERLAY_DETAILS_RESULT));
+				Crashlytics.log(Log.DEBUG, getString(R.string.TAG_OVERLAY_DETAILS),
+						getString(R.string.TAG_OVERLAY_DETAILS_RESULT));
+
+				if (mIsFabOpen) {
+					closeFabMenu();
+				}
+			}
+		});
+
+
+		//Boton compartir facebook
 		mFabFB.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -477,7 +493,8 @@ public class QuakeDetailsActivity extends AppCompatActivity {
 		mOverlay.setVisibility(View.VISIBLE);
 		mOverlay.animate().alpha(0.85f).setDuration(500);
 
-
+		Log.d(getString(R.string.TAG_FAB_MENU), getString(R.string.TAG_FAB_MENU_OPEN));
+		Crashlytics.log(Log.DEBUG, getString(R.string.TAG_FAB_MENU), getString(R.string.TAG_FAB_MENU_OPEN));
 	}
 
 	/**
@@ -507,12 +524,11 @@ public class QuakeDetailsActivity extends AppCompatActivity {
 
 		//Animacion CLOSE de mOverlay
 		mOverlay.setAlpha(0.85f);
-		mOverlay.animate().alpha(0.0f).setDuration(500).setListener(new AnimatorListenerAdapter() {
-			@Override
-			public void onAnimationEnd(Animator animation, boolean isReverse) {
-				mOverlay.setVisibility(View.GONE);
-			}
-		});
+		mOverlay.animate().alpha(0.0f).setDuration(500);
+		mOverlay.setVisibility(View.GONE);
+
+		Log.d(getString(R.string.TAG_FAB_MENU), getString(R.string.TAG_FAB_MENU_CLOSE));
+		Crashlytics.log(Log.DEBUG, getString(R.string.TAG_FAB_MENU), getString(R.string.TAG_FAB_MENU_CLOSE));
 
 	}
 
