@@ -36,9 +36,9 @@
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_lastquakechile_1200" />
         <!-- Desactiva por completo performance-->
-	    <meta-data
+        <!--<meta-data
             android:name="firebase_performance_collection_deactivated"
-			    android:value="true" />
+                android:value="true" />-->
 
         <!-- Llamada a servicio de mensajeria -->
         <service
