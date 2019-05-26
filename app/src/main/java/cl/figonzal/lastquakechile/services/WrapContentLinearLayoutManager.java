@@ -2,8 +2,10 @@ package cl.figonzal.lastquakechile.services;
 
 import android.content.Context;
 import android.util.Log;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.crashlytics.android.Crashlytics;
 
 public class WrapContentLinearLayoutManager extends LinearLayoutManager {

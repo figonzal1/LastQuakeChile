@@ -327,7 +327,7 @@ public class QuakeUtils {
 	 * @param tv_hora Textview que será usado para fijar el tiempo
 	 */
 	public static void setTimeToTextView(Context context, Map<String, Long> tiempos,
-	                                     TextView tv_hora) {
+										 TextView tv_hora) {
 		Long mDays = tiempos.get(context.getString(R.string.UTILS_TIEMPO_DIAS));
 		Long mMinutes = tiempos.get(context.getString(R.string.UTILS_TIEMPO_MINUTOS));
 		Long mHours = tiempos.get(context.getString(R.string.UTILS_TIEMPO_HORAS));
@@ -368,7 +368,7 @@ public class QuakeUtils {
 	 * @param iv_estado ImageView fijada dependiendo del valor de estado
 	 */
 	public static void setStatusImage(Context context, String estado, TextView tv_estado,
-	                                  ImageView iv_estado) {
+									  ImageView iv_estado) {
 		if (estado.equals("preliminar")) {
 			tv_estado.setText(String.format(Locale.US,
 					context.getString(R.string.quakes_details_estado_sismo),

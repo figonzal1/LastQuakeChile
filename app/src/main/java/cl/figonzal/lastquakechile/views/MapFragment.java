@@ -9,27 +9,35 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import cl.figonzal.lastquakechile.QuakeModel;
-import cl.figonzal.lastquakechile.R;
-import cl.figonzal.lastquakechile.services.QuakeUtils;
-import cl.figonzal.lastquakechile.viewmodel.QuakeViewModel;
+
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.*;
+import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+
+import cl.figonzal.lastquakechile.QuakeModel;
+import cl.figonzal.lastquakechile.R;
+import cl.figonzal.lastquakechile.services.QuakeUtils;
+import cl.figonzal.lastquakechile.viewmodel.QuakeViewModel;
 
 
 public class MapFragment extends Fragment implements OnMapReadyCallback,
@@ -60,7 +68,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-	                         Bundle savedInstanceState) {
+							 Bundle savedInstanceState) {
 
 		View mView = inflater.inflate(R.layout.fragment_map, container, false);
 

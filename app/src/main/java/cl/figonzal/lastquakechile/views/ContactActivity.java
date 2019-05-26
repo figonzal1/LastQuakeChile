@@ -133,8 +133,8 @@ public class ContactActivity extends AppCompatActivity {
 				.listener(new RequestListener<Drawable>() {
 					@Override
 					public boolean onLoadFailed(@Nullable GlideException e, Object model,
-					                            Target<Drawable> target,
-					                            boolean isFirstResource) {
+												Target<Drawable> target,
+												boolean isFirstResource) {
 						mIvFoto.setImageDrawable(getDrawable(R.drawable.not_found));
 						return false;
 					}
@@ -142,9 +142,9 @@ public class ContactActivity extends AppCompatActivity {
 					//No es necesario usarlo (If u want)
 					@Override
 					public boolean onResourceReady(Drawable resource, Object model,
-					                               Target<Drawable> target,
-					                               DataSource dataSource,
-					                               boolean isFirstResource) {
+												   Target<Drawable> target,
+												   DataSource dataSource,
+												   boolean isFirstResource) {
 						return false;
 					}
 				})
