@@ -1,5 +1,8 @@
 <component name="ProjectCodeStyleConfiguration">
   <code_scheme name="Project" version="173">
+    <XML>
+      <option name="XML_KEEP_LINE_BREAKS" value="false" />
+    </XML>
     <codeStyleSettings language="JAVA">
       <option name="RIGHT_MARGIN" value="100" />
       <option name="WRAP_LONG_LINES" value="true" />
@@ -10,9 +13,7 @@
       </indentOptions>
     </codeStyleSettings>
     <codeStyleSettings language="XML">
-      <option name="RIGHT_MARGIN" value="100" />
       <option name="WRAP_ON_TYPING" value="0" />
-      <option name="SOFT_MARGINS" value="100" />
       <indentOptions>
         <option name="USE_TAB_CHARACTER" value="true" />
         <option name="SMART_TABS" value="true" />

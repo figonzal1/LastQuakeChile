@@ -287,7 +287,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 	@Override
 	public void onResume() {
 		//refrescar listado despues de un on resume
-		mViewModel.refreshMutableQuakeList();
+		//mViewModel.refreshMutableQuakeList();
 		super.onResume();
 	}
 
