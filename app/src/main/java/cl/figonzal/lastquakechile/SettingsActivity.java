@@ -56,7 +56,7 @@ public class SettingsActivity extends AppCompatActivity {
 
 		@Override
 		public void onSharedPreferenceChanged(final SharedPreferences sharedPreferences,
-		                                      String key) {
+											  String key) {
 
 			//Preferencia modo noche manual
 			if (key.equals(activity.getString(R.string.NIGHT_MODE_MANUAL_KEY))) {

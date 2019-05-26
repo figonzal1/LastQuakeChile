@@ -9,10 +9,10 @@
         android:toAlpha="1.0" />
 
     <translate
-        android:interpolator="@android:anim/anticipate_overshoot_interpolator"
-        android:fromYDelta="0%"
-        android:toYDelta="80%"
         android:duration="500"
-        android:repeatMode="reverse" />
+        android:fromYDelta="0%"
+        android:interpolator="@android:anim/anticipate_overshoot_interpolator"
+        android:repeatMode="reverse"
+        android:toYDelta="80%" />
 
 </set>
