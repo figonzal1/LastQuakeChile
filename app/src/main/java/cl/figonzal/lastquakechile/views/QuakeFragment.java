@@ -9,9 +9,15 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
@@ -21,18 +27,20 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import cl.figonzal.lastquakechile.QuakeAdapter;
-import cl.figonzal.lastquakechile.QuakeModel;
-import cl.figonzal.lastquakechile.R;
-import cl.figonzal.lastquakechile.SettingsActivity;
-import cl.figonzal.lastquakechile.services.WrapContentLinearLayoutManager;
-import cl.figonzal.lastquakechile.viewmodel.QuakeViewModel;
+
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.appinvite.AppInviteInvitation;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 import java.util.Objects;
+
+import cl.figonzal.lastquakechile.QuakeAdapter;
+import cl.figonzal.lastquakechile.QuakeModel;
+import cl.figonzal.lastquakechile.R;
+import cl.figonzal.lastquakechile.SettingsActivity;
+import cl.figonzal.lastquakechile.services.WrapContentLinearLayoutManager;
+import cl.figonzal.lastquakechile.viewmodel.QuakeViewModel;
 
 
 public class QuakeFragment extends Fragment implements SearchView.OnQueryTextListener {
@@ -61,7 +69,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
 	@Override
 	public View onCreateView(@NonNull final LayoutInflater inflater, final ViewGroup container,
-	                         final Bundle savedInstanceState) {
+							 final Bundle savedInstanceState) {
 
 
 		// Inflate the layout for thi{s fragment
@@ -464,7 +472,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 								"a{text-decoration:" +
 								" none; color: #5555ff; pointer-events: auto; cursor: default;} " +
 								"{color: " +
-								"#5555ff;} span {color: inherit; border-bottom: none;} span:hover" +
+								"#5555ff;} span {color: inherit; border-bottom: none;} " +
+								"span:hover" +
 								" " +
 								"{ " +
 								"background-color: transparent; }\n" +
@@ -552,7 +561,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 								"  td[class=\"wrap\"] .fullwidthhalfright {width:100% " +
 								"!important;" +
 								"}\n" +
-								"  td[class=\"wrap\"] .fullwidthhalfinner {width:100% !important;" +
+								"  td[class=\"wrap\"] .fullwidthhalfinner {width:100% " +
+								"!important;" +
 								" " +
 								"margin:" +
 								" " +
@@ -639,7 +649,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 								"line-height: 40px; mso-line-height: exactly; mso-text-raise: " +
 								"6px;" +
 								" " +
-								"padding: 0; margin: 0;\"><span class=\"mso-font-fix-arial\">Last" +
+								"padding: 0; margin: 0;\"><span " +
+								"class=\"mso-font-fix-arial\">Last" +
 								" " +
 								"Quake " +
 								"Chile</span></h1></div></td>\n" +
@@ -854,7 +865,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 								"cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"left\"" +
 								" " +
 								"width=\"399\" id=\"c399p66r\" \n" +
-								"  style=\"float:left\" class=\"c399p66r\"><tr><td valign=\"top\"" +
+								"  style=\"float:left\" class=\"c399p66r\"><tr><td " +
+								"valign=\"top\"" +
 								" " +
 								" " +
 								"style=\"padding:0px\"><table cellpadding=\"0\" " +

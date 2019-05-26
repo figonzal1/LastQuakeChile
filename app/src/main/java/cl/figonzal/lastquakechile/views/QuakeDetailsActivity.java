@@ -17,12 +17,12 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import cl.figonzal.lastquakechile.R;
-import cl.figonzal.lastquakechile.services.QuakeUtils;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
@@ -52,6 +52,9 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+
+import cl.figonzal.lastquakechile.R;
+import cl.figonzal.lastquakechile.services.QuakeUtils;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
@@ -669,8 +672,8 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
 				.listener(new RequestListener<Drawable>() {
 					@Override
 					public boolean onLoadFailed(@Nullable GlideException e, Object model,
-					                            Target<Drawable> target,
-					                            boolean isFirstResource) {
+												Target<Drawable> target,
+												boolean isFirstResource) {
 						mIvMapa.setImageDrawable(getDrawable(R.drawable.not_found));
 						Log.d(getString(R.string.TAG_INTENT_SHARE_BITMAP),
 								getString(R.string.TAG_INTENT_SHARE_BITMAP_MESSAGE_FAIL));
@@ -682,7 +685,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
 					//No es necesario usarlo (If u want)
 					@Override
 					public boolean onResourceReady(Drawable resource, Object model,
-					                               Target<Drawable> target, DataSource dataSource
+												   Target<Drawable> target, DataSource dataSource
 							, boolean isFirstResource) {
 						mBitmapUri = QuakeUtils.getLocalBitmapUri(resource,
 								getApplicationContext());

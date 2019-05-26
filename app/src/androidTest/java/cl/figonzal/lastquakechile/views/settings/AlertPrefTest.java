@@ -46,18 +46,18 @@ public class AlertPrefTest {
 
 	private Activity mActivity;
 
-	private static Matcher<View> childAtPosition (
+	private static Matcher<View> childAtPosition(
 			final Matcher<View> parentMatcher, final int position) {
 
 		return new TypeSafeMatcher<View>() {
 			@Override
-			public void describeTo (Description description) {
+			public void describeTo(Description description) {
 				description.appendText("Child at position " + position + " in parent ");
 				parentMatcher.describeTo(description);
 			}
 
 			@Override
-			public boolean matchesSafely (View view) {
+			public boolean matchesSafely(View view) {
 				ViewParent parent = view.getParent();
 				return parent instanceof ViewGroup && parentMatcher.matches(parent)
 						&& view.equals(((ViewGroup) parent).getChildAt(position));
@@ -66,13 +66,13 @@ public class AlertPrefTest {
 	}
 
 	@Before
-	public void setup () {
+	public void setup() {
 		mActivity = testRule.getActivity();
 
 	}
 
 	@Test
-	public void test1_check_switch_notificaciones_off () {
+	public void test1_check_switch_notificaciones_off() {
 
 		//Checkear si el switch esta desplegado, habilitado y es clickeable, la preferencia de
 		// notificaciones
@@ -112,7 +112,7 @@ public class AlertPrefTest {
 	}
 
 	@Test
-	public void test2_check_switch_notificaciones_on () {
+	public void test2_check_switch_notificaciones_on() {
 
 		//Checkear si el switch esta desplegado, habilitado y es clickeable, la preferencia de
 		// notificaciones
