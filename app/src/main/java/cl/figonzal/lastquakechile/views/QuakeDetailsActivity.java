@@ -1,6 +1,9 @@
 package cl.figonzal.lastquakechile.views;
 
+import android.animation.IntEvaluator;
+import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -10,9 +13,11 @@ import android.text.Html;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -33,6 +38,14 @@ import com.facebook.share.model.ShareHashtag;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Date;
@@ -42,7 +55,16 @@ import java.util.Objects;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
-public class QuakeDetailsActivity extends AppCompatActivity {
+public class QuakeDetailsActivity extends AppCompatActivity implements OnMapReadyCallback {
+
+
+	private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
+	/*
+			ATRIBUTOS MAPA
+		 */
+	private GoogleMap mGoogleMap;
+	private Bundle mMapViewBundle;
+	private MapView mMapView;
 
 	private ShareDialog mShareDialog;
 	private SharePhotoContent mSharePhotoContent;
@@ -69,12 +91,22 @@ public class QuakeDetailsActivity extends AppCompatActivity {
 	private boolean mIsFabOpen = false;
 	private FloatingActionButton mFabShare, mFabFB, mFabWSP, mFabGM;
 	private View mOverlay;
+	private int pulseCount = 4;
+
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		QuakeUtils.checkNightMode(this);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_quake_details);
+
+		mMapViewBundle = null;
+		if (savedInstanceState != null) {
+			mMapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY);
+		}
+		mMapView = findViewById(R.id.map);
+		mMapView.onCreate(mMapViewBundle);
+		mMapView.getMapAsync(this);
 
 		//Setting toolbar
 		Toolbar mToolbar = findViewById(R.id.tool_bar_detail);
@@ -494,7 +526,8 @@ public class QuakeDetailsActivity extends AppCompatActivity {
 		mOverlay.animate().alpha(0.85f).setDuration(500);
 
 		Log.d(getString(R.string.TAG_FAB_MENU), getString(R.string.TAG_FAB_MENU_OPEN));
-		Crashlytics.log(Log.DEBUG, getString(R.string.TAG_FAB_MENU), getString(R.string.TAG_FAB_MENU_OPEN));
+		Crashlytics.log(Log.DEBUG, getString(R.string.TAG_FAB_MENU),
+				getString(R.string.TAG_FAB_MENU_OPEN));
 	}
 
 	/**
@@ -528,7 +561,8 @@ public class QuakeDetailsActivity extends AppCompatActivity {
 		mOverlay.setVisibility(View.GONE);
 
 		Log.d(getString(R.string.TAG_FAB_MENU), getString(R.string.TAG_FAB_MENU_CLOSE));
-		Crashlytics.log(Log.DEBUG, getString(R.string.TAG_FAB_MENU), getString(R.string.TAG_FAB_MENU_CLOSE));
+		Crashlytics.log(Log.DEBUG, getString(R.string.TAG_FAB_MENU),
+				getString(R.string.TAG_FAB_MENU_CLOSE));
 
 	}
 
@@ -664,5 +698,129 @@ public class QuakeDetailsActivity extends AppCompatActivity {
 
 
 	}
+
+	@Override
+	public void onMapReady(GoogleMap googleMap) {
+
+		mGoogleMap = googleMap;
+
+		//NIGHT MODE MAPA
+		int nightModeFlags = getResources().getConfiguration().uiMode &
+				Configuration.UI_MODE_NIGHT_MASK;
+		if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
+			googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(getApplicationContext(),
+					R.raw.map_night_mode));
+		}
+
+		mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+		mGoogleMap.setMinZoomPreference(5.0f);
+		mGoogleMap.getUiSettings().setZoomGesturesEnabled(false);
+		mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
+
+		mGoogleMap.getUiSettings().setTiltGesturesEnabled(false);
+		mGoogleMap.getUiSettings().setScrollGesturesEnabled(false);
+
+		mGoogleMap.getUiSettings().setMapToolbarEnabled(false);
+		mGoogleMap.getUiSettings().setRotateGesturesEnabled(false);
+		mGoogleMap.getUiSettings().setCompassEnabled(false);
+
+		LatLng mLatLong = new LatLng(Double.parseDouble(mLatitud), Double.parseDouble(mLongitud));
+
+		int mIdColor = QuakeUtils.getMagnitudeColor(mMagnitud, true);
+
+		mGoogleMap.addCircle(new CircleOptions()
+				.center(mLatLong)
+				.radius(90000)
+				.fillColor(getColor(mIdColor))
+				.strokeColor(getColor(R.color.grey_dark_alpha)));
+
+		final Circle circle_anim = mGoogleMap.addCircle(new CircleOptions()
+				.center(mLatLong)
+				.radius(90000)
+				.strokeWidth(1)
+				.strokeColor(getColor(R.color.grey_dark_alpha)));
+
+
+		ValueAnimator animator = ValueAnimator.ofInt(0, 90000);
+		animator.setRepeatMode(ValueAnimator.RESTART);
+		animator.setRepeatCount(ValueAnimator.INFINITE);
+		animator.setDuration(4000);
+		animator.setEvaluator(new IntEvaluator());
+		animator.setInterpolator(new AccelerateDecelerateInterpolator());
+		animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+			@Override
+			public void onAnimationUpdate(ValueAnimator animation) {
+				float animatedFraction = animation.getAnimatedFraction();
+				circle_anim.setRadius(animatedFraction * 140000);
+			}
+		});
+		animator.start();
+
+		final Circle circle_anim2 = mGoogleMap.addCircle(new CircleOptions()
+				.center(mLatLong)
+				.radius(90000)
+				.strokeWidth(1)
+				.strokeColor(getColor(R.color.grey_dark_alpha)));
+
+
+		ValueAnimator animator2 = ValueAnimator.ofInt(0, 90000);
+		animator2.setRepeatMode(ValueAnimator.RESTART);
+		animator2.setRepeatCount(ValueAnimator.INFINITE);
+		animator2.setDuration(4000);
+		animator2.setStartDelay(1000);
+		animator2.setEvaluator(new IntEvaluator());
+		animator2.setInterpolator(new AccelerateDecelerateInterpolator());
+		animator2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+			@Override
+			public void onAnimationUpdate(ValueAnimator animation) {
+				float animatedFraction = animation.getAnimatedFraction();
+				circle_anim2.setRadius(animatedFraction * 140000);
+			}
+		});
+		animator2.start();
+
+		mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLong, 6.0f));
+
+	}
+
+	@Override
+	public void onSaveInstanceState(@NonNull Bundle outState) {
+
+		Bundle mMapViewBundle = outState.getBundle(MAPVIEW_BUNDLE_KEY);
+		if (mMapViewBundle == null) {
+			mMapViewBundle = new Bundle();
+			outState.putBundle(MAPVIEW_BUNDLE_KEY, mMapViewBundle);
+		}
+
+		mMapView.onSaveInstanceState(mMapViewBundle);
+
+		super.onSaveInstanceState(outState);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		mMapView.onResume();
+
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		mMapView.onPause();
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		mMapView.onDestroy();
+	}
+
+	@Override
+	public void onLowMemory() {
+		super.onLowMemory();
+		mMapView.onLowMemory();
+	}
+
 }
 
