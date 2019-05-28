@@ -2,38 +2,21 @@ package cl.figonzal.lastquakechile.repository;
 
 import android.app.Application;
 import android.util.Log;
-
 import androidx.lifecycle.MutableLiveData;
-
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
-import com.android.volley.ParseError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.ServerError;
-import com.android.volley.TimeoutError;
-import com.android.volley.VolleyError;
+import cl.figonzal.lastquakechile.QuakeModel;
+import cl.figonzal.lastquakechile.R;
+import cl.figonzal.lastquakechile.services.QuakeUtils;
+import cl.figonzal.lastquakechile.services.VolleySingleton;
+import com.android.volley.*;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.crashlytics.android.Crashlytics;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
-
-import cl.figonzal.lastquakechile.QuakeModel;
-import cl.figonzal.lastquakechile.R;
-import cl.figonzal.lastquakechile.services.QuakeUtils;
-import cl.figonzal.lastquakechile.services.VolleySingleton;
+import java.util.*;
 
 
 public class QuakeRepository {
@@ -180,6 +163,7 @@ public class QuakeRepository {
 				Crashlytics.setBool(mApplication.getString(R.string.CONNECTED), true);
 
 				volleyError = false;
+				contador_request = 0;
 			}
 		};
 
@@ -188,7 +172,11 @@ public class QuakeRepository {
 			public void onErrorResponse(VolleyError error) {
 
 				volleyError = true;
-				if (contador_request >= 2) {
+				if (contador_request == 2) {
+
+					//Reiniciar parametros para empezar el proceso otra vez hacia produccion
+					volleyError = false;
+					contador_request = 0;
 
 					if (error instanceof TimeoutError) {
 						Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR),
