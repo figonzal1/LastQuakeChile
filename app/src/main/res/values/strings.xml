@@ -257,7 +257,7 @@
 
 	<!-- SHARE PREFERENCES KEYS (Variables) -->
 	<string name="SHARED_PREF_FIRST_RUN" translatable="false">first_run</string>
-	<string name="SHARED_PREF_STATUS_CARD_VIEW_INFO" translatable="false">estado_card_view_info
+	<string name="SHARED_PREF_STATUS_CARD_VIEW_INFO" translatable="false">is_show_card_view_info
 	</string>
 	<string name="SHARED_PREF_STATUS_CARD_VIEW_INFO_RESULT" translatable="false">entendido</string>
 	<string name="TAG_INVITATION_RECEIVE" translatable="false">INVITACION</string>
