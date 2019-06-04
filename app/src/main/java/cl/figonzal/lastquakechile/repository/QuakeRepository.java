@@ -23,7 +23,7 @@ public class QuakeRepository {
 
 	private static QuakeRepository sInstanceRepository;
 	private final MutableLiveData<List<QuakeModel>> mQuakeMutableList = new MutableLiveData<>();
-	private final List<QuakeModel> mQuakeList = new ArrayList<>();
+	private List<QuakeModel> mQuakeList;
 	private final Application mApplication;
 	private final MutableLiveData<String> mStatusData = new MutableLiveData<>();
 	private boolean volleyError = false;
@@ -57,9 +57,7 @@ public class QuakeRepository {
 	 * @return MutableLiveData con los sismos
 	 */
 	public MutableLiveData<List<QuakeModel>> getMutableQuakeList() {
-		if (mQuakeList.size() > 0) {
-			mQuakeList.clear();
-		}
+		mQuakeList = new ArrayList<>();
 		loadQuakes();
 		return mQuakeMutableList;
 	}
