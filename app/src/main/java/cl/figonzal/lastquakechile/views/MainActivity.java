@@ -149,6 +149,27 @@ public class MainActivity extends AppCompatActivity {
 		//Suscribir automaticamente al tema (FIREBASE - Quakes)
 		MyFirebaseMessagingService.checkSuscription(this);
 
+
+		/*Button button = findViewById(R.id.button2);
+
+		button.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				final DialogFragment dialogFragment = new ChangeLogDialog();
+				dialogFragment.show(getSupportFragmentManager(),"NoticeDialogFragment");
+
+				Button cerrar = dialogFragment.getView().findViewById(R.id.btn_info_accept);
+				cerrar.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						dialogFragment.dismiss();
+					}
+				});
+			}
+		});*/
+
+
+
 	}
 
 	/**

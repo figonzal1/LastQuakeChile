@@ -49,7 +49,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/tv_info_titulo"
+                android:id="@+id/tv_changelog_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -64,7 +64,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tv_info_description"
+                android:id="@+id/tv_changelog_description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -72,9 +72,9 @@
                 android:text="@string/last_quakes_info_card_view_description"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="@+id/tv_info_titulo"
-                app:layout_constraintStart_toStartOf="@+id/tv_info_titulo"
-                app:layout_constraintTop_toBottomOf="@+id/tv_info_titulo" />
+                app:layout_constraintEnd_toEndOf="@+id/tv_changelog_title"
+                app:layout_constraintStart_toStartOf="@+id/tv_changelog_title"
+                app:layout_constraintTop_toBottomOf="@+id/tv_changelog_title" />
 
             <Button
                 android:id="@+id/btn_info_accept"
@@ -90,7 +90,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_info_description" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_changelog_description" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
