@@ -25,7 +25,7 @@ android {
         applicationId "cl.figonzal.lastquakechile"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 17
+        versionCode 18
         versionName "1.2.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
