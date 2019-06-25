@@ -29,6 +29,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.appinvite.AppInviteInvitation;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -75,6 +78,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 		// Inflate the layout for thi{s fragment
 		final View mView = inflater.inflate(R.layout.fragment_quake, container, false);
 
+        //Cargar ads de fragmento
+        loadAds(mView);
 
 		//Setear el recycle view
 		mRecycleView = mView.findViewById(R.id.recycle_view);
@@ -99,6 +104,37 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
 		return mView;
 	}
+
+    private void loadAds(View mView) {
+
+        final AdView mAdView = mView.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        mAdView.setAdListener(new AdListener() {
+
+            @Override
+            public void onAdFailedToLoad(int i) {
+                Log.d("ADMOB_AD", "FAILED TO LOAD");
+                mAdView.setVisibility(View.GONE);
+                super.onAdFailedToLoad(i);
+            }
+
+            @Override
+            public void onAdLoaded() {
+                Log.d("ADMOB_AD", "ADD LOADED");
+                mAdView.setVisibility(View.VISIBLE);
+                super.onAdLoaded();
+            }
+
+            @Override
+            public void onAdOpened() {
+                Log.d("ADMOB_AD", "ADD OPEN");
+                super.onAdOpened();
+            }
+        });
+
+        mAdView.loadAd(adRequest);
+    }
 
 	/**
 	 * Funcion que contiene los ViewModels encargados de cargar los datos asincronamente a la UI
