@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.Log;
 import android.widget.ImageView;
@@ -249,14 +247,14 @@ public class QuakeUtils {
 		return mDMS;
 	}
 
-	/**
+    /*/**
 	 * Funcion que guardar una imagen en cache desde la descarga de glide
 	 *
 	 * @param drawable imagen de la cual se buscara la ruta
 	 * @param context  contexto de la actividad
 	 * @return Uri retorna la direccion dentro del celular donde esta la imagen
 	 */
-	public static Uri getLocalBitmapUri(Drawable drawable, Context context) {
+	/*public static Uri getLocalBitmapUri(Drawable drawable, Context context) {
 
 		Bitmap mBmp;
 
@@ -282,7 +280,34 @@ public class QuakeUtils {
 		}
 		return mBmpUri;
 
-	}
+	}*/
+
+    /**
+     * Funcion encargada se guardar en directorio de ceular una imagen bitmap
+     *
+     * @param bitmap  Bitmap de la imagen
+     * @param context Contexto necesario para usar recursos
+     * @return Path de la imagen
+     */
+    public static Uri getLocalBitmapUri(Bitmap bitmap, Context context) {
+
+        Uri mBmpUri = null;
+
+        try {
+            File mFile = new File(context.getCacheDir(),
+                    "share_image_" + System.currentTimeMillis() + ".jpeg");
+            FileOutputStream out = new FileOutputStream(mFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            out.close();
+
+            mBmpUri = FileProvider.getUriForFile(context, "cl.figonzal.lastquakechile.fileprovider"
+                    , mFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return mBmpUri;
+
+    }
 
 	/**
 	 * Funcion que realiza la instalacion de un paquete dado
