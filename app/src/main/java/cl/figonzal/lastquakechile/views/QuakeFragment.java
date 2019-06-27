@@ -35,6 +35,7 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.appinvite.AppInviteInvitation;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -54,6 +55,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 	private QuakeViewModel mViewModel;
 	private QuakeAdapter mAdapter;
 	private CardView mCardViewInfo;
+    private AdView mAdView;
+    private SharedPreferences sharedPreferences;
 
 	public QuakeFragment() {
 
@@ -79,7 +82,21 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 		final View mView = inflater.inflate(R.layout.fragment_quake, container, false);
 
         //Cargar ads de fragmento
-        loadAds(mView);
+        mAdView = mView.findViewById(R.id.adView);
+
+        sharedPreferences = Objects.requireNonNull(getActivity()).getPreferences(Context.MODE_PRIVATE);
+        Date reward_date = new Date(sharedPreferences.getLong("end_reward_time", 0));
+        Log.e("FRAGMENT_REWARD_DATE", reward_date.toString());
+        Date now_date = new Date();
+
+
+        //si las 24 horas ya pasaron, cargar los ads nuevamente
+        if (now_date.after(reward_date)) {
+            loadAds();
+            Log.d("FRAGMENT_LIST", "ADS CARGADOS");
+        } else {
+            Log.d("FRAGMENT_LIST", "ADS NO PERMITIDOS");
+        }
 
 		//Setear el recycle view
 		mRecycleView = mView.findViewById(R.id.recycle_view);
@@ -105,9 +122,11 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 		return mView;
 	}
 
-    private void loadAds(View mView) {
+    /**
+     * Funcion encargada de cargar la publicidad presente en el listado
+     */
+    private void loadAds() {
 
-        final AdView mAdView = mView.findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
 
         mAdView.setAdListener(new AdListener() {
@@ -332,8 +351,15 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 	public void onResume() {
 		//refrescar listado despues de un on resume
 		//mViewModel.refreshMutableQuakeList();
+        mAdView.resume();
 		super.onResume();
 	}
+
+    @Override
+    public void onPause() {
+        mAdView.pause();
+        super.onPause();
+    }
 
 	@Override
 	public void onStop() {
