@@ -29,7 +29,11 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.reward.RewardItem;
+import com.google.android.gms.ads.reward.RewardedVideoAd;
+import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -38,6 +42,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.util.Date;
 import java.util.Objects;
 
 import cl.figonzal.lastquakechile.FragmentPageAdapter;
@@ -52,31 +57,169 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarLayout mAppBarLayout;
     private ImageView mIvFoto;
+    private RewardedVideoAd rewardedVideoAd;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //Setear configuracion por defecto
+
+        /*
+         * Setear configuraciones por defecto de ConfigActivity
+         */
         PreferenceManager.setDefaultValues(this, R.xml.root_preferences, false);
 
-        //Checkear si preferencias tiene modo noche
+        /*
+         * Checkear MODO NOCHE
+         */
         QuakeUtils.checkNightMode(this);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /*
+         * Checkear logica de first run con actividad de welcome
+         */
+        checkWelcomeActivity();
+
+        /*
+         * Servicios de google play
+         */
+        QuakeUtils.checkPlayServices(this);
+
+        /*
+         * Servicios de Firebase
+         */
+        checkFirebaseServices();
+
+        /*
+         * Creacion de canal de notificaciones para sismos (Requerido para API > 26)
+         */
+        MyFirebaseMessagingService.createNotificationChannel(getApplicationContext());
+
+        /*
+         * Realizar suscripcion el tema 'Quakes' para notificaciones
+         */
+        MyFirebaseMessagingService.checkSuscription(this);
+
+        /*
+         * Iniciar Ads
+         */
         MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
 
-        Bundle mBundleWelcome = getIntent().getExtras();
-        if (mBundleWelcome != null) {
-            //Si el usuario viene desde deep link, no se realiza first check
-            //Si viene desde Google play, se realiza el check
-            if (!mBundleWelcome.getBoolean(getString(R.string.desde_deep_link))) {
-                QuakeUtils.checkFirstRun(this, false);
+        /*
+         * Setear toolbars, viewpagers y tabs
+         */
+        setToolbarViewPagerTabs();
+
+        /*
+         * Setear imagen de toolbar
+         */
+        loadImage();
+
+        /*
+         * Dialog's de changelog & rewards
+         */
+        changeLogDialog();
+        rewardDialog();
+
+    }
+
+    /**
+     * Funcion que realiza la configuracion de reward dialog
+     */
+    private void rewardDialog() {
+        sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+        Date reward_date = new Date(sharedPreferences.getLong("end_reward_time", 0));
+        Date now_date = new Date();
+
+        Log.e("HORA AHORA", QuakeUtils.dateToString(getApplicationContext(), now_date));
+        Log.e("HORA REWARD", QuakeUtils.dateToString(getApplicationContext(), reward_date));
+
+        rewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
+        rewardedVideoAd.setRewardedVideoAdListener(new RewardedVideoAdListener() {
+            @Override
+            public void onRewardedVideoAdLoaded() {
+                Log.d("VIDEO_REWARD_STATUS", "LOADED");
+            }
+
+            @Override
+            public void onRewardedVideoAdOpened() {
+
+            }
+
+            @Override
+            public void onRewardedVideoStarted() {
+
+            }
+
+            @Override
+            public void onRewardedVideoAdClosed() {
+
+            }
+
+            @Override
+            public void onRewarded(RewardItem rewardItem) {
+                Log.d("VIDEO_REWARD_STATUS", "REWARDED");
+            }
+
+            @Override
+            public void onRewardedVideoAdLeftApplication() {
+
+            }
+
+            @Override
+            public void onRewardedVideoAdFailedToLoad(int i) {
+
+            }
+
+            @Override
+            public void onRewardedVideoCompleted() {
+                Log.e("VIDEO_REWARD_STATUS", "COMPLETED");
+                Date date_now = new Date();
+
+                sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+                Log.e("RWARD_COMPLETE_H_AHORA", QuakeUtils.dateToString(getApplicationContext(), date_now));
+
+                //sumar 24 horas al tiempo del celular
+                Date date_new = QuakeUtils.addHoursToJavaUtilDate(date_now, 1);
+                Log.e("RWARD_COMPLETE_H_REWARD", QuakeUtils.dateToString(getApplicationContext(), date_new));
+
+                //Guardar fecha de termino de reward
+                sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putLong("end_reward_time", date_new.getTime()).apply();
+
+                recreate();
+            }
+        });
+
+        //Si la hora del celular es posterior a reward date
+        if (now_date.after(reward_date)) {
+
+            Log.d("REWARD_STATUS", "EN PERIODO REWARD");
+            //Cargar video
+            loadRewardedVideo();
+
+            boolean showDialog = QuakeUtils.generateRandomNumber();
+            if (showDialog) {
+                //Cargar dialog
+                loadDialogReward();
+                Log.d("RANDOM_SHOW", "MOSTRAR DIALOG REWARD");
+            } else {
+                Log.d("RANDOM_SHOW", "NO MOSTRAR DIALOG REWARD");
             }
         }
 
-        //Verifica si el celular tiene googleplay services activado
-        QuakeUtils.checkPlayServices(this);
+        //Si el periodo de reward aun no pasa
+        else if (now_date.before(reward_date)) {
+            Log.d("REWARD_STATUS", "PERIODO REWARD INACTIVO");
+        }
+    }
+
+    /**
+     * Funcion encargada de realizar la iniciacion de los servicios de FIREBASE
+     */
+    private void checkFirebaseServices() {
 
         //FIREBASE SECTION
         FirebaseMessaging.getInstance().setAutoInitEnabled(true);
@@ -94,10 +237,26 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
+    }
 
-        //Llamada a creacion de canal de notificaciones
-        MyFirebaseMessagingService.createNotificationChannel(getApplicationContext());
+    /**
+     * Funcion encargada de realizar el checkeo de first run de la aplicacion para lanzar welcomeActivity
+     */
+    private void checkWelcomeActivity() {
+        Bundle mBundleWelcome = getIntent().getExtras();
+        if (mBundleWelcome != null) {
+            //Si el usuario viene desde deep link, no se realiza first check (Para que welcome activity no abra 2 veces)
+            //Si viene desde Google play, se realiza el check
+            if (!mBundleWelcome.getBoolean(getString(R.string.desde_deep_link))) {
+                QuakeUtils.checkFirstRun(this, false);
+            }
+        }
+    }
 
+    /**
+     * Setear elementos de UI necesarios para el funcionamiento de la APP
+     */
+    private void setToolbarViewPagerTabs() {
         //Buscar toolbar en resources
         Toolbar mToolbar = findViewById(R.id.tool_bar);
 
@@ -121,7 +280,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getPosition() == 1) {
-
                     mAppBarLayout.setExpanded(false);
                 } else {
                     mAppBarLayout.setExpanded(true);
@@ -155,23 +313,114 @@ public class MainActivity extends AppCompatActivity {
             mCollapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.colorPrimary,
                     getTheme()));
         }
+    }
 
-        //Setear imagen de toolbar con Glide
-        mIvFoto = findViewById(R.id.toolbar_image);
-        loadImage();
+    /**
+     * Funcion encargada de cargar el video de bonificacion
+     */
+    private void loadRewardedVideo() {
+        rewardedVideoAd.loadAd("ca-app-pub-3940256099942544/5224354917", new AdRequest.Builder().build());
+    }
 
-        //Suscribir automaticamente al tema (FIREBASE - Quakes)
-        MyFirebaseMessagingService.checkSuscription(this);
+    /**
+     * Funcion encargada de mostrar el dialog de rewards
+     */
+    private void loadDialogReward() {
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.reward_dialog_layout);
+        dialog.setCanceledOnTouchOutside(false);
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
 
-        //Mostrar dialog para actualización de versiones
-        change_log_dialog();
+        Button button_ver_video = dialog.findViewById(R.id.btn_reward_ver_video);
+        button_ver_video.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (rewardedVideoAd.isLoaded()) {
+                    dialog.dismiss();
+                    rewardedVideoAd.show();
 
+                    Log.d("REWARD_DIALOG_STATUS", "BOTON VER VIDEO PRESIONADO");
+                }
+            }
+        });
+        Button button_cancel = dialog.findViewById(R.id.btn_reward_cancelar);
+        button_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+
+                Log.d("REWARD_DIALOG_STATUS", "BOTON CANCEL PRESIONADO");
+            }
+        });
+    }
+
+    /**
+     * Funcion que muestra el change log dialog
+     */
+    private void changeLogDialog() {
+        try {
+            PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            long versionCode = packageInfo.versionCode;
+
+            sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+
+            long actual_version_code = sharedPreferences.getLong("actual_version_code", 0);
+
+            Log.d("VERSION_CODE_APP", String.valueOf(actual_version_code));
+
+            if (actual_version_code == 0) {
+                //Actualizar version
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putLong("actual_version_code", versionCode);
+                editor.apply();
+            } else if (actual_version_code < versionCode) {
+
+                //Dialog de changelog
+                final Dialog dialog = new Dialog(MainActivity.this);
+                dialog.setContentView(R.layout.changelog_dialog_layout);
+                dialog.setCanceledOnTouchOutside(false);
+                Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+
+                //Boton entendido
+                Button entendido = dialog.findViewById(R.id.btn_reward_ver_video);
+                entendido.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+
+                        Log.d("CHANGE_LOG_DIALOG", "BOTON ENTENTIDO PRESIONADO");
+                    }
+                });
+
+                TextView tv_descripcion = dialog.findViewById(R.id.tv_changelog_description);
+                TextView tv_version = dialog.findViewById(R.id.tv_changelog_version);
+
+                tv_version.setText("v1.2.1");
+                tv_descripcion.setText("- Corrección de bug que provocaba cierres inesperados\n" +
+                        "- Actividad de configuración de preferencias\n" +
+                        "- Modo noche\n" +
+                        "- Google map en detalle de sismo\n" +
+                        "- Correcciones de bugs");
+
+                //Actualizar version
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putLong("actual_version_code", versionCode);
+                editor.apply();
+
+            }
+
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * Funcion encargada de cargar la imagen de fondo en el toolbar
      */
     private void loadImage() {
+        mIvFoto = findViewById(R.id.toolbar_image);
         Glide.with(this)
                 .load(R.drawable.foto)
                 .apply(
@@ -206,60 +455,21 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         QuakeUtils.checkPlayServices(this);
+
+        rewardedVideoAd.resume(this);
     }
 
-    private void change_log_dialog() {
-        try {
-            PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-            long versionCode = packageInfo.versionCode;
+    @Override
+    public void onPause() {
+        rewardedVideoAd.pause(this);
+        super.onPause();
+    }
 
-            final SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
-
-            long actual_version_code = sharedPreferences.getLong("actual_version_code", 0);
-
-            Log.d("VERSION_CODE_APP", String.valueOf(actual_version_code));
-
-            if (actual_version_code == 0) {
-                //Actualizar version
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putLong("actual_version_code", versionCode);
-                editor.apply();
-            } else if (actual_version_code < versionCode) {
-
-                final Dialog dialog = new Dialog(MainActivity.this);
-                dialog.setContentView(R.layout.changelog_layout);
-                dialog.setCanceledOnTouchOutside(false);
-                Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
-
-                Button entendido = dialog.findViewById(R.id.btn_changelog_accept);
-                entendido.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                    }
-                });
-
-                TextView tv_descripcion = dialog.findViewById(R.id.tv_changelog_description);
-                TextView tv_version = dialog.findViewById(R.id.tv_changelog_version);
-
-                tv_version.setText("v1.2.1");
-                tv_descripcion.setText("- Corrección de bug que provocaba cierres inesperados\n" +
-                        "- Actividad de configuración de preferencias\n" +
-                        "- Modo noche\n" +
-                        "- Google map en detalle de sismo\n" +
-                        "- Correcciones de bugs");
-
-                //Actualizar version
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putLong("actual_version_code", versionCode);
-                editor.apply();
-
-            }
-
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
+    @Override
+    public void onDestroy() {
+        rewardedVideoAd.destroy(this);
+        super.onDestroy();
     }
 }
