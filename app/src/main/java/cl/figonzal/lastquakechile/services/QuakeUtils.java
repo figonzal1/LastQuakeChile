@@ -32,6 +32,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 import java.util.TimeZone;
 
 import cl.figonzal.lastquakechile.R;
@@ -546,4 +547,29 @@ public class QuakeUtils {
 		}
 	}
 
+    /**
+     * Funcion encargada de sumar horas a un date
+     *
+     * @param date  Date al que se le sumaran horas
+     * @param hours Horas que seran sumadas
+     * @return Date con las horas ya sumadas
+     */
+    public static Date addHoursToJavaUtilDate(Date date, int hours) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.HOUR_OF_DAY, hours);
+        return calendar.getTime();
+    }
+
+    /**
+     * Funcion encargada de generar un numero aleatorio para dialogs.
+     *
+     * @return Booleano con el resultado
+     */
+    public static boolean generateRandomNumber() {
+
+        Random random = new Random();
+        int item = random.nextInt(10);
+        return item % 3 == 0;
+    }
 }

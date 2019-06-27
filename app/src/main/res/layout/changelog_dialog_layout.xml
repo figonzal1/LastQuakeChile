@@ -42,7 +42,7 @@
             tools:text="- Actividad de configuración de preferencias\n- Modo noche Google map en detalle de sismo\n- Correcciones de bugs" />
 
         <Button
-            android:id="@+id/btn_changelog_accept"
+            android:id="@+id/btn_reward_ver_video"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

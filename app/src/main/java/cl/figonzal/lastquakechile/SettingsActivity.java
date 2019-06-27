@@ -1,6 +1,7 @@
 package cl.figonzal.lastquakechile;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import java.util.Objects;
 
 import cl.figonzal.lastquakechile.services.MyFirebaseMessagingService;
 import cl.figonzal.lastquakechile.services.QuakeUtils;
+import cl.figonzal.lastquakechile.views.MainActivity;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -40,6 +42,16 @@ public class SettingsActivity extends AppCompatActivity {
 	protected void onResume() {
 		super.onResume();
 		QuakeUtils.checkNightMode(this);
+	}
+
+	@Override
+	public void onBackPressed() {
+		Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		startActivity(intent);
+		finish();
+
+		super.onBackPressed();
 	}
 
 	public static class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
