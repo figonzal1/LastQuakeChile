@@ -544,7 +544,9 @@ public class QuakeUtils {
 	public static void checkFirstRun(Activity activity, boolean test) {
 
 		//Abrir shared pref para la actividad
-		SharedPreferences mSharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences mSharedPref =
+                activity.getSharedPreferences(activity.getString(R.string.MAIN_SHARED_PREF_KEY),
+                        Context.MODE_PRIVATE);
 
 		boolean mFirstRun =
 				mSharedPref.getBoolean(activity.getString(R.string.SHARED_PREF_FIRST_RUN),

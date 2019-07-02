@@ -2,9 +2,21 @@
 
     <PreferenceCategory
         app:iconSpaceReserved="false"
+        app:selectable="false"
+        app:summary="@string/quake_list_number_pref_summary"
+        app:title="@string/quake_list_number_pref_title">
+        <SeekBarPreference
+            app:iconSpaceReserved="false"
+            app:key="@string/SHARED_PREF_LIST_QUAKE_NUMBER"
+            app:showSeekBarValue="true"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
         app:summary="@string/alert_pref_summary"
-        app:title="@string/alert_pref_title"
-        app:useSimpleSummaryProvider="true">
+        app:title="@string/alert_pref_title">
 
         <SwitchPreferenceCompat
             app:defaultValue="true"
@@ -20,8 +32,7 @@
     <PreferenceCategory
         app:iconSpaceReserved="false"
         app:summary="@string/night_mode_pref_summary"
-        app:title="@string/night_mode_pref_title"
-        app:useSimpleSummaryProvider="true">
+        app:title="@string/night_mode_pref_title">
 
         <SwitchPreference
             app:defaultValue="false"

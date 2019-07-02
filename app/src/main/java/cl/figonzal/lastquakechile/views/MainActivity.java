@@ -119,8 +119,8 @@ public class MainActivity extends AppCompatActivity {
         /*
          * Dialog's de changelog & rewards
          */
-        changeLogDialog();
-        rewardDialog();
+        //changeLogDialog();
+        //rewardDialog();
 
     }
 
@@ -128,18 +128,17 @@ public class MainActivity extends AppCompatActivity {
      * Funcion que realiza la configuracion de reward dialog
      */
     private void rewardDialog() {
-        sharedPreferences = getPreferences(Context.MODE_PRIVATE);
-        Date reward_date = new Date(sharedPreferences.getLong("end_reward_time", 0));
+        sharedPreferences = getSharedPreferences(getString(R.string.MAIN_SHARED_PREF_KEY),
+                Context.MODE_PRIVATE);
+        Date reward_date =
+                new Date(sharedPreferences.getLong(getString(R.string.SHARED_PREF_END_REWARD_TIME), 0));
         Date now_date = new Date();
-
-        Log.e("HORA AHORA", QuakeUtils.dateToString(getApplicationContext(), now_date));
-        Log.e("HORA REWARD", QuakeUtils.dateToString(getApplicationContext(), reward_date));
 
         rewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
         rewardedVideoAd.setRewardedVideoAdListener(new RewardedVideoAdListener() {
             @Override
             public void onRewardedVideoAdLoaded() {
-                Log.d("VIDEO_REWARD_STATUS", "LOADED");
+                Log.d(getString(R.string.TAG_VIDEO_REWARD_STATUS), getString(R.string.TAG_VIDEO_REWARD_STATUS_LOADED));
             }
 
             @Override
@@ -159,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onRewarded(RewardItem rewardItem) {
-                Log.d("VIDEO_REWARD_STATUS", "REWARDED");
+                Log.d(getString(R.string.TAG_VIDEO_REWARD_STATUS), getString(R.string.TAG_VIDEO_REWARD_STATUS_REWARDED));
             }
 
             @Override
@@ -174,20 +173,18 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onRewardedVideoCompleted() {
-                Log.e("VIDEO_REWARD_STATUS", "COMPLETED");
+                Log.d(getString(R.string.TAG_VIDEO_REWARD_STATUS), getString(R.string.TAG_VIDEO_REWARD_STATUS_COMPLETED));
+
                 Date date_now = new Date();
 
-                sharedPreferences = getPreferences(Context.MODE_PRIVATE);
-                Log.e("RWARD_COMPLETE_H_AHORA", QuakeUtils.dateToString(getApplicationContext(), date_now));
-
+                Log.d(getString(R.string.TAG_POST_REWARD_HORA_AHORA), QuakeUtils.dateToString(getApplicationContext(), date_now));
                 //sumar 24 horas al tiempo del celular
                 Date date_new = QuakeUtils.addHoursToJavaUtilDate(date_now, 1);
-                Log.e("RWARD_COMPLETE_H_REWARD", QuakeUtils.dateToString(getApplicationContext(), date_new));
+                Log.d(getString(R.string.TAG_POST_REWARD_HORA_REWARD), QuakeUtils.dateToString(getApplicationContext(), date_new));
 
                 //Guardar fecha de termino de reward
-                sharedPreferences = getPreferences(Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putLong("end_reward_time", date_new.getTime()).apply();
+                editor.putLong(getString(R.string.SHARED_PREF_END_REWARD_TIME), date_new.getTime()).apply();
 
                 recreate();
             }
@@ -196,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
         //Si la hora del celular es posterior a reward date
         if (now_date.after(reward_date)) {
 
-            Log.d("REWARD_STATUS", "EN PERIODO REWARD");
+            Log.d(getString(R.string.TAG_REWARD_STATUS), getString(R.string.TAG_REWARD_STATUS_EN_PERIODO));
             //Cargar video
             loadRewardedVideo();
 
@@ -204,15 +201,15 @@ public class MainActivity extends AppCompatActivity {
             if (showDialog) {
                 //Cargar dialog
                 loadDialogReward();
-                Log.d("RANDOM_SHOW", "MOSTRAR DIALOG REWARD");
+                Log.d(getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG), getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG_ON));
             } else {
-                Log.d("RANDOM_SHOW", "NO MOSTRAR DIALOG REWARD");
+                Log.d(getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG), getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG_OFF));
             }
         }
 
         //Si el periodo de reward aun no pasa
         else if (now_date.before(reward_date)) {
-            Log.d("REWARD_STATUS", "PERIODO REWARD INACTIVO");
+            Log.d(getString(R.string.TAG_REWARD_STATUS), getString(R.string.TAG_REWARD_STATUS_PERIODO_INACTIVO));
         }
     }
 
@@ -340,7 +337,7 @@ public class MainActivity extends AppCompatActivity {
                     dialog.dismiss();
                     rewardedVideoAd.show();
 
-                    Log.d("REWARD_DIALOG_STATUS", "BOTON VER VIDEO PRESIONADO");
+                    Log.d(getString(R.string.TAG_REWARD_DIALOG), getString(R.string.TAG_REWARD_DIALOG_BTN_VER_VIDEO));
                 }
             }
         });
@@ -350,7 +347,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 dialog.dismiss();
 
-                Log.d("REWARD_DIALOG_STATUS", "BOTON CANCEL PRESIONADO");
+                Log.d(getString(R.string.TAG_REWARD_DIALOG), getString(R.string.TAG_REWARD_DIALOG_BTN_CANCEL));
             }
         });
     }
@@ -363,16 +360,16 @@ public class MainActivity extends AppCompatActivity {
             PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
             long versionCode = packageInfo.versionCode;
 
-            sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+            long actual_version_code =
+                    sharedPreferences.getLong(getString(R.string.SHARED_PREF_ACTUAL_VERSION_CODE)
+                            , 0);
 
-            long actual_version_code = sharedPreferences.getLong("actual_version_code", 0);
-
-            Log.d("VERSION_CODE_APP", String.valueOf(actual_version_code));
+            Log.d(getString(R.string.TAG_VERSION_CODE_APP), String.valueOf(actual_version_code));
 
             if (actual_version_code == 0) {
                 //Actualizar version
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putLong("actual_version_code", versionCode);
+                editor.putLong(getString(R.string.SHARED_PREF_ACTUAL_VERSION_CODE), versionCode);
                 editor.apply();
             } else if (actual_version_code < versionCode) {
 
@@ -381,6 +378,7 @@ public class MainActivity extends AppCompatActivity {
                 dialog.setContentView(R.layout.changelog_dialog_layout);
                 dialog.setCanceledOnTouchOutside(false);
                 Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
                 dialog.show();
 
                 //Boton entendido
@@ -390,7 +388,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View view) {
                         dialog.dismiss();
 
-                        Log.d("CHANGE_LOG_DIALOG", "BOTON ENTENTIDO PRESIONADO");
+                        Log.d(getString(R.string.TAG_CHANGE_LOG_DIALOG), getString(R.string.TAG_CHANGE_LOG_DIALOG_BTN_ENTENDIDO));
                     }
                 });
 
@@ -406,7 +404,7 @@ public class MainActivity extends AppCompatActivity {
 
                 //Actualizar version
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putLong("actual_version_code", versionCode);
+                editor.putLong(getString(R.string.SHARED_PREF_ACTUAL_VERSION_CODE), versionCode);
                 editor.apply();
 
             }
@@ -458,18 +456,18 @@ public class MainActivity extends AppCompatActivity {
 
         QuakeUtils.checkPlayServices(this);
 
-        rewardedVideoAd.resume(this);
+        //rewardedVideoAd.resume(this);
     }
 
     @Override
     public void onPause() {
-        rewardedVideoAd.pause(this);
+        //rewardedVideoAd.pause(this);
         super.onPause();
     }
 
     @Override
     public void onDestroy() {
-        rewardedVideoAd.destroy(this);
+        //rewardedVideoAd.destroy(this);
         super.onDestroy();
     }
 }

@@ -27,7 +27,6 @@
     <string name="FIREBASE_CHANNEL_DESCRIPTION">Receives quake alerts above 5 degrees</string>
     <string name="last_quakes_info_card_view_tittle">Last quakes</string>
     <string name="last_quakes_info_card_view_button">OK</string>
-    <string name="last_quakes_info_card_view_description">This list shows the last 15 earthquakes that occurred in Chile</string>
     <string name="VIEWMODEL_TIMEOUT_ERROR">Timeout</string>
     <string name="VIEWMODEL_NOCONNECTION_ERROR">You don\'t have an Internet connection</string>
     <string name="VIEWMODEL_SERVER_ERROR">Server does not respond, try later</string>
@@ -80,4 +79,8 @@
     <string name="tab_map">Map</string>
     <string name="tab_list">List</string>
 	<string name="HOME_PARENT">Navigate up</string>
+    <string name="LIST_QUAKE_NUMBER_SUMMARY">Last %1$s quakes</string>
+    <string name="quake_list_number_pref_title">Quake data</string>
+    <string name="quake_list_number_pref_summary">Number of quakes you want to see</string>
+    <string name="last_quakes_info_card_view_description">This list shows the last 15 earthquakes that occurred in Chile, you can modify the amount in the section &#8942; -> Settings</string>
 </resources>

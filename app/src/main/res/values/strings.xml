@@ -1,322 +1,363 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-	<string name="app_name" translatable="false">LastQuakeChile</string>
+    <string name="app_name" translatable="false">LastQuakeChile</string>
 
-	<!--ID FACEBOOK-->
-	<string name="facebook_app_id" translatable="false">1263072277140754</string>
+    <!--ID FACEBOOK-->
+    <string name="facebook_app_id" translatable="false">1263072277140754</string>
 
-	<!-- TOOLBAR Menu STRINGS -->
-	<string name="refresh">Recargar</string>
-	<string name="contact">Contacto</string>
-	<string name="search">Buscar</string>
-	<string name="invite">Invitar amigos</string>
-	<string name="settings">Configuración</string>
-	<string name="more_options">Más opciones</string>
+    <!-- TOOLBAR Menu STRINGS -->
+    <string name="refresh">Recargar</string>
+    <string name="contact">Contacto</string>
+    <string name="search">Buscar</string>
+    <string name="invite">Invitar amigos</string>
+    <string name="settings">Configuración</string>
+    <string name="more_options">Más opciones</string>
 
-	<!--TABS -->
-	<string name="tab_map">Mapa</string>
-	<string name="tab_list">Listado</string>
+    <!--TABS -->
+    <string name="tab_map">Mapa</string>
+    <string name="tab_list">Listado</string>
 
-	<!-- URL SERVIDOR HEROKU -->
-	<string name="URL_GET_PROD" translatable="false">
+    <!-- URL SERVIDOR HEROKU -->
+    <string name="URL_GET_PROD" translatable="false">
 		https://lastquakechile-server-prod.herokuapp.com/lastquakechile/api/quakes/?limite=%1$s
 	</string>
-	<string name="URL_GET_DEV" translatable="false">
+    <string name="URL_GET_DEV" translatable="false">
 		https://lastquakechile-server-dev.herokuapp.com/lastquakechile/api/quakes/?limite=%1$s
 	</string>
-	<string name="DEEP_LINK" translatable="false">https://lastquakechile.page.link/lqch</string>
-	<string name="desde_deep_link" translatable="false">desdeDeepLink</string>
-	<string name="KEY_QUAKES" translatable="false">sismos</string>
+    <string name="DEEP_LINK" translatable="false">https://lastquakechile.page.link/lqch</string>
+    <string name="desde_deep_link" translatable="false">desdeDeepLink</string>
+    <string name="KEY_QUAKES" translatable="false">sismos</string>
+    <string name="MAIN_SHARED_PREF_KEY" translatable="false">lastquakechile</string>
 
-	<!-- FORMAT -->
-	<string name="DATETIME_FORMAT" translatable="false">yyyy-MM-dd HH:mm:ss</string>
+    <!-- FORMAT -->
+    <string name="DATETIME_FORMAT" translatable="false">yyyy-MM-dd HH:mm:ss</string>
 
-	<!-- PACKAGE NAMES -->
-	<string name="PACKAGE_NAME_FB" translatable="false">com.facebook.katana</string>
-	<string name="PACKAGE_NAME_WSP" translatable="false">com.whatsapp</string>
-	<string name="PACKAGE_NAME_GMAIL" translatable="false">com.google.android.gm</string>
-	<string name="PACKAGE_NAME_LINKEDIN" translatable="false">com.linkedin.android</string>
+    <!-- PACKAGE NAMES -->
+    <string name="PACKAGE_NAME_FB" translatable="false">com.facebook.katana</string>
+    <string name="PACKAGE_NAME_WSP" translatable="false">com.whatsapp</string>
+    <string name="PACKAGE_NAME_GMAIL" translatable="false">com.google.android.gm</string>
+    <string name="PACKAGE_NAME_LINKEDIN" translatable="false">com.linkedin.android</string>
 
-	<!-- KEY DE JSON PARA PHP -->
-	<string name="KEY_FECHA_UTC" translatable="false">fecha_utc</string>
-	<string name="KEY_CIUDAD" translatable="false">ciudad</string>
-	<string name="KEY_LATITUD" translatable="false">latitud</string>
-	<string name="KEY_LONGITUD" translatable="false">longitud</string>
-	<string name="KEY_MAGNITUD" translatable="false">magnitud</string>
-	<string name="KEY_ESCALA" translatable="false">escala</string>
-	<string name="KEY_PROFUNDIDAD" translatable="false">profundidad</string>
-	<string name="KEY_AGENCIA" translatable="false">agencia</string>
-	<string name="KEY_REFERENCIA" translatable="false">referencia</string>
-	<string name="KEY_IMAGEN_URL" translatable="false">imagen_url</string>
-	<string name="KEY_SENSIBLE" translatable="false">sensible</string>
-	<string name="KEY_ESTADO" translatable="false">estado</string>
+    <!-- KEY DE JSON PARA PHP -->
+    <string name="KEY_FECHA_UTC" translatable="false">fecha_utc</string>
+    <string name="KEY_CIUDAD" translatable="false">ciudad</string>
+    <string name="KEY_LATITUD" translatable="false">latitud</string>
+    <string name="KEY_LONGITUD" translatable="false">longitud</string>
+    <string name="KEY_MAGNITUD" translatable="false">magnitud</string>
+    <string name="KEY_ESCALA" translatable="false">escala</string>
+    <string name="KEY_PROFUNDIDAD" translatable="false">profundidad</string>
+    <string name="KEY_AGENCIA" translatable="false">agencia</string>
+    <string name="KEY_REFERENCIA" translatable="false">referencia</string>
+    <string name="KEY_IMAGEN_URL" translatable="false">imagen_url</string>
+    <string name="KEY_SENSIBLE" translatable="false">sensible</string>
+    <string name="KEY_ESTADO" translatable="false">estado</string>
 
-	<!-- KEY PARA INTENT & NOTIFICACIONES -->
-	<string name="INTENT_TITULO" translatable="false">titulo</string>
-	<string name="INTENT_DESCRIPCION" translatable="false">descripcion</string>
-	<string name="INTENT_CIUDAD" translatable="false">ciudad</string>
-	<string name="INTENT_REFERENCIA" translatable="false">referencia</string>
-	<string name="INTENT_LATITUD" translatable="false">latitud</string>
-	<string name="INTENT_LONGITUD" translatable="false">longitud</string>
-	<string name="INTENT_FECHA_LOCAL" translatable="false">fecha_local</string>
-	<string name="INTENT_FECHA_UTC" translatable="false">fecha_utc</string>
-	<string name="INTENT_MAGNITUD" translatable="false">magnitud</string>
-	<string name="INTENT_PROFUNDIDAD" translatable="false">profundidad</string>
-	<string name="INTENT_ESCALA" translatable="false">escala</string>
-	<string name="INTENT_SENSIBLE" translatable="false">sensible</string>
-	<string name="INTENT_LINK_FOTO" translatable="false">imagen_url</string>
-	<string name="INTENT_ESTADO" translatable="false">estado</string>
+    <!-- KEY PARA INTENT & NOTIFICACIONES -->
+    <string name="INTENT_TITULO" translatable="false">titulo</string>
+    <string name="INTENT_DESCRIPCION" translatable="false">descripcion</string>
+    <string name="INTENT_CIUDAD" translatable="false">ciudad</string>
+    <string name="INTENT_REFERENCIA" translatable="false">referencia</string>
+    <string name="INTENT_LATITUD" translatable="false">latitud</string>
+    <string name="INTENT_LONGITUD" translatable="false">longitud</string>
+    <string name="INTENT_FECHA_LOCAL" translatable="false">fecha_local</string>
+    <string name="INTENT_FECHA_UTC" translatable="false">fecha_utc</string>
+    <string name="INTENT_MAGNITUD" translatable="false">magnitud</string>
+    <string name="INTENT_PROFUNDIDAD" translatable="false">profundidad</string>
+    <string name="INTENT_ESCALA" translatable="false">escala</string>
+    <string name="INTENT_SENSIBLE" translatable="false">sensible</string>
+    <string name="INTENT_LINK_FOTO" translatable="false">imagen_url</string>
+    <string name="INTENT_ESTADO" translatable="false">estado</string>
 
-	<!-- STRINGS DE LAYOUTS-->
-	<string name="circulo_pintado">Color magnitud sismo</string>
-	<string name="imagen_toolbar">Imagen toolbar</string>
-	<string name="imagen_toolbar_contact">Imagen toolbar contacto</string>
-	<string name="quake_time_day" translatable="false">%1$d d</string>
-	<string name="quake_time_day_hour" translatable="false">%1$d d %2$d h</string>
-	<string name="quake_time_hour" translatable="false">%1$d h</string>
-	<string name="quake_time_minute" translatable="false">%1$d m</string>
-	<string name="quake_time_second" translatable="false">%1$d s</string>
-	<string name="quake_time_day_info_windows">Hace: %1$d d</string>
-	<string name="quake_time_day_hour_info_windows">Hace: %1$d d %2$d h</string>
-	<string name="quake_time_hour_info_windows">Hace: %1$d h</string>
-	<string name="quake_time_minute_info_windows">Hace: %1$d m</string>
-	<string name="quake_time_second_info_windows">Hace: %1$d s</string>
-	<string name="imagen_geografica_posicion_sismo">Imagen geografica posición sismo</string>
-	<string name="icono_tiempo">Icono tiempo</string>
-	<string name="tiempo">Fecha/Hora</string>
-	<string name="icono_distancia">Icono distancia</string>
-	<string name="distancia">Posición GMS</string>
-	<string name="icono_epicentro">Icono epicentro</string>
-	<string name="icono_escala">Icono escala</string>
-	<string name="profundidad">Profundidad</string>
-	<string name="escala">Escala</string>
-	<string name="quake_details_escala" translatable="false">%1$s</string>
-	<string name="quake_details_profundidad" translatable="false">%.1f Km</string>
-	<string name="profundidad_info_windows">Profundidad: %.1f Km</string>
-	<string name="magnitud" translatable="false">%.1f</string>
-	<string name="icono_mail">Icono email</string>
-	<string name="icono_persona">Icono persona</string>
-	<string name="icono_facebook">Icono facebook</string>
-	<string name="icono_linkedin">Icono linkedin</string>
-	<string name="contact_email" translatable="false">felipe.gonzalezalarcon94@gmail.com</string>
-	<string name="contact_nombre" translatable="false">Felipe González</string>
-	<string name="contact_title_email">Email</string>
-	<string name="contact_title_name">Nombre</string>
-	<string name="quake_details_magnitud_local">Magnitud Local (Ml)</string>
-	<string name="quake_details_magnitud_momento" tools:ignore="Typos">Magnitud Momento (Mw)
+    <!-- STRINGS DE LAYOUTS-->
+    <string name="circulo_pintado">Color magnitud sismo</string>
+    <string name="imagen_toolbar">Imagen toolbar</string>
+    <string name="imagen_toolbar_contact">Imagen toolbar contacto</string>
+    <string name="quake_time_day" translatable="false">%1$d d</string>
+    <string name="quake_time_day_hour" translatable="false">%1$d d %2$d h</string>
+    <string name="quake_time_hour" translatable="false">%1$d h</string>
+    <string name="quake_time_minute" translatable="false">%1$d m</string>
+    <string name="quake_time_second" translatable="false">%1$d s</string>
+    <string name="quake_time_day_info_windows">Hace: %1$d d</string>
+    <string name="quake_time_day_hour_info_windows">Hace: %1$d d %2$d h</string>
+    <string name="quake_time_hour_info_windows">Hace: %1$d h</string>
+    <string name="quake_time_minute_info_windows">Hace: %1$d m</string>
+    <string name="quake_time_second_info_windows">Hace: %1$d s</string>
+    <string name="imagen_geografica_posicion_sismo">Imagen geografica posición sismo</string>
+    <string name="icono_tiempo">Icono tiempo</string>
+    <string name="tiempo">Fecha/Hora</string>
+    <string name="icono_distancia">Icono distancia</string>
+    <string name="distancia">Posición GMS</string>
+    <string name="icono_epicentro">Icono epicentro</string>
+    <string name="icono_escala">Icono escala</string>
+    <string name="profundidad">Profundidad</string>
+    <string name="escala">Escala</string>
+    <string name="quake_details_escala" translatable="false">%1$s</string>
+    <string name="quake_details_profundidad" translatable="false">%.1f Km</string>
+    <string name="profundidad_info_windows">Profundidad: %.1f Km</string>
+    <string name="magnitud" translatable="false">%.1f</string>
+    <string name="icono_mail">Icono email</string>
+    <string name="icono_persona">Icono persona</string>
+    <string name="icono_facebook">Icono facebook</string>
+    <string name="icono_linkedin">Icono linkedin</string>
+    <string name="contact_email" translatable="false">felipe.gonzalezalarcon94@gmail.com</string>
+    <string name="contact_nombre" translatable="false">Felipe González</string>
+    <string name="contact_title_email">Email</string>
+    <string name="contact_title_name">Nombre</string>
+    <string name="quake_details_magnitud_local">Magnitud Local (Ml)</string>
+    <string name="quake_details_magnitud_momento" tools:ignore="Typos">Magnitud Momento (Mw)
 	</string>
-	<string name="icono_sensible">Icono sensible</string>
-	<string name="icono_app">Icono app</string>
-	<string name="invitation_welcome">¡Bienvenido!</string>
-	<string name="icono_ondas">Icono ondas</string>
-	<string name="coordenadas_sur" translatable="false">S</string>
-	<string name="coordenadas_norte" translatable="false">N</string>
-	<string name="coordenadas_oeste">O</string>
-	<string name="coordenadas_este">E</string>
-	<string name="format_coordenadas" translatable="false">%s \n%s</string>
-	<string name="seccion_listado_de_sismos">Sección listado de sismos</string>
-	<string name="titulo_toolbar">Título toolbar</string>
-	<string name="last_quakes_info_card_view_tittle">Últimos sismos</string>
-	<string name="last_quakes_info_card_view_button">Entendido</string>
-	<string name="last_quakes_info_card_view_description">En este listado se muestran los últimos 15
-		sismos ocurridos en Chile
+    <string name="icono_sensible">Icono sensible</string>
+    <string name="icono_app">Icono app</string>
+    <string name="invitation_welcome">¡Bienvenido!</string>
+    <string name="icono_ondas">Icono ondas</string>
+    <string name="coordenadas_sur" translatable="false">S</string>
+    <string name="coordenadas_norte" translatable="false">N</string>
+    <string name="coordenadas_oeste">O</string>
+    <string name="coordenadas_este">E</string>
+    <string name="format_coordenadas" translatable="false">%s \n%s</string>
+    <string name="seccion_listado_de_sismos">Sección listado de sismos</string>
+    <string name="titulo_toolbar">Título toolbar</string>
+    <string name="last_quakes_info_card_view_tittle">Últimos sismos</string>
+    <string name="last_quakes_info_card_view_button">Entendido</string>
+    <string name="last_quakes_info_card_view_description">En este listado se muestran los últimos 15 sismos ocurridos en Chile, puedes modificar la cantidad en la sección &#8942; -> Configuración
 	</string>
-	<string name="fab_gmail" translatable="false">Gmail</string>
-	<string name="fab_whatsapp" translatable="false">Whatsapp</string>
-	<string name="fab_facebook" translatable="false">Facebook</string>
-	<string name="boton_flotante_gmail">Botón flotante gmail</string>
-	<string name="boton_flotante_whatsapp">Botón flotante whatsapp</string>
-	<string name="boton_flotante_facebook">Botón flotante Facebook</string>
-	<string name="boton_compartir_sismo">Botón compartir sismo</string>
-	<string name="imagen_estado_sismo">Imagen estado sismo</string>
-	<string name="quakes_details_estado_sismo">Sismo %s</string>
-	<string name="quakes_details_estado_sismo_preliminar">preliminar</string>
-	<string name="quakes_details_estado_sismo_verificado">verificado</string>
+    <string name="fab_gmail" translatable="false">Gmail</string>
+    <string name="fab_whatsapp" translatable="false">Whatsapp</string>
+    <string name="fab_facebook" translatable="false">Facebook</string>
+    <string name="boton_flotante_gmail">Botón flotante gmail</string>
+    <string name="boton_flotante_whatsapp">Botón flotante whatsapp</string>
+    <string name="boton_flotante_facebook">Botón flotante Facebook</string>
+    <string name="boton_compartir_sismo">Botón compartir sismo</string>
+    <string name="imagen_estado_sismo">Imagen estado sismo</string>
+    <string name="quakes_details_estado_sismo">Sismo %s</string>
+    <string name="quakes_details_estado_sismo_preliminar">preliminar</string>
+    <string name="quakes_details_estado_sismo_verificado">verificado</string>
+    <string name="quake_list_number_pref_summary">Número de sismos que quieres ver en lista</string>
+    <string name="quake_list_number_pref_title">Datos sismos</string>
 
-	<!-- FIREBASE-->
-	<string name="TAG_FIREBASE_TOKEN" translatable="false">TOKEN_FIREBASE</string>
-	<string name="TAG_FIREBASE_SUSCRIPTION" translatable="false">FIREBASE_SUSCRIPCION</string>
-	<string name="TAG_FIREBASE_SUSCRIPTION_OK" translatable="false">SUSCRITO</string>
-	<string name="TAG_FIREBASE_SUSCRIPTION_ALREADY" translatable="false">YA ESTABA SUSCRITO</string>
-	<string name="TAG_FIREBASE_SUSCRIPTION_DELETE" translatable="false">ELIMINADA</string>
-	<string name="TAG_FIREBASE_CHANNEL" translatable="false">FIREBASE_CHANNEL</string>
-	<string name="TAG_FIREBASE_MESSAGE" translatable="false">FIREBASE_MESSAGE</string>
-	<string name="TAG_FIREBASE_MESSAGE_DATA_INCOMING" translatable="false">NotificacionData
+    <!-- FIREBASE-->
+    <string name="TAG_FIREBASE_TOKEN" translatable="false">TOKEN_FIREBASE</string>
+    <string name="TAG_FIREBASE_SUSCRIPTION" translatable="false">FIREBASE_SUSCRIPCION</string>
+    <string name="TAG_FIREBASE_SUSCRIPTION_OK" translatable="false">SUSCRITO</string>
+    <string name="TAG_FIREBASE_SUSCRIPTION_ALREADY" translatable="false">YA ESTABA SUSCRITO</string>
+    <string name="TAG_FIREBASE_SUSCRIPTION_DELETE" translatable="false">ELIMINADA</string>
+    <string name="TAG_FIREBASE_CHANNEL" translatable="false">FIREBASE_CHANNEL</string>
+    <string name="TAG_FIREBASE_MESSAGE" translatable="false">FIREBASE_MESSAGE</string>
+    <string name="TAG_FIREBASE_MESSAGE_DATA_INCOMING" translatable="false">NotificacionData
 		recibida
 	</string>
-	<string name="TAG_FIREBASE_MESSAGE_INCOMING" translatable="false">Notificacion recibida</string>
-	<string name="FIREBASE_CHANNEL_ID" translatable="false">1</string>
-	<string name="FIREBASE_CHANNEL_NAME">Alerta sismos</string>
-	<string name="FIREBASE_CHANNEL_DESCRIPTION">Recibe alertas de sismos sobre 5 grados</string>
-	<string name="FIREBASE_CHANNEL_STATUS" translatable="false">CANAL_CREADO</string>
-	<string name="FIREBASE_MESSAGE_DATA_STATUS" translatable="false">MESSAGE_DATA_RECEIVED</string>
-	<string name="FIREBASE_MESSAGE_NOTIFICATION_STATUS" translatable="false">
+    <string name="TAG_FIREBASE_MESSAGE_INCOMING" translatable="false">Notificacion recibida</string>
+    <string name="FIREBASE_CHANNEL_ID" translatable="false">1</string>
+    <string name="FIREBASE_CHANNEL_NAME">Alerta sismos</string>
+    <string name="FIREBASE_CHANNEL_DESCRIPTION">Recibe alertas de sismos sobre 5 grados</string>
+    <string name="FIREBASE_CHANNEL_STATUS" translatable="false">CANAL_CREADO</string>
+    <string name="FIREBASE_MESSAGE_DATA_STATUS" translatable="false">MESSAGE_DATA_RECEIVED</string>
+    <string name="FIREBASE_MESSAGE_NOTIFICATION_STATUS" translatable="false">
 		MESSAGE_NOTIFICATION_RECEIVED
 	</string>
-	<string name="FIREBASE_CHANNEL_CREATED_MESSAGE" translatable="false">Canal de notificacion
+    <string name="FIREBASE_CHANNEL_CREATED_MESSAGE" translatable="false">Canal de notificacion
 		creado
 	</string>
-	<string name="FIREBASE_PREF_KEY" translatable="false">pref_suscrito_quake</string>
-	<string name="FIREBASE_TOPIC_NAME" translatable="false">Quakes</string>
-	<string name="FIREBASE_PREF_KEY_TOAST_ALERTAS_ON">Alertas activadas</string>
-	<string name="FIREBASE_PREF_KEY_TOAST_ALERTAS_OFF">Alertas desactivadas</string>
-	<string name="alert_pref_summary">Recibe notificaciones de sismos de +5.0 grados</string>
-	<string name="alert_pref_title">Notificaciones</string>
-	<string name="alert_pref_title_switch">Alertas de sismos</string>
-	<string name="alert_pref_summary_on">Activadas</string>
-	<string name="alert_pref_summary_off">Desactivadas</string>
+    <string name="FIREBASE_PREF_KEY" translatable="false">pref_suscrito_quake</string>
+    <string name="FIREBASE_TOPIC_NAME" translatable="false">Quakes</string>
+    <string name="FIREBASE_PREF_KEY_TOAST_ALERTAS_ON">Alertas activadas</string>
+    <string name="FIREBASE_PREF_KEY_TOAST_ALERTAS_OFF">Alertas desactivadas</string>
+    <string name="alert_pref_summary">Recibe notificaciones de sismos de +5.0 grados</string>
+    <string name="alert_pref_title">Notificaciones</string>
+    <string name="alert_pref_title_switch">Alertas de sismos</string>
+    <string name="alert_pref_summary_on">Activadas</string>
+    <string name="alert_pref_summary_off">Desactivadas</string>
 
-
-	<!-- Strings de Snackbars -->
-	<string name="SNACKBAR_TIMEOUT_ERROR_PRESSED" translatable="false">SNACKBAR_TIMEOUT_ERROR
+    <!-- Strings de Snackbars -->
+    <string name="SNACKBAR_TIMEOUT_ERROR_PRESSED" translatable="false">SNACKBAR_TIMEOUT_ERROR
 	</string>
-	<string name="SNACKBAR_NOCONNECTION_ERROR_PRESSED" translatable="false">
+    <string name="SNACKBAR_NOCONNECTION_ERROR_PRESSED" translatable="false">
 		SNACKBAR_NOCONNECTION_ERROR
 	</string>
-	<string name="SNACKBAR_SERVER_ERROR_PRESSED" translatable="false">SNACKBAR_SERVER_ERROR</string>
+    <string name="SNACKBAR_SERVER_ERROR_PRESSED" translatable="false">SNACKBAR_SERVER_ERROR</string>
 
-	<!-- LOGS De QuakeFragment y  Miscelaneos-->
-	<string name="FLAG_RETRY" translatable="false">Recargar</string>
-	<string name="TAG_PROGRESS_FROM_FRAGMENT" translatable="false">PROGRESS_FRAGMENT</string>
-	<string name="TAG_PROGRESS_FROM_FRAGMENT_UPDATE_RESPONSE" translatable="false">UPDATED
+    <!-- TAGS SIN CATEGORIA-->
+    <string name="FLAG_RETRY" translatable="false">Recargar</string>
+    <string name="TAG_PROGRESS_FROM_FRAGMENT" translatable="false">PROGRESS_FRAGMENT</string>
+    <string name="TAG_PROGRESS_FROM_FRAGMENT_UPDATE_RESPONSE" translatable="false">UPDATED
 		INFORMATION - FRAGMENT
 	</string>
-	<string name="TAG_PROGRESS_FROM_FRAGMENT_TIMEOUT_ERROR" translatable="false">TIMEOUT ERROR -
+    <string name="TAG_PROGRESS_FROM_FRAGMENT_TIMEOUT_ERROR" translatable="false">TIMEOUT ERROR -
 		FRAGMENT
 	</string>
-	<string name="TAG_PROGRESS_FROM_FRAGMENT_SERVER_ERROR" translatable="false">SERVER ERROR -
+    <string name="TAG_PROGRESS_FROM_FRAGMENT_SERVER_ERROR" translatable="false">SERVER ERROR -
 		FRAGMENT
 	</string>
-	<string name="TAG_PROGRESS_FROM_FRAGMENT_NOCONNECTION" translatable="false">NO CONNECTION ERROR
+    <string name="TAG_PROGRESS_FROM_FRAGMENT_NOCONNECTION" translatable="false">NO CONNECTION ERROR
 		- FRAGMENT
 	</string>
-	<string name="TAG_JSON_GENERAL_ERROR" translatable="false">JSON_GENERAL_ERROR</string>
-	<string name="TAG_JSON_PARSE_ERROR" translatable="false">JSON_PARSE_ERROR</string>
-	<string name="TAG_CONNECTION_OK" translatable="false">CONNECTION_OK</string>
-	<string name="CONNECTION_OK_RESPONSE" translatable="false">Conexion correcta</string>
-	<string name="CONNECTED" translatable="false">CONNECTION_STATUS</string>
-	<string name="TAG_CARD_VIEW_INFO" translatable="false">CARD_VIEW_INFO</string>
-	<string name="TAG_FIRST_RUN_STATUS" translatable="false">FIRST_RUN</string>
-	<string name="FIRST_RUN_STATUS_RESPONSE" translatable="false">EJECUCION DE PRIMER INICIO
+    <string name="TAG_JSON_GENERAL_ERROR" translatable="false">JSON_GENERAL_ERROR</string>
+    <string name="TAG_JSON_PARSE_ERROR" translatable="false">JSON_PARSE_ERROR</string>
+    <string name="TAG_CONNECTION_OK" translatable="false">CONNECTION_OK</string>
+    <string name="CONNECTION_OK_RESPONSE" translatable="false">Conexion correcta</string>
+    <string name="CONNECTED" translatable="false">CONNECTION_STATUS</string>
+    <string name="TAG_CARD_VIEW_INFO" translatable="false">CARD_VIEW_INFO</string>
+    <string name="TAG_FIRST_RUN_STATUS" translatable="false">FIRST_RUN</string>
+    <string name="FIRST_RUN_STATUS_RESPONSE" translatable="false">EJECUCION DE PRIMER INICIO
 	</string>
+    <string name="TAG_INVITATION_RECEIVE" translatable="false">INVITACION</string>
+    <string name="TAG_FAB_SHARE_STATUS" translatable="false">FAB SHARE</string>
+    <string name="TAG_FAB_SHARE_STATUS_CLICKED" translatable="false">CLICKED</string>
+    <string name="TAG_FRAGMENT_SETTINGS" translatable="false">SETTINGS</string>
+    <string name="TAG_FRAGMENT_SETTINGS_QUAKE_LIST_LIMIT" translatable="false">Numero de sismos fijados: %1$d</string>
+    <string name="LIST_QUAKE_NUMBER_SUMMARY">Últimos %1$s sismos</string>
+    <string name="TAG_RESPOSITORY_QUAKE_LIMIT" translatable="false">REPOSITORY_LIMIT_QUAKE</string>
+    <string name="TAG_RESPOSITORY_QUAKE_LIMIT_FORMAT" translatable="false">SIZE LIST: %1$s</string>
+    <string name="TAG_RESPOSITORY_QUAKE_LIMIT_DEFAULT_FORMAT" translatable="false">DEFAULT SIZE LIST: %1$s</string>
+    <string name="TAG_VERSION_CODE_APP" translatable="false">VERSION_CODE_APP</string>
 
-	<!-- Strings de Volley -->
-	<string name="TAG_VOLLEY_ERROR" translatable="false">VOLLEY_ERROR</string>
-	<string name="TAG_VOLLEY_ERROR_TIMEOUT" translatable="false">Timeout error</string>
-	<string name="TAG_VOLLEY_ERROR_CONNECTION" translatable="false">NoConnection error</string>
-	<string name="TAG_VOLLEY_ERROR_AUTH" translatable="false">Auth error</string>
-	<string name="TAG_VOLLEY_ERROR_SERVER" translatable="false">Server error</string>
-	<string name="TAG_VOLLEY_ERROR_NETWORK" translatable="false">Network error</string>
-	<string name="TAG_VOLLEY_ERROR_PARSE" translatable="false">Parse error</string>
-	<string name="TAG_CONNECTION_SERVER_RESPALDO" translatable="false">SERVIDOR RESPALDO</string>
-	<string name="TAG_CONNECTION_SERVER_RESPALDO_RESPONSE" translatable="false">INTENTO DE CONEXION
+    <!-- Strings de Volley -->
+    <string name="TAG_VOLLEY_ERROR" translatable="false">VOLLEY_ERROR</string>
+    <string name="TAG_VOLLEY_ERROR_TIMEOUT" translatable="false">Timeout error</string>
+    <string name="TAG_VOLLEY_ERROR_CONNECTION" translatable="false">NoConnection error</string>
+    <string name="TAG_VOLLEY_ERROR_AUTH" translatable="false">Auth error</string>
+    <string name="TAG_VOLLEY_ERROR_SERVER" translatable="false">Server error</string>
+    <string name="TAG_VOLLEY_ERROR_NETWORK" translatable="false">Network error</string>
+    <string name="TAG_VOLLEY_ERROR_PARSE" translatable="false">Parse error</string>
+    <string name="TAG_CONNECTION_SERVER_RESPALDO" translatable="false">SERVIDOR RESPALDO</string>
+    <string name="TAG_CONNECTION_SERVER_RESPALDO_RESPONSE" translatable="false">INTENTO DE CONEXION
 		A RESPALDO (DEVELOPMENT)
 	</string>
-	<string name="TAG_CONNECTION_SERVER_OFICIAL" translatable="false">SERVIDOR OFICIAL</string>
-	<string name="TAG_CONNECTION_SERVER_OFICIAL_RESPONSE" translatable="false">INTENTO DE CONEXION A
+    <string name="TAG_CONNECTION_SERVER_OFICIAL" translatable="false">SERVIDOR OFICIAL</string>
+    <string name="TAG_CONNECTION_SERVER_OFICIAL_RESPONSE" translatable="false">INTENTO DE CONEXION A
 		OFICIAL (PRODUCTION)
 	</string>
 
-	<!-- Strings para calculo de tiempo -->
-	<string name="UTILS_TIEMPO_DIAS" translatable="false">dias</string>
-	<string name="UTILS_TIEMPO_HORAS" translatable="false">horas</string>
-	<string name="UTILS_TIEMPO_MINUTOS" translatable="false">minutos</string>
-	<string name="UTILS_TIEMPO_SEGUNDOS" translatable="false">segundos</string>
+    <!-- Strings para calculo de tiempo -->
+    <string name="UTILS_TIEMPO_DIAS" translatable="false">dias</string>
+    <string name="UTILS_TIEMPO_HORAS" translatable="false">horas</string>
+    <string name="UTILS_TIEMPO_MINUTOS" translatable="false">minutos</string>
+    <string name="UTILS_TIEMPO_SEGUNDOS" translatable="false">segundos</string>
 
-	<!-- VIEWMODEL ERROR MESSAGES -->
-	<string name="VIEWMODEL_TIMEOUT_ERROR">Timeout</string>
-	<string name="VIEWMODEL_NOCONNECTION_ERROR">No tienes conexión a Internet</string>
-	<string name="VIEWMODEL_SERVER_ERROR">Servidor no responde, intente más tarde</string>
+    <!-- VIEWMODEL ERROR MESSAGES -->
+    <string name="VIEWMODEL_TIMEOUT_ERROR">Timeout</string>
+    <string name="VIEWMODEL_NOCONNECTION_ERROR">No tienes conexión a Internet</string>
+    <string name="VIEWMODEL_SERVER_ERROR">Servidor no responde, intente más tarde</string>
 
-	<!-- INTENT LOGS -->
-	<string name="TAG_INTENT" translatable="false">INTENT</string>
-	<string name="TAG_INTENT_GOOGLEPLAY" translatable="false">Abriendo google play app - $s</string>
-	<string name="TAG_INTENT_NAVEGADOR" translatable="false">Abriendo navegador - $s</string>
-	<string name="TAG_INTENT_INSTALADA" translatable="false">Abriendo APP instalada - $s</string>
-	<string name="TRY_INTENT_NOTIFICATION_1" translatable="false">Realizando intent de
+    <!-- INTENT LOGS -->
+    <string name="TAG_INTENT" translatable="false">INTENT</string>
+    <string name="TAG_INTENT_GOOGLEPLAY" translatable="false">Abriendo google play app - $s</string>
+    <string name="TAG_INTENT_NAVEGADOR" translatable="false">Abriendo navegador - $s</string>
+    <string name="TAG_INTENT_INSTALADA" translatable="false">Abriendo APP instalada - $s</string>
+    <string name="TRY_INTENT_NOTIFICATION_1" translatable="false">Realizando intent de
 		notificacion
 	</string>
-	<string name="TRY_INTENT_NOTIFICATION" translatable="false">TRY_INTENT_NOTIFICATION</string>
-	<string name="TRY_INTENT_DETALLE" translatable="false">Intent de detalle de sismo</string>
-	<string name="TAG_INTENT_DETALLE_HOME_UP" translatable="false">QUAKE_DETAILS</string>
-	<string name="TAG_INTENT_DETALLE_HOME_UP_RESPONSE" translatable="false">HOME UP PARENT
+    <string name="TRY_INTENT_NOTIFICATION" translatable="false">TRY_INTENT_NOTIFICATION</string>
+    <string name="TRY_INTENT_DETALLE" translatable="false">Intent de detalle de sismo</string>
+    <string name="TAG_INTENT_DETALLE_HOME_UP" translatable="false">QUAKE_DETAILS</string>
+    <string name="TAG_INTENT_DETALLE_HOME_UP_RESPONSE" translatable="false">HOME UP PARENT
 		CLICKEADO
 	</string>
 
-	<!-- TAG GOOGLE PLAY -->
-	<string name="TAG_GOOGLE_PLAY" translatable="false">GOOGLE_PLAY</string>
-	<string name="GOOGLE_PLAY_NOSOPORTADO" translatable="false">Dispositivo no soportado</string>
-	<string name="GOOGLE_PLAY_ACTUALIZADO" translatable="false">Google Play actualizado</string>
+    <!-- TAG GOOGLE PLAY -->
+    <string name="TAG_GOOGLE_PLAY" translatable="false">GOOGLE_PLAY</string>
+    <string name="GOOGLE_PLAY_NOSOPORTADO" translatable="false">Dispositivo no soportado</string>
+    <string name="GOOGLE_PLAY_ACTUALIZADO" translatable="false">Google Play actualizado</string>
 
-	<!-- INVITATION STRINGS -->
-	<string name="INVITATION_TITLE">¡Invita a tus amigos a usar la App!</string>
-	<string name="INVITATION_SUBJECT">Descarga LastQuakeChile App</string>
-	<string name="TAG_DEEP_LINK_INVITATION" translatable="false">INTENT_INVITACION</string>
-	<string name="INVITATION_STATUS" translatable="false">Invitacion sin datos</string>
-	<string name="TAG_DEEP_LINK_DATA" translatable="false">DEEP_LINK</string>
-	<string name="TAG_INVITATION_ID" translatable="false">INVITACION_ID</string>
+    <!-- INVITATION STRINGS -->
+    <string name="INVITATION_TITLE">¡Invita a tus amigos a usar la App!</string>
+    <string name="INVITATION_SUBJECT">Descarga LastQuakeChile App</string>
+    <string name="TAG_DEEP_LINK_INVITATION" translatable="false">INTENT_INVITACION</string>
+    <string name="INVITATION_STATUS" translatable="false">Invitacion sin datos</string>
+    <string name="TAG_DEEP_LINK_DATA" translatable="false">DEEP_LINK</string>
+    <string name="TAG_INVITATION_ID" translatable="false">INVITACION_ID</string>
 
-	<!-- SHARE PREFERENCES KEYS (Variables) -->
-	<string name="SHARED_PREF_FIRST_RUN" translatable="false">first_run</string>
-	<string name="SHARED_PREF_STATUS_CARD_VIEW_INFO" translatable="false">is_show_card_view_info
+    <!-- SHARE PREFERENCES KEYS (Variables) -->
+    <string name="SHARED_PREF_FIRST_RUN" translatable="false">first_run</string>
+    <string name="SHARED_PREF_STATUS_CARD_VIEW_INFO" translatable="false">is_show_card_view_info
 	</string>
-	<string name="SHARED_PREF_STATUS_CARD_VIEW_INFO_RESULT" translatable="false">entendido</string>
-	<string name="TAG_INVITATION_RECEIVE" translatable="false">INVITACION</string>
+    <string name="SHARED_PREF_STATUS_CARD_VIEW_INFO_RESULT" translatable="false">entendido</string>
+    <string name="SHARED_PREF_LIST_QUAKE_NUMBER" translatable="false">pref_list_quake_number</string>
+    <string name="SHARED_PREF_ACTUAL_VERSION_CODE" translatable="false">actual_version_code</string>
+    <string name="SHARED_PREF_END_REWARD_TIME" translatable="false">end_reward_time</string>
 
-	<!-- INTENT SHARE LOGS -->
-	<string name="TAG_INTENT_SHARE" translatable="false">SHARE_INTENT</string>
-	<string name="TAG_INTENT_SHARE_FB" translatable="false">FACEBOOK SHARE INTENT</string>
-	<string name="TAG_INTENT_SHARE_FB_LOG" translatable="false">FB_SHARE</string>
-	<string name="TAG_INTENT_SHARE_FB_OK_MESSAGE" translatable="false">SHARE OK</string>
-	<string name="TAG_INTENT_SHARE_FB_ERROR_MESSAGE" translatable="false">SHARE ERROR</string>
-	<string name="TAG_INTENT_SHARE_FB_CANCEL_MESSAGE" translatable="false">SHARE CANCEL</string>
-	<string name="TAG_TOAST_SHARE_FB_ERROR" translatable="false">Error al compartir publicación
+    <!-- INTENT SHARE LOGS -->
+    <string name="TAG_INTENT_SHARE" translatable="false">SHARE_INTENT</string>
+    <string name="TAG_INTENT_SHARE_FB" translatable="false">FACEBOOK SHARE INTENT</string>
+    <string name="TAG_INTENT_SHARE_FB_LOG" translatable="false">FB_SHARE</string>
+    <string name="TAG_INTENT_SHARE_FB_OK_MESSAGE" translatable="false">SHARE OK</string>
+    <string name="TAG_INTENT_SHARE_FB_ERROR_MESSAGE" translatable="false">SHARE ERROR</string>
+    <string name="TAG_INTENT_SHARE_FB_CANCEL_MESSAGE" translatable="false">SHARE CANCEL</string>
+    <string name="TAG_TOAST_SHARE_FB_ERROR" translatable="false">Error al compartir publicación
 	</string>
-	<string name="TAG_TOAST_SHARE_FB_OK" translatable="false">Contenido compartido correctamente
+    <string name="TAG_TOAST_SHARE_FB_OK" translatable="false">Contenido compartido correctamente
 	</string>
-	<string name="TAG_TOAST_SHARE_FB_CANCEL" translatable="false">Compartir publicación cancelada
+    <string name="TAG_TOAST_SHARE_FB_CANCEL" translatable="false">Compartir publicación cancelada
 	</string>
-	<string name="TAG_INTENT_SHARE_DIALOG" translatable="false">FB_DIALOG</string>
-	<string name="TAG_INTENT_SHARE_DIALOG_MESSAGE" translatable="false">DIALOG MOSTRADO</string>
-	<string name="TAG_INTENT_SHARE_WSP" translatable="false">WHATSAPP SHARE INTENT</string>
-	<string name="TAG_INTENT_SHARE_GM" translatable="false">GMAIL SHARE INTENT</string>
-	<string name="TAG_INTENT_SHARE_BITMAP" translatable="false">BITMAPS</string>
-	<string name="TAG_INTENT_SHARE_BITMAP_MESSAGE" translatable="false">BITMAPS CARGADOS</string>
-	<string name="TAG_INTENT_SHARE_BITMAP_MESSAGE_FAIL" translatable="false">BITMAPS FAIL</string>
-	<string name="TAG_FAB_MENU" translatable="false">FAB MENU</string>
-	<string name="TAG_FAB_MENU_OPEN" translatable="false">OPEN</string>
-	<string name="TAG_FAB_MENU_CLOSE" translatable="false">CLOSE</string>
-	<string name="TAG_OVERLAY_DETAILS" translatable="false">OVERLAY-DETAILS</string>
-	<string name="TAG_OVERLAY_DETAILS_RESULT" translatable="false">CLICKED</string>
-	<string name="HOME_PARENT">Navegar hacia arriba</string>
+    <string name="TAG_INTENT_SHARE_DIALOG" translatable="false">FB_DIALOG</string>
+    <string name="TAG_INTENT_SHARE_DIALOG_MESSAGE" translatable="false">DIALOG MOSTRADO</string>
+    <string name="TAG_INTENT_SHARE_WSP" translatable="false">WHATSAPP SHARE INTENT</string>
+    <string name="TAG_INTENT_SHARE_GM" translatable="false">GMAIL SHARE INTENT</string>
+    <string name="TAG_INTENT_SHARE_BITMAP" translatable="false">BITMAPS</string>
+    <string name="TAG_INTENT_SHARE_BITMAP_MESSAGE" translatable="false">BITMAPS CARGADOS</string>
+    <string name="TAG_INTENT_SHARE_BITMAP_MESSAGE_FAIL" translatable="false">BITMAPS FAIL</string>
+    <string name="TAG_FAB_MENU" translatable="false">FAB MENU</string>
+    <string name="TAG_FAB_MENU_OPEN" translatable="false">OPEN</string>
+    <string name="TAG_FAB_MENU_CLOSE" translatable="false">CLOSE</string>
+    <string name="TAG_OVERLAY_DETAILS" translatable="false">OVERLAY-DETAILS</string>
+    <string name="TAG_OVERLAY_DETAILS_RESULT" translatable="false">CLICKED</string>
+    <string name="HOME_PARENT">Navegar hacia arriba</string>
 
-	<!-- MAPA -->
-	<string name="TAG_MAP_FRAGMENT" translatable="false">MAP FRAGMENT</string>
-	<string name="TAG_INFO_WINDOWS_RESPONSE" translatable="false">INFO WINDOWS OPEN</string>
-	<string name="TAG_MAP_READY_RESPONSE" translatable="false">MAP READY</string>
-	<string name="TAG_INTENT_INFO_WINDOWS" translatable="false">Intent de infowindows a detalle de
+    <!-- MAPA -->
+    <string name="TAG_MAP_FRAGMENT" translatable="false">MAP FRAGMENT</string>
+    <string name="TAG_INFO_WINDOWS_RESPONSE" translatable="false">INFO WINDOWS OPEN</string>
+    <string name="TAG_MAP_READY_RESPONSE" translatable="false">MAP READY</string>
+    <string name="TAG_INTENT_INFO_WINDOWS" translatable="false">Intent de infowindows a detalle de
 		sismo
 	</string>
 
-	<!-- NightMode -->
-	<string name="NIGHT_MODE_MANUAL_KEY" translatable="false">pref_manual_night_mode</string>
-	<string name="NIGHT_MODE_AUTO_KEY" translatable="false">pref_auto_night_mode</string>
-	<string name="TAG_NIGHT_MODE_MANUAL" translatable="false">NIGHT MODE MANUAL</string>
-	<string name="TAG_NIGHT_MODE_STATUS_ON" translatable="false">ON</string>
-	<string name="TAG_NIGHT_MODE_STATUS_OFF" translatable="false">OFF</string>
-	<string name="TAG_NIGHT_MODE_AUTO" translatable="false">NIGHT MODE AUTO</string>
-	<string name="TAG_NIGHT_MODE" translatable="false">NIGHT MODE</string>
-	<string name="NIGHT_MODE_AUTO_KEY_TOAST_ON">Automático activado</string>
-	<string name="NIGHT_MODE_MANUAL_KEY_TOAST_ON">Manual activado</string>
-	<string name="NIGHT_MODE_MANUAL_KEY_TOAST_OFF">Manual desactivado</string>
-	<string name="NIGHT_MODE_AUTO_KEY_TOAST_OFF">Automático desactivado</string>
-	<string name="night_mode_pref_summary">Evita tu cansancio ocular</string>
-	<string name="night_mode_pref_title">Modo noche</string>
-	<string name="night_mode_manual_pref_title_switch">Manual</string>
-	<string name="night_mode_manual_pref_summary_on">Activado</string>
-	<string name="night_mode_manual_pref_summary_off">Desactivado</string>
-	<string name="night_mode_auto_pref_title_switch">Automático</string>
-	<string name="night_mode_auto_pref_summary_on">Activado (10pm-6am)</string>
-	<string name="night_mode_auto_pref_summary_off">Desactivado</string>
+    <!-- NightMode -->
+    <string name="NIGHT_MODE_MANUAL_KEY" translatable="false">pref_manual_night_mode</string>
+    <string name="NIGHT_MODE_AUTO_KEY" translatable="false">pref_auto_night_mode</string>
+    <string name="TAG_NIGHT_MODE_MANUAL" translatable="false">NIGHT MODE MANUAL</string>
+    <string name="TAG_NIGHT_MODE_STATUS_ON" translatable="false">ON</string>
+    <string name="TAG_NIGHT_MODE_STATUS_OFF" translatable="false">OFF</string>
+    <string name="TAG_NIGHT_MODE_AUTO" translatable="false">NIGHT MODE AUTO</string>
+    <string name="TAG_NIGHT_MODE" translatable="false">NIGHT MODE</string>
+    <string name="NIGHT_MODE_AUTO_KEY_TOAST_ON">Automático activado</string>
+    <string name="NIGHT_MODE_MANUAL_KEY_TOAST_ON">Manual activado</string>
+    <string name="NIGHT_MODE_MANUAL_KEY_TOAST_OFF">Manual desactivado</string>
+    <string name="NIGHT_MODE_AUTO_KEY_TOAST_OFF">Automático desactivado</string>
+    <string name="night_mode_pref_summary">Evita tu cansancio ocular</string>
+    <string name="night_mode_pref_title">Modo noche</string>
+    <string name="night_mode_manual_pref_title_switch">Manual</string>
+    <string name="night_mode_manual_pref_summary_on">Activado</string>
+    <string name="night_mode_manual_pref_summary_off">Desactivado</string>
+    <string name="night_mode_auto_pref_title_switch">Automático</string>
+    <string name="night_mode_auto_pref_summary_on">Activado (10pm-6am)</string>
+    <string name="night_mode_auto_pref_summary_off">Desactivado</string>
 
+    <!-- CHANGE DIALOGS TAGS-->
+    <string name="TAG_CHANGE_LOG_DIALOG" translatable="false">CHANGE_LOG_DIALOG</string>
+    <string name="TAG_CHANGE_LOG_DIALOG_BTN_ENTENDIDO" translatable="false">BOTON ENTENDIDO PRESIONADO</string>
+
+    <!-- REWARD DIALOG TAGS -->
+    <string name="TAG_REWARD_DIALOG" translatable="false">REWARD_DIALOG_STATUS</string>
+    <string name="TAG_REWARD_DIALOG_BTN_VER_VIDEO" translatable="false">BOTON VER VIDEO PRESIONADO</string>
+    <string name="TAG_REWARD_DIALOG_BTN_CANCEL" translatable="false">BOTON CANCEL PRESIONADO</string>
+    <string name="TAG_VIDEO_REWARD_STATUS" translatable="false">VIDEO_REWARD_STATUS</string>
+    <string name="TAG_VIDEO_REWARD_STATUS_LOADED" translatable="false">LOADED</string>
+    <string name="TAG_VIDEO_REWARD_STATUS_REWARDED" translatable="false">REWARDED</string>
+    <string name="TAG_VIDEO_REWARD_STATUS_COMPLETED" translatable="false">COMPLETED</string>
+    <string name="TAG_POST_REWARD_HORA_AHORA" translatable="false">POST_REWARD_HORA_AHORA</string>
+    <string name="TAG_POST_REWARD_HORA_REWARD" translatable="false">POST_REWARD_HORA_REWARD</string>
+    <string name="TAG_REWARD_STATUS" translatable="false">REWARD_STATUS</string>
+    <string name="TAG_REWARD_STATUS_EN_PERIODO" translatable="false">EN PERIODO REWARD</string>
+    <string name="TAG_REWARD_STATUS_PERIODO_INACTIVO" translatable="false">PERIODO REWARD INACTIVO</string>
+    <string name="TAG_RANDOM_SHOW_REWARD_DIALOG" translatable="false">RANDOM_SHOW</string>
+    <string name="TAG_RANDOM_SHOW_REWARD_DIALOG_ON" translatable="false">MOSTRAR DIALOG REWARD</string>
+    <string name="TAG_RANDOM_SHOW_REWARD_DIALOG_OFF" translatable="false">NO MOSTRAR DIALOG REWARD</string>
+    <string name="TAG_FRAGMENT_REWARD_DATE" translatable="false">FRAGMENT_REWARD_DATE</string>
+    <string name="TAG_FRAGMENT_LIST" translatable="false">FRAGMENT_LIST</string>
+    <string name="TAG_ADS_LOADED" translatable="false">ADS CARGADOS</string>
+    <string name="TG_ADS_NOT_LOADED" translatable="false">ADS NO PERMITIDOS</string>
+    <string name="TAG_ADMOB_AD_STATUS" translatable="false">ADMOB_AD</string>
+    <string name="TAG_ADMOB_AD_STATUS_FAILED" translatable="false">FAILED TO LOAD</string>
+    <string name="TAG_ADMOB_AD_STATUS_LOADED" translatable="false">ADD LOADED</string>
+    <string name="TAG_ADMOB_AD_STATUS_OPEN" translatable="false">ADD OPEN</string>
 
 </resources>
