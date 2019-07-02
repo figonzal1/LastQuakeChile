@@ -72,7 +72,7 @@ public class FragmentQuakesTest {
 		mContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
 		SharedPreferences sharedPreferences =
-				testRule.getActivity().getPreferences(Context.MODE_PRIVATE);
+				testRule.getActivity().getSharedPreferences(mContext.getString(R.string.MAIN_SHARED_PREF_KEY), Context.MODE_PRIVATE);
 
 		SharedPreferences.Editor editor = sharedPreferences.edit();
 		editor.putBoolean(mContext.getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO), true);
