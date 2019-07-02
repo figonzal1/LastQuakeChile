@@ -27,7 +27,6 @@
     <string name="FIREBASE_CHANNEL_DESCRIPTION">Recibe alertas de sismos sobre 5 grados</string>
     <string name="last_quakes_info_card_view_tittle">Últimos sismos</string>
     <string name="last_quakes_info_card_view_button">Entendido</string>
-    <string name="last_quakes_info_card_view_description">En este listado se muestran los últimos 15 sismos ocurridos en Chile</string>
     <string name="VIEWMODEL_TIMEOUT_ERROR">Timeout</string>
     <string name="VIEWMODEL_NOCONNECTION_ERROR">No tienes conexión a Internet</string>
     <string name="VIEWMODEL_SERVER_ERROR">Servidor no responde, intente más tarde</string>
@@ -80,4 +79,8 @@
     <string name="tab_map">Mapa</string>
     <string name="tab_list">Lista</string>
 	<string name="HOME_PARENT">Navegar hacia arriba</string>
+    <string name="LIST_QUAKE_NUMBER_SUMMARY">Últimos %1$s sismos</string>
+    <string name="quake_list_number_pref_title">Datos sismos</string>
+    <string name="quake_list_number_pref_summary">Número de sismos que quieres ver en lista</string>
+    <string name="last_quakes_info_card_view_description">En este listado se muestran los últimos 15 sismos ocurridos en Chile, puedes modificar la cantidad en la sección &#8942; -> Configuración</string>
 </resources>

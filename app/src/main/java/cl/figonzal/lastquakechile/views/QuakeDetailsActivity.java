@@ -180,7 +180,8 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
             @Override
             public void onClick(View v) {
 
-                Log.d("FAB SHARE", "CLICKED");
+                Log.d(getString(R.string.TAG_FAB_SHARE_STATUS),
+                        getString(R.string.TAG_FAB_SHARE_STATUS_CLICKED));
 
                 if (!mIsFabOpen) {
                     showFabMenu();

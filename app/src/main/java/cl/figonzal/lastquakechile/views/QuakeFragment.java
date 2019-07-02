@@ -84,18 +84,21 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         //Cargar ads de fragmento
         mAdView = mView.findViewById(R.id.adView);
 
-        sharedPreferences = Objects.requireNonNull(getActivity()).getPreferences(Context.MODE_PRIVATE);
-        Date reward_date = new Date(sharedPreferences.getLong("end_reward_time", 0));
-        Log.e("FRAGMENT_REWARD_DATE", reward_date.toString());
+		sharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(
+				"lastquakechile", Context.MODE_PRIVATE);
+		Date reward_date =
+				new Date(sharedPreferences.getLong(getString(R.string.SHARED_PREF_END_REWARD_TIME)
+						, 0));
+		Log.d(getString(R.string.TAG_FRAGMENT_REWARD_DATE), reward_date.toString());
         Date now_date = new Date();
 
 
         //si las 24 horas ya pasaron, cargar los ads nuevamente
         if (now_date.after(reward_date)) {
             loadAds();
-            Log.d("FRAGMENT_LIST", "ADS CARGADOS");
+			Log.d(getString(R.string.TAG_FRAGMENT_LIST), getString(R.string.TAG_ADS_LOADED));
         } else {
-            Log.d("FRAGMENT_LIST", "ADS NO PERMITIDOS");
+			Log.d(getString(R.string.TAG_FRAGMENT_LIST), getString(R.string.TG_ADS_NOT_LOADED));
         }
 
 		//Setear el recycle view
@@ -133,21 +136,24 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
             @Override
             public void onAdFailedToLoad(int i) {
-                Log.d("ADMOB_AD", "FAILED TO LOAD");
+				Log.d(getString(R.string.TAG_ADMOB_AD_STATUS),
+						getString(R.string.TAG_ADMOB_AD_STATUS_FAILED));
                 mAdView.setVisibility(View.GONE);
                 super.onAdFailedToLoad(i);
             }
 
             @Override
             public void onAdLoaded() {
-                Log.d("ADMOB_AD", "ADD LOADED");
+				Log.d(getString(R.string.TAG_ADMOB_AD_STATUS),
+						getString(R.string.TAG_ADMOB_AD_STATUS_LOADED));
                 mAdView.setVisibility(View.VISIBLE);
                 super.onAdLoaded();
             }
 
             @Override
             public void onAdOpened() {
-                Log.d("ADMOB_AD", "ADD OPEN");
+				Log.d(getString(R.string.TAG_ADMOB_AD_STATUS),
+						getString(R.string.TAG_ADMOB_AD_STATUS_OPEN));
                 super.onAdOpened();
             }
         });
@@ -216,7 +222,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
 		mCardViewInfo = v.findViewById(R.id.card_view_info);
 		final SharedPreferences sharedPreferences =
-				Objects.requireNonNull(getActivity()).getPreferences(Context.MODE_PRIVATE);
+				Objects.requireNonNull(getActivity()).getSharedPreferences(getActivity().getString(R.string.MAIN_SHARED_PREF_KEY), Context.MODE_PRIVATE);
 		/*String mCvVisto =
 				sharedPreferences.getString(getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO)
 						, null);*/
@@ -392,7 +398,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 		menu.clear();
 		inflater.inflate(R.menu.toolbar_menu, menu);
 
-		MenuItem mSearchItem = menu.findItem(R.id.search);
+		MenuItem mSearchItem = menu.findItem(R.id.search_menu);
 
 		SearchView mSearchView = (SearchView) mSearchItem.getActionView();
 		mSearchView.setOnQueryTextListener(this);
@@ -406,7 +412,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 					public boolean onMenuItemActionExpand(MenuItem item) {
 
 						//Se oculta boton refresh
-						menu.findItem(R.id.refresh).setVisible(false);
+						menu.findItem(R.id.refresh_menu).setVisible(false);
 						return true;
 					}
 
@@ -415,7 +421,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
 						mViewModel.refreshMutableQuakeList();
 						//Se vuelve a mostrar boton refresh
-						menu.findItem(R.id.refresh).setVisible(true);
+						menu.findItem(R.id.refresh_menu).setVisible(true);
 						return true;
 					}
 				};
@@ -431,12 +437,12 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
 		switch (item.getItemId()) {
 
-			case R.id.settings:
+			case R.id.settings_menu:
 				intent = new Intent(getActivity(), SettingsActivity.class);
 				startActivity(intent);
 				return true;
 
-			case R.id.refresh:
+			case R.id.refresh_menu:
 
 				//Se refresca el listado de sismos
 				mViewModel.refreshMutableQuakeList();
@@ -450,7 +456,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
 				return true;
 
-			case R.id.contact:
+			case R.id.contact_menu:
 
 				//Intent de contacto
 				intent = new Intent(getActivity(), ContactActivity.class);
@@ -459,7 +465,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 				return true;
 
 
-			case R.id.invite:
+			case R.id.invite_menu:
 
 				//Intent de invitacion
 				onInviteClicked();
