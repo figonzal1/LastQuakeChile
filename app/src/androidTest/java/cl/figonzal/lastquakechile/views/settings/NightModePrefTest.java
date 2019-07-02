@@ -78,7 +78,7 @@ public class NightModePrefTest {
 								childAtPosition(
 										withId(android.R.id.list_container),
 										0)),
-						4),
+						6),
 						isDisplayed()));
 
 		try {
@@ -116,7 +116,7 @@ public class NightModePrefTest {
 								childAtPosition(
 										withId(android.R.id.list_container),
 										0)),
-						3),
+						5),
 						isDisplayed()));
 
 		try {
@@ -154,7 +154,7 @@ public class NightModePrefTest {
 								childAtPosition(
 										withId(android.R.id.list_container),
 										0)),
-						3),
+						5),
 						isDisplayed()));
 
 		try {
@@ -192,7 +192,7 @@ public class NightModePrefTest {
 								childAtPosition(
 										withId(android.R.id.list_container),
 										0)),
-						4),
+						6),
 						isDisplayed()));
 
 		try {
