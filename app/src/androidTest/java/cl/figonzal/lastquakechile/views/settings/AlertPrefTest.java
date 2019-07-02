@@ -82,7 +82,7 @@ public class AlertPrefTest {
 								childAtPosition(
 										withId(android.R.id.list_container),
 										0)),
-						1),
+						3),
 						isDisplayed()));
 
 		try {
@@ -122,7 +122,7 @@ public class AlertPrefTest {
 								childAtPosition(
 										withId(android.R.id.list_container),
 										0)),
-						1),
+						3),
 						isDisplayed()));
 
 		try {

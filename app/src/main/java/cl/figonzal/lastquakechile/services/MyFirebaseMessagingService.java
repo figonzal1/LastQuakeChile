@@ -76,7 +76,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      *
      * @param activity Necesario para el uso de recursos de string
      */
-    public static void checkSuscription(final Activity activity) {
+    public static boolean checkSuscription(final Activity activity) {
 
         final SharedPreferences sharedPreferences =
                 PreferenceManager.getDefaultSharedPreferences(activity);
@@ -103,6 +103,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                             }
                         }
                     });
+
+            return true;
 
         } else {
             //Eliminacion de la suscripcion
@@ -135,6 +137,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                     activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION_ALREADY));
                         }
                     });
+
+            return false;
 
         }
     }

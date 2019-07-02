@@ -102,10 +102,6 @@ public class SettingsActivity extends AppCompatActivity {
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
                                               String key) {
 
-            //Numero de listado de sismos falla si no se usa shared pref con la key principal
-            // (MAIN_SHARED_PREF_KEY)
-            sharedPreferences =
-                    activity.getSharedPreferences(activity.getString(R.string.MAIN_SHARED_PREF_KEY), Context.MODE_PRIVATE);
             /*
              * Preferencia Modo Noche
              * MANUAL
@@ -192,11 +188,11 @@ public class SettingsActivity extends AppCompatActivity {
              * Preferencias de alertas
              */
             if (key.equals(activity.getString(R.string.FIREBASE_PREF_KEY))) {
-                MyFirebaseMessagingService.checkSuscription(activity);
+
+                boolean mSuscrito = MyFirebaseMessagingService.checkSuscription(activity);
 
                 //Si el switch esta ON, lanzar toast con SUSCRITO
-                if (sharedPreferences.getBoolean(activity.getString(R.string.FIREBASE_PREF_KEY),
-                        true)) {
+                if (mSuscrito) {
                     Toast.makeText(getContext(),
                             activity.getString(R.string.FIREBASE_PREF_KEY_TOAST_ALERTAS_ON),
                             Toast.LENGTH_LONG).show();
@@ -218,7 +214,9 @@ public class SettingsActivity extends AppCompatActivity {
 
                 seekBarPreference.setSummary(String.format(activity.getString(R.string.LIST_QUAKE_NUMBER_SUMMARY), String.valueOf(seekBarPreference.getValue())));
 
-                SharedPreferences.Editor editor = sharedPreferences.edit();
+                SharedPreferences sharedPrefListQuakes =
+                        activity.getSharedPreferences(activity.getString(R.string.MAIN_SHARED_PREF_KEY), Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPrefListQuakes.edit();
                 editor.putInt(activity.getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER),
                         seekBarPreference.getValue());
                 editor.apply();
