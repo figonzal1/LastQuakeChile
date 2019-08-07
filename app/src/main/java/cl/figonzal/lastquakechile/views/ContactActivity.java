@@ -36,9 +36,13 @@ public class ContactActivity extends AppCompatActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		QuakeUtils.checkNightMode(this);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_contact);
+
+		/*
+		 * Checkear MODO NOCHE
+		 */
+		QuakeUtils.checkNightMode(this, getWindow());
 
 		//Sete de toolbar
 		Toolbar mToolbar = findViewById(R.id.tool_bar_contact);

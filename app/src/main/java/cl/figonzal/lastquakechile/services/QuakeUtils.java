@@ -9,6 +9,7 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.util.Log;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -435,8 +436,9 @@ public class QuakeUtils {
 	 * Funcion que permite revisar y establecer el modo noche desde Shared Preference Settings
 	 *
 	 * @param activity Actividad para utilizar recursos
+     * @param window
 	 */
-	public static void checkNightMode(Activity activity) {
+    public static void checkNightMode(Activity activity, Window window) {
 
 		//Leer preference settings
 		SharedPreferences sharedPreferences =
@@ -454,6 +456,7 @@ public class QuakeUtils {
 		if (manual_night_mode) {
 			AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 			activity.setTheme(R.style.DarkAppTheme);
+            window.setStatusBarColor(activity.getColor(R.color.colorPrimaryDarknightMode));
 
 			Log.d(activity.getString(R.string.TAG_NIGHT_MODE_MANUAL),
 					activity.getString(R.string.TAG_NIGHT_MODE_STATUS_ON));
@@ -474,8 +477,10 @@ public class QuakeUtils {
 			//Detecta modo noche automatico como YES
 			if (modeNightType == Configuration.UI_MODE_NIGHT_YES) {
 				activity.setTheme(R.style.DarkAppTheme);
+                window.setStatusBarColor(activity.getColor(R.color.colorPrimaryDarknightMode));
 			} else if (modeNightType == Configuration.UI_MODE_NIGHT_NO) {
 				activity.setTheme(R.style.AppTheme);
+                window.setStatusBarColor(activity.getColor(R.color.colorPrimaryDark));
 			}
 
 			Log.d(activity.getString(R.string.TAG_NIGHT_MODE_AUTO),
@@ -490,6 +495,7 @@ public class QuakeUtils {
 		else {
 			AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 			activity.setTheme(R.style.AppTheme);
+            window.setStatusBarColor(activity.getColor(R.color.colorPrimaryDark));
 
 			Log.d(activity.getString(R.string.TAG_NIGHT_MODE),
 					activity.getString(R.string.TAG_NIGHT_MODE_STATUS_OFF));
