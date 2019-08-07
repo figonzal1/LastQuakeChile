@@ -90,9 +90,13 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        QuakeUtils.checkNightMode(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quake_details);
+
+        /*
+         * Checkear MODO NOCHE
+         */
+        QuakeUtils.checkNightMode(this, getWindow());
 
         mMapViewBundle = null;
         if (savedInstanceState != null) {
