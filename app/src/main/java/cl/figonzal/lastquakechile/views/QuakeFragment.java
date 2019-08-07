@@ -82,7 +82,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 		final View mView = inflater.inflate(R.layout.fragment_quake, container, false);
 
         //Cargar ads de fragmento
-        mAdView = mView.findViewById(R.id.adView);
+		//mAdView = mView.findViewById(R.id.adView);
 
 		sharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(
 				"lastquakechile", Context.MODE_PRIVATE);
@@ -95,7 +95,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
         //si las 24 horas ya pasaron, cargar los ads nuevamente
         if (now_date.after(reward_date)) {
-            loadAds();
+			//loadAds();
 			Log.d(getString(R.string.TAG_FRAGMENT_LIST), getString(R.string.TAG_ADS_LOADED));
         } else {
 			Log.d(getString(R.string.TAG_FRAGMENT_LIST), getString(R.string.TG_ADS_NOT_LOADED));
@@ -357,13 +357,13 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 	public void onResume() {
 		//refrescar listado despues de un on resume
 		//mViewModel.refreshMutableQuakeList();
-        mAdView.resume();
+		//mAdView.resume();
 		super.onResume();
 	}
 
     @Override
     public void onPause() {
-        mAdView.pause();
+		//mAdView.pause();
         super.onPause();
     }
 

@@ -68,14 +68,14 @@ public class MainActivity extends AppCompatActivity {
          */
         PreferenceManager.setDefaultValues(this, R.xml.root_preferences, false);
 
-        /*
-         * Checkear MODO NOCHE
-         */
-        QuakeUtils.checkNightMode(this);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /*
+         * Checkear MODO NOCHE
+         */
+        QuakeUtils.checkNightMode(this, getWindow());
         /*
          * Checkear logica de first run con actividad de welcome
          */
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
         /*
          * Iniciar Ads
          */
-        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
+        //MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
 
         /*
          * Setear toolbars, viewpagers y tabs

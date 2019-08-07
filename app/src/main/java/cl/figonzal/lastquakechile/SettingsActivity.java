@@ -25,9 +25,14 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        QuakeUtils.checkNightMode(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
+
+        /*
+         * Checkear MODO NOCHE
+         */
+        QuakeUtils.checkNightMode(this, getWindow());
+        
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.settings_menu, new SettingsFragment())
@@ -44,7 +49,10 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        QuakeUtils.checkNightMode(this);
+        /*
+         * Checkear MODO NOCHE
+         */
+        QuakeUtils.checkNightMode(this, getWindow());
     }
 
     @Override
