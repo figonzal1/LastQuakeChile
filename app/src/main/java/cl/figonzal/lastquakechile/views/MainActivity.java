@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
         /*
          * Iniciar Ads
          */
-        //MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
+        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
 
         /*
          * Setear toolbars, viewpagers y tabs
