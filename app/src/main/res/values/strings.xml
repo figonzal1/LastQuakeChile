@@ -330,6 +330,9 @@
     <string name="night_mode_auto_pref_title_switch">Automático</string>
     <string name="night_mode_auto_pref_summary_on">Activado (10pm-6am)</string>
     <string name="night_mode_auto_pref_summary_off">Desactivado</string>
+    <string name="tag_adview_night_mode" translatable="false">ADVIEW - NIGHT MODE</string>
+    <string name="tag_adview_night_mode_response" translatable="false">Instanciacion manual adview modo noche</string>
+    <string name="tag_adview_night_mode_response_error" translatable="false">Error intentando instanciar manualmente adview modo noche</string>
 
     <!-- CHANGE DIALOGS TAGS-->
     <string name="TAG_CHANGE_LOG_DIALOG" translatable="false">CHANGE_LOG_DIALOG</string>
