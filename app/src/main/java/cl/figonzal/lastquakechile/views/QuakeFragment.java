@@ -240,8 +240,6 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 			public void onClick(View v) {
 
 				SharedPreferences.Editor editor = sharedPreferences.edit();
-				//editor.putString(getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO),
-				//		getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO_RESULT));
 				editor.putBoolean(getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO), false);
 				editor.apply();
 
