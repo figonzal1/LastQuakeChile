@@ -459,7 +459,7 @@ public class QuakeUtils {
             activity.setTheme(R.style.DarkAppTheme);
             window.setStatusBarColor(activity.getColor(R.color.colorPrimaryDarknightMode));
 
-            fixAdBiewNightMode(activity);
+            fixAdViewNightMode(activity);
 
             Log.d(activity.getString(R.string.TAG_NIGHT_MODE_MANUAL),
                     activity.getString(R.string.TAG_NIGHT_MODE_STATUS_ON));
@@ -483,7 +483,7 @@ public class QuakeUtils {
                 window.setStatusBarColor(activity.getColor(R.color.colorPrimaryDarknightMode));
 
                 //Corregir bug de adview en modo noche
-                fixAdBiewNightMode(activity);
+                fixAdViewNightMode(activity);
 
             } else if (modeNightType == Configuration.UI_MODE_NIGHT_NO) {
                 activity.setTheme(R.style.AppTheme);
@@ -517,7 +517,7 @@ public class QuakeUtils {
      *
      * @param activity Actividad desde donde proviene el adview
      */
-    private static void fixAdBiewNightMode(Activity activity) {
+    private static void fixAdViewNightMode(Activity activity) {
         Log.d(activity.getString(R.string.tag_adview_night_mode),
                 activity.getString(R.string.tag_adview_night_mode_response));
         try {
