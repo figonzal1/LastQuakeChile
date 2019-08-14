@@ -37,14 +37,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.lastquakechilesign
         }
-        travis {
-            debuggable = true
-            minifyEnabled true
-            shrinkResources true
-            useProguard true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.lastquakechilesign
-        }
         /*debug {
             debuggable true
             minifyEnabled false
