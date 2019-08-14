@@ -1,7 +1,7 @@
 # LastQuakeChile 
-| Master | TestBranch |
+| MasterBranch | DevBranch |
 |--------|------------|
-|[![Build Status](https://travis-ci.com/figonzal1/LastQuakeChile.svg?branch=master)](https://travis-ci.com/figonzal1/LastQuakeChile)|[![Build Status](https://travis-ci.com/figonzal1/LastQuakeChile.svg?branch=travis-test)](https://travis-ci.com/figonzal1/LastQuakeChile)|
+|[![Build Status](https://travis-ci.com/figonzal1/LastQuakeChile.svg?branch=master)](https://travis-ci.com/figonzal1/LastQuakeChile)|[![Build Status](https://travis-ci.com/figonzal1/LastQuakeChile.svg?branch=development)](https://travis-ci.com/figonzal1/LastQuakeChile)|
 
 Este es el repositorio de la aplicación **LastQuakeChile - Sismos en Chile**
 
