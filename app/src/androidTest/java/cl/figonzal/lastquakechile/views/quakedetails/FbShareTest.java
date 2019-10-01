@@ -73,7 +73,7 @@ public class FbShareTest {
 
 		check_and_click_share();
 
-		check_and_click_fb();
+		//check_and_click_fb();
 	}
 
 	private void click_first_item() {
@@ -129,6 +129,7 @@ public class FbShareTest {
 		}
 	}
 
+	/*
 	private void check_and_click_fb() {
 		//Buscar boton
 		ViewInteraction buttonFB = onView(withId(R.id.fab_fb));
@@ -153,5 +154,6 @@ public class FbShareTest {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}*/
-	}
+	/*}
+	 */
 }
