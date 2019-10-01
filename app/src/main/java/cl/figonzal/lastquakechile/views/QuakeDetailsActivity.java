@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,10 +23,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.crashlytics.android.Crashlytics;
 import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.share.Sharer;
-import com.facebook.share.model.ShareHashtag;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
@@ -136,7 +131,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
 
         //SETEO DE FLOATING BUTTONS
         mFabShare = findViewById(R.id.fab_share);
-        mFabFB = findViewById(R.id.fab_fb);
+	    //mFabFB = findViewById(R.id.fab_fb);
         mFabWSP = findViewById(R.id.fab_wsp);
         mFabGM = findViewById(R.id.fab_gmail);
 
@@ -211,9 +206,9 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
             }
         });
 
-
+	    //TODO: POSIBLEMENTE ELIMINAR FB DE LA APP
         //Boton compartir facebook
-        mFabFB.setOnClickListener(new View.OnClickListener() {
+        /*mFabFB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent mIntent =
@@ -297,7 +292,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
                     }
                 }
             }
-        });
+        });*/
 
         mFabWSP.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -492,33 +487,33 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
     private void showFabMenu() {
         mIsFabOpen = true;
 
-        mFabFB.show();
+	    //mFabFB.show();
         mFabWSP.show();
         mFabGM.show();
 
-        mFabTextFB = findViewById(R.id.fab_text_fb);
+	    //mFabTextFB = findViewById(R.id.fab_text_fb);
         mFabTextWSP = findViewById(R.id.fab_text_wsp);
         mFabTextGM = findViewById(R.id.fab_text_gm);
 
         //Seteado de text en alpha 0 y visible
-        mFabTextFB.setAlpha(0f);
-        mFabTextFB.setVisibility(View.VISIBLE);
+	    //mFabTextFB.setAlpha(0f);
+	    //mFabTextFB.setVisibility(View.VISIBLE);
         mFabTextWSP.setAlpha(0f);
         mFabTextWSP.setVisibility(View.VISIBLE);
         mFabTextGM.setAlpha(0f);
         mFabTextGM.setVisibility(View.VISIBLE);
 
         //trasnlaciones de fabs y textos
-        mFabFB.animate().translationY(-getResources().getDimension(R.dimen.standard_65));
+	    //mFabFB.animate().translationY(-getResources().getDimension(R.dimen.standard_65));
         mFabWSP.animate().translationY(-getResources().getDimension(R.dimen.standard_130));
         mFabGM.animate().translationY(-getResources().getDimension(R.dimen.standard_195));
-        mFabTextFB.animate().translationY(-getResources().getDimension(R.dimen.standard_65));
+	    //mFabTextFB.animate().translationY(-getResources().getDimension(R.dimen.standard_65));
         mFabTextWSP.animate().translationY(-getResources().getDimension(R.dimen.standard_130));
         mFabTextGM.animate().translationY(-getResources().getDimension(R.dimen.standard_195));
 
         //Animacion de alpha para textos
         mFabTextWSP.animate().alpha(1.0f).setDuration(500);
-        mFabTextFB.animate().alpha(1.0f).setDuration(500);
+	    //mFabTextFB.animate().alpha(1.0f).setDuration(500);
         mFabTextGM.animate().alpha(1.0f).setDuration(500);
 
         mOverlay.setAlpha(0f);
@@ -535,16 +530,16 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
      */
     private void closeFabMenu() {
         mIsFabOpen = false;
-        mFabFB.animate().translationY(0);
+	    //mFabFB.animate().translationY(0);
         mFabWSP.animate().translationY(0);
         mFabGM.animate().translationY(0);
 
         mFabGM.hide();
         mFabWSP.hide();
-        mFabFB.hide();
+	    //mFabFB.hide();
 
-        mFabTextFB.animate().translationY(0);
-        mFabTextFB.setVisibility(View.GONE);
+	    //mFabTextFB.animate().translationY(0);
+	    //mFabTextFB.setVisibility(View.GONE);
         mFabTextGM.animate().translationY(0);
         mFabTextGM.setVisibility(View.GONE);
         mFabTextWSP.animate().translationY(0);
@@ -552,7 +547,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
 
         //Animacion de alpha para textos
         mFabTextWSP.animate().alpha(0.0f).setDuration(500);
-        mFabTextFB.animate().alpha(0.0f).setDuration(500);
+	    //mFabTextFB.animate().alpha(0.0f).setDuration(500);
         mFabTextGM.animate().alpha(0.0f).setDuration(500);
 
         //Animacion CLOSE de mOverlay

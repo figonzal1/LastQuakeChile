@@ -69,18 +69,19 @@
         app:layout_constraintTop_toTopOf="@+id/fab_wsp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_fb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#3b5998"
-        android:contentDescription="@string/boton_flotante_facebook"
-        app:elevation="6dp"
-        app:fabSize="mini"
-        app:layout_constraintBottom_toBottomOf="@+id/fab_share"
-        app:layout_constraintEnd_toEndOf="@+id/fab_share"
-        app:layout_constraintStart_toStartOf="@+id/fab_share"
-        app:layout_constraintTop_toTopOf="@+id/fab_share"
-        app:srcCompat="@drawable/ic_fab_facebook" />
+            android:id="@+id/fab_fb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#3b5998"
+            android:contentDescription="@string/boton_flotante_facebook"
+            android:visibility="gone"
+            app:elevation="6dp"
+            app:fabSize="mini"
+            app:layout_constraintBottom_toBottomOf="@+id/fab_share"
+            app:layout_constraintEnd_toEndOf="@+id/fab_share"
+            app:layout_constraintStart_toStartOf="@+id/fab_share"
+            app:layout_constraintTop_toTopOf="@+id/fab_share"
+            app:srcCompat="@drawable/ic_fab_facebook" />
 
     <TextView
         android:id="@+id/fab_text_fb"
