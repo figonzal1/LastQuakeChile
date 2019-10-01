@@ -70,37 +70,6 @@
         app:layout_constraintTop_toTopOf="@+id/fab_wsp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_fb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#3b5998"
-            android:contentDescription="@string/boton_flotante_facebook"
-            android:visibility="gone"
-            app:elevation="6dp"
-            app:fabSize="mini"
-            app:layout_constraintBottom_toBottomOf="@+id/fab_share"
-            app:layout_constraintEnd_toEndOf="@+id/fab_share"
-            app:layout_constraintStart_toStartOf="@+id/fab_share"
-            app:layout_constraintTop_toTopOf="@+id/fab_share"
-            app:srcCompat="@drawable/ic_fab_facebook" />
-
-    <TextView
-        android:id="@+id/fab_text_fb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:elevation="6dp"
-        android:fontFamily="sans-serif"
-        android:text="@string/fab_facebook"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="#ffffff"
-        android:textStyle="bold"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/fab_fb"
-        app:layout_constraintEnd_toStartOf="@+id/fab_fb"
-        app:layout_constraintTop_toTopOf="@+id/fab_fb" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_share"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

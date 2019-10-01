@@ -505,11 +505,11 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
 
         //trasnlaciones de fabs y textos
 	    //mFabFB.animate().translationY(-getResources().getDimension(R.dimen.standard_65));
-        mFabWSP.animate().translationY(-getResources().getDimension(R.dimen.standard_130));
-        mFabGM.animate().translationY(-getResources().getDimension(R.dimen.standard_195));
+        mFabWSP.animate().translationY(-getResources().getDimension(R.dimen.standard_65));
+        mFabGM.animate().translationY(-getResources().getDimension(R.dimen.standard_130));
 	    //mFabTextFB.animate().translationY(-getResources().getDimension(R.dimen.standard_65));
-        mFabTextWSP.animate().translationY(-getResources().getDimension(R.dimen.standard_130));
-        mFabTextGM.animate().translationY(-getResources().getDimension(R.dimen.standard_195));
+        mFabTextWSP.animate().translationY(-getResources().getDimension(R.dimen.standard_65));
+        mFabTextGM.animate().translationY(-getResources().getDimension(R.dimen.standard_130));
 
         //Animacion de alpha para textos
         mFabTextWSP.animate().alpha(1.0f).setDuration(500);
