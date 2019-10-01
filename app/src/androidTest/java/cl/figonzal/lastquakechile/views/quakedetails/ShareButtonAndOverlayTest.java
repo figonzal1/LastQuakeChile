@@ -118,7 +118,7 @@ public class ShareButtonAndOverlayTest {
 								childAtPosition(
 										withId(android.R.id.content),
 										0),
-								7),
+								5),
 						isDisplayed()));
 		view.perform(click());
 
