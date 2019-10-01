@@ -27,9 +27,9 @@
             android:value="@string/google_api_key" />
 
         <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
-        <meta-data
+        <!--<meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713" />
+            android:value="ca-app-pub-3940256099942544~3347511713" />-->
 
         <!-- FIREBASE -->
         <!-- FCM disable auto init -->
@@ -55,14 +55,16 @@
         </service>
 
         <!-- FACEBOOK -->
-        <meta-data
+        <!--<meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
+            android:value="@string/facebook_app_id" />-->
 
-        <provider
+        <!--<provider
             android:name="com.facebook.FacebookContentProvider"
             android:authorities="com.facebook.app.FacebookContentProvider1263072277140754"
-            android:exported="true" /> <!-- Provider usado para buscar rutas de imagenes y pasarlas a Uri's -->
+            android:exported="true" />-->
+
+        <!-- Provider usado para buscar rutas de imagenes y pasarlas a Uri's -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="cl.figonzal.lastquakechile.fileprovider"
