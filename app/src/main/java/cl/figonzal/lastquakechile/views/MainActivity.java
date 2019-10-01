@@ -1,7 +1,6 @@
 package cl.figonzal.lastquakechile.views;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -29,11 +28,6 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.crashlytics.android.Crashlytics;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.reward.RewardItem;
-import com.google.android.gms.ads.reward.RewardedVideoAd;
-import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -42,7 +36,6 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import java.util.Date;
 import java.util.Objects;
 
 import cl.figonzal.lastquakechile.FragmentPageAdapter;
@@ -57,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarLayout mAppBarLayout;
     private ImageView mIvFoto;
-    private RewardedVideoAd rewardedVideoAd;
+    //private RewardedVideoAd rewardedVideoAd;
     private SharedPreferences sharedPreferences;
 
     @Override
@@ -104,7 +97,8 @@ public class MainActivity extends AppCompatActivity {
         /*
          * Iniciar Ads
          */
-        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
+        //TODO: Finalizar inclusion de publicidad
+        //MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
 
         /*
          * Setear toolbars, viewpagers y tabs
@@ -116,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
          */
         loadImage();
 
+        //TODO: Terminar dialogs y changedialog
         /*
          * Dialog's de changelog & rewards
          */
@@ -127,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Funcion que realiza la configuracion de reward dialog
      */
-    private void rewardDialog() {
+    /*private void rewardDialog() {
         sharedPreferences = getSharedPreferences(getString(R.string.MAIN_SHARED_PREF_KEY),
                 Context.MODE_PRIVATE);
         Date reward_date =
@@ -211,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
         else if (now_date.before(reward_date)) {
             Log.d(getString(R.string.TAG_REWARD_STATUS), getString(R.string.TAG_REWARD_STATUS_PERIODO_INACTIVO));
         }
-    }
+    }*/
 
     /**
      * Funcion encargada de realizar la iniciacion de los servicios de FIREBASE
@@ -315,14 +310,14 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Funcion encargada de cargar el video de bonificacion
      */
-    private void loadRewardedVideo() {
+    /*private void loadRewardedVideo() {
         rewardedVideoAd.loadAd("ca-app-pub-3940256099942544/5224354917", new AdRequest.Builder().build());
-    }
+    }*/
 
     /**
      * Funcion encargada de mostrar el dialog de rewards
      */
-    private void loadDialogReward() {
+    /*private void loadDialogReward() {
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.reward_dialog_layout);
         dialog.setCanceledOnTouchOutside(false);
@@ -350,7 +345,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(getString(R.string.TAG_REWARD_DIALOG), getString(R.string.TAG_REWARD_DIALOG_BTN_CANCEL));
             }
         });
-    }
+    }*/
 
     /**
      * Funcion que muestra el change log dialog

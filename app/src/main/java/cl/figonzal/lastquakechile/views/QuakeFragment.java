@@ -29,13 +29,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.crashlytics.android.Crashlytics;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.appinvite.AppInviteInvitation;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -55,7 +51,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 	private QuakeViewModel mViewModel;
 	private QuakeAdapter mAdapter;
 	private CardView mCardViewInfo;
-    private AdView mAdView;
+	//private AdView mAdView;
     private SharedPreferences sharedPreferences;
 
 	public QuakeFragment() {
@@ -82,11 +78,14 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 		final View mView = inflater.inflate(R.layout.fragment_quake, container, false);
 
         //Cargar ads de fragmento
-        mAdView = mView.findViewById(R.id.adView);
+		//TODO: Finalizar adview
+		//mAdView = mView.findViewById(R.id.adView);
 
 		sharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(
 				"lastquakechile", Context.MODE_PRIVATE);
-		Date reward_date =
+
+		//TODO: FINALIZAR PUBLICIDAD
+		/*Date reward_date =
 				new Date(sharedPreferences.getLong(getString(R.string.SHARED_PREF_END_REWARD_TIME)
 						, 0));
 		Log.d(getString(R.string.TAG_FRAGMENT_REWARD_DATE), reward_date.toString());
@@ -99,7 +98,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 			Log.d(getString(R.string.TAG_FRAGMENT_LIST), getString(R.string.TAG_ADS_LOADED));
         } else {
 			Log.d(getString(R.string.TAG_FRAGMENT_LIST), getString(R.string.TG_ADS_NOT_LOADED));
-        }
+        }*/
 
 		//Setear el recycle view
 		mRecycleView = mView.findViewById(R.id.recycle_view);
@@ -128,7 +127,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
     /**
      * Funcion encargada de cargar la publicidad presente en el listado
      */
-    private void loadAds() {
+    /*private void loadAds() {
 
         AdRequest adRequest = new AdRequest.Builder().build();
 
@@ -159,7 +158,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         });
 
         mAdView.loadAd(adRequest);
-    }
+    }*/
 
 	/**
 	 * Funcion que contiene los ViewModels encargados de cargar los datos asincronamente a la UI
@@ -342,13 +341,13 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
 	@Override
 	public void onResume() {
-        mAdView.resume();
+		//mAdView.resume();
 		super.onResume();
 	}
 
     @Override
     public void onPause() {
-        mAdView.pause();
+	    //mAdView.pause();
         super.onPause();
     }
 
