@@ -9,17 +9,17 @@ android:
   - extra-google-google_play_services  - extra-google-m2repository
   - extra-android-m2repository
 before_install:
-- openssl aes-256-cbc -K $encrypted_c9436dc7b87c_key -iv $encrypted_c9436dc7b87c_iv
-  -in secrets.tar.gz.enc -out secrets.tar.gz -d
-- tar xzvf secrets.tar.gz
-- mv key.jks app/
-- mv google-services.json app/
-- chmod +x gradlew
-- export TZ=America/Santiago
+  - openssl aes-256-cbc -K $encrypted_c9436dc7b87c_key -iv $encrypted_c9436dc7b87c_iv -in secrets.tar.gz.enc -out secrets.tar.gz -d
+  - tar xzvf secrets.tar.gz
+  - mv key.jks app/
+  - mv google-services.json app/
+  - chmod +x gradlew
+  - export TZ=America/Santiago
 script:
-- "./gradlew clean"
-- "./gradlew assemble"
-- "./gradlew test"
+  - "./gradlew clean"
+  - "./gradlew assemble"
+  - "./gradlew test"
 notifications:
   slack:
     secure: EQEIa1IFwiuP64ChOXC4e/w423wdqR9AEIMhkpUsfHGvibyclXSP/65g877JR7SPmOFtTVDPOVNb0BgdZKPPG7ATYMR63qaMT9+o74k8EgdBSGvgVS3C2LBDAfp5bkz4hYw2vOtHF7AnY+IsOJP6D9Me00A1I4aBEC96tdEJlJ2NuQ01nMyOLnkIDszvcAAnmJjjAk118caBrc1oE3mr6qJFNzGbv3taGN22c/6tGMX0EvFrQU0V0KI/2GrfPp73ed5o8zgwPXggWvX9W9uXoV5W8ynL5y0jJY6n1fecIcsCnIl+XSVYqr8+YzkjLNaxEmWY8aRNQQAkXSMq2SIfxNJOxl9TsEOgMplfXMcshgW5b6gaJJNxpcfQsPgB4W22TSkt4gCCEcio3fVDlZzAscR6M7IqHoU29/kn2zwhR7rk57L4kwOgK7fbtyBnSIAOk9NfH5WPCwLqpCzZyemNj2JLlFGwxEnZBYPHH/xYIcG9gAP7vc/fnkIi7JmfRd3CLrdyGIK2cWVEChBL8Pb2lTkvu17jrdthHnDuB1HDuaUE1kQMMrnodZHVD/+OlgP5SsonAxYx2HaOwXBXPXIuJhG4zP3GDsTZgyZPgrE5hAu579/+LUGSavYD9KrOomPT23r7KxFHxHTr9CUOgP/x+2lFYCjD0NHO4y/pr1fBi6M=
+
