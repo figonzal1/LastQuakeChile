@@ -1,4 +1,5 @@
-# LastQuakeChile 
+# LastQuakeChile <br/> [![CodeFactor](https://www.codefactor.io/repository/github/figonzal1/lastquakechile/badge)](https://www.codefactor.io/repository/github/figonzal1/lastquakechile) [![Known Vulnerabilities](https://snyk.io/test/github/figonzal1/LastQuakeChile/badge.svg)](https://snyk.io/test/github/figonzal1/LastQuakeChile)
+
 | MasterBranch | DevBranch |
 |--------|------------|
 |[![Build Status](https://travis-ci.com/figonzal1/LastQuakeChile.svg?branch=master)](https://travis-ci.com/figonzal1/LastQuakeChile)|[![Build Status](https://travis-ci.com/figonzal1/LastQuakeChile.svg?branch=development)](https://travis-ci.com/figonzal1/LastQuakeChile)|
@@ -12,7 +13,7 @@ Este es el repositorio de la aplicación **LastQuakeChile - Sismos en Chile**
 Por otro lado, cada vez que ocurra un sismo de gran intensidad (sobre 5.0°+), automáticamente el servicio de LastQuakeChile enviará una alerta a todos los dispositivos, podrás obtener todos los detalles del sismos simplemente presionando la notificación.
 
 # Capturas de pantalla
-<img src="https://drive.google.com/uc?export=download&id=1-2rNKCiUjz3r8tQTswxZ4IzhB1rb1FQs" width="216" height="384"> <img src="https://drive.google.com/uc?export=download&id=1-Iv0qPYSv91NVsZDASknDXg6gm75p6J6" width="216" height="384"> <img src="https://drive.google.com/uc?export=download&id=1-AK65GBU0VjOKz_uRG_78XrPoy9Si30z" width="216" height="384"> <img src="https://drive.google.com/uc?export=download&id=1Fsjxo1h9PNiUJX3VQ76W1wSES5FhP5vp" width="210" height="384"> <img src="https://drive.google.com/uc?export=download&id=1-L0jeS8QGpX1uTil5fNstAjMvc7lqvNA" width="216" height="384"> <img src="https://drive.google.com/uc?export=download&id=1-IKTQkbt7cvUsiSWryCEATwTKu2mOtIh" width="216" height="384">
+<img src="https://drive.google.com/uc?export=download&id=1-2rNKCiUjz3r8tQTswxZ4IzhB1rb1FQs" width="216" height="384"> <img src="https://drive.google.com/uc?export=download&id=1-Iv0qPYSv91NVsZDASknDXg6gm75p6J6" width="216" height="384"> <img src="https://drive.google.com/uc?export=download&id=1-AK65GBU0VjOKz_uRG_78XrPoy9Si30z" width="216" height="384"> <img src="https://drive.google.com/uc?export=download&id=1Fsjxo1h9PNiUJX3VQ76W1wSES5FhP5vp" width="210" height="384"> <img src="https://drive.google.com/uc?export=download&id=1-L0jeS8QGpX1uTil5fNstAjMvc7lqvNA" width="216" height="384"> <img src="https://drive.google.com/uc?export=download&id=1SzMSwoc5WMZ9-Y3INfX4KI4MK9YCjoXq" width="216" height="384">
 
 # Descárgala
 * Puedes descargarla en la sección [Release](https://github.com/figonzal1/LastQuakeChile/releases) haciendo click en `app.aab`
