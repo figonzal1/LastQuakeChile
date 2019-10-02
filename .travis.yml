@@ -9,20 +9,17 @@ android:
   - extra-google-google_play_services  - extra-google-m2repository
   - extra-android-m2repository
 before_install:
-  - openssl aes-256-cbc -K $encrypted_c9436dc7b87c_key -iv $encrypted_c9436dc7b87c_iv -in secrets.tar.gz.enc -out secrets.tar.gz -d
-  - tar xzvf secrets.tar.gz
-  - mv key.jks app/
-  - mv google-services.json app/
-  - chmod +x gradlew
-  - export TZ=America/Santiago
+- openssl aes-256-cbc -K $encrypted_c9436dc7b87c_key -iv $encrypted_c9436dc7b87c_iv
+  -in secrets.tar.gz.enc -out secrets.tar.gz -d
+- tar xzvf secrets.tar.gz
+- mv key.jks app/
+- mv google-services.json app/
+- chmod +x gradlew
+- export TZ=America/Santiago
 script:
-  - "./gradlew clean"
-  - "./gradlew assemble"
-  - "./gradlew test"
+- "./gradlew clean"
+- "./gradlew assemble"
+- "./gradlew test"
 notifications:
   slack:
-    rooms:
-      - secure: "Zu/f8pEH3oA2xVrrX9DT++UyEiU4GWwMKSuZEiyxoNZDrXNTu+0DqElVRPFszsQaDGLSVvQznw274e9sB9mQe3uB9pklrogi+/nG09JDeuq5EGPR2STYSURBJOlG8thw+M9gzniEi/NPdy39alGbcFjQ4uzxkGeG30yrsYf3CWn2+kEC44kBBzBYAZX43zcUUsaDQUlcHZouzjpmKmpBZoC45fyTEVC51uVrmZ+ZTY1EcZmETOcbYAhav1NttqUjF7kE+Y0rAW+ZMTmYsMiKaU1nN4zr0UxNbo5LxsXXNI59o0cEi2Nlf8IDC2xl74bllFw2iplEJnQlZ6+KcnLhdqYW6ct9IO/Enyj9zZz38URNxnIT1x6CjLI1SE/XeJo/d3b3f0B3XY9BgZvxkQcLZOXD6g776349XLMU3zuS3qbCOnljsE6AE/bwgYTR9oxNufx/S83wRUvSGWaOz9qUPP4sSfO/izxIp4Az3EZ7NkpFx+wt7uUEMxIb3X8UfhpdllKWVdYQ28bEVS4MJRPYF1I0vJFpI8cS4u4PqeC7gW85cFx8YK2Jti7iO1BGsEi+ZRpwC1cV+UmjAx8lTYbZ/BUWmYWgpEYRjjNSqdlNufXtnl9uJ4QSFkOMJyTrcJzj6K/J+GiG6cIw4bNM6cwVjAWM3XDy4tiqQ2UE3djH35U="
-    on_success: always
-    on_failure: always
-
+    secure: LhdbmXYjdnWdstQlC72B9BrgYH8HoWpMRYuB7DCvZ2tf25uQuCXtgGhUsQcODBrsFM45oKNF6g2HqBSN2wYeq14FvKWLFRDwgmHA/l3ci1pBkrrYd0dCNZZuvun1y4w0SMzOjTXB/3QMFKjqqHVQ0qn8aObcUNEEHXR5fjURc6SgFbzrnbOsgIODdl91W963aU+bDDaxHnucxZ0IzE/DnkV7/UZH9wX01+lDal3GZiE+VDZhYkEsmO34/CJR6UuTvvRh+YsYRU05TjetHIeGxDGcquWioLY/VumIMt46kCrEPmiFH0SlWxOrHXbWC2xvCHN1sCThGvyjxb4PKcdfsnZWEVOp8Yi/Hy7bw6aac+OdUZxSAoWabYvzdfQyLhW8lOfz6jaGG1FZhSa/iwqk8cFiToJhMJE6wiKkrGoNPx8U3VZ8r7VdAFPAx8mn5WaUuR6P0bFUmvaME7fDcc66ywOaJHOOM69vRb89wgEVh9JfaxL2+jcRMfxguAdoz2AUuayHqZ/itW/Iw5JujKDvK0Yu/TjLaTLKuat5Ywqvew6Den2FdLHgHldmW3SUuFurMo7z401chL+Gtn9+H1gtbkOoop59fxB0kYngCbZ8AhEbdfd1/RDhFZO55QC5VLDFZde+lJisM28RQg7dZ0VN2LE1ldWS7ZpZMpwS1MAKw88=
