@@ -19,3 +19,11 @@ script:
   - "./gradlew clean"
   - "./gradlew assemble"
   - "./gradlew test"
+
+#Notificaciones SLACK
+notifications:
+  slack:
+    rooms:
+      - secure: "IGD8itETeBM3N3x8EU/C+DrKyZPU/ehvMEMnTF0ZsupA62l8ABvpKltG/Pis6Kl9eH9iz28zL7FW7HRBniPFm8gSIbb0Vy5IisiKAOeU9IXfMWTeiIzWAe1Vn8KB/70H5bcl0VRY2+RiamCSFK6geBe8qx4Eo+ukarGMCM1SukYbju8wfGhB/FQ4E8hGsBSeKX02AsAYAO/Ea5DVK/IC26DPeNmhst5wpTP3LxyjwYZPw7ZycOs/DEVUAujULrRvgR6Vn8Ex2ITv6ZWuHPV7SqZT45ymfJIzqzzYYm5dpNQQHqja/w1H4MMYz2QBpt5yM9EdDj/bsH4BLwBFLsR0Z1RpKAL1aCrqOJskN9LYKE8fzbEIXzwXSuxnzWOv20ZGkOUkAa3G8YD4s9PfNwM0EeqH+Tuh4SftA/Z5g5ci+fpyEEP+2QrWxQl2FBD8+10GqPRP0gCqX115LPhqv4NgcSdcpWpk0KKeN4DSUOcidUA9gRhLnKAM8sKbwxNuDs5nq9iR1i62GcDUPDVHMApLYLAbEqExhDHMwG70cjCLoVrWrzObHbAzh8VQLJloejar8oG13Vq+Q4EKyUrQRMfx48aRILNC9WcGQqg1ZAyaFQJ67XDiEY5BB+Am75qA9++wi0ZJZUlUUP37Tg0b+conJV9zHEeH8f0rA4Ym3o66a5M="
+    on_success: always
+    on_failure: always
