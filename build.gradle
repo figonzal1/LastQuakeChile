@@ -20,10 +20,10 @@ buildscript {
 
         //FIREBASE CRASH ANALYTICS
         // Check for v3.1.2 or higher
-        classpath 'com.google.gms:google-services:4.2.0'
+        classpath 'com.google.gms:google-services:4.3.2'
 
         // Add dependency
-        classpath 'io.fabric.tools:gradle:1.27.0'
+        classpath 'io.fabric.tools:gradle:1.31.0'
 
         //Para performance
         classpath 'com.google.firebase:firebase-plugins:1.2.0'
