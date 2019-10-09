@@ -83,4 +83,6 @@
     <string name="quake_list_number_pref_title">Quake data</string>
     <string name="quake_list_number_pref_summary">Number of quakes you want to see</string>
     <string name="last_quakes_info_card_view_description">This list shows the last 15 earthquakes that occurred in Chile, you can modify the amount in the section &#8942; -> Settings</string>
+    <string name="change_log_title">Version</string>
+    <string name="change_log_subtitle">Release</string>
 </resources>

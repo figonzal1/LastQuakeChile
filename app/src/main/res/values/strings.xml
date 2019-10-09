@@ -133,6 +133,8 @@
     <string name="quakes_details_estado_sismo_verificado">verificado</string>
     <string name="quake_list_number_pref_summary">Número de sismos que quieres ver en lista</string>
     <string name="quake_list_number_pref_title">Datos sismos</string>
+    <string name="change_log_title">Versión</string>
+    <string name="change_log_subtitle">¡Novedades!</string>
 
     <!-- FIREBASE-->
     <string name="TAG_FIREBASE_TOKEN" translatable="false">TOKEN_FIREBASE</string>
