@@ -2,7 +2,6 @@ package cl.figonzal.lastquakechile;
 
 import android.content.Context;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -39,13 +38,8 @@ public class FragmentPageAdapter extends FragmentPagerAdapter {
 	}
 
 	@Override
-	public int getItemPosition(@NonNull Object obj) {
-		return POSITION_NONE;
-	}
-
-	@Override
 	public int getCount() {
-		return 2;
+        return mTabTitles.length;
 	}
 
 	@Override
