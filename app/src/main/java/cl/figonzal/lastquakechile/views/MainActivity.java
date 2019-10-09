@@ -1,6 +1,7 @@
 package cl.figonzal.lastquakechile.views;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -114,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
         /*
          * Dialog's de changelog & rewards
          */
-        //changeLogDialog();
+        changeLogDialog();
         //rewardDialog();
 
     }
@@ -351,6 +352,8 @@ public class MainActivity extends AppCompatActivity {
      * Funcion que muestra el change log dialog
      */
     private void changeLogDialog() {
+        sharedPreferences = getSharedPreferences(getString(R.string.MAIN_SHARED_PREF_KEY),
+                Context.MODE_PRIVATE);
         try {
             PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
             long versionCode = packageInfo.versionCode;
@@ -366,7 +369,8 @@ public class MainActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putLong(getString(R.string.SHARED_PREF_ACTUAL_VERSION_CODE), versionCode);
                 editor.apply();
-            } else if (actual_version_code < versionCode) {
+            }
+            if (actual_version_code < versionCode) {
 
                 //Dialog de changelog
                 final Dialog dialog = new Dialog(MainActivity.this);
@@ -377,7 +381,7 @@ public class MainActivity extends AppCompatActivity {
                 dialog.show();
 
                 //Boton entendido
-                Button entendido = dialog.findViewById(R.id.btn_reward_ver_video);
+                Button entendido = dialog.findViewById(R.id.btn_changelog_entendido);
                 entendido.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -390,12 +394,9 @@ public class MainActivity extends AppCompatActivity {
                 TextView tv_descripcion = dialog.findViewById(R.id.tv_changelog_description);
                 TextView tv_version = dialog.findViewById(R.id.tv_changelog_version);
 
-                tv_version.setText("v1.2.1");
-                tv_descripcion.setText("- Corrección de bug que provocaba cierres inesperados\n" +
-                        "- Actividad de configuración de preferencias\n" +
-                        "- Modo noche\n" +
-                        "- Google map en detalle de sismo\n" +
-                        "- Correcciones de bugs");
+                tv_version.setText("v1.3.0");
+                tv_descripcion.setText("- En cada actualización se muestra un dialogo resumen de " +
+                        "cambios");
 
                 //Actualizar version
                 SharedPreferences.Editor editor = sharedPreferences.edit();

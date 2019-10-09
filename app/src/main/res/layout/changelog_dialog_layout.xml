@@ -22,7 +22,7 @@
             android:layout_marginTop="16dp"
             android:alpha="0.87"
             android:fontFamily="sans-serif"
-            android:text="Versión"
+            android:text="@string/change_log_title"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -38,11 +38,11 @@
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tv_changelog_title"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@+id/tv_changelog_subtitle"
             tools:text="- Actividad de configuración de preferencias\n- Modo noche Google map en detalle de sismo\n- Correcciones de bugs" />
 
         <Button
-            android:id="@+id/btn_reward_ver_video"
+            android:id="@+id/btn_changelog_entendido"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -76,12 +76,12 @@
             tools:text="vX.X.X" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/tv_changelog_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:text="¡Novedades!"
+            android:text="@string/change_log_subtitle"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             app:layout_constraintEnd_toEndOf="@+id/tv_changelog_description"
             app:layout_constraintHorizontal_bias="0.0"
