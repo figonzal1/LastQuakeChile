@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.google.firebase.firebase-perf'
 apply plugin: 'io.fabric'
 
 android {
@@ -74,11 +73,10 @@ dependencies {
     annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.1.0'
 
     //Firebase
-    implementation 'com.google.firebase:firebase-core:16.0.7'
-    implementation 'com.google.firebase:firebase-messaging:17.4.0'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
-    implementation 'com.google.firebase:firebase-invites:16.1.0'
-    implementation 'com.google.firebase:firebase-perf:16.2.3'
+    implementation 'com.google.firebase:firebase-core:17.2.0'
+    implementation 'com.google.firebase:firebase-messaging:20.0.0'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+    implementation 'com.google.firebase:firebase-invites:17.0.0'
 
     //Googleplay
     implementation 'com.google.android.gms:play-services-maps:17.0.0'

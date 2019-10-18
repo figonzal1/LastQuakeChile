@@ -43,15 +43,6 @@
             app:title="@string/night_mode_manual_pref_title_switch"
             app:useSimpleSummaryProvider="true" />
 
-        <SwitchPreference
-            app:defaultValue="true"
-            app:iconSpaceReserved="false"
-            app:key="@string/NIGHT_MODE_AUTO_KEY"
-            app:summaryOff="@string/night_mode_auto_pref_summary_off"
-            app:summaryOn="@string/night_mode_auto_pref_summary_on"
-            app:title="@string/night_mode_auto_pref_title_switch"
-            app:useSimpleSummaryProvider="true" />
-
     </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>

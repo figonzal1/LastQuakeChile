@@ -11,7 +11,7 @@
 
     <!-- Night Color-->
     <color name="colorPrimaryNightMode">#253561</color>
-    <color name="colorPrimaryDarknightMode">#1C2746</color>
+    <color name="colorPrimaryDarkNightMode">#1C2746</color>
     <color name="colorAccentNightMode">#006994</color>
     <color name="backgroundNightMode">#28282C</color>
 
