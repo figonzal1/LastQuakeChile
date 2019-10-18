@@ -12,7 +12,6 @@ import androidx.test.rule.ActivityTestRule;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import org.hamcrest.Matchers;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -32,6 +31,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.core.IsNot.not;
 
 @RunWith(AndroidJUnit4ClassRunner.class)
@@ -71,11 +71,11 @@ public class NightModePrefTest {
 
 
 	@Test
-	public void test2_check_night_mode_manual_on() {
+    public void test1_check_night_mode_manual_on() {
 
 		ViewInteraction switchManual = onView(
-				Matchers.allOf(childAtPosition(
-						Matchers.allOf(withId(R.id.recycler_view),
+                allOf(childAtPosition(
+                        allOf(withId(R.id.recycler_view),
 								childAtPosition(
 										withId(android.R.id.list_container),
 										0)),
@@ -109,11 +109,17 @@ public class NightModePrefTest {
 	}
 
 	@Test
-	public void test3_check_night_mode_manual_off() {
+    public void test2_check_night_mode_manual_off() {
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
 		ViewInteraction switchManual = onView(
-				Matchers.allOf(childAtPosition(
-						Matchers.allOf(withId(R.id.recycler_view),
+                allOf(childAtPosition(
+                        allOf(withId(R.id.recycler_view),
 								childAtPosition(
 										withId(android.R.id.list_container),
 										0)),
