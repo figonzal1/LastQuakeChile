@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundNightMode"
-    android:theme="@style/DarkAppTheme"
+    style="@style/AppTheme"
     tools:context=".views.QuakeDetailsActivity">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -81,7 +81,7 @@
         app:elevation="7dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:rippleColor="@color/colorPrimaryDarknightMode"
+        app:rippleColor="@color/colorPrimaryDarkNightMode"
         app:srcCompat="@drawable/ic_share_24px" />
 
 
@@ -90,7 +90,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:alpha="0.85"
-        android:background="@color/colorPrimaryDarknightMode"
+        android:background="@color/colorPrimaryDarkNightMode"
         android:elevation="5dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"

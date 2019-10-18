@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundNightMode"
-    android:theme="@style/DarkAppTheme"
+    style="@style/AppTheme"
     tools:context=".views.QuakeFragment">
 
     <!-- CardView de informacion-->
