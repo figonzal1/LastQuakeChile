@@ -32,7 +32,7 @@ public class SettingsActivity extends AppCompatActivity {
          * Checkear MODO NOCHE
          */
         QuakeUtils.checkNightMode(this, getWindow());
-        
+
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.settings_menu, new SettingsFragment())
@@ -156,7 +156,7 @@ public class SettingsActivity extends AppCompatActivity {
                 //Si automatico esta activado, preguntar el estado del modo
                 if (sharedPreferences.getBoolean(activity.getString(R.string.NIGHT_MODE_AUTO_KEY),
                         false)) {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_UNSPECIFIED);
 
                     //Obtener el estado del modo
                     int modeNightType = activity.getResources().getConfiguration().uiMode &

@@ -472,7 +472,7 @@ public class QuakeUtils {
         //Si el modo automatico esta activado
         else if (auto_night_mode) {
 
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_UNSPECIFIED);
 
             int modeNightType = activity.getResources().getConfiguration().uiMode &
                     Configuration.UI_MODE_NIGHT_MASK;
@@ -483,7 +483,7 @@ public class QuakeUtils {
                 window.setStatusBarColor(activity.getColor(R.color.colorPrimaryDarknightMode));
 
                 //Corregir bug de adview en modo noche
-                fixAdViewNightMode(activity);
+                //fixAdViewNightMode(activity);
 
             } else if (modeNightType == Configuration.UI_MODE_NIGHT_NO) {
                 activity.setTheme(R.style.AppTheme);
