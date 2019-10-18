@@ -210,6 +210,7 @@
     <string name="TAG_RESPOSITORY_QUAKE_LIMIT" translatable="false">REPOSITORY_LIMIT_QUAKE</string>
     <string name="TAG_RESPOSITORY_QUAKE_LIMIT_FORMAT" translatable="false">SIZE LIST: %1$s</string>
     <string name="TAG_RESPOSITORY_QUAKE_LIMIT_DEFAULT_FORMAT" translatable="false">DEFAULT SIZE LIST: %1$s</string>
+    <string name="TAG_SHARED_VERSION_CODE_APP" translatable="false">SHARED_VERSION_CODE_APP</string>
     <string name="TAG_VERSION_CODE_APP" translatable="false">VERSION_CODE_APP</string>
 
     <!-- Strings de Volley -->
@@ -336,9 +337,6 @@
     <string name="tag_adview_night_mode_response" translatable="false">Instanciacion manual adview modo noche</string>
     <string name="tag_adview_night_mode_response_error" translatable="false">Error intentando instanciar manualmente adview modo noche</string>
 
-    <!-- CHANGE DIALOGS TAGS-->
-    <string name="TAG_CHANGE_LOG_DIALOG" translatable="false">CHANGE_LOG_DIALOG</string>
-    <string name="TAG_CHANGE_LOG_DIALOG_BTN_ENTENDIDO" translatable="false">BOTON ENTENDIDO PRESIONADO</string>
 
     <!-- REWARD DIALOG TAGS -->
     <string name="TAG_REWARD_DIALOG" translatable="false">REWARD_DIALOG_STATUS</string>
@@ -364,5 +362,8 @@
     <string name="TAG_ADMOB_AD_STATUS_FAILED" translatable="false">FAILED TO LOAD</string>
     <string name="TAG_ADMOB_AD_STATUS_LOADED" translatable="false">ADD LOADED</string>
     <string name="TAG_ADMOB_AD_STATUS_OPEN" translatable="false">ADD OPEN</string>
+    <string name="TAG_NOTIFICATION_CHANGELOG_STATUS" translatable="false">NOTI_CHANGELOG_STATUS
+    </string>
+    <string name="TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE" translatable="false">ENVIADA</string>
 
 </resources>
