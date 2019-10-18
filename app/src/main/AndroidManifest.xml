@@ -40,10 +40,6 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_lastquakechile_1200" />
-        <!-- Desactiva por completo performance-->
-        <meta-data
-            android:name="firebase_performance_collection_deactivated"
-            android:value="true" />
 
         <!-- Llamada a servicio de mensajeria -->
         <service
@@ -53,16 +49,6 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
-        <!-- FACEBOOK -->
-        <!--<meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />-->
-
-        <!--<provider
-            android:name="com.facebook.FacebookContentProvider"
-            android:authorities="com.facebook.app.FacebookContentProvider1263072277140754"
-            android:exported="true" />-->
 
         <!-- Provider usado para buscar rutas de imagenes y pasarlas a Uri's -->
         <provider

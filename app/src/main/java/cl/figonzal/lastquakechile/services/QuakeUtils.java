@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.util.Log;
@@ -32,7 +31,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Random;
 import java.util.TimeZone;
 
 import cl.figonzal.lastquakechile.R;
@@ -249,43 +247,8 @@ public class QuakeUtils {
         return mDMS;
     }
 
-    /*/**
-     * Funcion que guardar una imagen en cache desde la descarga de glide
-     *
-     * @param drawable imagen de la cual se buscara la ruta
-     * @param context  contexto de la actividad
-     * @return Uri retorna la direccion dentro del celular donde esta la imagen
-     */
-	/*public static Uri getLocalBitmapUri(Drawable drawable, Context context) {
-
-		Bitmap mBmp;
-
-		if (drawable instanceof BitmapDrawable) {
-			mBmp = ((BitmapDrawable) drawable).getBitmap();
-		} else {
-			return null;
-		}
-
-		Uri mBmpUri = null;
-
-		try {
-			File mFile = new File(context.getCacheDir(),
-					"share_image_" + System.currentTimeMillis() + ".jpeg");
-			FileOutputStream out = new FileOutputStream(mFile);
-			mBmp.compress(Bitmap.CompressFormat.JPEG, 100, out);
-			out.close();
-
-			mBmpUri = FileProvider.getUriForFile(context, "cl.figonzal.lastquakechile.fileprovider"
-					, mFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return mBmpUri;
-
-	}*/
-
     /**
-     * Funcion encargada se guardar en directorio de ceular una imagen bitmap
+     * Funcion encargada se guardar en directorio de celular una imagen bitmap
      *
      * @param bitmap  Bitmap de la imagen
      * @param context Contexto necesario para usar recursos
@@ -448,18 +411,14 @@ public class QuakeUtils {
         boolean manual_night_mode =
                 sharedPreferences.getBoolean(activity.getString(R.string.NIGHT_MODE_MANUAL_KEY),
                         false);
-        boolean auto_night_mode =
-                sharedPreferences.getBoolean(activity.getString(R.string.NIGHT_MODE_AUTO_KEY),
-                        false);
 
         //MODO MANUAL
         //Si el modo manual esta activado
         if (manual_night_mode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            activity.setTheme(R.style.DarkAppTheme);
-            window.setStatusBarColor(activity.getColor(R.color.colorPrimaryDarknightMode));
+            window.setStatusBarColor(activity.getColor(R.color.colorPrimaryDarkNightMode));
 
-            fixAdViewNightMode(activity);
+            //fixAdViewNightMode(activity);
 
             Log.d(activity.getString(R.string.TAG_NIGHT_MODE_MANUAL),
                     activity.getString(R.string.TAG_NIGHT_MODE_STATUS_ON));
@@ -468,40 +427,10 @@ public class QuakeUtils {
                     activity.getString(R.string.TAG_NIGHT_MODE_STATUS_ON));
         }
 
-        //MODO AUTOMATICO
-        //Si el modo automatico esta activado
-        else if (auto_night_mode) {
-
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_UNSPECIFIED);
-
-            int modeNightType = activity.getResources().getConfiguration().uiMode &
-                    Configuration.UI_MODE_NIGHT_MASK;
-
-            //Detecta modo noche automatico como YES
-            if (modeNightType == Configuration.UI_MODE_NIGHT_YES) {
-                activity.setTheme(R.style.DarkAppTheme);
-                window.setStatusBarColor(activity.getColor(R.color.colorPrimaryDarknightMode));
-
-                //Corregir bug de adview en modo noche
-                //fixAdViewNightMode(activity);
-
-            } else if (modeNightType == Configuration.UI_MODE_NIGHT_NO) {
-                activity.setTheme(R.style.AppTheme);
-                window.setStatusBarColor(activity.getColor(R.color.colorPrimaryDark));
-            }
-
-            Log.d(activity.getString(R.string.TAG_NIGHT_MODE_AUTO),
-                    activity.getString(R.string.TAG_NIGHT_MODE_STATUS_ON));
-
-            Crashlytics.log(Log.DEBUG, activity.getString(R.string.TAG_NIGHT_MODE_AUTO),
-                    activity.getString(R.string.TAG_NIGHT_MODE_STATUS_ON));
-        }
-
         //DESACTIVADO
         //Si el modo nocturno esta desactivado
         else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            activity.setTheme(R.style.AppTheme);
             window.setStatusBarColor(activity.getColor(R.color.colorPrimaryDark));
 
             Log.d(activity.getString(R.string.TAG_NIGHT_MODE),
@@ -615,17 +544,5 @@ public class QuakeUtils {
         calendar.setTime(date);
         calendar.add(Calendar.HOUR_OF_DAY, hours);
         return calendar.getTime();
-    }
-
-    /**
-     * Funcion encargada de generar un numero aleatorio para dialogs.
-     *
-     * @return Booleano con el resultado
-     */
-    public static boolean generateRandomNumber() {
-
-        Random random = new Random();
-        int item = random.nextInt(10);
-        return item % 3 == 0;
     }
 }
