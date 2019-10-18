@@ -17,7 +17,7 @@ android {
             storePassword keystoreProperties['storePassword']
         }
     }
-    
+
     compileSdkVersion 28
     buildToolsVersion "28.0.3"
 
@@ -25,7 +25,7 @@ android {
         applicationId "cl.figonzal.lastquakechile"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 18
+        versionCode 19  //ultima version 18
         versionName "1.3.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -84,13 +84,14 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     //implementation 'com.google.android.gms:play-services-ads:17.2.0'
 
-    //Facebook
-    implementation 'com.facebook.android:facebook-android-sdk:4.40.0'
-
     //junit
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test:rules:1.2.0'
+
+    //UI AUTOMATOR
+    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
+
 
     //Espreso
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

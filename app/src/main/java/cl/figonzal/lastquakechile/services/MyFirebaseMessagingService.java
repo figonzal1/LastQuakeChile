@@ -13,6 +13,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
 import com.crashlytics.android.Crashlytics;
@@ -44,31 +45,73 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
-            //Definicion de atributos de canal de notificacion
-            String name = context.getString(R.string.FIREBASE_CHANNEL_NAME);
-            String description = context.getString(R.string.FIREBASE_CHANNEL_DESCRIPTION);
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-
-            NotificationChannel mNotificationChannel =
-                    new NotificationChannel(context.getString(R.string.FIREBASE_CHANNEL_ID), name
-                            , importance);
-            mNotificationChannel.setDescription(description);
-            mNotificationChannel.setImportance(NotificationManager.IMPORTANCE_HIGH);
-            mNotificationChannel.enableLights(true);
-            mNotificationChannel.setLightColor(R.color.colorAccent);
-
-            NotificationManager mNotificationManager =
-                    context.getSystemService(NotificationManager.class);
-            mNotificationManager.createNotificationChannel(mNotificationChannel);
-
-            Log.d(context.getString(R.string.TAG_FIREBASE_CHANNEL),
-                    context.getString(R.string.FIREBASE_CHANNEL_CREATED_MESSAGE));
-
-            //CRASH ANALYTICS & LOGS
-            Crashlytics.log(Log.DEBUG, context.getString(R.string.TAG_FIREBASE_CHANNEL),
-                    context.getString(R.string.FIREBASE_CHANNEL_CREATED_MESSAGE));
-            Crashlytics.setBool(context.getString(R.string.FIREBASE_CHANNEL_STATUS), true);
+            createQuakeChannel(context);
+            createChangeLogChannel(context);
         }
+    }
+
+    /**
+     * Funcion encargada de crear canal de notificaciones de cambios de version
+     *
+     * @param context Contexto para utilizar Strings
+     */
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private static void createChangeLogChannel(Context context) {
+
+        String name = "Nuevas versiones";
+        String description = "Recibe alertas sobre las nuevas versiones de la app";
+        int importance = NotificationManager.IMPORTANCE_MIN;
+
+        NotificationChannel notificationChannel = new NotificationChannel("2", name, importance);
+        notificationChannel.setDescription(description);
+        notificationChannel.setImportance(importance);
+        notificationChannel.enableLights(true);
+        notificationChannel.setLightColor(R.color.colorAccent);
+
+        NotificationManager mNotificationManager =
+                context.getSystemService(NotificationManager.class);
+        mNotificationManager.createNotificationChannel(notificationChannel);
+
+        Log.d("CHANGELOG_CHANNEL",
+                context.getString(R.string.FIREBASE_CHANNEL_CREATED_MESSAGE));
+
+        //CRASH ANALYTICS & LOGS
+        Crashlytics.log(Log.DEBUG, "CHANGELOG_CHANNEL",
+                context.getString(R.string.FIREBASE_CHANNEL_CREATED_MESSAGE));
+        Crashlytics.setBool(context.getString(R.string.FIREBASE_CHANNEL_STATUS), true);
+    }
+
+    /**
+     * Funcion encargada de crear canal de notificaciones de sismos
+     *
+     * @param context Contexto para utilizar strings
+     */
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private static void createQuakeChannel(Context context) {
+        //Definicion de atributos de canal de notificacion
+        String name = context.getString(R.string.FIREBASE_CHANNEL_NAME);
+        String description = context.getString(R.string.FIREBASE_CHANNEL_DESCRIPTION);
+        int importance = NotificationManager.IMPORTANCE_HIGH;
+
+        NotificationChannel mNotificationChannel =
+                new NotificationChannel(context.getString(R.string.FIREBASE_CHANNEL_ID), name
+                        , importance);
+        mNotificationChannel.setDescription(description);
+        mNotificationChannel.setImportance(NotificationManager.IMPORTANCE_HIGH);
+        mNotificationChannel.enableLights(true);
+        mNotificationChannel.setLightColor(R.color.colorAccent);
+
+        NotificationManager mNotificationManager =
+                context.getSystemService(NotificationManager.class);
+        mNotificationManager.createNotificationChannel(mNotificationChannel);
+
+        Log.d(context.getString(R.string.TAG_FIREBASE_CHANNEL),
+                context.getString(R.string.FIREBASE_CHANNEL_CREATED_MESSAGE));
+
+        //CRASH ANALYTICS & LOGS
+        Crashlytics.log(Log.DEBUG, context.getString(R.string.TAG_FIREBASE_CHANNEL),
+                context.getString(R.string.FIREBASE_CHANNEL_CREATED_MESSAGE));
+        Crashlytics.setBool(context.getString(R.string.FIREBASE_CHANNEL_STATUS), true);
     }
 
     /**
@@ -143,6 +186,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
+    /**
+     * Funcion utilizada para debuguear mensajes FCM y Servidor LastQuakeChile
+     *
+     * @param remoteMessage Mensaje de notificacion con los datos de sismos
+     */
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);

@@ -22,10 +22,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.crashlytics.android.Crashlytics;
-import com.facebook.CallbackManager;
-import com.facebook.share.model.SharePhoto;
-import com.facebook.share.model.SharePhotoContent;
-import com.facebook.share.widget.ShareDialog;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -56,10 +52,10 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
     private Bundle mMapViewBundle;
     private MapView mMapView;
 
-    private ShareDialog mShareDialog;
-    private SharePhotoContent mSharePhotoContent;
-    private SharePhoto mSharePhoto;
-    private CallbackManager mCallBackManager;
+    //private ShareDialog mShareDialog;
+    //private SharePhotoContent mSharePhotoContent;
+    //private SharePhoto mSharePhoto;
+    //private CallbackManager mCallBackManager;
     private Uri mBitmapUri;
     private TextView mTvCiudad, mTvReferencia, mTvEscala, mTvMagnitud, mTvProfundidad, mTvFecha,
             mTvHora, mTvGms, mFabTextFB, mFabTextWSP, mFabTextGM, mTvEstado;
@@ -598,7 +594,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        mCallBackManager.onActivityResult(requestCode, resultCode, data);
+        //  mCallBackManager.onActivityResult(requestCode, resultCode, data);
     }
 
 

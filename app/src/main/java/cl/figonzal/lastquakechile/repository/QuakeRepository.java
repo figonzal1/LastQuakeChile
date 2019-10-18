@@ -248,13 +248,11 @@ public class QuakeRepository {
         String limite =
                 String.valueOf(sharedPreferences.getInt(mApplication.getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER), 0));
 
-        Log.d(mApplication.getString(R.string.TAG_RESPOSITORY_QUAKE_LIMIT),
-                mApplication.getString(R.string.TAG_RESPOSITORY_QUAKE_LIMIT_FORMAT));
+        Log.d(mApplication.getString(R.string.TAG_RESPOSITORY_QUAKE_LIMIT), limite);
 
         if (limite.equals("0")) {
             limite = "15";
-            Log.d(mApplication.getString(R.string.TAG_RESPOSITORY_QUAKE_LIMIT),
-                    mApplication.getString(R.string.TAG_RESPOSITORY_QUAKE_LIMIT_DEFAULT_FORMAT));
+            Log.d(mApplication.getString(R.string.TAG_RESPOSITORY_QUAKE_LIMIT), limite);
         }
 
         //Si servidor oficial arroja error, conectar a dev

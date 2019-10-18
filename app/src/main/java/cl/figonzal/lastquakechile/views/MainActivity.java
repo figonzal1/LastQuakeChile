@@ -1,24 +1,20 @@
 package cl.figonzal.lastquakechile.views;
 
-import android.app.Dialog;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationCompat;
 import androidx.preference.PreferenceManager;
 import androidx.viewpager.widget.ViewPager;
 
@@ -36,8 +32,6 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
-
-import java.util.Objects;
 
 import cl.figonzal.lastquakechile.FragmentPageAdapter;
 import cl.figonzal.lastquakechile.R;
@@ -86,7 +80,8 @@ public class MainActivity extends AppCompatActivity {
         checkFirebaseServices();
 
         /*
-         * Creacion de canal de notificaciones para sismos (Requerido para API > 26)
+         * Creacion de canal de notificaciones para sismos y para changelogs (Requerido para API >
+         *  26)
          */
         MyFirebaseMessagingService.createNotificationChannel(getApplicationContext());
 
@@ -115,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         /*
          * Dialog's de changelog & rewards
          */
-        changeLogDialog();
+        notificationChangeLog(false);
         //rewardDialog();
 
     }
@@ -127,14 +122,16 @@ public class MainActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(getString(R.string.MAIN_SHARED_PREF_KEY),
                 Context.MODE_PRIVATE);
         Date reward_date =
-                new Date(sharedPreferences.getLong(getString(R.string.SHARED_PREF_END_REWARD_TIME), 0));
+                new Date(sharedPreferences.getLong(getString(R.string
+                .SHARED_PREF_END_REWARD_TIME), 0));
         Date now_date = new Date();
 
         rewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
         rewardedVideoAd.setRewardedVideoAdListener(new RewardedVideoAdListener() {
             @Override
             public void onRewardedVideoAdLoaded() {
-                Log.d(getString(R.string.TAG_VIDEO_REWARD_STATUS), getString(R.string.TAG_VIDEO_REWARD_STATUS_LOADED));
+                Log.d(getString(R.string.TAG_VIDEO_REWARD_STATUS), getString(R.string
+                .TAG_VIDEO_REWARD_STATUS_LOADED));
             }
 
             @Override
@@ -154,7 +151,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onRewarded(RewardItem rewardItem) {
-                Log.d(getString(R.string.TAG_VIDEO_REWARD_STATUS), getString(R.string.TAG_VIDEO_REWARD_STATUS_REWARDED));
+                Log.d(getString(R.string.TAG_VIDEO_REWARD_STATUS), getString(R.string
+                .TAG_VIDEO_REWARD_STATUS_REWARDED));
             }
 
             @Override
@@ -169,18 +167,22 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onRewardedVideoCompleted() {
-                Log.d(getString(R.string.TAG_VIDEO_REWARD_STATUS), getString(R.string.TAG_VIDEO_REWARD_STATUS_COMPLETED));
+                Log.d(getString(R.string.TAG_VIDEO_REWARD_STATUS), getString(R.string
+                .TAG_VIDEO_REWARD_STATUS_COMPLETED));
 
                 Date date_now = new Date();
 
-                Log.d(getString(R.string.TAG_POST_REWARD_HORA_AHORA), QuakeUtils.dateToString(getApplicationContext(), date_now));
+                Log.d(getString(R.string.TAG_POST_REWARD_HORA_AHORA), QuakeUtils.dateToString
+                (getApplicationContext(), date_now));
                 //sumar 24 horas al tiempo del celular
                 Date date_new = QuakeUtils.addHoursToJavaUtilDate(date_now, 1);
-                Log.d(getString(R.string.TAG_POST_REWARD_HORA_REWARD), QuakeUtils.dateToString(getApplicationContext(), date_new));
+                Log.d(getString(R.string.TAG_POST_REWARD_HORA_REWARD), QuakeUtils.dateToString
+                (getApplicationContext(), date_new));
 
                 //Guardar fecha de termino de reward
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putLong(getString(R.string.SHARED_PREF_END_REWARD_TIME), date_new.getTime()).apply();
+                editor.putLong(getString(R.string.SHARED_PREF_END_REWARD_TIME), date_new.getTime
+                ()).apply();
 
                 recreate();
             }
@@ -189,7 +191,8 @@ public class MainActivity extends AppCompatActivity {
         //Si la hora del celular es posterior a reward date
         if (now_date.after(reward_date)) {
 
-            Log.d(getString(R.string.TAG_REWARD_STATUS), getString(R.string.TAG_REWARD_STATUS_EN_PERIODO));
+            Log.d(getString(R.string.TAG_REWARD_STATUS), getString(R.string
+            .TAG_REWARD_STATUS_EN_PERIODO));
             //Cargar video
             loadRewardedVideo();
 
@@ -197,15 +200,18 @@ public class MainActivity extends AppCompatActivity {
             if (showDialog) {
                 //Cargar dialog
                 loadDialogReward();
-                Log.d(getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG), getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG_ON));
+                Log.d(getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG), getString(R.string
+                .TAG_RANDOM_SHOW_REWARD_DIALOG_ON));
             } else {
-                Log.d(getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG), getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG_OFF));
+                Log.d(getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG), getString(R.string
+                .TAG_RANDOM_SHOW_REWARD_DIALOG_OFF));
             }
         }
 
         //Si el periodo de reward aun no pasa
         else if (now_date.before(reward_date)) {
-            Log.d(getString(R.string.TAG_REWARD_STATUS), getString(R.string.TAG_REWARD_STATUS_PERIODO_INACTIVO));
+            Log.d(getString(R.string.TAG_REWARD_STATUS), getString(R.string
+            .TAG_REWARD_STATUS_PERIODO_INACTIVO));
         }
     }*/
 
@@ -233,12 +239,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Funcion encargada de realizar el checkeo de first run de la aplicacion para lanzar welcomeActivity
+     * Funcion encargada de realizar el checkeo de first run de la aplicacion para lanzar
+     * welcomeActivity
      */
     private void checkWelcomeActivity() {
         Bundle mBundleWelcome = getIntent().getExtras();
         if (mBundleWelcome != null) {
-            //Si el usuario viene desde deep link, no se realiza first check (Para que welcome activity no abra 2 veces)
+            //Si el usuario viene desde deep link, no se realiza first check (Para que welcome
+            // activity no abra 2 veces)
             //Si viene desde Google play, se realiza el check
             if (!mBundleWelcome.getBoolean(getString(R.string.desde_deep_link))) {
                 QuakeUtils.checkFirstRun(this, false);
@@ -312,7 +320,8 @@ public class MainActivity extends AppCompatActivity {
      * Funcion encargada de cargar el video de bonificacion
      */
     /*private void loadRewardedVideo() {
-        rewardedVideoAd.loadAd("ca-app-pub-3940256099942544/5224354917", new AdRequest.Builder().build());
+        rewardedVideoAd.loadAd("ca-app-pub-3940256099942544/5224354917", new AdRequest.Builder()
+        .build());
     }*/
 
     /**
@@ -322,7 +331,8 @@ public class MainActivity extends AppCompatActivity {
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.reward_dialog_layout);
         dialog.setCanceledOnTouchOutside(false);
-        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color
+        .TRANSPARENT));
         dialog.show();
 
         Button button_ver_video = dialog.findViewById(R.id.btn_reward_ver_video);
@@ -333,7 +343,8 @@ public class MainActivity extends AppCompatActivity {
                     dialog.dismiss();
                     rewardedVideoAd.show();
 
-                    Log.d(getString(R.string.TAG_REWARD_DIALOG), getString(R.string.TAG_REWARD_DIALOG_BTN_VER_VIDEO));
+                    Log.d(getString(R.string.TAG_REWARD_DIALOG), getString(R.string
+                    .TAG_REWARD_DIALOG_BTN_VER_VIDEO));
                 }
             }
         });
@@ -343,71 +354,93 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 dialog.dismiss();
 
-                Log.d(getString(R.string.TAG_REWARD_DIALOG), getString(R.string.TAG_REWARD_DIALOG_BTN_CANCEL));
+                Log.d(getString(R.string.TAG_REWARD_DIALOG), getString(R.string
+                .TAG_REWARD_DIALOG_BTN_CANCEL));
             }
         });
     }*/
 
     /**
      * Funcion que muestra el change log dialog
+     *
+     * @param test Parametro para testear notificacion
      */
-    private void changeLogDialog() {
+    public void notificationChangeLog(boolean test) {
         sharedPreferences = getSharedPreferences(getString(R.string.MAIN_SHARED_PREF_KEY),
                 Context.MODE_PRIVATE);
         try {
             PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
             long versionCode = packageInfo.versionCode;
 
-            long actual_version_code =
+            long shared_version_code =
                     sharedPreferences.getLong(getString(R.string.SHARED_PREF_ACTUAL_VERSION_CODE)
                             , 0);
 
-            Log.d(getString(R.string.TAG_VERSION_CODE_APP), String.valueOf(actual_version_code));
+            //Logs post actualizacion
+            Log.d(getString(R.string.TAG_SHARED_VERSION_CODE_APP),
+                    String.valueOf(shared_version_code));
+            Log.d(getString(R.string.TAG_VERSION_CODE_APP), String.valueOf(versionCode));
 
-            if (actual_version_code == 0) {
-                //Actualizar version
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putLong(getString(R.string.SHARED_PREF_ACTUAL_VERSION_CODE), versionCode);
-                editor.apply();
-            }
-            if (actual_version_code < versionCode) {
+            Crashlytics.log(Log.DEBUG, getString(R.string.TAG_SHARED_VERSION_CODE_APP),
+                    String.valueOf(shared_version_code));
+            Crashlytics.log(Log.DEBUG, getString(R.string.TAG_VERSION_CODE_APP),
+                    String.valueOf(versionCode));
 
-                //Dialog de changelog
-                final Dialog dialog = new Dialog(MainActivity.this);
-                dialog.setContentView(R.layout.changelog_dialog_layout);
-                dialog.setCanceledOnTouchOutside(false);
-                Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-                dialog.show();
+            if (!test) {
+                //Si variable shared no exite, actualizar dato
+                if (shared_version_code == 0) {
+                    //Actualizar version
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putLong(getString(R.string.SHARED_PREF_ACTUAL_VERSION_CODE),
+                            versionCode);
+                    editor.apply();
+                }
+                if (shared_version_code < versionCode) {
 
-                //Boton entendido
-                Button entendido = dialog.findViewById(R.id.btn_changelog_entendido);
-                entendido.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
+                    showNotificationChangeLog();
 
-                        Log.d(getString(R.string.TAG_CHANGE_LOG_DIALOG), getString(R.string.TAG_CHANGE_LOG_DIALOG_BTN_ENTENDIDO));
-                    }
-                });
+                    //Logs
+                    Log.d(getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS),
+                            getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE));
+                    Crashlytics.log(Log.DEBUG,
+                            getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS),
+                            getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE));
 
-                TextView tv_descripcion = dialog.findViewById(R.id.tv_changelog_description);
-                TextView tv_version = dialog.findViewById(R.id.tv_changelog_version);
+                    //Actualizar version
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putLong(getString(R.string.SHARED_PREF_ACTUAL_VERSION_CODE),
+                            versionCode);
+                    editor.apply();
 
-                tv_version.setText("v1.3.0");
-                tv_descripcion.setText("- En cada actualización se muestra un dialogo resumen de " +
-                        "cambios");
-
-                //Actualizar version
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putLong(getString(R.string.SHARED_PREF_ACTUAL_VERSION_CODE), versionCode);
-                editor.apply();
-
+                }
+            } else {
+                showNotificationChangeLog();
             }
 
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Funcion encargada de enviar la notificacion al celular sobre changelog
+     */
+    private void showNotificationChangeLog() throws PackageManager.NameNotFoundException {
+        //Maneja la notificacion cuando esta en foreground
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this,
+                getString(R.string.FIREBASE_CHANNEL_ID))
+                .setContentTitle("¡Novedades! v" + getPackageManager().getPackageInfo(getPackageName(), 0).versionName)
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText("- En cada actualización se muestra un dialogo resumen " +
+                                "de cambios\n" +
+                                "- Este es otro item de la notificacion"))
+                .setSmallIcon(R.drawable.ic_lastquakechile_1200)
+                .setAutoCancel(true);
+
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.notify(Integer.parseInt("2"), mBuilder.build());
     }
 
     /**
@@ -451,7 +484,6 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         QuakeUtils.checkPlayServices(this);
-
         //rewardedVideoAd.resume(this);
     }
 
