@@ -8,7 +8,6 @@ import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.uiautomator.By;
-import androidx.test.uiautomator.Direction;
 import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.UiObject2;
 import androidx.test.uiautomator.Until;
@@ -52,14 +51,15 @@ public class ChangeLogNotificationTest {
 
         uiDevice.pressHome();
         uiDevice.openNotification();
-        UiObject2 uiObject = uiDevice.findObject(By.text(esperado_title));
-        uiObject.swipe(Direction.DOWN, 0.05f);
-
         uiDevice.wait(Until.hasObject(By.text(esperado_title)), 7000);
 
-        String actual_title = uiDevice.findObject(By.text(esperado_title)).getText();
+        UiObject2 uiObject = uiDevice.findObject(By.text(esperado_title));
+        uiObject.click();
 
+        String actual_title = uiDevice.findObject(By.text(esperado_title)).getText();
         assertEquals(esperado_title, actual_title);
+
+        uiDevice.pressBack();
     }
 
 }
