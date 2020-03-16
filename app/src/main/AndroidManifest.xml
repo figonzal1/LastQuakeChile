@@ -92,22 +92,19 @@
             </intent-filter>
         </activity>
 
-        <!-- TODO: Habilitar para produccion -->
+        <!--ADS-->
         <meta-data
-            android:name="firebase_performance_collection_enabled"
-            android:value="false" />
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-6355378855577476~7414287525" />
+        <!-- GMS -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+        <!-- Google maps -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_api_key" />
 
-        <!-- FIREBASE -->
-        <!-- FCM disable auto init -->
-        <meta-data
-            android:name="firebase_messaging_auto_init_enabled"
-            android:value="false" />
         <!-- Icono de notificaciones por defecto usado FCM console en background -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
@@ -115,7 +112,7 @@
 
         <!-- Llamada a servicio de mensajeria -->
         <service
-            android:name=".services.MyFirebaseMessagingService"
+            android:name=".services.notifications.FCMNotification"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -132,6 +129,11 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_provider" />
         </provider>
+
+        <!-- TODO: Habilitar para produccion -->
+        <meta-data
+            android:name="firebase_performance_collection_enabled"
+            android:value="false" />
     </application>
 
 </manifest>

@@ -150,11 +150,15 @@
 		recibida
 	</string>
     <string name="TAG_FIREBASE_MESSAGE_INCOMING" translatable="false">Notificacion recibida</string>
-    <string name="FIREBASE_CHANNEL_ID" translatable="false">1</string>
-    <string name="FIREBASE_CHANNEL_NAME">Alerta sismos</string>
-    <string name="FIREBASE_CHANNEL_DESCRIPTION">Recibe alertas de sismos sobre 5 grados</string>
+    <string name="FIREBASE_CHANNEL_ID_QUAKES" translatable="false">1</string>
+    <string name="FIREBASE_CHANNEL_NAME_QUAKES">Alerta sismos</string>
+    <string name="FIREBASE_CHANNEL_DESCRIPTION_QUAKES">Recibe alertas de sismos sobre 5 grados</string>
+    <string name="FIREBASE_CHANNEL_ID_CHANGELOG" translatable="false">2</string>
+    <string name="FIREBASE_CHANNEL_NAME_CHANGELOG" translatable="false">Nuevas versiones</string>
+    <string name="FIREBASE_CHANNEL_DESCRIPTION_CHANGELOG" translatable="false">Recibe alertas sobre las nuevas versiones de la app</string>
     <string name="FIREBASE_CHANNEL_STATUS" translatable="false">CANAL_CREADO</string>
     <string name="FIREBASE_MESSAGE_DATA_STATUS" translatable="false">MESSAGE_DATA_RECEIVED</string>
+    <string name="NOTIFICATION_CHANGE_LOG_TITLE" translatable="false">¡Novedades! v</string>
     <string name="FIREBASE_MESSAGE_NOTIFICATION_STATUS" translatable="false">
 		MESSAGE_NOTIFICATION_RECEIVED
 	</string>
