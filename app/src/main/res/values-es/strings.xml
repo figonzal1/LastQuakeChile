@@ -23,8 +23,8 @@
     <string name="quake_details_magnitud_local">Magnitud local (Ml)</string>
     <string name="quake_details_magnitud_momento">Magnitud Momento (Mw)</string>
     <string name="icono_sensible">Icono sensible</string>
-    <string name="FIREBASE_CHANNEL_NAME">Alerta sismos</string>
-    <string name="FIREBASE_CHANNEL_DESCRIPTION">Recibe alertas de sismos sobre 5 grados</string>
+    <string name="FIREBASE_CHANNEL_NAME_QUAKES">Alerta sismos</string>
+    <string name="FIREBASE_CHANNEL_DESCRIPTION_QUAKES">Recibe alertas de sismos sobre 5 grados</string>
     <string name="last_quakes_info_card_view_tittle">Últimos sismos</string>
     <string name="last_quakes_info_card_view_button">Entendido</string>
     <string name="VIEWMODEL_TIMEOUT_ERROR">Timeout</string>
