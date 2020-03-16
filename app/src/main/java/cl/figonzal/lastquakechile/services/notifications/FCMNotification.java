@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile.services;
+package cl.figonzal.lastquakechile.services.notifications;
 
 import android.app.Activity;
 import android.app.NotificationChannel;
@@ -9,12 +9,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
+import androidx.preference.PreferenceManager;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -34,52 +34,8 @@ import java.util.Random;
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.views.QuakeDetailsActivity;
 
-public class MyFirebaseMessagingService extends FirebaseMessagingService {
+public class FCMNotification extends FirebaseMessagingService {
 
-    /**
-     * Funcion que crea el canal para notificaciones necesario para celulares > a API 26
-     *
-     * @param context Contexto necesario para el uso de recursos
-     */
-    public static void createNotificationChannel(Context context) {
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
-            createQuakeChannel(context);
-            createChangeLogChannel(context);
-        }
-    }
-
-    /**
-     * Funcion encargada de crear canal de notificaciones de cambios de version
-     *
-     * @param context Contexto para utilizar Strings
-     */
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private static void createChangeLogChannel(Context context) {
-
-        String name = "Nuevas versiones";
-        String description = "Recibe alertas sobre las nuevas versiones de la app";
-        int importance = NotificationManager.IMPORTANCE_MIN;
-
-        NotificationChannel notificationChannel = new NotificationChannel("2", name, importance);
-        notificationChannel.setDescription(description);
-        notificationChannel.setImportance(importance);
-        notificationChannel.enableLights(true);
-        notificationChannel.setLightColor(R.color.colorAccent);
-
-        NotificationManager mNotificationManager =
-                context.getSystemService(NotificationManager.class);
-        mNotificationManager.createNotificationChannel(notificationChannel);
-
-        Log.d("CHANGELOG_CHANNEL",
-                context.getString(R.string.FIREBASE_CHANNEL_CREATED_MESSAGE));
-
-        //CRASH ANALYTICS & LOGS
-        Crashlytics.log(Log.DEBUG, "CHANGELOG_CHANNEL",
-                context.getString(R.string.FIREBASE_CHANNEL_CREATED_MESSAGE));
-        Crashlytics.setBool(context.getString(R.string.FIREBASE_CHANNEL_STATUS), true);
-    }
 
     /**
      * Funcion encargada de crear canal de notificaciones de sismos
@@ -87,22 +43,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      * @param context Contexto para utilizar strings
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private static void createQuakeChannel(Context context) {
+    static void createQuakeChannel(Context context) {
         //Definicion de atributos de canal de notificacion
-        String name = context.getString(R.string.FIREBASE_CHANNEL_NAME);
-        String description = context.getString(R.string.FIREBASE_CHANNEL_DESCRIPTION);
+        String name = context.getString(R.string.FIREBASE_CHANNEL_NAME_QUAKES);
+        String description = context.getString(R.string.FIREBASE_CHANNEL_DESCRIPTION_QUAKES);
         int importance = NotificationManager.IMPORTANCE_HIGH;
 
-        NotificationChannel mNotificationChannel =
-                new NotificationChannel(context.getString(R.string.FIREBASE_CHANNEL_ID), name
-                        , importance);
+        NotificationChannel mNotificationChannel = new NotificationChannel(context.getString(R.string.FIREBASE_CHANNEL_ID_QUAKES), name, importance);
         mNotificationChannel.setDescription(description);
         mNotificationChannel.setImportance(NotificationManager.IMPORTANCE_HIGH);
         mNotificationChannel.enableLights(true);
         mNotificationChannel.setLightColor(R.color.colorAccent);
 
-        NotificationManager mNotificationManager =
-                context.getSystemService(NotificationManager.class);
+        NotificationManager mNotificationManager = context.getSystemService(NotificationManager.class);
+
+        assert mNotificationManager != null;
         mNotificationManager.createNotificationChannel(mNotificationChannel);
 
         Log.d(context.getString(R.string.TAG_FIREBASE_CHANNEL),
@@ -119,14 +74,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      *
      * @param activity Necesario para el uso de recursos de string
      */
-    public static boolean checkSuscription(final Activity activity) {
+    public static boolean checkSuscriptionQuakes(final Activity activity) {
 
         final SharedPreferences sharedPreferences =
                 PreferenceManager.getDefaultSharedPreferences(activity);
 
-        boolean mSuscrito =
-                sharedPreferences.getBoolean(activity.getString(R.string.FIREBASE_PREF_KEY), true);
+        boolean mSuscrito = sharedPreferences.getBoolean(activity.getString(R.string.FIREBASE_PREF_KEY), true);
 
+        //Suscribir a tema quakes
         if (mSuscrito) {
             FirebaseMessaging.getInstance().subscribeToTopic(activity.getString(R.string.FIREBASE_TOPIC_NAME))
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -149,7 +104,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
             return true;
 
-        } else {
+        }
+
+        //Desuscribir a tema quakes
+        else {
             //Eliminacion de la suscripcion
             FirebaseMessaging.getInstance().unsubscribeFromTopic(activity.getString(R.string.FIREBASE_TOPIC_NAME))
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -192,12 +150,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      * @param remoteMessage Mensaje de notificacion con los datos de sismos
      */
     @Override
-    public void onMessageReceived(RemoteMessage remoteMessage) {
+    public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
         Log.d(getString(R.string.TAG_FIREBASE_MESSAGE), "From: " + remoteMessage.getFrom());
 
-        // Check if message contains a data payload.
+        //Si es notificacion con datos de sismos
         if (remoteMessage.getData().size() > 0) {
             Log.d(getString(R.string.TAG_FIREBASE_MESSAGE),
                     "Message data payload: " + remoteMessage.getData());
@@ -205,12 +163,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Crashlytics.log(Log.DEBUG, getString(R.string.TAG_FIREBASE_MESSAGE),
                     getString(R.string.TAG_FIREBASE_MESSAGE_DATA_INCOMING));
             Crashlytics.setBool(getString(R.string.FIREBASE_MESSAGE_DATA_STATUS), true);
-            showNotificationData(remoteMessage);
+            showNotificationQuakesData(remoteMessage);
         }
 
+        //Si es notificacion desde consola FCM
         if (remoteMessage.getNotification() != null) {
 
-            showNotification(remoteMessage);
+            showNotificationGeneric(remoteMessage);
             Log.d(getString(R.string.TAG_FIREBASE_MESSAGE),
                     "Message notification: " + remoteMessage.getNotification().getTitle() + " - " + remoteMessage.getNotification().getBody());
 
@@ -221,15 +180,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     /**
-     * Funcion que procesa notificaciones provenientes de FCM
+     * Funcion que muestra notificacion
      *
      * @param remoteMessage mensaje fcm
      */
-    private void showNotification(RemoteMessage remoteMessage) {
+    private void showNotificationGeneric(RemoteMessage remoteMessage) {
 
         //Maneja la notificacion cuando esta en foreground
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this,
-                getString(R.string.FIREBASE_CHANNEL_ID))
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, getString(R.string.FIREBASE_CHANNEL_ID_QUAKES))
                 .setContentTitle(Objects.requireNonNull(remoteMessage.getNotification()).getTitle())
                 .setContentText(remoteMessage.getNotification().getBody())
                 .setStyle(new NotificationCompat.BigTextStyle()
@@ -237,18 +195,19 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setSmallIcon(R.drawable.ic_lastquakechile_1200)
                 .setAutoCancel(true);
 
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        notificationManager.notify(Integer.parseInt(getString(R.string.FIREBASE_CHANNEL_ID)),
-                mBuilder.build());
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        assert notificationManager != null;
+
+        //Notificar a sistema
+        notificationManager.notify(Integer.parseInt(getString(R.string.FIREBASE_CHANNEL_ID_QUAKES)), mBuilder.build());
     }
 
     /**
-     * Funcion encargada de procesar notificaciones desde servidor LastQuakeChile
+     * Funcion que muestra notificacion
      *
      * @param remoteMessage mensaje desde servidor
      */
-    private void showNotificationData(RemoteMessage remoteMessage) {
+    private void showNotificationQuakesData(RemoteMessage remoteMessage) {
 
         //Obtener datos desde send_notification.php en servidor
         Map<String, String> mParams = remoteMessage.getData();
@@ -336,7 +295,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Crashlytics.setBool(getString(R.string.TRY_INTENT_NOTIFICATION), true);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this,
-                getString(R.string.FIREBASE_CHANNEL_ID))
+                getString(R.string.FIREBASE_CHANNEL_ID_QUAKES))
                 .setSmallIcon(R.drawable.ic_lastquakechile_1200)
                 .setContentTitle(titulo)
                 .setContentText(descripcion)
@@ -349,8 +308,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         //Id necesario para que las notificaciones no se reemplacen
-        int notificationId = new Random().nextInt(60000);
-        mNotificationManager.notify(notificationId, mBuilder.build());
+        assert mNotificationManager != null;
+        mNotificationManager.notify(new Random().nextInt(60000), mBuilder.build());
 
 
     }
@@ -358,7 +317,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onNewToken(String s) {
         super.onNewToken(s);
-        Log.d(getString(R.string.TAG_FIREBASE_TOKEN), "Refreshed Token:" + s);
+        Log.e(getString(R.string.TAG_FIREBASE_TOKEN), "Refreshed Token:" + s);
         Crashlytics.setUserIdentifier(s);
     }
 

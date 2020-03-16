@@ -1,21 +1,14 @@
 package cl.figonzal.lastquakechile.views;
 
-import android.app.NotificationManager;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.NotificationCompat;
 import androidx.preference.PreferenceManager;
 import androidx.viewpager.widget.ViewPager;
 
@@ -26,9 +19,8 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.crashlytics.android.Crashlytics;
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.tabs.TabLayout;
@@ -38,8 +30,10 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import cl.figonzal.lastquakechile.FragmentPageAdapter;
 import cl.figonzal.lastquakechile.R;
-import cl.figonzal.lastquakechile.services.MyFirebaseMessagingService;
-import cl.figonzal.lastquakechile.services.QuakeUtils;
+import cl.figonzal.lastquakechile.services.AdsService;
+import cl.figonzal.lastquakechile.services.Utils;
+import cl.figonzal.lastquakechile.services.notifications.ChangeLogNotification;
+import cl.figonzal.lastquakechile.services.notifications.NotificationService;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
@@ -48,180 +42,54 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarLayout mAppBarLayout;
     private ImageView mIvFoto;
-    //private RewardedVideoAd rewardedVideoAd;
-    private SharedPreferences sharedPreferences;
+    private AdsService adsService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        /*
-         * Setear configuraciones por defecto de ConfigActivity
-         */
+        //Setear configuraciones por defecto de ConfigActivity
         PreferenceManager.setDefaultValues(this, R.xml.root_preferences, false);
-
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*
-         * Checkear MODO NOCHE
-         */
-        QuakeUtils.checkNightMode(this, getWindow());
-        /*
-         * Checkear logica de first run con actividad de welcome
-         */
+        //Configurar MODO NOCHE
+        Utils.checkNightMode(this, getWindow());
+
+        //Checkear logica de first run con actividad de welcome
         checkWelcomeActivity();
 
-        /*
-         * Servicios de google play
-         */
-        QuakeUtils.checkPlayServices(this);
+        //Servicios de google play
+        Utils.checkPlayServices(this);
 
-        /*
-         * Servicios de Firebase
-         */
-        checkFirebaseServices();
+        //Servicios de Firebase
+        getFirebaseToken();
 
-        /*
-         * Creacion de canal de notificaciones para sismos y para changelogs (Requerido para API >
-         *  26)
-         */
-        MyFirebaseMessagingService.createNotificationChannel(getApplicationContext());
+        //ADS
+        MobileAds.initialize(getApplicationContext(), getString(R.string.ADMOB_MASTER_KEY));
+        adsService = new AdsService(getApplicationContext(), getSupportFragmentManager());
+        adsService.rewardDialog(this);
 
-        /*
-         * Realizar suscripcion el tema 'Quakes' para notificaciones
-         */
-        MyFirebaseMessagingService.checkSuscription(this);
+        //Creacion de canal de notificaciones para sismos y para changelogs (Requerido para API >26)
+        NotificationService.createNotificationChannel(getApplicationContext());
 
-        /*
-         * Iniciar Ads
-         */
-        //TODO: Finalizar inclusion de publicidad
-        //MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
+        //Realizar suscripcion el tema 'Quakes' para notificaciones
+        NotificationService.checkSuscriptions(this);
 
-        /*
-         * Setear toolbars, viewpagers y tabs
-         */
+        //Enviar notificacion changelog de ser necesario
+        new ChangeLogNotification().configNotificationChangeLog(false, getApplicationContext());
+
+        //Setear toolbars, viewpagers y tabs
         setToolbarViewPagerTabs();
 
-        /*
-         * Setear imagen de toolbar
-         */
-        loadImage();
-
-        //TODO: Terminar dialogs y changedialog
-        /*
-         * Dialog's de changelog & rewards
-         */
-        notificationChangeLog(false);
-        //rewardDialog();
-
+        //Setear imagen de toolbar
+        loadImageToolbar();
     }
-
-    /**
-     * Funcion que realiza la configuracion de reward dialog
-     */
-    /*private void rewardDialog() {
-        sharedPreferences = getSharedPreferences(getString(R.string.MAIN_SHARED_PREF_KEY),
-                Context.MODE_PRIVATE);
-        Date reward_date =
-                new Date(sharedPreferences.getLong(getString(R.string
-                .SHARED_PREF_END_REWARD_TIME), 0));
-        Date now_date = new Date();
-
-        rewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
-        rewardedVideoAd.setRewardedVideoAdListener(new RewardedVideoAdListener() {
-            @Override
-            public void onRewardedVideoAdLoaded() {
-                Log.d(getString(R.string.TAG_VIDEO_REWARD_STATUS), getString(R.string
-                .TAG_VIDEO_REWARD_STATUS_LOADED));
-            }
-
-            @Override
-            public void onRewardedVideoAdOpened() {
-
-            }
-
-            @Override
-            public void onRewardedVideoStarted() {
-
-            }
-
-            @Override
-            public void onRewardedVideoAdClosed() {
-
-            }
-
-            @Override
-            public void onRewarded(RewardItem rewardItem) {
-                Log.d(getString(R.string.TAG_VIDEO_REWARD_STATUS), getString(R.string
-                .TAG_VIDEO_REWARD_STATUS_REWARDED));
-            }
-
-            @Override
-            public void onRewardedVideoAdLeftApplication() {
-
-            }
-
-            @Override
-            public void onRewardedVideoAdFailedToLoad(int i) {
-
-            }
-
-            @Override
-            public void onRewardedVideoCompleted() {
-                Log.d(getString(R.string.TAG_VIDEO_REWARD_STATUS), getString(R.string
-                .TAG_VIDEO_REWARD_STATUS_COMPLETED));
-
-                Date date_now = new Date();
-
-                Log.d(getString(R.string.TAG_POST_REWARD_HORA_AHORA), QuakeUtils.dateToString
-                (getApplicationContext(), date_now));
-                //sumar 24 horas al tiempo del celular
-                Date date_new = QuakeUtils.addHoursToJavaUtilDate(date_now, 1);
-                Log.d(getString(R.string.TAG_POST_REWARD_HORA_REWARD), QuakeUtils.dateToString
-                (getApplicationContext(), date_new));
-
-                //Guardar fecha de termino de reward
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putLong(getString(R.string.SHARED_PREF_END_REWARD_TIME), date_new.getTime
-                ()).apply();
-
-                recreate();
-            }
-        });
-
-        //Si la hora del celular es posterior a reward date
-        if (now_date.after(reward_date)) {
-
-            Log.d(getString(R.string.TAG_REWARD_STATUS), getString(R.string
-            .TAG_REWARD_STATUS_EN_PERIODO));
-            //Cargar video
-            loadRewardedVideo();
-
-            boolean showDialog = QuakeUtils.generateRandomNumber();
-            if (showDialog) {
-                //Cargar dialog
-                loadDialogReward();
-                Log.d(getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG), getString(R.string
-                .TAG_RANDOM_SHOW_REWARD_DIALOG_ON));
-            } else {
-                Log.d(getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG), getString(R.string
-                .TAG_RANDOM_SHOW_REWARD_DIALOG_OFF));
-            }
-        }
-
-        //Si el periodo de reward aun no pasa
-        else if (now_date.before(reward_date)) {
-            Log.d(getString(R.string.TAG_REWARD_STATUS), getString(R.string
-            .TAG_REWARD_STATUS_PERIODO_INACTIVO));
-        }
-    }*/
 
     /**
      * Funcion encargada de realizar la iniciacion de los servicios de FIREBASE
      */
-    private void checkFirebaseServices() {
+    private void getFirebaseToken() {
 
         //FIREBASE SECTION
         FirebaseMessaging.getInstance().setAutoInitEnabled(true);
@@ -230,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(InstanceIdResult instanceIdResult) {
                         String token = instanceIdResult.getToken();
-                        Log.d(getString(R.string.TAG_FIREBASE_TOKEN), token);
+                        Log.e(getString(R.string.TAG_FIREBASE_TOKEN), token);
 
                         //CRASH ANALYTICS LOG
                         Crashlytics.log(Log.DEBUG, getString(R.string.TAG_FIREBASE_TOKEN), token);
@@ -252,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
             // activity no abra 2 veces)
             //Si viene desde Google play, se realiza el check
             if (!mBundleWelcome.getBoolean(getString(R.string.desde_deep_link))) {
-                QuakeUtils.checkFirstRun(this, false);
+                Utils.checkFirstRun(this, false);
             }
         }
     }
@@ -320,136 +188,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Funcion encargada de cargar el video de bonificacion
-     */
-    /*private void loadRewardedVideo() {
-        rewardedVideoAd.loadAd("ca-app-pub-3940256099942544/5224354917", new AdRequest.Builder()
-        .build());
-    }*/
-
-    /**
-     * Funcion encargada de mostrar el dialog de rewards
-     */
-    /*private void loadDialogReward() {
-        final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.reward_dialog_layout);
-        dialog.setCanceledOnTouchOutside(false);
-        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color
-        .TRANSPARENT));
-        dialog.show();
-
-        Button button_ver_video = dialog.findViewById(R.id.btn_reward_ver_video);
-        button_ver_video.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (rewardedVideoAd.isLoaded()) {
-                    dialog.dismiss();
-                    rewardedVideoAd.show();
-
-                    Log.d(getString(R.string.TAG_REWARD_DIALOG), getString(R.string
-                    .TAG_REWARD_DIALOG_BTN_VER_VIDEO));
-                }
-            }
-        });
-        Button button_cancel = dialog.findViewById(R.id.btn_reward_cancelar);
-        button_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-
-                Log.d(getString(R.string.TAG_REWARD_DIALOG), getString(R.string
-                .TAG_REWARD_DIALOG_BTN_CANCEL));
-            }
-        });
-    }*/
-
-    /**
-     * Funcion que muestra el change log dialog
-     *
-     * @param test Parametro para testear notificacion
-     */
-    public void notificationChangeLog(boolean test) {
-        sharedPreferences = getSharedPreferences(getString(R.string.MAIN_SHARED_PREF_KEY),
-                Context.MODE_PRIVATE);
-        try {
-            PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-            long versionCode = packageInfo.versionCode;
-
-            long shared_version_code =
-                    sharedPreferences.getLong(getString(R.string.SHARED_PREF_ACTUAL_VERSION_CODE)
-                            , 0);
-
-            //Logs post actualizacion
-            Log.d(getString(R.string.TAG_SHARED_VERSION_CODE_APP),
-                    String.valueOf(shared_version_code));
-            Log.d(getString(R.string.TAG_VERSION_CODE_APP), String.valueOf(versionCode));
-
-            Crashlytics.log(Log.DEBUG, getString(R.string.TAG_SHARED_VERSION_CODE_APP),
-                    String.valueOf(shared_version_code));
-            Crashlytics.log(Log.DEBUG, getString(R.string.TAG_VERSION_CODE_APP),
-                    String.valueOf(versionCode));
-
-
-            if (!test) {
-                //Si variable shared no exite, actualizar dato
-                if (shared_version_code == 0) {
-                    //Actualizar version
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putLong(getString(R.string.SHARED_PREF_ACTUAL_VERSION_CODE),
-                            versionCode);
-                    editor.apply();
-                }
-                if (shared_version_code < versionCode) {
-
-                    showNotificationChangeLog();
-
-                    //Logs
-                    Log.d(getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS),
-                            getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE));
-                    Crashlytics.log(Log.DEBUG,
-                            getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS),
-                            getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE));
-
-                    //Actualizar version
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putLong(getString(R.string.SHARED_PREF_ACTUAL_VERSION_CODE),
-                            versionCode);
-                    editor.apply();
-
-                }
-            } else {
-                showNotificationChangeLog();
-            }
-
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Funcion encargada de enviar la notificacion al celular sobre changelog
-     */
-    private void showNotificationChangeLog() throws PackageManager.NameNotFoundException {
-        //Maneja la notificacion cuando esta en foreground
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this,
-                getString(R.string.FIREBASE_CHANNEL_ID))
-                .setContentTitle("¡Novedades! v" + getPackageManager().getPackageInfo(getPackageName(), 0).versionName)
-                .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText("- En cada actualización se muestra un dialogo resumen " +
-                                "de cambios\n" +
-                                "- Este es otro item de la notificacion"))
-                .setSmallIcon(R.drawable.ic_lastquakechile_1200)
-                .setAutoCancel(true);
-
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        notificationManager.notify(Integer.parseInt("2"), mBuilder.build());
-    }
-
-    /**
      * Funcion encargada de cargar la imagen de fondo en el toolbar
      */
-    private void loadImage() {
+    private void loadImageToolbar() {
         mIvFoto = findViewById(R.id.toolbar_image);
         Glide.with(this)
                 .load(R.drawable.foto)
@@ -486,19 +227,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        QuakeUtils.checkPlayServices(this);
-        //rewardedVideoAd.resume(this);
+        Utils.checkPlayServices(this);
+        adsService.getRewardedVideoAd().resume(this);
     }
 
     @Override
     public void onPause() {
-        //rewardedVideoAd.pause(this);
+        adsService.getRewardedVideoAd().pause(this);
         super.onPause();
     }
 
     @Override
     public void onDestroy() {
-        //rewardedVideoAd.destroy(this);
+        adsService.getRewardedVideoAd().destroy(this);
         super.onDestroy();
     }
 }

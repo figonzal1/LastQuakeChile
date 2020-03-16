@@ -1,0 +1,65 @@
+package cl.figonzal.lastquakechile.dialogs;
+
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.DialogFragment;
+
+import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.ads.reward.RewardedVideoAd;
+
+import cl.figonzal.lastquakechile.R;
+
+public class RewardDialogFragment extends DialogFragment {
+
+    private final RewardedVideoAd rewardedVideoAd;
+
+    public RewardDialogFragment(RewardedVideoAd rewardedVideoAd) {
+        this.rewardedVideoAd = rewardedVideoAd;
+    }
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+        //LayoutInflater inflater = requireActivity().getLayoutInflater();
+        //View view = inflater.inflate(R.layout.reward_dialog_layout, null);
+        //builder.setView(view);
+
+        builder.setTitle("¡Apoya a la aplicación!");
+        builder.setMessage("Ve el video, apoya gratis monetariamente y recibe 1 hora libre de publicidad");
+        builder.setPositiveButton("Ver video", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (rewardedVideoAd.isLoaded()) {
+                    dismiss();
+                    rewardedVideoAd.show();
+
+                    Log.d(getString(R.string.TAG_REWARD_DIALOG), getString(R.string.TAG_REWARD_DIALOG_BTN_VER_VIDEO));
+                    Crashlytics.log(Log.DEBUG, getString(R.string.TAG_REWARD_DIALOG), getString(R.string.TAG_REWARD_DIALOG_BTN_VER_VIDEO));
+                }
+
+
+                dismiss();
+            }
+        });
+
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.d(getString(R.string.TAG_REWARD_DIALOG), getString(R.string
+                        .TAG_REWARD_DIALOG_BTN_CANCEL));
+                Crashlytics.log(Log.DEBUG, getString(R.string.TAG_REWARD_DIALOG), getString(R.string
+                        .TAG_REWARD_DIALOG_BTN_CANCEL));
+                dismiss();
+            }
+        });
+        return builder.create();
+    }
+}

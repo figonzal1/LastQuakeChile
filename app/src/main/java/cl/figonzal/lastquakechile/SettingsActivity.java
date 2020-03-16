@@ -16,8 +16,8 @@ import androidx.preference.SeekBarPreference;
 
 import java.util.Objects;
 
-import cl.figonzal.lastquakechile.services.FCMNotification;
 import cl.figonzal.lastquakechile.services.Utils;
+import cl.figonzal.lastquakechile.services.notifications.FCMNotification;
 import cl.figonzal.lastquakechile.views.MainActivity;
 
 public class SettingsActivity extends AppCompatActivity {

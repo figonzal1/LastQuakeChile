@@ -23,8 +23,8 @@
     <string name="quake_details_magnitud_local">Magnitude local (Ml)</string>
     <string name="quake_details_magnitud_momento">Moment magnitude (Mw)</string>
     <string name="icono_sensible">Sensitive icon</string>
-    <string name="FIREBASE_CHANNEL_NAME">Quake alerts</string>
-    <string name="FIREBASE_CHANNEL_DESCRIPTION">Receives quake alerts above 5 degrees</string>
+    <string name="FIREBASE_CHANNEL_NAME_QUAKES">Quake alerts</string>
+    <string name="FIREBASE_CHANNEL_DESCRIPTION_QUAKES">Receives quake alerts above 5 degrees</string>
     <string name="last_quakes_info_card_view_tittle">Last quakes</string>
     <string name="last_quakes_info_card_view_button">OK</string>
     <string name="VIEWMODEL_TIMEOUT_ERROR">Timeout</string>
