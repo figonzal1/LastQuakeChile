@@ -3,7 +3,7 @@
 
     <string name="ADMOB_MASTER_KEY" translatable="false">ca-app-pub-6355378855577476~7414287525</string>
     <!--TEST AD-->
-    <string name="ADMOB_ID_INTERSITIAL" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="ADMOB_ID_BANNER" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
     <string name="ADMOB_ID_VIDEO" translatable="false">ca-app-pub-3940256099942544/5224354917</string>
 
     <!-- TOOLBAR Menu STRINGS -->
@@ -372,5 +372,9 @@
     <string name="TAG_NOTIFICATION_CHANGELOG_STATUS" translatable="false">NOTI_CHANGELOG_STATUS
     </string>
     <string name="TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE" translatable="false">ENVIADA</string>
+    <string name="REWAR_DIALOG_TITLE" translatable="false">¡Apoya a la aplicación!</string>
+    <string name="REWARD_DIALOG_MESSAGE" translatable="false">Ve el video, apoya gratis monetariamente y recibe 1 hora libre de publicidad</string>
+    <string name="REWARD_DIALOG_POSITIVE" translatable="false">Ver video</string>
+    <string name="REWARD_DIALOG_NEGATIVE" translatable="false">Cancelar</string>
 
 </resources>

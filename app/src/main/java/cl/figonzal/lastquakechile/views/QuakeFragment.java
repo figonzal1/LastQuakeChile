@@ -24,11 +24,12 @@ import androidx.appcompat.widget.SearchView;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.appinvite.AppInviteInvitation;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -39,6 +40,7 @@ import cl.figonzal.lastquakechile.QuakeAdapter;
 import cl.figonzal.lastquakechile.QuakeModel;
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.SettingsActivity;
+import cl.figonzal.lastquakechile.services.AdsService;
 import cl.figonzal.lastquakechile.services.WrapContentLinearLayoutManager;
 import cl.figonzal.lastquakechile.viewmodel.QuakeViewModel;
 
@@ -51,8 +53,9 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
     private QuakeViewModel mViewModel;
     private QuakeAdapter mAdapter;
     private CardView mCardViewInfo;
-    //private AdView mAdView;
     private SharedPreferences sharedPreferences;
+
+    private AdView mAdView;
 
     public QuakeFragment() {
 
@@ -78,27 +81,9 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         final View mView = inflater.inflate(R.layout.fragment_quake, container, false);
 
         //Cargar ads de fragmento
-        //TODO: Finalizar adview
-        //mAdView = mView.findViewById(R.id.adView);
-
-        sharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(
-                getString(R.string.MAIN_SHARED_PREF_KEY), Context.MODE_PRIVATE);
-
-        //TODO: FINALIZAR PUBLICIDAD
-		/*Date reward_date =
-				new Date(sharedPreferences.getLong(getString(R.string.SHARED_PREF_END_REWARD_TIME)
-						, 0));
-		Log.d(getString(R.string.TAG_FRAGMENT_REWARD_DATE), reward_date.toString());
-        Date now_date = new Date();
-
-
-        //si las 24 horas ya pasaron, cargar los ads nuevamente
-        if (now_date.after(reward_date)) {
-            loadAds();
-			Log.d(getString(R.string.TAG_FRAGMENT_LIST), getString(R.string.TAG_ADS_LOADED));
-        } else {
-			Log.d(getString(R.string.TAG_FRAGMENT_LIST), getString(R.string.TG_ADS_NOT_LOADED));
-        }*/
+        mAdView = mView.findViewById(R.id.adView);
+        AdsService adsService = new AdsService(getContext(), getParentFragmentManager());
+        adsService.configurarIntersitial(mAdView);
 
         //Setear el recycle view
         mRecycleView = mView.findViewById(R.id.recycle_view);
@@ -112,8 +97,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         mProgressBar.setVisibility(View.VISIBLE);
 
         //Instanciar viewmodel
-        mViewModel =
-                ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(QuakeViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(QuakeViewModel.class);
 
         //ViewModels en observación
         viewModelObservers(mView);
@@ -124,41 +108,6 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         return mView;
     }
 
-    /**
-     * Funcion encargada de cargar la publicidad presente en el listado
-     */
-    /*private void loadAds() {
-
-        AdRequest adRequest = new AdRequest.Builder().build();
-
-        mAdView.setAdListener(new AdListener() {
-
-            @Override
-            public void onAdFailedToLoad(int i) {
-				Log.d(getString(R.string.TAG_ADMOB_AD_STATUS),
-						getString(R.string.TAG_ADMOB_AD_STATUS_FAILED));
-                mAdView.setVisibility(View.GONE);
-                super.onAdFailedToLoad(i);
-            }
-
-            @Override
-            public void onAdLoaded() {
-				Log.d(getString(R.string.TAG_ADMOB_AD_STATUS),
-						getString(R.string.TAG_ADMOB_AD_STATUS_LOADED));
-                mAdView.setVisibility(View.VISIBLE);
-                super.onAdLoaded();
-            }
-
-            @Override
-            public void onAdOpened() {
-				Log.d(getString(R.string.TAG_ADMOB_AD_STATUS),
-						getString(R.string.TAG_ADMOB_AD_STATUS_OPEN));
-                super.onAdOpened();
-            }
-        });
-
-        mAdView.loadAd(adRequest);
-    }*/
 
     /**
      * Funcion que contiene los ViewModels encargados de cargar los datos asincronamente a la UI
@@ -168,7 +117,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
     private void viewModelObservers(final View v) {
 
         //Viewmodel encargado de cargar los datos desde internet
-        mViewModel.showQuakeList().observe(this, new Observer<List<QuakeModel>>() {
+        mViewModel.showQuakeList().observe(requireActivity(), new Observer<List<QuakeModel>>() {
             @Override
             public void onChanged(@Nullable List<QuakeModel> quakeModelList) {
 
@@ -190,7 +139,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         });
 
         //Viewmodel encargado de mostrar los mensajes de estado en los sSnackbar
-        mViewModel.showStatusData().observe(this, new Observer<String>() {
+        mViewModel.showStatusData().observe(requireActivity(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String status) {
                 if (status != null) {
@@ -201,7 +150,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         });
 
         //ViewModel encargado de cargar los datos de sismos post-busqueda de usuario en SearchView
-        mViewModel.showFilteredQuakeList().observe(this, new Observer<List<QuakeModel>>() {
+        mViewModel.showFilteredQuakeList().observe(requireActivity(), new Observer<List<QuakeModel>>() {
             @Override
             public void onChanged(@Nullable List<QuakeModel> quakeModels) {
                 //Setear el mAdapter con la lista de quakes
@@ -461,8 +410,6 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
     /**
      * Funcion encargada de configurar el intent para la invitacion.
      */
-    //TODO: Agregar un metodo para escoger entre compartir el link a redes sociales o enviarlo por
-    // mail
     private void onInviteClicked() {
         Intent mIntent =
                 new AppInviteInvitation.IntentBuilder(getString(R.string.INVITATION_TITLE))
