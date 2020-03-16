@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey"
+    android:theme="@style/AppTheme"
     tools:context=".views.QuakeDetailsActivity">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -20,7 +20,8 @@
         app:layout_constraintEnd_toEndOf="@+id/fab_share"
         app:layout_constraintStart_toStartOf="@+id/fab_share"
         app:layout_constraintTop_toTopOf="@+id/fab_share"
-        app:srcCompat="@drawable/ic_fab_gmail" />
+        app:srcCompat="@drawable/ic_fab_gmail"
+        app:tint="@color/white" />
 
     <TextView
         android:id="@+id/fab_text_gm"
@@ -50,7 +51,8 @@
         app:layout_constraintEnd_toEndOf="@+id/fab_share"
         app:layout_constraintStart_toStartOf="@+id/fab_share"
         app:layout_constraintTop_toTopOf="@+id/fab_share"
-        app:srcCompat="@drawable/ic_fab_whatsapp" />
+        app:srcCompat="@drawable/ic_fab_whatsapp"
+        app:tint="@color/white" />
 
     <TextView
         android:id="@+id/fab_text_wsp"
@@ -80,8 +82,9 @@
         app:elevation="7dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:rippleColor="@color/colorPrimaryDark"
-        app:srcCompat="@drawable/ic_share_24px" />
+        app:rippleColor="@color/colorPrimaryVariant"
+        app:srcCompat="@drawable/ic_share_24px"
+        app:tint="@color/white" />
 
 
     <View
@@ -89,7 +92,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:alpha="0.85"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/colorPrimaryVariant"
         android:elevation="5dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -144,7 +147,7 @@
                 android:visibility="visible"
                 app:layout_constraintGuide_end="8dp" />
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_view_map"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -172,7 +175,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
 
             <androidx.constraintlayout.widget.Guideline
@@ -183,7 +186,7 @@
                 app:layout_constraintGuide_percent="0.4" />
 
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_view_detail"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -503,7 +506,7 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
 
             <androidx.constraintlayout.widget.Guideline

@@ -145,7 +145,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
         return position;
     }
 
-    public static class QuakeViewHolder extends RecyclerView.ViewHolder {
+    static class QuakeViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView tv_referencia;
         private final TextView tv_magnitud;

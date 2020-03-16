@@ -216,7 +216,7 @@ public class Utils {
 
             //Si no, se elige color por defecto
             default:
-                mMagResourseId = R.color.colorAccent;
+                mMagResourseId = R.color.colorSecondary;
                 break;
         }
         return mMagResourseId;
@@ -432,7 +432,7 @@ public class Utils {
         //Si el modo nocturno esta desactivado
         else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            window.setStatusBarColor(activity.getColor(R.color.colorPrimaryDark));
+            window.setStatusBarColor(activity.getColor(R.color.colorPrimaryVariant));
 
             Log.d(activity.getString(R.string.TAG_NIGHT_MODE),
                     activity.getString(R.string.TAG_NIGHT_MODE_STATUS_OFF));

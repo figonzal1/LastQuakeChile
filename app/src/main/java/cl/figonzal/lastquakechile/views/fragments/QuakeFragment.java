@@ -389,15 +389,6 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
                 return true;
 
-            case R.id.contact_menu:
-
-                //Intent de contacto
-                intent = new Intent(getActivity(), ContactActivity.class);
-                startActivity(intent);
-
-                return true;
-
-
             case R.id.invite_menu:
 
                 //Intent de invitacion
