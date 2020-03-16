@@ -1,6 +1,7 @@
 package cl.figonzal.lastquakechile.repository;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
@@ -41,13 +42,17 @@ import cl.figonzal.lastquakechile.services.VolleySingleton;
 public class QuakeRepository {
 
     private static QuakeRepository sInstanceRepository;
-    private final MutableLiveData<List<QuakeModel>> mQuakeMutableList = new MutableLiveData<>();
+
     private final Application mApplication;
-    private final MutableLiveData<String> mStatusData = new MutableLiveData<>();
-    private List<QuakeModel> mQuakeList;
+
+
+    private final MutableLiveData<List<QuakeModel>> mQuakeMutableList = new MutableLiveData<>();
+
+    private final MutableLiveData<String> mResponseErrorList = new MutableLiveData<>();
+
+    private List<QuakeModel> mQuakeList = new ArrayList<>();
     private boolean volleyError = false;
     private int contador_request = 0;
-    private SharedPreferences sharedPreferences;
 
     /**
      * Contructor que permite instanciar el contexto de la acitivity
@@ -77,18 +82,8 @@ public class QuakeRepository {
      * @return MutableLiveData con los sismos
      */
     public MutableLiveData<List<QuakeModel>> getMutableQuakeList() {
-        mQuakeList = new ArrayList<>();
         loadQuakes();
         return mQuakeMutableList;
-    }
-
-    /**
-     * Funcion encargada de enviar el status data al viewmodel
-     *
-     * @return MutableLiveData de status data
-     */
-    public MutableLiveData<String> getStatusData() {
-        return mStatusData;
     }
 
     /**
@@ -105,6 +100,8 @@ public class QuakeRepository {
      * sismos
      */
     private void loadQuakes() {
+
+        mQuakeList.clear();
 
         Response.Listener<String> listener = new Response.Listener<String>() {
             @Override
@@ -211,7 +208,7 @@ public class QuakeRepository {
                         Crashlytics.log(Log.DEBUG,
                                 mApplication.getString(R.string.TAG_VOLLEY_ERROR),
                                 mApplication.getString(R.string.TAG_VOLLEY_ERROR_CONNECTION));
-                        mStatusData.postValue(mApplication.getString(R.string.VIEWMODEL_NOCONNECTION_ERROR));
+                        mResponseErrorList.postValue(mApplication.getString(R.string.VIEWMODEL_NOCONNECTION_ERROR));
 
                     } else if (error instanceof AuthFailureError) {
                         Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR),
@@ -223,7 +220,7 @@ public class QuakeRepository {
                         Crashlytics.log(Log.DEBUG,
                                 mApplication.getString(R.string.TAG_VOLLEY_ERROR),
                                 mApplication.getString(R.string.TAG_VOLLEY_ERROR_SERVER));
-                        mStatusData.postValue(mApplication.getString(R.string.VIEWMODEL_SERVER_ERROR));
+                        mResponseErrorList.postValue(mApplication.getString(R.string.VIEWMODEL_SERVER_ERROR));
 
                     } else if (error instanceof NetworkError) {
                         Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR),
@@ -245,8 +242,7 @@ public class QuakeRepository {
         /*
          * SECCION CONEXION DE RESPALDOS
          */
-        /*sharedPreferences =
-                mApplication.getSharedPreferences(mApplication.getString(R.string.MAIN_SHARED_PREF_KEY), Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = mApplication.getSharedPreferences(mApplication.getString(R.string.MAIN_SHARED_PREF_KEY), Context.MODE_PRIVATE);
         String limite =
                 String.valueOf(sharedPreferences.getInt(mApplication.getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER), 0));
 
@@ -258,12 +254,14 @@ public class QuakeRepository {
         }
 
         //Si servidor oficial arroja error, conectar a dev
-        JsonObjectRequest mRequest;
+        StringRequest mRequest;
         if (volleyError) {
             contador_request += 1;
-            mRequest = new JsonObjectRequest(Request.Method.GET,
+            mRequest = new StringRequest(
+                    Request.Method.GET,
                     String.format(Locale.US, mApplication.getString(R.string.URL_GET_DEV), limite),
-                    null, listener, errorListener);
+                    listener,
+                    errorListener);
 
             Log.d(mApplication.getString(R.string.TAG_CONNECTION_SERVER_RESPALDO),
                     mApplication.getString(R.string.TAG_CONNECTION_SERVER_RESPALDO_RESPONSE));
@@ -276,10 +274,11 @@ public class QuakeRepository {
         //Si servidor oficial funciona conectarse a él
         else {
             contador_request += 1;
-            mRequest = new JsonObjectRequest(Request.Method.GET,
-                    String.format(Locale.US, mApplication.getString(R.string.URL_GET_PROD),
-                            limite),
-                    null, listener, errorListener);
+            mRequest = new StringRequest(
+                    Request.Method.GET,
+                    String.format(Locale.US, mApplication.getString(R.string.URL_GET_PROD), limite),
+                    listener,
+                    errorListener);
             Log.d(mApplication.getString(R.string.TAG_CONNECTION_SERVER_OFICIAL),
                     mApplication.getString(R.string.TAG_CONNECTION_SERVER_OFICIAL_RESPONSE));
 
@@ -287,16 +286,22 @@ public class QuakeRepository {
                     mApplication.getString(R.string.TAG_CONNECTION_SERVER_OFICIAL),
                     mApplication.getString(R.string.TAG_CONNECTION_SERVER_OFICIAL_RESPONSE));
 
-        }*/
+        }
 
-        //CONEXION A DEV
-        /*JsonObjectRequest mRequest;
-        mRequest = new JsonObjectRequest(Request.Method.GET,String.format(Locale.US,mApplication.getString(R.string.URL_GET_DEV),"15"),null, listener, errorListener);
-        */
-        StringRequest mRequest = new StringRequest(Request.Method.GET, String.format(Locale.US, mApplication.getString(R.string.URL_GET_DEV), "15"), listener, errorListener);
+        //TEST DEV DIRECTO
+        //StringRequest mRequest = new StringRequest(Request.Method.GET, String.format(Locale.US, mApplication.getString(R.string.URL_GET_DEV), "15"), listener, errorListener);
         mRequest.setShouldCache(true);
         mRequest.setRetryPolicy(new DefaultRetryPolicy(2500, 0,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         VolleySingleton.getInstance(mApplication).addToRequestQueue(mRequest, "TAG");
+    }
+
+    /**
+     * Funcion encargada de enviar el status data al viewmodel
+     *
+     * @return MutableLiveData de status data
+     */
+    public MutableLiveData<String> getResponseErrorList() {
+        return mResponseErrorList;
     }
 }

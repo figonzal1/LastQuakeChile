@@ -42,7 +42,7 @@ import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.SettingsActivity;
 import cl.figonzal.lastquakechile.services.AdsService;
 import cl.figonzal.lastquakechile.services.WrapContentLinearLayoutManager;
-import cl.figonzal.lastquakechile.viewmodel.QuakeViewModel;
+import cl.figonzal.lastquakechile.viewmodel.QuakeListViewModel;
 
 
 public class QuakeFragment extends Fragment implements SearchView.OnQueryTextListener {
@@ -50,7 +50,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
     private Snackbar sSnackbar;
     private RecyclerView mRecycleView;
     private ProgressBar mProgressBar;
-    private QuakeViewModel mViewModel;
+    private QuakeListViewModel mViewModel;
     private QuakeAdapter mAdapter;
     private CardView mCardViewInfo;
     private SharedPreferences sharedPreferences;
@@ -97,7 +97,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         mProgressBar.setVisibility(View.VISIBLE);
 
         //Instanciar viewmodel
-        mViewModel = new ViewModelProvider(this).get(QuakeViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(QuakeListViewModel.class);
 
         //ViewModels en observación
         viewModelObservers(mView);
@@ -139,7 +139,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         });
 
         //Viewmodel encargado de mostrar los mensajes de estado en los sSnackbar
-        mViewModel.showStatusData().observe(requireActivity(), new Observer<String>() {
+        mViewModel.showResponseErrorList().observe(requireActivity(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String status) {
                 if (status != null) {
@@ -290,13 +290,13 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
     @Override
     public void onResume() {
-        //mAdView.resume();
+        mAdView.resume();
         super.onResume();
     }
 
     @Override
     public void onPause() {
-        //mAdView.pause();
+        mAdView.pause();
         super.onPause();
     }
 

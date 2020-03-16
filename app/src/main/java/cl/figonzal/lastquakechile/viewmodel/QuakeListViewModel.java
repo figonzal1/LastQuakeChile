@@ -17,7 +17,7 @@ import cl.figonzal.lastquakechile.repository.QuakeRepository;
  * Clase ideada para cargar UI bajo el cambio de orientacion de pantalla
  * independiente de la creacion de una nueva activity
  */
-public class QuakeViewModel extends AndroidViewModel {
+public class QuakeListViewModel extends AndroidViewModel {
 
     private final MutableLiveData<List<QuakeModel>> mQuakeMutableFilterList =
             new MutableLiveData<>();
@@ -25,7 +25,7 @@ public class QuakeViewModel extends AndroidViewModel {
     private MutableLiveData<List<QuakeModel>> mQuakeMutableList;
 
     //Contructor para usar context dentro de la clase ViewModel
-    public QuakeViewModel(@NonNull Application application) {
+    public QuakeListViewModel(@NonNull Application application) {
         super(application);
     }
 
@@ -50,7 +50,7 @@ public class QuakeViewModel extends AndroidViewModel {
      */
     public void refreshMutableQuakeList() {
         mQuakeRepository = QuakeRepository.getIntance(getApplication());
-        mQuakeMutableList = mQuakeRepository.getMutableQuakeList();
+        mQuakeRepository.getMutableQuakeList();
     }
 
     /**
@@ -59,10 +59,10 @@ public class QuakeViewModel extends AndroidViewModel {
      *
      * @return Retorna el MutableLiveData del mensaje estado
      */
-    public MutableLiveData<String> showStatusData() {
+    public MutableLiveData<String> showResponseErrorList() {
 
         mQuakeRepository = QuakeRepository.getIntance(getApplication());
-        return mQuakeRepository.getStatusData();
+        return mQuakeRepository.getResponseErrorList();
     }
 
     /**
