@@ -10,18 +10,18 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 
-import cl.figonzal.lastquakechile.services.QuakeUtils;
+import cl.figonzal.lastquakechile.services.Utils;
 
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
-public class QuakeUtilsTest {
+public class UtilsTest {
 
     private Date dActual;
     private Date dEsperado;
     private int dHoras;
 
-    public QuakeUtilsTest(Date dActual, Date dEsperado, int dHoras) {
+    public UtilsTest(Date dActual, Date dEsperado, int dHoras) {
         this.dActual = dActual;
         this.dEsperado = dEsperado;
         this.dHoras = dHoras;
@@ -45,6 +45,6 @@ public class QuakeUtilsTest {
 
     @Test
     public void add_hours_to_date() {
-        assertEquals(dEsperado, QuakeUtils.addHoursToJavaUtilDate(dActual, dHoras));
+        assertEquals(dEsperado, Utils.addHoursToJavaUtilDate(dActual, dHoras));
     }
 }

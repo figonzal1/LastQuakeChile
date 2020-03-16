@@ -26,7 +26,7 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import java.util.Objects;
 
 import cl.figonzal.lastquakechile.R;
-import cl.figonzal.lastquakechile.services.QuakeUtils;
+import cl.figonzal.lastquakechile.services.Utils;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
@@ -42,7 +42,7 @@ public class ContactActivity extends AppCompatActivity {
 		/*
 		 * Checkear MODO NOCHE
 		 */
-		QuakeUtils.checkNightMode(this, getWindow());
+        Utils.checkNightMode(this, getWindow());
 
 		//Sete de toolbar
 		Toolbar mToolbar = findViewById(R.id.tool_bar_contact);
@@ -81,7 +81,7 @@ public class ContactActivity extends AppCompatActivity {
 				mIntent =
 						getPackageManager().getLaunchIntentForPackage(getString(R.string.PACKAGE_NAME_FB));
 				if (mIntent == null) {
-					QuakeUtils.doInstallation(getString(R.string.PACKAGE_NAME_FB),
+                    Utils.doInstallation(getString(R.string.PACKAGE_NAME_FB),
 							getApplicationContext());
 				} else {
 
@@ -103,7 +103,7 @@ public class ContactActivity extends AppCompatActivity {
 				mIntent =
 						getPackageManager().getLaunchIntentForPackage(getString(R.string.PACKAGE_NAME_LINKEDIN));
 				if (mIntent == null) {
-					QuakeUtils.doInstallation(getString(R.string.PACKAGE_NAME_LINKEDIN),
+                    Utils.doInstallation(getString(R.string.PACKAGE_NAME_LINKEDIN),
 							getApplicationContext());
 				} else {
 

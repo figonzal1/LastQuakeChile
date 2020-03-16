@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 
-import cl.figonzal.lastquakechile.services.QuakeUtils;
+import cl.figonzal.lastquakechile.services.Utils;
 
 import static org.junit.Assert.assertEquals;
 
@@ -57,7 +57,7 @@ public class DateToStringTest {
 
 	@Test
 	public void date_to_string() {
-		String sActual = QuakeUtils.dateToString(context, dActual);
+        String sActual = Utils.dateToString(context, dActual);
 
 		assertEquals(sEsperado, sActual);
 	}

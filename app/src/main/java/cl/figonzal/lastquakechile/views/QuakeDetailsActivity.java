@@ -38,7 +38,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import cl.figonzal.lastquakechile.R;
-import cl.figonzal.lastquakechile.services.QuakeUtils;
+import cl.figonzal.lastquakechile.services.Utils;
 
 public class QuakeDetailsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -87,7 +87,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         /*
          * Checkear MODO NOCHE
          */
-        QuakeUtils.checkNightMode(this, getWindow());
+        Utils.checkNightMode(this, getWindow());
 
         mMapViewBundle = null;
         if (savedInstanceState != null) {
@@ -298,7 +298,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
 
                 //Si no existe el paquete
                 if (mIntent == null) {
-                    QuakeUtils.doInstallation(getString(R.string.PACKAGE_NAME_WSP),
+                    Utils.doInstallation(getString(R.string.PACKAGE_NAME_WSP),
                             getApplicationContext());
                 } else {
                     Log.d(getString(R.string.TAG_INTENT_SHARE),
@@ -340,7 +340,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
 
                 //Si no existe el paquete
                 if (mIntent == null) {
-                    QuakeUtils.doInstallation(getString(R.string.PACKAGE_NAME_GMAIL),
+                    Utils.doInstallation(getString(R.string.PACKAGE_NAME_GMAIL),
                             getApplicationContext());
                 } else {
 
@@ -412,7 +412,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         }
 
         //Calculo de lat to GMS
-        Map<String, Double> mMapLatDMS = QuakeUtils.latLonToDMS(mLatUbicacion);
+        Map<String, Double> mMapLatDMS = Utils.latLonToDMS(mLatUbicacion);
         Double mLatGradosDMS = mMapLatDMS.get("grados");
         Double mLatMinutosDMS = mMapLatDMS.get("minutos");
         Double mLatSegundosDMS = mMapLatDMS.get("segundos");
@@ -427,7 +427,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         }
 
         //Calculo de long to GMS
-        Map<String, Double> mMapLongDMS = QuakeUtils.latLonToDMS(mLongUbicacion);
+        Map<String, Double> mMapLongDMS = Utils.latLonToDMS(mLongUbicacion);
         Double mLongGradosDMS = mMapLongDMS.get("grados");
         Double mLongMinutosDMS = mMapLongDMS.get("minutos");
         Double mLongSegundosDMS = mMapLongDMS.get("segundos");
@@ -452,8 +452,8 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         //Convertir mFechaLocal a Date
         //Calcular DHMS de Date fecha_local
         if (mFechaLocal != null) {
-            Date mFechaLocal = QuakeUtils.stringToDate(this, this.mFechaLocal);
-            mTiempos = QuakeUtils.dateToDHMS(mFechaLocal);
+            Date mFechaLocal = Utils.stringToDate(this, this.mFechaLocal);
+            mTiempos = Utils.dateToDHMS(mFechaLocal);
         }
 
         //Si el intent viene de notificacion
@@ -463,13 +463,13 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         else {
 
             if (mFechaUtc != null) {
-                Date mDateFechaUtc = QuakeUtils.stringToDate(this, mFechaUtc);
-                Date mDateFechaLocal = QuakeUtils.utcToLocal(mDateFechaUtc);
-                mTiempos = QuakeUtils.dateToDHMS(mDateFechaLocal);
+                Date mDateFechaUtc = Utils.stringToDate(this, mFechaUtc);
+                Date mDateFechaLocal = Utils.utcToLocal(mDateFechaUtc);
+                mTiempos = Utils.dateToDHMS(mDateFechaLocal);
 
                 //Setear string que será usado en textviews de detalle con la fecha transformada
                 // de utc a local desde notificacion
-                mFechaLocal = QuakeUtils.dateToString(this, mDateFechaLocal);
+                mFechaLocal = Utils.dateToString(this, mDateFechaLocal);
 
             }
         }
@@ -615,7 +615,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         mTvMagnitud.setText(String.format(getString(R.string.magnitud), mMagnitud));
 
         //Setear el color de background dependiendo de mMagnitud del sismo
-        mIvMagColor.setColorFilter(getColor(QuakeUtils.getMagnitudeColor(mMagnitud, false)));
+        mIvMagColor.setColorFilter(getColor(Utils.getMagnitudeColor(mMagnitud, false)));
 
         //Setear mProfundidad
         mTvProfundidad.setText(String.format(Locale.US,
@@ -629,17 +629,17 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
 
         //SETEO DE ESTADO
         if (mEstado != null) {
-            QuakeUtils.setStatusImage(getApplicationContext(), mEstado, mTvEstado, mIvEstado);
+            Utils.setStatusImage(getApplicationContext(), mEstado, mTvEstado, mIvEstado);
         }
 
         //SETEO DE HORA
         if (mTiempos != null) {
-            QuakeUtils.setTimeToTextView(getApplicationContext(), mTiempos, mTvHora);
+            Utils.setTimeToTextView(getApplicationContext(), mTiempos, mTvHora);
         }
 
         //SETEO DE ESCALA
         if (mEscala != null) {
-            QuakeUtils.setEscala(getApplicationContext(), mEscala, mTvEscala);
+            Utils.setEscala(getApplicationContext(), mEscala, mTvEscala);
         }
 
         //SETEO SISMO SENSIBLE
@@ -715,7 +715,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
 
         LatLng mLatLong = new LatLng(Double.parseDouble(mLatitud), Double.parseDouble(mLongitud));
 
-        int mIdColor = QuakeUtils.getMagnitudeColor(mMagnitud, true);
+        int mIdColor = Utils.getMagnitudeColor(mMagnitud, true);
 
         //Circulo grande con color segun magnitud
         mGoogleMap.addCircle(new CircleOptions()
@@ -789,7 +789,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
                 mGoogleMap.snapshot(new GoogleMap.SnapshotReadyCallback() {
                     @Override
                     public void onSnapshotReady(Bitmap bitmap) {
-                        mBitmapUri = QuakeUtils.getLocalBitmapUri(bitmap,
+                        mBitmapUri = Utils.getLocalBitmapUri(bitmap,
                                 getApplicationContext());
                         mBitmapFB = bitmap;
                     }

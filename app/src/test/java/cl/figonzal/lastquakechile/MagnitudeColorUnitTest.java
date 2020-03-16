@@ -7,7 +7,7 @@ import org.junit.runners.Parameterized;
 import java.util.Arrays;
 import java.util.Collection;
 
-import cl.figonzal.lastquakechile.services.QuakeUtils;
+import cl.figonzal.lastquakechile.services.Utils;
 
 import static org.junit.Assert.assertEquals;
 
@@ -46,6 +46,6 @@ public class MagnitudeColorUnitTest {
 
 	@Test
 	public void give_magnitude_return_magnitud_color() {
-		assertEquals(colorEsperado, QuakeUtils.getMagnitudeColor(magnitud, false));
+        assertEquals(colorEsperado, Utils.getMagnitudeColor(magnitud, false));
 	}
 }

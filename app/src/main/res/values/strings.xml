@@ -1,8 +1,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name" translatable="false">LastQuakeChile</string>
 
-    <!--ID FACEBOOK-->
-    <string name="facebook_app_id" translatable="false">1263072277140754</string>
+    <string name="ADMOB_MASTER_KEY" translatable="false">ca-app-pub-6355378855577476~7414287525</string>
+    <!--TEST AD-->
+    <string name="ADMOB_ID_INTERSITIAL" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="ADMOB_ID_VIDEO" translatable="false">ca-app-pub-3940256099942544/5224354917</string>
 
     <!-- TOOLBAR Menu STRINGS -->
     <string name="refresh">Recargar</string>
@@ -339,6 +341,7 @@
 
 
     <!-- REWARD DIALOG TAGS -->
+    <string name="REWARD_DIALOG" translatable="false">RewardDialog</string>
     <string name="TAG_REWARD_DIALOG" translatable="false">REWARD_DIALOG_STATUS</string>
     <string name="TAG_REWARD_DIALOG_BTN_VER_VIDEO" translatable="false">BOTON VER VIDEO PRESIONADO</string>
     <string name="TAG_REWARD_DIALOG_BTN_CANCEL" translatable="false">BOTON CANCEL PRESIONADO</string>

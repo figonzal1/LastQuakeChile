@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import cl.figonzal.lastquakechile.services.QuakeUtils;
+import cl.figonzal.lastquakechile.services.Utils;
 
 import static org.junit.Assert.assertEquals;
 
@@ -57,6 +57,6 @@ public class LatLongToDMSUnitTest {
 
 	@Test
 	public void give_lat_or_long_return_dms() {
-		assertEquals(map_esperado, QuakeUtils.latLonToDMS(actual_lat_long));
+        assertEquals(map_esperado, Utils.latLonToDMS(actual_lat_long));
 	}
 }
