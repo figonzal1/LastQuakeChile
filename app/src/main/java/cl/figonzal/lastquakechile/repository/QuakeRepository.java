@@ -1,7 +1,6 @@
 package cl.figonzal.lastquakechile.repository;
 
 import android.app.Application;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
@@ -17,7 +16,7 @@ import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.crashlytics.android.Crashlytics;
 
 import org.json.JSONArray;
@@ -30,11 +29,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.TimeZone;
 
 import cl.figonzal.lastquakechile.QuakeModel;
 import cl.figonzal.lastquakechile.R;
-import cl.figonzal.lastquakechile.services.QuakeUtils;
+import cl.figonzal.lastquakechile.services.Utils;
 import cl.figonzal.lastquakechile.services.VolleySingleton;
 
 
@@ -106,14 +106,15 @@ public class QuakeRepository {
      */
     private void loadQuakes() {
 
-        Response.Listener<JSONObject> listener = new Response.Listener<JSONObject>() {
+        Response.Listener<String> listener = new Response.Listener<String>() {
             @Override
-            public void onResponse(JSONObject response) {
+            public void onResponse(String response) {
                 //Parseando la informacion desde heroku get_quakes.php
                 try {
 
-                    JSONArray mJsonArray =
-                            response.getJSONArray(mApplication.getString(R.string.KEY_QUAKES));
+                    JSONObject jsonObject = new JSONObject(response);
+
+                    JSONArray mJsonArray = jsonObject.getJSONArray(mApplication.getString(R.string.KEY_QUAKES));
 
                     for (int i = 0; i < mJsonArray.length(); i++) {
 
@@ -129,7 +130,8 @@ public class QuakeRepository {
                         //OBTENER UTC DESDE PHP CONVERTIRLO A LOCAL DEL DISPOSITIVO
                         Date mUtcDate =
                                 mFormat.parse(mObject.getString(mApplication.getString(R.string.KEY_FECHA_UTC)));
-                        Date mLocalDate = QuakeUtils.utcToLocal(mUtcDate);
+                        assert mUtcDate != null;
+                        Date mLocalDate = Utils.utcToLocal(mUtcDate);
 
                         //LOCAL CALCULADO, NO PROVIENE DE CAMPO EN PHP
                         mModel.setFechaLocal(mLocalDate);
@@ -160,13 +162,13 @@ public class QuakeRepository {
 
                 } catch (JSONException e) {
 
-                    Log.d(mApplication.getString(R.string.TAG_JSON_GENERAL_ERROR), e.getMessage());
+                    Log.d(mApplication.getString(R.string.TAG_JSON_GENERAL_ERROR), Objects.requireNonNull(e.getMessage()));
                     Crashlytics.log(Log.DEBUG,
                             mApplication.getString(R.string.TAG_JSON_GENERAL_ERROR),
                             e.getMessage());
                 } catch (ParseException e) {
 
-                    Log.d(mApplication.getString(R.string.TAG_JSON_PARSE_ERROR), e.getMessage());
+                    Log.d(mApplication.getString(R.string.TAG_JSON_PARSE_ERROR), Objects.requireNonNull(e.getMessage()));
                     Crashlytics.log(Log.DEBUG,
                             mApplication.getString(R.string.TAG_JSON_PARSE_ERROR), e.getMessage());
                 }
@@ -243,7 +245,7 @@ public class QuakeRepository {
         /*
          * SECCION CONEXION DE RESPALDOS
          */
-        sharedPreferences =
+        /*sharedPreferences =
                 mApplication.getSharedPreferences(mApplication.getString(R.string.MAIN_SHARED_PREF_KEY), Context.MODE_PRIVATE);
         String limite =
                 String.valueOf(sharedPreferences.getInt(mApplication.getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER), 0));
@@ -285,7 +287,13 @@ public class QuakeRepository {
                     mApplication.getString(R.string.TAG_CONNECTION_SERVER_OFICIAL),
                     mApplication.getString(R.string.TAG_CONNECTION_SERVER_OFICIAL_RESPONSE));
 
-        }
+        }*/
+
+        //CONEXION A DEV
+        /*JsonObjectRequest mRequest;
+        mRequest = new JsonObjectRequest(Request.Method.GET,String.format(Locale.US,mApplication.getString(R.string.URL_GET_DEV),"15"),null, listener, errorListener);
+        */
+        StringRequest mRequest = new StringRequest(Request.Method.GET, String.format(Locale.US, mApplication.getString(R.string.URL_GET_DEV), "15"), listener, errorListener);
         mRequest.setShouldCache(true);
         mRequest.setRetryPolicy(new DefaultRetryPolicy(2500, 0,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));

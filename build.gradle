@@ -5,7 +5,6 @@ buildscript {
     repositories {
         google()
         jcenter()
-        mavenCentral()
         // Add repository FIREBASE CRASH ANALITYCS
         maven {
             url 'https://maven.fabric.io/public'
@@ -20,10 +19,10 @@ buildscript {
 
         //FIREBASE CRASH ANALYTICS
         // Check for v3.1.2 or higher
-        classpath 'com.google.gms:google-services:4.3.2'
+        classpath 'com.google.gms:google-services:4.3.3'
 
         // Add dependency
-        classpath 'io.fabric.tools:gradle:1.31.0'
+        classpath 'io.fabric.tools:gradle:1.31.2'
     }
 }
 

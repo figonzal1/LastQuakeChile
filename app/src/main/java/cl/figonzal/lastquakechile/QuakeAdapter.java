@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import cl.figonzal.lastquakechile.services.QuakeUtils;
+import cl.figonzal.lastquakechile.services.Utils;
 import cl.figonzal.lastquakechile.views.QuakeDetailsActivity;
 
 public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHolder> {
@@ -64,12 +64,12 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
                 model.getMagnitud()));
 
         //Setear el color de background dependiendo de magnitud del sismo
-        holder.iv_mag_color.setColorFilter(context.getColor(QuakeUtils.getMagnitudeColor(model.getMagnitud(), false)));
+        holder.iv_mag_color.setColorFilter(context.getColor(Utils.getMagnitudeColor(model.getMagnitud(), false)));
 
 
         //SETEO DE Textview HORA
-        Map<String, Long> tiempos = QuakeUtils.dateToDHMS(model.getFechaLocal());
-        QuakeUtils.setTimeToTextView(context, tiempos, holder.tv_hora);
+        Map<String, Long> tiempos = Utils.dateToDHMS(model.getFechaLocal());
+        Utils.setTimeToTextView(context, tiempos, holder.tv_hora);
 
         //Sismo sensible
         if (model.getSensible()) {
