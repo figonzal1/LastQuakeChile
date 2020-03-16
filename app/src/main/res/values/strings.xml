@@ -243,9 +243,9 @@
     <string name="UTILS_TIEMPO_SEGUNDOS" translatable="false">segundos</string>
 
     <!-- VIEWMODEL ERROR MESSAGES -->
-    <string name="VIEWMODEL_TIMEOUT_ERROR">Timeout</string>
+    <string name="VIEWMODEL_TIMEOUT_ERROR">Servidor no response, intente más tarde</string>
     <string name="VIEWMODEL_NOCONNECTION_ERROR">No tienes conexión a Internet</string>
-    <string name="VIEWMODEL_SERVER_ERROR">Servidor no responde, intente más tarde</string>
+    <string name="VIEWMODEL_SERVER_ERROR">¡Ups ha ocurrido un error! Intente mas tarde</string>
 
     <!-- INTENT LOGS -->
     <string name="TAG_INTENT" translatable="false">INTENT</string>
@@ -376,5 +376,8 @@
     <string name="REWARD_DIALOG_MESSAGE" translatable="false">Ve el video, apoya gratis monetariamente y recibe 1 hora libre de publicidad</string>
     <string name="REWARD_DIALOG_POSITIVE" translatable="false">Ver video</string>
     <string name="REWARD_DIALOG_NEGATIVE" translatable="false">Cancelar</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- Colores modo noche -->
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimaryNightMode</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDarkNightMode</item>
-        <item name="colorAccent">@color/colorAccentNightMode</item>
-    </style>
-</resources>

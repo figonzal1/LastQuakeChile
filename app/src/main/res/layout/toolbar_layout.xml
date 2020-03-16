@@ -50,6 +50,12 @@
                 android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="bottom"
                 app:tabGravity="fill"
+                android:background="@android:color/transparent"
+                app:tabIndicatorColor="@color/colorSecondary"
+                app:tabIndicatorFullWidth="true"
+                app:tabIndicatorGravity="bottom"
+                app:tabSelectedTextColor="@color/white"
+                app:tabTextColor="@color/grey_dark"
                 app:tabMode="fixed" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>

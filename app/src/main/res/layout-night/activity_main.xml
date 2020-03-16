@@ -18,7 +18,7 @@
     <!-- Fragment de la lista de quakes -->
     <fragment
         android:id="@+id/fragment"
-        class="cl.figonzal.lastquakechile.views.QuakeFragment"
+        class="cl.figonzal.lastquakechile.views.fragments.QuakeFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -29,7 +29,7 @@
 
     <fragment
         android:id="@+id/fragmentmap"
-        class="cl.figonzal.lastquakechile.views.MapFragment"
+        class="cl.figonzal.lastquakechile.views.fragments.MapFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

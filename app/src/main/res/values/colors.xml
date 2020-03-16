@@ -2,9 +2,17 @@
 <resources>
 
     <color name="colorPrimary">#3f51b5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#00bbff</color>
+    <color name="colorPrimaryVariant">#303F9F</color>
+    <color name="colorSecondary">#00bbff</color>
 
+    <color name="colorOnPrimary">#A1000000</color>
+    <color name="colorOnSecondary">#9C000000</color>
+
+    <color name="colorSurface">#FFFFFF</color>
+    <color name="colorOnSurface">#000</color>
+
+    <color name="white">#fff</color>
+    <color name="black">#000</color>
     <color name="grey">#efefef</color>
     <color name="grey_dark">#ADADAD</color>
     <color name="green_dark">#008e4d</color>

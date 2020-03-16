@@ -51,15 +51,6 @@
 
         <!-- Activity Contact -->
         <activity
-            android:name=".views.ContactActivity"
-            android:parentActivityName=".views.MainActivity"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".views.MainActivity" />
-        </activity>
-        <activity
             android:name=".views.WelcomeActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
