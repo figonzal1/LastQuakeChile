@@ -31,12 +31,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 import java.util.TimeZone;
 
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.views.WelcomeActivity;
 
-public class QuakeUtils {
+public class Utils {
 
     /**
      * Funcion que calcula la diferencia en milisegundos
@@ -544,5 +545,17 @@ public class QuakeUtils {
         calendar.setTime(date);
         calendar.add(Calendar.HOUR_OF_DAY, hours);
         return calendar.getTime();
+    }
+
+    /**
+     * Funcion encargada de generar un numero aleatorio para dialogs.
+     *
+     * @return Booleano con el resultado
+     */
+    static boolean generateRandomNumber() {
+
+        Random random = new Random();
+        int item = random.nextInt(10);
+        return item % 3 == 0;
     }
 }

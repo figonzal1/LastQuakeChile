@@ -16,8 +16,8 @@ import androidx.preference.SeekBarPreference;
 
 import java.util.Objects;
 
-import cl.figonzal.lastquakechile.services.MyFirebaseMessagingService;
-import cl.figonzal.lastquakechile.services.QuakeUtils;
+import cl.figonzal.lastquakechile.services.FCMNotification;
+import cl.figonzal.lastquakechile.services.Utils;
 import cl.figonzal.lastquakechile.views.MainActivity;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -30,7 +30,7 @@ public class SettingsActivity extends AppCompatActivity {
         /*
          * Checkear MODO NOCHE
          */
-        QuakeUtils.checkNightMode(this, getWindow());
+        Utils.checkNightMode(this, getWindow());
 
         getSupportFragmentManager()
                 .beginTransaction()
@@ -51,7 +51,7 @@ public class SettingsActivity extends AppCompatActivity {
         /*
          * Checkear MODO NOCHE
          */
-        QuakeUtils.checkNightMode(this, getWindow());
+        Utils.checkNightMode(this, getWindow());
     }
 
     @Override
@@ -146,7 +146,7 @@ public class SettingsActivity extends AppCompatActivity {
              */
             if (key.equals(activity.getString(R.string.FIREBASE_PREF_KEY))) {
 
-                boolean mSuscrito = MyFirebaseMessagingService.checkSuscription(activity);
+                boolean mSuscrito = FCMNotification.checkSuscriptionQuakes(activity);
 
                 //Si el switch esta ON, lanzar toast con SUSCRITO
                 if (mSuscrito) {

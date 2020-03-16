@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 
-import cl.figonzal.lastquakechile.services.QuakeUtils;
+import cl.figonzal.lastquakechile.services.Utils;
 
 import static junit.framework.TestCase.assertEquals;
 
@@ -57,7 +57,7 @@ public class StringToDateTest {
 	@Test
 	public void string_to_date() {
 
-		Date dActual = QuakeUtils.stringToDate(context, sActual);
+        Date dActual = Utils.stringToDate(context, sActual);
 		assertEquals(dEsperada, dActual);
 
 	}

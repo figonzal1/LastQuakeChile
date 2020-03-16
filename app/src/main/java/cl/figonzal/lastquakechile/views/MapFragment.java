@@ -36,7 +36,7 @@ import java.util.Objects;
 
 import cl.figonzal.lastquakechile.QuakeModel;
 import cl.figonzal.lastquakechile.R;
-import cl.figonzal.lastquakechile.services.QuakeUtils;
+import cl.figonzal.lastquakechile.services.Utils;
 import cl.figonzal.lastquakechile.viewmodel.QuakeViewModel;
 
 
@@ -171,7 +171,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 			mPromLong += Double.parseDouble(mModel.getLongitud());
 
 			//Buscar color
-			int mIdColor = QuakeUtils.getMagnitudeColor(mModel.getMagnitud(), true);
+            int mIdColor = Utils.getMagnitudeColor(mModel.getMagnitud(), true);
 
 			//Marcador de epicentro
 			mGoogleMap.addMarker(new MarkerOptions()
@@ -213,7 +213,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 		String mEstado = Objects.requireNonNull(mModel).getEstado();
 
 		//Setear estado e imagen del estado (Preliminar o verificado)
-		QuakeUtils.setStatusImage(getContext(), mEstado, mTvEstado,
+        Utils.setStatusImage(getContext(), mEstado, mTvEstado,
 				mIvEstado);
 
 		//Setear referencia del sismo en infoWindow
@@ -223,7 +223,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 		mTvMagnitud.setText(String.format(Objects.requireNonNull(getContext()).getString(R.string.magnitud), mModel.getMagnitud()));
 
 		//Colorear circulo según la magnitud del sismo
-		mIvMagColor.setColorFilter(getContext().getColor(QuakeUtils.getMagnitudeColor(mModel.getMagnitud(), false)));
+        mIvMagColor.setColorFilter(getContext().getColor(Utils.getMagnitudeColor(mModel.getMagnitud(), false)));
 
 		//Setear la profundidad del sismo
 		mTvProfundidad.setText(String.format(getString(R.string.profundidad_info_windows),
@@ -231,7 +231,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
 		//Calcular tiempos (Dates a DHMS)
 		Map<String, Long> mTiempos =
-				QuakeUtils.dateToDHMS(mModel.getFechaLocal());
+                Utils.dateToDHMS(mModel.getFechaLocal());
 
 		//Separar mapeo de tiempos en dias, horas,minutos,segundos.
 		Long mDias = mTiempos.get(getString(R.string.UTILS_TIEMPO_DIAS));

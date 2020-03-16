@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 
-import cl.figonzal.lastquakechile.services.QuakeUtils;
+import cl.figonzal.lastquakechile.services.Utils;
 
 import static org.junit.Assert.assertEquals;
 
@@ -52,7 +52,7 @@ public class UtcToLocalUnitTest {
 		try {
 
 			//Se testea quakeutils con actual
-			date_actual = QuakeUtils.utcToLocal(format.parse(actual_utc));
+            date_actual = Utils.utcToLocal(format.parse(actual_utc));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
