@@ -38,7 +38,7 @@ public class ChangeLogNotification {
         notificationChannel.setDescription(description);
         notificationChannel.setImportance(importance);
         notificationChannel.enableLights(true);
-        notificationChannel.setLightColor(R.color.colorAccent);
+        notificationChannel.setLightColor(R.color.colorSecondary);
 
         NotificationManager mNotificationManager =
                 context.getSystemService(NotificationManager.class);

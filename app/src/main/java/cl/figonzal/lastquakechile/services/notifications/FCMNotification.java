@@ -53,7 +53,7 @@ public class FCMNotification extends FirebaseMessagingService {
         mNotificationChannel.setDescription(description);
         mNotificationChannel.setImportance(NotificationManager.IMPORTANCE_HIGH);
         mNotificationChannel.enableLights(true);
-        mNotificationChannel.setLightColor(R.color.colorAccent);
+        mNotificationChannel.setLightColor(R.color.colorSecondary);
 
         NotificationManager mNotificationManager = context.getSystemService(NotificationManager.class);
 
