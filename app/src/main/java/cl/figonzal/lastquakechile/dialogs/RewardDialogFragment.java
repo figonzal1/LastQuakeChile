@@ -32,9 +32,9 @@ public class RewardDialogFragment extends DialogFragment {
         //View view = inflater.inflate(R.layout.reward_dialog_layout, null);
         //builder.setView(view);
 
-        builder.setTitle("¡Apoya a la aplicación!");
-        builder.setMessage("Ve el video, apoya gratis monetariamente y recibe 1 hora libre de publicidad");
-        builder.setPositiveButton("Ver video", new DialogInterface.OnClickListener() {
+        builder.setTitle(R.string.REWAR_DIALOG_TITLE);
+        builder.setMessage(R.string.REWARD_DIALOG_MESSAGE);
+        builder.setPositiveButton(R.string.REWARD_DIALOG_POSITIVE, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (rewardedVideoAd.isLoaded()) {
@@ -50,7 +50,7 @@ public class RewardDialogFragment extends DialogFragment {
             }
         });
 
-        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.REWARD_DIALOG_NEGATIVE, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Log.d(getString(R.string.TAG_REWARD_DIALOG), getString(R.string

@@ -4,10 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.view.View;
 
 import androidx.fragment.app.FragmentManager;
 
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.reward.RewardItem;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
@@ -143,5 +146,59 @@ public class AdsService {
         RewardDialogFragment fragment = new RewardDialogFragment(rewardedVideoAd);
         fragment.setCancelable(false);
         fragment.show(fragmentManager, context.getString(R.string.REWARD_DIALOG));
+    }
+
+    public void configurarIntersitial(AdView mAdView) {
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.MAIN_SHARED_PREF_KEY), Context.MODE_PRIVATE);
+
+        Date reward_date = new Date(sharedPreferences.getLong(context.getString(R.string.SHARED_PREF_END_REWARD_TIME), 0));
+        Log.d(context.getString(R.string.TAG_FRAGMENT_REWARD_DATE), reward_date.toString());
+        Date now_date = new Date();
+
+
+        //si las 24 horas ya pasaron, cargar los ads nuevamente
+        if (now_date.after(reward_date)) {
+            loadAds(mAdView);
+            Log.d(context.getString(R.string.TAG_FRAGMENT_LIST), context.getString(R.string.TAG_ADS_LOADED));
+        } else {
+            mAdView.setVisibility(View.GONE);
+            Log.d(context.getString(R.string.TAG_FRAGMENT_LIST), context.getString(R.string.TG_ADS_NOT_LOADED));
+        }
+    }
+
+    /**
+     * Funcion encargada de cargar la publicidad presente en el listado
+     *
+     * @param mAdView AdView intersitial
+     */
+    private void loadAds(final AdView mAdView) {
+
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        mAdView.setAdListener(new AdListener() {
+
+            @Override
+            public void onAdFailedToLoad(int i) {
+                Log.d(context.getString(R.string.TAG_ADMOB_AD_STATUS), context.getString(R.string.TAG_ADMOB_AD_STATUS_FAILED));
+                mAdView.setVisibility(View.GONE);
+                super.onAdFailedToLoad(i);
+            }
+
+            @Override
+            public void onAdLoaded() {
+                Log.d(context.getString(R.string.TAG_ADMOB_AD_STATUS), context.getString(R.string.TAG_ADMOB_AD_STATUS_LOADED));
+                mAdView.setVisibility(View.VISIBLE);
+                super.onAdLoaded();
+            }
+
+            @Override
+            public void onAdOpened() {
+                Log.d(context.getString(R.string.TAG_ADMOB_AD_STATUS), context.getString(R.string.TAG_ADMOB_AD_STATUS_OPEN));
+                super.onAdOpened();
+            }
+        });
+
+        mAdView.loadAd(adRequest);
     }
 }
