@@ -1,0 +1,13 @@
+<View xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/quake_details_container"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:alpha="0.85"
+    android:background="@color/colorPrimaryNightMode"
+    android:elevation="5dp"
+    android:visibility="gone"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />

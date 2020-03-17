@@ -43,7 +43,7 @@
                 android:layout_gravity="bottom"
                 android:background="@android:color/transparent"
                 app:tabGravity="fill"
-                app:tabIndicatorColor="@color/colorSecondary"
+                app:tabIndicatorColor="@color/colorSecondaryNightMode"
                 app:tabIndicatorFullWidth="true"
                 app:tabIndicatorGravity="bottom"
                 app:tabMode="fixed"
@@ -61,5 +61,3 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-
