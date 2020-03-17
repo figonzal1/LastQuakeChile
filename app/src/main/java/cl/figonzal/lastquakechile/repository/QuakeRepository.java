@@ -41,6 +41,7 @@ import cl.figonzal.lastquakechile.services.VolleySingleton;
 public class QuakeRepository {
 
     private static final String TAG_GET_REPORTS = "ListadoReportes";
+    private static final String TAG_GET_QUAKES = "ListadoSismos";
     private static QuakeRepository instance;
     private final Application mApplication;
 
@@ -260,14 +261,20 @@ public class QuakeRepository {
                     mApplication.getString(R.string.TAG_CONNECTION_SERVER_OFICIAL_RESPONSE));
 
         }
-
+        /*String url = String.format(Locale.US, mApplication.getString(R.string.URL_GET_PROD), limite);
         //TEST DEV DIRECTO
-        //StringRequest mRequest = new StringRequest(Request.Method.GET, String.format(Locale.US, mApplication.getString(R.string.URL_GET_DEV), "15"), listener, errorListener);
-        mRequest.setShouldCache(true);
-        mRequest.setRetryPolicy(new DefaultRetryPolicy(2500, 0,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        StringRequest mRequest = new StringRequest(
+                Request.Method.GET,
+                url,
+                listener,
+                errorListener);*/
         isLoadingQuake.postValue(true);
-        VolleySingleton.getInstance(mApplication).addToRequestQueue(mRequest, "TAG");
+
+        mRequest.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        VolleySingleton.getInstance(mApplication).addToRequestQueue(mRequest, TAG_GET_QUAKES);
     }
 
     public MutableLiveData<List<ReportModel>> getReports() {

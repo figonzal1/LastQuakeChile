@@ -331,13 +331,13 @@
     <string name="NIGHT_MODE_MANUAL_KEY_TOAST_ON">Manual activado</string>
     <string name="NIGHT_MODE_MANUAL_KEY_TOAST_OFF">Manual desactivado</string>
     <string name="NIGHT_MODE_AUTO_KEY_TOAST_OFF">Automático desactivado</string>
-    <string name="night_mode_pref_summary">Evita tu cansancio ocular</string>
+    <string name="night_mode_pref_summary">Ahorra batería y evita tu cansancio ocular</string>
     <string name="night_mode_pref_title">Modo noche</string>
-    <string name="night_mode_manual_pref_title_switch">Manual</string>
+    <string name="night_mode_manual_pref_title_switch">Forzar modo noche</string>
     <string name="night_mode_manual_pref_summary_on">Activado</string>
     <string name="night_mode_manual_pref_summary_off">Desactivado</string>
-    <string name="night_mode_auto_pref_title_switch">Automático</string>
-    <string name="night_mode_auto_pref_summary_on">Activado (10pm-6am)</string>
+    <string name="night_mode_auto_pref_title_switch">Automático con ahorro de energía</string>
+    <string name="night_mode_auto_pref_summary_on">Activado</string>
     <string name="night_mode_auto_pref_summary_off">Desactivado</string>
     <string name="tag_adview_night_mode" translatable="false">ADVIEW - NIGHT MODE</string>
     <string name="tag_adview_night_mode_response" translatable="false">Instanciacion manual adview modo noche</string>
