@@ -24,12 +24,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import cl.figonzal.lastquakechile.model.QuakeModel;
 import cl.figonzal.lastquakechile.services.Utils;
 import cl.figonzal.lastquakechile.views.QuakeDetailsActivity;
 
 public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHolder> {
 
-    private final List<QuakeModel> quakeModelList;
+    private List<QuakeModel> quakeModelList;
     private final Context context;
     private final Activity activity;
 
@@ -143,6 +144,15 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
     @Override
     public int getItemViewType(int position) {
         return position;
+    }
+
+    public void actualizarLista(List<QuakeModel> quakeModelList) {
+        this.quakeModelList = quakeModelList;
+        notifyDataSetChanged();
+    }
+
+    public List<QuakeModel> getQuakeList() {
+        return quakeModelList;
     }
 
     static class QuakeViewHolder extends RecyclerView.ViewHolder {

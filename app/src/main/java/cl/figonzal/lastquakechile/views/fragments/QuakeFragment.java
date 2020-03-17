@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile.views;
+package cl.figonzal.lastquakechile.views.fragments;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -35,15 +35,14 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.appinvite.AppInviteInvitation;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import cl.figonzal.lastquakechile.QuakeAdapter;
-import cl.figonzal.lastquakechile.QuakeModel;
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.SettingsActivity;
+import cl.figonzal.lastquakechile.model.QuakeModel;
 import cl.figonzal.lastquakechile.services.AdsService;
-import cl.figonzal.lastquakechile.services.WrapContentLinearLayoutManager;
 import cl.figonzal.lastquakechile.viewmodel.QuakeListViewModel;
 
 
@@ -53,11 +52,14 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
     private RecyclerView mRecycleView;
     private ProgressBar mProgressBar;
     private QuakeListViewModel mViewModel;
-    private QuakeAdapter mAdapter;
+    private QuakeAdapter quakeAdapter;
     private CardView mCardViewInfo;
     private SharedPreferences sharedPreferences;
 
+    private List<QuakeModel> quakeModelList;
+
     private AdView mAdView;
+    private TextView tv_quakes_vacio;
 
     public QuakeFragment() {
 
@@ -80,34 +82,53 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
 
         // Inflate the layout for thi{s fragment
-        final View mView = inflater.inflate(R.layout.fragment_quake, container, false);
+        final View v = inflater.inflate(R.layout.fragment_quake, container, false);
 
-        //Cargar ads de fragmento
-        mAdView = mView.findViewById(R.id.adView);
+        instanciarRecursosInterfaz(v);
+
+        iniciarViewModelObservers(v);
+
+        //Seccion SHARED PREF CARD VIEW INFO
+        showCardViewInformation(v);
+
+        return v;
+    }
+
+    private void instanciarRecursosInterfaz(View v) {
+
+        quakeModelList = new ArrayList<>();
+
+        mCardViewInfo = v.findViewById(R.id.card_view_info);
+
+        mAdView = v.findViewById(R.id.adView);
+
         AdsService adsService = new AdsService(getContext(), getParentFragmentManager());
         adsService.configurarIntersitial(mAdView);
 
-        //Setear el recycle view
-        mRecycleView = mView.findViewById(R.id.recycle_view);
-        mRecycleView.setHasFixedSize(true);
+        mRecycleView = v.findViewById(R.id.recycle_view);
 
-        //Setear el layout de la lista
-        LinearLayoutManager ly = new WrapContentLinearLayoutManager(getContext());
+        LinearLayoutManager ly = new LinearLayoutManager(getContext());
         mRecycleView.setLayoutManager(ly);
 
-        mProgressBar = mView.findViewById(R.id.progress_bar_fragment);
+        //Setear el layout de la lista
+        /*LinearLayoutManager ly = new WrapContentLinearLayoutManager(getContext());
+        mRecycleView.setLayoutManager(ly);*/
+
+        tv_quakes_vacio = v.findViewById(R.id.tv_quakes_vacios);
+        tv_quakes_vacio.setVisibility(View.INVISIBLE);
+
+        mProgressBar = v.findViewById(R.id.progress_bar_quakes);
         mProgressBar.setVisibility(View.VISIBLE);
 
         //Instanciar viewmodel
         mViewModel = new ViewModelProvider(this).get(QuakeListViewModel.class);
 
-        //ViewModels en observación
-        viewModelObservers(mView);
-
-        //Seccion SHARED PREF CARD VIEW INFO
-        showCardViewInformation(mView);
-
-        return mView;
+        quakeAdapter = new QuakeAdapter(
+                quakeModelList,
+                requireContext(),
+                requireActivity()
+        );
+        mRecycleView.setAdapter(quakeAdapter);
     }
 
 
@@ -116,19 +137,39 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
      *
      * @param v Vista necesaria para mostrar componentes UI
      */
-    private void viewModelObservers(final View v) {
+    private void iniciarViewModelObservers(final View v) {
+
+        mViewModel.isLoading().observe(requireActivity(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+
+                if (aBoolean) {
+                    mProgressBar.setVisibility(View.VISIBLE);
+                    tv_quakes_vacio.setVisibility(View.INVISIBLE);
+                    tv_quakes_vacio.setVisibility(View.INVISIBLE);
+                    mRecycleView.setVisibility(View.INVISIBLE);
+                } else {
+                    mProgressBar.setVisibility(View.INVISIBLE);
+                    mRecycleView.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
         //Viewmodel encargado de cargar los datos desde internet
         mViewModel.showQuakeList().observe(requireActivity(), new Observer<List<QuakeModel>>() {
             @Override
-            public void onChanged(@Nullable List<QuakeModel> quakeModelList) {
+            public void onChanged(@Nullable List<QuakeModel> list) {
 
-                //Setear el mAdapter con la lista de quakes
-                mAdapter = new QuakeAdapter(quakeModelList, getContext(), getActivity());
-                mAdapter.notifyDataSetChanged();
-                mRecycleView.setAdapter(mAdapter);
+                quakeModelList = list;
+                quakeAdapter.actualizarLista(quakeModelList);
 
-                //Progressbar desaparece despues de la descarga de datos
+                quakeModelList = quakeAdapter.getQuakeList();
+
+                if (quakeModelList.size() == 0) {
+                    tv_quakes_vacio.setVisibility(View.VISIBLE);
+                } else {
+                    tv_quakes_vacio.setVisibility(View.INVISIBLE);
+                }
                 mProgressBar.setVisibility(View.INVISIBLE);
 
                 //LOG ZONE
@@ -146,6 +187,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
             public void onChanged(@Nullable String status) {
                 if (status != null) {
                     mProgressBar.setVisibility(View.INVISIBLE);
+                    mRecycleView.setVisibility(View.INVISIBLE);
                     showSnackBar(status, v);
                 }
             }
@@ -154,11 +196,11 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         //ViewModel encargado de cargar los datos de sismos post-busqueda de usuario en SearchView
         mViewModel.showFilteredQuakeList().observe(requireActivity(), new Observer<List<QuakeModel>>() {
             @Override
-            public void onChanged(@Nullable List<QuakeModel> quakeModels) {
+            public void onChanged(@Nullable List<QuakeModel> list) {
                 //Setear el mAdapter con la lista de quakes
-                mAdapter = new QuakeAdapter(quakeModels, getContext(), getActivity());
-                mAdapter.notifyDataSetChanged();
-                mRecycleView.setAdapter(mAdapter);
+
+                quakeModelList = list;
+                quakeAdapter.actualizarLista(quakeModelList);
             }
         });
     }
@@ -170,12 +212,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
      */
     private void showCardViewInformation(View v) {
 
-        mCardViewInfo = v.findViewById(R.id.card_view_info);
-        final SharedPreferences sharedPreferences =
-                Objects.requireNonNull(getActivity()).getSharedPreferences(getActivity().getString(R.string.MAIN_SHARED_PREF_KEY), Context.MODE_PRIVATE);
-        boolean isCardViewShow =
-                sharedPreferences.getBoolean(getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO)
-                        , true);
+        final SharedPreferences sharedPreferences = requireActivity().getSharedPreferences(requireActivity().getString(R.string.MAIN_SHARED_PREF_KEY), Context.MODE_PRIVATE);
+        boolean isCardViewShow = sharedPreferences.getBoolean(getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO), true);
 
         if (isCardViewShow) {
             mCardViewInfo.setVisibility(View.VISIBLE);
