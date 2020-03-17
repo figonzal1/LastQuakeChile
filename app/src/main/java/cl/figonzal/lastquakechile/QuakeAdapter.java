@@ -39,7 +39,6 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
         this.context = context;
         this.activity = activity;
         setHasStableIds(true);
-
     }
 
     @NonNull
@@ -141,13 +140,8 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
         return position;
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        return position;
-    }
-
-    public void actualizarLista(List<QuakeModel> quakeModelList) {
-        this.quakeModelList = quakeModelList;
+    public void actualizarLista(List<QuakeModel> list) {
+        this.quakeModelList = list;
         notifyDataSetChanged();
     }
 

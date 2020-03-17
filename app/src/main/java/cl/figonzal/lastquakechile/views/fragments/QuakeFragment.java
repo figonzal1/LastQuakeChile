@@ -94,7 +94,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
         mAdView = v.findViewById(R.id.adView);
 
-        AdsService adsService = new AdsService(getContext(), getParentFragmentManager());
+        AdsService adsService = new AdsService(requireContext(), getParentFragmentManager());
         adsService.configurarIntersitial(mAdView);
 
         mRecycleView = v.findViewById(R.id.recycle_view);
@@ -113,7 +113,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         mProgressBar.setVisibility(View.VISIBLE);
 
         //Instanciar viewmodel
-        mViewModel = new ViewModelProvider(this).get(QuakeListViewModel.class);
+        mViewModel = new ViewModelProvider(requireActivity()).get(QuakeListViewModel.class);
 
         quakeAdapter = new QuakeAdapter(
                 quakeModelList,
@@ -152,24 +152,27 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
             @Override
             public void onChanged(@Nullable List<QuakeModel> list) {
 
-                quakeModelList = list;
-                quakeAdapter.actualizarLista(quakeModelList);
+                if (list != null) {
+                    quakeModelList = list;
+                    quakeAdapter.actualizarLista(quakeModelList);
 
-                quakeModelList = quakeAdapter.getQuakeList();
+                    quakeModelList = quakeAdapter.getQuakeList();
 
-                if (quakeModelList.size() == 0) {
-                    tv_quakes_vacio.setVisibility(View.VISIBLE);
-                } else {
-                    tv_quakes_vacio.setVisibility(View.INVISIBLE);
+                    mProgressBar.setVisibility(View.INVISIBLE);
+                    if (quakeModelList.size() == 0) {
+                        tv_quakes_vacio.setVisibility(View.VISIBLE);
+                    } else {
+                        tv_quakes_vacio.setVisibility(View.INVISIBLE);
+                    }
+
+
+                    //LOG ZONE
+                    Log.d(getString(R.string.TAG_PROGRESS_FROM_FRAGMENT),
+                            getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_UPDATE_RESPONSE));
+
+                    Crashlytics.log(Log.DEBUG, getString(R.string.TAG_PROGRESS_FROM_FRAGMENT),
+                            getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_UPDATE_RESPONSE));
                 }
-                mProgressBar.setVisibility(View.INVISIBLE);
-
-                //LOG ZONE
-                Log.d(getString(R.string.TAG_PROGRESS_FROM_FRAGMENT),
-                        getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_UPDATE_RESPONSE));
-
-                Crashlytics.log(Log.DEBUG, getString(R.string.TAG_PROGRESS_FROM_FRAGMENT),
-                        getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_UPDATE_RESPONSE));
             }
         });
 
@@ -181,6 +184,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
                     mProgressBar.setVisibility(View.INVISIBLE);
                     mRecycleView.setVisibility(View.INVISIBLE);
                     showSnackBar(status, v);
+                    quakeAdapter.notifyDataSetChanged();
                 }
             }
         });
