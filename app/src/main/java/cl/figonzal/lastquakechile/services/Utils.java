@@ -417,7 +417,7 @@ public class Utils {
         //Si el modo manual esta activado
         if (manual_night_mode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            window.setStatusBarColor(activity.getColor(R.color.colorPrimaryDarkNightMode));
+            window.setStatusBarColor(activity.getColor(R.color.colorPrimaryVariantNightMode));
 
             //fixAdViewNightMode(activity);
 

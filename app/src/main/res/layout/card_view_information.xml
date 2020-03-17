@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:elevation="0dp"
-    android:theme="@style/AppTheme"
     android:visibility="visible"
     app:cardCornerRadius="4dp"
     app:layout_constraintBottom_toTopOf="@+id/recycle_view"
@@ -12,6 +11,7 @@
     app:layout_constraintHorizontal_bias="0.5"
     app:layout_constraintStart_toStartOf="@+id/izquierda"
     app:layout_constraintTop_toTopOf="parent"
+    android:theme="@style/AppTheme"
     app:layout_constraintVertical_bias="0.0">
 
     <androidx.constraintlayout.widget.ConstraintLayout

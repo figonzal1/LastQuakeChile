@@ -13,6 +13,8 @@ import androidx.fragment.app.DialogFragment;
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
 
+import java.util.Objects;
+
 import cl.figonzal.lastquakechile.R;
 
 public class RewardDialogFragment extends DialogFragment {
@@ -61,5 +63,12 @@ public class RewardDialogFragment extends DialogFragment {
             }
         });
         return builder.create();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorSecondary));
+        ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.colorSecondary));
     }
 }
