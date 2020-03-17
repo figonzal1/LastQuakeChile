@@ -413,6 +413,10 @@ public class Utils {
                 sharedPreferences.getBoolean(activity.getString(R.string.NIGHT_MODE_MANUAL_KEY),
                         false);
 
+        boolean auto_night_mode =
+                sharedPreferences.getBoolean(activity.getString(R.string.NIGHT_MODE_AUTO_KEY),
+                        false);
+
         //MODO MANUAL
         //Si el modo manual esta activado
         if (manual_night_mode) {
@@ -425,6 +429,20 @@ public class Utils {
                     activity.getString(R.string.TAG_NIGHT_MODE_STATUS_ON));
 
             Crashlytics.log(Log.DEBUG, activity.getString(R.string.TAG_NIGHT_MODE_MANUAL),
+                    activity.getString(R.string.TAG_NIGHT_MODE_STATUS_ON));
+        }
+
+        //MODO AUTOMATICO
+        //Si el modo automatico esta activado
+        else if (auto_night_mode) {
+
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY);
+            activity.setTheme(R.style.AppTheme);
+
+            Log.d(activity.getString(R.string.TAG_NIGHT_MODE_AUTO),
+                    activity.getString(R.string.TAG_NIGHT_MODE_STATUS_ON));
+
+            Crashlytics.log(Log.DEBUG, activity.getString(R.string.TAG_NIGHT_MODE_AUTO),
                     activity.getString(R.string.TAG_NIGHT_MODE_STATUS_ON));
         }
 

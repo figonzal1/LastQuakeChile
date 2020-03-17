@@ -8,7 +8,7 @@
         <item name="colorPrimary">@color/colorPrimaryNightMode</item>
         <item name="colorPrimaryVariant">@color/colorPrimaryVariantNightMode</item>
         <item name="colorOnPrimary">@color/colorOnPrimary</item>
-        <item name="android:statusBarColor">@color/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">@color/colorPrimaryVariantNightMode</item>
 
         <item name="colorSecondary">@color/colorSecondaryNightMode</item>
         <item name="colorOnSecondary">@color/colorOnSecondary</item>
