@@ -9,7 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.ArrayList;
 import java.util.List;
 
-import cl.figonzal.lastquakechile.QuakeModel;
+import cl.figonzal.lastquakechile.model.QuakeModel;
 import cl.figonzal.lastquakechile.repository.QuakeRepository;
 
 
@@ -19,8 +19,7 @@ import cl.figonzal.lastquakechile.repository.QuakeRepository;
  */
 public class QuakeListViewModel extends AndroidViewModel {
 
-    private final MutableLiveData<List<QuakeModel>> mQuakeMutableFilterList =
-            new MutableLiveData<>();
+    private final MutableLiveData<List<QuakeModel>> mQuakeMutableFilterList = new MutableLiveData<>();
     private QuakeRepository mQuakeRepository;
     private MutableLiveData<List<QuakeModel>> mQuakeMutableList;
 
@@ -40,9 +39,14 @@ public class QuakeListViewModel extends AndroidViewModel {
             mQuakeMutableList = new MutableLiveData<>();
 
             mQuakeRepository = QuakeRepository.getIntance(getApplication());
-            mQuakeMutableList = mQuakeRepository.getMutableQuakeList();
+            mQuakeMutableList = mQuakeRepository.getQuakes();
         }
         return mQuakeMutableList;
+    }
+
+    public MutableLiveData<Boolean> isLoading() {
+        mQuakeRepository = QuakeRepository.getIntance(getApplication());
+        return mQuakeRepository.getIsLoadingQuakes();
     }
 
     /**
@@ -50,7 +54,7 @@ public class QuakeListViewModel extends AndroidViewModel {
      */
     public void refreshMutableQuakeList() {
         mQuakeRepository = QuakeRepository.getIntance(getApplication());
-        mQuakeRepository.getMutableQuakeList();
+        mQuakeRepository.getQuakes();
     }
 
     /**
@@ -103,10 +107,5 @@ public class QuakeListViewModel extends AndroidViewModel {
             mQuakeMutableFilterList.postValue(filteredList);
         }
 
-    }
-
-    @Override
-    protected void onCleared() {
-        super.onCleared();
     }
 }
