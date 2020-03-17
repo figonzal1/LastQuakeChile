@@ -19,6 +19,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
+import cl.figonzal.lastquakechile.services.notifications.ChangeLogNotification;
 import cl.figonzal.lastquakechile.views.MainActivity;
 
 import static org.junit.Assert.assertEquals;
@@ -38,8 +39,9 @@ public class ChangeLogNotificationTest {
     @Before
     public void setUp() {
         uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
-        testRule.getActivity().notificationChangeLog(true);
         context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        ChangeLogNotification changeLogNotification = new ChangeLogNotification();
+        changeLogNotification.configNotificationChangeLog(true, context);
     }
 
     @Test

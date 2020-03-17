@@ -40,145 +40,145 @@ import static org.hamcrest.Matchers.allOf;
 @LargeTest
 public class ShareButtonAndOverlayTest {
 
-	@Rule
-	public ActivityTestRule<MainActivity> testRule = new ActivityTestRule<>(MainActivity.class);
+    @Rule
+    public ActivityTestRule<MainActivity> testRule = new ActivityTestRule<>(MainActivity.class);
 
-	private Context mContext;
+    private Context mContext;
 
-	private static Matcher<View> childAtPosition(
-			final Matcher<View> parentMatcher, final int position) {
+    private static Matcher<View> childAtPosition(
+            final Matcher<View> parentMatcher, final int position) {
 
-		return new TypeSafeMatcher<View>() {
-			@Override
-			public void describeTo(Description description) {
-				description.appendText("Child at position " + position + " in parent ");
-				parentMatcher.describeTo(description);
-			}
+        return new TypeSafeMatcher<View>() {
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("Child at position " + position + " in parent ");
+                parentMatcher.describeTo(description);
+            }
 
-			@Override
-			public boolean matchesSafely(View view) {
-				ViewParent parent = view.getParent();
-				return parent instanceof ViewGroup && parentMatcher.matches(parent)
-						&& view.equals(((ViewGroup) parent).getChildAt(position));
-			}
-		};
-	}
+            @Override
+            public boolean matchesSafely(View view) {
+                ViewParent parent = view.getParent();
+                return parent instanceof ViewGroup && parentMatcher.matches(parent)
+                        && view.equals(((ViewGroup) parent).getChildAt(position));
+            }
+        };
+    }
 
-	@Before
-	public void setup() {
-		mContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-	}
+    @Before
+    public void setup() {
+        mContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+    }
 
-	@Test
-	public void test1_click_first_item_then_click_navigate_up() {
-		click_first_item();
+    @Test
+    public void test1_click_first_item_then_click_navigate_up() {
+        click_first_item();
 
-		//Boton parent
-		ViewInteraction appCompatImageButton = onView(
-				allOf(withContentDescription(mContext.getString(R.string.HOME_PARENT)),
-						childAtPosition(
-								allOf(withId(R.id.tool_bar_detail),
-										withContentDescription(mContext.getString(R.string.titulo_toolbar)),
-										childAtPosition(
-												withId(R.id.app_bar_detail),
-												0)),
-								1),
-						isDisplayed()));
-		appCompatImageButton.perform(click());
+        //Boton parent
+        ViewInteraction appCompatImageButton = onView(
+                allOf(withContentDescription(mContext.getString(R.string.HOME_PARENT)),
+                        childAtPosition(
+                                allOf(withId(R.id.tool_bar),
+                                        withContentDescription(mContext.getString(R.string.titulo_toolbar)),
+                                        childAtPosition(
+                                                withId(R.id.app_bar_detail),
+                                                0)),
+                                1),
+                        isDisplayed()));
+        appCompatImageButton.perform(click());
 
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
-	@Test
-	public void test2_click_share_button_and_close_with_same() {
-		click_first_item();
+    @Test
+    public void test2_click_share_button_and_close_with_same() {
+        click_first_item();
 
-		//abrir
-		check_and_click_share();
+        //abrir
+        check_and_click_share();
 
-		//cerrar
-		check_and_click_share();
-	}
+        //cerrar
+        check_and_click_share();
+    }
 
-	@Test
-	public void test3_click_share_button_and_close_with_overlay_touch() {
+    @Test
+    public void test3_click_share_button_and_close_with_overlay_touch() {
 
-		click_first_item();
+        click_first_item();
 
-		check_and_click_share();
+        check_and_click_share();
 
-		//clickear overlay
-		ViewInteraction view = onView(
-				allOf(withId(R.id.quake_details_container),
-						childAtPosition(
-								childAtPosition(
-										withId(android.R.id.content),
-										0),
-								5),
-						isDisplayed()));
-		view.perform(click());
+        //clickear overlay
+        ViewInteraction view = onView(
+                allOf(withId(R.id.overlay),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                5),
+                        isDisplayed()));
+        view.perform(click());
 
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
-	private void click_first_item() {
-		//Hacer click en el primer item de la lista
-		ViewInteraction quakeItem = onView(
-				allOf(withId(R.id.card_view),
-						childAtPosition(
-								allOf(withId(R.id.recycle_view),
-										withContentDescription(mContext.getString(R.string.seccion_listado_de_sismos)),
-										childAtPosition(
-												withClassName(Matchers.is("androidx" +
-														".constraintlayout.widget" +
-														".ConstraintLayout")),
-												3)),
-								0),
-						isDisplayed()));
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+    private void click_first_item() {
+        //Hacer click en el primer item de la lista
+        ViewInteraction quakeItem = onView(
+                allOf(withId(R.id.card_view),
+                        childAtPosition(
+                                allOf(withId(R.id.recycle_view),
+                                        withContentDescription(mContext.getString(R.string.seccion_listado_de_sismos)),
+                                        childAtPosition(
+                                                withClassName(Matchers.is("androidx" +
+                                                        ".constraintlayout.widget" +
+                                                        ".ConstraintLayout")),
+                                                3)),
+                                0),
+                        isDisplayed()));
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-		quakeItem.perform(click());
+        quakeItem.perform(click());
 
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
-	private void check_and_click_share() {
+    private void check_and_click_share() {
 
-		//Click sobre el boton de compartir
-		ViewInteraction buttonShare = onView(withId(R.id.fab_share));
+        //Click sobre el boton de compartir
+        ViewInteraction buttonShare = onView(withId(R.id.fab_share));
 
-		//Checkear si esta desplegad o y es clickleable
-		buttonShare.check(matches(allOf(isDisplayed(), isClickable())));
+        //Checkear si esta desplegad o y es clickleable
+        buttonShare.check(matches(allOf(isDisplayed(), isClickable())));
 
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-		//realizar click sobre el boton share
-		buttonShare.perform(click());
+        //realizar click sobre el boton share
+        buttonShare.perform(click());
 
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }
