@@ -1,30 +1,30 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
 
         <item name="android:fontFamily">@font/roboto</item>
 
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
+        <item name="colorPrimary">@color/colorPrimaryNightMode</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryVariantNightMode</item>
         <item name="colorOnPrimary">@color/colorOnPrimary</item>
         <item name="android:statusBarColor">@color/colorPrimaryVariant</item>
 
-        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorSecondary">@color/colorSecondaryNightMode</item>
         <item name="colorOnSecondary">@color/colorOnSecondary</item>
 
-        <item name="colorSurface">@color/colorSurface</item>
+        <item name="colorSurface">@color/colorSurfaceNightMode</item>
         <item name="colorOnSurface">@color/colorOnSurface</item>
 
         <item name="materialButtonStyle">@style/ButtonTheme</item>
 
-        <item name="android:windowBackground">@color/background</item>
+        <item name="android:windowBackground">@color/backgroundNightMode</item>
 
     </style>
 
     <style name="ButtonTheme" parent="Widget.MaterialComponents.Button">
 
-        <item name="backgroundTint">@color/colorSecondary</item>
+        <item name="backgroundTint">@color/colorSecondaryNightMode</item>
         <item name="android:textColor">@color/colorOnSecondary</item>
     </style>
 

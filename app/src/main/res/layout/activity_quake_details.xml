@@ -86,14 +86,11 @@
         app:srcCompat="@drawable/ic_share_24px"
         app:tint="@color/white" />
 
-
-    <View
-        android:id="@+id/quake_details_container"
+    <include
+        android:id="@+id/overlay"
+        layout="@layout/overlay"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:alpha="0.85"
-        android:background="@color/colorPrimaryVariant"
-        android:elevation="5dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -104,19 +101,11 @@
         android:id="@+id/app_bar_detail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.Toolbar
-
-            android:id="@+id/tool_bar_detail"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:contentDescription="@string/titulo_toolbar"
-            app:layout_collapseMode="pin"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        <include layout="@layout/toolbar_no_main" />
 
 
     </com.google.android.material.appbar.AppBarLayout>
