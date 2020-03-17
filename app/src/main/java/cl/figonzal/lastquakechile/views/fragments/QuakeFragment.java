@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -234,6 +236,10 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
                                     , true);
                         }
                     });
+            sSnackbar.setActionTextColor(getResources().getColor(R.color.colorSecondary, requireContext().getTheme()));
+            int snackbarTextId = com.google.android.material.R.id.snackbar_text;
+            TextView textView = sSnackbar.getView().findViewById(snackbarTextId);
+            textView.setTextColor(getResources().getColor(R.color.white, requireContext().getTheme()));
             sSnackbar.show();
 
             Log.d(getString(R.string.TAG_PROGRESS_FROM_FRAGMENT),
@@ -256,6 +262,10 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
                                     true);
                         }
                     });
+            sSnackbar.setActionTextColor(getResources().getColor(R.color.colorSecondary, requireContext().getTheme()));
+            int snackbarTextId = com.google.android.material.R.id.snackbar_text;
+            TextView textView = sSnackbar.getView().findViewById(snackbarTextId);
+            textView.setTextColor(getResources().getColor(R.color.white, requireContext().getTheme()));
             sSnackbar.show();
 
             Log.d(getString(R.string.TAG_PROGRESS_FROM_FRAGMENT),
@@ -278,6 +288,10 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
                             Crashlytics.setBool(getString(R.string.SNACKBAR_NOCONNECTION_ERROR_PRESSED), true);
                         }
                     });
+            sSnackbar.setActionTextColor(getResources().getColor(R.color.colorSecondary, requireContext().getTheme()));
+            int snackbarTextId = com.google.android.material.R.id.snackbar_text;
+            TextView textView = sSnackbar.getView().findViewById(snackbarTextId);
+            textView.setTextColor(getResources().getColor(R.color.white, requireContext().getTheme()));
             sSnackbar.show();
 
             Log.d(getString(R.string.TAG_PROGRESS_FROM_FRAGMENT),
@@ -1003,8 +1017,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
                     Log.d("INTENT", "Enviando invitacion a" + id);
                 }
             } else {
-                Snackbar.make(Objects.requireNonNull(getActivity()).findViewById(R.id.fragment),
-                        "Invitación cancelada", Snackbar.LENGTH_LONG).show();
+                Log.d("INTENT", "Inviacion cancelada");
+                Toast.makeText(requireContext(), "Invitación cancelada", Toast.LENGTH_LONG).show();
             }
         }
     }
