@@ -7,11 +7,8 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
-import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.ServerError;
@@ -33,47 +30,45 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.TimeZone;
 
-import cl.figonzal.lastquakechile.QuakeModel;
 import cl.figonzal.lastquakechile.R;
+import cl.figonzal.lastquakechile.model.QuakeModel;
+import cl.figonzal.lastquakechile.model.QuakesCity;
+import cl.figonzal.lastquakechile.model.ReportModel;
 import cl.figonzal.lastquakechile.services.Utils;
 import cl.figonzal.lastquakechile.services.VolleySingleton;
 
 
 public class QuakeRepository {
 
-    private static QuakeRepository sInstanceRepository;
-
+    private static final String TAG_GET_REPORTS = "ListadoReportes";
+    private static QuakeRepository instance;
     private final Application mApplication;
 
-
+    //SISMOS
+    private List<QuakeModel> mQuakeList = new ArrayList<>();
     private final MutableLiveData<List<QuakeModel>> mQuakeMutableList = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isLoadingQuake = new MutableLiveData<>();
+
+    //REPORTES
+    private List<ReportModel> reportModelList = new ArrayList<>();
+    private MutableLiveData<List<ReportModel>> reportMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isLoadingReports = new MutableLiveData<>();
 
     private final MutableLiveData<String> mResponseErrorList = new MutableLiveData<>();
 
-    private List<QuakeModel> mQuakeList = new ArrayList<>();
     private boolean volleyError = false;
     private int contador_request = 0;
 
-    /**
-     * Contructor que permite instanciar el contexto de la acitivity
-     *
-     * @param application Permite acceder a los strings
-     */
     private QuakeRepository(Application application) {
         this.mApplication = application;
     }
 
-    /**
-     * Funcion singleton que permite instanciar el repositorio
-     *
-     * @return Instancia de repositorio
-     */
     public static QuakeRepository getIntance(Application application) {
 
-        if (sInstanceRepository == null) {
-            sInstanceRepository = new QuakeRepository(application);
+        if (instance == null) {
+            instance = new QuakeRepository(application);
         }
-        return sInstanceRepository;
+        return instance;
     }
 
     /**
@@ -81,25 +76,16 @@ public class QuakeRepository {
      *
      * @return MutableLiveData con los sismos
      */
-    public MutableLiveData<List<QuakeModel>> getMutableQuakeList() {
-        loadQuakes();
+    public MutableLiveData<List<QuakeModel>> getQuakes() {
+        sendGetQuakes();
         return mQuakeMutableList;
-    }
-
-    /**
-     * Funcion del repositorio que envia directamente el listado de sismos al viewmodel
-     *
-     * @return Lista de sismos normal
-     */
-    public List<QuakeModel> getQuakeList() {
-        return mQuakeList;
     }
 
     /**
      * Funcion encargada de crear la request HTTP hacia el servidor y parsear el JSON con los
      * sismos
      */
-    private void loadQuakes() {
+    private void sendGetQuakes() {
 
         mQuakeList.clear();
 
@@ -156,6 +142,7 @@ public class QuakeRepository {
                         mQuakeList.add(mModel);
                     }
                     mQuakeMutableList.postValue(mQuakeList);
+                    isLoadingQuake.postValue(false);
 
                 } catch (JSONException e) {
 
@@ -186,6 +173,7 @@ public class QuakeRepository {
             @Override
             public void onErrorResponse(VolleyError error) {
 
+                isLoadingQuake.postValue(false);
                 volleyError = true;
                 if (contador_request == 2) {
 
@@ -194,27 +182,19 @@ public class QuakeRepository {
                     contador_request = 0;
 
                     if (error instanceof TimeoutError) {
-                        Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR),
-                                mApplication.getString(R.string.TAG_VOLLEY_ERROR_TIMEOUT));
-                        Crashlytics.log(Log.DEBUG,
-                                mApplication.getString(R.string.TAG_VOLLEY_ERROR),
-                                mApplication.getString(R.string.TAG_VOLLEY_ERROR_TIMEOUT));
-                        //mStatusData.postValue(mApplication.getString(R.string
-                        // .VIEWMODEL_TIMEOUT_ERROR));
+                        Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR), mApplication.getString(R.string.TAG_VOLLEY_ERROR_TIMEOUT));
+                        Crashlytics.log(Log.DEBUG, mApplication.getString(R.string.TAG_VOLLEY_ERROR), mApplication.getString(R.string.TAG_VOLLEY_ERROR_TIMEOUT));
+                        mResponseErrorList.postValue(mApplication.getString(R.string.VIEWMODEL_TIMEOUT_ERROR));
+                    }
 
-                    } else if (error instanceof NoConnectionError) {
-                        Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR),
-                                mApplication.getString(R.string.TAG_VOLLEY_ERROR_CONNECTION));
-                        Crashlytics.log(Log.DEBUG,
-                                mApplication.getString(R.string.TAG_VOLLEY_ERROR),
-                                mApplication.getString(R.string.TAG_VOLLEY_ERROR_CONNECTION));
+                    //Error de conexion a internet
+                    else if (error instanceof NetworkError) {
+                        Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR), mApplication.getString(R.string.TAG_VOLLEY_ERROR_NETWORK));
                         mResponseErrorList.postValue(mApplication.getString(R.string.VIEWMODEL_NOCONNECTION_ERROR));
+                    }
 
-                    } else if (error instanceof AuthFailureError) {
-                        Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR),
-                                mApplication.getString(R.string.TAG_VOLLEY_ERROR_AUTH));
-
-                    } else if (error instanceof ServerError) {
+                    //Error de servidor
+                    else if (error instanceof ServerError) {
                         Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR),
                                 mApplication.getString(R.string.TAG_VOLLEY_ERROR_SERVER));
                         Crashlytics.log(Log.DEBUG,
@@ -222,18 +202,11 @@ public class QuakeRepository {
                                 mApplication.getString(R.string.TAG_VOLLEY_ERROR_SERVER));
                         mResponseErrorList.postValue(mApplication.getString(R.string.VIEWMODEL_SERVER_ERROR));
 
-                    } else if (error instanceof NetworkError) {
-                        Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR),
-                                mApplication.getString(R.string.TAG_VOLLEY_ERROR_NETWORK));
-
-                    } else if (error instanceof ParseError) {
-                        Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR),
-                                mApplication.getString(R.string.TAG_VOLLEY_ERROR_PARSE));
-
                     }
+
                 } else {
                     VolleySingleton.getInstance(mApplication).cancelPendingRequests("TAG");
-                    loadQuakes();
+                    sendGetQuakes();
                 }
 
             }
@@ -293,7 +266,111 @@ public class QuakeRepository {
         mRequest.setShouldCache(true);
         mRequest.setRetryPolicy(new DefaultRetryPolicy(2500, 0,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        isLoadingQuake.postValue(true);
         VolleySingleton.getInstance(mApplication).addToRequestQueue(mRequest, "TAG");
+    }
+
+    public MutableLiveData<List<ReportModel>> getReports() {
+        sendGetReports();
+        return reportMutableLiveData;
+    }
+
+    private void sendGetReports() {
+
+        Response.Listener<String> response = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+
+                    JSONArray jsonReports = jsonObject.getJSONArray("reportes");
+
+                    for (int i = 0; i < jsonReports.length(); i++) {
+
+                        JSONObject jsonReport = jsonReports.getJSONObject(i);
+
+                        ReportModel reportModel = new ReportModel();
+                        reportModel.setN_sismos(jsonReport.getInt("n_sismos"));
+                        reportModel.setN_sensibles(jsonReport.getInt("n_sensibles"));
+                        reportModel.setMes_reporte(jsonReport.getString("mes_reporte"));
+
+                        reportModel.setProm_magnitud(jsonReport.getDouble("prom_magnitud"));
+                        reportModel.setProm_profundidad(jsonReport.getDouble("prom_profundidad"));
+                        reportModel.setMax_magnitud(jsonReport.getDouble("max_magnitud"));
+                        reportModel.setMin_profundidad(jsonReport.getDouble("min_profundidad"));
+
+                        JSONArray jsonArray = jsonReport.getJSONArray("top_ciudades");
+
+                        List<QuakesCity> quakesCityList = new ArrayList<>();
+                        for (int j = 0; j < jsonArray.length(); j++) {
+
+                            JSONObject jsonCity = jsonArray.getJSONObject(j);
+
+                            QuakesCity city = new QuakesCity();
+                            city.setCiudad(jsonCity.getString("ciudad"));
+                            city.setN_sismos(jsonCity.getInt("n_sismos"));
+
+                            quakesCityList.add(city);
+                        }
+                        reportModel.setQuakesCities(quakesCityList);
+                    }
+
+                    reportMutableLiveData.postValue(reportModelList);
+                    isLoadingReports.postValue(false);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                isLoadingReports.postValue(false);
+
+                if (error instanceof TimeoutError) {
+                    Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR), mApplication.getString(R.string.TAG_VOLLEY_ERROR_TIMEOUT));
+                    Crashlytics.log(Log.DEBUG, mApplication.getString(R.string.TAG_VOLLEY_ERROR), mApplication.getString(R.string.TAG_VOLLEY_ERROR_TIMEOUT));
+                    mResponseErrorList.postValue(mApplication.getString(R.string.VIEWMODEL_TIMEOUT_ERROR));
+                }
+
+                //Error de conexion a internet
+                else if (error instanceof NetworkError) {
+                    Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR), mApplication.getString(R.string.TAG_VOLLEY_ERROR_NETWORK));
+                    mResponseErrorList.postValue(mApplication.getString(R.string.VIEWMODEL_NOCONNECTION_ERROR));
+                }
+
+                //Error de servidor
+                else if (error instanceof ServerError) {
+                    Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR),
+                            mApplication.getString(R.string.TAG_VOLLEY_ERROR_SERVER));
+                    Crashlytics.log(Log.DEBUG,
+                            mApplication.getString(R.string.TAG_VOLLEY_ERROR),
+                            mApplication.getString(R.string.TAG_VOLLEY_ERROR_SERVER));
+                    mResponseErrorList.postValue(mApplication.getString(R.string.VIEWMODEL_SERVER_ERROR));
+
+                }
+            }
+        };
+
+        String url = "https://lastquakechile-server-dev.herokuapp.com/lastquakechile/api/reports";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, response, errorListener);
+
+        isLoadingReports.postValue(true);
+        VolleySingleton.getInstance(mApplication).addToRequestQueue(stringRequest, TAG_GET_REPORTS);
+    }
+
+    /**
+     * Funcion del repositorio que envia directamente el listado de sismos al viewmodel
+     *
+     * @return Lista de sismos normal
+     */
+    public List<QuakeModel> getQuakeList() {
+        return mQuakeList;
     }
 
     /**
@@ -303,5 +380,13 @@ public class QuakeRepository {
      */
     public MutableLiveData<String> getResponseErrorList() {
         return mResponseErrorList;
+    }
+
+    public MutableLiveData<Boolean> getIsLoadingQuakes() {
+        return isLoadingQuake;
+    }
+
+    public MutableLiveData<Boolean> getIsLoadingReports() {
+        return isLoadingReports;
     }
 }

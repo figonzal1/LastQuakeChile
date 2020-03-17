@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile.views;
+package cl.figonzal.lastquakechile.views.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -35,10 +35,11 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
-import cl.figonzal.lastquakechile.QuakeModel;
 import cl.figonzal.lastquakechile.R;
+import cl.figonzal.lastquakechile.model.QuakeModel;
 import cl.figonzal.lastquakechile.services.Utils;
 import cl.figonzal.lastquakechile.viewmodel.QuakeListViewModel;
+import cl.figonzal.lastquakechile.views.QuakeDetailsActivity;
 
 
 public class MapFragment extends Fragment implements OnMapReadyCallback,
