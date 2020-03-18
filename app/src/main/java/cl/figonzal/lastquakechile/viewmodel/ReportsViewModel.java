@@ -10,6 +10,7 @@ import java.util.List;
 
 import cl.figonzal.lastquakechile.model.ReportModel;
 import cl.figonzal.lastquakechile.repository.ReportRepository;
+import cl.figonzal.lastquakechile.services.SingleLiveEvent;
 
 public class ReportsViewModel extends AndroidViewModel {
 
@@ -30,7 +31,7 @@ public class ReportsViewModel extends AndroidViewModel {
         return mutableLiveReports;
     }
 
-    public MutableLiveData<String> showMsgErrorList() {
+    public SingleLiveEvent<String> showMsgErrorList() {
         repository = ReportRepository.getIntance(getApplication());
         return repository.getResponseMsgErrorList();
     }

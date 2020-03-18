@@ -32,6 +32,7 @@ import java.util.TimeZone;
 
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.model.QuakeModel;
+import cl.figonzal.lastquakechile.services.SingleLiveEvent;
 import cl.figonzal.lastquakechile.services.Utils;
 import cl.figonzal.lastquakechile.services.VolleySingleton;
 
@@ -48,7 +49,7 @@ public class QuakeRepository {
     private final MutableLiveData<List<QuakeModel>> mQuakeMutableList = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isLoadingQuake = new MutableLiveData<>();
 
-    private final MutableLiveData<String> responseMsgErrorList = new MutableLiveData<>();
+    private final SingleLiveEvent<String> responseMsgErrorList = new SingleLiveEvent<>();
 
     private boolean volleyError = false;
     private int contador_request = 0;
@@ -285,7 +286,7 @@ public class QuakeRepository {
      *
      * @return MutableLiveData de status data
      */
-    public MutableLiveData<String> getResponseMsgErrorList() {
+    public SingleLiveEvent<String> getResponseMsgErrorList() {
         return responseMsgErrorList;
     }
 

@@ -431,7 +431,7 @@ public class Utils {
         else if (auto_night_mode) {
 
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY);
-            activity.setTheme(R.style.AppTheme);
+            window.setStatusBarColor(activity.getColor(R.color.colorPrimaryVariantNightMode));
 
             Log.d(activity.getString(R.string.TAG_NIGHT_MODE_AUTO),
                     activity.getString(R.string.TAG_NIGHT_MODE_STATUS_ON));
