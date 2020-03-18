@@ -20,7 +20,7 @@ public class FragmentPageAdapter extends FragmentPagerAdapter {
     public FragmentPageAdapter(FragmentManager fm, Context context) {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         mTabTitles[0] = context.getString(R.string.tab_list);
-        mTabTitles[1] = "Reportes";
+        mTabTitles[1] = context.getString(R.string.tab_reports);
         mTabTitles[2] = context.getString(R.string.tab_map);
     }
 

@@ -85,4 +85,5 @@
     <string name="last_quakes_info_card_view_description">This list shows the last 15 earthquakes that occurred in Chile, you can modify the amount in the section &#8942; -> Settings</string>
     <string name="change_log_title">Version</string>
     <string name="change_log_subtitle">Release</string>
+    <string name="tab_reports">Reports</string>
 </resources>
