@@ -180,10 +180,9 @@
 
     <!-- TAGS SIN CATEGORIA-->
     <string name="FLAG_RETRY" translatable="false">Recargar</string>
-    <string name="TAG_PROGRESS_FROM_FRAGMENT" translatable="false">PROGRESS_FRAGMENT</string>
-    <string name="TAG_PROGRESS_FROM_FRAGMENT_UPDATE_RESPONSE" translatable="false">UPDATED
-		INFORMATION - FRAGMENT
-	</string>
+    <string name="TAG_FRAGMENT_QUAKE" translatable="false">FRAGMENT_QUAKE</string>
+    <string name="TAG_FRAGMENT_REPORTS" translatable="false">FRAGMENT_REPORTS</string>
+    <string name="FRAGMENT_LOAD_LIST" translatable="false">Listado cargado</string>
     <string name="TAG_PROGRESS_FROM_FRAGMENT_TIMEOUT_ERROR" translatable="false">TIMEOUT ERROR -
 		FRAGMENT
 	</string>
