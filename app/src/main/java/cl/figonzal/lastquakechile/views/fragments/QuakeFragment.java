@@ -85,7 +85,6 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
         return v;
     }
-
     private void instanciarRecursosInterfaz(View v) {
 
         quakeModelList = new ArrayList<>();
