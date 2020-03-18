@@ -124,7 +124,7 @@
         <!-- TODO: Habilitar para produccion -->
         <meta-data
             android:name="firebase_performance_collection_enabled"
-            android:value="false" />
+            android:value="true" />
     </application>
 
 </manifest>
