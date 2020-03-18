@@ -25,6 +25,7 @@ import java.util.List;
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.model.QuakesCity;
 import cl.figonzal.lastquakechile.model.ReportModel;
+import cl.figonzal.lastquakechile.services.SingleLiveEvent;
 import cl.figonzal.lastquakechile.services.VolleySingleton;
 
 public class ReportRepository {
@@ -36,7 +37,7 @@ public class ReportRepository {
     private final List<ReportModel> reportModelList = new ArrayList<>();
     private final MutableLiveData<List<ReportModel>> reportMutableLiveData = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isLoadingReports = new MutableLiveData<>();
-    private final MutableLiveData<String> responseMsgErrorList = new MutableLiveData<>();
+    private final SingleLiveEvent<String> responseMsgErrorList = new SingleLiveEvent<>();
 
     private ReportRepository(Application application) {
         this.mApplication = application;
@@ -156,7 +157,7 @@ public class ReportRepository {
         return isLoadingReports;
     }
 
-    public MutableLiveData<String> getResponseMsgErrorList() {
+    public SingleLiveEvent<String> getResponseMsgErrorList() {
         return responseMsgErrorList;
     }
 }

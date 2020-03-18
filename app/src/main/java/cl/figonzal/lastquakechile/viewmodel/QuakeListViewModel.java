@@ -11,6 +11,7 @@ import java.util.List;
 
 import cl.figonzal.lastquakechile.model.QuakeModel;
 import cl.figonzal.lastquakechile.repository.QuakeRepository;
+import cl.figonzal.lastquakechile.services.SingleLiveEvent;
 
 
 /**
@@ -63,7 +64,7 @@ public class QuakeListViewModel extends AndroidViewModel {
      *
      * @return Retorna el MutableLiveData del mensaje estado
      */
-    public MutableLiveData<String> showMsgErrorList() {
+    public SingleLiveEvent<String> showMsgErrorList() {
 
         mQuakeRepository = QuakeRepository.getIntance(getApplication());
         return mQuakeRepository.getResponseMsgErrorList();

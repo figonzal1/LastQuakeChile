@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //Configurar MODO NOCHE
-        Utils.checkNightMode(this, getWindow());
+        Utils.checkNightMode(MainActivity.this, getWindow());
 
         //Checkear logica de first run con actividad de welcome
         checkWelcomeActivity();
