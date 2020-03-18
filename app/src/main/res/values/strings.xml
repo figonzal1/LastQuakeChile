@@ -344,9 +344,22 @@
     <string name="TAG_NOTIFICATION_CHANGELOG_STATUS" translatable="false">NOTI_CHANGELOG_STATUS
     </string>
     <string name="TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE" translatable="false">ENVIADA</string>
-    <string name="REWAR_DIALOG_TITLE" translatable="false">¡Apoya a la aplicación!</string>
-    <string name="REWARD_DIALOG_MESSAGE" translatable="false">Ve el video, apoya gratis monetariamente y recibe 1 hora libre de publicidad</string>
-    <string name="REWARD_DIALOG_POSITIVE" translatable="false">Ver video</string>
-    <string name="REWARD_DIALOG_NEGATIVE" translatable="false">Cancelar</string>
+    <string name="REWAR_DIALOG_TITLE">¡Apoya a la aplicación!</string>
+    <string name="REWARD_DIALOG_MESSAGE">Ve el video, apoya gratis monetariamente y recibe 1 día libre de publicidad</string>
+    <string name="REWARD_DIALOG_POSITIVE">Ver video</string>
+    <string name="REWARD_DIALOG_NEGATIVE">Cancelar</string>
+    <string name="ENERO">Enero</string>
+    <string name="FEBRERO">Febrero</string>
+    <string name="MARZO">Marzo</string>
+    <string name="ABRIL">April</string>
+    <string name="MAYO">Mayo</string>
+    <string name="JUNIO">Junio</string>
+    <string name="JULIO">Julio</string>
+    <string name="AGOSTO">Agosto</string>
+    <string name="SEPTIEMBRE">Septiembre</string>
+    <string name="OCTUBRE">Octubre</string>
+    <string name="NOVIEMBRE">Noviembre</string>
+    <string name="DICIEMBRE">Diciembre</string>
+    <string name="FORMATO_REPORTE">Reporte %s %s</string>
 
 </resources>

@@ -46,7 +46,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
         String anno = split[0];
         int n_mes = Integer.parseInt(split[1]);
 
-        holder.tv_title_report.setText(String.format("Reporte %s %s", getMonth(n_mes), anno));
+        holder.tv_title_report.setText(String.format(context.getString(R.string.FORMATO_REPORTE), getMonth(n_mes), anno));
         holder.tv_n_quakes_value.setText(String.valueOf(reportModel.getN_sismos()));
         holder.tv_n_sensibles_value.setText(String.valueOf(reportModel.getN_sensibles()));
         holder.tv_prom_magnitud_value.setText(String.format("%s", reportModel.getProm_magnitud()));
@@ -70,7 +70,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
     }
 
     private String getMonth(int month) {
-        String[] monthNames = {"Enero", "Febrero", "Marzo", "April", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+        String[] monthNames = {context.getString(R.string.ENERO), context.getString(R.string.FEBRERO), context.getString(R.string.MARZO), context.getString(R.string.ABRIL), context.getString(R.string.MAYO), context.getString(R.string.JUNIO), context.getString(R.string.JULIO), context.getString(R.string.AGOSTO), context.getString(R.string.SEPTIEMBRE), context.getString(R.string.OCTUBRE), context.getString(R.string.NOVIEMBRE), context.getString(R.string.DICIEMBRE)};
         return monthNames[month - 1];
     }
 
