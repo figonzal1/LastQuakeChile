@@ -126,7 +126,7 @@ public class ChangeLogNotification {
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText("- Ahora modo noche automático se activa con ahorro de energía\n" +
                                 "- Se agregan reportes sismológicos mensuales \n" +
-                                "- Actualizaciones internas" +
+                                "- Actualizaciones internas\n" +
                                 "- Publicidad no invasiva"))
                 .setSmallIcon(R.drawable.ic_lastquakechile_1200)
                 .setAutoCancel(true);
