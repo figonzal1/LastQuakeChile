@@ -142,7 +142,7 @@ public class ReportRepository {
             }
         };
 
-        String url = "https://lastquakechile-server-dev.herokuapp.com/lastquakechile/api/reports";
+        String url = mApplication.getString(R.string.URL_GET_PROD_REPORTS);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, response, errorListener);
         isLoadingReports.postValue(true);

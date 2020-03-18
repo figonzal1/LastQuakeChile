@@ -124,9 +124,10 @@ public class ChangeLogNotification {
                 context.getString(R.string.FIREBASE_CHANNEL_ID_CHANGELOG))
                 .setContentTitle(context.getString(R.string.NOTIFICATION_CHANGE_LOG_TITLE) + context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName)
                 .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText("- En cada actualización se muestra un dialogo resumen " +
-                                "de cambios\n" +
-                                "- Este es otro item de la notificacion"))
+                        .bigText("- Ahora modo noche automático se activa con ahorro de energía\n" +
+                                "- Se agregan reportes sismológicos mensuales \n" +
+                                "- Actualizaciones internas" +
+                                "- Publicidad no invasiva"))
                 .setSmallIcon(R.drawable.ic_lastquakechile_1200)
                 .setAutoCancel(true);
 
