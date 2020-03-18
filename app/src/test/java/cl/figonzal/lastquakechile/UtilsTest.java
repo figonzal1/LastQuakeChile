@@ -17,9 +17,9 @@ import static org.junit.Assert.assertEquals;
 @RunWith(Parameterized.class)
 public class UtilsTest {
 
-    private Date dActual;
-    private Date dEsperado;
-    private int dHoras;
+    private final Date dActual;
+    private final Date dEsperado;
+    private final int dHoras;
 
     public UtilsTest(Date dActual, Date dEsperado, int dHoras) {
         this.dActual = dActual;

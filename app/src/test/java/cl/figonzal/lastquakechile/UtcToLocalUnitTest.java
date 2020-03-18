@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Objects;
 
 import cl.figonzal.lastquakechile.services.Utils;
 
@@ -52,11 +53,11 @@ public class UtcToLocalUnitTest {
 		try {
 
 			//Se testea quakeutils con actual
-            date_actual = Utils.utcToLocal(format.parse(actual_utc));
+            date_actual = Utils.utcToLocal(Objects.requireNonNull(format.parse(actual_utc)));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		assertEquals(esperado_local, format.format(date_actual));
+        assertEquals(esperado_local, format.format(Objects.requireNonNull(date_actual)));
 
 	}
 

@@ -31,7 +31,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
 
     @NonNull
     @Override
-    public ReportAdapter.ReportViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ReportViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_reports, parent, false);
         return new ReportViewHolder(v);
     }
@@ -95,26 +95,26 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
 
     static class ReportViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tv_title_report;
-        private TextView tv_n_quakes_value;
-        private TextView tv_n_sensibles_value;
-        private TextView tv_prom_magnitud_value;
-        private TextView tv_prom_prof_value;
-        private TextView tv_max_mag_value;
-        private TextView tv_min_prof_value;
+        private final TextView tv_title_report;
+        private final TextView tv_n_quakes_value;
+        private final TextView tv_n_sensibles_value;
+        private final TextView tv_prom_magnitud_value;
+        private final TextView tv_prom_prof_value;
+        private final TextView tv_max_mag_value;
+        private final TextView tv_min_prof_value;
 
-        private TextView tv_nombre_c1;
-        private TextView tv_nombre_c2;
-        private TextView tv_nombre_c3;
-        private TextView tv_nombre_c4;
+        private final TextView tv_nombre_c1;
+        private final TextView tv_nombre_c2;
+        private final TextView tv_nombre_c3;
+        private final TextView tv_nombre_c4;
 
-        private TextView tv_n_sismos_c1;
-        private TextView tv_n_sismos_c2;
-        private TextView tv_n_sismos_c3;
-        private TextView tv_n_sismos_c4;
+        private final TextView tv_n_sismos_c1;
+        private final TextView tv_n_sismos_c2;
+        private final TextView tv_n_sismos_c3;
+        private final TextView tv_n_sismos_c4;
 
 
-        ReportViewHolder(@NonNull View itemView) {
+        private ReportViewHolder(@NonNull View itemView) {
             super(itemView);
 
             tv_title_report = itemView.findViewById(R.id.tv_title_report);

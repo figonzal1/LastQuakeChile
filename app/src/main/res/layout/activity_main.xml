@@ -2,14 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/AppTheme"
     tools:context=".views.MainActivity">
 
     <include
-        android:id="@+id/include"
         layout="@layout/toolbar_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -52,7 +52,6 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
     private QuakeListViewModel mViewModel;
     private QuakeAdapter quakeAdapter;
     private CardView mCardViewInfo;
-    private SharedPreferences sharedPreferences;
 
     private List<QuakeModel> quakeModelList;
 
@@ -98,6 +97,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         adsService.configurarIntersitial(mAdView);
 
         mRecycleView = v.findViewById(R.id.recycle_view);
+        mRecycleView.setHasFixedSize(true);
 
         LinearLayoutManager ly = new LinearLayoutManager(getContext());
         mRecycleView.setLayoutManager(ly);
@@ -346,11 +346,6 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
     public void onPause() {
         mAdView.pause();
         super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
     }
 
     @Override

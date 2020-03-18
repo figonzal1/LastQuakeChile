@@ -2,5 +2,4 @@
 <resources>
     <dimen name="standard_65">65dp</dimen>
     <dimen name="standard_130">130dp</dimen>
-    <dimen name="standard_195">195dp</dimen>
 </resources>
