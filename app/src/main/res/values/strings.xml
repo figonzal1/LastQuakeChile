@@ -17,6 +17,7 @@
     <!--TABS -->
     <string name="tab_map">Mapa</string>
     <string name="tab_list">Listado</string>
+    <string name="tab_reports">Reportes</string>
 
     <!-- URL SERVIDOR HEROKU -->
     <string name="URL_GET_PROD" translatable="false">
@@ -376,8 +377,5 @@
     <string name="REWARD_DIALOG_MESSAGE" translatable="false">Ve el video, apoya gratis monetariamente y recibe 1 hora libre de publicidad</string>
     <string name="REWARD_DIALOG_POSITIVE" translatable="false">Ver video</string>
     <string name="REWARD_DIALOG_NEGATIVE" translatable="false">Cancelar</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
