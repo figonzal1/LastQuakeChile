@@ -171,27 +171,15 @@
     <string name="alert_pref_summary_off">Desactivadas</string>
 
     <!-- Strings de Snackbars -->
-    <string name="SNACKBAR_TIMEOUT_ERROR_PRESSED" translatable="false">SNACKBAR_TIMEOUT_ERROR
-	</string>
     <string name="SNACKBAR_NOCONNECTION_ERROR_PRESSED" translatable="false">
 		SNACKBAR_NOCONNECTION_ERROR
 	</string>
-    <string name="SNACKBAR_SERVER_ERROR_PRESSED" translatable="false">SNACKBAR_SERVER_ERROR</string>
 
     <!-- TAGS SIN CATEGORIA-->
     <string name="FLAG_RETRY" translatable="false">Recargar</string>
     <string name="TAG_FRAGMENT_QUAKE" translatable="false">FRAGMENT_QUAKE</string>
     <string name="TAG_FRAGMENT_REPORTS" translatable="false">FRAGMENT_REPORTS</string>
     <string name="FRAGMENT_LOAD_LIST" translatable="false">Listado cargado</string>
-    <string name="TAG_PROGRESS_FROM_FRAGMENT_TIMEOUT_ERROR" translatable="false">TIMEOUT ERROR -
-		FRAGMENT
-	</string>
-    <string name="TAG_PROGRESS_FROM_FRAGMENT_SERVER_ERROR" translatable="false">SERVER ERROR -
-		FRAGMENT
-	</string>
-    <string name="TAG_PROGRESS_FROM_FRAGMENT_NOCONNECTION" translatable="false">NO CONNECTION ERROR
-		- FRAGMENT
-	</string>
     <string name="TAG_JSON_GENERAL_ERROR" translatable="false">JSON_GENERAL_ERROR</string>
     <string name="TAG_JSON_PARSE_ERROR" translatable="false">JSON_PARSE_ERROR</string>
     <string name="TAG_CONNECTION_OK" translatable="false">CONNECTION_OK</string>
