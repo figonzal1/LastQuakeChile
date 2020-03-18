@@ -111,7 +111,7 @@ public class ReportRepository {
             }
         };
 
-        Response.ErrorListener errorListener = new Response.ErrorListener() {
+        final Response.ErrorListener errorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 isLoadingReports.postValue(false);
