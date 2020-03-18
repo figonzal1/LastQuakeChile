@@ -20,9 +20,9 @@
     <string name="FIREBASE_CHANNEL_DESCRIPTION_QUAKES">Receives quake alerts above 5 degrees</string>
     <string name="last_quakes_info_card_view_tittle">Last quakes</string>
     <string name="last_quakes_info_card_view_button">OK</string>
-    <string name="VIEWMODEL_TIMEOUT_ERROR">Timeout</string>
+    <string name="VIEWMODEL_TIMEOUT_ERROR">Server does not respond, try later</string>
     <string name="VIEWMODEL_NOCONNECTION_ERROR">You don\'t have an Internet connection</string>
-    <string name="VIEWMODEL_SERVER_ERROR">Server does not respond, try later</string>
+    <string name="VIEWMODEL_SERVER_ERROR">Oops an error has occurred! Try again later</string>
     <string name="icono_app">App icon</string>
     <string name="invitation_welcome">¡Welcome!</string>
     <string name="icono_ondas">Waves icon</string>
@@ -85,4 +85,21 @@
     <string name="m_xima_magnitud">Maximum magnitude</string>
     <string name="m_nima_profundidad">Minimum depth</string>
     <string name="top_ciudades_con_m_s_sismos">Top cities with the most earthquakes</string>
+    <string name="REWARD_DIALOG_NEGATIVE">Cancel</string>
+    <string name="REWARD_DIALOG_POSITIVE" translatable="false">Watch video</string>
+    <string name="REWAR_DIALOG_TITLE">Support the app!</string>
+    <string name="REWARD_DIALOG_MESSAGE">Watch the video, support free monetarily and receive 1 day free of advertising</string>
+    <string name="FORMATO_REPORTE">Report %s %s</string>
+    <string name="ENERO">January</string>
+    <string name="FEBRERO">February</string>
+    <string name="MARZO">March</string>
+    <string name="ABRIL">April</string>
+    <string name="MAYO">May</string>
+    <string name="JUNIO">June</string>
+    <string name="JULIO">July</string>
+    <string name="AGOSTO">August</string>
+    <string name="SEPTIEMBRE">September</string>
+    <string name="OCTUBRE">October</string>
+    <string name="NOVIEMBRE">November</string>
+    <string name="DICIEMBRE">December</string>
 </resources>
