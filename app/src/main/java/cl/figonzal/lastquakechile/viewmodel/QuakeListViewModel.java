@@ -46,7 +46,7 @@ public class QuakeListViewModel extends AndroidViewModel {
 
     public MutableLiveData<Boolean> isLoading() {
         mQuakeRepository = QuakeRepository.getIntance(getApplication());
-        return mQuakeRepository.getIsLoadingQuakes();
+        return mQuakeRepository.getIsLoading();
     }
 
     /**
@@ -63,10 +63,10 @@ public class QuakeListViewModel extends AndroidViewModel {
      *
      * @return Retorna el MutableLiveData del mensaje estado
      */
-    public MutableLiveData<String> showResponseErrorList() {
+    public MutableLiveData<String> showMsgErrorList() {
 
         mQuakeRepository = QuakeRepository.getIntance(getApplication());
-        return mQuakeRepository.getResponseErrorList();
+        return mQuakeRepository.getResponseMsgErrorList();
     }
 
     /**

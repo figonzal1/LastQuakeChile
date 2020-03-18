@@ -37,8 +37,8 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 import java.util.List;
 
-import cl.figonzal.lastquakechile.QuakeAdapter;
 import cl.figonzal.lastquakechile.R;
+import cl.figonzal.lastquakechile.adapter.QuakeAdapter;
 import cl.figonzal.lastquakechile.model.QuakeModel;
 import cl.figonzal.lastquakechile.services.AdsService;
 import cl.figonzal.lastquakechile.viewmodel.QuakeListViewModel;
@@ -177,7 +177,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         });
 
         //Viewmodel encargado de mostrar los mensajes de estado en los sSnackbar
-        mViewModel.showResponseErrorList().observe(requireActivity(), new Observer<String>() {
+        mViewModel.showMsgErrorList().observe(requireActivity(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String status) {
                 if (status != null) {

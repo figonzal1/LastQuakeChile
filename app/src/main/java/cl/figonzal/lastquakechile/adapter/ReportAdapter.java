@@ -1,0 +1,139 @@
+package cl.figonzal.lastquakechile.adapter;
+
+import android.app.Activity;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.List;
+
+import cl.figonzal.lastquakechile.R;
+import cl.figonzal.lastquakechile.model.QuakesCity;
+import cl.figonzal.lastquakechile.model.ReportModel;
+
+public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportViewHolder> {
+
+    private final Context context;
+    private final Activity activity;
+    private List<ReportModel> reportList;
+
+    public ReportAdapter(List<ReportModel> reportList, Context context, Activity activity) {
+        this.reportList = reportList;
+        this.context = context;
+        this.activity = activity;
+        setHasStableIds(true);
+    }
+
+    @NonNull
+    @Override
+    public ReportAdapter.ReportViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_reports, parent, false);
+        return new ReportViewHolder(v);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ReportAdapter.ReportViewHolder holder, int position) {
+
+        ReportModel reportModel = reportList.get(position);
+
+
+        String[] split = reportModel.getMes_reporte().split("-");
+        String anno = split[0];
+        int n_mes = Integer.parseInt(split[1]);
+
+        holder.tv_title_report.setText(String.format("Reporte %s %s", getMonth(n_mes), anno));
+        holder.tv_n_quakes_value.setText(String.valueOf(reportModel.getN_sismos()));
+        holder.tv_n_sensibles_value.setText(String.valueOf(reportModel.getN_sensibles()));
+        holder.tv_prom_magnitud_value.setText(String.format("%s", reportModel.getProm_magnitud()));
+        holder.tv_prom_prof_value.setText(String.format("%s km", reportModel.getProm_profundidad()));
+        holder.tv_max_mag_value.setText(String.format("%s", reportModel.getMax_magnitud()));
+        holder.tv_min_prof_value.setText(String.format("%s km", reportModel.getMin_profundidad()));
+
+        List<QuakesCity> quakesCityList = reportModel.getQuakesCities();
+
+        holder.tv_nombre_c1.setText(quakesCityList.get(0).getCiudad());
+        holder.tv_n_sismos_c1.setText(String.valueOf(quakesCityList.get(0).getN_sismos()));
+
+        holder.tv_nombre_c2.setText(quakesCityList.get(1).getCiudad());
+        holder.tv_n_sismos_c2.setText(String.valueOf(quakesCityList.get(1).getN_sismos()));
+
+        holder.tv_nombre_c3.setText(quakesCityList.get(2).getCiudad());
+        holder.tv_n_sismos_c3.setText(String.valueOf(quakesCityList.get(2).getN_sismos()));
+
+        holder.tv_nombre_c4.setText(quakesCityList.get(3).getCiudad());
+        holder.tv_n_sismos_c4.setText(String.valueOf(quakesCityList.get(3).getN_sismos()));
+    }
+
+    private String getMonth(int month) {
+        String[] monthNames = {"Enero", "Febrero", "Marzo", "April", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+        return monthNames[month - 1];
+    }
+
+    @Override
+    public int getItemCount() {
+        return reportList.size();
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    public void actualizarLista(List<ReportModel> list) {
+        this.reportList = list;
+        notifyDataSetChanged();
+    }
+
+    public List<ReportModel> getReportList() {
+        return reportList;
+    }
+
+    static class ReportViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView tv_title_report;
+        private TextView tv_n_quakes_value;
+        private TextView tv_n_sensibles_value;
+        private TextView tv_prom_magnitud_value;
+        private TextView tv_prom_prof_value;
+        private TextView tv_max_mag_value;
+        private TextView tv_min_prof_value;
+
+        private TextView tv_nombre_c1;
+        private TextView tv_nombre_c2;
+        private TextView tv_nombre_c3;
+        private TextView tv_nombre_c4;
+
+        private TextView tv_n_sismos_c1;
+        private TextView tv_n_sismos_c2;
+        private TextView tv_n_sismos_c3;
+        private TextView tv_n_sismos_c4;
+
+
+        ReportViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            tv_title_report = itemView.findViewById(R.id.tv_title_report);
+            tv_n_quakes_value = itemView.findViewById(R.id.tv_n_quakes_value);
+            tv_n_sensibles_value = itemView.findViewById(R.id.tv_n_sensibles_value);
+            tv_prom_magnitud_value = itemView.findViewById(R.id.tv_prom_magnitud_value);
+            tv_prom_prof_value = itemView.findViewById(R.id.tv_prom_prof_value);
+            tv_max_mag_value = itemView.findViewById(R.id.tv_max_mag_value);
+            tv_min_prof_value = itemView.findViewById(R.id.tv_min_prof_value);
+
+            tv_nombre_c1 = itemView.findViewById(R.id.tv_nombre_c1);
+            tv_nombre_c2 = itemView.findViewById(R.id.tv_nombre_c2);
+            tv_nombre_c3 = itemView.findViewById(R.id.tv_nombre_c3);
+            tv_nombre_c4 = itemView.findViewById(R.id.tv_nombre_c4);
+
+            tv_n_sismos_c1 = itemView.findViewById(R.id.tv_n_sismos_c1);
+            tv_n_sismos_c2 = itemView.findViewById(R.id.tv_n_sismos_c2);
+            tv_n_sismos_c3 = itemView.findViewById(R.id.tv_n_sismos_c3);
+            tv_n_sismos_c4 = itemView.findViewById(R.id.tv_n_sismos_c4);
+        }
+    }
+}

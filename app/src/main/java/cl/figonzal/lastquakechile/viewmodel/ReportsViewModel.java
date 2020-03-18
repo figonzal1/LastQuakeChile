@@ -9,11 +9,11 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.List;
 
 import cl.figonzal.lastquakechile.model.ReportModel;
-import cl.figonzal.lastquakechile.repository.QuakeRepository;
+import cl.figonzal.lastquakechile.repository.ReportRepository;
 
 public class ReportsViewModel extends AndroidViewModel {
 
-    private QuakeRepository repository;
+    private ReportRepository repository;
 
     private MutableLiveData<List<ReportModel>> mutableLiveReports;
 
@@ -24,19 +24,24 @@ public class ReportsViewModel extends AndroidViewModel {
     public MutableLiveData<List<ReportModel>> showReports() {
         if (mutableLiveReports == null) {
             mutableLiveReports = new MutableLiveData<>();
-            repository = QuakeRepository.getIntance(getApplication());
+            repository = ReportRepository.getIntance(getApplication());
             mutableLiveReports = repository.getReports();
         }
         return mutableLiveReports;
     }
 
-    public MutableLiveData<String> showErrorList() {
-        repository = QuakeRepository.getIntance(getApplication());
-        return repository.getResponseErrorList();
+    public MutableLiveData<String> showMsgErrorList() {
+        repository = ReportRepository.getIntance(getApplication());
+        return repository.getResponseMsgErrorList();
     }
 
     public MutableLiveData<Boolean> isLoading() {
-        repository = QuakeRepository.getIntance(getApplication());
+        repository = ReportRepository.getIntance(getApplication());
         return repository.getIsLoadingReports();
+    }
+
+    public void refreshMutableReportList() {
+        repository = ReportRepository.getIntance(getApplication());
+        repository.getReports();
     }
 }

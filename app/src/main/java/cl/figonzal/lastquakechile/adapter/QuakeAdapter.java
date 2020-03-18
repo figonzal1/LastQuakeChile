@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile;
+package cl.figonzal.lastquakechile.adapter;
 
 import android.app.Activity;
 import android.app.ActivityOptions;
@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.model.QuakeModel;
 import cl.figonzal.lastquakechile.services.Utils;
 import cl.figonzal.lastquakechile.views.QuakeDetailsActivity;
@@ -46,7 +47,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
     public QuakeViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
         //Inflar de layout del cardview
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.quake_cardview,
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_view_quake,
                 viewGroup, false);
         return new QuakeViewHolder(v);
     }
