@@ -26,11 +26,6 @@ import cl.figonzal.lastquakechile.adapter.ReportAdapter;
 import cl.figonzal.lastquakechile.model.ReportModel;
 import cl.figonzal.lastquakechile.viewmodel.ReportsViewModel;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ReportsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ReportsFragment extends Fragment {
 
     private List<ReportModel> reportModelList;
@@ -99,6 +94,13 @@ public class ReportsFragment extends Fragment {
                         tv_reportes_vacios.setVisibility(View.INVISIBLE);
                     }
                 }
+
+                //LOG ZONE
+                Log.d(getString(R.string.TAG_FRAGMENT_REPORTS),
+                        getString(R.string.FRAGMENT_LOAD_LIST));
+
+                Crashlytics.log(Log.DEBUG, getString(R.string.TAG_FRAGMENT_REPORTS),
+                        getString(R.string.FRAGMENT_LOAD_LIST));
             }
         });
 
@@ -108,90 +110,10 @@ public class ReportsFragment extends Fragment {
                 if (status != null) {
                     progressBar.setVisibility(View.INVISIBLE);
                     rv.setVisibility(View.INVISIBLE);
-                    showSnackBar(status, v);
                     reportAdapter.notifyDataSetChanged();
                 }
             }
         });
-    }
-
-    private void showSnackBar(String status, View v) {
-        //TIMEOUT ERROR
-        if (status.equals(getString(R.string.VIEWMODEL_TIMEOUT_ERROR))) {
-            sSnackbar = Snackbar.make(v, status, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(getString(R.string.FLAG_RETRY), new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            reportsViewModel.refreshMutableReportList();
-                            progressBar.setVisibility(View.VISIBLE);
-
-                            Crashlytics.setBool(getString(R.string.SNACKBAR_TIMEOUT_ERROR_PRESSED)
-                                    , true);
-                        }
-                    });
-            sSnackbar.setActionTextColor(getResources().getColor(R.color.colorSecondary, requireContext().getTheme()));
-            int snackbarTextId = com.google.android.material.R.id.snackbar_text;
-            TextView textView = sSnackbar.getView().findViewById(snackbarTextId);
-            textView.setTextColor(getResources().getColor(R.color.white, requireContext().getTheme()));
-            sSnackbar.show();
-
-            Log.d(getString(R.string.TAG_PROGRESS_FROM_FRAGMENT),
-                    getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_TIMEOUT_ERROR));
-            Crashlytics.log(Log.DEBUG, getString(R.string.TAG_PROGRESS_FROM_FRAGMENT),
-                    getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_TIMEOUT_ERROR));
-        }
-
-        //SERVER ERROR
-        else if (status.equals(getString(R.string.VIEWMODEL_SERVER_ERROR))) {
-            sSnackbar = Snackbar.make(v, status, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(getString(R.string.FLAG_RETRY), new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                            reportsViewModel.refreshMutableReportList();
-                            progressBar.setVisibility(View.VISIBLE);
-
-                            Crashlytics.setBool(getString(R.string.SNACKBAR_SERVER_ERROR_PRESSED),
-                                    true);
-                        }
-                    });
-            sSnackbar.setActionTextColor(getResources().getColor(R.color.colorSecondary, requireContext().getTheme()));
-            int snackbarTextId = com.google.android.material.R.id.snackbar_text;
-            TextView textView = sSnackbar.getView().findViewById(snackbarTextId);
-            textView.setTextColor(getResources().getColor(R.color.white, requireContext().getTheme()));
-            sSnackbar.show();
-
-            Log.d(getString(R.string.TAG_PROGRESS_FROM_FRAGMENT),
-                    getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_SERVER_ERROR));
-            Crashlytics.log(Log.DEBUG, getString(R.string.TAG_PROGRESS_FROM_FRAGMENT),
-                    getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_SERVER_ERROR));
-
-        }
-
-        //NOCONNECTION ERROR
-        else if (status.equals(getString(R.string.VIEWMODEL_NOCONNECTION_ERROR))) {
-            sSnackbar = Snackbar
-                    .make(v, status, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(getString(R.string.FLAG_RETRY), new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            reportsViewModel.refreshMutableReportList();
-                            progressBar.setVisibility(View.VISIBLE);
-
-                            Crashlytics.setBool(getString(R.string.SNACKBAR_NOCONNECTION_ERROR_PRESSED), true);
-                        }
-                    });
-            sSnackbar.setActionTextColor(getResources().getColor(R.color.colorSecondary, requireContext().getTheme()));
-            int snackbarTextId = com.google.android.material.R.id.snackbar_text;
-            TextView textView = sSnackbar.getView().findViewById(snackbarTextId);
-            textView.setTextColor(getResources().getColor(R.color.white, requireContext().getTheme()));
-            sSnackbar.show();
-
-            Log.d(getString(R.string.TAG_PROGRESS_FROM_FRAGMENT),
-                    getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_NOCONNECTION));
-            Crashlytics.log(Log.DEBUG, getString(R.string.TAG_PROGRESS_FROM_FRAGMENT),
-                    getString(R.string.TAG_PROGRESS_FROM_FRAGMENT_NOCONNECTION));
-        }
     }
 
     private void instanciarRecursosInterfaz(View v) {
