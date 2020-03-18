@@ -24,8 +24,8 @@ import cl.figonzal.lastquakechile.dialogs.RewardDialogFragment;
 public class AdsService {
 
     private RewardedVideoAd rewardedVideoAd;
-    private FragmentManager fragmentManager;
-    private Context context;
+    private final FragmentManager fragmentManager;
+    private final Context context;
 
     public AdsService(Context context, FragmentManager fragmentManager) {
         this.context = context;
@@ -143,7 +143,7 @@ public class AdsService {
      */
     private void mostrarDialog() {
 
-        RewardDialogFragment fragment = new RewardDialogFragment(rewardedVideoAd);
+        RewardDialogFragment fragment = new RewardDialogFragment(context, rewardedVideoAd);
         fragment.setCancelable(false);
         fragment.show(fragmentManager, context.getString(R.string.REWARD_DIALOG));
     }

@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         //ADS
         MobileAds.initialize(getApplicationContext(), getString(R.string.ADMOB_MASTER_KEY));
         adsService = new AdsService(getApplicationContext(), getSupportFragmentManager());
-        //adsService.rewardDialog(this);
+        adsService.rewardDialog(this);
 
         //Creacion de canal de notificaciones para sismos y para changelogs (Requerido para API >26)
         NotificationService.createNotificationChannel(getApplicationContext());
@@ -258,18 +258,18 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         Utils.checkPlayServices(this);
-        //adsService.getRewardedVideoAd().resume(this);
+        adsService.getRewardedVideoAd().resume(this);
     }
 
     @Override
     public void onPause() {
-        //adsService.getRewardedVideoAd().pause(this);
+        adsService.getRewardedVideoAd().pause(this);
         super.onPause();
     }
 
     @Override
     public void onDestroy() {
-        //adsService.getRewardedVideoAd().destroy(this);
+        adsService.getRewardedVideoAd().destroy(this);
         super.onDestroy();
     }
 

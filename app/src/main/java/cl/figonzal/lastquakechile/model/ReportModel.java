@@ -1,5 +1,7 @@
 package cl.figonzal.lastquakechile.model;
 
+import androidx.annotation.NonNull;
+
 import java.util.List;
 
 public class ReportModel {
@@ -90,6 +92,7 @@ public class ReportModel {
         this.quakesCities = quakesCities;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "ReportModel{" +

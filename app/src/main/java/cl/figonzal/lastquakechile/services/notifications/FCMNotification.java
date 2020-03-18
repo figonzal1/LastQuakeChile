@@ -315,7 +315,7 @@ public class FCMNotification extends FirebaseMessagingService {
     }
 
     @Override
-    public void onNewToken(String s) {
+    public void onNewToken(@NonNull String s) {
         super.onNewToken(s);
         Log.e(getString(R.string.TAG_FIREBASE_TOKEN), "Refreshed Token:" + s);
         Crashlytics.setUserIdentifier(s);

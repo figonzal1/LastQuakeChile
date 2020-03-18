@@ -200,12 +200,6 @@ public class Utils {
                 }
                 break;
             case 8:
-                if (forMapa) {
-                    mMagResourseId = R.color.magnitude8_alpha;
-                } else {
-                    mMagResourseId = R.color.magnitude8;
-                }
-                break;
             case 9:
                 if (forMapa) {
                     mMagResourseId = R.color.magnitude8_alpha;
@@ -239,7 +233,7 @@ public class Utils {
         // =25.8 = 25
         //(71.43 - 71)*3600 /60 - (71.43-71)*3600/60 = 25.8 - 25 =0.8
         double mSeconds =
-                ((((abs - mLatGradosLet) * 3600) / 60) - Math.floor((((abs - mLatGradosLet) * 3600) / 60))) * 60;
+                ((((abs - mLatGradosLet) * 3600) / 60) - mMinutes) * 60;
 
         mDMS.put("grados", Math.floor(Math.abs(input)));
         mDMS.put("minutos", (double) Math.round(mMinutes));
