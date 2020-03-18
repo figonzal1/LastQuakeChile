@@ -79,6 +79,24 @@ public class FragmentQuakesTest {
 		editor.apply();
 	}
 
+    @Test
+    public void test1_click_on_item() {
+
+        ViewInteraction quakeItem = onView(
+                allOf(withId(R.id.card_view),
+                        childAtPosition(
+                                allOf(withId(R.id.recycle_view),
+                                        withContentDescription(mContext.getString(R.string.seccion_listado_de_sismos)),
+                                        childAtPosition(
+                                                withClassName(Matchers.is("androidx" +
+                                                        ".constraintlayout.widget" +
+                                                        ".ConstraintLayout")),
+                                                3)),
+                                0),
+                        isDisplayed()));
+        quakeItem.perform(click());
+    }
+
 	@Test
 	public void test2_click_card_view_info() {
 
@@ -98,24 +116,6 @@ public class FragmentQuakesTest {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-	}
-
-	@Test
-	public void test1_click_on_item() {
-
-		ViewInteraction quakeItem = onView(
-				allOf(withId(R.id.card_view),
-						childAtPosition(
-								allOf(withId(R.id.recycle_view),
-										withContentDescription(mContext.getString(R.string.seccion_listado_de_sismos)),
-										childAtPosition(
-												withClassName(Matchers.is("androidx" +
-														".constraintlayout.widget" +
-														".ConstraintLayout")),
-												3)),
-								0),
-						isDisplayed()));
-		quakeItem.perform(click());
 	}
 
 }
