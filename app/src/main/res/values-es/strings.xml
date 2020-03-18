@@ -85,10 +85,10 @@
     <string name="m_xima_magnitud">Máxima magnitud</string>
     <string name="m_nima_profundidad">Mínima profundidad</string>
     <string name="top_ciudades_con_m_s_sismos">Top ciudades con más sismos</string>
-    <string name="REWARD_DIALOG_NEGATIVE" translatable="false">Cancelar</string>
-    <string name="REWARD_DIALOG_POSITIVE" translatable="false">Ver video</string>
-    <string name="REWARD_DIALOG_MESSAGE" translatable="false">Ve el video, apoya gratis monetariamente y recibe 1 día libre de publicidad</string>
-    <string name="REWAR_DIALOG_TITLE" translatable="false">¡Apoya a la aplicación!</string>
+    <string name="REWARD_DIALOG_NEGATIVE">Cancelar</string>
+    <string name="REWARD_DIALOG_POSITIVE">Ver video</string>
+    <string name="REWARD_DIALOG_MESSAGE">Ve el video, apoya gratis monetariamente y recibe 1 día libre de publicidad</string>
+    <string name="REWAR_DIALOG_TITLE">¡Apoya a la aplicación!</string>
     <string name="ENERO">Enero</string>
     <string name="FEBRERO">Febrero</string>
     <string name="MARZO">Marzo</string>
