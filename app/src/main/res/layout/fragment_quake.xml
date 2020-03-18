@@ -30,9 +30,7 @@
         layout="@layout/card_view_information"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_margin="8dp"
         ads:layout_constraintEnd_toEndOf="parent"
         ads:layout_constraintStart_toStartOf="parent"
         ads:layout_constraintTop_toTopOf="parent" />
@@ -42,7 +40,6 @@
         android:name="cl.figonzal.lastquakechile.QuakesFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:contentDescription="@string/seccion_listado_de_sismos"
         ads:layout_constraintBottom_toTopOf="@+id/adView"

@@ -55,7 +55,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:fontFamily="@font/roboto"
-        android:text="No hay reportes aún"
+        android:text="No hay reportes registrados"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:visibility="invisible"

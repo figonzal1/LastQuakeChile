@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:theme="@style/AppTheme"
+    app:cardCornerRadius="4dp"
+    app:cardUseCompatPadding="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_report"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:contentDescription="Icono reporte mensual"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_assessment_black_24dp" />
+
+        <TextView
+            android:id="@+id/tv_title_report"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="Reporte Enero 2020"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_report"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_report"
+            app:layout_constraintTop_toTopOf="@+id/iv_report" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="?attr/dividerHorizontal"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_report" />
+
+        <TextView
+            android:id="@+id/tv_n_quakes"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:text="N° sismos reportados"
+            app:layout_constraintEnd_toStartOf="@+id/tv_n_quakes_value"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/iv_report"
+            app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+        <TextView
+            android:id="@+id/tv_n_sensibles"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="N° sismos sensibles"
+            app:layout_constraintEnd_toStartOf="@+id/tv_n_sensibles_value"
+            app:layout_constraintStart_toStartOf="@+id/tv_n_quakes"
+            app:layout_constraintTop_toBottomOf="@+id/tv_n_quakes" />
+
+        <TextView
+            android:id="@+id/tv_prom_magnitud"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="Promedio magnitud"
+            app:layout_constraintEnd_toStartOf="@+id/tv_prom_magnitud_value"
+            app:layout_constraintStart_toStartOf="@+id/tv_n_sensibles"
+            app:layout_constraintTop_toBottomOf="@+id/tv_n_sensibles" />
+
+        <TextView
+            android:id="@+id/tv_prom_prof"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="Promedio profundidad epicentro"
+            app:layout_constraintEnd_toStartOf="@+id/tv_prom_prof_value"
+            app:layout_constraintStart_toStartOf="@+id/tv_prom_magnitud"
+            app:layout_constraintTop_toBottomOf="@+id/tv_prom_magnitud" />
+
+        <TextView
+            android:id="@+id/tv_max_mag"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="Máxima magnitud"
+            app:layout_constraintEnd_toStartOf="@+id/tv_max_mag_value"
+            app:layout_constraintStart_toStartOf="@+id/tv_prom_prof"
+            app:layout_constraintTop_toBottomOf="@+id/tv_prom_prof" />
+
+        <TextView
+            android:id="@+id/tv_min_prof"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="Mínima profundidad"
+            app:layout_constraintEnd_toStartOf="@+id/tv_min_prof_value"
+            app:layout_constraintStart_toStartOf="@+id/tv_max_mag"
+            app:layout_constraintTop_toBottomOf="@+id/tv_max_mag" />
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="?attr/dividerHorizontal"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_min_prof" />
+
+        <TextView
+            android:id="@+id/tv_top_ciudades"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:text="Top Ciudades con más sismos"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider2" />
+
+        <TextView
+            android:id="@+id/tv_nombre_c1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_n_sismos_c1"
+            app:layout_constraintStart_toStartOf="@+id/tv_min_prof"
+            app:layout_constraintTop_toBottomOf="@+id/tv_top_ciudades"
+            tools:text="Nombre ciudad" />
+
+        <TextView
+            android:id="@+id/tv_nombre_c2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_n_sismos_c2"
+            app:layout_constraintStart_toStartOf="@+id/tv_nombre_c1"
+            app:layout_constraintTop_toBottomOf="@+id/tv_nombre_c1"
+            tools:text="Nombre ciudad" />
+
+        <TextView
+            android:id="@+id/tv_nombre_c3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_n_sismos_c3"
+            app:layout_constraintStart_toStartOf="@+id/tv_nombre_c2"
+            app:layout_constraintTop_toBottomOf="@+id/tv_nombre_c2"
+            tools:text="Nombre ciudad" />
+
+        <TextView
+            android:id="@+id/tv_n_quakes_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_n_quakes"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_n_quakes"
+            tools:text="XX" />
+
+        <TextView
+            android:id="@+id/tv_n_sensibles_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_n_sensibles"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_n_sensibles"
+            tools:text="XX" />
+
+        <TextView
+            android:id="@+id/tv_prom_magnitud_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_prom_magnitud"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_prom_magnitud"
+            tools:text="XX" />
+
+        <TextView
+            android:id="@+id/tv_prom_prof_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_prom_prof"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_prom_prof"
+            tools:text="XX" />
+
+        <TextView
+            android:id="@+id/tv_max_mag_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_max_mag"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_max_mag"
+            tools:text="XX" />
+
+        <TextView
+            android:id="@+id/tv_min_prof_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_min_prof"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_max_mag"
+            tools:text="XX" />
+
+        <TextView
+            android:id="@+id/tv_n_sismos_c1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/tv_nombre_c2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_nombre_c1"
+            tools:text="XX" />
+
+        <TextView
+            android:id="@+id/tv_n_sismos_c2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_nombre_c2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_nombre_c1"
+            tools:text="XX" />
+
+        <TextView
+            android:id="@+id/tv_n_sismos_c3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_nombre_c3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_nombre_c3"
+            tools:text="XX" />
+
+        <TextView
+            android:id="@+id/tv_nombre_c4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="Nombre ciudad"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tv_n_sismos_c4"
+            app:layout_constraintStart_toStartOf="@+id/tv_nombre_c3"
+            app:layout_constraintTop_toBottomOf="@+id/tv_nombre_c3" />
+
+        <TextView
+            android:id="@+id/tv_n_sismos_c4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="XX"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_nombre_c4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_nombre_c3" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
+
+
