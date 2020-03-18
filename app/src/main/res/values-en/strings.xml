@@ -86,7 +86,7 @@
     <string name="m_nima_profundidad">Minimum depth</string>
     <string name="top_ciudades_con_m_s_sismos">Top cities with the most earthquakes</string>
     <string name="REWARD_DIALOG_NEGATIVE">Cancel</string>
-    <string name="REWARD_DIALOG_POSITIVE" translatable="false">Watch video</string>
+    <string name="REWARD_DIALOG_POSITIVE">Watch video</string>
     <string name="REWAR_DIALOG_TITLE">Support the app!</string>
     <string name="REWARD_DIALOG_MESSAGE">Watch the video, support free monetarily and receive 1 day free of advertising</string>
     <string name="FORMATO_REPORTE">Report %s %s</string>
