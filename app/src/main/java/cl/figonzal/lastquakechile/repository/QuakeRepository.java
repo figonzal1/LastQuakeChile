@@ -244,7 +244,7 @@ public class QuakeRepository {
             contador_request += 1;
             mRequest = new StringRequest(
                     Request.Method.GET,
-                    String.format(Locale.US, mApplication.getString(R.string.URL_GET_PROD), limite),
+                    String.format(Locale.US, mApplication.getString(R.string.URL_GET_PROD_QUAKES), limite),
                     listener,
                     errorListener);
             Log.d(mApplication.getString(R.string.TAG_CONNECTION_SERVER_OFICIAL),
