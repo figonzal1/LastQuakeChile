@@ -5,6 +5,7 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -32,10 +33,10 @@ public class ReportRepository {
     private static ReportRepository instance;
     private final Application mApplication;
     //REPORTES
-    private List<ReportModel> reportModelList = new ArrayList<>();
-    private MutableLiveData<List<ReportModel>> reportMutableLiveData = new MutableLiveData<>();
-    private MutableLiveData<Boolean> isLoadingReports = new MutableLiveData<>();
-    private MutableLiveData<String> responseMsgErrorList = new MutableLiveData<>();
+    private final List<ReportModel> reportModelList = new ArrayList<>();
+    private final MutableLiveData<List<ReportModel>> reportMutableLiveData = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isLoadingReports = new MutableLiveData<>();
+    private final MutableLiveData<String> responseMsgErrorList = new MutableLiveData<>();
 
     private ReportRepository(Application application) {
         this.mApplication = application;
@@ -60,7 +61,9 @@ public class ReportRepository {
             @Override
             public void onResponse(String response) {
 
-                Log.d("REPONSE", response);
+                reportModelList.clear();
+
+                //Log.d("REPONSE", response);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
 
@@ -142,6 +145,10 @@ public class ReportRepository {
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, response, errorListener);
         isLoadingReports.postValue(true);
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         VolleySingleton.getInstance(mApplication).addToRequestQueue(stringRequest, TAG_GET_REPORTS);
     }
 

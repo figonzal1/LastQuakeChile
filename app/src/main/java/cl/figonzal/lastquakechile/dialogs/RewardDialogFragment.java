@@ -1,6 +1,7 @@
 package cl.figonzal.lastquakechile.dialogs;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,8 +21,10 @@ import cl.figonzal.lastquakechile.R;
 public class RewardDialogFragment extends DialogFragment {
 
     private final RewardedVideoAd rewardedVideoAd;
+    private final Context context;
 
-    public RewardDialogFragment(RewardedVideoAd rewardedVideoAd) {
+    public RewardDialogFragment(Context context, RewardedVideoAd rewardedVideoAd) {
+        this.context = context;
         this.rewardedVideoAd = rewardedVideoAd;
     }
 
@@ -68,7 +71,7 @@ public class RewardDialogFragment extends DialogFragment {
     @Override
     public void onStart() {
         super.onStart();
-        ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorSecondary));
-        ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.colorSecondary));
+        ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorSecondary, context.getTheme()));
+        ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.colorSecondary, context.getTheme()));
     }
 }

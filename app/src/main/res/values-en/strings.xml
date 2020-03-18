@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="refresh">Refresh</string>
-    <string name="contact">Contact</string>
     <string name="search">Search</string>
     <string name="circulo_pintado">Quake magnitude color</string>
     <string name="imagen_toolbar">Toolbar image</string>
@@ -14,12 +13,6 @@
     <string name="icono_escala">Scale icon</string>
     <string name="profundidad">Depth</string>
     <string name="escala">Scale</string>
-    <string name="icono_mail">Email icon</string>
-    <string name="icono_persona">Person icon</string>
-    <string name="icono_facebook">Facebook icon</string>
-    <string name="icono_linkedin">Linkedin icon</string>
-    <string name="contact_title_email">Email</string>
-    <string name="contact_title_name">Name</string>
     <string name="quake_details_magnitud_local">Magnitude local (Ml)</string>
     <string name="quake_details_magnitud_momento">Moment magnitude (Mw)</string>
     <string name="icono_sensible">Sensitive icon</string>
@@ -38,12 +31,10 @@
     <string name="INVITATION_SUBJECT">Download LastQuakeChile App</string>
     <string name="coordenadas_oeste">W</string>
     <string name="coordenadas_este">E</string>
-    <string name="imagen_toolbar_contact">Toolbar image contact</string>
     <string name="seccion_listado_de_sismos">List of quakes section</string>
     <string name="titulo_toolbar">Toolbar title</string>
     <string name="boton_flotante_gmail">Floating button Gmail</string>
     <string name="boton_flotante_whatsapp">Floating button Whatsapp</string>
-    <string name="boton_flotante_facebook">Floating button Facebook</string>
     <string name="boton_compartir_sismo">Button to share quake</string>
     <string name="imagen_estado_sismo">Quake status image</string>
     <string name="quakes_details_estado_sismo">Quake %s</string>
@@ -83,7 +74,15 @@
     <string name="quake_list_number_pref_title">Quake data</string>
     <string name="quake_list_number_pref_summary">Number of quakes you want to see</string>
     <string name="last_quakes_info_card_view_description">This list shows the last 15 earthquakes that occurred in Chile, you can modify the amount in the section &#8942; -> Settings</string>
-    <string name="change_log_title">Version</string>
-    <string name="change_log_subtitle">Release</string>
     <string name="tab_reports">Reports</string>
+    <string name="no_hay_reportes_registrados">There are no registered reports</string>
+    <string name="no_hay_sismos_registrados">No quakes registered</string>
+    <string name="icono_reporte_mensual">Monthly report icon</string>
+    <string name="n_sismos_reportados">N° reported quakes</string>
+    <string name="n_sismos_sensibles">N° sensitive quakes</string>
+    <string name="promedio_magnitud">Average magnitude</string>
+    <string name="promedio_profundidad_epicentro">Average epicenter depth</string>
+    <string name="m_xima_magnitud">Maximum magnitude</string>
+    <string name="m_nima_profundidad">Minimum depth</string>
+    <string name="top_ciudades_con_m_s_sismos">Top cities with the most earthquakes</string>
 </resources>

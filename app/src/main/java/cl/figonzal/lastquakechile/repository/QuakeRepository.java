@@ -44,9 +44,9 @@ public class QuakeRepository {
     private final Application mApplication;
 
     //SISMOS
-    private List<QuakeModel> mQuakeList = new ArrayList<>();
+    private final List<QuakeModel> mQuakeList = new ArrayList<>();
     private final MutableLiveData<List<QuakeModel>> mQuakeMutableList = new MutableLiveData<>();
-    private MutableLiveData<Boolean> isLoadingQuake = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isLoadingQuake = new MutableLiveData<>();
 
     private final MutableLiveData<String> responseMsgErrorList = new MutableLiveData<>();
 

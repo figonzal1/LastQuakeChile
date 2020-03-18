@@ -20,7 +20,7 @@
             android:layout_height="40dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:contentDescription="Icono reporte mensual"
+            android:contentDescription="@string/icono_reporte_mensual"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_assessment_black_24dp" />
@@ -31,13 +31,13 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:text="Reporte Enero 2020"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/iv_report"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_report"
-            app:layout_constraintTop_toTopOf="@+id/iv_report" />
+            app:layout_constraintTop_toTopOf="@+id/iv_report"
+            tools:text="Reporte Enero 2020" />
 
         <View
             android:id="@+id/divider"
@@ -60,7 +60,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:text="N° sismos reportados"
+            android:text="@string/n_sismos_reportados"
             app:layout_constraintEnd_toStartOf="@+id/tv_n_quakes_value"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/iv_report"
@@ -71,7 +71,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="N° sismos sensibles"
+            android:text="@string/n_sismos_sensibles"
             app:layout_constraintEnd_toStartOf="@+id/tv_n_sensibles_value"
             app:layout_constraintStart_toStartOf="@+id/tv_n_quakes"
             app:layout_constraintTop_toBottomOf="@+id/tv_n_quakes" />
@@ -81,7 +81,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="Promedio magnitud"
+            android:text="@string/promedio_magnitud"
             app:layout_constraintEnd_toStartOf="@+id/tv_prom_magnitud_value"
             app:layout_constraintStart_toStartOf="@+id/tv_n_sensibles"
             app:layout_constraintTop_toBottomOf="@+id/tv_n_sensibles" />
@@ -91,7 +91,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="Promedio profundidad epicentro"
+            android:text="@string/promedio_profundidad_epicentro"
             app:layout_constraintEnd_toStartOf="@+id/tv_prom_prof_value"
             app:layout_constraintStart_toStartOf="@+id/tv_prom_magnitud"
             app:layout_constraintTop_toBottomOf="@+id/tv_prom_magnitud" />
@@ -101,7 +101,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="Máxima magnitud"
+            android:text="@string/m_xima_magnitud"
             app:layout_constraintEnd_toStartOf="@+id/tv_max_mag_value"
             app:layout_constraintStart_toStartOf="@+id/tv_prom_prof"
             app:layout_constraintTop_toBottomOf="@+id/tv_prom_prof" />
@@ -111,7 +111,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="Mínima profundidad"
+            android:text="@string/m_nima_profundidad"
             app:layout_constraintEnd_toStartOf="@+id/tv_min_prof_value"
             app:layout_constraintStart_toStartOf="@+id/tv_max_mag"
             app:layout_constraintTop_toBottomOf="@+id/tv_max_mag" />
@@ -137,7 +137,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="32dp"
-            android:text="Top Ciudades con más sismos"
+            android:text="@string/top_ciudades_con_m_s_sismos"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -279,7 +279,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:text="Nombre ciudad"
+            tools:text="Nombre ciudad"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/tv_n_sismos_c4"
             app:layout_constraintStart_toStartOf="@+id/tv_nombre_c3"
@@ -290,7 +290,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="XX"
+            tools:text="XX"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/tv_nombre_c4"
             app:layout_constraintEnd_toEndOf="parent"

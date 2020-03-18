@@ -49,11 +49,6 @@ public class ReportsFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_reports, container, false);
@@ -204,6 +199,7 @@ public class ReportsFragment extends Fragment {
         reportModelList = new ArrayList<>();
 
         rv = v.findViewById(R.id.recycle_view);
+        rv.setHasFixedSize(true);
 
         LinearLayoutManager ly = new LinearLayoutManager(getContext());
         rv.setLayoutManager(ly);

@@ -8,7 +8,6 @@
 
     <!-- TOOLBAR Menu STRINGS -->
     <string name="refresh">Recargar</string>
-    <string name="contact">Contacto</string>
     <string name="search">Buscar</string>
     <string name="invite">Invitar amigos</string>
     <string name="settings">Configuración</string>
@@ -35,10 +34,8 @@
     <string name="DATETIME_FORMAT" translatable="false">yyyy-MM-dd HH:mm:ss</string>
 
     <!-- PACKAGE NAMES -->
-    <string name="PACKAGE_NAME_FB" translatable="false">com.facebook.katana</string>
     <string name="PACKAGE_NAME_WSP" translatable="false">com.whatsapp</string>
     <string name="PACKAGE_NAME_GMAIL" translatable="false">com.google.android.gm</string>
-    <string name="PACKAGE_NAME_LINKEDIN" translatable="false">com.linkedin.android</string>
 
     <!-- KEY DE JSON PARA PHP -->
     <string name="KEY_FECHA_UTC" translatable="false">fecha_utc</string>
@@ -73,7 +70,6 @@
     <!-- STRINGS DE LAYOUTS-->
     <string name="circulo_pintado">Color magnitud sismo</string>
     <string name="imagen_toolbar">Imagen toolbar</string>
-    <string name="imagen_toolbar_contact">Imagen toolbar contacto</string>
     <string name="quake_time_day" translatable="false">%1$d d</string>
     <string name="quake_time_day_hour" translatable="false">%1$d d %2$d h</string>
     <string name="quake_time_hour" translatable="false">%1$d h</string>
@@ -97,14 +93,6 @@
     <string name="quake_details_profundidad" translatable="false">%.1f Km</string>
     <string name="profundidad_info_windows">Profundidad: %.1f Km</string>
     <string name="magnitud" translatable="false">%.1f</string>
-    <string name="icono_mail">Icono email</string>
-    <string name="icono_persona">Icono persona</string>
-    <string name="icono_facebook">Icono facebook</string>
-    <string name="icono_linkedin">Icono linkedin</string>
-    <string name="contact_email" translatable="false">felipe.gonzalezalarcon94@gmail.com</string>
-    <string name="contact_nombre" translatable="false">Felipe González</string>
-    <string name="contact_title_email">Email</string>
-    <string name="contact_title_name">Nombre</string>
     <string name="quake_details_magnitud_local">Magnitud Local (Ml)</string>
     <string name="quake_details_magnitud_momento" tools:ignore="Typos">Magnitud Momento (Mw)
 	</string>
@@ -125,10 +113,8 @@
 	</string>
     <string name="fab_gmail" translatable="false">Gmail</string>
     <string name="fab_whatsapp" translatable="false">Whatsapp</string>
-    <string name="fab_facebook" translatable="false">Facebook</string>
     <string name="boton_flotante_gmail">Botón flotante gmail</string>
     <string name="boton_flotante_whatsapp">Botón flotante whatsapp</string>
-    <string name="boton_flotante_facebook">Botón flotante Facebook</string>
     <string name="boton_compartir_sismo">Botón compartir sismo</string>
     <string name="imagen_estado_sismo">Imagen estado sismo</string>
     <string name="quakes_details_estado_sismo">Sismo %s</string>
@@ -136,8 +122,16 @@
     <string name="quakes_details_estado_sismo_verificado">verificado</string>
     <string name="quake_list_number_pref_summary">Número de sismos que quieres ver en lista</string>
     <string name="quake_list_number_pref_title">Datos sismos</string>
-    <string name="change_log_title">Versión</string>
-    <string name="change_log_subtitle">¡Novedades!</string>
+    <string name="no_hay_sismos_registrados">No hay sismos registrados</string>
+    <string name="no_hay_reportes_registrados">No hay reportes registrados</string>
+    <string name="icono_reporte_mensual">Icono reporte mensual</string>
+    <string name="n_sismos_reportados">N° sismos reportados</string>
+    <string name="n_sismos_sensibles">N° sismos sensibles</string>
+    <string name="promedio_magnitud">Promedio magnitud</string>
+    <string name="promedio_profundidad_epicentro">Promedio profundidad epicentro</string>
+    <string name="m_xima_magnitud">Máxima magnitud</string>
+    <string name="m_nima_profundidad">Mínima profundidad</string>
+    <string name="top_ciudades_con_m_s_sismos">Top ciudades con más sismos</string>
 
     <!-- FIREBASE-->
     <string name="TAG_FIREBASE_TOKEN" translatable="false">TOKEN_FIREBASE</string>
@@ -215,19 +209,14 @@
     <string name="TAG_FRAGMENT_SETTINGS_QUAKE_LIST_LIMIT" translatable="false">Numero de sismos fijados: %1$d</string>
     <string name="LIST_QUAKE_NUMBER_SUMMARY">Últimos %1$s sismos</string>
     <string name="TAG_RESPOSITORY_QUAKE_LIMIT" translatable="false">REPOSITORY_LIMIT_QUAKE</string>
-    <string name="TAG_RESPOSITORY_QUAKE_LIMIT_FORMAT" translatable="false">SIZE LIST: %1$s</string>
-    <string name="TAG_RESPOSITORY_QUAKE_LIMIT_DEFAULT_FORMAT" translatable="false">DEFAULT SIZE LIST: %1$s</string>
     <string name="TAG_SHARED_VERSION_CODE_APP" translatable="false">SHARED_VERSION_CODE_APP</string>
     <string name="TAG_VERSION_CODE_APP" translatable="false">VERSION_CODE_APP</string>
 
     <!-- Strings de Volley -->
     <string name="TAG_VOLLEY_ERROR" translatable="false">VOLLEY_ERROR</string>
     <string name="TAG_VOLLEY_ERROR_TIMEOUT" translatable="false">Timeout error</string>
-    <string name="TAG_VOLLEY_ERROR_CONNECTION" translatable="false">NoConnection error</string>
-    <string name="TAG_VOLLEY_ERROR_AUTH" translatable="false">Auth error</string>
     <string name="TAG_VOLLEY_ERROR_SERVER" translatable="false">Server error</string>
     <string name="TAG_VOLLEY_ERROR_NETWORK" translatable="false">Network error</string>
-    <string name="TAG_VOLLEY_ERROR_PARSE" translatable="false">Parse error</string>
     <string name="TAG_CONNECTION_SERVER_RESPALDO" translatable="false">SERVIDOR RESPALDO</string>
     <string name="TAG_CONNECTION_SERVER_RESPALDO_RESPONSE" translatable="false">INTENTO DE CONEXION
 		A RESPALDO (DEVELOPMENT)
@@ -252,7 +241,6 @@
     <string name="TAG_INTENT" translatable="false">INTENT</string>
     <string name="TAG_INTENT_GOOGLEPLAY" translatable="false">Abriendo google play app - $s</string>
     <string name="TAG_INTENT_NAVEGADOR" translatable="false">Abriendo navegador - $s</string>
-    <string name="TAG_INTENT_INSTALADA" translatable="false">Abriendo APP instalada - $s</string>
     <string name="TRY_INTENT_NOTIFICATION_1" translatable="false">Realizando intent de
 		notificacion
 	</string>
@@ -287,24 +275,8 @@
 
     <!-- INTENT SHARE LOGS -->
     <string name="TAG_INTENT_SHARE" translatable="false">SHARE_INTENT</string>
-    <string name="TAG_INTENT_SHARE_FB" translatable="false">FACEBOOK SHARE INTENT</string>
-    <string name="TAG_INTENT_SHARE_FB_LOG" translatable="false">FB_SHARE</string>
-    <string name="TAG_INTENT_SHARE_FB_OK_MESSAGE" translatable="false">SHARE OK</string>
-    <string name="TAG_INTENT_SHARE_FB_ERROR_MESSAGE" translatable="false">SHARE ERROR</string>
-    <string name="TAG_INTENT_SHARE_FB_CANCEL_MESSAGE" translatable="false">SHARE CANCEL</string>
-    <string name="TAG_TOAST_SHARE_FB_ERROR" translatable="false">Error al compartir publicación
-	</string>
-    <string name="TAG_TOAST_SHARE_FB_OK" translatable="false">Contenido compartido correctamente
-	</string>
-    <string name="TAG_TOAST_SHARE_FB_CANCEL" translatable="false">Compartir publicación cancelada
-	</string>
-    <string name="TAG_INTENT_SHARE_DIALOG" translatable="false">FB_DIALOG</string>
-    <string name="TAG_INTENT_SHARE_DIALOG_MESSAGE" translatable="false">DIALOG MOSTRADO</string>
     <string name="TAG_INTENT_SHARE_WSP" translatable="false">WHATSAPP SHARE INTENT</string>
     <string name="TAG_INTENT_SHARE_GM" translatable="false">GMAIL SHARE INTENT</string>
-    <string name="TAG_INTENT_SHARE_BITMAP" translatable="false">BITMAPS</string>
-    <string name="TAG_INTENT_SHARE_BITMAP_MESSAGE" translatable="false">BITMAPS CARGADOS</string>
-    <string name="TAG_INTENT_SHARE_BITMAP_MESSAGE_FAIL" translatable="false">BITMAPS FAIL</string>
     <string name="TAG_FAB_MENU" translatable="false">FAB MENU</string>
     <string name="TAG_FAB_MENU_OPEN" translatable="false">OPEN</string>
     <string name="TAG_FAB_MENU_CLOSE" translatable="false">CLOSE</string>
