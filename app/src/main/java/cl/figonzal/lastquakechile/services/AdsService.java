@@ -93,7 +93,7 @@ public class AdsService {
                 Log.d(context.getString(R.string.TAG_POST_REWARD_HORA_AHORA), Utils.dateToString
                         (context.getApplicationContext(), date_now));
                 //sumar 24 horas al tiempo del celular
-                Date date_new = Utils.addHoursToJavaUtilDate(date_now, 1);
+                Date date_new = Utils.addHoursToJavaUtilDate(date_now, 24);
                 Log.d(context.getString(R.string.TAG_POST_REWARD_HORA_REWARD), Utils.dateToString
                         (context, date_new));
 
@@ -104,14 +104,14 @@ public class AdsService {
                 activity.recreate();
             }
         });
+        //Cargar video
+        loadRewardedVideo();
 
         //Si la hora del celular es posterior a reward date
         if (now_date.after(reward_date)) {
 
             Log.d(context.getString(R.string.TAG_REWARD_STATUS), context.getString(R.string
                     .TAG_REWARD_STATUS_EN_PERIODO));
-            //Cargar video
-            loadRewardedVideo();
 
             boolean showDialog = Utils.generateRandomNumber();
             if (showDialog) {
