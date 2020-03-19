@@ -61,6 +61,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //ADS
+        MobileAds.initialize(getApplicationContext(), getString(R.string.ADMOB_MASTER_KEY));
+        adsService = new AdsService(getApplicationContext(), getSupportFragmentManager());
+        adsService.loadRewardedVideo(MainActivity.this);
+
         //Configurar MODO NOCHE
         Utils.checkNightMode(MainActivity.this, getWindow());
 
@@ -72,11 +77,6 @@ public class MainActivity extends AppCompatActivity {
 
         //Servicios de Firebase
         getFirebaseToken();
-
-        //ADS
-        MobileAds.initialize(getApplicationContext(), getString(R.string.ADMOB_MASTER_KEY));
-        adsService = new AdsService(getApplicationContext(), getSupportFragmentManager());
-        adsService.rewardDialog(this);
 
         //Creacion de canal de notificaciones para sismos y para changelogs (Requerido para API >26)
         NotificationService.createNotificationChannel(getApplicationContext());

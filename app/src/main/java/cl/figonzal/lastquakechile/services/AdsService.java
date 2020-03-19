@@ -26,10 +26,12 @@ public class AdsService {
     private RewardedVideoAd rewardedVideoAd;
     private final FragmentManager fragmentManager;
     private final Context context;
+    private SharedPreferences sharedPreferences;
 
     public AdsService(Context context, FragmentManager fragmentManager) {
         this.context = context;
         this.fragmentManager = fragmentManager;
+        sharedPreferences = context.getSharedPreferences(context.getString(R.string.MAIN_SHARED_PREF_KEY), Context.MODE_PRIVATE);
     }
 
     public RewardedVideoAd getRewardedVideoAd() {
@@ -39,17 +41,48 @@ public class AdsService {
     /**
      * Funcion que realiza la configuracion de reward dialog
      */
-    public void rewardDialog(final Activity activity) {
-        final SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.MAIN_SHARED_PREF_KEY), Context.MODE_PRIVATE);
+    public void rewardDialog() {
+
         Date reward_date = new Date(sharedPreferences.getLong(context.getString(R.string.SHARED_PREF_END_REWARD_TIME), 0));
         Date now_date = new Date();
 
+        //Si la hora del celular es posterior a reward date
+        if (now_date.after(reward_date)) {
+
+            Log.d(context.getString(R.string.TAG_REWARD_STATUS), context.getString(R.string
+                    .TAG_REWARD_STATUS_EN_PERIODO));
+
+            boolean showDialog = Utils.generateRandomNumber();
+            if (showDialog) {
+                //Cargar dialog
+                mostrarDialog();
+                Log.d(context.getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG), context.getString(R.string
+                        .TAG_RANDOM_SHOW_REWARD_DIALOG_ON));
+            } else {
+                Log.d(context.getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG), context.getString(R.string
+                        .TAG_RANDOM_SHOW_REWARD_DIALOG_OFF));
+            }
+        }
+
+        //Si el periodo de reward aun no pasa
+        else if (now_date.before(reward_date)) {
+            Log.d(context.getString(R.string.TAG_REWARD_STATUS), context.getString(R.string.TAG_REWARD_STATUS_PERIODO_INACTIVO));
+        }
+    }
+
+    /**
+     * Funcion encargada de cargar el video de bonificacion
+     */
+    public void loadRewardedVideo(final Activity activity) {
         rewardedVideoAd = MobileAds.getRewardedVideoAdInstance(context);
+        rewardedVideoAd.loadAd(context.getString(R.string.ADMOB_ID_VIDEO), new AdRequest.Builder().build());
+
         rewardedVideoAd.setRewardedVideoAdListener(new RewardedVideoAdListener() {
             @Override
             public void onRewardedVideoAdLoaded() {
                 Log.d(context.getString(R.string.TAG_VIDEO_REWARD_STATUS), context.getString(R.string
                         .TAG_VIDEO_REWARD_STATUS_LOADED));
+                rewardDialog();
             }
 
             @Override
@@ -104,38 +137,6 @@ public class AdsService {
                 activity.recreate();
             }
         });
-        //Cargar video
-        loadRewardedVideo();
-
-        //Si la hora del celular es posterior a reward date
-        if (now_date.after(reward_date)) {
-
-            Log.d(context.getString(R.string.TAG_REWARD_STATUS), context.getString(R.string
-                    .TAG_REWARD_STATUS_EN_PERIODO));
-
-            boolean showDialog = Utils.generateRandomNumber();
-            if (showDialog) {
-                //Cargar dialog
-                mostrarDialog();
-                Log.d(context.getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG), context.getString(R.string
-                        .TAG_RANDOM_SHOW_REWARD_DIALOG_ON));
-            } else {
-                Log.d(context.getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG), context.getString(R.string
-                        .TAG_RANDOM_SHOW_REWARD_DIALOG_OFF));
-            }
-        }
-
-        //Si el periodo de reward aun no pasa
-        else if (now_date.before(reward_date)) {
-            Log.d(context.getString(R.string.TAG_REWARD_STATUS), context.getString(R.string.TAG_REWARD_STATUS_PERIODO_INACTIVO));
-        }
-    }
-
-    /**
-     * Funcion encargada de cargar el video de bonificacion
-     */
-    private void loadRewardedVideo() {
-        rewardedVideoAd.loadAd(context.getString(R.string.ADMOB_ID_VIDEO), new AdRequest.Builder().build());
     }
 
     /**
