@@ -215,7 +215,7 @@ public class SettingsActivity extends AppCompatActivity {
                         seekBarPreference.getValue());
                 editor.apply();
 
-                Log.e(activity.getString(R.string.TAG_FRAGMENT_SETTINGS),
+                Log.d(activity.getString(R.string.TAG_FRAGMENT_SETTINGS),
                         String.format(activity.getString(R.string.TAG_FRAGMENT_SETTINGS_QUAKE_LIST_LIMIT), seekBarPreference.getValue()));
             }
 

@@ -17,6 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+
         <activity
             android:name=".views.MainActivity"
             android:screenOrientation="portrait"
@@ -86,7 +87,7 @@
         <!--ADS-->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-6355378855577476~7414287525" />
+            android:value="@string/ADMOB_MASTER_KEY" />
         <!-- GMS -->
         <meta-data
             android:name="com.google.android.gms.version"

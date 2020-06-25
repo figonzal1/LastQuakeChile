@@ -17,7 +17,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -28,6 +27,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -53,6 +53,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     private Bundle mMapViewBundle;
     private List<QuakeModel> mListQuakeModel;
 
+    private FirebaseCrashlytics crashlytics;
+
     public static MapFragment newInstance() {
         return new MapFragment();
     }
@@ -60,6 +62,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        crashlytics = FirebaseCrashlytics.getInstance();
 
         mMapViewBundle = null;
         if (savedInstanceState != null) {
@@ -98,10 +102,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
         //NIGHT MODE MAPA
         int nightModeFlags =
-                Objects.requireNonNull(getContext()).getResources().getConfiguration().uiMode &
+                requireContext().getResources().getConfiguration().uiMode &
                         Configuration.UI_MODE_NIGHT_MASK;
         if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
-            googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(getContext(),
+            googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(),
                     R.raw.map_night_mode));
         }
 
@@ -146,8 +150,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         //Log zone
         Log.d(getString(R.string.TAG_MAP_FRAGMENT),
                 getString(R.string.TAG_MAP_READY_RESPONSE));
-        Crashlytics.log(Log.DEBUG, getString(R.string.TAG_MAP_FRAGMENT),
-                getString(R.string.TAG_MAP_READY_RESPONSE));
+        crashlytics.log(getString(R.string.TAG_MAP_FRAGMENT) + getString(R.string.TAG_MAP_READY_RESPONSE));
     }
 
     /**
@@ -184,8 +187,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
             CircleOptions mCircleOptions = new CircleOptions()
                     .center(mLatLong)
                     .radius(10000 * mModel.getMagnitud())
-                    .fillColor(Objects.requireNonNull(getContext()).getColor(mIdColor))
-                    .strokeColor(getContext().getColor(R.color.grey_dark_alpha));
+                    .fillColor(requireContext().getColor(mIdColor))
+                    .strokeColor(requireContext().getColor(R.color.grey_dark_alpha));
             mGoogleMap.addCircle(mCircleOptions);
         }
     }
@@ -221,10 +224,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         mTvReferencia.setText(mModel.getReferencia());
 
         //Setear magnitud del sismo dentro de circulo coloreado
-        mTvMagnitud.setText(String.format(Objects.requireNonNull(getContext()).getString(R.string.magnitud), mModel.getMagnitud()));
+        mTvMagnitud.setText(String.format(requireContext().getString(R.string.magnitud), mModel.getMagnitud()));
 
         //Colorear circulo según la magnitud del sismo
-        mIvMagColor.setColorFilter(getContext().getColor(Utils.getMagnitudeColor(mModel.getMagnitud(), false)));
+        mIvMagColor.setColorFilter(requireContext().getColor(Utils.getMagnitudeColor(mModel.getMagnitud(), false)));
 
         //Setear la profundidad del sismo
         mTvProfundidad.setText(String.format(getString(R.string.profundidad_info_windows),
@@ -270,8 +273,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
         //Log zone
         Log.d(getString(R.string.TAG_MAP_FRAGMENT), getString(R.string.TAG_INFO_WINDOWS_RESPONSE));
-        Crashlytics.log(Log.DEBUG, getString(R.string.TAG_MAP_FRAGMENT),
-                getString(R.string.TAG_INFO_WINDOWS_RESPONSE));
+        crashlytics.log(getString(R.string.TAG_MAP_FRAGMENT) + getString(R.string.TAG_INFO_WINDOWS_RESPONSE));
         return mView;
     }
 
@@ -305,8 +307,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
             mIntent.putExtras(mBundle);
 
             Log.d(getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_INFO_WINDOWS));
-            Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT),
-                    getString(R.string.TAG_INTENT_INFO_WINDOWS));
+            crashlytics.log(getString(R.string.TAG_INTENT) + getString(R.string.TAG_INTENT_INFO_WINDOWS));
 
             startActivity(mIntent);
         }

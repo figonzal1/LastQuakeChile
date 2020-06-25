@@ -17,7 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.crashlytics.android.Crashlytics;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -35,11 +35,15 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
     private final Context context;
     private final Activity activity;
 
+    private FirebaseCrashlytics crashlytics;
+
     public QuakeAdapter(List<QuakeModel> quakeModelList, Context context, Activity activity) {
         this.quakeModelList = quakeModelList;
         this.context = context;
         this.activity = activity;
         setHasStableIds(true);
+
+        crashlytics = FirebaseCrashlytics.getInstance();
     }
 
     @NonNull
@@ -109,10 +113,8 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
                 intent.putExtras(b);
 
                 //LOG
-                Log.d(context.getString(R.string.TAG_INTENT),
-                        context.getString(R.string.TRY_INTENT_DETALLE));
-                Crashlytics.log(Log.DEBUG, context.getString(R.string.TAG_INTENT),
-                        context.getString(R.string.TRY_INTENT_DETALLE));
+                Log.d(context.getString(R.string.TAG_INTENT), context.getString(R.string.TRY_INTENT_DETALLE));
+                crashlytics.log(context.getString(R.string.TAG_INTENT) + context.getString(R.string.TRY_INTENT_DETALLE));
 
                 /*
                     Seccion transiciones animadas de TextViews

@@ -16,10 +16,10 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import androidx.preference.PreferenceManager;
 
-import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -44,6 +44,10 @@ public class FCMNotification extends FirebaseMessagingService {
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
     static void createQuakeChannel(Context context) {
+
+        FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
+
+
         //Definicion de atributos de canal de notificacion
         String name = context.getString(R.string.FIREBASE_CHANNEL_NAME_QUAKES);
         String description = context.getString(R.string.FIREBASE_CHANNEL_DESCRIPTION_QUAKES);
@@ -64,9 +68,8 @@ public class FCMNotification extends FirebaseMessagingService {
                 context.getString(R.string.FIREBASE_CHANNEL_CREATED_MESSAGE));
 
         //CRASH ANALYTICS & LOGS
-        Crashlytics.log(Log.DEBUG, context.getString(R.string.TAG_FIREBASE_CHANNEL),
-                context.getString(R.string.FIREBASE_CHANNEL_CREATED_MESSAGE));
-        Crashlytics.setBool(context.getString(R.string.FIREBASE_CHANNEL_STATUS), true);
+        crashlytics.log(context.getString(R.string.TAG_FIREBASE_CHANNEL) + context.getString(R.string.FIREBASE_CHANNEL_CREATED_MESSAGE));
+        crashlytics.setCustomKey(context.getString(R.string.FIREBASE_CHANNEL_STATUS), true);
     }
 
     /**
@@ -75,6 +78,8 @@ public class FCMNotification extends FirebaseMessagingService {
      * @param activity Necesario para el uso de recursos de string
      */
     public static boolean checkSuscriptionQuakes(final Activity activity) {
+
+        final FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
 
         final SharedPreferences sharedPreferences =
                 PreferenceManager.getDefaultSharedPreferences(activity);
@@ -93,11 +98,8 @@ public class FCMNotification extends FirebaseMessagingService {
                                         activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION_OK));
 
                                 //CRASH ANALYTIC LOG
-                                Crashlytics.setBool(activity.getString(R.string.FIREBASE_PREF_KEY)
-                                        , true);
-                                Crashlytics.log(Log.DEBUG,
-                                        activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION),
-                                        activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION_OK));
+                                crashlytics.setCustomKey(activity.getString(R.string.FIREBASE_PREF_KEY), true);
+                                crashlytics.log(activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION) + activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION_OK));
                             }
                         }
                     });
@@ -121,11 +123,8 @@ public class FCMNotification extends FirebaseMessagingService {
                             //LOG ZONE
                             Log.d(activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION),
                                     activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION_DELETE));
-                            Crashlytics.log(Log.DEBUG,
-                                    activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION),
-                                    activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION_DELETE));
-                            Crashlytics.setBool(activity.getString(R.string.FIREBASE_PREF_KEY)
-                                    , false);
+                            crashlytics.log(activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION) + activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION_DELETE));
+                            crashlytics.setCustomKey(activity.getString(R.string.FIREBASE_PREF_KEY), false);
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -133,9 +132,7 @@ public class FCMNotification extends FirebaseMessagingService {
                         public void onFailure(@NonNull Exception e) {
                             Log.d(activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION),
                                     activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION_ALREADY));
-                            Crashlytics.log(Log.DEBUG,
-                                    activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION),
-                                    activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION_ALREADY));
+                            crashlytics.log(activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION) + activity.getString(R.string.TAG_FIREBASE_SUSCRIPTION_ALREADY));
                         }
                     });
 
@@ -153,16 +150,18 @@ public class FCMNotification extends FirebaseMessagingService {
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
+        FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
+
         Log.d(getString(R.string.TAG_FIREBASE_MESSAGE), "From: " + remoteMessage.getFrom());
+        crashlytics.log(getString(R.string.TAG_FIREBASE_MESSAGE) + "From: " + remoteMessage.getFrom());
 
         //Si es notificacion con datos de sismos
         if (remoteMessage.getData().size() > 0) {
             Log.d(getString(R.string.TAG_FIREBASE_MESSAGE),
                     "Message data payload: " + remoteMessage.getData());
 
-            Crashlytics.log(Log.DEBUG, getString(R.string.TAG_FIREBASE_MESSAGE),
-                    getString(R.string.TAG_FIREBASE_MESSAGE_DATA_INCOMING));
-            Crashlytics.setBool(getString(R.string.FIREBASE_MESSAGE_DATA_STATUS), true);
+            crashlytics.log(getString(R.string.TAG_FIREBASE_MESSAGE) + getString(R.string.TAG_FIREBASE_MESSAGE_DATA_INCOMING));
+            crashlytics.setCustomKey(getString(R.string.FIREBASE_MESSAGE_DATA_STATUS), true);
             showNotificationQuakesData(remoteMessage);
         }
 
@@ -173,9 +172,8 @@ public class FCMNotification extends FirebaseMessagingService {
             Log.d(getString(R.string.TAG_FIREBASE_MESSAGE),
                     "Message notification: " + remoteMessage.getNotification().getTitle() + " - " + remoteMessage.getNotification().getBody());
 
-            Crashlytics.log(Log.DEBUG, getString(R.string.TAG_FIREBASE_MESSAGE),
-                    getString(R.string.TAG_FIREBASE_MESSAGE_INCOMING));
-            Crashlytics.setBool(getString(R.string.FIREBASE_MESSAGE_NOTIFICATION_STATUS), true);
+            crashlytics.log(getString(R.string.TAG_FIREBASE_MESSAGE) + getString(R.string.TAG_FIREBASE_MESSAGE_INCOMING));
+            crashlytics.setCustomKey(getString(R.string.FIREBASE_MESSAGE_NOTIFICATION_STATUS), true);
         }
     }
 
@@ -208,6 +206,8 @@ public class FCMNotification extends FirebaseMessagingService {
      * @param remoteMessage mensaje desde servidor
      */
     private void showNotificationQuakesData(RemoteMessage remoteMessage) {
+
+        FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
 
         //Obtener datos desde send_notification.php en servidor
         Map<String, String> mParams = remoteMessage.getData();
@@ -290,9 +290,8 @@ public class FCMNotification extends FirebaseMessagingService {
                 PendingIntent.FLAG_ONE_SHOT);
 
         Log.d(getString(R.string.TAG_INTENT), getString(R.string.TRY_INTENT_NOTIFICATION_1));
-        Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT),
-                getString(R.string.TRY_INTENT_NOTIFICATION_1));
-        Crashlytics.setBool(getString(R.string.TRY_INTENT_NOTIFICATION), true);
+        crashlytics.log(getString(R.string.TAG_INTENT) + getString(R.string.TRY_INTENT_NOTIFICATION_1));
+        crashlytics.setCustomKey(getString(R.string.TRY_INTENT_NOTIFICATION), true);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this,
                 getString(R.string.FIREBASE_CHANNEL_ID_QUAKES))
@@ -317,8 +316,11 @@ public class FCMNotification extends FirebaseMessagingService {
     @Override
     public void onNewToken(@NonNull String s) {
         super.onNewToken(s);
+
+        FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+
         Log.e(getString(R.string.TAG_FIREBASE_TOKEN), "Refreshed Token:" + s);
-        Crashlytics.setUserIdentifier(s);
+        firebaseCrashlytics.setUserId(s);
     }
 
     @Override

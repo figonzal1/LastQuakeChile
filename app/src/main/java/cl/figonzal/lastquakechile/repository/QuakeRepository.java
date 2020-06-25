@@ -15,7 +15,7 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.crashlytics.android.Crashlytics;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,6 +54,8 @@ public class QuakeRepository {
     private boolean volleyError = false;
     private int contador_request = 0;
 
+    private static FirebaseCrashlytics crashlytics;
+
     private QuakeRepository(Application application) {
         this.mApplication = application;
     }
@@ -62,6 +64,8 @@ public class QuakeRepository {
 
         if (instance == null) {
             instance = new QuakeRepository(application);
+
+            crashlytics = FirebaseCrashlytics.getInstance();
         }
         return instance;
     }
@@ -142,22 +146,17 @@ public class QuakeRepository {
                 } catch (JSONException e) {
 
                     Log.d(mApplication.getString(R.string.TAG_JSON_GENERAL_ERROR), Objects.requireNonNull(e.getMessage()));
-                    Crashlytics.log(Log.DEBUG,
-                            mApplication.getString(R.string.TAG_JSON_GENERAL_ERROR),
-                            e.getMessage());
+                    crashlytics.log(mApplication.getString(R.string.TAG_JSON_GENERAL_ERROR) + e.getMessage());
                 } catch (ParseException e) {
 
                     Log.d(mApplication.getString(R.string.TAG_JSON_PARSE_ERROR), Objects.requireNonNull(e.getMessage()));
-                    Crashlytics.log(Log.DEBUG,
-                            mApplication.getString(R.string.TAG_JSON_PARSE_ERROR), e.getMessage());
+                    crashlytics.log(mApplication.getString(R.string.TAG_JSON_PARSE_ERROR) + e.getMessage());
                 }
 
                 //LOGS
-                Log.d(mApplication.getString(R.string.TAG_CONNECTION_OK),
-                        mApplication.getString(R.string.CONNECTION_OK_RESPONSE));
-                Crashlytics.log(Log.DEBUG, mApplication.getString(R.string.TAG_CONNECTION_OK),
-                        mApplication.getString(R.string.CONNECTION_OK_RESPONSE));
-                Crashlytics.setBool(mApplication.getString(R.string.CONNECTED), true);
+                Log.d(mApplication.getString(R.string.TAG_CONNECTION_OK), mApplication.getString(R.string.CONNECTION_OK_RESPONSE));
+                crashlytics.log(mApplication.getString(R.string.TAG_CONNECTION_OK) + mApplication.getString(R.string.CONNECTION_OK_RESPONSE));
+                crashlytics.setCustomKey(mApplication.getString(R.string.CONNECTED), true);
 
                 volleyError = false;
                 contador_request = 0;
@@ -178,7 +177,7 @@ public class QuakeRepository {
 
                     if (error instanceof TimeoutError) {
                         Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR), mApplication.getString(R.string.TAG_VOLLEY_ERROR_TIMEOUT));
-                        Crashlytics.log(Log.DEBUG, mApplication.getString(R.string.TAG_VOLLEY_ERROR), mApplication.getString(R.string.TAG_VOLLEY_ERROR_TIMEOUT));
+                        crashlytics.log(mApplication.getString(R.string.TAG_VOLLEY_ERROR) + mApplication.getString(R.string.TAG_VOLLEY_ERROR_TIMEOUT));
                         responseMsgErrorList.postValue(mApplication.getString(R.string.VIEWMODEL_TIMEOUT_ERROR));
                     }
 
@@ -192,9 +191,7 @@ public class QuakeRepository {
                     else if (error instanceof ServerError) {
                         Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR),
                                 mApplication.getString(R.string.TAG_VOLLEY_ERROR_SERVER));
-                        Crashlytics.log(Log.DEBUG,
-                                mApplication.getString(R.string.TAG_VOLLEY_ERROR),
-                                mApplication.getString(R.string.TAG_VOLLEY_ERROR_SERVER));
+                        crashlytics.log(mApplication.getString(R.string.TAG_VOLLEY_ERROR) + mApplication.getString(R.string.TAG_VOLLEY_ERROR_SERVER));
                         responseMsgErrorList.postValue(mApplication.getString(R.string.VIEWMODEL_SERVER_ERROR));
 
                     }
@@ -234,9 +231,7 @@ public class QuakeRepository {
             Log.d(mApplication.getString(R.string.TAG_CONNECTION_SERVER_RESPALDO),
                     mApplication.getString(R.string.TAG_CONNECTION_SERVER_RESPALDO_RESPONSE));
 
-            Crashlytics.log(Log.DEBUG,
-                    mApplication.getString(R.string.TAG_CONNECTION_SERVER_RESPALDO),
-                    mApplication.getString(R.string.TAG_CONNECTION_SERVER_RESPALDO_RESPONSE));
+            crashlytics.log(mApplication.getString(R.string.TAG_CONNECTION_SERVER_RESPALDO) + mApplication.getString(R.string.TAG_CONNECTION_SERVER_RESPALDO_RESPONSE));
         }
 
         //Si servidor oficial funciona conectarse a él
@@ -250,9 +245,7 @@ public class QuakeRepository {
             Log.d(mApplication.getString(R.string.TAG_CONNECTION_SERVER_OFICIAL),
                     mApplication.getString(R.string.TAG_CONNECTION_SERVER_OFICIAL_RESPONSE));
 
-            Crashlytics.log(Log.DEBUG,
-                    mApplication.getString(R.string.TAG_CONNECTION_SERVER_OFICIAL),
-                    mApplication.getString(R.string.TAG_CONNECTION_SERVER_OFICIAL_RESPONSE));
+            crashlytics.log(mApplication.getString(R.string.TAG_CONNECTION_SERVER_OFICIAL) + mApplication.getString(R.string.TAG_CONNECTION_SERVER_OFICIAL_RESPONSE));
 
         }
         /*String url = String.format(Locale.US, mApplication.getString(R.string.URL_GET_PROD), limite);

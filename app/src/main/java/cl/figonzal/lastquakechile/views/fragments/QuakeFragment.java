@@ -29,10 +29,10 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.appinvite.AppInviteInvitation;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +59,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
     private AdView mAdView;
     private TextView tv_quakes_vacio;
 
+    private FirebaseCrashlytics crashlytics;
+
     public QuakeFragment() {
 
     }
@@ -73,6 +75,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
         setHasOptionsMenu(true);
 
+        crashlytics = FirebaseCrashlytics.getInstance();
+
         // Inflate the layout for thi{s fragment
         final View v = inflater.inflate(R.layout.fragment_quake, container, false);
 
@@ -85,6 +89,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
         return v;
     }
+
     private void instanciarRecursosInterfaz(View v) {
 
         quakeModelList = new ArrayList<>();
@@ -169,8 +174,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
                     Log.d(getString(R.string.TAG_FRAGMENT_QUAKE),
                             getString(R.string.FRAGMENT_LOAD_LIST));
 
-                    Crashlytics.log(Log.DEBUG, getString(R.string.TAG_FRAGMENT_QUAKE),
-                            getString(R.string.FRAGMENT_LOAD_LIST));
+                    crashlytics.log(getString(R.string.TAG_FRAGMENT_QUAKE) + getString(R.string.FRAGMENT_LOAD_LIST));
                 }
             }
         });
@@ -242,8 +246,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
                 //LOGS
                 Log.d(getString(R.string.TAG_CARD_VIEW_INFO),
                         getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO_RESULT));
-                Crashlytics.log(Log.DEBUG, getString(R.string.TAG_CARD_VIEW_INFO),
-                        getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO_RESULT));
+                crashlytics.log(getString(R.string.TAG_CARD_VIEW_INFO) + getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO_RESULT));
             }
         });
     }
@@ -265,7 +268,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
                         ReportRepository.getIntance(requireActivity().getApplication()).getReports();
                         mProgressBar.setVisibility(View.VISIBLE);
 
-                        Crashlytics.setBool(getString(R.string.SNACKBAR_NOCONNECTION_ERROR_PRESSED), true);
+                        crashlytics.setCustomKey(getString(R.string.SNACKBAR_NOCONNECTION_ERROR_PRESSED), true);
                     }
                 });
         sSnackbar.setActionTextColor(getResources().getColor(R.color.colorSecondary, requireContext().getTheme()));

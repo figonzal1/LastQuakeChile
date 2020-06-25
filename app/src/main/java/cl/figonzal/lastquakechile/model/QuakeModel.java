@@ -115,4 +115,22 @@ public class QuakeModel {
     public void setEstado(String estado) {
         this.mEstado = estado;
     }
+
+    @Override
+    public String toString() {
+        return "QuakeModel{" +
+                "mFechaLocal=" + mFechaLocal +
+                ", mCiudad='" + mCiudad + '\'' +
+                ", mLatitud='" + mLatitud + '\'' +
+                ", mLongitud='" + mLongitud + '\'' +
+                ", mMagnitud=" + mMagnitud +
+                ", mEscala='" + mEscala + '\'' +
+                ", mProfundidad=" + mProfundidad +
+                ", mSensible=" + mSensible +
+                ", mAgencia='" + mAgencia + '\'' +
+                ", mReferencia='" + mReferencia + '\'' +
+                ", mImagenUrl='" + mImagenUrl + '\'' +
+                ", mEstado='" + mEstado + '\'' +
+                '}';
+    }
 }
