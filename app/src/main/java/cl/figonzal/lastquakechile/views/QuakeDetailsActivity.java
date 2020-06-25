@@ -21,7 +21,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -31,6 +30,7 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.util.Date;
 import java.util.Locale;
@@ -79,6 +79,9 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
     private View mOverlay;
 
 
+    private FirebaseCrashlytics crashlytics;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +96,9 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         if (savedInstanceState != null) {
             mMapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY);
         }
+
+        crashlytics = FirebaseCrashlytics.getInstance();
+
         mMapView = findViewById(R.id.map);
         mMapView.onCreate(mMapViewBundle);
         mMapView.getMapAsync(this);
@@ -193,8 +199,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
 
                 Log.d(getString(R.string.TAG_OVERLAY_DETAILS),
                         getString(R.string.TAG_OVERLAY_DETAILS_RESULT));
-                Crashlytics.log(Log.DEBUG, getString(R.string.TAG_OVERLAY_DETAILS),
-                        getString(R.string.TAG_OVERLAY_DETAILS_RESULT));
+                crashlytics.log(getString(R.string.TAG_OVERLAY_DETAILS) + getString(R.string.TAG_OVERLAY_DETAILS_RESULT));
 
                 if (mIsFabOpen) {
                     closeFabMenu();
@@ -303,8 +308,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
                 } else {
                     Log.d(getString(R.string.TAG_INTENT_SHARE),
                             getString(R.string.TAG_INTENT_SHARE_WSP));
-                    Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE),
-                            getString(R.string.TAG_INTENT_SHARE_WSP));
+                    crashlytics.log(getString(R.string.TAG_INTENT_SHARE) + getString(R.string.TAG_INTENT_SHARE_WSP));
 
                     Intent wspIntent = new Intent();
                     wspIntent.setAction(Intent.ACTION_SEND);
@@ -346,8 +350,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
 
                     Log.d(getString(R.string.TAG_INTENT_SHARE),
                             getString(R.string.TAG_INTENT_SHARE_GM));
-                    Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE),
-                            getString(R.string.TAG_INTENT_SHARE_GM));
+                    crashlytics.log(getString(R.string.TAG_INTENT_SHARE) + getString(R.string.TAG_INTENT_SHARE_GM));
 
                     Intent gmIntent = new Intent();
                     gmIntent.setAction(Intent.ACTION_SEND);
@@ -517,8 +520,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         mOverlay.animate().alpha(0.85f).setDuration(500);
 
         Log.d(getString(R.string.TAG_FAB_MENU), getString(R.string.TAG_FAB_MENU_OPEN));
-        Crashlytics.log(Log.DEBUG, getString(R.string.TAG_FAB_MENU),
-                getString(R.string.TAG_FAB_MENU_OPEN));
+        crashlytics.log(getString(R.string.TAG_FAB_MENU) + getString(R.string.TAG_FAB_MENU_OPEN));
     }
 
     /**
@@ -552,8 +554,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         mOverlay.setVisibility(View.GONE);
 
         Log.d(getString(R.string.TAG_FAB_MENU), getString(R.string.TAG_FAB_MENU_CLOSE));
-        Crashlytics.log(Log.DEBUG, getString(R.string.TAG_FAB_MENU),
-                getString(R.string.TAG_FAB_MENU_CLOSE));
+        crashlytics.log(getString(R.string.TAG_FAB_MENU) + getString(R.string.TAG_FAB_MENU_CLOSE));
 
     }
 
@@ -566,8 +567,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
             Log.d(getString(R.string.TAG_INTENT_DETALLE_HOME_UP),
                     getString(R.string.TAG_INTENT_DETALLE_HOME_UP_RESPONSE));
 
-            Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_DETALLE_HOME_UP),
-                    getString(R.string.TAG_INTENT_DETALLE_HOME_UP_RESPONSE));
+            crashlytics.log(getString(R.string.TAG_INTENT_DETALLE_HOME_UP) + getString(R.string.TAG_INTENT_DETALLE_HOME_UP_RESPONSE));
 
             Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

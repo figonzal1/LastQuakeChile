@@ -41,4 +41,14 @@ public class QuakesCity {
     public void setN_sismos(int n_sismos) {
         this.n_sismos = n_sismos;
     }
+
+    @Override
+    public String toString() {
+        return "QuakesCity{" +
+                "id=" + id +
+                ", id_reports=" + id_reports +
+                ", ciudad='" + ciudad + '\'' +
+                ", n_sismos=" + n_sismos +
+                '}';
+    }
 }

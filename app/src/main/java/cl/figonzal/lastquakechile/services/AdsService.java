@@ -15,6 +15,7 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.reward.RewardItem;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.google.android.gms.ads.reward.RewardedVideoAdListener;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.util.Date;
 
@@ -28,10 +29,14 @@ public class AdsService {
     private final Context context;
     private SharedPreferences sharedPreferences;
 
+    private FirebaseCrashlytics crashlytics;
+
     public AdsService(Context context, FragmentManager fragmentManager) {
         this.context = context;
         this.fragmentManager = fragmentManager;
         sharedPreferences = context.getSharedPreferences(context.getString(R.string.MAIN_SHARED_PREF_KEY), Context.MODE_PRIVATE);
+
+        crashlytics = FirebaseCrashlytics.getInstance();
     }
 
     public RewardedVideoAd getRewardedVideoAd() {
@@ -51,15 +56,24 @@ public class AdsService {
 
             Log.d(context.getString(R.string.TAG_REWARD_STATUS), context.getString(R.string
                     .TAG_REWARD_STATUS_EN_PERIODO));
+            crashlytics.log(context.getString(R.string.TAG_REWARD_STATUS) + context.getString(R.string
+                    .TAG_REWARD_STATUS_EN_PERIODO));
 
             boolean showDialog = Utils.generateRandomNumber();
             if (showDialog) {
+
                 //Cargar dialog
                 mostrarDialog();
+
                 Log.d(context.getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG), context.getString(R.string
                         .TAG_RANDOM_SHOW_REWARD_DIALOG_ON));
+                crashlytics.log(context.getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG) + context.getString(R.string
+                        .TAG_RANDOM_SHOW_REWARD_DIALOG_ON));
+
             } else {
                 Log.d(context.getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG), context.getString(R.string
+                        .TAG_RANDOM_SHOW_REWARD_DIALOG_OFF));
+                crashlytics.log(context.getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG) + context.getString(R.string
                         .TAG_RANDOM_SHOW_REWARD_DIALOG_OFF));
             }
         }
@@ -67,6 +81,7 @@ public class AdsService {
         //Si el periodo de reward aun no pasa
         else if (now_date.before(reward_date)) {
             Log.d(context.getString(R.string.TAG_REWARD_STATUS), context.getString(R.string.TAG_REWARD_STATUS_PERIODO_INACTIVO));
+            crashlytics.log(context.getString(R.string.TAG_REWARD_STATUS) + context.getString(R.string.TAG_REWARD_STATUS_PERIODO_INACTIVO));
         }
     }
 
@@ -82,6 +97,9 @@ public class AdsService {
             public void onRewardedVideoAdLoaded() {
                 Log.d(context.getString(R.string.TAG_VIDEO_REWARD_STATUS), context.getString(R.string
                         .TAG_VIDEO_REWARD_STATUS_LOADED));
+                crashlytics.log(context.getString(R.string.TAG_VIDEO_REWARD_STATUS) + context.getString(R.string
+                        .TAG_VIDEO_REWARD_STATUS_LOADED));
+
                 rewardDialog();
             }
 
@@ -120,14 +138,21 @@ public class AdsService {
             public void onRewardedVideoCompleted() {
                 Log.d(context.getString(R.string.TAG_VIDEO_REWARD_STATUS), context.getString(R.string
                         .TAG_VIDEO_REWARD_STATUS_COMPLETED));
+                crashlytics.log(context.getString(R.string.TAG_VIDEO_REWARD_STATUS) + context.getString(R.string
+                        .TAG_VIDEO_REWARD_STATUS_COMPLETED));
 
                 Date date_now = new Date();
 
                 Log.d(context.getString(R.string.TAG_POST_REWARD_HORA_AHORA), Utils.dateToString
                         (context.getApplicationContext(), date_now));
+                crashlytics.log(context.getString(R.string.TAG_POST_REWARD_HORA_AHORA) + Utils.dateToString
+                        (context.getApplicationContext(), date_now));
+
                 //sumar 24 horas al tiempo del celular
                 Date date_new = Utils.addHoursToJavaUtilDate(date_now, 24);
                 Log.d(context.getString(R.string.TAG_POST_REWARD_HORA_REWARD), Utils.dateToString
+                        (context, date_new));
+                crashlytics.log(context.getString(R.string.TAG_POST_REWARD_HORA_REWARD) + Utils.dateToString
                         (context, date_new));
 
                 //Guardar fecha de termino de reward
@@ -162,9 +187,11 @@ public class AdsService {
         if (now_date.after(reward_date)) {
             loadAds(mAdView);
             Log.d(context.getString(R.string.TAG_FRAGMENT_LIST), context.getString(R.string.TAG_ADS_LOADED));
+            crashlytics.log(context.getString(R.string.TAG_FRAGMENT_LIST) + context.getString(R.string.TAG_ADS_LOADED));
         } else {
             mAdView.setVisibility(View.GONE);
             Log.d(context.getString(R.string.TAG_FRAGMENT_LIST), context.getString(R.string.TG_ADS_NOT_LOADED));
+            crashlytics.log(context.getString(R.string.TAG_FRAGMENT_LIST) + context.getString(R.string.TG_ADS_NOT_LOADED));
         }
     }
 
@@ -189,6 +216,8 @@ public class AdsService {
             @Override
             public void onAdLoaded() {
                 Log.d(context.getString(R.string.TAG_ADMOB_AD_STATUS), context.getString(R.string.TAG_ADMOB_AD_STATUS_LOADED));
+                crashlytics.log(context.getString(R.string.TAG_ADMOB_AD_STATUS) + context.getString(R.string.TAG_ADMOB_AD_STATUS_LOADED));
+
                 mAdView.setVisibility(View.VISIBLE);
                 super.onAdLoaded();
             }

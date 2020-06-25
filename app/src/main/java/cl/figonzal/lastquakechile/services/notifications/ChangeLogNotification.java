@@ -12,7 +12,7 @@ import android.util.Log;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
-import com.crashlytics.android.Crashlytics;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.util.Random;
 
@@ -29,6 +29,8 @@ public class ChangeLogNotification {
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
     static void createChangeLogChannel(Context context) {
+
+        FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
 
         String name = context.getString(R.string.FIREBASE_CHANNEL_NAME_CHANGELOG);
         String description = context.getString(R.string.FIREBASE_CHANNEL_DESCRIPTION_CHANGELOG);
@@ -49,9 +51,8 @@ public class ChangeLogNotification {
                 context.getString(R.string.FIREBASE_CHANNEL_CREATED_MESSAGE));
 
         //CRASH ANALYTICS & LOGS
-        Crashlytics.log(Log.DEBUG, context.getString(R.string.TAG_FIREBASE_CHANNEL),
-                context.getString(R.string.FIREBASE_CHANNEL_CREATED_MESSAGE));
-        Crashlytics.setBool(context.getString(R.string.FIREBASE_CHANNEL_STATUS), true);
+        crashlytics.log(context.getString(R.string.TAG_FIREBASE_CHANNEL) + context.getString(R.string.FIREBASE_CHANNEL_CREATED_MESSAGE));
+        crashlytics.setCustomKey(context.getString(R.string.FIREBASE_CHANNEL_STATUS), true);
     }
 
     /**
@@ -60,6 +61,9 @@ public class ChangeLogNotification {
      * @param test Parametro para testear notificacion
      */
     public void configNotificationChangeLog(boolean test, Context context) {
+
+
+        FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
 
         SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.MAIN_SHARED_PREF_KEY), Context.MODE_PRIVATE);
         try {
@@ -73,10 +77,8 @@ public class ChangeLogNotification {
                     String.valueOf(shared_version_code));
             Log.d(context.getString(R.string.TAG_VERSION_CODE_APP), String.valueOf(versionCode));
 
-            Crashlytics.log(Log.DEBUG, context.getString(R.string.TAG_SHARED_VERSION_CODE_APP),
-                    String.valueOf(shared_version_code));
-            Crashlytics.log(Log.DEBUG, context.getString(R.string.TAG_VERSION_CODE_APP),
-                    String.valueOf(versionCode));
+            crashlytics.log(context.getString(R.string.TAG_SHARED_VERSION_CODE_APP) + shared_version_code);
+            crashlytics.log(context.getString(R.string.TAG_VERSION_CODE_APP) + versionCode);
 
 
             if (!test) {
@@ -101,9 +103,7 @@ public class ChangeLogNotification {
                     //Logs
                     Log.d(context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS),
                             context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE));
-                    Crashlytics.log(Log.DEBUG,
-                            context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS),
-                            context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE));
+                    crashlytics.log(context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS) + context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE));
                 }
             } else {
                 showNotificationChangeLog(context);
@@ -118,22 +118,27 @@ public class ChangeLogNotification {
      * Funcion encargada de enviar la notificacion al celular sobre changelog
      */
     private void showNotificationChangeLog(Context context) throws PackageManager.NameNotFoundException {
+
+        String changelog = "- Ahora modo noche automático se activa con ahorro de energía\n" +
+                "- Se agregan reportes sismológicos mensuales \n" +
+                "- Actualizaciones internas\n" +
+                "- Publicidad no invasiva";
+
         //Maneja la notificacion cuando esta en foreground
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
                 context,
                 context.getString(R.string.FIREBASE_CHANNEL_ID_CHANGELOG))
                 .setContentTitle(context.getString(R.string.NOTIFICATION_CHANGE_LOG_TITLE) + context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName)
                 .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText("- Ahora modo noche automático se activa con ahorro de energía\n" +
-                                "- Se agregan reportes sismológicos mensuales \n" +
-                                "- Actualizaciones internas\n" +
-                                "- Publicidad no invasiva"))
+                        .bigText(changelog))
                 .setSmallIcon(R.drawable.ic_lastquakechile_1200)
                 .setAutoCancel(true);
 
-        NotificationManager notificationManager =
-                (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
-        assert notificationManager != null;
-        notificationManager.notify(new Random().nextInt(60000), mBuilder.build());
+        if (changelog.isEmpty()) {
+            NotificationManager notificationManager =
+                    (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+            assert notificationManager != null;
+            notificationManager.notify(new Random().nextInt(60000), mBuilder.build());
+        }
     }
 }

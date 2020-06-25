@@ -11,8 +11,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
-import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.util.Objects;
 
@@ -23,9 +23,13 @@ public class RewardDialogFragment extends DialogFragment {
     private final RewardedVideoAd rewardedVideoAd;
     private final Context context;
 
+    private FirebaseCrashlytics crashlytics;
+
     public RewardDialogFragment(Context context, RewardedVideoAd rewardedVideoAd) {
         this.context = context;
         this.rewardedVideoAd = rewardedVideoAd;
+
+        crashlytics = FirebaseCrashlytics.getInstance();
     }
 
     @NonNull
@@ -47,7 +51,7 @@ public class RewardDialogFragment extends DialogFragment {
                     rewardedVideoAd.show();
 
                     Log.d(getString(R.string.TAG_REWARD_DIALOG), getString(R.string.TAG_REWARD_DIALOG_BTN_VER_VIDEO));
-                    Crashlytics.log(Log.DEBUG, getString(R.string.TAG_REWARD_DIALOG), getString(R.string.TAG_REWARD_DIALOG_BTN_VER_VIDEO));
+                    crashlytics.log(getString(R.string.TAG_REWARD_DIALOG) + getString(R.string.TAG_REWARD_DIALOG_BTN_VER_VIDEO));
                 }
 
 
@@ -60,7 +64,7 @@ public class RewardDialogFragment extends DialogFragment {
             public void onClick(DialogInterface dialog, int which) {
                 Log.d(getString(R.string.TAG_REWARD_DIALOG), getString(R.string
                         .TAG_REWARD_DIALOG_BTN_CANCEL));
-                Crashlytics.log(Log.DEBUG, getString(R.string.TAG_REWARD_DIALOG), getString(R.string
+                crashlytics.log(getString(R.string.TAG_REWARD_DIALOG) + getString(R.string
                         .TAG_REWARD_DIALOG_BTN_CANCEL));
                 dismiss();
             }
