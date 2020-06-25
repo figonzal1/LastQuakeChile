@@ -24,13 +24,13 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
-import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.appinvite.AppInviteInvitation;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -52,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageView mIvFoto;
     private AdsService adsService;
 
+    private FirebaseCrashlytics crashlytics;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -61,8 +63,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        crashlytics = FirebaseCrashlytics.getInstance();
+
         //ADS
-        MobileAds.initialize(getApplicationContext(), getString(R.string.ADMOB_MASTER_KEY));
+        MobileAds.initialize(this);
+
         adsService = new AdsService(getApplicationContext(), getSupportFragmentManager());
         adsService.loadRewardedVideo(MainActivity.this);
 
@@ -109,10 +114,8 @@ public class MainActivity extends AppCompatActivity {
                         Log.e(getString(R.string.TAG_FIREBASE_TOKEN), token);
 
                         //CRASH ANALYTICS LOG
-                        Crashlytics.log(Log.DEBUG, getString(R.string.TAG_FIREBASE_TOKEN), token);
-                        Crashlytics.setUserIdentifier(token);
-
-
+                        crashlytics.log(getString(R.string.TAG_FIREBASE_TOKEN) + token);
+                        crashlytics.setUserId(token);
                     }
                 });
     }

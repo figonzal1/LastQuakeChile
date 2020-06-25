@@ -17,9 +17,9 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.FileProvider;
 import androidx.preference.PreferenceManager;
 
-import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -277,6 +277,8 @@ public class Utils {
      */
     public static void doInstallation(String packageName, Context context) {
 
+        FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
+
         Intent mIntent;
         try {
             //Intenta abrir google play
@@ -287,8 +289,7 @@ public class Utils {
             //LOG
             Log.d(context.getString(R.string.TAG_INTENT),
                     context.getString(R.string.TAG_INTENT_GOOGLEPLAY));
-            Crashlytics.log(Log.DEBUG, context.getString(R.string.TAG_INTENT),
-                    context.getString(R.string.TAG_INTENT_GOOGLEPLAY));
+            crashlytics.log(context.getString(R.string.TAG_INTENT) + context.getString(R.string.TAG_INTENT_GOOGLEPLAY));
 
             context.startActivity(mIntent);
         } catch (android.content.ActivityNotFoundException anfe) {
@@ -296,8 +297,7 @@ public class Utils {
             //Si gogle play no esta abre webview
             Log.d(context.getString(R.string.TAG_INTENT),
                     context.getString(R.string.TAG_INTENT_NAVEGADOR));
-            Crashlytics.log(Log.DEBUG, context.getString(R.string.TAG_INTENT),
-                    context.getString(R.string.TAG_INTENT_NAVEGADOR));
+            crashlytics.log(context.getString(R.string.TAG_INTENT) + context.getString(R.string.TAG_INTENT_NAVEGADOR));
 
             context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google" +
                     ".com/store/apps/details?id=" + packageName)));
@@ -399,6 +399,8 @@ public class Utils {
      */
     public static void checkNightMode(Activity activity, Window window) {
 
+        FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
+
         //Leer preference settings
         SharedPreferences sharedPreferences =
                 PreferenceManager.getDefaultSharedPreferences(activity);
@@ -422,8 +424,7 @@ public class Utils {
             Log.d(activity.getString(R.string.TAG_NIGHT_MODE_MANUAL),
                     activity.getString(R.string.TAG_NIGHT_MODE_STATUS_ON));
 
-            Crashlytics.log(Log.DEBUG, activity.getString(R.string.TAG_NIGHT_MODE_MANUAL),
-                    activity.getString(R.string.TAG_NIGHT_MODE_STATUS_ON));
+            crashlytics.log(activity.getString(R.string.TAG_NIGHT_MODE_MANUAL) + activity.getString(R.string.TAG_NIGHT_MODE_STATUS_ON));
         }
 
         //MODO AUTOMATICO
@@ -435,8 +436,7 @@ public class Utils {
             Log.d(activity.getString(R.string.TAG_NIGHT_MODE_AUTO),
                     activity.getString(R.string.TAG_NIGHT_MODE_STATUS_ON));
 
-            Crashlytics.log(Log.DEBUG, activity.getString(R.string.TAG_NIGHT_MODE_AUTO),
-                    activity.getString(R.string.TAG_NIGHT_MODE_STATUS_ON));
+            crashlytics.log(activity.getString(R.string.TAG_NIGHT_MODE_AUTO) + activity.getString(R.string.TAG_NIGHT_MODE_STATUS_ON));
         }
 
         //DESACTIVADO
@@ -448,8 +448,7 @@ public class Utils {
             Log.d(activity.getString(R.string.TAG_NIGHT_MODE),
                     activity.getString(R.string.TAG_NIGHT_MODE_STATUS_OFF));
 
-            Crashlytics.log(Log.DEBUG, activity.getString(R.string.TAG_NIGHT_MODE),
-                    activity.getString(R.string.TAG_NIGHT_MODE_STATUS_OFF));
+            crashlytics.log(activity.getString(R.string.TAG_NIGHT_MODE) + activity.getString(R.string.TAG_NIGHT_MODE_STATUS_OFF));
         }
     }
 
@@ -474,6 +473,8 @@ public class Utils {
      */
     public static void checkPlayServices(Activity activity) {
 
+        FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
+
         int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
         GoogleApiAvailability mGoogleApiAvailability = GoogleApiAvailability.getInstance();
         int resultCode = mGoogleApiAvailability.isGooglePlayServicesAvailable(activity);
@@ -493,8 +494,7 @@ public class Utils {
                 //El error no puede ser resuelto por el usuario y la app se cierra
                 Log.d(activity.getString(R.string.TAG_GOOGLE_PLAY),
                         activity.getString(R.string.GOOGLE_PLAY_NOSOPORTADO));
-                Crashlytics.log(Log.DEBUG, activity.getString(R.string.TAG_GOOGLE_PLAY),
-                        activity.getString(R.string.GOOGLE_PLAY_NOSOPORTADO));
+                crashlytics.log(activity.getString(R.string.TAG_GOOGLE_PLAY) + activity.getString(R.string.GOOGLE_PLAY_NOSOPORTADO));
                 activity.finish();
             }
         }
@@ -503,8 +503,7 @@ public class Utils {
 
             Log.d(activity.getString(R.string.TAG_GOOGLE_PLAY),
                     activity.getString(R.string.GOOGLE_PLAY_ACTUALIZADO));
-            Crashlytics.log(Log.DEBUG, activity.getString(R.string.TAG_GOOGLE_PLAY),
-                    activity.getString(R.string.GOOGLE_PLAY_ACTUALIZADO));
+            crashlytics.log(activity.getString(R.string.TAG_GOOGLE_PLAY) + activity.getString(R.string.GOOGLE_PLAY_ACTUALIZADO));
         }
     }
 
@@ -512,6 +511,8 @@ public class Utils {
      * Funcion encargada de checkear si la aplicación se ha abierto por primera vez
      */
     public static void checkFirstRun(Activity activity, boolean test) {
+
+        FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
 
         //Abrir shared pref para la actividad
         SharedPreferences mSharedPref =
@@ -521,7 +522,7 @@ public class Utils {
         boolean mFirstRun =
                 mSharedPref.getBoolean(activity.getString(R.string.SHARED_PREF_FIRST_RUN),
                         true);
-        Crashlytics.setBool(activity.getString(R.string.SHARED_PREF_FIRST_RUN), true);
+        crashlytics.setCustomKey(activity.getString(R.string.SHARED_PREF_FIRST_RUN), true);
 
         if (!test) {
             if (mFirstRun) {
@@ -540,7 +541,7 @@ public class Utils {
             editor.apply();
 
             //Log
-            Crashlytics.setBool(activity.getString(R.string.SHARED_PREF_FIRST_RUN), false);
+            crashlytics.setCustomKey(activity.getString(R.string.SHARED_PREF_FIRST_RUN), false);
         }
     }
 

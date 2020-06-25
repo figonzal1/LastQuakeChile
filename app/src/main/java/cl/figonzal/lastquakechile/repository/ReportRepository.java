@@ -13,7 +13,7 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.crashlytics.android.Crashlytics;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,6 +39,8 @@ public class ReportRepository {
     private final MutableLiveData<Boolean> isLoadingReports = new MutableLiveData<>();
     private final SingleLiveEvent<String> responseMsgErrorList = new SingleLiveEvent<>();
 
+    private static FirebaseCrashlytics crashlytics;
+
     private ReportRepository(Application application) {
         this.mApplication = application;
     }
@@ -47,6 +49,8 @@ public class ReportRepository {
 
         if (instance == null) {
             instance = new ReportRepository(application);
+
+            crashlytics = FirebaseCrashlytics.getInstance();
         }
         return instance;
     }
@@ -119,7 +123,7 @@ public class ReportRepository {
 
                 if (error instanceof TimeoutError) {
                     Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR), mApplication.getString(R.string.TAG_VOLLEY_ERROR_TIMEOUT));
-                    Crashlytics.log(Log.DEBUG, mApplication.getString(R.string.TAG_VOLLEY_ERROR), mApplication.getString(R.string.TAG_VOLLEY_ERROR_TIMEOUT));
+                    crashlytics.log(mApplication.getString(R.string.TAG_VOLLEY_ERROR) + mApplication.getString(R.string.TAG_VOLLEY_ERROR_TIMEOUT));
                     responseMsgErrorList.postValue(mApplication.getString(R.string.VIEWMODEL_TIMEOUT_ERROR));
                 }
 
@@ -131,11 +135,8 @@ public class ReportRepository {
 
                 //Error de servidor
                 else if (error instanceof ServerError) {
-                    Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR),
-                            mApplication.getString(R.string.TAG_VOLLEY_ERROR_SERVER));
-                    Crashlytics.log(Log.DEBUG,
-                            mApplication.getString(R.string.TAG_VOLLEY_ERROR),
-                            mApplication.getString(R.string.TAG_VOLLEY_ERROR_SERVER));
+                    Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR), mApplication.getString(R.string.TAG_VOLLEY_ERROR_SERVER));
+                    crashlytics.log(mApplication.getString(R.string.TAG_VOLLEY_ERROR) + mApplication.getString(R.string.TAG_VOLLEY_ERROR_SERVER));
                     responseMsgErrorList.postValue(mApplication.getString(R.string.VIEWMODEL_SERVER_ERROR));
 
                 }

@@ -15,8 +15,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.crashlytics.android.Crashlytics;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +36,8 @@ public class ReportsFragment extends Fragment {
     private RecyclerView rv;
     private Snackbar sSnackbar;
 
+    private FirebaseCrashlytics crashlytics;
+
     public ReportsFragment() {
     }
 
@@ -46,6 +48,9 @@ public class ReportsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        crashlytics = FirebaseCrashlytics.getInstance();
+
         View v = inflater.inflate(R.layout.fragment_reports, container, false);
 
         instanciarRecursosInterfaz(v);
@@ -99,8 +104,7 @@ public class ReportsFragment extends Fragment {
                 Log.d(getString(R.string.TAG_FRAGMENT_REPORTS),
                         getString(R.string.FRAGMENT_LOAD_LIST));
 
-                Crashlytics.log(Log.DEBUG, getString(R.string.TAG_FRAGMENT_REPORTS),
-                        getString(R.string.FRAGMENT_LOAD_LIST));
+                crashlytics.log(getString(R.string.TAG_FRAGMENT_REPORTS) + getString(R.string.FRAGMENT_LOAD_LIST));
             }
         });
 
