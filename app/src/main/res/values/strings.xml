@@ -22,19 +22,11 @@
     <string name="tab_reports">Reportes</string>
 
     <!-- URL SERVIDOR HEROKU -->
-    <string name="URL_GET_PROD_QUAKES" translatable="false">
-		https://lastquakechile-server-prod.herokuapp.com/lastquakechile/api/quakes/?limite=%1$s
-	</string>
-    <string name="URL_GET_DEV" translatable="false">
-		https://lastquakechile-server-dev.herokuapp.com/lastquakechile/api/quakes/?limite=%1$s
-	</string>
-    <string name="URL_GET_PROD_REPORTS" translatable="false">
-		https://lastquakechile-server-prod.herokuapp.com/lastquakechile/api/reports
-	</string>
+    <string name="URL_GET_PROD_QUAKES" translatable="false">https://lastquakechile-server-prod.herokuapp.com/lastquakechile/api/quakes/?limite=%1$s</string>
+    <string name="URL_GET_DEV" translatable="false">https://lastquakechile-server-dev.herokuapp.com/lastquakechile/api/quakes/?limite=%1$s</string>
+    <string name="URL_GET_PROD_REPORTS" translatable="false">https://lastquakechile-server-prod.herokuapp.com/lastquakechile/api/reports</string>
     <string name="DEEP_LINK" translatable="false">https://lastquakechile.page.link/lqch</string>
     <string name="desde_deep_link" translatable="false">desdeDeepLink</string>
-    <string name="KEY_QUAKES" translatable="false">sismos</string>
-    <string name="MAIN_SHARED_PREF_KEY" translatable="false">lastquakechile</string>
 
     <!-- FORMAT -->
     <string name="DATETIME_FORMAT" translatable="false">yyyy-MM-dd HH:mm:ss</string>
@@ -44,18 +36,19 @@
     <string name="PACKAGE_NAME_GMAIL" translatable="false">com.google.android.gm</string>
 
     <!-- KEY DE JSON PARA PHP -->
-    <string name="KEY_FECHA_UTC" translatable="false">fecha_utc</string>
-    <string name="KEY_CIUDAD" translatable="false">ciudad</string>
-    <string name="KEY_LATITUD" translatable="false">latitud</string>
-    <string name="KEY_LONGITUD" translatable="false">longitud</string>
-    <string name="KEY_MAGNITUD" translatable="false">magnitud</string>
-    <string name="KEY_ESCALA" translatable="false">escala</string>
-    <string name="KEY_PROFUNDIDAD" translatable="false">profundidad</string>
-    <string name="KEY_AGENCIA" translatable="false">agencia</string>
-    <string name="KEY_REFERENCIA" translatable="false">referencia</string>
-    <string name="KEY_IMAGEN_URL" translatable="false">imagen_url</string>
-    <string name="KEY_SENSIBLE" translatable="false">sensible</string>
-    <string name="KEY_ESTADO" translatable="false">estado</string>
+    <string name="JSON_KEY_QUAKES" translatable="false">sismos</string>
+    <string name="JSON_KEY_FECHA_UTC" translatable="false">fecha_utc</string>
+    <string name="JSON_KEY_CIUDAD" translatable="false">ciudad</string>
+    <string name="JSON_KEY_LATITUD" translatable="false">latitud</string>
+    <string name="JSON_KEY_LONGITUD" translatable="false">longitud</string>
+    <string name="JSON_KEY_MAGNITUD" translatable="false">magnitud</string>
+    <string name="JSON_KEY_ESCALA" translatable="false">escala</string>
+    <string name="JSON_KEY_PROFUNDIDAD" translatable="false">profundidad</string>
+    <string name="JSON_KEY_AGENCIA" translatable="false">agencia</string>
+    <string name="JSON_KEY_REFERENCIA" translatable="false">referencia</string>
+    <string name="JSON_KEY_IMAGEN_URL" translatable="false">imagen_url</string>
+    <string name="JSON_KEY_SENSIBLE" translatable="false">sensible</string>
+    <string name="JSON_KEY_ESTADO" translatable="false">estado</string>
 
     <!-- KEY PARA INTENT & NOTIFICACIONES -->
     <string name="INTENT_TITULO" translatable="false">titulo</string>
@@ -100,8 +93,7 @@
     <string name="profundidad_info_windows">Profundidad: %.1f Km</string>
     <string name="magnitud" translatable="false">%.1f</string>
     <string name="quake_details_magnitud_local">Magnitud Local (Ml)</string>
-    <string name="quake_details_magnitud_momento" tools:ignore="Typos">Magnitud Momento (Mw)
-	</string>
+    <string name="quake_details_magnitud_momento" tools:ignore="Typos">Magnitud Momento (Mw)</string>
     <string name="icono_sensible">Icono sensible</string>
     <string name="icono_app">Icono app</string>
     <string name="invitation_welcome">¡Bienvenido!</string>
@@ -115,8 +107,7 @@
     <string name="titulo_toolbar">Título toolbar</string>
     <string name="last_quakes_info_card_view_tittle">Últimos sismos</string>
     <string name="last_quakes_info_card_view_button">Entendido</string>
-    <string name="last_quakes_info_card_view_description">En este listado se muestran los últimos 15 sismos ocurridos en Chile, puedes modificar la cantidad en la sección &#8942; -> Configuración
-	</string>
+    <string name="last_quakes_info_card_view_description">En este listado se muestran los últimos 15 sismos ocurridos en Chile, puedes modificar la cantidad en la sección &#8942; -> Configuración</string>
     <string name="fab_gmail" translatable="false">Gmail</string>
     <string name="fab_whatsapp" translatable="false">Whatsapp</string>
     <string name="boton_flotante_gmail">Botón flotante gmail</string>
@@ -138,8 +129,14 @@
     <string name="m_xima_magnitud">Máxima magnitud</string>
     <string name="m_nima_profundidad">Mínima profundidad</string>
     <string name="top_ciudades_con_m_s_sismos">Top ciudades con más sismos</string>
+    <string name="NOTIFICATION_CHANGE_LOG_TITLE" translatable="false">¡Novedades! v</string>
+    <string name="alert_pref_summary">Recibe notificaciones de sismos de +5.0 grados</string>
+    <string name="alert_pref_title">Notificaciones</string>
+    <string name="alert_pref_title_switch">Alertas de sismos</string>
+    <string name="alert_pref_summary_on">Activadas</string>
+    <string name="alert_pref_summary_off">Desactivadas</string>
 
-    <!-- FIREBASE-->
+    <!-- TAGS-->
     <string name="TAG_FIREBASE_TOKEN" translatable="false">D/TOKEN_FIREBASE:</string>
     <string name="TAG_FIREBASE_SUSCRIPTION" translatable="false">D/FIREBASE_SUSCRIPCION:</string>
     <string name="TAG_FIREBASE_SUSCRIPTION_OK" translatable="false">SUSCRITO</string>
@@ -147,41 +144,8 @@
     <string name="TAG_FIREBASE_SUSCRIPTION_DELETE" translatable="false">ELIMINADA</string>
     <string name="TAG_FIREBASE_CHANNEL" translatable="false">D/FIREBASE_CHANNEL:</string>
     <string name="TAG_FIREBASE_MESSAGE" translatable="false">D/FIREBASE_MESSAGE:</string>
-    <string name="TAG_FIREBASE_MESSAGE_DATA_INCOMING" translatable="false">NotificacionData
-		recibida
-	</string>
+    <string name="TAG_FIREBASE_MESSAGE_DATA_INCOMING" translatable="false">NotificacionData recibida</string>
     <string name="TAG_FIREBASE_MESSAGE_INCOMING" translatable="false">Notificacion recibida</string>
-    <string name="FIREBASE_CHANNEL_ID_QUAKES" translatable="false">1</string>
-    <string name="FIREBASE_CHANNEL_NAME_QUAKES">Alerta sismos</string>
-    <string name="FIREBASE_CHANNEL_DESCRIPTION_QUAKES">Recibe alertas de sismos sobre 5 grados</string>
-    <string name="FIREBASE_CHANNEL_ID_CHANGELOG" translatable="false">2</string>
-    <string name="FIREBASE_CHANNEL_NAME_CHANGELOG" translatable="false">Nuevas versiones</string>
-    <string name="FIREBASE_CHANNEL_DESCRIPTION_CHANGELOG" translatable="false">Recibe alertas sobre las nuevas versiones de la app</string>
-    <string name="FIREBASE_CHANNEL_STATUS" translatable="false">CANAL_CREADO</string>
-    <string name="FIREBASE_MESSAGE_DATA_STATUS" translatable="false">MESSAGE_DATA_RECEIVED</string>
-    <string name="NOTIFICATION_CHANGE_LOG_TITLE" translatable="false">¡Novedades! v</string>
-    <string name="FIREBASE_MESSAGE_NOTIFICATION_STATUS" translatable="false">
-		MESSAGE_NOTIFICATION_RECEIVED
-	</string>
-    <string name="FIREBASE_CHANNEL_CREATED_MESSAGE" translatable="false">Canal de notificacion
-		creado
-	</string>
-    <string name="FIREBASE_PREF_KEY" translatable="false">pref_suscrito_quake</string>
-    <string name="FIREBASE_TOPIC_NAME" translatable="false">Quakes</string>
-    <string name="FIREBASE_PREF_KEY_TOAST_ALERTAS_ON">Alertas activadas</string>
-    <string name="FIREBASE_PREF_KEY_TOAST_ALERTAS_OFF">Alertas desactivadas</string>
-    <string name="alert_pref_summary">Recibe notificaciones de sismos de +5.0 grados</string>
-    <string name="alert_pref_title">Notificaciones</string>
-    <string name="alert_pref_title_switch">Alertas de sismos</string>
-    <string name="alert_pref_summary_on">Activadas</string>
-    <string name="alert_pref_summary_off">Desactivadas</string>
-
-    <!-- Strings de Snackbars -->
-    <string name="SNACKBAR_NOCONNECTION_ERROR_PRESSED" translatable="false">
-		SNACKBAR_NOCONNECTION_ERROR
-	</string>
-
-    <!-- TAGS SIN CATEGORIA-->
     <string name="FLAG_RETRY" translatable="false">Recargar</string>
     <string name="TAG_FRAGMENT_QUAKE" translatable="false">D/FRAGMENT_QUAKE: </string>
     <string name="TAG_FRAGMENT_REPORTS" translatable="false">D/FRAGMENT_REPORTS: </string>
@@ -193,8 +157,7 @@
     <string name="CONNECTED" translatable="false">CONNECTION_STATUS</string>
     <string name="TAG_CARD_VIEW_INFO" translatable="false">D/CARD_VIEW_INFO: </string>
     <string name="TAG_FIRST_RUN_STATUS" translatable="false">FIRST_RUN</string>
-    <string name="FIRST_RUN_STATUS_RESPONSE" translatable="false">EJECUCION DE PRIMER INICIO
-	</string>
+    <string name="FIRST_RUN_STATUS_RESPONSE" translatable="false">EJECUCION DE PRIMER INICIO</string>
     <string name="TAG_INVITATION_RECEIVE" translatable="false">INVITACION</string>
     <string name="TAG_FAB_SHARE_STATUS" translatable="false">FAB SHARE</string>
     <string name="TAG_FAB_SHARE_STATUS_CLICKED" translatable="false">CLICKED</string>
@@ -204,20 +167,57 @@
     <string name="TAG_RESPOSITORY_QUAKE_LIMIT" translatable="false">REPOSITORY_LIMIT_QUAKE</string>
     <string name="TAG_SHARED_VERSION_CODE_APP" translatable="false">SHARED_VERSION_CODE_APP</string>
     <string name="TAG_VERSION_CODE_APP" translatable="false">VERSION_CODE_APP</string>
-
-    <!-- Strings de Volley -->
     <string name="TAG_VOLLEY_ERROR" translatable="false">D/VOLLEY_ERROR: </string>
     <string name="TAG_VOLLEY_ERROR_TIMEOUT" translatable="false">Timeout error</string>
     <string name="TAG_VOLLEY_ERROR_SERVER" translatable="false">Server error</string>
     <string name="TAG_VOLLEY_ERROR_NETWORK" translatable="false">Network error</string>
     <string name="TAG_CONNECTION_SERVER_RESPALDO" translatable="false">D/SERVIDOR RESPALDO: </string>
-    <string name="TAG_CONNECTION_SERVER_RESPALDO_RESPONSE" translatable="false">INTENTO DE CONEXION
-		A RESPALDO (DEVELOPMENT)
-	</string>
+    <string name="TAG_CONNECTION_SERVER_RESPALDO_RESPONSE" translatable="false">INTENTO DE CONEXION A RESPALDO (DEVELOPMENT)</string>
     <string name="TAG_CONNECTION_SERVER_OFICIAL" translatable="false">D/SERVIDOR OFICIAL: </string>
-    <string name="TAG_CONNECTION_SERVER_OFICIAL_RESPONSE" translatable="false">INTENTO DE CONEXION A
-		OFICIAL (PRODUCTION)
-	</string>
+    <string name="TAG_CONNECTION_SERVER_OFICIAL_RESPONSE" translatable="false">INTENTO DE CONEXION A OFICIAL (PRODUCTION)</string>
+    <string name="TAG_INTENT" translatable="false">D/INTENT: </string>
+    <string name="TAG_INTENT_GOOGLEPLAY" translatable="false">Abriendo google play app - $s</string>
+    <string name="TAG_INTENT_NAVEGADOR" translatable="false">Abriendo navegador - $s</string>
+    <string name="TRY_INTENT_NOTIFICATION_1" translatable="false">Realizando intent de notificacion</string>
+    <string name="TRY_INTENT_NOTIFICATION" translatable="false">TRY_INTENT_NOTIFICATION</string>
+    <string name="TRY_INTENT_DETALLE" translatable="false">Intent de detalle de sismo</string>
+    <string name="TAG_INTENT_DETALLE_HOME_UP" translatable="false">D/QUAKE_DETAILS: </string>
+    <string name="TAG_INTENT_DETALLE_HOME_UP_RESPONSE" translatable="false">HOME UP PARENT CLICKEADO</string>
+    <string name="TAG_GOOGLE_PLAY" translatable="false">D/GOOGLE_PLAY: </string>
+    <string name="GOOGLE_PLAY_NOSOPORTADO" translatable="false">Dispositivo no soportado</string>
+    <string name="GOOGLE_PLAY_ACTUALIZADO" translatable="false">Google Play actualizado</string>
+    <string name="TAG_INTENT_SHARE" translatable="false">D/SHARE_INTENT: </string>
+    <string name="TAG_INTENT_SHARE_WSP" translatable="false">WHATSAPP SHARE INTENT</string>
+    <string name="TAG_INTENT_SHARE_GM" translatable="false">GMAIL SHARE INTENT</string>
+    <string name="TAG_FAB_MENU" translatable="false">D/FAB MENU: </string>
+    <string name="TAG_FAB_MENU_OPEN" translatable="false">OPEN</string>
+    <string name="TAG_FAB_MENU_CLOSE" translatable="false">CLOSE</string>
+    <string name="TAG_OVERLAY_DETAILS" translatable="false">D/OVERLAY-DETAILS: </string>
+    <string name="TAG_OVERLAY_DETAILS_RESULT" translatable="false">CLICKED</string>
+    <string name="HOME_PARENT">Navegar hacia arriba</string>
+    <string name="TAG_MAP_FRAGMENT" translatable="false">D/MAP FRAGMENT: </string>
+    <string name="TAG_INFO_WINDOWS_RESPONSE" translatable="false">INFO WINDOWS OPEN</string>
+    <string name="TAG_MAP_READY_RESPONSE" translatable="false">MAP READY</string>
+    <string name="TAG_INTENT_INFO_WINDOWS" translatable="false">Intent de infowindows a detalle de sismo</string>
+
+    <!-- FIREBASE strings -->
+    <string name="FIREBASE_CHANNEL_ID_QUAKES" translatable="false">1</string>
+    <string name="FIREBASE_CHANNEL_NAME_QUAKES">Alerta sismos</string>
+    <string name="FIREBASE_CHANNEL_DESCRIPTION_QUAKES">Recibe alertas de sismos sobre 5 grados</string>
+    <string name="FIREBASE_CHANNEL_ID_CHANGELOG" translatable="false">2</string>
+    <string name="FIREBASE_CHANNEL_NAME_CHANGELOG" translatable="false">Nuevas versiones</string>
+    <string name="FIREBASE_CHANNEL_DESCRIPTION_CHANGELOG" translatable="false">Recibe alertas sobre las nuevas versiones de la app</string>
+    <string name="FIREBASE_CHANNEL_STATUS" translatable="false">CANAL_CREADO</string>
+    <string name="FIREBASE_MESSAGE_DATA_STATUS" translatable="false">MESSAGE_DATA_RECEIVED</string>
+    <string name="FIREBASE_MESSAGE_NOTIFICATION_STATUS" translatable="false">MESSAGE_NOTIFICATION_RECEIVED</string>
+    <string name="FIREBASE_CHANNEL_CREATED_MESSAGE" translatable="false">Canal de notificacion creado</string>
+    <string name="FIREBASE_PREF_KEY" translatable="false">pref_suscrito_quake</string>
+    <string name="FIREBASE_TOPIC_NAME" translatable="false">Quakes</string>
+    <string name="FIREBASE_PREF_KEY_TOAST_ALERTAS_ON">Alertas activadas</string>
+    <string name="FIREBASE_PREF_KEY_TOAST_ALERTAS_OFF">Alertas desactivadas</string>
+
+    <!-- Strings de Snackbars -->
+    <string name="SNACKBAR_NOCONNECTION_ERROR_PRESSED" translatable="false">SNACKBAR_NOCONNECTION_ERROR</string>
 
     <!-- Strings para calculo de tiempo -->
     <string name="UTILS_TIEMPO_DIAS" translatable="false">dias</string>
@@ -230,60 +230,23 @@
     <string name="VIEWMODEL_NOCONNECTION_ERROR">No tienes conexión a Internet</string>
     <string name="VIEWMODEL_SERVER_ERROR">¡Ups ha ocurrido un error! Intente mas tarde</string>
 
-    <!-- INTENT LOGS -->
-    <string name="TAG_INTENT" translatable="false">D/INTENT: </string>
-    <string name="TAG_INTENT_GOOGLEPLAY" translatable="false">Abriendo google play app - $s</string>
-    <string name="TAG_INTENT_NAVEGADOR" translatable="false">Abriendo navegador - $s</string>
-    <string name="TRY_INTENT_NOTIFICATION_1" translatable="false">Realizando intent de
-		notificacion
-	</string>
-    <string name="TRY_INTENT_NOTIFICATION" translatable="false">TRY_INTENT_NOTIFICATION</string>
-    <string name="TRY_INTENT_DETALLE" translatable="false">Intent de detalle de sismo</string>
-    <string name="TAG_INTENT_DETALLE_HOME_UP" translatable="false">D/QUAKE_DETAILS: </string>
-    <string name="TAG_INTENT_DETALLE_HOME_UP_RESPONSE" translatable="false">HOME UP PARENT
-		CLICKEADO
-	</string>
-
-    <!-- TAG GOOGLE PLAY -->
-    <string name="TAG_GOOGLE_PLAY" translatable="false">D/GOOGLE_PLAY: </string>
-    <string name="GOOGLE_PLAY_NOSOPORTADO" translatable="false">Dispositivo no soportado</string>
-    <string name="GOOGLE_PLAY_ACTUALIZADO" translatable="false">Google Play actualizado</string>
-
     <!-- INVITATION STRINGS -->
     <string name="INVITATION_TITLE">¡Invita a tus amigos a usar la App!</string>
     <string name="INVITATION_SUBJECT">Descarga LastQuakeChile App</string>
-    <string name="TAG_DEEP_LINK_INVITATION" translatable="false">INTENT_INVITACION</string>
+    <string name="TAG_DEEP_LINK_INVITATION" translatable="false">D/INTENT_INVITACION: </string>
     <string name="INVITATION_STATUS" translatable="false">Invitacion sin datos</string>
-    <string name="TAG_DEEP_LINK_DATA" translatable="false">DEEP_LINK</string>
-    <string name="TAG_INVITATION_ID" translatable="false">INVITACION_ID</string>
+    <string name="TAG_DEEP_LINK_DATA" translatable="false">D/DEEP_LINK: </string>
+    <string name="TAG_INVITATION_ID" translatable="false">D/INVITACION_ID: </string>
 
     <!-- SHARE PREFERENCES KEYS (Variables) -->
-    <string name="SHARED_PREF_FIRST_RUN" translatable="false">first_run</string>
-    <string name="SHARED_PREF_STATUS_CARD_VIEW_INFO" translatable="false">is_show_card_view_info
-	</string>
+    <string name="SHARED_PREF_MASTER_KEY" translatable="false">lastquakechile</string>
+    <string name="SHARED_PREF_STATUS_CARD_VIEW_INFO" translatable="false">is_show_card_view_info</string>
     <string name="SHARED_PREF_STATUS_CARD_VIEW_INFO_RESULT" translatable="false">entendido</string>
     <string name="SHARED_PREF_LIST_QUAKE_NUMBER" translatable="false">pref_list_quake_number</string>
     <string name="SHARED_PREF_ACTUAL_VERSION_CODE" translatable="false">actual_version_code</string>
     <string name="SHARED_PREF_END_REWARD_TIME" translatable="false">end_reward_time</string>
+    <string name="SHARED_PREF_FIRST_LOAD" translatable="false">isFirstLoad</string>
 
-    <!-- INTENT SHARE LOGS -->
-    <string name="TAG_INTENT_SHARE" translatable="false">D/SHARE_INTENT: </string>
-    <string name="TAG_INTENT_SHARE_WSP" translatable="false">WHATSAPP SHARE INTENT</string>
-    <string name="TAG_INTENT_SHARE_GM" translatable="false">GMAIL SHARE INTENT</string>
-    <string name="TAG_FAB_MENU" translatable="false">D/FAB MENU: </string>
-    <string name="TAG_FAB_MENU_OPEN" translatable="false">OPEN</string>
-    <string name="TAG_FAB_MENU_CLOSE" translatable="false">CLOSE</string>
-    <string name="TAG_OVERLAY_DETAILS" translatable="false">D/OVERLAY-DETAILS: </string>
-    <string name="TAG_OVERLAY_DETAILS_RESULT" translatable="false">CLICKED</string>
-    <string name="HOME_PARENT">Navegar hacia arriba</string>
-
-    <!-- MAPA -->
-    <string name="TAG_MAP_FRAGMENT" translatable="false">D/MAP FRAGMENT: </string>
-    <string name="TAG_INFO_WINDOWS_RESPONSE" translatable="false">INFO WINDOWS OPEN</string>
-    <string name="TAG_MAP_READY_RESPONSE" translatable="false">MAP READY</string>
-    <string name="TAG_INTENT_INFO_WINDOWS" translatable="false">Intent de infowindows a detalle de
-		sismo
-	</string>
 
     <!-- NightMode -->
     <string name="NIGHT_MODE_MANUAL_KEY" translatable="false">pref_manual_night_mode</string>
@@ -336,11 +299,15 @@
     <string name="TAG_ADMOB_AD_STATUS_LOADED" translatable="false">ADD LOADED</string>
     <string name="TAG_ADMOB_AD_STATUS_OPEN" translatable="false">ADD OPEN</string>
     <string name="TAG_NOTIFICATION_CHANGELOG_STATUS" translatable="false">D/NOTI_CHANGELOG_STATUS: </string>
-    <string name="TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE" translatable="false">ENVIADA</string>
+    <string name="TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE_SENDED" translatable="false">ENVIADA</string>
+    <string name="TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE_SHOWED" translatable="false">MOSTRADA</string>
+    <string name="TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE_EMPTY" translatable="false">VACIA</string>
     <string name="REWAR_DIALOG_TITLE">¡Apoya a la aplicación!</string>
     <string name="REWARD_DIALOG_MESSAGE">Ve el video, apoya gratis monetariamente y recibe 1 día libre de publicidad</string>
     <string name="REWARD_DIALOG_POSITIVE">Ver video</string>
     <string name="REWARD_DIALOG_NEGATIVE">Cancelar</string>
+
+    <!-- Reportes -->
     <string name="ENERO">Enero</string>
     <string name="FEBRERO">Febrero</string>
     <string name="MARZO">Marzo</string>

@@ -319,7 +319,7 @@ public class FCMNotification extends FirebaseMessagingService {
 
         FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
 
-        Log.e(getString(R.string.TAG_FIREBASE_TOKEN), "Refreshed Token:" + s);
+        Log.d(getString(R.string.TAG_FIREBASE_TOKEN), "Refreshed Token:" + s);
         firebaseCrashlytics.setUserId(s);
     }
 

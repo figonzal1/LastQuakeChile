@@ -107,10 +107,6 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         LinearLayoutManager ly = new LinearLayoutManager(getContext());
         mRecycleView.setLayoutManager(ly);
 
-        //Setear el layout de la lista
-        /*LinearLayoutManager ly = new WrapContentLinearLayoutManager(getContext());
-        mRecycleView.setLayoutManager(ly);*/
-
         tv_quakes_vacio = v.findViewById(R.id.tv_quakes_vacios);
         tv_quakes_vacio.setVisibility(View.INVISIBLE);
 
@@ -211,7 +207,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
      */
     private void showCardViewInformation(View v) {
 
-        final SharedPreferences sharedPreferences = requireActivity().getSharedPreferences(requireActivity().getString(R.string.MAIN_SHARED_PREF_KEY), Context.MODE_PRIVATE);
+        final SharedPreferences sharedPreferences = requireActivity().getSharedPreferences(requireActivity().getString(R.string.SHARED_PREF_MASTER_KEY), Context.MODE_PRIVATE);
         boolean isCardViewShow = sharedPreferences.getBoolean(getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO), true);
 
         if (isCardViewShow) {
