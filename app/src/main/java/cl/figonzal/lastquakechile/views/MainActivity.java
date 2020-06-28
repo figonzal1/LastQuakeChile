@@ -35,6 +35,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import cl.figonzal.lastquakechile.ChangeLogActivity;
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.SettingsActivity;
 import cl.figonzal.lastquakechile.adapter.FragmentPageAdapter;
@@ -232,6 +233,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
 
+            case R.id.changelog_menu:
+                intent = new Intent(MainActivity.this, ChangeLogActivity.class);
+                startActivity(intent);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

@@ -26,15 +26,11 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
         <activity
             android:name=".views.MainActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity" />
-
-        <!-- Activity detalle -->
+            tools:ignore="LockedOrientationActivity" /> <!-- Activity detalle -->
         <activity
             android:name=".views.QuakeDetailsActivity"
             android:parentActivityName=".views.MainActivity"
@@ -46,7 +42,7 @@
         </activity>
 
         <activity
-            android:name=".SettingsActivity"
+            android:name=".ChangeLogActivity"
             android:parentActivityName=".views.MainActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
@@ -54,36 +50,34 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".views.MainActivity" />
         </activity>
-
-
-        <!--ADS-->
+        <activity
+            android:name=".SettingsActivity"
+            android:parentActivityName=".views.MainActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".views.MainActivity" />
+        </activity> <!-- ADS -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="@string/ADMOB_MASTER_KEY" />
-        <!-- GMS -->
+            android:value="@string/ADMOB_MASTER_KEY" /> <!-- GMS -->
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
-        <!-- Google maps -->
+            android:value="@integer/google_play_services_version" /> <!-- Google maps -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_api_key" />
-
-        <!-- Icono de notificaciones por defecto usado FCM console en background -->
+            android:value="@string/google_api_key" /> <!-- Icono de notificaciones por defecto usado FCM console en background -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_lastquakechile_1200" />
-
-        <!-- Llamada a servicio de mensajeria -->
+            android:resource="@drawable/ic_lastquakechile_1200" /> <!-- Llamada a servicio de mensajeria -->
         <service
             android:name=".services.notifications.FCMNotification"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-        </service>
-
-        <!-- Provider usado para buscar rutas de imagenes y pasarlas a Uri's -->
+        </service> <!-- Provider usado para buscar rutas de imagenes y pasarlas a Uri's -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="cl.figonzal.lastquakechile.fileprovider"
@@ -92,13 +86,10 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_provider" />
-        </provider>
-
-        <!-- TODO: Habilitar para produccion -->
+        </provider> <!-- TODO: Habilitar para produccion -->
         <meta-data
             android:name="firebase_performance_collection_enabled"
-            android:value="false" />
-        <!-- TODO: Habilitar para produccion -->
+            android:value="false" /> <!-- TODO: Habilitar para produccion -->
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"
             android:value="false" />
