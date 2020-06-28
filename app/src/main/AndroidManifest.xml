@@ -27,33 +27,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            <tools:validation testUrl="https://figonzal.cl/lastquakechile/" />
-            <tools:validation testUrl="https://figonzal.cl/lastquakechile" />
-            <tools:validation testUrl="https://lastquakechile-server-dev.herokuapp.com/lastquakechile/" />
-            <tools:validation testUrl="https://lastquakechile-server-dev.herokuapp.com/lastquakechile" />
-
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="lastquakechile-server-dev.herokuapp.com"
-                    android:pathPattern="/lastquakechile.*"
-                    android:scheme="https" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="figonzal.cl"
-                    android:pathPattern="/lastquakechile.*"
-                    android:scheme="https" />
-            </intent-filter>
         </activity>
 
         <activity
