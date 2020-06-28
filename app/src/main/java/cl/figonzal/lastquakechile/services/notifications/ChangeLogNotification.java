@@ -65,7 +65,7 @@ public class ChangeLogNotification {
 
         FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
 
-        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.MAIN_SHARED_PREF_KEY), Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.SHARED_PREF_MASTER_KEY), Context.MODE_PRIVATE);
         try {
             PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
             long versionCode = packageInfo.versionCode;
@@ -102,8 +102,8 @@ public class ChangeLogNotification {
 
                     //Logs
                     Log.d(context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS),
-                            context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE));
-                    crashlytics.log(context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS) + context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE));
+                            context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE_SENDED));
+                    crashlytics.log(context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS) + context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE_SENDED));
                 }
             } else {
                 showNotificationChangeLog(context);
@@ -119,10 +119,8 @@ public class ChangeLogNotification {
      */
     private void showNotificationChangeLog(Context context) throws PackageManager.NameNotFoundException {
 
-        String changelog = "- Ahora modo noche automático se activa con ahorro de energía\n" +
-                "- Se agregan reportes sismológicos mensuales \n" +
-                "- Actualizaciones internas\n" +
-                "- Publicidad no invasiva";
+        FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
+        String changelog = "- Hola este es el nuevo changelog";
 
         //Maneja la notificacion cuando esta en foreground
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
@@ -134,11 +132,19 @@ public class ChangeLogNotification {
                 .setSmallIcon(R.drawable.ic_lastquakechile_1200)
                 .setAutoCancel(true);
 
-        if (changelog.isEmpty()) {
+        if (!changelog.isEmpty()) {
             NotificationManager notificationManager =
                     (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
             assert notificationManager != null;
             notificationManager.notify(new Random().nextInt(60000), mBuilder.build());
+
+            //Logs
+            Log.d(context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS), context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE_SHOWED));
+            crashlytics.log(context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS) + context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE_SHOWED));
+        } else {
+            //Logs
+            Log.d(context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS), context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE_EMPTY));
+            crashlytics.log(context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS) + context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE_EMPTY));
         }
     }
 }

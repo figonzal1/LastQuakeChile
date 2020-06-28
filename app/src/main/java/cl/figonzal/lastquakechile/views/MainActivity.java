@@ -35,9 +35,9 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import cl.figonzal.lastquakechile.FragmentPageAdapter;
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.SettingsActivity;
+import cl.figonzal.lastquakechile.adapter.FragmentPageAdapter;
 import cl.figonzal.lastquakechile.services.AdsService;
 import cl.figonzal.lastquakechile.services.Utils;
 import cl.figonzal.lastquakechile.services.notifications.ChangeLogNotification;
@@ -67,15 +67,11 @@ public class MainActivity extends AppCompatActivity {
 
         //ADS
         MobileAds.initialize(this);
-
         adsService = new AdsService(getApplicationContext(), getSupportFragmentManager());
         adsService.loadRewardedVideo(MainActivity.this);
 
         //Configurar MODO NOCHE
         Utils.checkNightMode(MainActivity.this, getWindow());
-
-        //Checkear logica de first run con actividad de welcome
-        checkWelcomeActivity();
 
         //Servicios de google play
         Utils.checkPlayServices(this);
@@ -118,22 +114,6 @@ public class MainActivity extends AppCompatActivity {
                         crashlytics.setUserId(token);
                     }
                 });
-    }
-
-    /**
-     * Funcion encargada de realizar el checkeo de first run de la aplicacion para lanzar
-     * welcomeActivity
-     */
-    private void checkWelcomeActivity() {
-        Bundle mBundleWelcome = getIntent().getExtras();
-        if (mBundleWelcome != null) {
-            //Si el usuario viene desde deep link, no se realiza first check (Para que welcome
-            // activity no abra 2 veces)
-            //Si viene desde Google play, se realiza el check
-            if (!mBundleWelcome.getBoolean(getString(R.string.desde_deep_link))) {
-                Utils.checkFirstRun(this, false);
-            }
-        }
     }
 
     /**

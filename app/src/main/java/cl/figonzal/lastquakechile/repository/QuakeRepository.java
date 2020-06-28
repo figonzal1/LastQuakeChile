@@ -96,7 +96,7 @@ public class QuakeRepository {
 
                     JSONObject jsonObject = new JSONObject(response);
 
-                    JSONArray mJsonArray = jsonObject.getJSONArray(mApplication.getString(R.string.KEY_QUAKES));
+                    JSONArray mJsonArray = jsonObject.getJSONArray(mApplication.getString(R.string.JSON_KEY_QUAKES));
 
                     for (int i = 0; i < mJsonArray.length(); i++) {
 
@@ -111,25 +111,25 @@ public class QuakeRepository {
 
                         //OBTENER UTC DESDE PHP CONVERTIRLO A LOCAL DEL DISPOSITIVO
                         Date mUtcDate =
-                                mFormat.parse(mObject.getString(mApplication.getString(R.string.KEY_FECHA_UTC)));
+                                mFormat.parse(mObject.getString(mApplication.getString(R.string.JSON_KEY_FECHA_UTC)));
                         assert mUtcDate != null;
                         Date mLocalDate = Utils.utcToLocal(mUtcDate);
 
                         //LOCAL CALCULADO, NO PROVIENE DE CAMPO EN PHP
                         mModel.setFechaLocal(mLocalDate);
 
-                        mModel.setCiudad(mObject.getString(mApplication.getString(R.string.KEY_CIUDAD)));
-                        mModel.setLatitud(mObject.getString(mApplication.getString(R.string.KEY_LATITUD)));
-                        mModel.setLongitud(mObject.getString(mApplication.getString(R.string.KEY_LONGITUD)));
-                        mModel.setMagnitud(mObject.getDouble(mApplication.getString(R.string.KEY_MAGNITUD)));
-                        mModel.setEscala(mObject.getString(mApplication.getString(R.string.KEY_ESCALA)));
-                        mModel.setProfundidad(mObject.getDouble(mApplication.getString(R.string.KEY_PROFUNDIDAD)));
-                        mModel.setAgencia(mObject.getString(mApplication.getString(R.string.KEY_AGENCIA)));
-                        mModel.setReferencia(mObject.getString(mApplication.getString(R.string.KEY_REFERENCIA)));
-                        mModel.setImagenUrl(mObject.getString(mApplication.getString(R.string.KEY_IMAGEN_URL)));
-                        mModel.setEstado(mObject.getString(mApplication.getString(R.string.KEY_ESTADO)));
+                        mModel.setCiudad(mObject.getString(mApplication.getString(R.string.JSON_KEY_CIUDAD)));
+                        mModel.setLatitud(mObject.getString(mApplication.getString(R.string.JSON_KEY_LATITUD)));
+                        mModel.setLongitud(mObject.getString(mApplication.getString(R.string.JSON_KEY_LONGITUD)));
+                        mModel.setMagnitud(mObject.getDouble(mApplication.getString(R.string.JSON_KEY_MAGNITUD)));
+                        mModel.setEscala(mObject.getString(mApplication.getString(R.string.JSON_KEY_ESCALA)));
+                        mModel.setProfundidad(mObject.getDouble(mApplication.getString(R.string.JSON_KEY_PROFUNDIDAD)));
+                        mModel.setAgencia(mObject.getString(mApplication.getString(R.string.JSON_KEY_AGENCIA)));
+                        mModel.setReferencia(mObject.getString(mApplication.getString(R.string.JSON_KEY_REFERENCIA)));
+                        mModel.setImagenUrl(mObject.getString(mApplication.getString(R.string.JSON_KEY_IMAGEN_URL)));
+                        mModel.setEstado(mObject.getString(mApplication.getString(R.string.JSON_KEY_ESTADO)));
 
-                        switch (mObject.getInt(mApplication.getString(R.string.KEY_SENSIBLE))) {
+                        switch (mObject.getInt(mApplication.getString(R.string.JSON_KEY_SENSIBLE))) {
 
                             case 0:
                                 mModel.setSensible(false);
@@ -207,7 +207,7 @@ public class QuakeRepository {
         /*
          * SECCION CONEXION DE RESPALDOS
          */
-        SharedPreferences sharedPreferences = mApplication.getSharedPreferences(mApplication.getString(R.string.MAIN_SHARED_PREF_KEY), Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = mApplication.getSharedPreferences(mApplication.getString(R.string.SHARED_PREF_MASTER_KEY), Context.MODE_PRIVATE);
         String limite =
                 String.valueOf(sharedPreferences.getInt(mApplication.getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER), 0));
 

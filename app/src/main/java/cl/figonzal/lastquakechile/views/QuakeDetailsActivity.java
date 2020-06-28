@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -109,7 +110,10 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         setSupportActionBar(mToolbar);
 
         //Muestra la flecha en toolbar para volver atras
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         //Obtener datos desde intent
         Bundle mBundle = getIntent().getExtras();
