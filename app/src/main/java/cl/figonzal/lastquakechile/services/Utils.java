@@ -35,7 +35,6 @@ import java.util.Random;
 import java.util.TimeZone;
 
 import cl.figonzal.lastquakechile.R;
-import cl.figonzal.lastquakechile.views.WelcomeActivity;
 
 public class Utils {
 
@@ -504,44 +503,6 @@ public class Utils {
             Log.d(activity.getString(R.string.TAG_GOOGLE_PLAY),
                     activity.getString(R.string.GOOGLE_PLAY_ACTUALIZADO));
             crashlytics.log(activity.getString(R.string.TAG_GOOGLE_PLAY) + activity.getString(R.string.GOOGLE_PLAY_ACTUALIZADO));
-        }
-    }
-
-    /**
-     * Funcion encargada de checkear si la aplicación se ha abierto por primera vez
-     */
-    public static void checkFirstRun(Activity activity, boolean test) {
-
-        FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
-
-        //Abrir shared pref para la actividad
-        SharedPreferences mSharedPref =
-                activity.getSharedPreferences(activity.getString(R.string.MAIN_SHARED_PREF_KEY),
-                        Context.MODE_PRIVATE);
-
-        boolean mFirstRun =
-                mSharedPref.getBoolean(activity.getString(R.string.SHARED_PREF_FIRST_RUN),
-                        true);
-        crashlytics.setCustomKey(activity.getString(R.string.SHARED_PREF_FIRST_RUN), true);
-
-        if (!test) {
-            if (mFirstRun) {
-
-                Log.d(activity.getString(R.string.TAG_FIRST_RUN_STATUS),
-                        activity.getString(R.string.FIRST_RUN_STATUS_RESPONSE));
-
-                Intent intent = new Intent(activity, WelcomeActivity.class);
-                activity.startActivity(intent);
-                activity.finish();
-            }
-
-            //Cambiar a falso, para que proxima vez no abra invitation.
-            SharedPreferences.Editor editor = mSharedPref.edit();
-            editor.putBoolean(activity.getString(R.string.SHARED_PREF_FIRST_RUN), false);
-            editor.apply();
-
-            //Log
-            crashlytics.setCustomKey(activity.getString(R.string.SHARED_PREF_FIRST_RUN), false);
         }
     }
 

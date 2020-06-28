@@ -34,7 +34,7 @@ public class AdsService {
     public AdsService(Context context, FragmentManager fragmentManager) {
         this.context = context;
         this.fragmentManager = fragmentManager;
-        sharedPreferences = context.getSharedPreferences(context.getString(R.string.MAIN_SHARED_PREF_KEY), Context.MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences(context.getString(R.string.SHARED_PREF_MASTER_KEY), Context.MODE_PRIVATE);
 
         crashlytics = FirebaseCrashlytics.getInstance();
     }
@@ -176,7 +176,7 @@ public class AdsService {
 
     public void configurarIntersitial(AdView mAdView) {
 
-        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.MAIN_SHARED_PREF_KEY), Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.SHARED_PREF_MASTER_KEY), Context.MODE_PRIVATE);
 
         Date reward_date = new Date(sharedPreferences.getLong(context.getString(R.string.SHARED_PREF_END_REWARD_TIME), 0));
         Log.d(context.getString(R.string.TAG_FRAGMENT_REWARD_DATE), reward_date.toString());

@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile;
+package cl.figonzal.lastquakechile.adapter;
 
 import android.content.Context;
 
@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.views.fragments.MapFragment;
 import cl.figonzal.lastquakechile.views.fragments.QuakeFragment;
 import cl.figonzal.lastquakechile.views.fragments.ReportsFragment;

@@ -75,7 +75,7 @@ public class SettingsActivity extends AppCompatActivity {
             if (getActivity() != null) {
                 activity = getActivity();
                 sharedPreferences =
-                        activity.getSharedPreferences(getString(R.string.MAIN_SHARED_PREF_KEY),
+                        activity.getSharedPreferences(getString(R.string.SHARED_PREF_MASTER_KEY),
                                 Context.MODE_PRIVATE);
             }
         }
@@ -209,7 +209,7 @@ public class SettingsActivity extends AppCompatActivity {
                 seekBarPreference.setSummary(String.format(activity.getString(R.string.LIST_QUAKE_NUMBER_SUMMARY), String.valueOf(seekBarPreference.getValue())));
 
                 SharedPreferences sharedPrefListQuakes =
-                        activity.getSharedPreferences(activity.getString(R.string.MAIN_SHARED_PREF_KEY), Context.MODE_PRIVATE);
+                        activity.getSharedPreferences(activity.getString(R.string.SHARED_PREF_MASTER_KEY), Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPrefListQuakes.edit();
                 editor.putInt(activity.getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER),
                         seekBarPreference.getValue());
