@@ -101,7 +101,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         AdsService adsService = new AdsService(requireContext(), getParentFragmentManager());
         adsService.configurarIntersitial(mAdView);
 
-        mRecycleView = v.findViewById(R.id.recycle_view);
+        mRecycleView = v.findViewById(R.id.recycle_view_quakes);
         mRecycleView.setHasFixedSize(true);
 
         LinearLayoutManager ly = new LinearLayoutManager(getContext());

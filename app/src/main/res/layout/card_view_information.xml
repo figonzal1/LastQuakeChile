@@ -6,7 +6,7 @@
     android:elevation="0dp"
     android:visibility="visible"
     app:cardCornerRadius="4dp"
-    app:layout_constraintBottom_toTopOf="@+id/recycle_view"
+    app:layout_constraintBottom_toTopOf="@+id/recycle_view_quakes"
     app:layout_constraintEnd_toStartOf="@+id/derecha"
     app:layout_constraintHorizontal_bias="0.5"
     app:layout_constraintStart_toStartOf="@+id/izquierda"

@@ -32,7 +32,7 @@ import java.util.Objects;
 import java.util.Random;
 
 import cl.figonzal.lastquakechile.R;
-import cl.figonzal.lastquakechile.views.QuakeDetailsActivity;
+import cl.figonzal.lastquakechile.views.activities.QuakeDetailsActivity;
 
 public class FCMNotification extends FirebaseMessagingService {
 

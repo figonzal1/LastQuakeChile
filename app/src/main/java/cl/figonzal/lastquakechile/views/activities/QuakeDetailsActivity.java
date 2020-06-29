@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile.views;
+package cl.figonzal.lastquakechile.views.activities;
 
 import android.animation.IntEvaluator;
 import android.animation.ValueAnimator;

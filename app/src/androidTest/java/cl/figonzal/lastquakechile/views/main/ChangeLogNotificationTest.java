@@ -20,7 +20,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
 import cl.figonzal.lastquakechile.services.notifications.ChangeLogNotification;
-import cl.figonzal.lastquakechile.views.MainActivity;
+import cl.figonzal.lastquakechile.views.activities.MainActivity;
 
 import static org.junit.Assert.assertEquals;
 

@@ -18,7 +18,7 @@ import java.util.Objects;
 
 import cl.figonzal.lastquakechile.services.Utils;
 import cl.figonzal.lastquakechile.services.notifications.FCMNotification;
-import cl.figonzal.lastquakechile.views.MainActivity;
+import cl.figonzal.lastquakechile.views.activities.MainActivity;
 
 public class SettingsActivity extends AppCompatActivity {
 

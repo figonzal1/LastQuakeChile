@@ -27,7 +27,7 @@ import java.util.Map;
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.model.QuakeModel;
 import cl.figonzal.lastquakechile.services.Utils;
-import cl.figonzal.lastquakechile.views.QuakeDetailsActivity;
+import cl.figonzal.lastquakechile.views.activities.QuakeDetailsActivity;
 
 public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHolder> {
 
