@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile.views;
+package cl.figonzal.lastquakechile.views.activities;
 
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -35,7 +35,6 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import cl.figonzal.lastquakechile.ChangeLogActivity;
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.SettingsActivity;
 import cl.figonzal.lastquakechile.adapter.FragmentPageAdapter;

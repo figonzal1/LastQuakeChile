@@ -124,7 +124,7 @@ public class ReportsFragment extends Fragment {
 
         reportModelList = new ArrayList<>();
 
-        rv = v.findViewById(R.id.recycle_view);
+        rv = v.findViewById(R.id.recycle_view_reports);
         rv.setHasFixedSize(true);
 
         LinearLayoutManager ly = new LinearLayoutManager(getContext());

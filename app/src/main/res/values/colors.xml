@@ -25,6 +25,7 @@
     <color name="grey">#efefef</color>
     <color name="grey_dark">#ADADAD</color>
     <color name="green_dark">#008e4d</color>
+    <color name="green_dark_night">#006034</color>
 
     <!-- Colores para cada magnitud-->
     <color name="magnitude1">#006400</color>

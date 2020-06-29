@@ -18,7 +18,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".views.IntroActivity"
+            android:name=".views.activities.IntroActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
@@ -28,36 +28,36 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".views.MainActivity"
+            android:name=".views.activities.MainActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" /> <!-- Activity detalle -->
         <activity
-            android:name=".views.QuakeDetailsActivity"
-            android:parentActivityName=".views.MainActivity"
+            android:name=".views.activities.QuakeDetailsActivity"
+            android:parentActivityName=".views.activities.MainActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".views.MainActivity" />
+                android:value=".views.activities.MainActivity" />
         </activity>
 
         <activity
-            android:name=".ChangeLogActivity"
-            android:parentActivityName=".views.MainActivity"
+            android:name=".views.activities.ChangeLogActivity"
+            android:parentActivityName=".views.activities.MainActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".views.MainActivity" />
+                android:value=".views.activities.MainActivity" />
         </activity>
         <activity
             android:name=".SettingsActivity"
-            android:parentActivityName=".views.MainActivity"
+            android:parentActivityName=".views.activities.MainActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".views.MainActivity" />
+                android:value=".views.activities.MainActivity" />
         </activity> <!-- ADS -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
