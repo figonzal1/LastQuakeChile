@@ -22,7 +22,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
 import cl.figonzal.lastquakechile.R;
-import cl.figonzal.lastquakechile.views.MainActivity;
+import cl.figonzal.lastquakechile.views.activities.MainActivity;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
