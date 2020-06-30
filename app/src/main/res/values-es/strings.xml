@@ -102,4 +102,6 @@
     <string name="NOVIEMBRE">Noviembre</string>
     <string name="DICIEMBRE">Diciembre</string>
     <string name="FORMATO_REPORTE">Reporte %s %s</string>
+    <string name="change_logs">Historial de versiones</string>
+    <string name="ultima_badge">Última</string>
 </resources>

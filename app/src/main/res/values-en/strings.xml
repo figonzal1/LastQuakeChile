@@ -102,4 +102,6 @@
     <string name="OCTUBRE">October</string>
     <string name="NOVIEMBRE">November</string>
     <string name="DICIEMBRE">December</string>
+    <string name="change_logs">Version history</string>
+    <string name="ultima_badge">Lastest</string>
 </resources>
