@@ -15,6 +15,7 @@
     <string name="invite">Invitar amigos</string>
     <string name="settings">Configuración</string>
     <string name="more_options">Más opciones</string>
+    <string name="change_logs">Historial de versiones</string>
 
     <!--TABS -->
     <string name="tab_map">Mapa</string>
@@ -135,6 +136,7 @@
     <string name="alert_pref_title_switch">Alertas de sismos</string>
     <string name="alert_pref_summary_on">Activadas</string>
     <string name="alert_pref_summary_off">Desactivadas</string>
+    <string name="ultima_badge">Última</string>
 
     <!-- TAGS-->
     <string name="TAG_FIREBASE_TOKEN" translatable="false">D/TOKEN_FIREBASE:</string>

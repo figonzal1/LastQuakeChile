@@ -190,7 +190,7 @@ public class FCMNotification extends FirebaseMessagingService {
                 .setContentText(remoteMessage.getNotification().getBody())
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText(remoteMessage.getNotification().getBody()))
-                .setSmallIcon(R.drawable.ic_lastquakechile_1200)
+                .setSmallIcon(R.drawable.ic_lastquakechile_400)
                 .setAutoCancel(true);
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -295,7 +295,7 @@ public class FCMNotification extends FirebaseMessagingService {
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this,
                 getString(R.string.FIREBASE_CHANNEL_ID_QUAKES))
-                .setSmallIcon(R.drawable.ic_lastquakechile_1200)
+                .setSmallIcon(R.drawable.ic_lastquakechile_400)
                 .setContentTitle(titulo)
                 .setContentText(descripcion)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(descripcion))

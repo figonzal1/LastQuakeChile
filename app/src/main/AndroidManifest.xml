@@ -70,7 +70,7 @@
             android:value="@string/google_api_key" /> <!-- Icono de notificaciones por defecto usado FCM console en background -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_lastquakechile_1200" /> <!-- Llamada a servicio de mensajeria -->
+            android:resource="@drawable/ic_lastquakechile_400" /> <!-- Llamada a servicio de mensajeria -->
         <service
             android:name=".services.notifications.FCMNotification"
             android:exported="false">
