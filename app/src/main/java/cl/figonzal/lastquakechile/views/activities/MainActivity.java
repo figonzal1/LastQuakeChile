@@ -137,6 +137,18 @@ public class MainActivity extends AppCompatActivity {
         //Seteo de tabs.
         TabLayout mTabLayout = findViewById(R.id.tabs);
         mTabLayout.setupWithViewPager(mViewPager);
+
+        for (int i = 0; i < mTabLayout.getTabCount(); i++) {
+            TabLayout.Tab tab = mTabLayout.getTabAt(i);
+            assert tab != null;
+            if (i == 0) {
+                tab.setIcon(R.drawable.ic_quakes_24dp);
+            } else if (i == 1) {
+                tab.setIcon(R.drawable.ic_report_24dp);
+            } else if (i == 2) {
+                tab.setIcon(R.drawable.ic_map_24dp);
+            }
+        }
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 
             @Override

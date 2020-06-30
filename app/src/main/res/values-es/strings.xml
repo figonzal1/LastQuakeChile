@@ -68,7 +68,7 @@
     <string name="night_mode_pref_summary">Ahorra batería y evita tu cansancio ocular</string>
     <string name="night_mode_pref_title">Modo noche</string>
     <string name="tab_map">Mapa</string>
-    <string name="tab_list">Lista</string>
+    <string name="tab_list">Sismos</string>
 	<string name="HOME_PARENT">Navegar hacia arriba</string>
     <string name="LIST_QUAKE_NUMBER_SUMMARY">Últimos %1$s sismos</string>
     <string name="quake_list_number_pref_title">Datos sismos</string>

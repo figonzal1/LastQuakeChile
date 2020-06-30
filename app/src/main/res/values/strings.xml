@@ -19,7 +19,7 @@
 
     <!--TABS -->
     <string name="tab_map">Mapa</string>
-    <string name="tab_list">Listado</string>
+    <string name="tab_list">Sismos</string>
     <string name="tab_reports">Reportes</string>
 
     <!-- URL SERVIDOR HEROKU -->
