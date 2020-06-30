@@ -43,9 +43,11 @@
                 android:layout_gravity="bottom"
                 android:background="@android:color/transparent"
                 app:tabGravity="fill"
+                app:tabIconTint="@color/white"
                 app:tabIndicatorColor="@color/colorSecondary"
                 app:tabIndicatorFullWidth="true"
                 app:tabIndicatorGravity="bottom"
+                app:tabInlineLabel="true"
                 app:tabMode="fixed"
                 app:tabSelectedTextColor="@color/white"
                 app:tabTextColor="@color/grey_dark" />
