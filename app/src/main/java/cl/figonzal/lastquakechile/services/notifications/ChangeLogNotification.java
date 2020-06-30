@@ -120,7 +120,7 @@ public class ChangeLogNotification {
     private void showNotificationChangeLog(Context context) throws PackageManager.NameNotFoundException {
 
         FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
-        String changelog = "- Hola este es el nuevo changelog";
+        String changelog = "";
 
         //Maneja la notificacion cuando esta en foreground
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
@@ -129,7 +129,7 @@ public class ChangeLogNotification {
                 .setContentTitle(context.getString(R.string.NOTIFICATION_CHANGE_LOG_TITLE) + context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName)
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText(changelog))
-                .setSmallIcon(R.drawable.ic_lastquakechile_1200)
+                .setSmallIcon(R.drawable.ic_lastquakechile_400)
                 .setAutoCancel(true);
 
         if (!changelog.isEmpty()) {

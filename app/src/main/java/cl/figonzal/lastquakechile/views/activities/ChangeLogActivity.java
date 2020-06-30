@@ -42,7 +42,7 @@ public class ChangeLogActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Historial de versiones");
+        getSupportActionBar().setTitle(getString(R.string.change_logs));
 
         instanciarRecursosInterfaz();
 
