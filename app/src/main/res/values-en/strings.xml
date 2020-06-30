@@ -68,7 +68,7 @@
     <string name="night_mode_pref_summary">Save battery and avoid your eyestrain</string>
     <string name="night_mode_pref_title">Night mode</string>
     <string name="tab_map">Map</string>
-    <string name="tab_list">List</string>
+    <string name="tab_list">Quakes</string>
 	<string name="HOME_PARENT">Navigate up</string>
     <string name="LIST_QUAKE_NUMBER_SUMMARY">Last %1$s quakes</string>
     <string name="quake_list_number_pref_title">Quake data</string>
