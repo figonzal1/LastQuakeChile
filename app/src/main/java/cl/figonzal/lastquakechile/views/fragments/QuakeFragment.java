@@ -2,9 +2,7 @@ package cl.figonzal.lastquakechile.views.fragments;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,7 +27,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.appinvite.AppInviteInvitation;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
@@ -359,35 +355,6 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
             return true;
         }
         return false;
-    }
-
-
-    /**
-     * Funcion encargada de manejar el envio de la invitacion
-     *
-     * @param requestCode Fija el resultado de la operacion desde la activity
-     * @param resultCode  Entrega el resultado del intent
-     * @param data        parametro que entrega la informacion de los contactos
-     */
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        Log.d("INTENT",
-                "onActivityResult: requestCode=" + requestCode + ", resultCode=" + resultCode);
-
-        if (requestCode == 0) {
-            if (resultCode == Activity.RESULT_OK) {
-                // Get the invitation IDs of all sent messages
-                String[] mIds = AppInviteInvitation.getInvitationIds(resultCode, data);
-                for (String id : mIds) {
-                    Log.d("INTENT", "Enviando invitacion a" + id);
-                }
-            } else {
-                Log.d("INTENT", "Inviacion cancelada");
-                Toast.makeText(requireContext(), "Invitación cancelada", Toast.LENGTH_LONG).show();
-            }
-        }
     }
 
 }

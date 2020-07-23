@@ -1,5 +1,6 @@
 package cl.figonzal.lastquakechile.views.activities;
 
+import android.animation.Animator;
 import android.animation.IntEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Intent;
@@ -520,8 +521,28 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         mFabTextGM.animate().alpha(1.0f).setDuration(500);
 
         mOverlay.setAlpha(0f);
-        mOverlay.setVisibility(View.VISIBLE);
-        mOverlay.animate().alpha(0.85f).setDuration(500);
+
+        mOverlay.animate().alpha(0.85f).setDuration(500).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                mOverlay.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
 
         Log.d(getString(R.string.TAG_FAB_MENU), getString(R.string.TAG_FAB_MENU_OPEN));
         crashlytics.log(getString(R.string.TAG_FAB_MENU) + getString(R.string.TAG_FAB_MENU_OPEN));
@@ -554,8 +575,27 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
 
         //Animacion CLOSE de mOverlay
         mOverlay.setAlpha(0.85f);
-        mOverlay.animate().alpha(0.0f).setDuration(500);
-        mOverlay.setVisibility(View.GONE);
+        mOverlay.animate().alpha(0.0f).setDuration(500).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mOverlay.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
 
         Log.d(getString(R.string.TAG_FAB_MENU), getString(R.string.TAG_FAB_MENU_CLOSE));
         crashlytics.log(getString(R.string.TAG_FAB_MENU) + getString(R.string.TAG_FAB_MENU_CLOSE));

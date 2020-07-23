@@ -21,12 +21,6 @@
     <group>
 
         <item
-            android:id="@+id/invite_menu"
-            android:orderInCategory="3"
-            android:title="@string/invite"
-            app:showAsAction="never" />
-
-        <item
             android:id="@+id/changelog_menu"
             android:orderInCategory="4"
             android:title="@string/change_logs"
