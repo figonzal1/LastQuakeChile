@@ -184,6 +184,10 @@ public class FCMNotification extends FirebaseMessagingService {
      */
     private void showNotificationGeneric(RemoteMessage remoteMessage) {
 
+        Intent intentAction = new Intent(this, MyIntentService.class);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intentAction, PendingIntent.FLAG_UPDATE_CURRENT);
+
         //Maneja la notificacion cuando esta en foreground
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, getString(R.string.FIREBASE_CHANNEL_ID_QUAKES))
                 .setContentTitle(Objects.requireNonNull(remoteMessage.getNotification()).getTitle())
@@ -191,6 +195,7 @@ public class FCMNotification extends FirebaseMessagingService {
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText(remoteMessage.getNotification().getBody()))
                 .setSmallIcon(R.drawable.ic_lastquakechile_400)
+                .addAction(R.drawable.ic_report_24dp, "Lo senti", pendingIntent)
                 .setAutoCancel(true);
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);

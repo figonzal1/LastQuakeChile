@@ -17,6 +17,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <receiver
+            android:name=".services.notifications.MyIntentService"
+            android:enabled="true"
+            android:exported="false">
+        </receiver>
         <activity
             android:name=".views.activities.IntroActivity"
             android:screenOrientation="portrait"
@@ -40,7 +45,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".views.activities.MainActivity" />
         </activity>
-
         <activity
             android:name=".views.activities.ChangeLogActivity"
             android:parentActivityName=".views.activities.MainActivity"
