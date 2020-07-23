@@ -17,7 +17,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity
+
+    <activity
             android:name=".views.activities.IntroActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
