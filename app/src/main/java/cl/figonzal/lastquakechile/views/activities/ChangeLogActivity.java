@@ -68,12 +68,19 @@ public class ChangeLogActivity extends AppCompatActivity {
     private void addChangeLogs() {
 
         //NEWER FIRTS
+        changeLogList.add(new ChangeLog("v1.4.0", "2020-07-24",
+                new String[]{
+                        "- Historial de versiones",
+                        "- Mejoras visuales",
+                        "- Actualizaciones internas"
+                }
+        ));
+
         changeLogList.add(new ChangeLog("v1.3.1", "2020-03-23",
                 new String[]{
                         "- Ahora modo noche automático se activa con ahorro de energía",
                         "- Se agregan reportes sismológicos mensuales",
                         "- Actualizaciones internas",
-                        "- Publicidad no invasiva"
                 }
         ));
 
