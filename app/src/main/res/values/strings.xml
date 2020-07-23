@@ -68,6 +68,7 @@
     <string name="INTENT_ESTADO" translatable="false">estado</string>
 
     <!-- STRINGS DE LAYOUTS-->
+    <string name="tree_dots" translatable="false">&#8942;</string>
     <string name="circulo_pintado">Color magnitud sismo</string>
     <string name="imagen_toolbar">Imagen toolbar</string>
     <string name="quake_time_day" translatable="false">%1$d d</string>
