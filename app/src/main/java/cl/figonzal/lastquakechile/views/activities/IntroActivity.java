@@ -20,7 +20,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.appinvite.FirebaseAppInvite;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
@@ -87,14 +86,6 @@ public class IntroActivity extends AppCompatActivity {
                             Log.d(getString(R.string.TAG_DEEP_LINK_DATA), String.valueOf(deepLink));
                             crashlytics.log(getString(R.string.TAG_DEEP_LINK_DATA) + deepLink);
 
-                            // Extract invite
-                            FirebaseAppInvite invite = FirebaseAppInvite.getInvitation(data);
-                            if (invite != null) {
-                                String invitationId = invite.getInvitationId();
-
-                                Log.d(getString(R.string.TAG_INVITATION_ID), invitationId);
-                                crashlytics.log(getString(R.string.TAG_INVITATION_ID) + invitationId);
-                            }
                         }
                     }
                 })

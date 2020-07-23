@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'com.google.firebase.firebase-perf'
 
 android {
     def keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -35,14 +36,20 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.lastquakechilesign
+            FirebasePerformance {
+                instrumentationEnabled true
+            }
         }
-        /*debug {
-            debuggable true
-            minifyEnabled false
-            //Desactiva Crashlytics para compilacion
-            //ext.enableCrashlytics = true
-            //ext.alwaysUpdateBuildId = false
-        }*/
+        debug {
+            FirebasePerformance {
+                instrumentationEnabled false
+            }
+            firebaseCrashlytics {
+                // If you don't need crash reporting for your debug build,
+                // you can speed up your build by disabling mapping file uploading.
+                mappingFileUploadEnabled false
+            }
+        }
     }
 }
 
@@ -51,12 +58,12 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.core:core:1.3.0'
     implementation 'androidx.fragment:fragment:1.2.5'
-
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    //Viewmodel Extension
+    implementation "androidx.lifecycle:lifecycle-viewmodel:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-livedata:2.2.0"
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-
     implementation 'androidx.preference:preference:1.1.1' //Preferencias de usuario
 
     //Material design
@@ -72,16 +79,13 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
-    //Viewmodel Extension
-    implementation "androidx.lifecycle:lifecycle-viewmodel:2.2.0"
-    implementation "androidx.lifecycle:lifecycle-livedata:2.2.0"
-
     //Firebase
-    implementation 'com.google.firebase:firebase-core:17.4.3'
-    implementation 'com.google.firebase:firebase-messaging:20.2.1'
-    implementation 'com.google.firebase:firebase-crashlytics:17.1.0'
-    implementation 'com.google.firebase:firebase-invites:17.0.0'
+    implementation 'com.google.firebase:firebase-messaging:20.2.3'
+    implementation 'com.google.firebase:firebase-analytics:17.4.4'
+    implementation 'com.google.firebase:firebase-crashlytics:17.1.1'
+    implementation 'com.google.firebase:firebase-dynamic-links:19.1.0'
     implementation 'com.google.firebase:firebase-ads:19.2.0'
+    implementation 'com.google.firebase:firebase-perf:19.0.8'
 
     //Googleplay
     implementation 'com.google.android.gms:play-services-maps:17.0.0'

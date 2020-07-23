@@ -5,13 +5,9 @@ buildscript {
     repositories {
         google()
         jcenter()
-        // Add repository FIREBASE CRASH ANALITYCS
-        maven {
-            url 'https://maven.fabric.io/public'
-        }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.0'
+        classpath 'com.android.tools.build:gradle:4.0.1'
 
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -21,8 +17,11 @@ buildscript {
         // Check for v3.1.2 or higher
         classpath 'com.google.gms:google-services:4.3.3'
 
-        // Add the Crashlytics Gradle plugin.
+        // Add the Firebase Crashlytics Gradle plugin.
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.2.0'
+
+        // Add the dependency for the Performance Monitoring plugin
+        classpath 'com.google.firebase:perf-plugin:1.3.1'  // Performance Monitoring plugin
     }
 }
 
@@ -30,12 +29,6 @@ allprojects {
     repositories {
         google()
         jcenter()
-
-        //FIREBASE CRASH ANALYTICS
-        // Add repository
-        maven {
-            url 'https://maven.google.com/'
-        }
     }
 }
 
