@@ -120,7 +120,8 @@ public class ChangeLogNotification {
     private void showNotificationChangeLog(Context context) throws PackageManager.NameNotFoundException {
 
         FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
-        String changelog = "";
+        //TODO: LLENAR CHANGE LOG PARA CADA DEPLOY (SI HAY)
+        String changelog = context.getString(R.string.LAST_CHANGE_LOG);
 
         //Maneja la notificacion cuando esta en foreground
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
