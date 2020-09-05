@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 import androidx.viewpager.widget.ViewPager;
 
@@ -104,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
                 new OnSuccessListener<InstanceIdResult>() {
                     @Override
                     public void onSuccess(InstanceIdResult instanceIdResult) {
+
                         String token = instanceIdResult.getToken();
                         Log.e(getString(R.string.TAG_FIREBASE_TOKEN), token);
 
@@ -118,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
      * Setear elementos de UI necesarios para el funcionamiento de la APP
      */
     private void setToolbarViewPagerTabs() {
+
         //Buscar toolbar en resources
         Toolbar mToolbar = findViewById(R.id.tool_bar);
 
@@ -131,26 +134,34 @@ public class MainActivity extends AppCompatActivity {
         ViewPager mViewPager = findViewById(R.id.view_pager);
         mViewPager.setAdapter(new FragmentPageAdapter(getSupportFragmentManager(), getApplicationContext()));
 
-
         //Seteo de tabs.
         TabLayout mTabLayout = findViewById(R.id.tabs);
         mTabLayout.setupWithViewPager(mViewPager);
 
         for (int i = 0; i < mTabLayout.getTabCount(); i++) {
+
             TabLayout.Tab tab = mTabLayout.getTabAt(i);
-            assert tab != null;
-            if (i == 0) {
-                tab.setIcon(R.drawable.ic_quakes_24dp);
-            } else if (i == 1) {
-                tab.setIcon(R.drawable.ic_report_24dp);
-            } else if (i == 2) {
-                tab.setIcon(R.drawable.ic_map_24dp);
+
+            if (tab != null) {
+
+                if (i == 0) {
+
+                    tab.setIcon(R.drawable.ic_quakes_24dp);
+                } else if (i == 1) {
+
+                    tab.setIcon(R.drawable.ic_report_24dp);
+                } else if (i == 2) {
+
+                    tab.setIcon(R.drawable.ic_map_24dp);
+                }
             }
         }
+
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+
                 if (tab.getPosition() == 2) {
                     mAppBarLayout.setExpanded(false);
                 } else {
@@ -174,16 +185,16 @@ public class MainActivity extends AppCompatActivity {
         CollapsingToolbarLayout mCollapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
         mCollapsingToolbarLayout.setTitleEnabled(true);
 
-        int modeNightType = getResources().getConfiguration().uiMode &
-                Configuration.UI_MODE_NIGHT_MASK;
+        int modeNightType = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
 
         //Detecta modo noche automatico como YES
         if (modeNightType == Configuration.UI_MODE_NIGHT_YES) {
-            mCollapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.colorPrimaryNightMode
-                    , getTheme()));
+
+            mCollapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.colorPrimaryNightMode, getTheme()));
+
         } else if (modeNightType == Configuration.UI_MODE_NIGHT_NO) {
-            mCollapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.colorPrimary,
-                    getTheme()));
+
+            mCollapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.colorPrimary, getTheme()));
         }
     }
 
@@ -191,7 +202,9 @@ public class MainActivity extends AppCompatActivity {
      * Funcion encargada de cargar la imagen de fondo en el toolbar
      */
     private void loadImageToolbar() {
+
         mIvFoto = findViewById(R.id.toolbar_image);
+
         Glide.with(this)
                 .load(R.drawable.foto)
                 .apply(
@@ -205,7 +218,8 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onLoadFailed(@Nullable GlideException e, Object model,
                                                 Target<Drawable> target,
                                                 boolean isFirstResource) {
-                        mIvFoto.setImageDrawable(getDrawable(R.drawable.not_found));
+
+                        mIvFoto.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.not_found));
                         return false;
                     }
 
@@ -224,8 +238,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
+
         return true;
     }
 
@@ -235,13 +251,17 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
 
             case R.id.changelog_menu:
+
                 Intent intent = new Intent(MainActivity.this, ChangeLogActivity.class);
                 startActivity(intent);
+
                 return true;
 
             case R.id.settings_menu:
+
                 Intent intent2 = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(intent2);
+
                 return true;
 
 

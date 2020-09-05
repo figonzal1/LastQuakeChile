@@ -13,6 +13,7 @@ public class VolleySingleton {
     private RequestQueue mQueue;
 
     private VolleySingleton(Context context) {
+
         mContext = context.getApplicationContext();
         mQueue = getRequestQueue();
     }
@@ -27,8 +28,10 @@ public class VolleySingleton {
 
         //Si la instancia no existe
         if (sVolleySingleton == null) {
+
             sVolleySingleton = new VolleySingleton(context);
         }
+
         return sVolleySingleton;
     }
 
@@ -42,6 +45,7 @@ public class VolleySingleton {
         if (mQueue == null) {
             mQueue = Volley.newRequestQueue(mContext);
         }
+
         return mQueue;
     }
 
@@ -52,11 +56,13 @@ public class VolleySingleton {
      * @param <T> //
      */
     public <T> void addToRequestQueue(Request<T> req, Object tag) {
+
         req.setTag(tag);
         getRequestQueue().add(req);
     }
 
     public void cancelPendingRequests(Object tag) {
+
         if (mQueue != null) {
             mQueue.cancelAll(tag);
         }

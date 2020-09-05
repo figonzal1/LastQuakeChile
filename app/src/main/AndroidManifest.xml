@@ -73,7 +73,7 @@
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_lastquakechile_400" /> <!-- Llamada a servicio de mensajeria -->
         <service
-            android:name=".services.notifications.FCMNotification"
+            android:name=".services.notifications.QuakesNotification"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

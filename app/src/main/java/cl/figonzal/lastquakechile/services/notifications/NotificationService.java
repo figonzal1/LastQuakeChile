@@ -15,12 +15,12 @@ public class NotificationService {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
-            FCMNotification.createQuakeChannel(context);
+            QuakesNotification.createQuakeChannel(context);
             ChangeLogNotification.createChangeLogChannel(context);
         }
     }
 
     public static void checkSuscriptions(Activity activity) {
-        FCMNotification.checkSuscriptionQuakes(activity);
+        QuakesNotification.checkSuscriptionQuakes(activity);
     }
 }

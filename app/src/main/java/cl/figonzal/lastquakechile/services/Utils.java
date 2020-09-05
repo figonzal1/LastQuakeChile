@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.preference.PreferenceManager;
 
@@ -56,7 +57,6 @@ public class Utils {
         mDiff = mActualTime - mQuakeTime;
 
         return mDiff;
-
     }
 
     /**
@@ -100,21 +100,11 @@ public class Utils {
      * @param sFecha Fecha en string que será convertida en date
      * @return dFecha Fecha en Date entregada por le funcion
      */
-    public static Date stringToDate(Context context, String sFecha) {
+    public static Date stringToDate(Context context, String sFecha) throws ParseException {
 
-        SimpleDateFormat mFormat =
-                new SimpleDateFormat(context.getString(R.string.DATETIME_FORMAT),
-                        Locale.US);
-        Date mDFecha = null;
+        SimpleDateFormat mFormat = new SimpleDateFormat(context.getString(R.string.DATETIME_FORMAT), Locale.US);
 
-        try {
-            mDFecha = mFormat.parse(sFecha);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        return mDFecha;
+        return mFormat.parse(sFecha);
     }
 
     /**
@@ -125,8 +115,8 @@ public class Utils {
      * @return String de la fecha
      */
     public static String dateToString(Context context, Date dFecha) {
-        SimpleDateFormat mFormat =
-                new SimpleDateFormat(context.getString(R.string.DATETIME_FORMAT), Locale.US);
+
+        SimpleDateFormat mFormat = new SimpleDateFormat(context.getString(R.string.DATETIME_FORMAT), Locale.US);
 
         return mFormat.format(dFecha);
     }
@@ -142,23 +132,29 @@ public class Utils {
 
         int mMagFloor = (int) Math.floor(magnitude);
         int mMagResourseId;
+
         switch (mMagFloor) {
 
             case 1:
+
                 if (forMapa) {
                     mMagResourseId = R.color.magnitude1_alpha;
                 } else {
                     mMagResourseId = R.color.magnitude1;
                 }
+
                 break;
 
             case 2:
+
                 if (forMapa) {
                     mMagResourseId = R.color.magnitude2_alpha;
                 } else {
                     mMagResourseId = R.color.magnitude2;
                 }
+
                 break;
+
             case 3:
 
                 if (forMapa) {
@@ -166,7 +162,9 @@ public class Utils {
                 } else {
                     mMagResourseId = R.color.magnitude3;
                 }
+
                 break;
+
             case 4:
 
                 if (forMapa) {
@@ -174,7 +172,9 @@ public class Utils {
                 } else {
                     mMagResourseId = R.color.magnitude4;
                 }
+
                 break;
+
             case 5:
 
                 if (forMapa) {
@@ -182,7 +182,9 @@ public class Utils {
                 } else {
                     mMagResourseId = R.color.magnitude5;
                 }
+
                 break;
+
             case 6:
 
                 if (forMapa) {
@@ -191,20 +193,25 @@ public class Utils {
                     mMagResourseId = R.color.magnitude6;
                 }
                 break;
+
             case 7:
+
                 if (forMapa) {
                     mMagResourseId = R.color.magnitude7_alpha;
                 } else {
                     mMagResourseId = R.color.magnitude7;
                 }
                 break;
+
             case 8:
             case 9:
+
                 if (forMapa) {
                     mMagResourseId = R.color.magnitude8_alpha;
                 } else {
                     mMagResourseId = R.color.magnitude8;
                 }
+
                 break;
 
             //Si no, se elige color por defecto
@@ -231,8 +238,7 @@ public class Utils {
         double mMinutes = Math.floor((((abs - mLatGradosLet) * 3600) / 60)); // 71.43 -71 = 0.43
         // =25.8 = 25
         //(71.43 - 71)*3600 /60 - (71.43-71)*3600/60 = 25.8 - 25 =0.8
-        double mSeconds =
-                ((((abs - mLatGradosLet) * 3600) / 60) - mMinutes) * 60;
+        double mSeconds = ((((abs - mLatGradosLet) * 3600) / 60) - mMinutes) * 60;
 
         mDMS.put("grados", Math.floor(Math.abs(input)));
         mDMS.put("minutos", (double) Math.round(mMinutes));
@@ -248,24 +254,14 @@ public class Utils {
      * @param context Contexto necesario para usar recursos
      * @return Path de la imagen
      */
-    public static Uri getLocalBitmapUri(Bitmap bitmap, Context context) {
+    public static Uri getLocalBitmapUri(Bitmap bitmap, Context context) throws IOException {
 
-        Uri mBmpUri = null;
+        File mFile = new File(context.getCacheDir(), "share_image_" + System.currentTimeMillis() + ".jpeg");
+        FileOutputStream out = new FileOutputStream(mFile);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+        out.close();
 
-        try {
-            File mFile = new File(context.getCacheDir(),
-                    "share_image_" + System.currentTimeMillis() + ".jpeg");
-            FileOutputStream out = new FileOutputStream(mFile);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-            out.close();
-
-            mBmpUri = FileProvider.getUriForFile(context, "cl.figonzal.lastquakechile.fileprovider"
-                    , mFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return mBmpUri;
-
+        return FileProvider.getUriForFile(context, "cl.figonzal.lastquakechile.fileprovider", mFile);
     }
 
     /**
@@ -279,6 +275,7 @@ public class Utils {
         FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
 
         Intent mIntent;
+
         try {
             //Intenta abrir google play
             mIntent = new Intent(Intent.ACTION_VIEW);
@@ -286,20 +283,18 @@ public class Utils {
             mIntent.setData(Uri.parse("market://details?id=" + packageName));
 
             //LOG
-            Log.d(context.getString(R.string.TAG_INTENT),
-                    context.getString(R.string.TAG_INTENT_GOOGLEPLAY));
+            Log.d(context.getString(R.string.TAG_INTENT), context.getString(R.string.TAG_INTENT_GOOGLEPLAY));
             crashlytics.log(context.getString(R.string.TAG_INTENT) + context.getString(R.string.TAG_INTENT_GOOGLEPLAY));
 
             context.startActivity(mIntent);
+
         } catch (android.content.ActivityNotFoundException anfe) {
 
             //Si gogle play no esta abre webview
-            Log.d(context.getString(R.string.TAG_INTENT),
-                    context.getString(R.string.TAG_INTENT_NAVEGADOR));
+            Log.d(context.getString(R.string.TAG_INTENT), context.getString(R.string.TAG_INTENT_NAVEGADOR));
             crashlytics.log(context.getString(R.string.TAG_INTENT) + context.getString(R.string.TAG_INTENT_NAVEGADOR));
 
-            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google" +
-                    ".com/store/apps/details?id=" + packageName)));
+            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google" + ".com/store/apps/details?id=" + packageName)));
         }
     }
 
@@ -322,24 +317,28 @@ public class Utils {
         if (mDays != null && mDays == 0) {
 
             if (mHours != null && mHours >= 1) {
-                tv_hora.setText(String.format(context.getString(R.string.quake_time_hour),
-                        mHours));
+
+                tv_hora.setText(String.format(context.getString(R.string.quake_time_hour), mHours));
+
             } else {
-                tv_hora.setText(String.format(context.getString(R.string.quake_time_minute),
-                        mMinutes));
+
+                tv_hora.setText(String.format(context.getString(R.string.quake_time_minute), mMinutes));
 
                 if (mMinutes != null && mMinutes < 1) {
-                    tv_hora.setText(String.format(context.getString(R.string.quake_time_second),
-                            mSeconds));
+
+                    tv_hora.setText(String.format(context.getString(R.string.quake_time_second), mSeconds));
                 }
             }
+
         } else if (mDays != null && mDays > 0) {
 
             if (mHours != null && mHours == 0) {
+
                 tv_hora.setText(String.format(context.getString(R.string.quake_time_day), mDays));
+
             } else if (mHours != null && mHours >= 1) {
-                tv_hora.setText(String.format(context.getString(R.string.quake_time_day_hour),
-                        mDays, mHours / 24));
+
+                tv_hora.setText(String.format(context.getString(R.string.quake_time_day_hour), mDays, mHours / 24));
             }
         }
     }
@@ -352,18 +351,17 @@ public class Utils {
      * @param tv_estado Texview que tendrá el valor de estado
      * @param iv_estado ImageView fijada dependiendo del valor de estado
      */
-    public static void setStatusImage(Context context, String estado, TextView tv_estado,
-                                      ImageView iv_estado) {
+    public static void setStatusImage(Context context, String estado, TextView tv_estado, ImageView iv_estado) {
+
         if (estado.equals("preliminar")) {
-            tv_estado.setText(String.format(Locale.US,
-                    context.getString(R.string.quakes_details_estado_sismo),
-                    context.getString(R.string.quakes_details_estado_sismo_preliminar)));
-            iv_estado.setImageDrawable(context.getDrawable(R.drawable.ic_progress_check_24));
+
+            tv_estado.setText(String.format(Locale.US, context.getString(R.string.quakes_details_estado_sismo), context.getString(R.string.quakes_details_estado_sismo_preliminar)));
+            iv_estado.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_progress_check_24));
+
         } else if (estado.equals("verificado")) {
-            tv_estado.setText(String.format(Locale.US,
-                    context.getString(R.string.quakes_details_estado_sismo),
-                    context.getString(R.string.quakes_details_estado_sismo_verificado)));
-            iv_estado.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_check_circle_24px));
+
+            tv_estado.setText(String.format(Locale.US, context.getString(R.string.quakes_details_estado_sismo), context.getString(R.string.quakes_details_estado_sismo_verificado)));
+            iv_estado.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_baseline_check_circle_24px));
         }
     }
 
@@ -377,14 +375,13 @@ public class Utils {
     public static void setEscala(Context context, String escala, TextView tv_escala) {
 
         switch (escala) {
+
             case "Ml":
-                tv_escala.setText(String.format(context.getString(R.string.quake_details_escala),
-                        context.getString(R.string.quake_details_magnitud_local)));
+                tv_escala.setText(String.format(context.getString(R.string.quake_details_escala), context.getString(R.string.quake_details_magnitud_local)));
                 break;
 
             case "Mw":
-                tv_escala.setText(String.format(context.getString(R.string.quake_details_escala),
-                        context.getString(R.string.quake_details_magnitud_momento)));
+                tv_escala.setText(String.format(context.getString(R.string.quake_details_escala), context.getString(R.string.quake_details_magnitud_momento)));
                 break;
 
         }
@@ -401,28 +398,22 @@ public class Utils {
         FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
 
         //Leer preference settings
-        SharedPreferences sharedPreferences =
-                PreferenceManager.getDefaultSharedPreferences(activity);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
 
-        boolean manual_night_mode =
-                sharedPreferences.getBoolean(activity.getString(R.string.NIGHT_MODE_MANUAL_KEY),
-                        false);
+        boolean manual_night_mode = sharedPreferences.getBoolean(activity.getString(R.string.NIGHT_MODE_MANUAL_KEY), false);
 
-        boolean auto_night_mode =
-                sharedPreferences.getBoolean(activity.getString(R.string.NIGHT_MODE_AUTO_KEY),
-                        false);
+        boolean auto_night_mode = sharedPreferences.getBoolean(activity.getString(R.string.NIGHT_MODE_AUTO_KEY), false);
 
         //MODO MANUAL
         //Si el modo manual esta activado
         if (manual_night_mode) {
+
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             window.setStatusBarColor(activity.getColor(R.color.colorPrimaryVariantNightMode));
 
             //fixAdViewNightMode(activity);
 
-            Log.d(activity.getString(R.string.TAG_NIGHT_MODE_MANUAL),
-                    activity.getString(R.string.TAG_NIGHT_MODE_STATUS_ON));
-
+            Log.d(activity.getString(R.string.TAG_NIGHT_MODE_MANUAL), activity.getString(R.string.TAG_NIGHT_MODE_STATUS_ON));
             crashlytics.log(activity.getString(R.string.TAG_NIGHT_MODE_MANUAL) + activity.getString(R.string.TAG_NIGHT_MODE_STATUS_ON));
         }
 
@@ -432,21 +423,18 @@ public class Utils {
 
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY);
 
-            Log.d(activity.getString(R.string.TAG_NIGHT_MODE_AUTO),
-                    activity.getString(R.string.TAG_NIGHT_MODE_STATUS_ON));
-
+            Log.d(activity.getString(R.string.TAG_NIGHT_MODE_AUTO), activity.getString(R.string.TAG_NIGHT_MODE_STATUS_ON));
             crashlytics.log(activity.getString(R.string.TAG_NIGHT_MODE_AUTO) + activity.getString(R.string.TAG_NIGHT_MODE_STATUS_ON));
         }
 
         //DESACTIVADO
         //Si el modo nocturno esta desactivado
         else {
+
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             window.setStatusBarColor(activity.getColor(R.color.colorPrimaryVariant));
 
-            Log.d(activity.getString(R.string.TAG_NIGHT_MODE),
-                    activity.getString(R.string.TAG_NIGHT_MODE_STATUS_OFF));
-
+            Log.d(activity.getString(R.string.TAG_NIGHT_MODE), activity.getString(R.string.TAG_NIGHT_MODE_STATUS_OFF));
             crashlytics.log(activity.getString(R.string.TAG_NIGHT_MODE) + activity.getString(R.string.TAG_NIGHT_MODE_STATUS_OFF));
         }
     }
@@ -457,13 +445,13 @@ public class Utils {
      * @param activity Actividad desde donde proviene el adview
      */
     private static void fixAdViewNightMode(Activity activity) {
-        Log.d(activity.getString(R.string.tag_adview_night_mode),
-                activity.getString(R.string.tag_adview_night_mode_response));
+
+        Log.d(activity.getString(R.string.tag_adview_night_mode), activity.getString(R.string.tag_adview_night_mode_response));
+
         try {
             new WebView(activity.getApplicationContext());
         } catch (Exception e) {
-            Log.e(activity.getString(R.string.tag_adview_night_mode),
-                    activity.getString(R.string.tag_adview_night_mode_response_error), e);
+            Log.e(activity.getString(R.string.tag_adview_night_mode), activity.getString(R.string.tag_adview_night_mode_response_error), e);
         }
     }
 
@@ -484,24 +472,24 @@ public class Utils {
             //Si el error puede ser resuelto por el usuario
             if (mGoogleApiAvailability.isUserResolvableError(resultCode)) {
 
-                Dialog dialog = mGoogleApiAvailability.getErrorDialog(activity, resultCode,
-                        PLAY_SERVICES_RESOLUTION_REQUEST);
+                Dialog dialog = mGoogleApiAvailability.getErrorDialog(activity, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST);
                 dialog.setCanceledOnTouchOutside(false);
                 dialog.show();
+
             } else {
 
                 //El error no puede ser resuelto por el usuario y la app se cierra
-                Log.d(activity.getString(R.string.TAG_GOOGLE_PLAY),
-                        activity.getString(R.string.GOOGLE_PLAY_NOSOPORTADO));
+                Log.d(activity.getString(R.string.TAG_GOOGLE_PLAY), activity.getString(R.string.GOOGLE_PLAY_NOSOPORTADO));
                 crashlytics.log(activity.getString(R.string.TAG_GOOGLE_PLAY) + activity.getString(R.string.GOOGLE_PLAY_NOSOPORTADO));
+
                 activity.finish();
             }
         }
+
         //La app puede ser utilizada, google play esta actualizado
         else {
 
-            Log.d(activity.getString(R.string.TAG_GOOGLE_PLAY),
-                    activity.getString(R.string.GOOGLE_PLAY_ACTUALIZADO));
+            Log.d(activity.getString(R.string.TAG_GOOGLE_PLAY), activity.getString(R.string.GOOGLE_PLAY_ACTUALIZADO));
             crashlytics.log(activity.getString(R.string.TAG_GOOGLE_PLAY) + activity.getString(R.string.GOOGLE_PLAY_ACTUALIZADO));
         }
     }
@@ -514,9 +502,11 @@ public class Utils {
      * @return Date con las horas ya sumadas
      */
     public static Date addHoursToJavaUtilDate(Date date, int hours) {
+
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.add(Calendar.HOUR_OF_DAY, hours);
+
         return calendar.getTime();
     }
 

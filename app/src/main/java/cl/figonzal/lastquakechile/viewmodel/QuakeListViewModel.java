@@ -37,16 +37,20 @@ public class QuakeListViewModel extends AndroidViewModel {
     public MutableLiveData<List<QuakeModel>> showQuakeList() {
 
         if (mQuakeMutableList == null) {
+
             mQuakeMutableList = new MutableLiveData<>();
 
             mQuakeRepository = QuakeRepository.getIntance(getApplication());
             mQuakeMutableList = mQuakeRepository.getQuakes();
         }
+
         return mQuakeMutableList;
     }
 
     public MutableLiveData<Boolean> isLoading() {
+
         mQuakeRepository = QuakeRepository.getIntance(getApplication());
+
         return mQuakeRepository.getIsLoading();
     }
 
@@ -54,6 +58,7 @@ public class QuakeListViewModel extends AndroidViewModel {
      * La funcion fuerza el refresh de los datos del mutable
      */
     public void refreshMutableQuakeList() {
+
         mQuakeRepository = QuakeRepository.getIntance(getApplication());
         mQuakeRepository.getQuakes();
     }
@@ -67,6 +72,7 @@ public class QuakeListViewModel extends AndroidViewModel {
     public SingleLiveEvent<String> showMsgErrorList() {
 
         mQuakeRepository = QuakeRepository.getIntance(getApplication());
+
         return mQuakeRepository.getResponseMsgErrorList();
     }
 
@@ -90,6 +96,7 @@ public class QuakeListViewModel extends AndroidViewModel {
         List<QuakeModel> mQuakeList = mQuakeRepository.getQuakeList();
 
         if (mQuakeList.size() > 0 && !s.isEmpty()) {
+
             //Lista utilizada para el searchView
             List<QuakeModel> filteredList = new ArrayList<>();
 
@@ -107,6 +114,5 @@ public class QuakeListViewModel extends AndroidViewModel {
             }
             mQuakeMutableFilterList.postValue(filteredList);
         }
-
     }
 }

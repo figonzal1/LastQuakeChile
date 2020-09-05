@@ -29,7 +29,6 @@ import cl.figonzal.lastquakechile.R;
 public class IntroActivity extends AppCompatActivity {
 
 
-    private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private Button btnGetStarted;
     private ImageView ivIcon;
@@ -48,8 +47,7 @@ public class IntroActivity extends AppCompatActivity {
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         //FULLSCREEN
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_intro);
 
@@ -60,7 +58,6 @@ public class IntroActivity extends AppCompatActivity {
         checkFirstLoad();
 
         manageDynamicLink();
-
     }
 
     private void manageDynamicLink() {
@@ -71,11 +68,10 @@ public class IntroActivity extends AppCompatActivity {
                 .addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
                     @Override
                     public void onSuccess(PendingDynamicLinkData data) {
+
                         if (data == null) {
 
-                            Log.d(getString(R.string.TAG_DEEP_LINK_INVITATION),
-                                    getString(R.string.INVITATION_STATUS));
-
+                            Log.d(getString(R.string.TAG_DEEP_LINK_INVITATION), getString(R.string.INVITATION_STATUS));
                             crashlytics.log(getString(R.string.TAG_DEEP_LINK_INVITATION) + getString(R.string.INVITATION_STATUS));
 
                         } else {
@@ -92,8 +88,8 @@ public class IntroActivity extends AppCompatActivity {
                 .addOnFailureListener(this, new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(getString(R.string.TAG_INVITATION_RECEIVE), "getDynamicLink" +
-                                ":onFailure", e);
+
+                        Log.w(getString(R.string.TAG_INVITATION_RECEIVE), "getDynamicLink" + ":onFailure", e);
                     }
                 });
     }
@@ -120,6 +116,7 @@ public class IntroActivity extends AppCompatActivity {
     }
 
     private void startAnimations() {
+
         //iniciar las animaciones de icono, texto y boton.
         ivIcon.startAnimation(pulse);
         tvApp.startAnimation(animText);
@@ -128,7 +125,8 @@ public class IntroActivity extends AppCompatActivity {
     }
 
     private void checkFirstLoad() {
-        sharedPreferences = getSharedPreferences(getString(R.string.SHARED_PREF_MASTER_KEY), Context.MODE_PRIVATE);
+
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.SHARED_PREF_MASTER_KEY), Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
         boolean isFirstLoad = sharedPreferences.getBoolean(getString(R.string.SHARED_PREF_FIRST_LOAD), true);
@@ -145,6 +143,7 @@ public class IntroActivity extends AppCompatActivity {
         btnGetStarted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 editor.putBoolean(getString(R.string.SHARED_PREF_FIRST_LOAD), false);
                 editor.apply();
 

@@ -1,5 +1,7 @@
 package cl.figonzal.lastquakechile.model;
 
+import androidx.annotation.NonNull;
+
 public class QuakesCity {
 
     private int id;
@@ -42,8 +44,10 @@ public class QuakesCity {
         this.n_sismos = n_sismos;
     }
 
+    @NonNull
     @Override
     public String toString() {
+
         return "QuakesCity{" +
                 "id=" + id +
                 ", id_reports=" + id_reports +
