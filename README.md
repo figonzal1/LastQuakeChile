@@ -1,4 +1,4 @@
-# LastQuakeChile <br/> [![CodeFactor](https://www.codefactor.io/repository/github/figonzal1/lastquakechile/badge)](https://www.codefactor.io/repository/github/figonzal1/lastquakechile) [![Known Vulnerabilities](https://snyk.io/test/github/figonzal1/LastQuakeChile/badge.svg)](https://snyk.io/test/github/figonzal1/LastQuakeChile)
+# LastQuakeChile <br/> [![CodeFactor](https://www.codefactor.io/repository/github/figonzal1/lastquakechile/badge)](https://www.codefactor.io/repository/github/figonzal1/lastquakechile) [![Known Vulnerabilities](https://snyk.io/test/github/figonzal1/LastQuakeChile/badge.svg)](https://snyk.io/test/github/figonzal1/LastQuakeChile) ![GitHub followers](https://img.shields.io/badge/HH-119.75%20[hr]-blueviolet)
 
 | MasterBranch | DevBranch |
 |--------|------------|
