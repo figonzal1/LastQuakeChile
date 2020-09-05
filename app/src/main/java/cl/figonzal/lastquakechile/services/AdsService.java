@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.reward.RewardItem;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
@@ -32,6 +33,7 @@ public class AdsService {
     private FirebaseCrashlytics crashlytics;
 
     public AdsService(Context context, FragmentManager fragmentManager) {
+
         this.context = context;
         this.fragmentManager = fragmentManager;
         sharedPreferences = context.getSharedPreferences(context.getString(R.string.SHARED_PREF_MASTER_KEY), Context.MODE_PRIVATE);
@@ -60,6 +62,7 @@ public class AdsService {
                     .TAG_REWARD_STATUS_EN_PERIODO));
 
             boolean showDialog = Utils.generateRandomNumber();
+
             if (showDialog) {
 
                 //Cargar dialog
@@ -71,6 +74,7 @@ public class AdsService {
                         .TAG_RANDOM_SHOW_REWARD_DIALOG_ON));
 
             } else {
+
                 Log.d(context.getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG), context.getString(R.string
                         .TAG_RANDOM_SHOW_REWARD_DIALOG_OFF));
                 crashlytics.log(context.getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG) + context.getString(R.string
@@ -80,6 +84,7 @@ public class AdsService {
 
         //Si el periodo de reward aun no pasa
         else if (now_date.before(reward_date)) {
+
             Log.d(context.getString(R.string.TAG_REWARD_STATUS), context.getString(R.string.TAG_REWARD_STATUS_PERIODO_INACTIVO));
             crashlytics.log(context.getString(R.string.TAG_REWARD_STATUS) + context.getString(R.string.TAG_REWARD_STATUS_PERIODO_INACTIVO));
         }
@@ -89,12 +94,14 @@ public class AdsService {
      * Funcion encargada de cargar el video de bonificacion
      */
     public void loadRewardedVideo(final Activity activity) {
+
         rewardedVideoAd = MobileAds.getRewardedVideoAdInstance(context);
         rewardedVideoAd.loadAd(context.getString(R.string.ADMOB_ID_VIDEO), new AdRequest.Builder().build());
 
         rewardedVideoAd.setRewardedVideoAdListener(new RewardedVideoAdListener() {
             @Override
             public void onRewardedVideoAdLoaded() {
+
                 Log.d(context.getString(R.string.TAG_VIDEO_REWARD_STATUS), context.getString(R.string
                         .TAG_VIDEO_REWARD_STATUS_LOADED));
                 crashlytics.log(context.getString(R.string.TAG_VIDEO_REWARD_STATUS) + context.getString(R.string
@@ -136,6 +143,7 @@ public class AdsService {
 
             @Override
             public void onRewardedVideoCompleted() {
+
                 Log.d(context.getString(R.string.TAG_VIDEO_REWARD_STATUS), context.getString(R.string
                         .TAG_VIDEO_REWARD_STATUS_COMPLETED));
                 crashlytics.log(context.getString(R.string.TAG_VIDEO_REWARD_STATUS) + context.getString(R.string
@@ -143,17 +151,13 @@ public class AdsService {
 
                 Date date_now = new Date();
 
-                Log.d(context.getString(R.string.TAG_POST_REWARD_HORA_AHORA), Utils.dateToString
-                        (context.getApplicationContext(), date_now));
-                crashlytics.log(context.getString(R.string.TAG_POST_REWARD_HORA_AHORA) + Utils.dateToString
-                        (context.getApplicationContext(), date_now));
+                Log.d(context.getString(R.string.TAG_POST_REWARD_HORA_AHORA), Utils.dateToString(context.getApplicationContext(), date_now));
+                crashlytics.log(context.getString(R.string.TAG_POST_REWARD_HORA_AHORA) + Utils.dateToString(context.getApplicationContext(), date_now));
 
                 //sumar 24 horas al tiempo del celular
                 Date date_new = Utils.addHoursToJavaUtilDate(date_now, 24);
-                Log.d(context.getString(R.string.TAG_POST_REWARD_HORA_REWARD), Utils.dateToString
-                        (context, date_new));
-                crashlytics.log(context.getString(R.string.TAG_POST_REWARD_HORA_REWARD) + Utils.dateToString
-                        (context, date_new));
+                Log.d(context.getString(R.string.TAG_POST_REWARD_HORA_REWARD), Utils.dateToString(context, date_new));
+                crashlytics.log(context.getString(R.string.TAG_POST_REWARD_HORA_REWARD) + Utils.dateToString(context, date_new));
 
                 //Guardar fecha de termino de reward
                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -185,9 +189,11 @@ public class AdsService {
 
         //si las 24 horas ya pasaron, cargar los ads nuevamente
         if (now_date.after(reward_date)) {
+
             loadAds(mAdView);
             Log.d(context.getString(R.string.TAG_FRAGMENT_LIST), context.getString(R.string.TAG_ADS_LOADED));
             crashlytics.log(context.getString(R.string.TAG_FRAGMENT_LIST) + context.getString(R.string.TAG_ADS_LOADED));
+
         } else {
             mAdView.setVisibility(View.GONE);
             Log.d(context.getString(R.string.TAG_FRAGMENT_LIST), context.getString(R.string.TG_ADS_NOT_LOADED));
@@ -207,14 +213,16 @@ public class AdsService {
         mAdView.setAdListener(new AdListener() {
 
             @Override
-            public void onAdFailedToLoad(int i) {
+            public void onAdFailedToLoad(LoadAdError loadAdError) {
+
                 Log.d(context.getString(R.string.TAG_ADMOB_AD_STATUS), context.getString(R.string.TAG_ADMOB_AD_STATUS_FAILED));
                 mAdView.setVisibility(View.GONE);
-                super.onAdFailedToLoad(i);
+                super.onAdFailedToLoad(loadAdError);
             }
 
             @Override
             public void onAdLoaded() {
+
                 Log.d(context.getString(R.string.TAG_ADMOB_AD_STATUS), context.getString(R.string.TAG_ADMOB_AD_STATUS_LOADED));
                 crashlytics.log(context.getString(R.string.TAG_ADMOB_AD_STATUS) + context.getString(R.string.TAG_ADMOB_AD_STATUS_LOADED));
 
@@ -224,6 +232,7 @@ public class AdsService {
 
             @Override
             public void onAdOpened() {
+
                 Log.d(context.getString(R.string.TAG_ADMOB_AD_STATUS), context.getString(R.string.TAG_ADMOB_AD_STATUS_OPEN));
                 super.onAdOpened();
             }

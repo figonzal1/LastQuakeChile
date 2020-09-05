@@ -1,5 +1,7 @@
 package cl.figonzal.lastquakechile.model;
 
+import androidx.annotation.NonNull;
+
 import java.util.Arrays;
 
 public class ChangeLog {
@@ -38,8 +40,10 @@ public class ChangeLog {
         this.releaseDate = releaseDate;
     }
 
+    @NonNull
     @Override
     public String toString() {
+
         return "ChangeLog{" +
                 "version='" + version + '\'' +
                 ", releaseDate='" + releaseDate + '\'' +

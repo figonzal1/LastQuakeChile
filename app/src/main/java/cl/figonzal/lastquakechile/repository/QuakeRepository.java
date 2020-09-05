@@ -39,7 +39,6 @@ import cl.figonzal.lastquakechile.services.VolleySingleton;
 
 public class QuakeRepository {
 
-    private static final String TAG_GET_REPORTS = "ListadoReportes";
     private static final String TAG_GET_QUAKES = "ListadoSismos";
     private static QuakeRepository instance;
     private final Application mApplication;
@@ -48,7 +47,6 @@ public class QuakeRepository {
     private final List<QuakeModel> mQuakeList = new ArrayList<>();
     private final MutableLiveData<List<QuakeModel>> mQuakeMutableList = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isLoadingQuake = new MutableLiveData<>();
-
     private final SingleLiveEvent<String> responseMsgErrorList = new SingleLiveEvent<>();
 
     private boolean volleyError = false;
@@ -63,6 +61,7 @@ public class QuakeRepository {
     public static QuakeRepository getIntance(Application application) {
 
         if (instance == null) {
+
             instance = new QuakeRepository(application);
 
             crashlytics = FirebaseCrashlytics.getInstance();
@@ -76,6 +75,7 @@ public class QuakeRepository {
      * @return MutableLiveData con los sismos
      */
     public MutableLiveData<List<QuakeModel>> getQuakes() {
+
         sendGetQuakes();
         return mQuakeMutableList;
     }
@@ -91,6 +91,7 @@ public class QuakeRepository {
         Response.Listener<String> listener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+
                 //Parseando la informacion desde heroku get_quakes.php
                 try {
 
@@ -104,16 +105,12 @@ public class QuakeRepository {
 
                         QuakeModel mModel = new QuakeModel();
 
-                        SimpleDateFormat mFormat =
-                                new SimpleDateFormat(mApplication.getString(R.string.DATETIME_FORMAT), Locale.US);
+                        SimpleDateFormat mFormat = new SimpleDateFormat(mApplication.getString(R.string.DATETIME_FORMAT), Locale.US);
                         mFormat.setTimeZone(TimeZone.getDefault());
 
-
                         //OBTENER UTC DESDE PHP CONVERTIRLO A LOCAL DEL DISPOSITIVO
-                        Date mUtcDate =
-                                mFormat.parse(mObject.getString(mApplication.getString(R.string.JSON_KEY_FECHA_UTC)));
-                        assert mUtcDate != null;
-                        Date mLocalDate = Utils.utcToLocal(mUtcDate);
+                        Date mUtcDate = mFormat.parse(mObject.getString(mApplication.getString(R.string.JSON_KEY_FECHA_UTC)));
+                        Date mLocalDate = Utils.utcToLocal(Objects.requireNonNull(mUtcDate, "Fecha utc nulo"));
 
                         //LOCAL CALCULADO, NO PROVIENE DE CAMPO EN PHP
                         mModel.setFechaLocal(mLocalDate);
@@ -138,28 +135,31 @@ public class QuakeRepository {
                                 mModel.setSensible(true);
                                 break;
                         }
+
                         mQuakeList.add(mModel);
                     }
+
                     mQuakeMutableList.postValue(mQuakeList);
                     isLoadingQuake.postValue(false);
 
+                    //LOGS
+                    Log.d(mApplication.getString(R.string.TAG_CONNECTION_OK), mApplication.getString(R.string.CONNECTION_OK_RESPONSE));
+                    crashlytics.log(mApplication.getString(R.string.TAG_CONNECTION_OK) + mApplication.getString(R.string.CONNECTION_OK_RESPONSE));
+                    crashlytics.setCustomKey(mApplication.getString(R.string.CONNECTED), true);
+
+                    volleyError = false;
+                    contador_request = 0;
+
                 } catch (JSONException e) {
 
-                    Log.d(mApplication.getString(R.string.TAG_JSON_GENERAL_ERROR), Objects.requireNonNull(e.getMessage()));
+                    Log.d(mApplication.getString(R.string.TAG_JSON_GENERAL_ERROR), "Json exepction error " + e.getMessage());
                     crashlytics.log(mApplication.getString(R.string.TAG_JSON_GENERAL_ERROR) + e.getMessage());
+
                 } catch (ParseException e) {
 
-                    Log.d(mApplication.getString(R.string.TAG_JSON_PARSE_ERROR), Objects.requireNonNull(e.getMessage()));
+                    Log.d(mApplication.getString(R.string.TAG_JSON_PARSE_ERROR), "Json parse exception " + e.getMessage());
                     crashlytics.log(mApplication.getString(R.string.TAG_JSON_PARSE_ERROR) + e.getMessage());
                 }
-
-                //LOGS
-                Log.d(mApplication.getString(R.string.TAG_CONNECTION_OK), mApplication.getString(R.string.CONNECTION_OK_RESPONSE));
-                crashlytics.log(mApplication.getString(R.string.TAG_CONNECTION_OK) + mApplication.getString(R.string.CONNECTION_OK_RESPONSE));
-                crashlytics.setCustomKey(mApplication.getString(R.string.CONNECTED), true);
-
-                volleyError = false;
-                contador_request = 0;
             }
         };
 
@@ -168,7 +168,9 @@ public class QuakeRepository {
             public void onErrorResponse(VolleyError error) {
 
                 isLoadingQuake.postValue(false);
+
                 volleyError = true;
+
                 if (contador_request == 2) {
 
                     //Reiniciar parametros para empezar el proceso otra vez hacia produccion
@@ -176,28 +178,32 @@ public class QuakeRepository {
                     contador_request = 0;
 
                     if (error instanceof TimeoutError) {
+
                         Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR), mApplication.getString(R.string.TAG_VOLLEY_ERROR_TIMEOUT));
                         crashlytics.log(mApplication.getString(R.string.TAG_VOLLEY_ERROR) + mApplication.getString(R.string.TAG_VOLLEY_ERROR_TIMEOUT));
+
                         responseMsgErrorList.postValue(mApplication.getString(R.string.VIEWMODEL_TIMEOUT_ERROR));
                     }
 
                     //Error de conexion a internet
                     else if (error instanceof NetworkError) {
+
                         Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR), mApplication.getString(R.string.TAG_VOLLEY_ERROR_NETWORK));
+
                         responseMsgErrorList.postValue(mApplication.getString(R.string.VIEWMODEL_NOCONNECTION_ERROR));
                     }
 
                     //Error de servidor
                     else if (error instanceof ServerError) {
-                        Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR),
-                                mApplication.getString(R.string.TAG_VOLLEY_ERROR_SERVER));
-                        crashlytics.log(mApplication.getString(R.string.TAG_VOLLEY_ERROR) + mApplication.getString(R.string.TAG_VOLLEY_ERROR_SERVER));
-                        responseMsgErrorList.postValue(mApplication.getString(R.string.VIEWMODEL_SERVER_ERROR));
 
+                        Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR), mApplication.getString(R.string.TAG_VOLLEY_ERROR_SERVER));
+                        crashlytics.log(mApplication.getString(R.string.TAG_VOLLEY_ERROR) + mApplication.getString(R.string.TAG_VOLLEY_ERROR_SERVER));
+
+                        responseMsgErrorList.postValue(mApplication.getString(R.string.VIEWMODEL_SERVER_ERROR));
                     }
 
                 } else {
-                    VolleySingleton.getInstance(mApplication).cancelPendingRequests("TAG");
+                    VolleySingleton.getInstance(mApplication).cancelPendingRequests(TAG_GET_QUAKES);
                     sendGetQuakes();
                 }
 
@@ -208,43 +214,45 @@ public class QuakeRepository {
          * SECCION CONEXION DE RESPALDOS
          */
         SharedPreferences sharedPreferences = mApplication.getSharedPreferences(mApplication.getString(R.string.SHARED_PREF_MASTER_KEY), Context.MODE_PRIVATE);
-        String limite =
-                String.valueOf(sharedPreferences.getInt(mApplication.getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER), 0));
+        String limite = String.valueOf(sharedPreferences.getInt(mApplication.getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER), 0));
 
         Log.d(mApplication.getString(R.string.TAG_RESPOSITORY_QUAKE_LIMIT), limite);
 
         if (limite.equals("0")) {
+
             limite = "15";
+
             Log.d(mApplication.getString(R.string.TAG_RESPOSITORY_QUAKE_LIMIT), limite);
         }
 
         //Si servidor oficial arroja error, conectar a dev
         StringRequest mRequest;
+
         if (volleyError) {
+
             contador_request += 1;
+
             mRequest = new StringRequest(
                     Request.Method.GET,
                     String.format(Locale.US, mApplication.getString(R.string.URL_GET_DEV), limite),
                     listener,
                     errorListener);
 
-            Log.d(mApplication.getString(R.string.TAG_CONNECTION_SERVER_RESPALDO),
-                    mApplication.getString(R.string.TAG_CONNECTION_SERVER_RESPALDO_RESPONSE));
-
+            Log.d(mApplication.getString(R.string.TAG_CONNECTION_SERVER_RESPALDO), mApplication.getString(R.string.TAG_CONNECTION_SERVER_RESPALDO_RESPONSE));
             crashlytics.log(mApplication.getString(R.string.TAG_CONNECTION_SERVER_RESPALDO) + mApplication.getString(R.string.TAG_CONNECTION_SERVER_RESPALDO_RESPONSE));
         }
 
         //Si servidor oficial funciona conectarse a él
         else {
+
             contador_request += 1;
             mRequest = new StringRequest(
                     Request.Method.GET,
                     String.format(Locale.US, mApplication.getString(R.string.URL_GET_PROD_QUAKES), limite),
                     listener,
                     errorListener);
-            Log.d(mApplication.getString(R.string.TAG_CONNECTION_SERVER_OFICIAL),
-                    mApplication.getString(R.string.TAG_CONNECTION_SERVER_OFICIAL_RESPONSE));
 
+            Log.d(mApplication.getString(R.string.TAG_CONNECTION_SERVER_OFICIAL), mApplication.getString(R.string.TAG_CONNECTION_SERVER_OFICIAL_RESPONSE));
             crashlytics.log(mApplication.getString(R.string.TAG_CONNECTION_SERVER_OFICIAL) + mApplication.getString(R.string.TAG_CONNECTION_SERVER_OFICIAL_RESPONSE));
 
         }
@@ -283,6 +291,11 @@ public class QuakeRepository {
         return responseMsgErrorList;
     }
 
+    /**
+     * Function encargada de enviar el estado Loading al viewmodel
+     *
+     * @return MutableLibeData de status loading
+     */
     public MutableLiveData<Boolean> getIsLoading() {
         return isLoadingQuake;
     }

@@ -33,6 +33,7 @@ public class ReportRepository {
     private static final String TAG_GET_REPORTS = "ListadoReportes";
     private static ReportRepository instance;
     private final Application mApplication;
+
     //REPORTES
     private final List<ReportModel> reportModelList = new ArrayList<>();
     private final MutableLiveData<List<ReportModel>> reportMutableLiveData = new MutableLiveData<>();
@@ -48,15 +49,18 @@ public class ReportRepository {
     public static ReportRepository getIntance(Application application) {
 
         if (instance == null) {
-            instance = new ReportRepository(application);
 
+            instance = new ReportRepository(application);
             crashlytics = FirebaseCrashlytics.getInstance();
         }
+
         return instance;
     }
 
     public MutableLiveData<List<ReportModel>> getReports() {
+
         sendGetReports();
+
         return reportMutableLiveData;
     }
 
@@ -70,6 +74,7 @@ public class ReportRepository {
 
                 //Log.d("REPONSE", response);
                 try {
+
                     JSONObject jsonObject = new JSONObject(response);
 
                     JSONArray jsonReports = jsonObject.getJSONArray("reportes");
@@ -91,6 +96,7 @@ public class ReportRepository {
                         JSONArray jsonArray = jsonReport.getJSONArray("top_ciudades");
 
                         List<QuakesCity> quakesCityList = new ArrayList<>();
+
                         for (int j = 0; j < jsonArray.length(); j++) {
 
                             JSONObject jsonCity = jsonArray.getJSONObject(j);
@@ -101,6 +107,7 @@ public class ReportRepository {
 
                             quakesCityList.add(city);
                         }
+
                         reportModel.setQuakesCities(quakesCityList);
 
                         reportModelList.add(reportModel);
@@ -110,35 +117,42 @@ public class ReportRepository {
                     isLoadingReports.postValue(false);
 
                 } catch (JSONException e) {
-                    e.printStackTrace();
-                }
 
+                    Log.d(mApplication.getString(R.string.TAG_JSON_GENERAL_ERROR), "Json exception" + e.getMessage());
+                    crashlytics.log(mApplication.getString(R.string.TAG_JSON_GENERAL_ERROR) + e.getMessage());
+                }
             }
         };
 
         final Response.ErrorListener errorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+
                 isLoadingReports.postValue(false);
 
                 if (error instanceof TimeoutError) {
+
                     Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR), mApplication.getString(R.string.TAG_VOLLEY_ERROR_TIMEOUT));
                     crashlytics.log(mApplication.getString(R.string.TAG_VOLLEY_ERROR) + mApplication.getString(R.string.TAG_VOLLEY_ERROR_TIMEOUT));
+
                     responseMsgErrorList.postValue(mApplication.getString(R.string.VIEWMODEL_TIMEOUT_ERROR));
                 }
 
                 //Error de conexion a internet
                 else if (error instanceof NetworkError) {
+
                     Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR), mApplication.getString(R.string.TAG_VOLLEY_ERROR_NETWORK));
+
                     responseMsgErrorList.postValue(mApplication.getString(R.string.VIEWMODEL_NOCONNECTION_ERROR));
                 }
 
                 //Error de servidor
                 else if (error instanceof ServerError) {
+
                     Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR), mApplication.getString(R.string.TAG_VOLLEY_ERROR_SERVER));
                     crashlytics.log(mApplication.getString(R.string.TAG_VOLLEY_ERROR) + mApplication.getString(R.string.TAG_VOLLEY_ERROR_SERVER));
-                    responseMsgErrorList.postValue(mApplication.getString(R.string.VIEWMODEL_SERVER_ERROR));
 
+                    responseMsgErrorList.postValue(mApplication.getString(R.string.VIEWMODEL_SERVER_ERROR));
                 }
             }
         };
@@ -147,10 +161,12 @@ public class ReportRepository {
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, response, errorListener);
         isLoadingReports.postValue(true);
+
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(
                 0,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
         VolleySingleton.getInstance(mApplication).addToRequestQueue(stringRequest, TAG_GET_REPORTS);
     }
 

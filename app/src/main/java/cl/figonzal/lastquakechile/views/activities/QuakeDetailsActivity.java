@@ -18,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -34,6 +33,8 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
@@ -54,13 +55,18 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
     private Bundle mMapViewBundle;
     private MapView mMapView;
 
-    //private ShareDialog mShareDialog;
-    //private SharePhotoContent mSharePhotoContent;
-    //private SharePhoto mSharePhoto;
-    //private CallbackManager mCallBackManager;
     private Uri mBitmapUri;
-    private TextView mTvCiudad, mTvReferencia, mTvEscala, mTvMagnitud, mTvProfundidad, mTvFecha,
-            mTvHora, mTvGms, mFabTextFB, mFabTextWSP, mFabTextGM, mTvEstado;
+    private TextView mTvCiudad;
+    private TextView mTvReferencia;
+    private TextView mTvEscala;
+    private TextView mTvMagnitud;
+    private TextView mTvProfundidad;
+    private TextView mTvFecha;
+    private TextView mTvHora;
+    private TextView mTvGms;
+    private TextView mFabTextWSP;
+    private TextView mFabTextGM;
+    private TextView mTvEstado;
     private ImageView mIvMapa, mIvSensible, mIvMagColor, mIvEstado;
     private String mCiudad;
     private String mReferencia;
@@ -75,23 +81,20 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
     private Double mMagnitud, mProfundidad;
     private Map<String, Long> mTiempos;
     private boolean mSensible;
-    private Bitmap mBitmapFB;
     private boolean mIsFabOpen = false;
-    private FloatingActionButton mFabShare, mFabFB, mFabWSP, mFabGM;
+    private FloatingActionButton mFabShare;
+    private FloatingActionButton mFabWSP;
+    private FloatingActionButton mFabGM;
     private View mOverlay;
 
-
     private FirebaseCrashlytics crashlytics;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quake_details);
 
-        /*
-         * Checkear MODO NOCHE
-         */
+        //Check night mode
         Utils.checkNightMode(this, getWindow());
 
         mMapViewBundle = null;
@@ -112,6 +115,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
 
         //Muestra la flecha en toolbar para volver atras
         ActionBar actionBar = getSupportActionBar();
+
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
@@ -138,7 +142,6 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
 
         //SETEO DE FLOATING BUTTONS
         mFabShare = findViewById(R.id.fab_share);
-        //mFabFB = findViewById(R.id.fab_fb);
         mFabWSP = findViewById(R.id.fab_wsp);
         mFabGM = findViewById(R.id.fab_gmail);
 
@@ -186,8 +189,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
             @Override
             public void onClick(View v) {
 
-                Log.d(getString(R.string.TAG_FAB_SHARE_STATUS),
-                        getString(R.string.TAG_FAB_SHARE_STATUS_CLICKED));
+                Log.d(getString(R.string.TAG_FAB_SHARE_STATUS), getString(R.string.TAG_FAB_SHARE_STATUS_CLICKED));
 
                 if (!mIsFabOpen) {
                     showFabMenu();
@@ -202,8 +204,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
             @Override
             public void onClick(View v) {
 
-                Log.d(getString(R.string.TAG_OVERLAY_DETAILS),
-                        getString(R.string.TAG_OVERLAY_DETAILS_RESULT));
+                Log.d(getString(R.string.TAG_OVERLAY_DETAILS), getString(R.string.TAG_OVERLAY_DETAILS_RESULT));
                 crashlytics.log(getString(R.string.TAG_OVERLAY_DETAILS) + getString(R.string.TAG_OVERLAY_DETAILS_RESULT));
 
                 if (mIsFabOpen) {
@@ -212,107 +213,19 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
             }
         });
 
-        //TODO: POSIBLEMENTE ELIMINAR FB DE LA APP
-        //Boton compartir facebook
-        /*mFabFB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent mIntent =
-                        getPackageManager().getLaunchIntentForPackage(getString(R.string.PACKAGE_NAME_FB));
-
-                //Si no existe el paquete
-                if (mIntent == null) {
-                    QuakeUtils.doInstallation(getString(R.string.PACKAGE_NAME_FB),
-                            getApplicationContext());
-                } else {
-
-                    //Si esta instalada hacer share
-                    Log.d(getString(R.string.TAG_INTENT_SHARE),
-                            getString(R.string.TAG_INTENT_SHARE_FB));
-                    Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE),
-                            getString(R.string.TAG_INTENT_SHARE_FB));
-
-                    mCallBackManager = CallbackManager.Factory.create();
-                    mShareDialog = new ShareDialog(QuakeDetailsActivity.this);
-
-
-                    //Share foto del sismo
-                    mSharePhoto = new SharePhoto.Builder()
-                            .setBitmap(mBitmapFB)
-                            .build();
-
-                    mSharePhotoContent = new SharePhotoContent.Builder()
-                            .addPhoto(mSharePhoto)
-                            .setShareHashtag(new ShareHashtag.Builder()
-                                    .setHashtag("#SismoChile")
-                                    .build())
-                            .build();
-
-                    mShareDialog.registerCallback(mCallBackManager,
-                            new FacebookCallback<Sharer.Result>() {
-                                @Override
-                                public void onSuccess(Sharer.Result result) {
-                                    Toast.makeText(getApplicationContext(),
-                                            getString(R.string.TAG_TOAST_SHARE_FB_OK),
-                                            Toast.LENGTH_LONG).show();
-                                    Log.d(getString(R.string.TAG_INTENT_SHARE_FB_LOG),
-                                            getString(R.string.TAG_INTENT_SHARE_FB_OK_MESSAGE));
-                                    Crashlytics.log(Log.DEBUG,
-                                            getString(R.string.TAG_INTENT_SHARE_FB_LOG)
-                                            , getString(R.string.TAG_INTENT_SHARE_FB_OK_MESSAGE));
-                                }
-
-                                @Override
-                                public void onCancel() {
-                                    Toast.makeText(getApplicationContext(),
-                                            getString(R.string.TAG_TOAST_SHARE_FB_CANCEL),
-                                            Toast.LENGTH_LONG).show();
-                                    Log.d(getString(R.string.TAG_INTENT_SHARE_FB_LOG),
-                                            getString(R.string.TAG_INTENT_SHARE_FB_CANCEL_MESSAGE));
-                                    Crashlytics.log(Log.DEBUG,
-                                            getString(R.string.TAG_INTENT_SHARE_FB_LOG)
-                                            ,
-                                            getString(R.string.TAG_INTENT_SHARE_FB_CANCEL_MESSAGE));
-                                }
-
-                                @Override
-                                public void onError(FacebookException error) {
-                                    Toast.makeText(getApplicationContext(),
-                                            getString(R.string.TAG_TOAST_SHARE_FB_ERROR),
-                                            Toast.LENGTH_LONG).show();
-                                    Log.d(getString(R.string.TAG_INTENT_SHARE_FB_LOG),
-                                            getString(R.string.TAG_INTENT_SHARE_FB_ERROR_MESSAGE) + "-" + error);
-                                    Crashlytics.log(Log.DEBUG,
-                                            getString(R.string.TAG_INTENT_SHARE_FB_LOG)
-                                            ,
-                                            getString(R.string.TAG_INTENT_SHARE_FB_ERROR_MESSAGE) + "-" + error);
-                                }
-                            });
-
-                    if (ShareDialog.canShow(SharePhotoContent.class)) {
-                        mShareDialog.show(mSharePhotoContent);
-                        Log.d(getString(R.string.TAG_INTENT_SHARE_DIALOG),
-                                getString(R.string.TAG_INTENT_SHARE_DIALOG_MESSAGE));
-                        Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE_DIALOG),
-                                getString(R.string.TAG_INTENT_SHARE_DIALOG_MESSAGE));
-                    }
-                }
-            }
-        });*/
-
         mFabWSP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent mIntent =
-                        getPackageManager().getLaunchIntentForPackage(getString(R.string.PACKAGE_NAME_WSP));
+
+                Intent mIntent = getPackageManager().getLaunchIntentForPackage(getString(R.string.PACKAGE_NAME_WSP));
 
                 //Si no existe el paquete
                 if (mIntent == null) {
-                    Utils.doInstallation(getString(R.string.PACKAGE_NAME_WSP),
-                            getApplicationContext());
+
+                    Utils.doInstallation(getString(R.string.PACKAGE_NAME_WSP), getApplicationContext());
+
                 } else {
-                    Log.d(getString(R.string.TAG_INTENT_SHARE),
-                            getString(R.string.TAG_INTENT_SHARE_WSP));
+                    Log.d(getString(R.string.TAG_INTENT_SHARE), getString(R.string.TAG_INTENT_SHARE_WSP));
                     crashlytics.log(getString(R.string.TAG_INTENT_SHARE) + getString(R.string.TAG_INTENT_SHARE_WSP));
 
                     Intent wspIntent = new Intent();
@@ -333,7 +246,6 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
                     ));
                     wspIntent.putExtra(Intent.EXTRA_STREAM, mBitmapUri);
                     wspIntent.setType("image/*");
-                    //wspIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
                     startActivity(wspIntent);
                 }
@@ -344,17 +256,16 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
             @Override
             public void onClick(View v) {
 
-                Intent mIntent =
-                        getPackageManager().getLaunchIntentForPackage(getString(R.string.PACKAGE_NAME_GMAIL));
+                Intent mIntent = getPackageManager().getLaunchIntentForPackage(getString(R.string.PACKAGE_NAME_GMAIL));
 
                 //Si no existe el paquete
                 if (mIntent == null) {
-                    Utils.doInstallation(getString(R.string.PACKAGE_NAME_GMAIL),
-                            getApplicationContext());
+
+                    Utils.doInstallation(getString(R.string.PACKAGE_NAME_GMAIL), getApplicationContext());
+
                 } else {
 
-                    Log.d(getString(R.string.TAG_INTENT_SHARE),
-                            getString(R.string.TAG_INTENT_SHARE_GM));
+                    Log.d(getString(R.string.TAG_INTENT_SHARE), getString(R.string.TAG_INTENT_SHARE_GM));
                     crashlytics.log(getString(R.string.TAG_INTENT_SHARE) + getString(R.string.TAG_INTENT_SHARE_GM));
 
                     Intent gmIntent = new Intent();
@@ -412,11 +323,19 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
     private void calculateGMS(String latitud, String longitud) {
 
         //Conversion de mLatitud a dms
-        double mLatUbicacion = Double.parseDouble(Objects.requireNonNull(latitud));
+        double mLatUbicacion = Double.parseDouble(Objects.requireNonNull(latitud, "Latitud es nulo"));
+        double mLongUbicacion = Double.parseDouble(Objects.requireNonNull(longitud, "Longitud es nulo"));
+
         if (mLatUbicacion < 0) {
             mDmsLat = getString(R.string.coordenadas_sur);
         } else {
             mDmsLat = getString(R.string.coordenadas_norte);
+        }
+
+        if (mLongUbicacion < 0) {
+            mDmsLong = getString(R.string.coordenadas_oeste);
+        } else {
+            mDmsLong = getString(R.string.coordenadas_este);
         }
 
         //Calculo de lat to GMS
@@ -424,23 +343,14 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         Double mLatGradosDMS = mMapLatDMS.get("grados");
         Double mLatMinutosDMS = mMapLatDMS.get("minutos");
         Double mLatSegundosDMS = mMapLatDMS.get("segundos");
-        mDmsLat = String.format(Locale.US, "%.1f° %.1f' %.1f'' %s", mLatGradosDMS,
-                mLatMinutosDMS, mLatSegundosDMS, mDmsLat);
-
-        double mLongUbicacion = Double.parseDouble(Objects.requireNonNull(longitud));
-        if (mLongUbicacion < 0) {
-            mDmsLong = getString(R.string.coordenadas_oeste);
-        } else {
-            mDmsLong = getString(R.string.coordenadas_este);
-        }
+        mDmsLat = String.format(Locale.US, "%.1f° %.1f' %.1f'' %s", mLatGradosDMS, mLatMinutosDMS, mLatSegundosDMS, mDmsLat);
 
         //Calculo de long to GMS
         Map<String, Double> mMapLongDMS = Utils.latLonToDMS(mLongUbicacion);
         Double mLongGradosDMS = mMapLongDMS.get("grados");
         Double mLongMinutosDMS = mMapLongDMS.get("minutos");
         Double mLongSegundosDMS = mMapLongDMS.get("segundos");
-        mDmsLong = String.format(Locale.US, "%.1f° %.1f' %.1f'' %s", mLongGradosDMS,
-                mLongMinutosDMS, mLongSegundosDMS, mDmsLong);
+        mDmsLong = String.format(Locale.US, "%.1f° %.1f' %.1f'' %s", mLongGradosDMS, mLongMinutosDMS, mLongSegundosDMS, mDmsLong);
     }
 
     /**
@@ -460,8 +370,17 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         //Convertir mFechaLocal a Date
         //Calcular DHMS de Date fecha_local
         if (mFechaLocal != null) {
-            Date mFechaLocal = Utils.stringToDate(this, this.mFechaLocal);
-            mTiempos = Utils.dateToDHMS(mFechaLocal);
+
+            Date mFechaLocal;
+            try {
+                mFechaLocal = Utils.stringToDate(this, this.mFechaLocal);
+                mTiempos = Utils.dateToDHMS(mFechaLocal);
+            } catch (ParseException e) {
+
+                Log.d("STRING_TO_DATE", "Parse exception error");
+                e.printStackTrace();
+            }
+
         }
 
         //Si el intent viene de notificacion
@@ -471,14 +390,21 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         else {
 
             if (mFechaUtc != null) {
-                Date mDateFechaUtc = Utils.stringToDate(this, mFechaUtc);
-                Date mDateFechaLocal = Utils.utcToLocal(mDateFechaUtc);
-                mTiempos = Utils.dateToDHMS(mDateFechaLocal);
 
-                //Setear string que será usado en textviews de detalle con la fecha transformada
-                // de utc a local desde notificacion
-                mFechaLocal = Utils.dateToString(this, mDateFechaLocal);
+                Date mDateFechaUtc;
+                try {
+                    mDateFechaUtc = Utils.stringToDate(this, mFechaUtc);
+                    Date mDateFechaLocal = Utils.utcToLocal(mDateFechaUtc);
+                    mTiempos = Utils.dateToDHMS(mDateFechaLocal);
 
+                    //Setear string que será usado en textviews de detalle con la fecha transformada
+                    // de utc a local desde notificacion
+                    mFechaLocal = Utils.dateToString(this, mDateFechaLocal);
+
+                } catch (ParseException e) {
+                    Log.d("STRING_TO_DATE", "Parse exception error");
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -500,24 +426,19 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         mFabTextGM = findViewById(R.id.fab_text_gm);
 
         //Seteado de text en alpha 0 y visible
-        //mFabTextFB.setAlpha(0f);
-        //mFabTextFB.setVisibility(View.VISIBLE);
         mFabTextWSP.setAlpha(0f);
         mFabTextWSP.setVisibility(View.VISIBLE);
         mFabTextGM.setAlpha(0f);
         mFabTextGM.setVisibility(View.VISIBLE);
 
         //trasnlaciones de fabs y textos
-        //mFabFB.animate().translationY(-getResources().getDimension(R.dimen.standard_65));
         mFabWSP.animate().translationY(-getResources().getDimension(R.dimen.standard_65));
         mFabGM.animate().translationY(-getResources().getDimension(R.dimen.standard_130));
-        //mFabTextFB.animate().translationY(-getResources().getDimension(R.dimen.standard_65));
         mFabTextWSP.animate().translationY(-getResources().getDimension(R.dimen.standard_65));
         mFabTextGM.animate().translationY(-getResources().getDimension(R.dimen.standard_130));
 
         //Animacion de alpha para textos
         mFabTextWSP.animate().alpha(1.0f).setDuration(500);
-        //mFabTextFB.animate().alpha(1.0f).setDuration(500);
         mFabTextGM.animate().alpha(1.0f).setDuration(500);
 
         mOverlay.setAlpha(0f);
@@ -553,16 +474,12 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
      */
     private void closeFabMenu() {
         mIsFabOpen = false;
-        //mFabFB.animate().translationY(0);
         mFabWSP.animate().translationY(0);
         mFabGM.animate().translationY(0);
 
         mFabGM.hide();
         mFabWSP.hide();
-        //mFabFB.hide();
 
-        //mFabTextFB.animate().translationY(0);
-        //mFabTextFB.setVisibility(View.GONE);
         mFabTextGM.animate().translationY(0);
         mFabTextGM.setVisibility(View.GONE);
         mFabTextWSP.animate().translationY(0);
@@ -570,7 +487,6 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
 
         //Animacion de alpha para textos
         mFabTextWSP.animate().alpha(0.0f).setDuration(500);
-        //mFabTextFB.animate().alpha(0.0f).setDuration(500);
         mFabTextGM.animate().alpha(0.0f).setDuration(500);
 
         //Animacion CLOSE de mOverlay
@@ -608,8 +524,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         // Respond to the action bar's Up/Home button
         if (item.getItemId() == android.R.id.home) {
 
-            Log.d(getString(R.string.TAG_INTENT_DETALLE_HOME_UP),
-                    getString(R.string.TAG_INTENT_DETALLE_HOME_UP_RESPONSE));
+            Log.d(getString(R.string.TAG_INTENT_DETALLE_HOME_UP), getString(R.string.TAG_INTENT_DETALLE_HOME_UP_RESPONSE));
 
             crashlytics.log(getString(R.string.TAG_INTENT_DETALLE_HOME_UP) + getString(R.string.TAG_INTENT_DETALLE_HOME_UP_RESPONSE));
 
@@ -617,6 +532,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
+
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -632,22 +548,14 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         }
     }
 
-    /*
-        Funcion que permite el callback de facebook
-    */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        //  mCallBackManager.onActivityResult(requestCode, resultCode, data);
-    }
-
-
     /**
      * Funcion que permite setear los textview del detalle con la información procesada
      */
     private void setTextViews() {
+
         //Setear titulo de mCiudad en activity
-        Objects.requireNonNull(getSupportActionBar()).setTitle(mCiudad);
+        ActionBar actionBar = Objects.requireNonNull(getSupportActionBar());
+        actionBar.setTitle(mCiudad);
 
         //Setear nombre mCiudad
         mTvCiudad.setText(mCiudad);
@@ -662,8 +570,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         mIvMagColor.setColorFilter(getColor(Utils.getMagnitudeColor(mMagnitud, false)));
 
         //Setear mProfundidad
-        mTvProfundidad.setText(String.format(Locale.US,
-                getString(R.string.quake_details_profundidad), mProfundidad));
+        mTvProfundidad.setText(String.format(Locale.US, getString(R.string.quake_details_profundidad), mProfundidad));
 
         //Setear fecha
         mTvFecha.setText(mFechaLocal);
@@ -690,46 +597,6 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         if (mSensible) {
             mIvSensible.setVisibility(View.VISIBLE);
         }
-
-        //Codigo viejo con imagen de sismologia (DEPRECADO)
-        /*final Uri uri = Uri.parse(mFotoUrl);
-        Glide.with(this)
-                .load(uri)
-                .apply(
-                        new RequestOptions()
-                                .placeholder(R.drawable.placeholder)
-                                .error(R.drawable.not_found)
-                )
-                .transition(withCrossFade())
-                .listener(new RequestListener<Drawable>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model,
-                                                Target<Drawable> target,
-                                                boolean isFirstResource) {
-                        mIvMapa.setImageDrawable(getDrawable(R.drawable.not_found));
-                        Log.d(getString(R.string.TAG_INTENT_SHARE_BITMAP),
-                                getString(R.string.TAG_INTENT_SHARE_BITMAP_MESSAGE_FAIL));
-                        Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE_BITMAP),
-                                getString(R.string.TAG_INTENT_SHARE_BITMAP_MESSAGE_FAIL));
-                        return false;
-                    }
-
-                    //No es necesario usarlo (If u want)
-                    @Override
-                    public boolean onResourceReady(Drawable resource, Object model,
-                                                   Target<Drawable> target, DataSource dataSource
-                            , boolean isFirstResource) {
-                        mBitmapUri = QuakeUtils.getLocalBitmapUri(resource,
-                                getApplicationContext());
-                        mBitmapFB = ((BitmapDrawable) resource).getBitmap();
-                        Log.d(getString(R.string.TAG_INTENT_SHARE_BITMAP),
-                                getString(R.string.TAG_INTENT_SHARE_BITMAP_MESSAGE));
-                        Crashlytics.log(Log.DEBUG, getString(R.string.TAG_INTENT_SHARE_BITMAP),
-                                getString(R.string.TAG_INTENT_SHARE_BITMAP_MESSAGE));
-                        return false;
-                    }
-                })
-                .into(mIvMapa);*/
     }
 
     @Override
@@ -738,11 +605,11 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         mGoogleMap = googleMap;
 
         //NIGHT MODE MAPA
-        int nightModeFlags = getResources().getConfiguration().uiMode &
-                Configuration.UI_MODE_NIGHT_MASK;
+        int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+
         if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
-            googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(getApplicationContext(),
-                    R.raw.map_night_mode));
+
+            googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(getApplicationContext(), R.raw.map_night_mode));
         }
 
         mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
@@ -782,7 +649,6 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
                 .strokeWidth(1)
                 .strokeColor(getColor(R.color.grey_dark_alpha)));
 
-
         ValueAnimator animator = ValueAnimator.ofInt(0, 90000);
         animator.setRepeatMode(ValueAnimator.RESTART);
         animator.setRepeatCount(ValueAnimator.INFINITE);
@@ -792,6 +658,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
+
                 float animatedFraction = animation.getAnimatedFraction();
                 circle_anim.setRadius(animatedFraction * 140000);
             }
@@ -833,9 +700,15 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
                 mGoogleMap.snapshot(new GoogleMap.SnapshotReadyCallback() {
                     @Override
                     public void onSnapshotReady(Bitmap bitmap) {
-                        mBitmapUri = Utils.getLocalBitmapUri(bitmap,
-                                getApplicationContext());
-                        mBitmapFB = bitmap;
+
+                        //TODO: Corregir posible problema de performance
+
+                        try {
+                            mBitmapUri = Utils.getLocalBitmapUri(bitmap, getApplicationContext());
+                        } catch (IOException e) {
+                            Log.d("SCREENSHOT_MAP", "Error al hacer screenshot del mapa");
+                            e.printStackTrace();
+                        }
                     }
                 });
             }
@@ -846,6 +719,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
     public void onSaveInstanceState(@NonNull Bundle outState) {
 
         Bundle mMapViewBundle = outState.getBundle(MAPVIEW_BUNDLE_KEY);
+
         if (mMapViewBundle == null) {
             mMapViewBundle = new Bundle();
             outState.putBundle(MAPVIEW_BUNDLE_KEY, mMapViewBundle);

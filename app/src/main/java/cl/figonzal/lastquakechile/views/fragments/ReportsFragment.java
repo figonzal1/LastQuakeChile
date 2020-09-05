@@ -15,7 +15,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.util.ArrayList;
@@ -34,7 +33,6 @@ public class ReportsFragment extends Fragment {
     private TextView tv_reportes_vacios;
     private ReportAdapter reportAdapter;
     private RecyclerView rv;
-    private Snackbar sSnackbar;
 
     private FirebaseCrashlytics crashlytics;
 
@@ -65,10 +63,13 @@ public class ReportsFragment extends Fragment {
         reportsViewModel.isLoading().observe(requireActivity(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
+
                 if (aBoolean) {
+
                     progressBar.setVisibility(View.VISIBLE);
                     tv_reportes_vacios.setVisibility(View.INVISIBLE);
                     rv.setVisibility(View.INVISIBLE);
+
                 } else {
                     progressBar.setVisibility(View.INVISIBLE);
                     rv.setVisibility(View.VISIBLE);
@@ -87,12 +88,14 @@ public class ReportsFragment extends Fragment {
             public void onChanged(List<ReportModel> reportModels) {
 
                 if (reportModels != null) {
+
                     reportModelList = reportModels;
                     reportAdapter.actualizarLista(reportModelList);
 
                     reportModelList = reportAdapter.getReportList();
 
                     progressBar.setVisibility(View.INVISIBLE);
+
                     if (reportModelList.size() == 0) {
                         tv_reportes_vacios.setVisibility(View.VISIBLE);
                     } else {
@@ -101,9 +104,7 @@ public class ReportsFragment extends Fragment {
                 }
 
                 //LOG ZONE
-                Log.d(getString(R.string.TAG_FRAGMENT_REPORTS),
-                        getString(R.string.FRAGMENT_LOAD_LIST));
-
+                Log.d(getString(R.string.TAG_FRAGMENT_REPORTS), getString(R.string.FRAGMENT_LOAD_LIST));
                 crashlytics.log(getString(R.string.TAG_FRAGMENT_REPORTS) + getString(R.string.FRAGMENT_LOAD_LIST));
             }
         });
@@ -111,7 +112,9 @@ public class ReportsFragment extends Fragment {
         reportsViewModel.showMsgErrorList().observe(requireActivity(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String status) {
+
                 if (status != null) {
+
                     progressBar.setVisibility(View.INVISIBLE);
                     rv.setVisibility(View.INVISIBLE);
                     reportAdapter.notifyDataSetChanged();
@@ -143,7 +146,7 @@ public class ReportsFragment extends Fragment {
                 requireContext(),
                 requireActivity()
         );
-        rv.setAdapter(reportAdapter);
 
+        rv.setAdapter(reportAdapter);
     }
 }

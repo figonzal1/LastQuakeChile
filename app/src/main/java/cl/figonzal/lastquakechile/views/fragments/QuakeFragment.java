@@ -66,8 +66,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
     }
 
     @Override
-    public View onCreateView(@NonNull final LayoutInflater inflater, final ViewGroup container,
-                             final Bundle savedInstanceState) {
+    public View onCreateView(@NonNull final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
         setHasOptionsMenu(true);
 
@@ -117,6 +116,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
                 requireContext(),
                 requireActivity()
         );
+
         mRecycleView.setAdapter(quakeAdapter);
     }
 
@@ -133,9 +133,11 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
             public void onChanged(Boolean aBoolean) {
 
                 if (aBoolean) {
+
                     mProgressBar.setVisibility(View.VISIBLE);
                     tv_quakes_vacio.setVisibility(View.INVISIBLE);
                     mRecycleView.setVisibility(View.INVISIBLE);
+
                 } else {
                     mProgressBar.setVisibility(View.INVISIBLE);
                     mRecycleView.setVisibility(View.VISIBLE);
@@ -149,22 +151,22 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
             public void onChanged(@Nullable List<QuakeModel> list) {
 
                 if (list != null) {
+
                     quakeModelList = list;
                     quakeAdapter.actualizarLista(quakeModelList);
 
                     quakeModelList = quakeAdapter.getQuakeList();
 
                     mProgressBar.setVisibility(View.INVISIBLE);
+
                     if (quakeModelList.size() == 0) {
                         tv_quakes_vacio.setVisibility(View.VISIBLE);
                     } else {
                         tv_quakes_vacio.setVisibility(View.INVISIBLE);
                     }
 
-
                     //LOG ZONE
-                    Log.d(getString(R.string.TAG_FRAGMENT_QUAKE),
-                            getString(R.string.FRAGMENT_LOAD_LIST));
+                    Log.d(getString(R.string.TAG_FRAGMENT_QUAKE), getString(R.string.FRAGMENT_LOAD_LIST));
 
                     crashlytics.log(getString(R.string.TAG_FRAGMENT_QUAKE) + getString(R.string.FRAGMENT_LOAD_LIST));
                 }
@@ -175,7 +177,9 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         mViewModel.showMsgErrorList().observe(requireActivity(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String status) {
+
                 if (status != null) {
+
                     mProgressBar.setVisibility(View.INVISIBLE);
                     mRecycleView.setVisibility(View.INVISIBLE);
                     showSnackBar(status, requireActivity().findViewById(android.R.id.content));
@@ -188,8 +192,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         mViewModel.showFilteredQuakeList().observe(requireActivity(), new Observer<List<QuakeModel>>() {
             @Override
             public void onChanged(@Nullable List<QuakeModel> list) {
-                //Setear el mAdapter con la lista de quakes
 
+                //Setear el mAdapter con la lista de quakes
                 quakeModelList = list;
                 quakeAdapter.actualizarLista(quakeModelList);
             }
@@ -212,8 +216,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
             mCardViewInfo.setVisibility(View.GONE);
         }
 
-
         Button mBtnCvInfo = v.findViewById(R.id.btn_info_accept);
+
         mBtnCvInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -229,15 +233,13 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
                         .setListener(new AnimatorListenerAdapter() {
                             @Override
                             public void onAnimationEnd(Animator animation) {
-                                super.onAnimationEnd(animation);
                                 mCardViewInfo.setVisibility(View.GONE);
                             }
                         });
 
 
                 //LOGS
-                Log.d(getString(R.string.TAG_CARD_VIEW_INFO),
-                        getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO_RESULT));
+                Log.d(getString(R.string.TAG_CARD_VIEW_INFO), getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO_RESULT));
                 crashlytics.log(getString(R.string.TAG_CARD_VIEW_INFO) + getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO_RESULT));
             }
         });
@@ -256,6 +258,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
                 .setAction(getString(R.string.FLAG_RETRY), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
                         mViewModel.refreshMutableQuakeList();
                         ReportRepository.getIntance(requireActivity().getApplication()).getReports();
                         mProgressBar.setVisibility(View.VISIBLE);
@@ -263,14 +266,16 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
                         crashlytics.setCustomKey(getString(R.string.SNACKBAR_NOCONNECTION_ERROR_PRESSED), true);
                     }
                 });
+
         sSnackbar.setActionTextColor(getResources().getColor(R.color.colorSecondary, requireContext().getTheme()));
+
         int snackbarTextId = com.google.android.material.R.id.snackbar_text;
+
         TextView textView = sSnackbar.getView().findViewById(snackbarTextId);
         textView.setTextColor(getResources().getColor(R.color.white, requireContext().getTheme()));
         sSnackbar.show();
 
     }
-
 
     @Override
     public void onResume() {
@@ -318,10 +323,10 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
         MenuItem.OnActionExpandListener onActionExpandListener =
                 new MenuItem.OnActionExpandListener() {
+
                     @Override
                     public boolean onMenuItemActionExpand(MenuItem item) {
 
-                        //Se oculta boton refresh
                         menu.findItem(R.id.refresh_menu).setVisible(false);
                         return true;
                     }
@@ -330,19 +335,24 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
                     public boolean onMenuItemActionCollapse(MenuItem item) {
 
                         mViewModel.refreshMutableQuakeList();
+
                         //Se vuelve a mostrar boton refresh
                         menu.findItem(R.id.refresh_menu).setVisible(true);
                         requireActivity().invalidateOptionsMenu();
+
                         return true;
                     }
                 };
+
         menuItem.setOnActionExpandListener(onActionExpandListener);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        if (item.getItemId() == R.id.refresh_menu) {//Se refresca el listado de sismos
+        if (item.getItemId() == R.id.refresh_menu) {
+
+            //Se refresca el listado de sismos
             mViewModel.refreshMutableQuakeList();
 
             //Si el sSnackbar de estado de datos esta ON y el usuario presiona refresh desde

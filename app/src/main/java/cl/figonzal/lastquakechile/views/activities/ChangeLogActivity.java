@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,8 +23,6 @@ import cl.figonzal.lastquakechile.services.Utils;
 
 public class ChangeLogActivity extends AppCompatActivity {
 
-    private RecyclerView rv;
-    private ChangeLogAdapter adapter;
     private List<ChangeLog> changeLogList;
 
     private FirebaseCrashlytics crashlytics;
@@ -33,19 +32,17 @@ public class ChangeLogActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_log);
 
-        /*
-         * Checkear MODO NOCHE
-         */
+        //Check modo noche
         Utils.checkNightMode(this, getWindow());
 
         Toolbar mToolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(mToolbar);
 
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(getString(R.string.change_logs));
+        ActionBar actionBar = Objects.requireNonNull(getSupportActionBar(), "Action bar nulo");
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle(getString(R.string.change_logs));
 
         instanciarRecursosInterfaz();
-
     }
 
     private void instanciarRecursosInterfaz() {
@@ -55,13 +52,13 @@ public class ChangeLogActivity extends AppCompatActivity {
         //Add changelogs
         addChangeLogs();
 
-        rv = findViewById(R.id.recycler_view_change_log);
+        RecyclerView rv = findViewById(R.id.recycler_view_change_log);
         rv.setHasFixedSize(true);
 
         LinearLayoutManager ly = new LinearLayoutManager(getApplicationContext());
         rv.setLayoutManager(ly);
 
-        adapter = new ChangeLogAdapter(changeLogList);
+        ChangeLogAdapter adapter = new ChangeLogAdapter(changeLogList);
         rv.setAdapter(adapter);
     }
 
@@ -132,6 +129,7 @@ public class ChangeLogActivity extends AppCompatActivity {
             finish();
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 }
