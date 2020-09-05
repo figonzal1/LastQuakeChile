@@ -43,7 +43,9 @@ public class ChangeLogAdapter extends RecyclerView.Adapter<ChangeLogAdapter.Chan
         holder.tvReleaseDate.setText(changeLog.getReleaseDate());
 
         String changes = "";
+
         for (int i = 0; i < changeLog.getChanges().length; i++) {
+
             String ch = changeLog.getChanges()[i];
 
             if (i > 0) {
@@ -52,6 +54,7 @@ public class ChangeLogAdapter extends RecyclerView.Adapter<ChangeLogAdapter.Chan
                 changes = changes.concat(ch);
             }
         }
+
         holder.tvChangesList.setText(changes);
     }
 

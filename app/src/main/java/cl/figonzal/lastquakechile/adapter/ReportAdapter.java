@@ -23,6 +23,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
     private List<ReportModel> reportList;
 
     public ReportAdapter(List<ReportModel> reportList, Context context, Activity activity) {
+
         this.reportList = reportList;
         this.context = context;
         this.activity = activity;
@@ -32,6 +33,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
     @NonNull
     @Override
     public ReportViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_reports, parent, false);
         return new ReportViewHolder(v);
     }
@@ -40,7 +42,6 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
     public void onBindViewHolder(@NonNull ReportAdapter.ReportViewHolder holder, int position) {
 
         ReportModel reportModel = reportList.get(position);
-
 
         String[] split = reportModel.getMes_reporte().split("-");
         String anno = split[0];
@@ -85,6 +86,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
     }
 
     public void actualizarLista(List<ReportModel> list) {
+
         this.reportList = list;
         notifyDataSetChanged();
     }

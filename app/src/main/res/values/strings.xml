@@ -169,7 +169,7 @@
     <string name="TAG_FAB_SHARE_STATUS_CLICKED" translatable="false">CLICKED</string>
     <string name="TAG_FRAGMENT_SETTINGS" translatable="false">SETTINGS</string>
     <string name="TAG_FRAGMENT_SETTINGS_QUAKE_LIST_LIMIT" translatable="false">Numero de sismos fijados: %1$d</string>
-    <string name="LIST_QUAKE_NUMBER_SUMMARY">Últimos %1$s sismos</string>
+    <string name="LIST_QUAKE_NUMBER_SUMMARY">Últimos %1$d sismos</string>
     <string name="TAG_RESPOSITORY_QUAKE_LIMIT" translatable="false">REPOSITORY_LIMIT_QUAKE</string>
     <string name="TAG_SHARED_VERSION_CODE_APP" translatable="false">SHARED_VERSION_CODE_APP</string>
     <string name="TAG_VERSION_CODE_APP" translatable="false">VERSION_CODE_APP</string>

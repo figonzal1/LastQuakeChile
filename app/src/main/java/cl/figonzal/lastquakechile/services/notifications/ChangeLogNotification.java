@@ -34,6 +34,7 @@ public class ChangeLogNotification {
 
         String name = context.getString(R.string.FIREBASE_CHANNEL_NAME_CHANGELOG);
         String description = context.getString(R.string.FIREBASE_CHANNEL_DESCRIPTION_CHANGELOG);
+
         int importance = NotificationManager.IMPORTANCE_LOW;
 
         NotificationChannel notificationChannel = new NotificationChannel(context.getString(R.string.FIREBASE_CHANNEL_ID_CHANGELOG), name, importance);
@@ -42,15 +43,10 @@ public class ChangeLogNotification {
         notificationChannel.enableLights(true);
         notificationChannel.setLightColor(R.color.colorSecondary);
 
-        NotificationManager mNotificationManager =
-                context.getSystemService(NotificationManager.class);
-        assert mNotificationManager != null;
+        NotificationManager mNotificationManager = context.getSystemService(NotificationManager.class);
         mNotificationManager.createNotificationChannel(notificationChannel);
 
-        Log.d(context.getString(R.string.TAG_FIREBASE_CHANNEL),
-                context.getString(R.string.FIREBASE_CHANNEL_CREATED_MESSAGE));
-
-        //CRASH ANALYTICS & LOGS
+        Log.d(context.getString(R.string.TAG_FIREBASE_CHANNEL), context.getString(R.string.FIREBASE_CHANNEL_CREATED_MESSAGE));
         crashlytics.log(context.getString(R.string.TAG_FIREBASE_CHANNEL) + context.getString(R.string.FIREBASE_CHANNEL_CREATED_MESSAGE));
         crashlytics.setCustomKey(context.getString(R.string.FIREBASE_CHANNEL_STATUS), true);
     }
@@ -62,54 +58,56 @@ public class ChangeLogNotification {
      */
     public void configNotificationChangeLog(boolean test, Context context) {
 
-
         FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
 
         SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.SHARED_PREF_MASTER_KEY), Context.MODE_PRIVATE);
+
         try {
+
             PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
             long versionCode = packageInfo.versionCode;
 
             long shared_version_code = sharedPreferences.getLong(context.getString(R.string.SHARED_PREF_ACTUAL_VERSION_CODE), 0);
 
             //Logs post actualizacion
-            Log.d(context.getString(R.string.TAG_SHARED_VERSION_CODE_APP),
-                    String.valueOf(shared_version_code));
+            Log.d(context.getString(R.string.TAG_SHARED_VERSION_CODE_APP), String.valueOf(shared_version_code));
             Log.d(context.getString(R.string.TAG_VERSION_CODE_APP), String.valueOf(versionCode));
 
             crashlytics.log(context.getString(R.string.TAG_SHARED_VERSION_CODE_APP) + shared_version_code);
             crashlytics.log(context.getString(R.string.TAG_VERSION_CODE_APP) + versionCode);
 
-
             if (!test) {
+
                 //Si variable shared no exite, actualizar dato
                 if (shared_version_code == 0) {
+
                     //Actualizar version
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putLong(context.getString(R.string.SHARED_PREF_ACTUAL_VERSION_CODE),
-                            versionCode);
+                    editor.putLong(context.getString(R.string.SHARED_PREF_ACTUAL_VERSION_CODE), versionCode);
                     editor.apply();
                 }
+
                 if (shared_version_code < versionCode) {
 
                     showNotificationChangeLog(context);
 
                     //Actualizar version en shared
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putLong(context.getString(R.string.SHARED_PREF_ACTUAL_VERSION_CODE),
-                            versionCode);
+                    editor.putLong(context.getString(R.string.SHARED_PREF_ACTUAL_VERSION_CODE), versionCode);
                     editor.apply();
 
                     //Logs
-                    Log.d(context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS),
-                            context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE_SENDED));
+                    Log.d(context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS), context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE_SENDED));
                     crashlytics.log(context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS) + context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE_SENDED));
                 }
+
             } else {
                 showNotificationChangeLog(context);
             }
 
         } catch (PackageManager.NameNotFoundException e) {
+
+            Log.d("PACKAGE_NAME", "Nombre del paquete no encontrado");
             e.printStackTrace();
         }
     }
@@ -134,15 +132,16 @@ public class ChangeLogNotification {
                 .setAutoCancel(true);
 
         if (!changelog.isEmpty()) {
-            NotificationManager notificationManager =
-                    (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
-            assert notificationManager != null;
+
+            NotificationManager notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
             notificationManager.notify(new Random().nextInt(60000), mBuilder.build());
 
             //Logs
             Log.d(context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS), context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE_SHOWED));
             crashlytics.log(context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS) + context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE_SHOWED));
+
         } else {
+
             //Logs
             Log.d(context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS), context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE_EMPTY));
             crashlytics.log(context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS) + context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE_EMPTY));

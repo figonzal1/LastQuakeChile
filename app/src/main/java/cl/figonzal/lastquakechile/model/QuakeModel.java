@@ -1,5 +1,7 @@
 package cl.figonzal.lastquakechile.model;
 
+import androidx.annotation.NonNull;
+
 import java.util.Date;
 
 public class QuakeModel {
@@ -116,8 +118,10 @@ public class QuakeModel {
         this.mEstado = estado;
     }
 
+    @NonNull
     @Override
     public String toString() {
+
         return "QuakeModel{" +
                 "mFechaLocal=" + mFechaLocal +
                 ", mCiudad='" + mCiudad + '\'' +

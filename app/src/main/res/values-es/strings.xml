@@ -70,7 +70,7 @@
     <string name="tab_map">Mapa</string>
     <string name="tab_list">Sismos</string>
 	<string name="HOME_PARENT">Navegar hacia arriba</string>
-    <string name="LIST_QUAKE_NUMBER_SUMMARY">Últimos %1$s sismos</string>
+    <string name="LIST_QUAKE_NUMBER_SUMMARY">Últimos %1$d sismos</string>
     <string name="quake_list_number_pref_title">Datos sismos</string>
     <string name="quake_list_number_pref_summary">Número de sismos que quieres ver en lista</string>
     <string name="last_quakes_info_card_view_description">En este listado se muestran los últimos 15 sismos ocurridos en Chile, puedes modificar la cantidad en la sección &#8942; -> Configuración</string>

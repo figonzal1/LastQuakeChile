@@ -38,6 +38,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
     private FirebaseCrashlytics crashlytics;
 
     public QuakeAdapter(List<QuakeModel> quakeModelList, Context context, Activity activity) {
+
         this.quakeModelList = quakeModelList;
         this.context = context;
         this.activity = activity;
@@ -51,8 +52,8 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
     public QuakeViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
         //Inflar de layout del cardview
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_view_quake,
-                viewGroup, false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_view_quake, viewGroup, false);
+
         return new QuakeViewHolder(v);
     }
 
@@ -65,12 +66,10 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
         holder.tv_referencia.setText(model.getReferencia());
 
         //Setea la magnitud con un maximo de 1 digito decimal.
-        holder.tv_magnitud.setText(String.format(context.getString(R.string.magnitud),
-                model.getMagnitud()));
+        holder.tv_magnitud.setText(String.format(context.getString(R.string.magnitud), model.getMagnitud()));
 
         //Setear el color de background dependiendo de magnitud del sismo
         holder.iv_mag_color.setColorFilter(context.getColor(Utils.getMagnitudeColor(model.getMagnitud(), false)));
-
 
         //SETEO DE Textview HORA
         Map<String, Long> tiempos = Utils.dateToDHMS(model.getFechaLocal());
@@ -89,6 +88,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
                     Datos para mostrar en el detalle de sismos
                  */
                 Intent intent = new Intent(context, QuakeDetailsActivity.class);
+
                 Bundle b = new Bundle();
                 b.putString(context.getString(R.string.INTENT_CIUDAD), model.getCiudad());
                 b.putString(context.getString(R.string.INTENT_REFERENCIA), model.getReferencia());
@@ -96,9 +96,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
                 b.putString(context.getString(R.string.INTENT_LONGITUD), model.getLongitud());
 
                 //CAmbiar la fecha local a string
-                SimpleDateFormat format =
-                        new SimpleDateFormat(context.getString(R.string.DATETIME_FORMAT),
-                                Locale.US);
+                SimpleDateFormat format = new SimpleDateFormat(context.getString(R.string.DATETIME_FORMAT), Locale.US);
                 String fecha_local = format.format(model.getFechaLocal());
                 b.putString(context.getString(R.string.INTENT_FECHA_LOCAL), fecha_local);
 
@@ -144,6 +142,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
     }
 
     public void actualizarLista(List<QuakeModel> list) {
+
         this.quakeModelList = list;
         notifyDataSetChanged();
     }
@@ -161,7 +160,6 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
         private final ImageView iv_sensible;
         private final ConstraintLayout item;
         private TextView tv_ciudad;
-
 
         private QuakeViewHolder(View itemView) {
             super(itemView);

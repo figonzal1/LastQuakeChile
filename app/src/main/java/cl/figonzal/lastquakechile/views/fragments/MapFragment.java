@@ -42,9 +42,7 @@ import cl.figonzal.lastquakechile.viewmodel.QuakeListViewModel;
 import cl.figonzal.lastquakechile.views.activities.QuakeDetailsActivity;
 
 
-public class MapFragment extends Fragment implements OnMapReadyCallback,
-        GoogleMap.InfoWindowAdapter,
-        GoogleMap.OnInfoWindowClickListener {
+public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.InfoWindowAdapter, GoogleMap.OnInfoWindowClickListener {
 
     private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
     private MapView mMapView;
@@ -66,9 +64,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         crashlytics = FirebaseCrashlytics.getInstance();
 
         mMapViewBundle = null;
+
         if (savedInstanceState != null) {
             mMapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY);
         }
+
         setRetainInstance(true);
     }
 
@@ -83,7 +83,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         mMapView = mView.findViewById(R.id.map);
         mMapView.onCreate(mMapViewBundle);
 
-
         mQuakeListViewModel.showQuakeList().observe(requireActivity(), new Observer<List<QuakeModel>>() {
             @Override
             public void onChanged(@Nullable final List<QuakeModel> quakeModels) {
@@ -92,21 +91,22 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
                 mMapView.getMapAsync(MapFragment.this);
             }
         });
+
         return mView;
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         mGoogleMap = googleMap;
         mGoogleMap.clear();
 
         //NIGHT MODE MAPA
-        int nightModeFlags =
-                requireContext().getResources().getConfiguration().uiMode &
-                        Configuration.UI_MODE_NIGHT_MASK;
+        int nightModeFlags = requireContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+
         if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
-            googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(),
-                    R.raw.map_night_mode));
+
+            googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_night_mode));
         }
 
         //Setear info windows
@@ -116,8 +116,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         mGoogleMap.setOnInfoWindowClickListener(MapFragment.this);
 
         //Setear limites del mapa
-        LatLngBounds mChile = new LatLngBounds(new LatLng(-55.15, -78.06),
-                new LatLng(-15.6, -66.5));
+        LatLngBounds mChile = new LatLngBounds(new LatLng(-55.15, -78.06), new LatLng(-15.6, -66.5));
         mGoogleMap.setLatLngBoundsForCameraTarget(mChile);
 
         //Configuraciones de mapa
@@ -134,7 +133,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         mPromLong = 0.0;
 
         //Cargar pines y circulos
-        cargarPins(Objects.requireNonNull(mListQuakeModel));
+        cargarPins(Objects.requireNonNull(mListQuakeModel, "ListQuakeModel null"));
 
         //Calculo de promedios
         mPromLat /= mListQuakeModel.size();
@@ -142,14 +141,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
         //Calcular punto central de pines y ubicar camara en posicion promedio
         LatLng mPuntoPromedio = new LatLng(mPromLat, mPromLong);
-        //mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(punto_central, 5
-        // .0f),
-        //	    2000, null);
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mPuntoPromedio, 5.0f));
 
         //Log zone
-        Log.d(getString(R.string.TAG_MAP_FRAGMENT),
-                getString(R.string.TAG_MAP_READY_RESPONSE));
+        Log.d(getString(R.string.TAG_MAP_FRAGMENT), getString(R.string.TAG_MAP_READY_RESPONSE));
         crashlytics.log(getString(R.string.TAG_MAP_FRAGMENT) + getString(R.string.TAG_MAP_READY_RESPONSE));
     }
 
@@ -167,8 +162,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
             QuakeModel mModel = quakeModels.get(i);
 
             //Obtener clase latlong del sismo
-            LatLng mLatLong = new LatLng(Double.parseDouble(mModel.getLatitud()),
-                    Double.parseDouble(mModel.getLongitud()));
+            LatLng mLatLong = new LatLng(Double.parseDouble(mModel.getLatitud()), Double.parseDouble(mModel.getLongitud()));
 
             //Suma de lat y long
             mPromLat += Double.parseDouble(mModel.getLatitud());
@@ -189,6 +183,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
                     .radius(10000 * mModel.getMagnitud())
                     .fillColor(requireContext().getColor(mIdColor))
                     .strokeColor(requireContext().getColor(R.color.grey_dark_alpha));
+
             mGoogleMap.addCircle(mCircleOptions);
         }
     }
@@ -217,8 +212,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         String mEstado = Objects.requireNonNull(mModel).getEstado();
 
         //Setear estado e imagen del estado (Preliminar o verificado)
-        Utils.setStatusImage(getContext(), mEstado, mTvEstado,
-                mIvEstado);
+        Utils.setStatusImage(getContext(), mEstado, mTvEstado, mIvEstado);
 
         //Setear referencia del sismo en infoWindow
         mTvReferencia.setText(mModel.getReferencia());
@@ -230,44 +224,41 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         mIvMagColor.setColorFilter(requireContext().getColor(Utils.getMagnitudeColor(mModel.getMagnitud(), false)));
 
         //Setear la profundidad del sismo
-        mTvProfundidad.setText(String.format(getString(R.string.profundidad_info_windows),
-                mModel.getProfundidad()));
+        mTvProfundidad.setText(String.format(getString(R.string.profundidad_info_windows), mModel.getProfundidad()));
 
         //Calcular tiempos (Dates a DHMS)
-        Map<String, Long> mTiempos =
-                Utils.dateToDHMS(mModel.getFechaLocal());
+        Map<String, Long> mTiempos = Utils.dateToDHMS(mModel.getFechaLocal());
 
         //Separar mapeo de tiempos en dias, horas,minutos,segundos.
         Long mDias = mTiempos.get(getString(R.string.UTILS_TIEMPO_DIAS));
-        Long mMinutos =
-                mTiempos.get(getString(R.string.UTILS_TIEMPO_MINUTOS));
+        Long mMinutos = mTiempos.get(getString(R.string.UTILS_TIEMPO_MINUTOS));
         Long mHoras = mTiempos.get(getString(R.string.UTILS_TIEMPO_HORAS));
-        Long mSegundos =
-                mTiempos.get(getString(R.string.UTILS_TIEMPO_SEGUNDOS));
+        Long mSegundos = mTiempos.get(getString(R.string.UTILS_TIEMPO_SEGUNDOS));
 
         //Condiciones días.
         if (mDias != null && mDias == 0) {
 
             if (mHoras != null && mHoras >= 1) {
-                mTvHora.setText(String.format(getString(R.string.quake_time_hour_info_windows),
-                        mHoras));
+
+                mTvHora.setText(String.format(getString(R.string.quake_time_hour_info_windows), mHoras));
+
             } else {
-                mTvHora.setText(String.format(getString(R.string.quake_time_minute_info_windows),
-                        mMinutos));
+
+                mTvHora.setText(String.format(getString(R.string.quake_time_minute_info_windows), mMinutos));
 
                 if (mMinutos != null && mMinutos < 1) {
-                    mTvHora.setText(String.format(getString(R.string.quake_time_second_info_windows),
-                            mSegundos));
+                    mTvHora.setText(String.format(getString(R.string.quake_time_second_info_windows), mSegundos));
                 }
             }
         } else if (mDias != null && mDias > 0) {
 
             if (mHoras != null && mHoras == 0) {
-                mTvHora.setText(String.format(getString(R.string.quake_time_day_info_windows),
-                        mDias));
+
+                mTvHora.setText(String.format(getString(R.string.quake_time_day_info_windows), mDias));
+
             } else if (mHoras != null && mHoras >= 1) {
-                mTvHora.setText(String.format(getString(R.string.quake_time_day_hour_info_windows),
-                        mDias, mHoras / 24));
+
+                mTvHora.setText(String.format(getString(R.string.quake_time_day_hour_info_windows), mDias, mHoras / 24));
             }
         }
 
@@ -287,6 +278,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         Bundle mBundle = new Bundle();
 
         if (mModel != null) {
+
             mBundle.putString(getString(R.string.INTENT_CIUDAD), mModel.getCiudad());
             mBundle.putString(getString(R.string.INTENT_REFERENCIA), mModel.getReferencia());
             mBundle.putString(getString(R.string.INTENT_LATITUD), mModel.getLatitud());
@@ -317,7 +309,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     public void onSaveInstanceState(@NonNull Bundle outState) {
 
         Bundle mMapViewBundle = outState.getBundle(MAPVIEW_BUNDLE_KEY);
+
         if (mMapViewBundle == null) {
+
             mMapViewBundle = new Bundle();
             outState.putBundle(MAPVIEW_BUNDLE_KEY, mMapViewBundle);
         }
