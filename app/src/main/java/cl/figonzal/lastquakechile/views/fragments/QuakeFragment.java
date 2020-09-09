@@ -2,6 +2,7 @@ package cl.figonzal.lastquakechile.views.fragments;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -36,9 +37,11 @@ import java.util.List;
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.adapter.QuakeAdapter;
 import cl.figonzal.lastquakechile.model.QuakeModel;
-import cl.figonzal.lastquakechile.repository.ReportRepository;
+import cl.figonzal.lastquakechile.repository.NetworkRepository;
+import cl.figonzal.lastquakechile.repository.QuakeRepository;
 import cl.figonzal.lastquakechile.services.AdsService;
 import cl.figonzal.lastquakechile.viewmodel.QuakeListViewModel;
+import cl.figonzal.lastquakechile.viewmodel.ViewModelFactory;
 
 
 public class QuakeFragment extends Fragment implements SearchView.OnQueryTextListener {
@@ -55,14 +58,21 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
     private AdView mAdView;
     private TextView tv_quakes_vacio;
 
+    private Application application;
+
     private FirebaseCrashlytics crashlytics;
 
     public QuakeFragment() {
-
     }
 
     public static QuakeFragment newInstance() {
         return new QuakeFragment();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        application = requireActivity().getApplication();
     }
 
     @Override
@@ -109,7 +119,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         mProgressBar.setVisibility(View.VISIBLE);
 
         //Instanciar viewmodel
-        mViewModel = new ViewModelProvider(requireActivity()).get(QuakeListViewModel.class);
+        NetworkRepository<QuakeModel> repository = QuakeRepository.getIntance(application);
+        mViewModel = new ViewModelProvider(requireActivity(), new ViewModelFactory(application, repository)).get(QuakeListViewModel.class);
 
         quakeAdapter = new QuakeAdapter(
                 quakeModelList,
@@ -260,7 +271,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
                     public void onClick(View v) {
 
                         mViewModel.refreshMutableQuakeList();
-                        ReportRepository.getIntance(requireActivity().getApplication()).getReports();
+
                         mProgressBar.setVisibility(View.VISIBLE);
 
                         crashlytics.setCustomKey(getString(R.string.SNACKBAR_NOCONNECTION_ERROR_PRESSED), true);

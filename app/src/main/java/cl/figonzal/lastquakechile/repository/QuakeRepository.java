@@ -37,7 +37,7 @@ import cl.figonzal.lastquakechile.services.Utils;
 import cl.figonzal.lastquakechile.services.VolleySingleton;
 
 
-public class QuakeRepository {
+public class QuakeRepository implements NetworkRepository<QuakeModel> {
 
     private static final String TAG_GET_QUAKES = "ListadoSismos";
     private static QuakeRepository instance;
@@ -74,10 +74,30 @@ public class QuakeRepository {
      *
      * @return MutableLiveData con los sismos
      */
-    public MutableLiveData<List<QuakeModel>> getQuakes() {
-
+    @Override
+    public MutableLiveData<List<QuakeModel>> getData() {
         sendGetQuakes();
         return mQuakeMutableList;
+    }
+
+    /**
+     * Function encargada de enviar el estado Loading al viewmodel
+     *
+     * @return MutableLibeData de status loading
+     */
+    @Override
+    public MutableLiveData<Boolean> isLoading() {
+        return isLoadingQuake;
+    }
+
+    /**
+     * Funcion encargada de enviar el status data al viewmodel
+     *
+     * @return MutableLiveData de status data
+     */
+    @Override
+    public SingleLiveEvent<String> getMsgErrorList() {
+        return responseMsgErrorList;
     }
 
     /**
@@ -270,33 +290,5 @@ public class QuakeRepository {
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         VolleySingleton.getInstance(mApplication).addToRequestQueue(mRequest, TAG_GET_QUAKES);
-    }
-
-
-    /**
-     * Funcion del repositorio que envia directamente el listado de sismos al viewmodel
-     *
-     * @return Lista de sismos normal
-     */
-    public List<QuakeModel> getQuakeList() {
-        return mQuakeList;
-    }
-
-    /**
-     * Funcion encargada de enviar el status data al viewmodel
-     *
-     * @return MutableLiveData de status data
-     */
-    public SingleLiveEvent<String> getResponseMsgErrorList() {
-        return responseMsgErrorList;
-    }
-
-    /**
-     * Function encargada de enviar el estado Loading al viewmodel
-     *
-     * @return MutableLibeData de status loading
-     */
-    public MutableLiveData<Boolean> getIsLoading() {
-        return isLoadingQuake;
     }
 }

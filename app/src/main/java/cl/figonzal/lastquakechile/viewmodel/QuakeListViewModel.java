@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cl.figonzal.lastquakechile.model.QuakeModel;
+import cl.figonzal.lastquakechile.repository.NetworkRepository;
 import cl.figonzal.lastquakechile.repository.QuakeRepository;
 import cl.figonzal.lastquakechile.services.SingleLiveEvent;
 
@@ -20,13 +21,17 @@ import cl.figonzal.lastquakechile.services.SingleLiveEvent;
  */
 public class QuakeListViewModel extends AndroidViewModel {
 
+    //Live data con un listado de sismos filtrados
     private final MutableLiveData<List<QuakeModel>> mQuakeMutableFilterList = new MutableLiveData<>();
-    private QuakeRepository mQuakeRepository;
+    //Repositorio de sismos
+    private NetworkRepository<QuakeModel> quakeRepository;
+    //Live data con un listado de sismos
     private MutableLiveData<List<QuakeModel>> mQuakeMutableList;
 
     //Contructor para usar context dentro de la clase ViewModel
-    public QuakeListViewModel(@NonNull Application application) {
+    public QuakeListViewModel(@NonNull Application application, NetworkRepository<QuakeModel> repository) {
         super(application);
+        quakeRepository = repository;
     }
 
     /**
@@ -39,19 +44,14 @@ public class QuakeListViewModel extends AndroidViewModel {
         if (mQuakeMutableList == null) {
 
             mQuakeMutableList = new MutableLiveData<>();
-
-            mQuakeRepository = QuakeRepository.getIntance(getApplication());
-            mQuakeMutableList = mQuakeRepository.getQuakes();
+            mQuakeMutableList = quakeRepository.getData();
         }
 
         return mQuakeMutableList;
     }
 
     public MutableLiveData<Boolean> isLoading() {
-
-        mQuakeRepository = QuakeRepository.getIntance(getApplication());
-
-        return mQuakeRepository.getIsLoading();
+        return quakeRepository.isLoading();
     }
 
     /**
@@ -59,8 +59,8 @@ public class QuakeListViewModel extends AndroidViewModel {
      */
     public void refreshMutableQuakeList() {
 
-        mQuakeRepository = QuakeRepository.getIntance(getApplication());
-        mQuakeRepository.getQuakes();
+        quakeRepository = QuakeRepository.getIntance(getApplication());
+        quakeRepository.getData();
     }
 
     /**
@@ -71,9 +71,9 @@ public class QuakeListViewModel extends AndroidViewModel {
      */
     public SingleLiveEvent<String> showMsgErrorList() {
 
-        mQuakeRepository = QuakeRepository.getIntance(getApplication());
+        quakeRepository = QuakeRepository.getIntance(getApplication());
 
-        return mQuakeRepository.getResponseMsgErrorList();
+        return quakeRepository.getMsgErrorList();
     }
 
     /**
@@ -92,10 +92,10 @@ public class QuakeListViewModel extends AndroidViewModel {
      */
     public void doSearch(String s) {
 
-        mQuakeRepository = QuakeRepository.getIntance(getApplication());
-        List<QuakeModel> mQuakeList = mQuakeRepository.getQuakeList();
+        quakeRepository = QuakeRepository.getIntance(getApplication());
+        List<QuakeModel> mQuakeList = mQuakeMutableList.getValue();
 
-        if (mQuakeList.size() > 0 && !s.isEmpty()) {
+        if (mQuakeList != null && mQuakeList.size() > 0 && !s.isEmpty()) {
 
             //Lista utilizada para el searchView
             List<QuakeModel> filteredList = new ArrayList<>();
