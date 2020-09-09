@@ -1,5 +1,6 @@
 package cl.figonzal.lastquakechile.views.fragments;
 
+import android.app.Application;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,7 +24,10 @@ import java.util.List;
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.adapter.ReportAdapter;
 import cl.figonzal.lastquakechile.model.ReportModel;
+import cl.figonzal.lastquakechile.repository.NetworkRepository;
+import cl.figonzal.lastquakechile.repository.ReportRepository;
 import cl.figonzal.lastquakechile.viewmodel.ReportsViewModel;
+import cl.figonzal.lastquakechile.viewmodel.ViewModelFactory;
 
 public class ReportsFragment extends Fragment {
 
@@ -34,6 +38,8 @@ public class ReportsFragment extends Fragment {
     private ReportAdapter reportAdapter;
     private RecyclerView rv;
 
+    private Application application;
+
     private FirebaseCrashlytics crashlytics;
 
     public ReportsFragment() {
@@ -41,6 +47,12 @@ public class ReportsFragment extends Fragment {
 
     public static ReportsFragment newInstance() {
         return new ReportsFragment();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        application = requireActivity().getApplication();
     }
 
     @Override
@@ -139,7 +151,8 @@ public class ReportsFragment extends Fragment {
         progressBar = v.findViewById(R.id.progress_bar_reportes);
         progressBar.setVisibility(View.VISIBLE);
 
-        reportsViewModel = new ViewModelProvider(requireActivity()).get(ReportsViewModel.class);
+        NetworkRepository<ReportModel> repository = ReportRepository.getIntance(application);
+        reportsViewModel = new ViewModelProvider(requireActivity(), new ViewModelFactory(application, repository)).get(ReportsViewModel.class);
 
         reportAdapter = new ReportAdapter(
                 reportModelList,

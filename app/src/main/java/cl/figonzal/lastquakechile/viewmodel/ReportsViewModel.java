@@ -9,17 +9,20 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.List;
 
 import cl.figonzal.lastquakechile.model.ReportModel;
+import cl.figonzal.lastquakechile.repository.NetworkRepository;
 import cl.figonzal.lastquakechile.repository.ReportRepository;
 import cl.figonzal.lastquakechile.services.SingleLiveEvent;
 
 public class ReportsViewModel extends AndroidViewModel {
 
-    private ReportRepository repository;
+
+    private NetworkRepository<ReportModel> reportRepository;
 
     private MutableLiveData<List<ReportModel>> mutableLiveReports;
 
-    public ReportsViewModel(@NonNull Application application) {
+    public ReportsViewModel(@NonNull Application application, NetworkRepository<ReportModel> repository) {
         super(application);
+        this.reportRepository = repository;
     }
 
     public MutableLiveData<List<ReportModel>> showReports() {
@@ -27,8 +30,7 @@ public class ReportsViewModel extends AndroidViewModel {
         if (mutableLiveReports == null) {
 
             mutableLiveReports = new MutableLiveData<>();
-            repository = ReportRepository.getIntance(getApplication());
-            mutableLiveReports = repository.getReports();
+            mutableLiveReports = reportRepository.getData();
         }
 
         return mutableLiveReports;
@@ -36,22 +38,21 @@ public class ReportsViewModel extends AndroidViewModel {
 
     public SingleLiveEvent<String> showMsgErrorList() {
 
-        repository = ReportRepository.getIntance(getApplication());
+        reportRepository = ReportRepository.getIntance(getApplication());
 
-        return repository.getResponseMsgErrorList();
+        return reportRepository.getMsgErrorList();
     }
 
     public MutableLiveData<Boolean> isLoading() {
 
-        repository = ReportRepository.getIntance(getApplication());
+        reportRepository = ReportRepository.getIntance(getApplication());
 
-        return repository.getIsLoadingReports();
+        return reportRepository.isLoading();
     }
 
     public void refreshMutableReportList() {
 
-        repository = ReportRepository.getIntance(getApplication());
-
-        repository.getReports();
+        reportRepository = ReportRepository.getIntance(getApplication());
+        reportRepository.getData();
     }
 }
