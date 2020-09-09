@@ -28,7 +28,7 @@ import cl.figonzal.lastquakechile.model.ReportModel;
 import cl.figonzal.lastquakechile.services.SingleLiveEvent;
 import cl.figonzal.lastquakechile.services.VolleySingleton;
 
-public class ReportRepository {
+public class ReportRepository implements NetworkRepository<ReportModel> {
 
     private static final String TAG_GET_REPORTS = "ListadoReportes";
     private static ReportRepository instance;
@@ -57,11 +57,21 @@ public class ReportRepository {
         return instance;
     }
 
-    public MutableLiveData<List<ReportModel>> getReports() {
-
+    @Override
+    public MutableLiveData<List<ReportModel>> getData() {
         sendGetReports();
 
         return reportMutableLiveData;
+    }
+
+    @Override
+    public MutableLiveData<Boolean> isLoading() {
+        return isLoadingReports;
+    }
+
+    @Override
+    public SingleLiveEvent<String> getMsgErrorList() {
+        return responseMsgErrorList;
     }
 
     private void sendGetReports() {
@@ -168,13 +178,5 @@ public class ReportRepository {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         VolleySingleton.getInstance(mApplication).addToRequestQueue(stringRequest, TAG_GET_REPORTS);
-    }
-
-    public MutableLiveData<Boolean> getIsLoadingReports() {
-        return isLoadingReports;
-    }
-
-    public SingleLiveEvent<String> getResponseMsgErrorList() {
-        return responseMsgErrorList;
     }
 }
