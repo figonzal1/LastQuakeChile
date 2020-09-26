@@ -4,8 +4,8 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.views.fragments.MapFragment;
@@ -13,22 +13,25 @@ import cl.figonzal.lastquakechile.views.fragments.QuakeFragment;
 import cl.figonzal.lastquakechile.views.fragments.ReportsFragment;
 
 
-public class FragmentPageAdapter extends FragmentPagerAdapter {
+public class MainFragmentStateAdapter extends FragmentStateAdapter {
 
-    private final String[] mTabTitles = new String[3];
+    private static final String[] tabs = new String[3];
 
-    public FragmentPageAdapter(FragmentManager fm, Context context) {
+    public MainFragmentStateAdapter(FragmentActivity fa, Context context) {
+        super(fa);
 
-        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        tabs[0] = context.getString(R.string.tab_list);
+        tabs[1] = context.getString(R.string.tab_reports);
+        tabs[2] = context.getString(R.string.tab_map);
+    }
 
-        mTabTitles[0] = context.getString(R.string.tab_list);
-        mTabTitles[1] = context.getString(R.string.tab_reports);
-        mTabTitles[2] = context.getString(R.string.tab_map);
+    public static String[] getTabs() {
+        return tabs;
     }
 
     @NonNull
     @Override
-    public Fragment getItem(int position) {
+    public Fragment createFragment(int position) {
         Fragment f = new Fragment();
 
         switch (position) {
@@ -49,13 +52,7 @@ public class FragmentPageAdapter extends FragmentPagerAdapter {
     }
 
     @Override
-    public int getCount() {
-        return mTabTitles.length;
+    public int getItemCount() {
+        return tabs.length;
     }
-
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return mTabTitles[position];
-    }
-
 }

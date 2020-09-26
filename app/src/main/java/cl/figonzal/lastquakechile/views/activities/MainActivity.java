@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
-import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -29,6 +29,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
@@ -36,7 +37,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.SettingsActivity;
-import cl.figonzal.lastquakechile.adapter.FragmentPageAdapter;
+import cl.figonzal.lastquakechile.adapter.MainFragmentStateAdapter;
 import cl.figonzal.lastquakechile.services.AdsService;
 import cl.figonzal.lastquakechile.services.Utils;
 import cl.figonzal.lastquakechile.services.notifications.ChangeLogNotification;
@@ -131,16 +132,16 @@ public class MainActivity extends AppCompatActivity {
         mAppBarLayout = findViewById(R.id.app_bar);
 
         //View pager para los fragments (Solo 1 fragment en esta app)
-        ViewPager mViewPager = findViewById(R.id.view_pager);
-        mViewPager.setAdapter(new FragmentPageAdapter(getSupportFragmentManager(), getApplicationContext()));
+        ViewPager2 viewPager2 = findViewById(R.id.view_pager);
+        viewPager2.setAdapter(new MainFragmentStateAdapter(this, getApplicationContext()));
 
         //Seteo de tabs.
-        TabLayout mTabLayout = findViewById(R.id.tabs);
-        mTabLayout.setupWithViewPager(mViewPager);
+        TabLayout tabLayout = findViewById(R.id.tabs);
+        new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> tab.setText(MainFragmentStateAdapter.getTabs()[position])).attach();
 
-        for (int i = 0; i < mTabLayout.getTabCount(); i++) {
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
 
-            TabLayout.Tab tab = mTabLayout.getTabAt(i);
+            TabLayout.Tab tab = tabLayout.getTabAt(i);
 
             if (tab != null) {
 
@@ -157,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
