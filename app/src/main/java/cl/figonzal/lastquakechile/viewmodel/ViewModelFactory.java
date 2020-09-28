@@ -20,6 +20,7 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
         this.repository = repository;
     }
 
+    @SuppressWarnings("unchecked")
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
