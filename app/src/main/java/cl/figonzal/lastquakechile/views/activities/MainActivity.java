@@ -36,7 +36,6 @@ import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import cl.figonzal.lastquakechile.R;
-import cl.figonzal.lastquakechile.SettingsActivity;
 import cl.figonzal.lastquakechile.adapter.MainFragmentStateAdapter;
 import cl.figonzal.lastquakechile.services.AdsService;
 import cl.figonzal.lastquakechile.services.Utils;

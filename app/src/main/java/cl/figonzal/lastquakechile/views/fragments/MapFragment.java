@@ -45,8 +45,8 @@ import cl.figonzal.lastquakechile.views.activities.QuakeDetailsActivity;
 public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.InfoWindowAdapter, GoogleMap.OnInfoWindowClickListener {
 
     private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
-    private MapView mMapView;
-    private GoogleMap mGoogleMap;
+    private MapView mapView;
+    private GoogleMap googleMap;
     private double mPromLat, mPromLong;
     private Bundle mMapViewBundle;
     private List<QuakeModel> mListQuakeModel;
@@ -58,18 +58,24 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        mapView.onCreate(savedInstanceState);
+        mapView.onResume();
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         crashlytics = FirebaseCrashlytics.getInstance();
 
-        mMapViewBundle = null;
-
+        /*mMapViewBundle = null;
         if (savedInstanceState != null) {
             mMapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY);
         }
-
-        setRetainInstance(true);
+        setRetainInstance(true);*/
     }
 
     @Override
@@ -80,15 +86,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
         QuakeListViewModel mQuakeListViewModel = new ViewModelProvider(requireActivity()).get(QuakeListViewModel.class);
 
-        mMapView = mView.findViewById(R.id.map);
-        mMapView.onCreate(mMapViewBundle);
+        mapView = mView.findViewById(R.id.map);
 
         mQuakeListViewModel.showQuakeList().observe(requireActivity(), new Observer<List<QuakeModel>>() {
             @Override
             public void onChanged(@Nullable final List<QuakeModel> quakeModels) {
 
                 mListQuakeModel = quakeModels;
-                mMapView.getMapAsync(MapFragment.this);
+                mapView.getMapAsync(MapFragment.this);
             }
         });
 
@@ -98,8 +103,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-        mGoogleMap = googleMap;
-        mGoogleMap.clear();
+        this.googleMap = googleMap;
+        this.googleMap.clear();
 
         //NIGHT MODE MAPA
         int nightModeFlags = requireContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
@@ -110,24 +115,24 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         }
 
         //Setear info windows
-        mGoogleMap.setInfoWindowAdapter(MapFragment.this);
+        this.googleMap.setInfoWindowAdapter(MapFragment.this);
 
         //Setear info windows click listener
-        mGoogleMap.setOnInfoWindowClickListener(MapFragment.this);
+        this.googleMap.setOnInfoWindowClickListener(MapFragment.this);
 
         //Setear limites del mapa
         LatLngBounds mChile = new LatLngBounds(new LatLng(-55.15, -78.06), new LatLng(-15.6, -66.5));
-        mGoogleMap.setLatLngBoundsForCameraTarget(mChile);
+        this.googleMap.setLatLngBoundsForCameraTarget(mChile);
 
         //Configuraciones de mapa
-        mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        mGoogleMap.setMinZoomPreference(5.0f);
-        mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
-        mGoogleMap.getUiSettings().setTiltGesturesEnabled(true);
-        mGoogleMap.getUiSettings().setMapToolbarEnabled(true);
-        mGoogleMap.getUiSettings().setZoomGesturesEnabled(true);
-        mGoogleMap.getUiSettings().setRotateGesturesEnabled(false);
-        mGoogleMap.getUiSettings().setCompassEnabled(false);
+        this.googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        this.googleMap.setMinZoomPreference(5.0f);
+        this.googleMap.getUiSettings().setZoomControlsEnabled(true);
+        this.googleMap.getUiSettings().setTiltGesturesEnabled(true);
+        this.googleMap.getUiSettings().setMapToolbarEnabled(true);
+        this.googleMap.getUiSettings().setZoomGesturesEnabled(true);
+        this.googleMap.getUiSettings().setRotateGesturesEnabled(false);
+        this.googleMap.getUiSettings().setCompassEnabled(false);
 
         mPromLat = 0.0;
         mPromLong = 0.0;
@@ -141,7 +146,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
         //Calcular punto central de pines y ubicar camara en posicion promedio
         LatLng mPuntoPromedio = new LatLng(mPromLat, mPromLong);
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mPuntoPromedio, 5.0f));
+        this.googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mPuntoPromedio, 5.0f));
 
         //Log zone
         Log.d(getString(R.string.TAG_MAP_FRAGMENT), getString(R.string.TAG_MAP_READY_RESPONSE));
@@ -172,7 +177,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             int mIdColor = Utils.getMagnitudeColor(mModel.getMagnitud(), true);
 
             //Marcador de epicentro
-            mGoogleMap.addMarker(new MarkerOptions()
+            googleMap.addMarker(new MarkerOptions()
                     .position(mLatLong)
                     .alpha(0.9f)
             ).setTag(mModel);
@@ -184,7 +189,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                     .fillColor(requireContext().getColor(mIdColor))
                     .strokeColor(requireContext().getColor(R.color.grey_dark_alpha));
 
-            mGoogleMap.addCircle(mCircleOptions);
+            googleMap.addCircle(mCircleOptions);
         }
     }
 
@@ -316,7 +321,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             outState.putBundle(MAPVIEW_BUNDLE_KEY, mMapViewBundle);
         }
 
-        mMapView.onSaveInstanceState(mMapViewBundle);
+        mapView.onSaveInstanceState(mMapViewBundle);
 
         super.onSaveInstanceState(outState);
     }
@@ -324,26 +329,26 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     @Override
     public void onResume() {
         super.onResume();
-        mMapView.onResume();
+        mapView.onResume();
 
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mMapView.onPause();
+        mapView.onPause();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mMapView.onDestroy();
+        mapView.onDestroy();
     }
 
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-        mMapView.onLowMemory();
+        mapView.onLowMemory();
     }
 
 }
