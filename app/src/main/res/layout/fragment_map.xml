@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".views.fragments.MapFragment">
 
-    <com.google.android.gms.maps.MapView
+    <!-- own view of map to solve scrolling with viewpager2-->
+    <cl.figonzal.lastquakechile.views.MapViewInScroll
         android:id="@+id/map"
         android:layout_width="0dp"
         android:layout_height="0dp"

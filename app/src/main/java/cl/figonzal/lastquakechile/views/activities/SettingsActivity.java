@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile;
+package cl.figonzal.lastquakechile.views.activities;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,9 +17,9 @@ import androidx.preference.SeekBarPreference;
 
 import java.util.Objects;
 
+import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.services.Utils;
 import cl.figonzal.lastquakechile.services.notifications.QuakesNotification;
-import cl.figonzal.lastquakechile.views.activities.MainActivity;
 
 public class SettingsActivity extends AppCompatActivity {
 
