@@ -18,10 +18,12 @@ import androidx.preference.SeekBarPreference;
 import java.util.Objects;
 
 import cl.figonzal.lastquakechile.R;
-import cl.figonzal.lastquakechile.services.Utils;
+import cl.figonzal.lastquakechile.managers.NightModeManager;
 import cl.figonzal.lastquakechile.services.notifications.QuakesNotification;
 
 public class SettingsActivity extends AppCompatActivity {
+
+    private NightModeManager nightModeManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,7 +31,8 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.settings_activity);
 
         //Check modo noche
-        Utils.checkNightMode(this, getWindow());
+        nightModeManager = new NightModeManager();
+        nightModeManager.checkNightMode(this, getWindow());
 
         getSupportFragmentManager()
                 .beginTransaction()
@@ -50,7 +53,7 @@ public class SettingsActivity extends AppCompatActivity {
         super.onResume();
 
         //Check modo noche
-        Utils.checkNightMode(this, getWindow());
+        nightModeManager.checkNightMode(this, getWindow());
     }
 
     @Override

@@ -42,6 +42,7 @@ import java.util.Objects;
 
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.managers.DateManager;
+import cl.figonzal.lastquakechile.managers.NightModeManager;
 import cl.figonzal.lastquakechile.services.Utils;
 
 public class QuakeDetailsActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -90,6 +91,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
 
     private FirebaseCrashlytics crashlytics;
     private DateManager dateManager;
+    private NightModeManager nightModeManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -97,7 +99,8 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         setContentView(R.layout.activity_quake_details);
 
         //Check night mode
-        Utils.checkNightMode(this, getWindow());
+        nightModeManager = new NightModeManager();
+        nightModeManager.checkNightMode(this, getWindow());
 
         mMapViewBundle = null;
         if (savedInstanceState != null) {

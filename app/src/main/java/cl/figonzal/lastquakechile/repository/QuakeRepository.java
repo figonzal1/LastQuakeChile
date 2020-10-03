@@ -33,8 +33,8 @@ import java.util.TimeZone;
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.managers.DateManager;
 import cl.figonzal.lastquakechile.model.QuakeModel;
-import cl.figonzal.lastquakechile.services.SingleLiveEvent;
 import cl.figonzal.lastquakechile.services.VolleySingleton;
+import cl.figonzal.lastquakechile.viewmodel.SingleLiveEvent;
 
 
 public class QuakeRepository implements NetworkRepository<QuakeModel> {
