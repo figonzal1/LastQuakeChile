@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile.services;
+package cl.figonzal.lastquakechile.viewmodel;
 
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;

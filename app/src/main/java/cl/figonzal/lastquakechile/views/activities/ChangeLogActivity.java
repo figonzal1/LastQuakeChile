@@ -18,14 +18,15 @@ import java.util.Objects;
 
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.adapter.ChangeLogAdapter;
+import cl.figonzal.lastquakechile.managers.NightModeManager;
 import cl.figonzal.lastquakechile.model.ChangeLog;
-import cl.figonzal.lastquakechile.services.Utils;
 
 public class ChangeLogActivity extends AppCompatActivity {
 
     private List<ChangeLog> changeLogList;
 
     private FirebaseCrashlytics crashlytics;
+    private NightModeManager nightModeManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +34,8 @@ public class ChangeLogActivity extends AppCompatActivity {
         setContentView(R.layout.activity_change_log);
 
         //Check modo noche
-        Utils.checkNightMode(this, getWindow());
+        nightModeManager = new NightModeManager();
+        nightModeManager.checkNightMode(this, getWindow());
 
         Toolbar mToolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(mToolbar);
