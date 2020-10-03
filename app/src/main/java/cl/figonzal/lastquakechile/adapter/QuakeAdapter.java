@@ -26,8 +26,8 @@ import java.util.Map;
 
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.managers.DateManager;
+import cl.figonzal.lastquakechile.managers.ViewsManager;
 import cl.figonzal.lastquakechile.model.QuakeModel;
-import cl.figonzal.lastquakechile.services.Utils;
 import cl.figonzal.lastquakechile.views.activities.QuakeDetailsActivity;
 
 public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHolder> {
@@ -39,8 +39,9 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
     private FirebaseCrashlytics crashlytics;
 
     private DateManager dateManager;
+    private ViewsManager viewsManager;
 
-    public QuakeAdapter(List<QuakeModel> quakeModelList, Context context, Activity activity, DateManager dateManager) {
+    public QuakeAdapter(List<QuakeModel> quakeModelList, Context context, Activity activity, DateManager dateManager, ViewsManager viewsManager) {
 
         this.quakeModelList = quakeModelList;
         this.context = context;
@@ -49,6 +50,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
 
         crashlytics = FirebaseCrashlytics.getInstance();
         this.dateManager = dateManager;
+        this.viewsManager = viewsManager;
     }
 
     @NonNull
@@ -73,63 +75,61 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
         holder.tv_magnitud.setText(String.format(context.getString(R.string.magnitud), model.getMagnitud()));
 
         //Setear el color de background dependiendo de magnitud del sismo
-        holder.iv_mag_color.setColorFilter(context.getColor(Utils.getMagnitudeColor(model.getMagnitud(), false)));
+        int idColor = viewsManager.getMagnitudeColor(model.getMagnitud(), false);
+        holder.iv_mag_color.setColorFilter(context.getColor(idColor));
 
         //SETEO DE Textview HORA
         Map<String, Long> tiempos = dateManager.dateToDHMS(model.getFechaLocal());
-        Utils.setTimeToTextView(context, tiempos, holder.tv_hora);
+        dateManager.setTimeToTextView(context, tiempos, holder.tv_hora);
 
         //Sismo sensible
         if (model.getSensible()) {
             holder.iv_sensible.setVisibility(View.VISIBLE);
         }
 
-        holder.item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        holder.item.setOnClickListener((View.OnClickListener) v -> {
 
-                /*
-                    Datos para mostrar en el detalle de sismos
-                 */
-                Intent intent = new Intent(context, QuakeDetailsActivity.class);
+            /*
+                Datos para mostrar en el detalle de sismos
+             */
+            Intent intent = new Intent(context, QuakeDetailsActivity.class);
 
-                Bundle b = new Bundle();
-                b.putString(context.getString(R.string.INTENT_CIUDAD), model.getCiudad());
-                b.putString(context.getString(R.string.INTENT_REFERENCIA), model.getReferencia());
-                b.putString(context.getString(R.string.INTENT_LATITUD), model.getLatitud());
-                b.putString(context.getString(R.string.INTENT_LONGITUD), model.getLongitud());
+            Bundle b = new Bundle();
+            b.putString(context.getString(R.string.INTENT_CIUDAD), model.getCiudad());
+            b.putString(context.getString(R.string.INTENT_REFERENCIA), model.getReferencia());
+            b.putString(context.getString(R.string.INTENT_LATITUD), model.getLatitud());
+            b.putString(context.getString(R.string.INTENT_LONGITUD), model.getLongitud());
 
-                //CAmbiar la fecha local a string
-                SimpleDateFormat format = new SimpleDateFormat(context.getString(R.string.DATETIME_FORMAT), Locale.US);
-                String fecha_local = format.format(model.getFechaLocal());
-                b.putString(context.getString(R.string.INTENT_FECHA_LOCAL), fecha_local);
+            //CAmbiar la fecha local a string
+            SimpleDateFormat format = new SimpleDateFormat(context.getString(R.string.DATETIME_FORMAT), Locale.US);
+            String fecha_local = format.format(model.getFechaLocal());
+            b.putString(context.getString(R.string.INTENT_FECHA_LOCAL), fecha_local);
 
-                b.putDouble(context.getString(R.string.INTENT_MAGNITUD), model.getMagnitud());
-                b.putDouble(context.getString(R.string.INTENT_PROFUNDIDAD),
-                        model.getProfundidad());
-                b.putString(context.getString(R.string.INTENT_ESCALA), model.getEscala());
-                b.putBoolean(context.getString(R.string.INTENT_SENSIBLE), model.getSensible());
-                b.putString(context.getString(R.string.INTENT_LINK_FOTO), model.getImagenUrl());
-                b.putString(context.getString(R.string.INTENT_ESTADO), model.getEstado());
+            b.putDouble(context.getString(R.string.INTENT_MAGNITUD), model.getMagnitud());
+            b.putDouble(context.getString(R.string.INTENT_PROFUNDIDAD),
+                    model.getProfundidad());
+            b.putString(context.getString(R.string.INTENT_ESCALA), model.getEscala());
+            b.putBoolean(context.getString(R.string.INTENT_SENSIBLE), model.getSensible());
+            b.putString(context.getString(R.string.INTENT_LINK_FOTO), model.getImagenUrl());
+            b.putString(context.getString(R.string.INTENT_ESTADO), model.getEstado());
 
-                intent.putExtras(b);
+            intent.putExtras(b);
 
-                //LOG
-                Log.d(context.getString(R.string.TAG_INTENT), context.getString(R.string.TRY_INTENT_DETALLE));
-                crashlytics.log(context.getString(R.string.TAG_INTENT) + context.getString(R.string.TRY_INTENT_DETALLE));
+            //LOG
+            Log.d(context.getString(R.string.TAG_INTENT), context.getString(R.string.TRY_INTENT_DETALLE));
+            crashlytics.log(context.getString(R.string.TAG_INTENT) + context.getString(R.string.TRY_INTENT_DETALLE));
 
-                /*
-                    Seccion transiciones animadas de TextViews
-                 */
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity,
-                        Pair.create((View) holder.iv_mag_color, "color_magnitud"),
-                        Pair.create((View) holder.tv_magnitud, "magnitud"),
-                        Pair.create((View) holder.tv_ciudad, "ciudad"),
-                        Pair.create((View) holder.tv_referencia, "referencia"),
-                        Pair.create((View) holder.tv_hora, "hora")
-                );
-                context.startActivity(intent, options.toBundle());
-            }
+            /*
+                Seccion transiciones animadas de TextViews
+             */
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity,
+                    Pair.create((View) holder.iv_mag_color, "color_magnitud"),
+                    Pair.create((View) holder.tv_magnitud, "magnitud"),
+                    Pair.create((View) holder.tv_ciudad, "ciudad"),
+                    Pair.create((View) holder.tv_referencia, "referencia"),
+                    Pair.create((View) holder.tv_hora, "hora")
+            );
+            context.startActivity(intent, options.toBundle());
         });
 
     }

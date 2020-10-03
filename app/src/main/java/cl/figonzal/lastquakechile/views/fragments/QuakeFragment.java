@@ -22,7 +22,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,6 +36,7 @@ import java.util.List;
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.adapter.QuakeAdapter;
 import cl.figonzal.lastquakechile.managers.DateManager;
+import cl.figonzal.lastquakechile.managers.ViewsManager;
 import cl.figonzal.lastquakechile.model.QuakeModel;
 import cl.figonzal.lastquakechile.repository.NetworkRepository;
 import cl.figonzal.lastquakechile.repository.QuakeRepository;
@@ -63,6 +63,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
     private FirebaseCrashlytics crashlytics;
     private DateManager dateManager;
+    private ViewsManager viewsManager;
 
     public QuakeFragment() {
     }
@@ -78,6 +79,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
         dateManager = new DateManager();
         crashlytics = FirebaseCrashlytics.getInstance();
+        viewsManager = new ViewsManager();
     }
 
     @Override
@@ -90,7 +92,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
         instanciarRecursosInterfaz(v);
 
-        iniciarViewModelObservers(v);
+        iniciarViewModelObservers();
 
         //Seccion SHARED PREF CARD VIEW INFO
         showCardViewInformation(v);
@@ -129,7 +131,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
                 quakeModelList,
                 requireContext(),
                 requireActivity(),
-                dateManager
+                dateManager,
+                viewsManager
         );
 
         mRecycleView.setAdapter(quakeAdapter);
@@ -138,80 +141,66 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
     /**
      * Funcion que contiene los ViewModels encargados de cargar los datos asincronamente a la UI
-     *
-     * @param v Vista necesaria para mostrar componentes UI
      */
-    private void iniciarViewModelObservers(final View v) {
+    private void iniciarViewModelObservers() {
 
-        mViewModel.isLoading().observe(requireActivity(), new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean aBoolean) {
+        mViewModel.isLoading().observe(requireActivity(), aBoolean -> {
 
-                if (aBoolean) {
+            if (aBoolean) {
 
-                    mProgressBar.setVisibility(View.VISIBLE);
-                    tv_quakes_vacio.setVisibility(View.INVISIBLE);
-                    mRecycleView.setVisibility(View.INVISIBLE);
+                mProgressBar.setVisibility(View.VISIBLE);
+                tv_quakes_vacio.setVisibility(View.INVISIBLE);
+                mRecycleView.setVisibility(View.INVISIBLE);
 
-                } else {
-                    mProgressBar.setVisibility(View.INVISIBLE);
-                    mRecycleView.setVisibility(View.VISIBLE);
-                }
+            } else {
+                mProgressBar.setVisibility(View.INVISIBLE);
+                mRecycleView.setVisibility(View.VISIBLE);
             }
         });
 
         //Viewmodel encargado de cargar los datos desde internet
-        mViewModel.showQuakeList().observe(requireActivity(), new Observer<List<QuakeModel>>() {
-            @Override
-            public void onChanged(@Nullable List<QuakeModel> list) {
+        mViewModel.showQuakeList().observe(requireActivity(), list -> {
 
-                if (list != null) {
+            if (list != null) {
 
-                    quakeModelList = list;
-                    quakeAdapter.actualizarLista(quakeModelList);
+                quakeModelList = list;
+                quakeAdapter.actualizarLista(quakeModelList);
 
-                    quakeModelList = quakeAdapter.getQuakeList();
+                quakeModelList = quakeAdapter.getQuakeList();
 
-                    mProgressBar.setVisibility(View.INVISIBLE);
+                mProgressBar.setVisibility(View.INVISIBLE);
 
-                    if (quakeModelList.size() == 0) {
-                        tv_quakes_vacio.setVisibility(View.VISIBLE);
-                    } else {
-                        tv_quakes_vacio.setVisibility(View.INVISIBLE);
-                    }
-
-                    //LOG ZONE
-                    Log.d(getString(R.string.TAG_FRAGMENT_QUAKE), getString(R.string.FRAGMENT_LOAD_LIST));
-
-                    crashlytics.log(getString(R.string.TAG_FRAGMENT_QUAKE) + getString(R.string.FRAGMENT_LOAD_LIST));
+                if (quakeModelList.size() == 0) {
+                    tv_quakes_vacio.setVisibility(View.VISIBLE);
+                } else {
+                    tv_quakes_vacio.setVisibility(View.INVISIBLE);
                 }
+
+                //LOG ZONE
+                Log.d(getString(R.string.TAG_FRAGMENT_QUAKE), getString(R.string.FRAGMENT_LOAD_LIST));
+
+                crashlytics.log(getString(R.string.TAG_FRAGMENT_QUAKE) + getString(R.string.FRAGMENT_LOAD_LIST));
             }
         });
 
         //Viewmodel encargado de mostrar los mensajes de estado en los sSnackbar
-        mViewModel.showMsgErrorList().observe(requireActivity(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String status) {
+        mViewModel.showMsgErrorList().observe(requireActivity(), status -> {
 
-                if (status != null) {
+            if (status != null) {
 
-                    mProgressBar.setVisibility(View.INVISIBLE);
-                    mRecycleView.setVisibility(View.INVISIBLE);
-                    showSnackBar(status, requireActivity().findViewById(android.R.id.content));
-                    quakeAdapter.notifyDataSetChanged();
-                }
+                mProgressBar.setVisibility(View.INVISIBLE);
+                mRecycleView.setVisibility(View.INVISIBLE);
+                showSnackBar(status, requireActivity().findViewById(android.R.id.content));
+                quakeAdapter.notifyDataSetChanged();
             }
         });
 
         //ViewModel encargado de cargar los datos de sismos post-busqueda de usuario en SearchView
-        mViewModel.showFilteredQuakeList().observe(requireActivity(), new Observer<List<QuakeModel>>() {
-            @Override
-            public void onChanged(@Nullable List<QuakeModel> list) {
+        mViewModel.showFilteredQuakeList().observe(requireActivity(), list -> {
 
-                //Setear el mAdapter con la lista de quakes
-                quakeModelList = list;
-                quakeAdapter.actualizarLista(quakeModelList);
-            }
+            //Setear el mAdapter con la lista de quakes
+            quakeModelList = list;
+            quakeAdapter.actualizarLista(quakeModelList);
         });
     }
 
@@ -233,30 +222,27 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
         Button mBtnCvInfo = v.findViewById(R.id.btn_info_accept);
 
-        mBtnCvInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        mBtnCvInfo.setOnClickListener(v1 -> {
 
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean(getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO), false);
-                editor.apply();
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean(getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO), false);
+            editor.apply();
 
-                mCardViewInfo.animate()
-                        .translationY(-mCardViewInfo.getHeight())
-                        .alpha(1.0f)
-                        .setDuration(500)
-                        .setListener(new AnimatorListenerAdapter() {
-                            @Override
-                            public void onAnimationEnd(Animator animation) {
-                                mCardViewInfo.setVisibility(View.GONE);
-                            }
-                        });
+            mCardViewInfo.animate()
+                    .translationY(-mCardViewInfo.getHeight())
+                    .alpha(1.0f)
+                    .setDuration(500)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            mCardViewInfo.setVisibility(View.GONE);
+                        }
+                    });
 
 
-                //LOGS
-                Log.d(getString(R.string.TAG_CARD_VIEW_INFO), getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO_RESULT));
-                crashlytics.log(getString(R.string.TAG_CARD_VIEW_INFO) + getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO_RESULT));
-            }
+            //LOGS
+            Log.d(getString(R.string.TAG_CARD_VIEW_INFO), getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO_RESULT));
+            crashlytics.log(getString(R.string.TAG_CARD_VIEW_INFO) + getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO_RESULT));
         });
     }
 
@@ -270,16 +256,13 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
         sSnackbar = Snackbar
                 .make(v, status, Snackbar.LENGTH_INDEFINITE)
-                .setAction(getString(R.string.FLAG_RETRY), new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                .setAction(getString(R.string.FLAG_RETRY), v1 -> {
 
-                        mViewModel.refreshMutableQuakeList();
+                    mViewModel.refreshMutableQuakeList();
 
-                        mProgressBar.setVisibility(View.VISIBLE);
+                    mProgressBar.setVisibility(View.VISIBLE);
 
-                        crashlytics.setCustomKey(getString(R.string.SNACKBAR_NOCONNECTION_ERROR_PRESSED), true);
-                    }
+                    crashlytics.setCustomKey(getString(R.string.SNACKBAR_NOCONNECTION_ERROR_PRESSED), true);
                 });
 
         sSnackbar.setActionTextColor(getResources().getColor(R.color.colorSecondary, requireContext().getTheme()));

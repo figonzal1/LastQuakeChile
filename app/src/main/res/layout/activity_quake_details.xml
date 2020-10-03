@@ -150,15 +150,6 @@
                 app:layout_constraintStart_toStartOf="@+id/izquierda"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
-                    android:id="@+id/iv_map_quake"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@string/imagen_geografica_posicion_sismo"
-                    android:scaleType="centerCrop"
-                    android:visibility="gone"
-                    tools:src="@drawable/placeholder" />
-
                 <com.google.android.gms.maps.MapView
                     android:id="@+id/map"
                     android:layout_width="match_parent"
