@@ -36,8 +36,8 @@ import java.util.Objects;
 
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.managers.DateManager;
+import cl.figonzal.lastquakechile.managers.ViewsManager;
 import cl.figonzal.lastquakechile.model.QuakeModel;
-import cl.figonzal.lastquakechile.services.Utils;
 import cl.figonzal.lastquakechile.viewmodel.QuakeListViewModel;
 import cl.figonzal.lastquakechile.views.activities.QuakeDetailsActivity;
 
@@ -53,6 +53,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
     private FirebaseCrashlytics crashlytics;
     private DateManager dateManager;
+    private ViewsManager viewsManager;
 
     public static MapFragment newInstance() {
         return new MapFragment();
@@ -72,6 +73,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
         crashlytics = FirebaseCrashlytics.getInstance();
         dateManager = new DateManager();
+        viewsManager = new ViewsManager();
 
         /*mMapViewBundle = null;
         if (savedInstanceState != null) {
@@ -173,7 +175,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             mPromLong += Double.parseDouble(mModel.getLongitud());
 
             //Buscar color
-            int mIdColor = Utils.getMagnitudeColor(mModel.getMagnitud(), true);
+            int mIdColor = viewsManager.getMagnitudeColor(mModel.getMagnitud(), true);
 
             //Marcador de epicentro
             googleMap.addMarker(new MarkerOptions()
@@ -216,7 +218,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         String mEstado = Objects.requireNonNull(mModel).getEstado();
 
         //Setear estado e imagen del estado (Preliminar o verificado)
-        Utils.setStatusImage(getContext(), mEstado, mTvEstado, mIvEstado);
+        viewsManager.setStatusImage(getContext(), mEstado, mTvEstado, mIvEstado);
 
         //Setear referencia del sismo en infoWindow
         mTvReferencia.setText(mModel.getReferencia());
@@ -225,7 +227,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         mTvMagnitud.setText(String.format(requireContext().getString(R.string.magnitud), mModel.getMagnitud()));
 
         //Colorear circulo según la magnitud del sismo
-        mIvMagColor.setColorFilter(requireContext().getColor(Utils.getMagnitudeColor(mModel.getMagnitud(), false)));
+        int idColor = viewsManager.getMagnitudeColor(mModel.getMagnitud(), false);
+        mIvMagColor.setColorFilter(requireContext().getColor(idColor));
 
         //Setear la profundidad del sismo
         mTvProfundidad.setText(String.format(getString(R.string.profundidad_info_windows), mModel.getProfundidad()));

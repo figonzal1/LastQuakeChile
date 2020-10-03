@@ -19,6 +19,7 @@ import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.util.Date;
+import java.util.Random;
 
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.dialogs.RewardDialogFragment;
@@ -65,7 +66,7 @@ public class AdsService {
             crashlytics.log(context.getString(R.string.TAG_REWARD_STATUS) + context.getString(R.string
                     .TAG_REWARD_STATUS_EN_PERIODO));
 
-            boolean showDialog = Utils.generateRandomNumber();
+            boolean showDialog = generateRandomNumber();
 
             if (showDialog) {
 
@@ -243,5 +244,17 @@ public class AdsService {
         });
 
         mAdView.loadAd(adRequest);
+    }
+
+    /**
+     * Funcion encargada de generar un numero aleatorio para dialogs.
+     *
+     * @return Booleano con el resultado
+     */
+    private boolean generateRandomNumber() {
+
+        Random random = new Random();
+        int item = random.nextInt(10);
+        return item % 3 == 0;
     }
 }
