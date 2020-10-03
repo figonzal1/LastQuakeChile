@@ -1,25 +1,18 @@
 package cl.figonzal.lastquakechile.services;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.util.Log;
-import android.view.Window;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
-import androidx.preference.PreferenceManager;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.io.File;
@@ -303,58 +296,6 @@ public class Utils {
     }
 
     /**
-     * Funcion que permite revisar y establecer el modo noche desde Shared Preference Settings
-     *
-     * @param activity Actividad para utilizar recursos
-     * @param window   Usado para instanciar adview manualmente
-     */
-    public static void checkNightMode(Activity activity, Window window) {
-
-        FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
-
-        //Leer preference settings
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
-
-        boolean manual_night_mode = sharedPreferences.getBoolean(activity.getString(R.string.NIGHT_MODE_MANUAL_KEY), false);
-
-        boolean auto_night_mode = sharedPreferences.getBoolean(activity.getString(R.string.NIGHT_MODE_AUTO_KEY), false);
-
-        //MODO MANUAL
-        //Si el modo manual esta activado
-        if (manual_night_mode) {
-
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            window.setStatusBarColor(activity.getColor(R.color.colorPrimaryVariantNightMode));
-
-            //fixAdViewNightMode(activity);
-
-            Log.d(activity.getString(R.string.TAG_NIGHT_MODE_MANUAL), activity.getString(R.string.TAG_NIGHT_MODE_STATUS_ON));
-            crashlytics.log(activity.getString(R.string.TAG_NIGHT_MODE_MANUAL) + activity.getString(R.string.TAG_NIGHT_MODE_STATUS_ON));
-        }
-
-        //MODO AUTOMATICO
-        //Si el modo automatico esta activado
-        else if (auto_night_mode) {
-
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY);
-
-            Log.d(activity.getString(R.string.TAG_NIGHT_MODE_AUTO), activity.getString(R.string.TAG_NIGHT_MODE_STATUS_ON));
-            crashlytics.log(activity.getString(R.string.TAG_NIGHT_MODE_AUTO) + activity.getString(R.string.TAG_NIGHT_MODE_STATUS_ON));
-        }
-
-        //DESACTIVADO
-        //Si el modo nocturno esta desactivado
-        else {
-
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            window.setStatusBarColor(activity.getColor(R.color.colorPrimaryVariant));
-
-            Log.d(activity.getString(R.string.TAG_NIGHT_MODE), activity.getString(R.string.TAG_NIGHT_MODE_STATUS_OFF));
-            crashlytics.log(activity.getString(R.string.TAG_NIGHT_MODE) + activity.getString(R.string.TAG_NIGHT_MODE_STATUS_OFF));
-        }
-    }
-
-    /**
      * Funcion encargada de corregir el bug de en modo noche procovado por adviews
      *
      * @param activity Actividad desde donde proviene el adview
@@ -369,46 +310,6 @@ public class Utils {
             Log.e(activity.getString(R.string.tag_adview_night_mode), activity.getString(R.string.tag_adview_night_mode_response_error), e);
         }
     }
-
-    /**
-     * Funcion que verifica si el dispositivo cuenta con GooglePlayServices actualizado
-     */
-    public static void checkPlayServices(Activity activity) {
-
-        FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
-
-        int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-        GoogleApiAvailability mGoogleApiAvailability = GoogleApiAvailability.getInstance();
-        int resultCode = mGoogleApiAvailability.isGooglePlayServicesAvailable(activity);
-
-        //Si existe algun problema con google play
-        if (resultCode != ConnectionResult.SUCCESS) {
-
-            //Si el error puede ser resuelto por el usuario
-            if (mGoogleApiAvailability.isUserResolvableError(resultCode)) {
-
-                Dialog dialog = mGoogleApiAvailability.getErrorDialog(activity, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST);
-                dialog.setCanceledOnTouchOutside(false);
-                dialog.show();
-
-            } else {
-
-                //El error no puede ser resuelto por el usuario y la app se cierra
-                Log.d(activity.getString(R.string.TAG_GOOGLE_PLAY), activity.getString(R.string.GOOGLE_PLAY_NOSOPORTADO));
-                crashlytics.log(activity.getString(R.string.TAG_GOOGLE_PLAY) + activity.getString(R.string.GOOGLE_PLAY_NOSOPORTADO));
-
-                activity.finish();
-            }
-        }
-
-        //La app puede ser utilizada, google play esta actualizado
-        else {
-
-            Log.d(activity.getString(R.string.TAG_GOOGLE_PLAY), activity.getString(R.string.GOOGLE_PLAY_ACTUALIZADO));
-            crashlytics.log(activity.getString(R.string.TAG_GOOGLE_PLAY) + activity.getString(R.string.GOOGLE_PLAY_ACTUALIZADO));
-        }
-    }
-
 
 
     /**

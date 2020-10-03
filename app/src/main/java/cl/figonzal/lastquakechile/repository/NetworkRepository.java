@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 
-import cl.figonzal.lastquakechile.services.SingleLiveEvent;
+import cl.figonzal.lastquakechile.viewmodel.SingleLiveEvent;
 
 public interface NetworkRepository<T> {
 

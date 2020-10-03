@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,22 +23,19 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.adapter.MainFragmentStateAdapter;
 import cl.figonzal.lastquakechile.managers.DateManager;
+import cl.figonzal.lastquakechile.managers.NightModeManager;
 import cl.figonzal.lastquakechile.services.AdsService;
-import cl.figonzal.lastquakechile.services.Utils;
+import cl.figonzal.lastquakechile.services.FirebaseService;
+import cl.figonzal.lastquakechile.services.GooglePlayService;
 import cl.figonzal.lastquakechile.services.notifications.ChangeLogNotification;
 import cl.figonzal.lastquakechile.services.notifications.NotificationService;
 
@@ -51,9 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private AppBarLayout mAppBarLayout;
     private ImageView mIvFoto;
     private AdsService adsService;
-
-    private FirebaseCrashlytics crashlytics;
-    private DateManager dateManager;
+    private GooglePlayService googlePlayService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,22 +58,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        crashlytics = FirebaseCrashlytics.getInstance();
-        dateManager = new DateManager();
+        //Services
+        DateManager dateManager = new DateManager();
 
-        //ADS
-        MobileAds.initialize(this);
+        //Ad service
         adsService = new AdsService(getApplicationContext(), getSupportFragmentManager(), dateManager);
         adsService.loadRewardedVideo(MainActivity.this);
 
-        //Configurar MODO NOCHE
-        Utils.checkNightMode(MainActivity.this, getWindow());
+        //Night mode
+        NightModeManager nightModeManager = new NightModeManager();
+        nightModeManager.checkNightMode(MainActivity.this, getWindow());
 
-        //Servicios de google play
-        Utils.checkPlayServices(this);
+        //GP services
+        googlePlayService = new GooglePlayService();
+        googlePlayService.checkPlayServices(this);
 
-        //Servicios de Firebase
-        getFirebaseToken();
+        //Firebase services
+        FirebaseService firebaseService = new FirebaseService(this, FirebaseMessaging.getInstance());
+        firebaseService.getFirebaseToken();
 
         //Creacion de canal de notificaciones para sismos y para changelogs (Requerido para API >26)
         NotificationService.createNotificationChannel(getApplicationContext());
@@ -97,27 +93,6 @@ public class MainActivity extends AppCompatActivity {
         loadImageToolbar();
     }
 
-    /**
-     * Funcion encargada de realizar la iniciacion de los servicios de FIREBASE
-     */
-    private void getFirebaseToken() {
-
-        //FIREBASE SECTION
-        FirebaseMessaging.getInstance().setAutoInitEnabled(true);
-        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(this,
-                new OnSuccessListener<InstanceIdResult>() {
-                    @Override
-                    public void onSuccess(InstanceIdResult instanceIdResult) {
-
-                        String token = instanceIdResult.getToken();
-                        Log.e(getString(R.string.TAG_FIREBASE_TOKEN), token);
-
-                        //CRASH ANALYTICS LOG
-                        crashlytics.log(getString(R.string.TAG_FIREBASE_TOKEN) + token);
-                        crashlytics.setUserId(token);
-                    }
-                });
-    }
 
     /**
      * Setear elementos de UI necesarios para el funcionamiento de la APP
@@ -276,7 +251,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        Utils.checkPlayServices(this);
+        googlePlayService.checkPlayServices(this);
         adsService.getRewardedVideoAd().resume(this);
     }
 

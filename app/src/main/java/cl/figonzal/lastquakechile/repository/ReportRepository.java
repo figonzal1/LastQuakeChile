@@ -25,8 +25,8 @@ import java.util.List;
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.model.QuakesCity;
 import cl.figonzal.lastquakechile.model.ReportModel;
-import cl.figonzal.lastquakechile.services.SingleLiveEvent;
 import cl.figonzal.lastquakechile.services.VolleySingleton;
+import cl.figonzal.lastquakechile.viewmodel.SingleLiveEvent;
 
 public class ReportRepository implements NetworkRepository<ReportModel> {
 

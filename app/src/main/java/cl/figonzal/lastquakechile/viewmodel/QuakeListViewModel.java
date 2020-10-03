@@ -13,7 +13,6 @@ import cl.figonzal.lastquakechile.managers.DateManager;
 import cl.figonzal.lastquakechile.model.QuakeModel;
 import cl.figonzal.lastquakechile.repository.NetworkRepository;
 import cl.figonzal.lastquakechile.repository.QuakeRepository;
-import cl.figonzal.lastquakechile.services.SingleLiveEvent;
 
 
 /**

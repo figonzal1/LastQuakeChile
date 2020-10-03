@@ -36,6 +36,7 @@ public class AdsService {
 
     public AdsService(Context context, FragmentManager fragmentManager, DateManager dateManager) {
 
+        MobileAds.initialize(context);
         this.context = context;
         this.fragmentManager = fragmentManager;
         this.dateManager = dateManager;
