@@ -36,6 +36,7 @@ import java.util.List;
 
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.adapter.QuakeAdapter;
+import cl.figonzal.lastquakechile.managers.DateManager;
 import cl.figonzal.lastquakechile.model.QuakeModel;
 import cl.figonzal.lastquakechile.repository.NetworkRepository;
 import cl.figonzal.lastquakechile.repository.QuakeRepository;
@@ -61,6 +62,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
     private Application application;
 
     private FirebaseCrashlytics crashlytics;
+    private DateManager dateManager;
 
     public QuakeFragment() {
     }
@@ -73,14 +75,15 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         application = requireActivity().getApplication();
+
+        dateManager = new DateManager();
+        crashlytics = FirebaseCrashlytics.getInstance();
     }
 
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
         setHasOptionsMenu(true);
-
-        crashlytics = FirebaseCrashlytics.getInstance();
 
         // Inflate the layout for thi{s fragment
         final View v = inflater.inflate(R.layout.fragment_quake, container, false);
@@ -103,7 +106,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
         mAdView = v.findViewById(R.id.adView);
 
-        AdsService adsService = new AdsService(requireContext(), getParentFragmentManager());
+        AdsService adsService = new AdsService(requireContext(), getParentFragmentManager(), dateManager);
         adsService.configurarIntersitial(mAdView);
 
         mRecycleView = v.findViewById(R.id.recycle_view_quakes);
@@ -119,13 +122,14 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         mProgressBar.setVisibility(View.VISIBLE);
 
         //Instanciar viewmodel
-        NetworkRepository<QuakeModel> repository = QuakeRepository.getIntance(application);
-        mViewModel = new ViewModelProvider(requireActivity(), new ViewModelFactory(application, repository)).get(QuakeListViewModel.class);
+        NetworkRepository<QuakeModel> repository = QuakeRepository.getIntance(application, dateManager);
+        mViewModel = new ViewModelProvider(requireActivity(), new ViewModelFactory(application, repository, dateManager)).get(QuakeListViewModel.class);
 
         quakeAdapter = new QuakeAdapter(
                 quakeModelList,
                 requireContext(),
-                requireActivity()
+                requireActivity(),
+                dateManager
         );
 
         mRecycleView.setAdapter(quakeAdapter);

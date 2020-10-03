@@ -37,6 +37,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.adapter.MainFragmentStateAdapter;
+import cl.figonzal.lastquakechile.managers.DateManager;
 import cl.figonzal.lastquakechile.services.AdsService;
 import cl.figonzal.lastquakechile.services.Utils;
 import cl.figonzal.lastquakechile.services.notifications.ChangeLogNotification;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private AdsService adsService;
 
     private FirebaseCrashlytics crashlytics;
+    private DateManager dateManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +65,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         crashlytics = FirebaseCrashlytics.getInstance();
+        dateManager = new DateManager();
 
         //ADS
         MobileAds.initialize(this);
-        adsService = new AdsService(getApplicationContext(), getSupportFragmentManager());
+        adsService = new AdsService(getApplicationContext(), getSupportFragmentManager(), dateManager);
         adsService.loadRewardedVideo(MainActivity.this);
 
         //Configurar MODO NOCHE

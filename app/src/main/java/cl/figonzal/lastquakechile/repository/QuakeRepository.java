@@ -31,9 +31,9 @@ import java.util.Objects;
 import java.util.TimeZone;
 
 import cl.figonzal.lastquakechile.R;
+import cl.figonzal.lastquakechile.managers.DateManager;
 import cl.figonzal.lastquakechile.model.QuakeModel;
 import cl.figonzal.lastquakechile.services.SingleLiveEvent;
-import cl.figonzal.lastquakechile.services.Utils;
 import cl.figonzal.lastquakechile.services.VolleySingleton;
 
 
@@ -53,18 +53,19 @@ public class QuakeRepository implements NetworkRepository<QuakeModel> {
     private int contador_request = 0;
 
     private static FirebaseCrashlytics crashlytics;
+    private DateManager dateManager;
 
-    private QuakeRepository(Application application) {
+    private QuakeRepository(Application application, DateManager dateManager) {
         this.mApplication = application;
+
+        crashlytics = FirebaseCrashlytics.getInstance();
+        this.dateManager = dateManager;
     }
 
-    public static QuakeRepository getIntance(Application application) {
+    public static QuakeRepository getIntance(Application application, DateManager dateManager) {
 
         if (instance == null) {
-
-            instance = new QuakeRepository(application);
-
-            crashlytics = FirebaseCrashlytics.getInstance();
+            instance = new QuakeRepository(application, dateManager);
         }
         return instance;
     }
@@ -130,7 +131,7 @@ public class QuakeRepository implements NetworkRepository<QuakeModel> {
 
                         //OBTENER UTC DESDE PHP CONVERTIRLO A LOCAL DEL DISPOSITIVO
                         Date mUtcDate = mFormat.parse(mObject.getString(mApplication.getString(R.string.JSON_KEY_FECHA_UTC)));
-                        Date mLocalDate = Utils.utcToLocal(Objects.requireNonNull(mUtcDate, "Fecha utc nulo"));
+                        Date mLocalDate = dateManager.utcToLocal(Objects.requireNonNull(mUtcDate, "Fecha utc nulo"));
 
                         //LOCAL CALCULADO, NO PROVIENE DE CAMPO EN PHP
                         mModel.setFechaLocal(mLocalDate);
