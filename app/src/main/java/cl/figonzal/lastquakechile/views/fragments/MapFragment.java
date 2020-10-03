@@ -14,7 +14,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -36,6 +35,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import cl.figonzal.lastquakechile.R;
+import cl.figonzal.lastquakechile.managers.DateManager;
 import cl.figonzal.lastquakechile.model.QuakeModel;
 import cl.figonzal.lastquakechile.services.Utils;
 import cl.figonzal.lastquakechile.viewmodel.QuakeListViewModel;
@@ -52,6 +52,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     private List<QuakeModel> mListQuakeModel;
 
     private FirebaseCrashlytics crashlytics;
+    private DateManager dateManager;
 
     public static MapFragment newInstance() {
         return new MapFragment();
@@ -70,6 +71,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         super.onCreate(savedInstanceState);
 
         crashlytics = FirebaseCrashlytics.getInstance();
+        dateManager = new DateManager();
 
         /*mMapViewBundle = null;
         if (savedInstanceState != null) {
@@ -88,13 +90,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
         mapView = mView.findViewById(R.id.map);
 
-        mQuakeListViewModel.showQuakeList().observe(requireActivity(), new Observer<List<QuakeModel>>() {
-            @Override
-            public void onChanged(@Nullable final List<QuakeModel> quakeModels) {
+        mQuakeListViewModel.showQuakeList().observe(requireActivity(), quakeModels -> {
 
-                mListQuakeModel = quakeModels;
-                mapView.getMapAsync(MapFragment.this);
-            }
+            mListQuakeModel = quakeModels;
+            mapView.getMapAsync(MapFragment.this);
         });
 
         return mView;
@@ -232,7 +231,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         mTvProfundidad.setText(String.format(getString(R.string.profundidad_info_windows), mModel.getProfundidad()));
 
         //Calcular tiempos (Dates a DHMS)
-        Map<String, Long> mTiempos = Utils.dateToDHMS(mModel.getFechaLocal());
+        Map<String, Long> mTiempos = dateManager.dateToDHMS(mModel.getFechaLocal());
 
         //Separar mapeo de tiempos en dias, horas,minutos,segundos.
         Long mDias = mTiempos.get(getString(R.string.UTILS_TIEMPO_DIAS));
