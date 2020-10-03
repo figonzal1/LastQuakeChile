@@ -22,6 +22,7 @@ import java.util.Date;
 
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.dialogs.RewardDialogFragment;
+import cl.figonzal.lastquakechile.managers.DateManager;
 
 public class AdsService {
 
@@ -31,13 +32,15 @@ public class AdsService {
     private SharedPreferences sharedPreferences;
 
     private FirebaseCrashlytics crashlytics;
+    private DateManager dateManager;
 
-    public AdsService(Context context, FragmentManager fragmentManager) {
+    public AdsService(Context context, FragmentManager fragmentManager, DateManager dateManager) {
 
         this.context = context;
         this.fragmentManager = fragmentManager;
-        sharedPreferences = context.getSharedPreferences(context.getString(R.string.SHARED_PREF_MASTER_KEY), Context.MODE_PRIVATE);
+        this.dateManager = dateManager;
 
+        sharedPreferences = context.getSharedPreferences(context.getString(R.string.SHARED_PREF_MASTER_KEY), Context.MODE_PRIVATE);
         crashlytics = FirebaseCrashlytics.getInstance();
     }
 
@@ -151,13 +154,13 @@ public class AdsService {
 
                 Date date_now = new Date();
 
-                Log.d(context.getString(R.string.TAG_POST_REWARD_HORA_AHORA), Utils.dateToString(context.getApplicationContext(), date_now));
-                crashlytics.log(context.getString(R.string.TAG_POST_REWARD_HORA_AHORA) + Utils.dateToString(context.getApplicationContext(), date_now));
+                Log.d(context.getString(R.string.TAG_POST_REWARD_HORA_AHORA), dateManager.dateToString(context.getApplicationContext(), date_now));
+                crashlytics.log(context.getString(R.string.TAG_POST_REWARD_HORA_AHORA) + dateManager.dateToString(context.getApplicationContext(), date_now));
 
                 //sumar 24 horas al tiempo del celular
-                Date date_new = Utils.addHoursToJavaUtilDate(date_now, 24);
-                Log.d(context.getString(R.string.TAG_POST_REWARD_HORA_REWARD), Utils.dateToString(context, date_new));
-                crashlytics.log(context.getString(R.string.TAG_POST_REWARD_HORA_REWARD) + Utils.dateToString(context, date_new));
+                Date date_new = dateManager.addHoursToJavaUtilDate(date_now, 24);
+                Log.d(context.getString(R.string.TAG_POST_REWARD_HORA_REWARD), dateManager.dateToString(context, date_new));
+                crashlytics.log(context.getString(R.string.TAG_POST_REWARD_HORA_REWARD) + dateManager.dateToString(context, date_new));
 
                 //Guardar fecha de termino de reward
                 SharedPreferences.Editor editor = sharedPreferences.edit();

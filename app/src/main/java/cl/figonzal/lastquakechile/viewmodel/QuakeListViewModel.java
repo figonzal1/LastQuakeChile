@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.ArrayList;
 import java.util.List;
 
+import cl.figonzal.lastquakechile.managers.DateManager;
 import cl.figonzal.lastquakechile.model.QuakeModel;
 import cl.figonzal.lastquakechile.repository.NetworkRepository;
 import cl.figonzal.lastquakechile.repository.QuakeRepository;
@@ -28,10 +29,13 @@ public class QuakeListViewModel extends AndroidViewModel {
     //Live data con un listado de sismos
     private MutableLiveData<List<QuakeModel>> mQuakeMutableList;
 
+    private DateManager dateManager;
+
     //Contructor para usar context dentro de la clase ViewModel
-    public QuakeListViewModel(@NonNull Application application, NetworkRepository<QuakeModel> repository) {
+    public QuakeListViewModel(@NonNull Application application, NetworkRepository<QuakeModel> repository, DateManager dateManager) {
         super(application);
         quakeRepository = repository;
+        this.dateManager = dateManager;
     }
 
     /**
@@ -59,7 +63,7 @@ public class QuakeListViewModel extends AndroidViewModel {
      */
     public void refreshMutableQuakeList() {
 
-        quakeRepository = QuakeRepository.getIntance(getApplication());
+        quakeRepository = QuakeRepository.getIntance(getApplication(), dateManager);
         quakeRepository.getData();
     }
 
@@ -71,7 +75,7 @@ public class QuakeListViewModel extends AndroidViewModel {
      */
     public SingleLiveEvent<String> showMsgErrorList() {
 
-        quakeRepository = QuakeRepository.getIntance(getApplication());
+        quakeRepository = QuakeRepository.getIntance(getApplication(), dateManager);
 
         return quakeRepository.getMsgErrorList();
     }
@@ -92,7 +96,6 @@ public class QuakeListViewModel extends AndroidViewModel {
      */
     public void doSearch(String s) {
 
-        quakeRepository = QuakeRepository.getIntance(getApplication());
         List<QuakeModel> mQuakeList = mQuakeMutableList.getValue();
 
         if (mQuakeList != null && mQuakeList.size() > 0 && !s.isEmpty()) {

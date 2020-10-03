@@ -25,6 +25,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import cl.figonzal.lastquakechile.R;
+import cl.figonzal.lastquakechile.managers.DateManager;
 import cl.figonzal.lastquakechile.model.QuakeModel;
 import cl.figonzal.lastquakechile.services.Utils;
 import cl.figonzal.lastquakechile.views.activities.QuakeDetailsActivity;
@@ -37,7 +38,9 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
 
     private FirebaseCrashlytics crashlytics;
 
-    public QuakeAdapter(List<QuakeModel> quakeModelList, Context context, Activity activity) {
+    private DateManager dateManager;
+
+    public QuakeAdapter(List<QuakeModel> quakeModelList, Context context, Activity activity, DateManager dateManager) {
 
         this.quakeModelList = quakeModelList;
         this.context = context;
@@ -45,6 +48,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
         setHasStableIds(true);
 
         crashlytics = FirebaseCrashlytics.getInstance();
+        this.dateManager = dateManager;
     }
 
     @NonNull
@@ -72,7 +76,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
         holder.iv_mag_color.setColorFilter(context.getColor(Utils.getMagnitudeColor(model.getMagnitud(), false)));
 
         //SETEO DE Textview HORA
-        Map<String, Long> tiempos = Utils.dateToDHMS(model.getFechaLocal());
+        Map<String, Long> tiempos = dateManager.dateToDHMS(model.getFechaLocal());
         Utils.setTimeToTextView(context, tiempos, holder.tv_hora);
 
         //Sismo sensible

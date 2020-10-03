@@ -41,6 +41,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import cl.figonzal.lastquakechile.R;
+import cl.figonzal.lastquakechile.managers.DateManager;
 import cl.figonzal.lastquakechile.services.Utils;
 
 public class QuakeDetailsActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -88,6 +89,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
     private View mOverlay;
 
     private FirebaseCrashlytics crashlytics;
+    private DateManager dateManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -103,6 +105,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         }
 
         crashlytics = FirebaseCrashlytics.getInstance();
+        dateManager = new DateManager();
 
         mMapView = findViewById(R.id.map);
         mMapView.onCreate(mMapViewBundle);
@@ -373,8 +376,8 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
 
             Date mFechaLocal;
             try {
-                mFechaLocal = Utils.stringToDate(this, this.mFechaLocal);
-                mTiempos = Utils.dateToDHMS(mFechaLocal);
+                mFechaLocal = dateManager.stringToDate(this, this.mFechaLocal);
+                mTiempos = dateManager.dateToDHMS(mFechaLocal);
             } catch (ParseException e) {
 
                 Log.d("STRING_TO_DATE", "Parse exception error");
@@ -393,13 +396,13 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
 
                 Date mDateFechaUtc;
                 try {
-                    mDateFechaUtc = Utils.stringToDate(this, mFechaUtc);
-                    Date mDateFechaLocal = Utils.utcToLocal(mDateFechaUtc);
-                    mTiempos = Utils.dateToDHMS(mDateFechaLocal);
+                    mDateFechaUtc = dateManager.stringToDate(this, mFechaUtc);
+                    Date mDateFechaLocal = dateManager.utcToLocal(mDateFechaUtc);
+                    mTiempos = dateManager.dateToDHMS(mDateFechaLocal);
 
                     //Setear string que será usado en textviews de detalle con la fecha transformada
                     // de utc a local desde notificacion
-                    mFechaLocal = Utils.dateToString(this, mDateFechaLocal);
+                    mFechaLocal = dateManager.dateToString(this, mDateFechaLocal);
 
                 } catch (ParseException e) {
                     Log.d("STRING_TO_DATE", "Parse exception error");
