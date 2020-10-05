@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
     private AppBarLayout mAppBarLayout;
     private ImageView mIvFoto;
     private AdsService adsService;
-    private GooglePlayService googlePlayService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +69,7 @@ public class MainActivity extends AppCompatActivity {
         nightModeManager.checkNightMode(MainActivity.this, getWindow());
 
         //GP services
-        googlePlayService = new GooglePlayService();
-        googlePlayService.checkPlayServices(this);
+        new GooglePlayService(this, MainActivity.this);
 
         //Firebase services
         FirebaseService firebaseService = new FirebaseService(this, FirebaseMessaging.getInstance());
@@ -91,7 +89,57 @@ public class MainActivity extends AppCompatActivity {
 
         //Setear imagen de toolbar
         loadImageToolbar();
+
+        //TODO: Contar la cantidad de aperturas del usuario
+        //TODO: Cuando llegue a 10 abrir reviewmanager
+        //TODO: Si e usuario no puntua agregar 10 aperturas mas, caso contrario borrar sharedpref
+        //calculateInits();
+
+        /*ReviewManager manager = ReviewManagerFactory.create(this);
+        Task<ReviewInfo> request = manager.requestReviewFlow();
+        request.addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                // We can get the ReviewInfo object
+                ReviewInfo reviewInfo = task.getResult();
+                Log.e("REVIEW", "review lanzada");
+
+                boolean statusInits = check10Inits();
+
+                //if (statusInits) {
+                Task<Void> flow = manager.launchReviewFlow(this, reviewInfo);
+                flow.addOnCompleteListener(task1 -> {
+
+                    if (task1.isSuccessful()) {
+                        Log.e("REVIEW", "review opinada");
+                    } else {
+                        Log.e("REVIEW", "review saltada");
+                    }
+                });
+                //}
+            } else {
+                // There was some problem, continue regardless of the result.
+            }
+        });*/
+
+
     }
+
+    /*private void calculateInits() {
+        SharedPrefService sharedPrefService = new SharedPrefService(getApplicationContext());
+
+        int initCounts = (int) sharedPrefService.getData("initCounts", 0);
+
+        sharedPrefService.saveData("initCounts", initCounts + 1);
+        Log.d("INIT_COUNTS", String.valueOf(initCounts + 1));
+    }
+
+    private boolean check10Inits() {
+        SharedPrefService sharedPrefService = new SharedPrefService(getApplicationContext());
+
+        int initCounts = (int) sharedPrefService.getData("initCounts", 0);
+
+        return initCounts == 10;
+    }*/
 
 
     /**
@@ -250,8 +298,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-        googlePlayService.checkPlayServices(this);
         adsService.getRewardedVideoAd().resume(this);
     }
 
