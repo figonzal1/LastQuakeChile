@@ -7,6 +7,9 @@ import android.view.MotionEvent;
 import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.MapView;
 
+/**
+ * This class correct the problem with scroll viewpager2 with GoogleMap
+ */
 public class MapViewInScroll extends MapView {
     public MapViewInScroll(Context context) {
         super(context);

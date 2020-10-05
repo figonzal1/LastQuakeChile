@@ -2,45 +2,56 @@ package cl.figonzal.lastquakechile.services;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.util.Log;
+
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.OnLifecycleEvent;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import cl.figonzal.lastquakechile.R;
+import timber.log.Timber;
 
-public class GooglePlayService {
+public class GooglePlayService implements LifecycleObserver {
 
-    public GooglePlayService() {
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    private GoogleApiAvailability googlePlay;
+    private Activity activity;
+
+    public GooglePlayService(Activity activity, LifecycleOwner lifecycle) {
+        this.activity = activity;
+        googlePlay = GoogleApiAvailability.getInstance();
+        lifecycle.getLifecycle().addObserver(this);
     }
 
     /**
-     * Funcion que verifica si el dispositivo cuenta con GooglePlayServices actualizado
+     * Funcion que verifica si el dispositivo cuenta con GooglePlayServices actualizado cada vez que una actividad esta en modo "OnStart" (visible)
      */
-    public void checkPlayServices(Activity activity) {
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    public void checkPlayServices() {
 
-        FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
-
-        int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-        GoogleApiAvailability mGoogleApiAvailability = GoogleApiAvailability.getInstance();
-        int resultCode = mGoogleApiAvailability.isGooglePlayServicesAvailable(activity);
+        int resultCode = googlePlay.isGooglePlayServicesAvailable(activity);
 
         //Si existe algun problema con google play
         if (resultCode != ConnectionResult.SUCCESS) {
 
             //Si el error puede ser resuelto por el usuario
-            if (mGoogleApiAvailability.isUserResolvableError(resultCode)) {
+            if (googlePlay.isUserResolvableError(resultCode)) {
 
-                Dialog dialog = mGoogleApiAvailability.getErrorDialog(activity, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST);
+                Timber.e(activity.getString(R.string.GOOGLE_PLAY_SOLICITUD));
+
+                //Solicitar al usuario actualizar google play
+                Dialog dialog = googlePlay.getErrorDialog(activity, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST);
                 dialog.setCanceledOnTouchOutside(false);
                 dialog.show();
 
             } else {
 
                 //El error no puede ser resuelto por el usuario y la app se cierra
-                Log.d(activity.getString(R.string.TAG_GOOGLE_PLAY), activity.getString(R.string.GOOGLE_PLAY_NOSOPORTADO));
-                crashlytics.log(activity.getString(R.string.TAG_GOOGLE_PLAY) + activity.getString(R.string.GOOGLE_PLAY_NOSOPORTADO));
+                Timber.e(activity.getString(R.string.GOOGLE_PLAY_NOSOPORTADO));
+                //crashlytics.log(activity.getString(R.string.TAG_GOOGLE_PLAY) + activity.getString(R.string.GOOGLE_PLAY_NOSOPORTADO));
 
                 activity.finish();
             }
@@ -49,8 +60,8 @@ public class GooglePlayService {
         //La app puede ser utilizada, google play esta actualizado
         else {
 
-            Log.d(activity.getString(R.string.TAG_GOOGLE_PLAY), activity.getString(R.string.GOOGLE_PLAY_ACTUALIZADO));
-            crashlytics.log(activity.getString(R.string.TAG_GOOGLE_PLAY) + activity.getString(R.string.GOOGLE_PLAY_ACTUALIZADO));
+            Timber.i(activity.getString(R.string.GOOGLE_PLAY_ACTUALIZADO));
+            //crashlytics.log(activity.getString(R.string.TAG_GOOGLE_PLAY) + activity.getString(R.string.GOOGLE_PLAY_ACTUALIZADO));
         }
     }
 }

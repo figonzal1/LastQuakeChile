@@ -190,8 +190,9 @@
     <string name="TAG_INTENT_DETALLE_HOME_UP" translatable="false">D/QUAKE_DETAILS: </string>
     <string name="TAG_INTENT_DETALLE_HOME_UP_RESPONSE" translatable="false">HOME UP PARENT CLICKEADO</string>
     <string name="TAG_GOOGLE_PLAY" translatable="false">D/GOOGLE_PLAY: </string>
-    <string name="GOOGLE_PLAY_NOSOPORTADO" translatable="false">Dispositivo no soportado</string>
-    <string name="GOOGLE_PLAY_ACTUALIZADO" translatable="false">Google Play actualizado</string>
+    <string name="GOOGLE_PLAY_SOLICITUD" translatable="false">Google Play - solicitando actualizacion</string>
+    <string name="GOOGLE_PLAY_NOSOPORTADO" translatable="false">Google Play - no soportado</string>
+    <string name="GOOGLE_PLAY_ACTUALIZADO" translatable="false">Google Play - actualizado</string>
     <string name="TAG_INTENT_SHARE" translatable="false">D/SHARE_INTENT: </string>
     <string name="TAG_INTENT_SHARE_WSP" translatable="false">WHATSAPP SHARE INTENT</string>
     <string name="TAG_INTENT_SHARE_GM" translatable="false">GMAIL SHARE INTENT</string>
