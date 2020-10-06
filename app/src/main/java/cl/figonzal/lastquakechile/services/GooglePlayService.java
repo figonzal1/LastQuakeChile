@@ -5,7 +5,6 @@ import android.app.Dialog;
 
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.OnLifecycleEvent;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -20,10 +19,10 @@ public class GooglePlayService implements LifecycleObserver {
     private GoogleApiAvailability googlePlay;
     private Activity activity;
 
-    public GooglePlayService(Activity activity, LifecycleOwner lifecycle) {
+    public GooglePlayService(Activity activity, Lifecycle lifecycle) {
         this.activity = activity;
         googlePlay = GoogleApiAvailability.getInstance();
-        lifecycle.getLifecycle().addObserver(this);
+        lifecycle.addObserver(this);
     }
 
     /**
