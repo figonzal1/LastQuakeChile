@@ -32,10 +32,11 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.adapter.MainFragmentStateAdapter;
 import cl.figonzal.lastquakechile.managers.DateManager;
-import cl.figonzal.lastquakechile.managers.NightModeManager;
 import cl.figonzal.lastquakechile.services.AdsService;
 import cl.figonzal.lastquakechile.services.FirebaseService;
 import cl.figonzal.lastquakechile.services.GooglePlayService;
+import cl.figonzal.lastquakechile.services.NightModeService;
+import cl.figonzal.lastquakechile.services.SharedPrefService;
 import cl.figonzal.lastquakechile.services.notifications.ChangeLogNotification;
 import cl.figonzal.lastquakechile.services.notifications.NotificationService;
 
@@ -65,11 +66,10 @@ public class MainActivity extends AppCompatActivity {
         adsService.loadRewardedVideo(MainActivity.this);
 
         //Night mode
-        NightModeManager nightModeManager = new NightModeManager();
-        nightModeManager.checkNightMode(MainActivity.this, getWindow());
+        new NightModeService(this, this.getLifecycle(), new SharedPrefService(getApplicationContext()), getWindow());
 
         //GP services
-        new GooglePlayService(this, MainActivity.this);
+        new GooglePlayService(this, this.getLifecycle());
 
         //Firebase services
         FirebaseService firebaseService = new FirebaseService(this, FirebaseMessaging.getInstance());

@@ -10,23 +10,19 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.adapter.ChangeLogAdapter;
-import cl.figonzal.lastquakechile.managers.NightModeManager;
 import cl.figonzal.lastquakechile.model.ChangeLog;
+import cl.figonzal.lastquakechile.services.NightModeService;
+import cl.figonzal.lastquakechile.services.SharedPrefService;
 
 public class ChangeLogActivity extends AppCompatActivity {
 
     private List<ChangeLog> changeLogList;
-
-    private FirebaseCrashlytics crashlytics;
-    private NightModeManager nightModeManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +30,7 @@ public class ChangeLogActivity extends AppCompatActivity {
         setContentView(R.layout.activity_change_log);
 
         //Check modo noche
-        nightModeManager = new NightModeManager();
-        nightModeManager.checkNightMode(this, getWindow());
+        new NightModeService(this, this.getLifecycle(), new SharedPrefService(getApplicationContext()), getWindow());
 
         Toolbar mToolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(mToolbar);
