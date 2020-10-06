@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
@@ -15,15 +14,13 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SeekBarPreference;
 
-import java.util.Objects;
-
 import cl.figonzal.lastquakechile.R;
-import cl.figonzal.lastquakechile.managers.NightModeManager;
+import cl.figonzal.lastquakechile.services.NightModeService;
+import cl.figonzal.lastquakechile.services.SharedPrefService;
 import cl.figonzal.lastquakechile.services.notifications.QuakesNotification;
+import timber.log.Timber;
 
 public class SettingsActivity extends AppCompatActivity {
-
-    private NightModeManager nightModeManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,8 +28,7 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.settings_activity);
 
         //Check modo noche
-        nightModeManager = new NightModeManager();
-        nightModeManager.checkNightMode(this, getWindow());
+        new NightModeService(this, this.getLifecycle(), new SharedPrefService(getApplicationContext()), getWindow());
 
         getSupportFragmentManager()
                 .beginTransaction()
@@ -42,18 +38,11 @@ public class SettingsActivity extends AppCompatActivity {
         Toolbar mToolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(mToolbar);
 
-        ActionBar actionBar = Objects.requireNonNull(getSupportActionBar(), "Support action bar es nulo");
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle(R.string.settings);
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        //Check modo noche
-        nightModeManager.checkNightMode(this, getWindow());
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle(R.string.settings);
+        }
     }
 
     @Override
@@ -66,11 +55,12 @@ public class SettingsActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
+    //Settings Fragment
     public static class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
         private Activity activity;
         private SeekBarPreference seekBarPreference;
-        private SharedPreferences sharedPreferences;
+        private SharedPrefService sharedPrefService;
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -80,7 +70,7 @@ public class SettingsActivity extends AppCompatActivity {
             if (getActivity() != null) {
 
                 activity = getActivity();
-                sharedPreferences = activity.getSharedPreferences(getString(R.string.SHARED_PREF_MASTER_KEY), Context.MODE_PRIVATE);
+                sharedPrefService = new SharedPrefService(getContext());
             }
         }
 
@@ -96,7 +86,7 @@ public class SettingsActivity extends AppCompatActivity {
                 seekBarPreference.setMin(10);
                 seekBarPreference.setMax(30);
 
-                String limite = String.valueOf(sharedPreferences.getInt(activity.getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER), 0));
+                String limite = (String) sharedPrefService.getData(activity.getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER), 0);
 
                 //Setear resumen por defecto
                 if (limite.equals("0")) {
@@ -109,7 +99,7 @@ public class SettingsActivity extends AppCompatActivity {
                 }
 
             } else {
-                Log.d("SEEK_BAR", "Seek bar nulo");
+                Timber.e("Seek bar nulo");
             }
         }
 
@@ -217,7 +207,7 @@ public class SettingsActivity extends AppCompatActivity {
                 editor.putInt(activity.getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER), seekBarPreference.getValue());
                 editor.apply();
 
-                Log.d(activity.getString(R.string.TAG_FRAGMENT_SETTINGS), String.format(activity.getString(R.string.TAG_FRAGMENT_SETTINGS_QUAKE_LIST_LIMIT), seekBarPreference.getValue()));
+                Timber.tag(activity.getString(R.string.TAG_FRAGMENT_SETTINGS)).i(String.format(activity.getString(R.string.TAG_FRAGMENT_SETTINGS_QUAKE_LIST_LIMIT), seekBarPreference.getValue()));
             }
 
         }
