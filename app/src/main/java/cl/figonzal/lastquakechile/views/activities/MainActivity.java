@@ -3,6 +3,7 @@ package cl.figonzal.lastquakechile.views.activities;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -38,7 +39,7 @@ import cl.figonzal.lastquakechile.services.GooglePlayService;
 import cl.figonzal.lastquakechile.services.NightModeService;
 import cl.figonzal.lastquakechile.services.SharedPrefService;
 import cl.figonzal.lastquakechile.services.notifications.ChangeLogNotification;
-import cl.figonzal.lastquakechile.services.notifications.NotificationService;
+import cl.figonzal.lastquakechile.services.notifications.QuakesNotification;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
@@ -58,15 +59,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Services
         DateManager dateManager = new DateManager();
+        SharedPrefService sharedPrefService = new SharedPrefService(getApplicationContext());
 
         //Ad service
         adsService = new AdsService(getApplicationContext(), getSupportFragmentManager(), dateManager);
         adsService.loadRewardedVideo(MainActivity.this);
 
         //Night mode
-        new NightModeService(this, this.getLifecycle(), new SharedPrefService(getApplicationContext()), getWindow());
+        new NightModeService(this, this.getLifecycle(), sharedPrefService, getWindow());
 
         //GP services
         new GooglePlayService(this, this.getLifecycle());
@@ -76,13 +77,14 @@ public class MainActivity extends AppCompatActivity {
         firebaseService.getFirebaseToken();
 
         //Creacion de canal de notificaciones para sismos y para changelogs (Requerido para API >26)
-        NotificationService.createNotificationChannel(getApplicationContext());
+        ChangeLogNotification changeLogNotification = new ChangeLogNotification(this, sharedPrefService);
+        QuakesNotification quakeNotification = new QuakesNotification(this, sharedPrefService);
 
-        //Realizar suscripcion el tema 'Quakes' para notificaciones
-        NotificationService.checkSuscriptions(this);
-
-        //Enviar notificacion changelog de ser necesario
-        new ChangeLogNotification().configNotificationChangeLog(false, getApplicationContext());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            quakeNotification.createChannel();
+            changeLogNotification.createChannel();
+        }
+        quakeNotification.checkSuscriptionQuakes();
 
         //Setear toolbars, viewpagers y tabs
         setToolbarViewPagerTabs();
@@ -188,11 +190,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
 
-                if (tab.getPosition() == 2) {
-                    mAppBarLayout.setExpanded(false);
-                } else {
-                    mAppBarLayout.setExpanded(true);
-                }
+                mAppBarLayout.setExpanded(tab.getPosition() != 2);
             }
 
             @Override

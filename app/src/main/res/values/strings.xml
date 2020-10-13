@@ -298,7 +298,7 @@
     <string name="TAG_RANDOM_SHOW_REWARD_DIALOG_ON" translatable="false">MOSTRAR DIALOG REWARD</string>
     <string name="TAG_RANDOM_SHOW_REWARD_DIALOG_OFF" translatable="false">NO MOSTRAR DIALOG REWARD</string>
     <string name="TAG_FRAGMENT_REWARD_DATE" translatable="false">FRAGMENT_REWARD_DATE</string>
-    <string name="TAG_FRAGMENT_LIST" translatable="false">D/FRAGMENT_LIST: </string>
+    <string name="TAG_ADS_SERVICE" translatable="false">D/FRAGMENT_LIST: </string>
     <string name="TAG_ADS_LOADED" translatable="false">ADS CARGADOS</string>
     <string name="TG_ADS_NOT_LOADED" translatable="false">ADS NO PERMITIDOS</string>
     <string name="TAG_ADMOB_AD_STATUS" translatable="false">D/ADMOB_AD: </string>

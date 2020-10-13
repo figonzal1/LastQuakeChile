@@ -9,7 +9,7 @@ public class SharedPrefService {
 
     private SharedPreferences sharedPreferences;
 
-    private Context context;
+    private final Context context;
 
     public SharedPrefService(Context context) {
         this.context = context;
@@ -49,6 +49,8 @@ public class SharedPrefService {
             result = sharedPreferences.getBoolean(key, (Boolean) defaultvalue);
         } else if (defaultvalue instanceof Float) {
             result = sharedPreferences.getFloat(key, (Float) defaultvalue);
+        } else if (defaultvalue instanceof Long) {
+            result = sharedPreferences.getLong(key, (Long) defaultvalue);
         }
 
         return result;

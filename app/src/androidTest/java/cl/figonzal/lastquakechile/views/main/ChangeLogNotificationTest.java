@@ -41,7 +41,7 @@ public class ChangeLogNotificationTest {
         uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         context = InstrumentationRegistry.getInstrumentation().getTargetContext();
         ChangeLogNotification changeLogNotification = new ChangeLogNotification();
-        changeLogNotification.configNotificationChangeLog(true, context);
+        changeLogNotification.trySendNotificationChangeLog(true, context);
     }
 
     @Test
