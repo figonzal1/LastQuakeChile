@@ -1,12 +1,14 @@
 package cl.figonzal.lastquakechile.services;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.view.Window;
 
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
+import androidx.preference.PreferenceManager;
 
 import cl.figonzal.lastquakechile.R;
 import timber.log.Timber;
@@ -14,12 +16,13 @@ import timber.log.Timber;
 public class NightModeService implements LifecycleObserver {
 
     private Activity activity;
-    private SharedPrefService sharedPrefService;
     private Window window;
 
-    public NightModeService(Activity activity, Lifecycle lifecycle, SharedPrefService sharedPrefServices, Window window) {
+    public NightModeService() {
+    }
+
+    public NightModeService(Activity activity, Lifecycle lifecycle, Window window) {
         this.activity = activity;
-        this.sharedPrefService = sharedPrefServices;
         this.window = window;
 
         lifecycle.addObserver(this);
@@ -32,10 +35,11 @@ public class NightModeService implements LifecycleObserver {
     public void checkNightMode() {
 
         //Leer preference settings
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
 
-        boolean manual_night_mode = (boolean) sharedPrefService.getData(activity.getString(R.string.NIGHT_MODE_MANUAL_KEY), false);
+        boolean manual_night_mode = sharedPreferences.getBoolean(activity.getString(R.string.NIGHT_MODE_MANUAL_KEY), false);
 
-        boolean auto_night_mode = (boolean) sharedPrefService.getData(activity.getString(R.string.NIGHT_MODE_AUTO_KEY), false);
+        boolean auto_night_mode = sharedPreferences.getBoolean(activity.getString(R.string.NIGHT_MODE_AUTO_KEY), false);
 
         //MODO MANUAL
         //Si el modo manual esta activado

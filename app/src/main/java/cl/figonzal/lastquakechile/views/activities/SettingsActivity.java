@@ -27,7 +27,7 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.settings_activity);
 
         //Check modo noche
-        new NightModeService(this, this.getLifecycle(), new SharedPrefService(getApplicationContext()), getWindow());
+        new NightModeService(this, this.getLifecycle(), getWindow());
 
         getSupportFragmentManager()
                 .beginTransaction()
@@ -106,7 +106,8 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
+
 
             /*
              * Preferencia Modo Noche
@@ -115,10 +116,7 @@ public class SettingsActivity extends AppCompatActivity {
             if (key.equals(activity.getString(R.string.NIGHT_MODE_MANUAL_KEY))) {
 
                 //Si el modo manual esta activado
-
-                boolean manualMode = (boolean) sharedPrefService.getData(activity.getString(R.string.NIGHT_MODE_MANUAL_KEY), false);
-
-                if (manualMode) {
+                if (preferences.getBoolean(activity.getString(R.string.NIGHT_MODE_MANUAL_KEY), false)) {
 
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     activity.setTheme(R.style.AppTheme);
@@ -128,7 +126,9 @@ public class SettingsActivity extends AppCompatActivity {
                     Toast.makeText(activity.getApplicationContext(), getString(R.string.NIGHT_MODE_MANUAL_KEY_TOAST_ON), Toast.LENGTH_LONG).show();
 
                     //Setear automatico como false si manual esta activado
-                    sharedPrefService.saveData(activity.getString(R.string.NIGHT_MODE_AUTO_KEY), false);
+                    SharedPreferences.Editor edit = preferences.edit();
+                    edit.putBoolean(activity.getString(R.string.NIGHT_MODE_AUTO_KEY), false);
+                    edit.apply();
                 }
 
                 //Si modo manual no esta activado
@@ -147,10 +147,8 @@ public class SettingsActivity extends AppCompatActivity {
             //Preferencia modo noche automatico
             else if (key.equals(activity.getString(R.string.NIGHT_MODE_AUTO_KEY))) {
 
-                boolean autoMode = (boolean) sharedPrefService.getData(activity.getString(R.string.NIGHT_MODE_MANUAL_KEY), false);
-
                 //Si automatico esta activado, preguntar el estado del modo
-                if (autoMode) {
+                if (preferences.getBoolean(activity.getString(R.string.NIGHT_MODE_AUTO_KEY), false)) {
 
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
 
@@ -161,7 +159,9 @@ public class SettingsActivity extends AppCompatActivity {
                     Toast.makeText(activity.getApplicationContext(), activity.getString(R.string.NIGHT_MODE_AUTO_KEY_TOAST_ON), Toast.LENGTH_LONG).show();
 
                     //Setear automatico como false si manual esta activado
-                    sharedPrefService.getData(activity.getString(R.string.NIGHT_MODE_MANUAL_KEY), false);
+                    SharedPreferences.Editor edit = preferences.edit();
+                    edit.putBoolean(activity.getString(R.string.NIGHT_MODE_MANUAL_KEY), false);
+                    edit.apply();
                 }
 
                 //Si auto esta desactivado, tema claro por defecto
