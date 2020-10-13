@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         adsService.loadRewardedVideo(MainActivity.this);
 
         //Night mode
-        new NightModeService(this, this.getLifecycle(), sharedPrefService, getWindow());
+        new NightModeService(this, this.getLifecycle(), getWindow());
 
         //GP services
         new GooglePlayService(this, this.getLifecycle());
