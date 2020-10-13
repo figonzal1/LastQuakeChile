@@ -18,13 +18,10 @@ public class SingleLiveEvent<T> extends MutableLiveData<T> {
     public SingleLiveEvent() {
 
         final MediatorLiveData<T> outputLiveData = new MediatorLiveData<>();
-        outputLiveData.addSource(this, new Observer<T>() {
-            @Override
-            public void onChanged(T currentValue) {
+        outputLiveData.addSource(this, currentValue -> {
 
-                outputLiveData.setValue(currentValue);
-                status.set(false);
-            }
+            outputLiveData.setValue(currentValue);
+            status.set(false);
         });
 
         liveDataToObserver = outputLiveData;
@@ -34,14 +31,11 @@ public class SingleLiveEvent<T> extends MutableLiveData<T> {
     public void observe(@NonNull LifecycleOwner owner,
                         @NonNull final Observer<? super T> observer) {
 
-        liveDataToObserver.observe(owner, new Observer<T>() {
-            @Override
-            public void onChanged(T t) {
+        liveDataToObserver.observe(owner, t -> {
 
-                if (status.get()) {
+            if (status.get()) {
 
-                    observer.onChanged(t);
-                }
+                observer.onChanged(t);
             }
         });
     }

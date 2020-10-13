@@ -5,7 +5,6 @@ import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
-
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
@@ -29,6 +26,7 @@ import cl.figonzal.lastquakechile.managers.DateManager;
 import cl.figonzal.lastquakechile.managers.ViewsManager;
 import cl.figonzal.lastquakechile.model.QuakeModel;
 import cl.figonzal.lastquakechile.views.activities.QuakeDetailsActivity;
+import timber.log.Timber;
 
 public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHolder> {
 
@@ -36,21 +34,19 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
     private final Context context;
     private final Activity activity;
 
-    private FirebaseCrashlytics crashlytics;
-
-    private DateManager dateManager;
-    private ViewsManager viewsManager;
+    private final DateManager dateManager;
+    private final ViewsManager viewsManager;
 
     public QuakeAdapter(List<QuakeModel> quakeModelList, Context context, Activity activity, DateManager dateManager, ViewsManager viewsManager) {
 
         this.quakeModelList = quakeModelList;
         this.context = context;
         this.activity = activity;
-        setHasStableIds(true);
-
-        crashlytics = FirebaseCrashlytics.getInstance();
         this.dateManager = dateManager;
         this.viewsManager = viewsManager;
+
+        setHasStableIds(true);
+
     }
 
     @NonNull
@@ -87,7 +83,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
             holder.iv_sensible.setVisibility(View.VISIBLE);
         }
 
-        holder.item.setOnClickListener((View.OnClickListener) v -> {
+        holder.item.setOnClickListener(v -> {
 
             /*
                 Datos para mostrar en el detalle de sismos
@@ -106,8 +102,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
             b.putString(context.getString(R.string.INTENT_FECHA_LOCAL), fecha_local);
 
             b.putDouble(context.getString(R.string.INTENT_MAGNITUD), model.getMagnitud());
-            b.putDouble(context.getString(R.string.INTENT_PROFUNDIDAD),
-                    model.getProfundidad());
+            b.putDouble(context.getString(R.string.INTENT_PROFUNDIDAD), model.getProfundidad());
             b.putString(context.getString(R.string.INTENT_ESCALA), model.getEscala());
             b.putBoolean(context.getString(R.string.INTENT_SENSIBLE), model.getSensible());
             b.putString(context.getString(R.string.INTENT_LINK_FOTO), model.getImagenUrl());
@@ -116,18 +111,17 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
             intent.putExtras(b);
 
             //LOG
-            Log.d(context.getString(R.string.TAG_INTENT), context.getString(R.string.TRY_INTENT_DETALLE));
-            crashlytics.log(context.getString(R.string.TAG_INTENT) + context.getString(R.string.TRY_INTENT_DETALLE));
+            Timber.i(context.getString(R.string.TRY_INTENT_DETALLE));
 
             /*
                 Seccion transiciones animadas de TextViews
              */
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity,
-                    Pair.create((View) holder.iv_mag_color, "color_magnitud"),
-                    Pair.create((View) holder.tv_magnitud, "magnitud"),
-                    Pair.create((View) holder.tv_ciudad, "ciudad"),
-                    Pair.create((View) holder.tv_referencia, "referencia"),
-                    Pair.create((View) holder.tv_hora, "hora")
+                    Pair.create(holder.iv_mag_color, "color_magnitud"),
+                    Pair.create(holder.tv_magnitud, "magnitud"),
+                    Pair.create(holder.tv_ciudad, "ciudad"),
+                    Pair.create(holder.tv_referencia, "referencia"),
+                    Pair.create(holder.tv_hora, "hora")
             );
             context.startActivity(intent, options.toBundle());
         });

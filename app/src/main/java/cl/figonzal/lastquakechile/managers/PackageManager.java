@@ -3,11 +3,9 @@ package cl.figonzal.lastquakechile.managers;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
-
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import cl.figonzal.lastquakechile.R;
+import timber.log.Timber;
 
 public class PackageManager {
 
@@ -22,8 +20,6 @@ public class PackageManager {
      */
     public void doInstallation(String packageName, Context context) {
 
-        FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
-
         Intent mIntent;
 
         try {
@@ -33,16 +29,14 @@ public class PackageManager {
             mIntent.setData(Uri.parse("market://details?id=" + packageName));
 
             //LOG
-            Log.d(context.getString(R.string.TAG_INTENT), context.getString(R.string.TAG_INTENT_GOOGLEPLAY));
-            crashlytics.log(context.getString(R.string.TAG_INTENT) + context.getString(R.string.TAG_INTENT_GOOGLEPLAY));
+            Timber.i(context.getString(R.string.TAG_INTENT_GOOGLEPLAY));
 
             context.startActivity(mIntent);
 
         } catch (android.content.ActivityNotFoundException anfe) {
 
             //Si gogle play no esta abre webview
-            Log.d(context.getString(R.string.TAG_INTENT), context.getString(R.string.TAG_INTENT_NAVEGADOR));
-            crashlytics.log(context.getString(R.string.TAG_INTENT) + context.getString(R.string.TAG_INTENT_NAVEGADOR));
+            Timber.w(anfe, context.getString(R.string.TAG_INTENT_NAVEGADOR));
 
             context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google" + ".com/store/apps/details?id=" + packageName)));
         }

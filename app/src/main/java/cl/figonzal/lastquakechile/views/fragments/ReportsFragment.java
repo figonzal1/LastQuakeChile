@@ -2,7 +2,6 @@ package cl.figonzal.lastquakechile.views.fragments;
 
 import android.app.Application;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,6 +26,7 @@ import cl.figonzal.lastquakechile.repository.NetworkRepository;
 import cl.figonzal.lastquakechile.repository.ReportRepository;
 import cl.figonzal.lastquakechile.viewmodel.ReportsViewModel;
 import cl.figonzal.lastquakechile.viewmodel.ViewModelFactory;
+import timber.log.Timber;
 
 public class ReportsFragment extends Fragment {
 
@@ -72,65 +71,56 @@ public class ReportsFragment extends Fragment {
 
     private void iniciarViewModels(final View v) {
 
-        reportsViewModel.isLoading().observe(requireActivity(), new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean aBoolean) {
+        reportsViewModel.isLoading().observe(requireActivity(), aBoolean -> {
 
-                if (aBoolean) {
+            if (aBoolean) {
 
-                    progressBar.setVisibility(View.VISIBLE);
-                    tv_reportes_vacios.setVisibility(View.INVISIBLE);
-                    rv.setVisibility(View.INVISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
+                tv_reportes_vacios.setVisibility(View.INVISIBLE);
+                rv.setVisibility(View.INVISIBLE);
 
+            } else {
+                progressBar.setVisibility(View.INVISIBLE);
+                rv.setVisibility(View.VISIBLE);
+
+                if (reportModelList.size() == 0) {
+                    tv_reportes_vacios.setVisibility(View.VISIBLE);
                 } else {
-                    progressBar.setVisibility(View.INVISIBLE);
-                    rv.setVisibility(View.VISIBLE);
-
-                    if (reportModelList.size() == 0) {
-                        tv_reportes_vacios.setVisibility(View.VISIBLE);
-                    } else {
-                        tv_reportes_vacios.setVisibility(View.INVISIBLE);
-                    }
+                    tv_reportes_vacios.setVisibility(View.INVISIBLE);
                 }
             }
         });
 
-        reportsViewModel.showReports().observe(requireActivity(), new Observer<List<ReportModel>>() {
-            @Override
-            public void onChanged(List<ReportModel> reportModels) {
+        reportsViewModel.showReports().observe(requireActivity(), reportModels -> {
 
-                if (reportModels != null) {
+            if (reportModels != null) {
 
-                    reportModelList = reportModels;
-                    reportAdapter.actualizarLista(reportModelList);
+                reportModelList = reportModels;
+                reportAdapter.actualizarLista(reportModelList);
 
-                    reportModelList = reportAdapter.getReportList();
+                reportModelList = reportAdapter.getReportList();
 
-                    progressBar.setVisibility(View.INVISIBLE);
+                progressBar.setVisibility(View.INVISIBLE);
 
-                    if (reportModelList.size() == 0) {
-                        tv_reportes_vacios.setVisibility(View.VISIBLE);
-                    } else {
-                        tv_reportes_vacios.setVisibility(View.INVISIBLE);
-                    }
+                if (reportModelList.size() == 0) {
+                    tv_reportes_vacios.setVisibility(View.VISIBLE);
+                } else {
+                    tv_reportes_vacios.setVisibility(View.INVISIBLE);
                 }
-
-                //LOG ZONE
-                Log.d(getString(R.string.TAG_FRAGMENT_REPORTS), getString(R.string.FRAGMENT_LOAD_LIST));
-                crashlytics.log(getString(R.string.TAG_FRAGMENT_REPORTS) + getString(R.string.FRAGMENT_LOAD_LIST));
             }
+
+            //LOG ZONE
+            Timber.i(getString(R.string.FRAGMENT_LOAD_LIST));
+            crashlytics.log(getString(R.string.TAG_FRAGMENT_REPORTS) + getString(R.string.FRAGMENT_LOAD_LIST));
         });
 
-        reportsViewModel.showMsgErrorList().observe(requireActivity(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String status) {
+        reportsViewModel.showMsgErrorList().observe(requireActivity(), status -> {
 
-                if (status != null) {
+            if (status != null) {
 
-                    progressBar.setVisibility(View.INVISIBLE);
-                    rv.setVisibility(View.INVISIBLE);
-                    reportAdapter.notifyDataSetChanged();
-                }
+                progressBar.setVisibility(View.INVISIBLE);
+                rv.setVisibility(View.INVISIBLE);
+                reportAdapter.notifyDataSetChanged();
             }
         });
     }
@@ -156,8 +146,7 @@ public class ReportsFragment extends Fragment {
 
         reportAdapter = new ReportAdapter(
                 reportModelList,
-                requireContext(),
-                requireActivity()
+                requireContext()
         );
 
         rv.setAdapter(reportAdapter);

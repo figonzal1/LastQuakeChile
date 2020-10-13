@@ -16,8 +16,8 @@ import timber.log.Timber;
 public class GooglePlayService implements LifecycleObserver {
 
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-    private GoogleApiAvailability googlePlay;
-    private Activity activity;
+    private final GoogleApiAvailability googlePlay;
+    private final Activity activity;
 
     public GooglePlayService(Activity activity, Lifecycle lifecycle) {
         this.activity = activity;
@@ -50,7 +50,6 @@ public class GooglePlayService implements LifecycleObserver {
 
                 //El error no puede ser resuelto por el usuario y la app se cierra
                 Timber.e(activity.getString(R.string.GOOGLE_PLAY_NOSOPORTADO));
-                //crashlytics.log(activity.getString(R.string.TAG_GOOGLE_PLAY) + activity.getString(R.string.GOOGLE_PLAY_NOSOPORTADO));
 
                 activity.finish();
             }
@@ -58,9 +57,7 @@ public class GooglePlayService implements LifecycleObserver {
 
         //La app puede ser utilizada, google play esta actualizado
         else {
-
             Timber.i(activity.getString(R.string.GOOGLE_PLAY_ACTUALIZADO));
-            //crashlytics.log(activity.getString(R.string.TAG_GOOGLE_PLAY) + activity.getString(R.string.GOOGLE_PLAY_ACTUALIZADO));
         }
     }
 }

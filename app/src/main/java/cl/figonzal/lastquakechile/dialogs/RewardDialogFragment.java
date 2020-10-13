@@ -2,9 +2,7 @@ package cl.figonzal.lastquakechile.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,25 +10,21 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.android.gms.ads.reward.RewardedVideoAd;
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.util.Objects;
 
 import cl.figonzal.lastquakechile.R;
+import timber.log.Timber;
 
 public class RewardDialogFragment extends DialogFragment {
 
     private final RewardedVideoAd rewardedVideoAd;
     private final Context context;
 
-    private FirebaseCrashlytics crashlytics;
-
     public RewardDialogFragment(Context context, RewardedVideoAd rewardedVideoAd) {
 
         this.context = context;
         this.rewardedVideoAd = rewardedVideoAd;
-
-        crashlytics = FirebaseCrashlytics.getInstance();
     }
 
     @NonNull
@@ -41,34 +35,24 @@ public class RewardDialogFragment extends DialogFragment {
 
         builder.setTitle(R.string.REWAR_DIALOG_TITLE);
         builder.setMessage(R.string.REWARD_DIALOG_MESSAGE);
-        builder.setPositiveButton(R.string.REWARD_DIALOG_POSITIVE, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        builder.setPositiveButton(R.string.REWARD_DIALOG_POSITIVE, (dialog, which) -> {
 
-                if (rewardedVideoAd.isLoaded()) {
-
-                    dismiss();
-                    rewardedVideoAd.show();
-
-                    Log.d(getString(R.string.TAG_REWARD_DIALOG), getString(R.string.TAG_REWARD_DIALOG_BTN_VER_VIDEO));
-                    crashlytics.log(getString(R.string.TAG_REWARD_DIALOG) + getString(R.string.TAG_REWARD_DIALOG_BTN_VER_VIDEO));
-                }
+            if (rewardedVideoAd.isLoaded()) {
 
                 dismiss();
+                rewardedVideoAd.show();
+
+                Timber.i(getString(R.string.TAG_REWARD_DIALOG_BTN_VER_VIDEO));
             }
+
+            dismiss();
         });
 
-        builder.setNegativeButton(R.string.REWARD_DIALOG_NEGATIVE, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        builder.setNegativeButton(R.string.REWARD_DIALOG_NEGATIVE, (dialog, which) -> {
 
-                Log.d(getString(R.string.TAG_REWARD_DIALOG), getString(R.string
-                        .TAG_REWARD_DIALOG_BTN_CANCEL));
-                crashlytics.log(getString(R.string.TAG_REWARD_DIALOG) + getString(R.string
-                        .TAG_REWARD_DIALOG_BTN_CANCEL));
+            Timber.i(getString(R.string.TAG_REWARD_DIALOG_BTN_CANCEL));
 
-                dismiss();
-            }
+            dismiss();
         });
 
         return builder.create();

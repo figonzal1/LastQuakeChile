@@ -1,7 +1,6 @@
 package cl.figonzal.lastquakechile.views.activities;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -61,6 +60,7 @@ public class SettingsActivity extends AppCompatActivity {
         private Activity activity;
         private SeekBarPreference seekBarPreference;
         private SharedPrefService sharedPrefService;
+        private QuakesNotification quakesNotification;
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -71,6 +71,8 @@ public class SettingsActivity extends AppCompatActivity {
 
                 activity = getActivity();
                 sharedPrefService = new SharedPrefService(getContext());
+
+                quakesNotification = new QuakesNotification(getContext(), sharedPrefService);
             }
         }
 
@@ -86,7 +88,7 @@ public class SettingsActivity extends AppCompatActivity {
                 seekBarPreference.setMin(10);
                 seekBarPreference.setMax(30);
 
-                String limite = (String) sharedPrefService.getData(activity.getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER), 0);
+                String limite = String.valueOf((int) sharedPrefService.getData(activity.getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER), 0));
 
                 //Setear resumen por defecto
                 if (limite.equals("0")) {
@@ -113,7 +115,10 @@ public class SettingsActivity extends AppCompatActivity {
             if (key.equals(activity.getString(R.string.NIGHT_MODE_MANUAL_KEY))) {
 
                 //Si el modo manual esta activado
-                if (sharedPreferences.getBoolean(activity.getString(R.string.NIGHT_MODE_MANUAL_KEY), false)) {
+
+                boolean manualMode = (boolean) sharedPrefService.getData(activity.getString(R.string.NIGHT_MODE_MANUAL_KEY), false);
+
+                if (manualMode) {
 
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     activity.setTheme(R.style.AppTheme);
@@ -123,10 +128,7 @@ public class SettingsActivity extends AppCompatActivity {
                     Toast.makeText(activity.getApplicationContext(), getString(R.string.NIGHT_MODE_MANUAL_KEY_TOAST_ON), Toast.LENGTH_LONG).show();
 
                     //Setear automatico como false si manual esta activado
-                    SharedPreferences.Editor edit = sharedPreferences.edit();
-                    edit.putBoolean(activity.getString(R.string.NIGHT_MODE_AUTO_KEY), false);
-                    edit.apply();
-
+                    sharedPrefService.saveData(activity.getString(R.string.NIGHT_MODE_AUTO_KEY), false);
                 }
 
                 //Si modo manual no esta activado
@@ -135,6 +137,7 @@ public class SettingsActivity extends AppCompatActivity {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                     activity.setTheme(R.style.AppTheme);
                     activity.recreate();
+
                     //Mostrar toast modo manual desactivado
                     Toast.makeText(activity.getApplicationContext(), activity.getString(R.string.NIGHT_MODE_MANUAL_KEY_TOAST_OFF), Toast.LENGTH_LONG).show();
                 }
@@ -144,8 +147,10 @@ public class SettingsActivity extends AppCompatActivity {
             //Preferencia modo noche automatico
             else if (key.equals(activity.getString(R.string.NIGHT_MODE_AUTO_KEY))) {
 
+                boolean autoMode = (boolean) sharedPrefService.getData(activity.getString(R.string.NIGHT_MODE_MANUAL_KEY), false);
+
                 //Si automatico esta activado, preguntar el estado del modo
-                if (sharedPreferences.getBoolean(activity.getString(R.string.NIGHT_MODE_AUTO_KEY), false)) {
+                if (autoMode) {
 
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
 
@@ -156,10 +161,7 @@ public class SettingsActivity extends AppCompatActivity {
                     Toast.makeText(activity.getApplicationContext(), activity.getString(R.string.NIGHT_MODE_AUTO_KEY_TOAST_ON), Toast.LENGTH_LONG).show();
 
                     //Setear automatico como false si manual esta activado
-                    SharedPreferences.Editor edit = sharedPreferences.edit();
-                    edit.putBoolean(activity.getString(R.string.NIGHT_MODE_MANUAL_KEY), false);
-                    edit.apply();
-
+                    sharedPrefService.getData(activity.getString(R.string.NIGHT_MODE_MANUAL_KEY), false);
                 }
 
                 //Si auto esta desactivado, tema claro por defecto
@@ -180,13 +182,11 @@ public class SettingsActivity extends AppCompatActivity {
              */
             if (key.equals(activity.getString(R.string.FIREBASE_PREF_KEY))) {
 
-                boolean mSuscrito = QuakesNotification.checkSuscriptionQuakes(activity);
+                boolean mSuscrito = quakesNotification.checkSuscriptionQuakes();
 
                 //Si el switch esta ON, lanzar toast con SUSCRITO
                 if (mSuscrito) {
-
                     Toast.makeText(getContext(), activity.getString(R.string.FIREBASE_PREF_KEY_TOAST_ALERTAS_ON), Toast.LENGTH_LONG).show();
-
                 }
                 //Si el switch esta off lanzar toast con NO SUSCRITO
                 else {
@@ -201,11 +201,7 @@ public class SettingsActivity extends AppCompatActivity {
             if (key.equals(activity.getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER))) {
 
                 seekBarPreference.setSummary(String.format(activity.getString(R.string.LIST_QUAKE_NUMBER_SUMMARY), seekBarPreference.getValue()));
-
-                SharedPreferences sharedPrefListQuakes = activity.getSharedPreferences(activity.getString(R.string.SHARED_PREF_MASTER_KEY), Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPrefListQuakes.edit();
-                editor.putInt(activity.getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER), seekBarPreference.getValue());
-                editor.apply();
+                sharedPrefService.saveData(activity.getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER), seekBarPreference.getValue());
 
                 Timber.tag(activity.getString(R.string.TAG_FRAGMENT_SETTINGS)).i(String.format(activity.getString(R.string.TAG_FRAGMENT_SETTINGS_QUAKE_LIST_LIMIT), seekBarPreference.getValue()));
             }

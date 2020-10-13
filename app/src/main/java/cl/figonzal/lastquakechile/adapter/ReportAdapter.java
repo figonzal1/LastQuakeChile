@@ -1,6 +1,5 @@
 package cl.figonzal.lastquakechile.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,14 +18,12 @@ import cl.figonzal.lastquakechile.model.ReportModel;
 public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportViewHolder> {
 
     private final Context context;
-    private final Activity activity;
     private List<ReportModel> reportList;
 
-    public ReportAdapter(List<ReportModel> reportList, Context context, Activity activity) {
+    public ReportAdapter(List<ReportModel> reportList, Context context) {
 
         this.reportList = reportList;
         this.context = context;
-        this.activity = activity;
         setHasStableIds(true);
     }
 
