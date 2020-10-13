@@ -1,7 +1,6 @@
 package cl.figonzal.lastquakechile.repository;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
@@ -11,9 +10,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,6 +24,7 @@ import cl.figonzal.lastquakechile.model.QuakesCity;
 import cl.figonzal.lastquakechile.model.ReportModel;
 import cl.figonzal.lastquakechile.services.VolleySingleton;
 import cl.figonzal.lastquakechile.viewmodel.SingleLiveEvent;
+import timber.log.Timber;
 
 public class ReportRepository implements NetworkRepository<ReportModel> {
 
@@ -40,8 +38,6 @@ public class ReportRepository implements NetworkRepository<ReportModel> {
     private final MutableLiveData<Boolean> isLoadingReports = new MutableLiveData<>();
     private final SingleLiveEvent<String> responseMsgErrorList = new SingleLiveEvent<>();
 
-    private static FirebaseCrashlytics crashlytics;
-
     private ReportRepository(Application application) {
         this.mApplication = application;
     }
@@ -51,7 +47,6 @@ public class ReportRepository implements NetworkRepository<ReportModel> {
         if (instance == null) {
 
             instance = new ReportRepository(application);
-            crashlytics = FirebaseCrashlytics.getInstance();
         }
 
         return instance;
@@ -76,94 +71,85 @@ public class ReportRepository implements NetworkRepository<ReportModel> {
 
     private void sendGetReports() {
 
-        Response.Listener<String> response = new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
+        Response.Listener<String> response = response1 -> {
 
-                reportModelList.clear();
+            reportModelList.clear();
 
-                //Log.d("REPONSE", response);
-                try {
+            //Log.d("REPONSE", response);
+            try {
 
-                    JSONObject jsonObject = new JSONObject(response);
+                JSONObject jsonObject = new JSONObject(response1);
 
-                    JSONArray jsonReports = jsonObject.getJSONArray("reportes");
+                JSONArray jsonReports = jsonObject.getJSONArray("reportes");
 
-                    for (int i = 0; i < jsonReports.length(); i++) {
+                for (int i = 0; i < jsonReports.length(); i++) {
 
-                        JSONObject jsonReport = jsonReports.getJSONObject(i);
+                    JSONObject jsonReport = jsonReports.getJSONObject(i);
 
-                        ReportModel reportModel = new ReportModel();
-                        reportModel.setN_sismos(jsonReport.getInt("n_sismos"));
-                        reportModel.setN_sensibles(jsonReport.getInt("n_sensibles"));
-                        reportModel.setMes_reporte(jsonReport.getString("mes_reporte"));
+                    ReportModel reportModel = new ReportModel();
+                    reportModel.setN_sismos(jsonReport.getInt("n_sismos"));
+                    reportModel.setN_sensibles(jsonReport.getInt("n_sensibles"));
+                    reportModel.setMes_reporte(jsonReport.getString("mes_reporte"));
 
-                        reportModel.setProm_magnitud(jsonReport.getDouble("prom_magnitud"));
-                        reportModel.setProm_profundidad(jsonReport.getDouble("prom_profundidad"));
-                        reportModel.setMax_magnitud(jsonReport.getDouble("max_magnitud"));
-                        reportModel.setMin_profundidad(jsonReport.getDouble("min_profundidad"));
+                    reportModel.setProm_magnitud(jsonReport.getDouble("prom_magnitud"));
+                    reportModel.setProm_profundidad(jsonReport.getDouble("prom_profundidad"));
+                    reportModel.setMax_magnitud(jsonReport.getDouble("max_magnitud"));
+                    reportModel.setMin_profundidad(jsonReport.getDouble("min_profundidad"));
 
-                        JSONArray jsonArray = jsonReport.getJSONArray("top_ciudades");
+                    JSONArray jsonArray = jsonReport.getJSONArray("top_ciudades");
 
-                        List<QuakesCity> quakesCityList = new ArrayList<>();
+                    List<QuakesCity> quakesCityList = new ArrayList<>();
 
-                        for (int j = 0; j < jsonArray.length(); j++) {
+                    for (int j = 0; j < jsonArray.length(); j++) {
 
-                            JSONObject jsonCity = jsonArray.getJSONObject(j);
+                        JSONObject jsonCity = jsonArray.getJSONObject(j);
 
-                            QuakesCity city = new QuakesCity();
-                            city.setCiudad(jsonCity.getString("ciudad"));
-                            city.setN_sismos(jsonCity.getInt("n_sismos"));
+                        QuakesCity city = new QuakesCity();
+                        city.setCiudad(jsonCity.getString("ciudad"));
+                        city.setN_sismos(jsonCity.getInt("n_sismos"));
 
-                            quakesCityList.add(city);
-                        }
-
-                        reportModel.setQuakesCities(quakesCityList);
-
-                        reportModelList.add(reportModel);
+                        quakesCityList.add(city);
                     }
 
-                    reportMutableLiveData.postValue(reportModelList);
-                    isLoadingReports.postValue(false);
+                    reportModel.setQuakesCities(quakesCityList);
 
-                } catch (JSONException e) {
-
-                    Log.d(mApplication.getString(R.string.TAG_JSON_GENERAL_ERROR), "Json exception" + e.getMessage());
-                    crashlytics.log(mApplication.getString(R.string.TAG_JSON_GENERAL_ERROR) + e.getMessage());
+                    reportModelList.add(reportModel);
                 }
+
+                reportMutableLiveData.postValue(reportModelList);
+                isLoadingReports.postValue(false);
+
+            } catch (JSONException e) {
+
+                Timber.e(e, "Json exception: %s", e.getMessage());
             }
         };
 
-        final Response.ErrorListener errorListener = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
+        final Response.ErrorListener errorListener = error -> {
 
-                isLoadingReports.postValue(false);
+            isLoadingReports.postValue(false);
 
-                if (error instanceof TimeoutError) {
+            if (error instanceof TimeoutError) {
 
-                    Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR), mApplication.getString(R.string.TAG_VOLLEY_ERROR_TIMEOUT));
-                    crashlytics.log(mApplication.getString(R.string.TAG_VOLLEY_ERROR) + mApplication.getString(R.string.TAG_VOLLEY_ERROR_TIMEOUT));
+                Timber.e(mApplication.getString(R.string.TAG_VOLLEY_ERROR_TIMEOUT));
 
-                    responseMsgErrorList.postValue(mApplication.getString(R.string.VIEWMODEL_TIMEOUT_ERROR));
-                }
+                responseMsgErrorList.postValue(mApplication.getString(R.string.VIEWMODEL_TIMEOUT_ERROR));
+            }
 
-                //Error de conexion a internet
-                else if (error instanceof NetworkError) {
+            //Error de conexion a internet
+            else if (error instanceof NetworkError) {
 
-                    Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR), mApplication.getString(R.string.TAG_VOLLEY_ERROR_NETWORK));
+                Timber.e(mApplication.getString(R.string.TAG_VOLLEY_ERROR_NETWORK));
 
-                    responseMsgErrorList.postValue(mApplication.getString(R.string.VIEWMODEL_NOCONNECTION_ERROR));
-                }
+                responseMsgErrorList.postValue(mApplication.getString(R.string.VIEWMODEL_NOCONNECTION_ERROR));
+            }
 
-                //Error de servidor
-                else if (error instanceof ServerError) {
+            //Error de servidor
+            else if (error instanceof ServerError) {
 
-                    Log.d(mApplication.getString(R.string.TAG_VOLLEY_ERROR), mApplication.getString(R.string.TAG_VOLLEY_ERROR_SERVER));
-                    crashlytics.log(mApplication.getString(R.string.TAG_VOLLEY_ERROR) + mApplication.getString(R.string.TAG_VOLLEY_ERROR_SERVER));
+                Timber.e(mApplication.getString(R.string.TAG_VOLLEY_ERROR_SERVER));
 
-                    responseMsgErrorList.postValue(mApplication.getString(R.string.VIEWMODEL_SERVER_ERROR));
-                }
+                responseMsgErrorList.postValue(mApplication.getString(R.string.VIEWMODEL_SERVER_ERROR));
             }
         };
 

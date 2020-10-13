@@ -125,8 +125,7 @@ public class DateManager {
      * @param tiempos Variable que cuenta con el mapeo de dias,horas,minutos y segundos
      * @param tv_hora Textview que será usado para fijar el tiempo
      */
-    public void setTimeToTextView(Context context, Map<String, Long> tiempos,
-                                  TextView tv_hora) {
+    public void setTimeToTextView(Context context, Map<String, Long> tiempos, TextView tv_hora) {
         Long mDays = tiempos.get(context.getString(R.string.UTILS_TIEMPO_DIAS));
         Long mMinutes = tiempos.get(context.getString(R.string.UTILS_TIEMPO_MINUTOS));
         Long mHours = tiempos.get(context.getString(R.string.UTILS_TIEMPO_HORAS));

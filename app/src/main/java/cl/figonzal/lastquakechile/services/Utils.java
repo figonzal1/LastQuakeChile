@@ -25,6 +25,7 @@ public class Utils {
      * @param context Contexto necesario para usar recursos
      * @return Path de la imagen
      */
+    @Deprecated
     public static Uri getLocalBitmapUri(Bitmap bitmap, Context context) throws IOException {
 
         File mFile = new File(context.getCacheDir(), "share_image_" + System.currentTimeMillis() + ".jpeg");

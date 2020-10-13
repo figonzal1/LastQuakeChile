@@ -2,8 +2,6 @@ package cl.figonzal.lastquakechile.services;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.util.Log;
 import android.view.View;
 
 import androidx.fragment.app.FragmentManager;
@@ -16,24 +14,24 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.reward.RewardItem;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.google.android.gms.ads.reward.RewardedVideoAdListener;
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.Random;
 
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.dialogs.RewardDialogFragment;
 import cl.figonzal.lastquakechile.managers.DateManager;
+import timber.log.Timber;
 
 public class AdsService {
 
     private RewardedVideoAd rewardedVideoAd;
     private final FragmentManager fragmentManager;
     private final Context context;
-    private SharedPreferences sharedPreferences;
+    private final SharedPrefService sharedPrefService;
 
-    private FirebaseCrashlytics crashlytics;
-    private DateManager dateManager;
+    private final DateManager dateManager;
 
     public AdsService(Context context, FragmentManager fragmentManager, DateManager dateManager) {
 
@@ -42,8 +40,7 @@ public class AdsService {
         this.fragmentManager = fragmentManager;
         this.dateManager = dateManager;
 
-        sharedPreferences = context.getSharedPreferences(context.getString(R.string.SHARED_PREF_MASTER_KEY), Context.MODE_PRIVATE);
-        crashlytics = FirebaseCrashlytics.getInstance();
+        sharedPrefService = new SharedPrefService(context);
     }
 
     public RewardedVideoAd getRewardedVideoAd() {
@@ -55,43 +52,41 @@ public class AdsService {
      */
     public void rewardDialog() {
 
-        Date reward_date = new Date(sharedPreferences.getLong(context.getString(R.string.SHARED_PREF_END_REWARD_TIME), 0));
-        Date now_date = new Date();
+        DateManager dateManager = new DateManager();
+        try {
 
-        //Si la hora del celular es posterior a reward date
-        if (now_date.after(reward_date)) {
+            String sharedDate = (String) sharedPrefService.getData(context.getString(R.string.SHARED_PREF_END_REWARD_TIME), 0);
 
-            Log.d(context.getString(R.string.TAG_REWARD_STATUS), context.getString(R.string
-                    .TAG_REWARD_STATUS_EN_PERIODO));
-            crashlytics.log(context.getString(R.string.TAG_REWARD_STATUS) + context.getString(R.string
-                    .TAG_REWARD_STATUS_EN_PERIODO));
+            Date reward_date = dateManager.stringToDate(context, sharedDate);
+            Date now_date = new Date();
 
-            boolean showDialog = generateRandomNumber();
+            //Si la hora del celular es posterior a reward date
+            if (now_date.after(reward_date)) {
 
-            if (showDialog) {
+                Timber.tag(context.getString(R.string.TAG_REWARD_STATUS)).i(context.getString(R.string.TAG_REWARD_STATUS_EN_PERIODO));
 
-                //Cargar dialog
-                mostrarDialog();
+                boolean showDialog = generateRandomNumber();
 
-                Log.d(context.getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG), context.getString(R.string
-                        .TAG_RANDOM_SHOW_REWARD_DIALOG_ON));
-                crashlytics.log(context.getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG) + context.getString(R.string
-                        .TAG_RANDOM_SHOW_REWARD_DIALOG_ON));
+                if (showDialog) {
 
-            } else {
+                    //Cargar dialog
+                    mostrarDialog();
 
-                Log.d(context.getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG), context.getString(R.string
-                        .TAG_RANDOM_SHOW_REWARD_DIALOG_OFF));
-                crashlytics.log(context.getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG) + context.getString(R.string
-                        .TAG_RANDOM_SHOW_REWARD_DIALOG_OFF));
+                    Timber.tag(context.getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG)).i(context.getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG_ON));
+
+                } else {
+
+                    Timber.tag(context.getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG)).i(context.getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG_OFF));
+                }
             }
-        }
 
-        //Si el periodo de reward aun no pasa
-        else if (now_date.before(reward_date)) {
+            //Si el periodo de reward aun no pasa
+            else if (now_date.before(reward_date)) {
+                Timber.tag(context.getString(R.string.TAG_REWARD_STATUS)).i(context.getString(R.string.TAG_REWARD_STATUS_PERIODO_INACTIVO));
+            }
+        } catch (ParseException e) {
 
-            Log.d(context.getString(R.string.TAG_REWARD_STATUS), context.getString(R.string.TAG_REWARD_STATUS_PERIODO_INACTIVO));
-            crashlytics.log(context.getString(R.string.TAG_REWARD_STATUS) + context.getString(R.string.TAG_REWARD_STATUS_PERIODO_INACTIVO));
+            Timber.e(e, "stringToDate error parse: %s", e.getMessage());
         }
     }
 
@@ -107,11 +102,8 @@ public class AdsService {
             @Override
             public void onRewardedVideoAdLoaded() {
 
-                Log.d(context.getString(R.string.TAG_VIDEO_REWARD_STATUS), context.getString(R.string
+                Timber.tag(context.getString(R.string.TAG_VIDEO_REWARD_STATUS)).i(context.getString(R.string
                         .TAG_VIDEO_REWARD_STATUS_LOADED));
-                crashlytics.log(context.getString(R.string.TAG_VIDEO_REWARD_STATUS) + context.getString(R.string
-                        .TAG_VIDEO_REWARD_STATUS_LOADED));
-
                 rewardDialog();
             }
 
@@ -132,7 +124,7 @@ public class AdsService {
 
             @Override
             public void onRewarded(RewardItem rewardItem) {
-                Log.d(context.getString(R.string.TAG_VIDEO_REWARD_STATUS), context.getString(R.string
+                Timber.tag(context.getString(R.string.TAG_VIDEO_REWARD_STATUS)).i(context.getString(R.string
                         .TAG_VIDEO_REWARD_STATUS_REWARDED));
             }
 
@@ -149,24 +141,19 @@ public class AdsService {
             @Override
             public void onRewardedVideoCompleted() {
 
-                Log.d(context.getString(R.string.TAG_VIDEO_REWARD_STATUS), context.getString(R.string
-                        .TAG_VIDEO_REWARD_STATUS_COMPLETED));
-                crashlytics.log(context.getString(R.string.TAG_VIDEO_REWARD_STATUS) + context.getString(R.string
+                Timber.tag(context.getString(R.string.TAG_VIDEO_REWARD_STATUS)).i(context.getString(R.string
                         .TAG_VIDEO_REWARD_STATUS_COMPLETED));
 
                 Date date_now = new Date();
 
-                Log.d(context.getString(R.string.TAG_POST_REWARD_HORA_AHORA), dateManager.dateToString(context.getApplicationContext(), date_now));
-                crashlytics.log(context.getString(R.string.TAG_POST_REWARD_HORA_AHORA) + dateManager.dateToString(context.getApplicationContext(), date_now));
+                Timber.tag(context.getString(R.string.TAG_POST_REWARD_HORA_AHORA)).i(dateManager.dateToString(context.getApplicationContext(), date_now));
 
                 //sumar 24 horas al tiempo del celular
                 Date date_new = dateManager.addHoursToJavaUtilDate(date_now, 24);
-                Log.d(context.getString(R.string.TAG_POST_REWARD_HORA_REWARD), dateManager.dateToString(context, date_new));
-                crashlytics.log(context.getString(R.string.TAG_POST_REWARD_HORA_REWARD) + dateManager.dateToString(context, date_new));
+                Timber.tag(context.getString(R.string.TAG_POST_REWARD_HORA_REWARD)).i(dateManager.dateToString(context, date_new));
 
                 //Guardar fecha de termino de reward
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putLong(context.getString(R.string.SHARED_PREF_END_REWARD_TIME), date_new.getTime()).apply();
+                sharedPrefService.saveData(context.getString(R.string.SHARED_PREF_END_REWARD_TIME), date_new.getTime());
 
                 activity.recreate();
             }
@@ -185,24 +172,20 @@ public class AdsService {
 
     public void configurarIntersitial(AdView mAdView) {
 
-        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.SHARED_PREF_MASTER_KEY), Context.MODE_PRIVATE);
+        Date rewarDate = new Date((Long) sharedPrefService.getData(context.getString(R.string.SHARED_PREF_END_REWARD_TIME), 0L));
 
-        Date reward_date = new Date(sharedPreferences.getLong(context.getString(R.string.SHARED_PREF_END_REWARD_TIME), 0));
-        Log.d(context.getString(R.string.TAG_FRAGMENT_REWARD_DATE), reward_date.toString());
+        Timber.tag(context.getString(R.string.TAG_FRAGMENT_REWARD_DATE)).i(rewarDate.toString());
         Date now_date = new Date();
 
-
         //si las 24 horas ya pasaron, cargar los ads nuevamente
-        if (now_date.after(reward_date)) {
+        if (now_date.after(rewarDate)) {
 
             loadAds(mAdView);
-            Log.d(context.getString(R.string.TAG_FRAGMENT_LIST), context.getString(R.string.TAG_ADS_LOADED));
-            crashlytics.log(context.getString(R.string.TAG_FRAGMENT_LIST) + context.getString(R.string.TAG_ADS_LOADED));
+            Timber.i(context.getString(R.string.TAG_ADS_LOADED));
 
         } else {
             mAdView.setVisibility(View.GONE);
-            Log.d(context.getString(R.string.TAG_FRAGMENT_LIST), context.getString(R.string.TG_ADS_NOT_LOADED));
-            crashlytics.log(context.getString(R.string.TAG_FRAGMENT_LIST) + context.getString(R.string.TG_ADS_NOT_LOADED));
+            Timber.i(context.getString(R.string.TG_ADS_NOT_LOADED));
         }
     }
 
@@ -220,7 +203,7 @@ public class AdsService {
             @Override
             public void onAdFailedToLoad(LoadAdError loadAdError) {
 
-                Log.d(context.getString(R.string.TAG_ADMOB_AD_STATUS), context.getString(R.string.TAG_ADMOB_AD_STATUS_FAILED));
+                Timber.tag(context.getString(R.string.TAG_ADMOB_AD_STATUS)).w(context.getString(R.string.TAG_ADMOB_AD_STATUS_FAILED));
                 mAdView.setVisibility(View.GONE);
                 super.onAdFailedToLoad(loadAdError);
             }
@@ -228,9 +211,7 @@ public class AdsService {
             @Override
             public void onAdLoaded() {
 
-                Log.d(context.getString(R.string.TAG_ADMOB_AD_STATUS), context.getString(R.string.TAG_ADMOB_AD_STATUS_LOADED));
-                crashlytics.log(context.getString(R.string.TAG_ADMOB_AD_STATUS) + context.getString(R.string.TAG_ADMOB_AD_STATUS_LOADED));
-
+                Timber.tag(context.getString(R.string.TAG_ADMOB_AD_STATUS)).w(context.getString(R.string.TAG_ADMOB_AD_STATUS_LOADED));
                 mAdView.setVisibility(View.VISIBLE);
                 super.onAdLoaded();
             }
@@ -238,7 +219,7 @@ public class AdsService {
             @Override
             public void onAdOpened() {
 
-                Log.d(context.getString(R.string.TAG_ADMOB_AD_STATUS), context.getString(R.string.TAG_ADMOB_AD_STATUS_OPEN));
+                Timber.tag(context.getString(R.string.TAG_ADMOB_AD_STATUS)).w(context.getString(R.string.TAG_ADMOB_AD_STATUS_OPEN));
                 super.onAdOpened();
             }
         });

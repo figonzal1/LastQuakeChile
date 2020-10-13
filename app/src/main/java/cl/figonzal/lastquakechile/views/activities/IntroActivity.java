@@ -1,12 +1,8 @@
 package cl.figonzal.lastquakechile.views.activities;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -15,28 +11,24 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
-import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 
 import cl.figonzal.lastquakechile.R;
+import cl.figonzal.lastquakechile.services.SharedPrefService;
+import timber.log.Timber;
 
 public class IntroActivity extends AppCompatActivity {
 
 
-    private SharedPreferences.Editor editor;
     private Button btnGetStarted;
     private ImageView ivIcon;
     private TextView tvApp;
     private ImageView ivWaves;
     private Animation pulse, animText, animButton, animWaves;
 
-    private FirebaseCrashlytics crashlytics;
+    private SharedPrefService sharedPrefService;
 
     public IntroActivity() {
     }
@@ -48,16 +40,11 @@ public class IntroActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         //FULLSCREEN
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         setContentView(R.layout.activity_intro);
 
-        initResources();
-
-        startAnimations();
+        sharedPrefService = new SharedPrefService(getApplicationContext());
 
         checkFirstLoad();
-
-        manageDynamicLink();
     }
 
     private void manageDynamicLink() {
@@ -65,45 +52,32 @@ public class IntroActivity extends AppCompatActivity {
         //Recibir invitaciones y deep links
         FirebaseDynamicLinks.getInstance()
                 .getDynamicLink(getIntent())
-                .addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
-                    @Override
-                    public void onSuccess(PendingDynamicLinkData data) {
+                .addOnSuccessListener(this, data -> {
 
-                        if (data == null) {
+                    if (data == null) {
 
-                            Log.d(getString(R.string.TAG_DEEP_LINK_INVITATION), getString(R.string.INVITATION_STATUS));
-                            crashlytics.log(getString(R.string.TAG_DEEP_LINK_INVITATION) + getString(R.string.INVITATION_STATUS));
+                        Timber.i(getString(R.string.INVITATION_STATUS));
 
-                        } else {
-                            // Get the deep link
-                            Uri deepLink = data.getLink();
+                    } else {
+                        // Get the deep link
+                        Uri deepLink = data.getLink();
 
-                            //LINK https
-                            Log.d(getString(R.string.TAG_DEEP_LINK_DATA), String.valueOf(deepLink));
-                            crashlytics.log(getString(R.string.TAG_DEEP_LINK_DATA) + deepLink);
+                        //LINK https
+                        Timber.i("%s %s", getString(R.string.TAG_DEEP_LINK_DATA), deepLink);
 
-                        }
                     }
                 })
-                .addOnFailureListener(this, new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                        Log.w(getString(R.string.TAG_INVITATION_RECEIVE), "getDynamicLink" + ":onFailure", e);
-                    }
-                });
+                .addOnFailureListener(this, e -> Timber.e(e, "getDynamicLink:onFailure"));
     }
 
     private void initResources() {
-
-        crashlytics = FirebaseCrashlytics.getInstance();
 
         ivIcon = findViewById(R.id.iv_icon_app);
         tvApp = findViewById(R.id.tv_app_name);
         btnGetStarted = findViewById(R.id.btn_welcome);
         ivWaves = findViewById(R.id.iv_waves);
 
-        //Setear las animaciones
+        //Config Animations
         pulse = AnimationUtils.loadAnimation(this, R.anim.anim_pulse);
 
         animText = AnimationUtils.loadAnimation(this, R.anim.anim_textview);
@@ -113,6 +87,16 @@ public class IntroActivity extends AppCompatActivity {
         animButton.setStartOffset(1300);
 
         animWaves = AnimationUtils.loadAnimation(this, R.anim.anim_waves);
+
+        //GET STARTED BUTTON
+        btnGetStarted.setOnClickListener(v -> {
+
+            sharedPrefService.saveData(getString(R.string.SHARED_PREF_FIRST_LOAD), false);
+
+            Intent intent = new Intent(IntroActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        });
     }
 
     private void startAnimations() {
@@ -126,31 +110,26 @@ public class IntroActivity extends AppCompatActivity {
 
     private void checkFirstLoad() {
 
-        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.SHARED_PREF_MASTER_KEY), Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
+        boolean isFirstLoad = (boolean) sharedPrefService.getData(getString(R.string.SHARED_PREF_FIRST_LOAD), true);
 
-        boolean isFirstLoad = sharedPreferences.getBoolean(getString(R.string.SHARED_PREF_FIRST_LOAD), true);
-
-        Log.d(getString(R.string.SHARED_PREF_FIRST_LOAD), String.valueOf(isFirstLoad));
+        Timber.tag(getString(R.string.SHARED_PREF_FIRST_LOAD)).i(String.valueOf(isFirstLoad));
 
         if (!isFirstLoad) {
+
+            Timber.i("Abrir main activity directo");
+
             Intent intent = new Intent(IntroActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
+        } else {
+
+            Timber.i("Abrir intro activity");
+
+            initResources();
+
+            startAnimations();
+
+            manageDynamicLink();
         }
-
-        //GET STARTED BUTTON
-        btnGetStarted.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                editor.putBoolean(getString(R.string.SHARED_PREF_FIRST_LOAD), false);
-                editor.apply();
-
-                Intent intent = new Intent(IntroActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
     }
 }
