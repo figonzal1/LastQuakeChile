@@ -45,7 +45,6 @@ import cl.figonzal.lastquakechile.managers.DateManager;
 import cl.figonzal.lastquakechile.managers.PackageManager;
 import cl.figonzal.lastquakechile.managers.ViewsManager;
 import cl.figonzal.lastquakechile.services.NightModeService;
-import cl.figonzal.lastquakechile.services.SharedPrefService;
 import cl.figonzal.lastquakechile.services.Utils;
 
 public class QuakeDetailsActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -102,7 +101,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         setContentView(R.layout.activity_quake_details);
 
         //Check night mode
-        new NightModeService(this, this.getLifecycle(), new SharedPrefService(getApplicationContext()), getWindow());
+        new NightModeService(this, this.getLifecycle(), getWindow());
 
         mMapViewBundle = null;
         if (savedInstanceState != null) {

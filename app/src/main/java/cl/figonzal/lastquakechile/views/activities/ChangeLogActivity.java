@@ -18,7 +18,6 @@ import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.adapter.ChangeLogAdapter;
 import cl.figonzal.lastquakechile.model.ChangeLog;
 import cl.figonzal.lastquakechile.services.NightModeService;
-import cl.figonzal.lastquakechile.services.SharedPrefService;
 
 public class ChangeLogActivity extends AppCompatActivity {
 
@@ -30,7 +29,7 @@ public class ChangeLogActivity extends AppCompatActivity {
         setContentView(R.layout.activity_change_log);
 
         //Check modo noche
-        new NightModeService(this, this.getLifecycle(), new SharedPrefService(getApplicationContext()), getWindow());
+        new NightModeService(this, this.getLifecycle(), getWindow());
 
         Toolbar mToolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(mToolbar);
