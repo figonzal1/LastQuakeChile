@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
             quakeNotification.createChannel();
             changeLogNotification.createChannel();
         }
+        changeLogNotification.configNotificationChangeLog();
         quakeNotification.checkSuscriptionQuakes();
 
         //Setear toolbars, viewpagers y tabs
