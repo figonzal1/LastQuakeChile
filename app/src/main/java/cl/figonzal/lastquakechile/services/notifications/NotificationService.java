@@ -1,6 +1,6 @@
 package cl.figonzal.lastquakechile.services.notifications;
 
-public interface NotiService {
+public interface NotificationService {
 
     void createChannel();
 
