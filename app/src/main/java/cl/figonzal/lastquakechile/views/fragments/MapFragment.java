@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +25,6 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -40,6 +38,7 @@ import cl.figonzal.lastquakechile.managers.ViewsManager;
 import cl.figonzal.lastquakechile.model.QuakeModel;
 import cl.figonzal.lastquakechile.viewmodel.QuakeListViewModel;
 import cl.figonzal.lastquakechile.views.activities.QuakeDetailsActivity;
+import timber.log.Timber;
 
 
 public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.InfoWindowAdapter, GoogleMap.OnInfoWindowClickListener {
@@ -51,7 +50,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     private Bundle mMapViewBundle;
     private List<QuakeModel> mListQuakeModel;
 
-    private FirebaseCrashlytics crashlytics;
     private DateManager dateManager;
     private ViewsManager viewsManager;
 
@@ -71,7 +69,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        crashlytics = FirebaseCrashlytics.getInstance();
         dateManager = new DateManager();
         viewsManager = new ViewsManager();
 
@@ -150,8 +147,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         this.googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mPuntoPromedio, 5.0f));
 
         //Log zone
-        Log.d(getString(R.string.TAG_MAP_FRAGMENT), getString(R.string.TAG_MAP_READY_RESPONSE));
-        crashlytics.log(getString(R.string.TAG_MAP_FRAGMENT) + getString(R.string.TAG_MAP_READY_RESPONSE));
+        Timber.i(getString(R.string.TAG_MAP_READY_RESPONSE));
     }
 
     /**
@@ -270,8 +266,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         }
 
         //Log zone
-        Log.d(getString(R.string.TAG_MAP_FRAGMENT), getString(R.string.TAG_INFO_WINDOWS_RESPONSE));
-        crashlytics.log(getString(R.string.TAG_MAP_FRAGMENT) + getString(R.string.TAG_INFO_WINDOWS_RESPONSE));
+        Timber.i(getString(R.string.TAG_INFO_WINDOWS_RESPONSE));
         return mView;
     }
 
@@ -305,8 +300,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             mBundle.putString(getString(R.string.INTENT_ESTADO), mModel.getEstado());
             mIntent.putExtras(mBundle);
 
-            Log.d(getString(R.string.TAG_INTENT), getString(R.string.TAG_INTENT_INFO_WINDOWS));
-            crashlytics.log(getString(R.string.TAG_INTENT) + getString(R.string.TAG_INTENT_INFO_WINDOWS));
+            Timber.i(getString(R.string.TAG_INTENT) + ": " + getString(R.string.TAG_INTENT_INFO_WINDOWS));
 
             startActivity(mIntent);
         }

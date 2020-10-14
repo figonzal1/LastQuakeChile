@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             changeLogNotification.createChannel();
         }
         changeLogNotification.configNotificationChangeLog();
-        quakeNotification.checkSuscriptionQuakes();
+        quakeNotification.suscribedToQuakes(true);
 
         //Setear toolbars, viewpagers y tabs
         setToolbarViewPagerTabs();
@@ -273,24 +273,21 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()) {
+        int itemId = item.getItemId();
 
-            case R.id.changelog_menu:
+        if (itemId == R.id.changelog_menu) {
 
-                Intent intent = new Intent(MainActivity.this, ChangeLogActivity.class);
-                startActivity(intent);
+            Intent intent = new Intent(MainActivity.this, ChangeLogActivity.class);
+            startActivity(intent);
+            return true;
 
-                return true;
+        } else if (itemId == R.id.settings_menu) {
 
-            case R.id.settings_menu:
-
-                Intent intent2 = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(intent2);
-
-                return true;
-
-
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(intent);
+            return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 

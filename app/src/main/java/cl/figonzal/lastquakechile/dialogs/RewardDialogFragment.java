@@ -11,8 +11,6 @@ import androidx.fragment.app.DialogFragment;
 
 import com.google.android.gms.ads.reward.RewardedVideoAd;
 
-import java.util.Objects;
-
 import cl.figonzal.lastquakechile.R;
 import timber.log.Timber;
 
@@ -62,7 +60,12 @@ public class RewardDialogFragment extends DialogFragment {
     public void onStart() {
         super.onStart();
 
-        ((AlertDialog) Objects.requireNonNull(getDialog())).getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorSecondary, context.getTheme()));
-        ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.colorSecondary, context.getTheme()));
+        AlertDialog alertDialog = ((AlertDialog) getDialog());
+
+        if (alertDialog != null) {
+            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorSecondary, context.getTheme()));
+            alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.colorSecondary, context.getTheme()));
+        }
+
     }
 }

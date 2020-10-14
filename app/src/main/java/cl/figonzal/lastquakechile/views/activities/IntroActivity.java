@@ -63,7 +63,7 @@ public class IntroActivity extends AppCompatActivity {
                         Uri deepLink = data.getLink();
 
                         //LINK https
-                        Timber.i("%s %s", getString(R.string.TAG_DEEP_LINK_DATA), deepLink);
+                        Timber.i(getString(R.string.TAG_DEEP_LINK_DATA) + ": " + deepLink);
 
                     }
                 })
@@ -112,7 +112,7 @@ public class IntroActivity extends AppCompatActivity {
 
         boolean isFirstLoad = (boolean) sharedPrefService.getData(getString(R.string.SHARED_PREF_FIRST_LOAD), true);
 
-        Timber.tag(getString(R.string.SHARED_PREF_FIRST_LOAD)).i(String.valueOf(isFirstLoad));
+        Timber.i(getString(R.string.SHARED_PREF_FIRST_LOAD) + ": " + isFirstLoad);
 
         if (!isFirstLoad) {
 

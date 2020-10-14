@@ -126,12 +126,12 @@ public class ViewsManager {
      */
     public void setStatusImage(Context context, String estado, TextView tv_estado, ImageView iv_estado) {
 
-        if (estado.equals("preliminar")) {
+        if (estado.contains("preliminar")) {
 
             tv_estado.setText(String.format(Locale.US, context.getString(R.string.quakes_details_estado_sismo), context.getString(R.string.quakes_details_estado_sismo_preliminar)));
             iv_estado.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_progress_check_24));
 
-        } else if (estado.equals("verificado")) {
+        } else if (estado.contains("verificado")) {
 
             tv_estado.setText(String.format(Locale.US, context.getString(R.string.quakes_details_estado_sismo), context.getString(R.string.quakes_details_estado_sismo_verificado)));
             iv_estado.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_baseline_check_circle_24px));

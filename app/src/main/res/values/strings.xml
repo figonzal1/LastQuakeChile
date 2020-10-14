@@ -153,15 +153,16 @@
     <string name="TAG_FIREBASE_MESSAGE_DATA_INCOMING" translatable="false">NotificacionData recibida</string>
     <string name="TAG_FIREBASE_MESSAGE_INCOMING" translatable="false">Notificacion recibida</string>
     <string name="FLAG_RETRY" translatable="false">Recargar</string>
-    <string name="TAG_FRAGMENT_QUAKE" translatable="false">D/FRAGMENT_QUAKE: </string>
+    <string name="TAG_FRAGMENT_QUAKE" translatable="false">FRAGMENT_QUAKE</string>
     <string name="TAG_FRAGMENT_REPORTS" translatable="false">D/FRAGMENT_REPORTS: </string>
     <string name="FRAGMENT_LOAD_LIST" translatable="false">Listado cargado</string>
     <string name="TAG_JSON_GENERAL_ERROR" translatable="false">D/JSON_GENERAL_ERROR: </string>
     <string name="TAG_JSON_PARSE_ERROR" translatable="false">D/JSON_PARSE_ERROR: </string>
     <string name="TAG_CONNECTION_OK" translatable="false">CONNECTION_OK</string>
+    <string name="TAG_QUAKES" translatable="false">QUAKES</string>
     <string name="CONNECTION_OK_RESPONSE" translatable="false">Conexion correcta</string>
     <string name="CONNECTED" translatable="false">CONNECTION_STATUS</string>
-    <string name="TAG_CARD_VIEW_INFO" translatable="false">D/CARD_VIEW_INFO: </string>
+    <string name="TAG_CARD_VIEW_INFO" translatable="false">CARD_VIEW_INFO</string>
     <string name="TAG_FIRST_RUN_STATUS" translatable="false">FIRST_RUN</string>
     <string name="FIRST_RUN_STATUS_RESPONSE" translatable="false">EJECUCION DE PRIMER INICIO</string>
     <string name="TAG_INVITATION_RECEIVE" translatable="false">INVITACION</string>
@@ -181,9 +182,9 @@
     <string name="TAG_CONNECTION_SERVER_RESPALDO_RESPONSE" translatable="false">INTENTO DE CONEXION A RESPALDO (DEVELOPMENT)</string>
     <string name="TAG_CONNECTION_SERVER_OFICIAL" translatable="false">D/SERVIDOR OFICIAL: </string>
     <string name="TAG_CONNECTION_SERVER_OFICIAL_RESPONSE" translatable="false">INTENTO DE CONEXION A OFICIAL (PRODUCTION)</string>
-    <string name="TAG_INTENT" translatable="false">D/INTENT: </string>
-    <string name="TAG_INTENT_GOOGLEPLAY" translatable="false">Abriendo google play app - $s</string>
-    <string name="TAG_INTENT_NAVEGADOR" translatable="false">Abriendo navegador - $s</string>
+    <string name="TAG_INTENT" translatable="false">INTENT</string>
+    <string name="TAG_INTENT_GOOGLEPLAY" translatable="false">Abriendo google play app</string>
+    <string name="TAG_INTENT_NAVEGADOR" translatable="false">Abriendo navegador</string>
     <string name="TRY_INTENT_NOTIFICATION_1" translatable="false">Realizando intent de notificacion</string>
     <string name="TRY_INTENT_NOTIFICATION" translatable="false">TRY_INTENT_NOTIFICATION</string>
     <string name="TRY_INTENT_DETALLE" translatable="false">Intent de detalle de sismo</string>
@@ -193,13 +194,13 @@
     <string name="GOOGLE_PLAY_SOLICITUD" translatable="false">Google Play - solicitando actualizacion</string>
     <string name="GOOGLE_PLAY_NOSOPORTADO" translatable="false">Google Play - no soportado</string>
     <string name="GOOGLE_PLAY_ACTUALIZADO" translatable="false">Google Play - actualizado</string>
-    <string name="TAG_INTENT_SHARE" translatable="false">D/SHARE_INTENT: </string>
+    <string name="TAG_INTENT_SHARE" translatable="false">SHARE_INTENT</string>
     <string name="TAG_INTENT_SHARE_WSP" translatable="false">WHATSAPP SHARE INTENT</string>
     <string name="TAG_INTENT_SHARE_GM" translatable="false">GMAIL SHARE INTENT</string>
-    <string name="TAG_FAB_MENU" translatable="false">D/FAB MENU: </string>
+    <string name="TAG_FAB_MENU" translatable="false">FAB MENU</string>
     <string name="TAG_FAB_MENU_OPEN" translatable="false">OPEN</string>
     <string name="TAG_FAB_MENU_CLOSE" translatable="false">CLOSE</string>
-    <string name="TAG_OVERLAY_DETAILS" translatable="false">D/OVERLAY-DETAILS: </string>
+    <string name="TAG_OVERLAY_DETAILS" translatable="false">OVERLAY-DETAILS</string>
     <string name="TAG_OVERLAY_DETAILS_RESULT" translatable="false">CLICKED</string>
     <string name="HOME_PARENT">Navegar hacia arriba</string>
     <string name="TAG_MAP_FRAGMENT" translatable="false">D/MAP FRAGMENT: </string>
@@ -219,6 +220,7 @@
     <string name="FIREBASE_MESSAGE_NOTIFICATION_STATUS" translatable="false">MESSAGE_NOTIFICATION_RECEIVED</string>
     <string name="FIREBASE_CHANNEL_CREATED_MESSAGE" translatable="false">Canal de notificacion creado</string>
     <string name="FIREBASE_PREF_KEY" translatable="false">pref_suscrito_quake</string>
+    <string name="SUSCRITO_QUAKE" translatable="false">suscrito_quake</string>
     <string name="FIREBASE_TOPIC_NAME" translatable="false">Quakes</string>
     <string name="FIREBASE_PREF_KEY_TOAST_ALERTAS_ON">Alertas activadas</string>
     <string name="FIREBASE_PREF_KEY_TOAST_ALERTAS_OFF">Alertas desactivadas</string>
@@ -242,7 +244,7 @@
     <string name="INVITATION_SUBJECT">Descarga LastQuakeChile App</string>
     <string name="TAG_DEEP_LINK_INVITATION" translatable="false">D/INTENT_INVITACION: </string>
     <string name="INVITATION_STATUS" translatable="false">Invitacion sin datos</string>
-    <string name="TAG_DEEP_LINK_DATA" translatable="false">D/DEEP_LINK: </string>
+    <string name="TAG_DEEP_LINK_DATA" translatable="false">DEEP_LINK</string>
     <string name="TAG_INVITATION_ID" translatable="false">D/INVITACION_ID: </string>
 
     <!-- SHARE PREFERENCES KEYS (Variables) -->
@@ -258,7 +260,7 @@
     <!-- NightMode -->
     <string name="NIGHT_MODE_MANUAL_KEY" translatable="false">pref_manual_night_mode</string>
     <string name="NIGHT_MODE_AUTO_KEY" translatable="false">pref_auto_night_mode</string>
-    <string name="TAG_NIGHT_MODE_MANUAL" translatable="false">D/NIGHT MODE MANUAL: </string>
+    <string name="TAG_NIGHT_MODE_MANUAL" translatable="false">NIGHT MODE MANUAL</string>
     <string name="TAG_NIGHT_MODE_STATUS_ON" translatable="false">ON</string>
     <string name="TAG_NIGHT_MODE_STATUS_OFF" translatable="false">OFF</string>
     <string name="TAG_NIGHT_MODE_AUTO" translatable="false">NIGHT MODE AUTO</string>
@@ -289,7 +291,7 @@
     <string name="TAG_VIDEO_REWARD_STATUS_LOADED" translatable="false">LOADED</string>
     <string name="TAG_VIDEO_REWARD_STATUS_REWARDED" translatable="false">REWARDED</string>
     <string name="TAG_VIDEO_REWARD_STATUS_COMPLETED" translatable="false">COMPLETED</string>
-    <string name="TAG_POST_REWARD_HORA_AHORA" translatable="false">D/POST_REWARD_HORA_AHORA: </string>
+    <string name="TAG_POST_REWARD_HORA_AHORA" translatable="false">POST_REWARD_HORA_AHORA</string>
     <string name="TAG_POST_REWARD_HORA_REWARD" translatable="false">POST_REWARD_HORA_REWARD</string>
     <string name="TAG_REWARD_STATUS" translatable="false">D/REWARD_STATUS: </string>
     <string name="TAG_REWARD_STATUS_EN_PERIODO" translatable="false">EN PERIODO REWARD</string>

@@ -14,8 +14,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,8 +37,6 @@ public class ReportsFragment extends Fragment {
 
     private Application application;
 
-    private FirebaseCrashlytics crashlytics;
-
     public ReportsFragment() {
     }
 
@@ -57,8 +53,6 @@ public class ReportsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        crashlytics = FirebaseCrashlytics.getInstance();
 
         View v = inflater.inflate(R.layout.fragment_reports, container, false);
 
@@ -110,8 +104,7 @@ public class ReportsFragment extends Fragment {
             }
 
             //LOG ZONE
-            Timber.i(getString(R.string.FRAGMENT_LOAD_LIST));
-            crashlytics.log(getString(R.string.TAG_FRAGMENT_REPORTS) + getString(R.string.FRAGMENT_LOAD_LIST));
+            Timber.i(getString(R.string.TAG_FRAGMENT_REPORTS) + ": " + getString(R.string.FRAGMENT_LOAD_LIST));
         });
 
         reportsViewModel.showMsgErrorList().observe(requireActivity(), status -> {
