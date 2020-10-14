@@ -3,13 +3,14 @@ package cl.figonzal.lastquakechile.views.activities;
 import android.animation.Animator;
 import android.animation.IntEvaluator;
 import android.animation.ValueAnimator;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -20,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.FileProvider;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -32,8 +34,11 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -44,8 +49,9 @@ import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.managers.DateManager;
 import cl.figonzal.lastquakechile.managers.PackageManager;
 import cl.figonzal.lastquakechile.managers.ViewsManager;
+import cl.figonzal.lastquakechile.model.QuakeModel;
 import cl.figonzal.lastquakechile.services.NightModeService;
-import cl.figonzal.lastquakechile.services.Utils;
+import timber.log.Timber;
 
 public class QuakeDetailsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -72,18 +78,10 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
     private TextView mFabTextGM;
     private TextView mTvEstado;
     private ImageView mIvSensible, mIvMagColor, mIvEstado;
-    private String mCiudad;
-    private String mReferencia;
     private String mDmsLat;
     private String mDmsLong;
     private String mFechaLocal;
-    private String mEscala;
-    private String mEstado;
-    private String mLatitud;
-    private String mLongitud;
-    private Double mMagnitud, mProfundidad;
     private Map<String, Long> mTiempos;
-    private boolean mSensible;
     private boolean mIsFabOpen = false;
     private FloatingActionButton mFabShare;
     private FloatingActionButton mFabWSP;
@@ -94,6 +92,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
     private DateManager dateManager;
     private ViewsManager viewsManager;
     private PackageManager packageManager;
+    private QuakeModel quakeModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -112,9 +111,11 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
     }
 
     private void initResources() {
+
         crashlytics = FirebaseCrashlytics.getInstance();
         dateManager = new DateManager();
         viewsManager = new ViewsManager();
+        packageManager = new PackageManager();
 
         mMapView = findViewById(R.id.map);
         mMapView.onCreate(mMapViewBundle);
@@ -159,26 +160,28 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
     }
 
     private void handleBundles() {
+
         //Obtener datos desde intent
         Bundle mBundle = getIntent().getExtras();
 
         if (mBundle != null) {
 
             //OBTENCION DE INFO DESDE INTENT
-            mCiudad = mBundle.getString(getString(R.string.INTENT_CIUDAD));
-            mReferencia = mBundle.getString(getString(R.string.INTENT_REFERENCIA));
-            mMagnitud = mBundle.getDouble(getString(R.string.INTENT_MAGNITUD));
-            mProfundidad = mBundle.getDouble(getString(R.string.INTENT_PROFUNDIDAD));
-            mEscala = mBundle.getString(getString(R.string.INTENT_ESCALA));
-            //TODO: Agregar mSensible a los detalles del sismo
-            mSensible = mBundle.getBoolean(getString(R.string.INTENT_SENSIBLE));
-            mEstado = mBundle.getString(getString(R.string.INTENT_ESTADO));
-            mLatitud = mBundle.getString(getString(R.string.INTENT_LATITUD));
-            mLongitud = mBundle.getString(getString(R.string.INTENT_LONGITUD));
+            quakeModel = new QuakeModel();
+
+            quakeModel.setCiudad(mBundle.getString(getString(R.string.INTENT_CIUDAD)));
+            quakeModel.setReferencia(mBundle.getString(getString(R.string.INTENT_REFERENCIA)));
+            quakeModel.setMagnitud(mBundle.getDouble(getString(R.string.INTENT_MAGNITUD)));
+            quakeModel.setProfundidad(mBundle.getDouble(getString(R.string.INTENT_PROFUNDIDAD)));
+            quakeModel.setEscala(mBundle.getString(getString(R.string.INTENT_ESCALA)));
+            quakeModel.setSensible(mBundle.getBoolean(getString(R.string.INTENT_SENSIBLE)));
+            quakeModel.setEstado(mBundle.getString(getString(R.string.INTENT_ESTADO)));
+            quakeModel.setLatitud(mBundle.getString(getString(R.string.INTENT_LATITUD)));
+            quakeModel.setLongitud(mBundle.getString(getString(R.string.INTENT_LONGITUD)));
 
             //Calculo de Grados,Minutos y segundos de
             //mLatitud y mLongitud
-            calculateGMS(mLatitud, mLongitud);
+            calculateGMS(quakeModel.getLatitud(), quakeModel.getLongitud());
 
             //Configuración de fechas locales y utc
             dateConfig(mBundle);
@@ -199,9 +202,12 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         //Boton compartir central
         mFabShare.setOnClickListener(v -> {
 
-            Log.d(getString(R.string.TAG_FAB_SHARE_STATUS), getString(R.string.TAG_FAB_SHARE_STATUS_CLICKED));
+            Timber.tag(getString(R.string.TAG_FAB_SHARE_STATUS)).d(getString(R.string.TAG_FAB_SHARE_STATUS_CLICKED));
 
             if (!mIsFabOpen) {
+
+                makeSnapshot();
+
                 showFabMenu();
             } else {
                 closeFabMenu();
@@ -211,8 +217,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         //Logica de overlay
         mOverlay.setOnClickListener(v -> {
 
-            Log.d(getString(R.string.TAG_OVERLAY_DETAILS), getString(R.string.TAG_OVERLAY_DETAILS_RESULT));
-            crashlytics.log(getString(R.string.TAG_OVERLAY_DETAILS) + getString(R.string.TAG_OVERLAY_DETAILS_RESULT));
+            Timber.tag(getString(R.string.TAG_OVERLAY_DETAILS)).d(getString(R.string.TAG_OVERLAY_DETAILS_RESULT));
 
             if (mIsFabOpen) {
                 closeFabMenu();
@@ -229,8 +234,8 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
                 packageManager.doInstallation(getString(R.string.PACKAGE_NAME_WSP), getApplicationContext());
 
             } else {
-                Log.d(getString(R.string.TAG_INTENT_SHARE), getString(R.string.TAG_INTENT_SHARE_WSP));
-                crashlytics.log(getString(R.string.TAG_INTENT_SHARE) + getString(R.string.TAG_INTENT_SHARE_WSP));
+
+                Timber.tag(getString(R.string.TAG_INTENT_SHARE)).d(getString(R.string.TAG_INTENT_SHARE_WSP));
 
                 Intent wspIntent = new Intent();
                 wspIntent.setAction(Intent.ACTION_SEND);
@@ -245,7 +250,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
                                 "Georeferencia: %6$s\n\n" +
                                 "Para más información descarga la app LastQuakeChile aquí\n" +
                                 "%7$s"
-                        , mCiudad, mFechaLocal, mMagnitud, mEscala, mProfundidad, mReferencia,
+                        , quakeModel.getCiudad(), mFechaLocal, quakeModel.getMagnitud(), quakeModel.getEscala(), quakeModel.getProfundidad(), quakeModel.getReferencia(),
                         getString(R.string.DEEP_LINK)
                 ));
                 wspIntent.putExtra(Intent.EXTRA_STREAM, mBitmapUri);
@@ -266,14 +271,13 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
 
             } else {
 
-                Log.d(getString(R.string.TAG_INTENT_SHARE), getString(R.string.TAG_INTENT_SHARE_GM));
-                crashlytics.log(getString(R.string.TAG_INTENT_SHARE) + getString(R.string.TAG_INTENT_SHARE_GM));
+                Timber.tag(getString(R.string.TAG_INTENT_SHARE)).d(getString(R.string.TAG_INTENT_SHARE_GM));
 
                 Intent gmIntent = new Intent();
                 gmIntent.setAction(Intent.ACTION_SEND);
                 gmIntent.setPackage(getString(R.string.PACKAGE_NAME_GMAIL));
                 gmIntent.putExtra(Intent.EXTRA_SUBJECT, String.format(Locale.US, "[Alerta " +
-                        "sísmica] - %1$.1f Richter en %2$s", mMagnitud, mCiudad));
+                        "sísmica] - %1$.1f Richter en %2$s", quakeModel.getMagnitud(), quakeModel.getCiudad()));
                 gmIntent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(
                         String.format(Locale.US,
                                 "<h3>\n" +
@@ -301,8 +305,8 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
                                         "LastQuakeChile" +
                                         " aquí %11$s \n" +
                                         "</h5>"
-                                , mFechaLocal, mCiudad, mMagnitud, mEscala, mProfundidad,
-                                mReferencia, mLatitud, mLongitud, mDmsLat, mDmsLong,
+                                , mFechaLocal, quakeModel.getCiudad(), quakeModel.getMagnitud(), quakeModel.getEscala(), quakeModel.getProfundidad(),
+                                quakeModel.getReferencia(), quakeModel.getLatitud(), quakeModel.getLongitud(), mDmsLat, mDmsLong,
                                 getString(R.string.DEEP_LINK))));
 
                 gmIntent.putExtra(Intent.EXTRA_STREAM, mBitmapUri);
@@ -311,6 +315,24 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
                 startActivity(gmIntent);
             }
         });
+    }
+
+    private void makeSnapshot() {
+
+        if (mGoogleMap != null) {
+
+            //Tomar screenshot del mapa para posterior funcion de compartir
+            mGoogleMap.snapshot(bitmap -> {
+                try {
+
+                    Timber.i("Snapshot google play");
+
+                    mBitmapUri = getLocalBitmapUri(bitmap, getApplicationContext());
+                } catch (IOException e) {
+                    Timber.e(e, "Error screenshot map: %s", e.getMessage());
+                }
+            });
+        }
     }
 
     /**
@@ -374,11 +396,11 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
             Date mFechaLocal;
             try {
                 mFechaLocal = dateManager.stringToDate(this, this.mFechaLocal);
+
+                quakeModel.setFechaLocal(mFechaLocal);
                 mTiempos = dateManager.dateToDHMS(mFechaLocal);
             } catch (ParseException e) {
-
-                Log.d("STRING_TO_DATE", "Parse exception error");
-                e.printStackTrace();
+                Timber.e(e, "Parse exception error: %s", e.getMessage());
             }
 
         }
@@ -395,6 +417,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
                 try {
                     mDateFechaUtc = dateManager.stringToDate(this, mFechaUtc);
                     Date mDateFechaLocal = dateManager.utcToLocal(mDateFechaUtc);
+                    quakeModel.setFechaLocal(mDateFechaLocal);
                     mTiempos = dateManager.dateToDHMS(mDateFechaLocal);
 
                     //Setear string que será usado en textviews de detalle con la fecha transformada
@@ -402,8 +425,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
                     mFechaLocal = dateManager.dateToString(this, mDateFechaLocal);
 
                 } catch (ParseException e) {
-                    Log.d("STRING_TO_DATE", "Parse exception error");
-                    e.printStackTrace();
+                    Timber.e(e, "Parse exception error: %s", e.getMessage());
                 }
             }
         }
@@ -465,14 +487,14 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
             }
         });
 
-        Log.d(getString(R.string.TAG_FAB_MENU), getString(R.string.TAG_FAB_MENU_OPEN));
-        crashlytics.log(getString(R.string.TAG_FAB_MENU) + getString(R.string.TAG_FAB_MENU_OPEN));
+        Timber.tag(getString(R.string.TAG_FAB_MENU)).i(getString(R.string.TAG_FAB_MENU_OPEN));
     }
 
     /**
      * Funcion que cierra el floating button menu
      */
     private void closeFabMenu() {
+
         mIsFabOpen = false;
         mFabWSP.animate().translationY(0);
         mFabGM.animate().translationY(0);
@@ -513,7 +535,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
             }
         });
 
-        Log.d(getString(R.string.TAG_FAB_MENU), getString(R.string.TAG_FAB_MENU_CLOSE));
+        Timber.tag(getString(R.string.TAG_FAB_MENU)).i(getString(R.string.TAG_FAB_MENU_CLOSE));
         crashlytics.log(getString(R.string.TAG_FAB_MENU) + getString(R.string.TAG_FAB_MENU_CLOSE));
 
     }
@@ -524,9 +546,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         // Respond to the action bar's Up/Home button
         if (item.getItemId() == android.R.id.home) {
 
-            Log.d(getString(R.string.TAG_INTENT_DETALLE_HOME_UP), getString(R.string.TAG_INTENT_DETALLE_HOME_UP_RESPONSE));
-
-            crashlytics.log(getString(R.string.TAG_INTENT_DETALLE_HOME_UP) + getString(R.string.TAG_INTENT_DETALLE_HOME_UP_RESPONSE));
+            Timber.i(getString(R.string.TAG_INTENT_DETALLE_HOME_UP_RESPONSE));
 
             Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -555,22 +575,22 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
 
         //Setear titulo de mCiudad en activity
         ActionBar actionBar = Objects.requireNonNull(getSupportActionBar());
-        actionBar.setTitle(mCiudad);
+        actionBar.setTitle(quakeModel.getCiudad());
 
         //Setear nombre mCiudad
-        mTvCiudad.setText(mCiudad);
+        mTvCiudad.setText(quakeModel.getCiudad());
 
         //Setear mReferencia
-        mTvReferencia.setText(mReferencia);
+        mTvReferencia.setText(quakeModel.getReferencia());
 
         //Setear mMagnitud en en circulo de color
-        mTvMagnitud.setText(String.format(getString(R.string.magnitud), mMagnitud));
+        mTvMagnitud.setText(String.format(getString(R.string.magnitud), quakeModel.getMagnitud()));
 
         //Setear el color de background dependiendo de mMagnitud del sismo
-        mIvMagColor.setColorFilter(getColor(viewsManager.getMagnitudeColor(mMagnitud, false)));
+        mIvMagColor.setColorFilter(getColor(viewsManager.getMagnitudeColor(quakeModel.getMagnitud(), false)));
 
         //Setear mProfundidad
-        mTvProfundidad.setText(String.format(Locale.US, getString(R.string.quake_details_profundidad), mProfundidad));
+        mTvProfundidad.setText(String.format(Locale.US, getString(R.string.quake_details_profundidad), quakeModel.getProfundidad()));
 
         //Setear fecha
         mTvFecha.setText(mFechaLocal);
@@ -579,8 +599,8 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         mTvGms.setText(String.format(getString(R.string.format_coordenadas), mDmsLat, mDmsLong));
 
         //SETEO DE ESTADO
-        if (mEstado != null) {
-            viewsManager.setStatusImage(getApplicationContext(), mEstado, mTvEstado, mIvEstado);
+        if (quakeModel.getEstado() != null) {
+            viewsManager.setStatusImage(getApplicationContext(), quakeModel.getEstado(), mTvEstado, mIvEstado);
         }
 
         //SETEO DE HORA
@@ -589,12 +609,12 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         }
 
         //SETEO DE ESCALA
-        if (mEscala != null) {
-            viewsManager.setEscala(getApplicationContext(), mEscala, mTvEscala);
+        if (quakeModel.getEscala() != null) {
+            viewsManager.setEscala(getApplicationContext(), quakeModel.getEscala(), mTvEscala);
         }
 
         //SETEO SISMO SENSIBLE
-        if (mSensible) {
+        if (quakeModel.getSensible()) {
             mIvSensible.setVisibility(View.VISIBLE);
         }
     }
@@ -624,9 +644,9 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         mGoogleMap.getUiSettings().setRotateGesturesEnabled(false);
         mGoogleMap.getUiSettings().setCompassEnabled(false);
 
-        LatLng mLatLong = new LatLng(Double.parseDouble(mLatitud), Double.parseDouble(mLongitud));
+        LatLng mLatLong = new LatLng(Double.parseDouble(quakeModel.getLatitud()), Double.parseDouble(quakeModel.getLongitud()));
 
-        int mIdColor = viewsManager.getMagnitudeColor(mMagnitud, true);
+        int mIdColor = viewsManager.getMagnitudeColor(quakeModel.getMagnitud(), true);
 
         //Circulo grande con color segun magnitud
         mGoogleMap.addCircle(new CircleOptions()
@@ -687,19 +707,6 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
 
         //Callback en espera de mapa completamente cargado
         mGoogleMap.setOnMapLoadedCallback(() -> {
-
-            //Tomar screenshot del mapa para posterior funcion de compartir
-            mGoogleMap.snapshot(bitmap -> {
-
-                //TODO: Corregir posible problema de performance
-
-                try {
-                    mBitmapUri = Utils.getLocalBitmapUri(bitmap, getApplicationContext());
-                } catch (IOException e) {
-                    Log.d("SCREENSHOT_MAP", "Error al hacer screenshot del mapa");
-                    e.printStackTrace();
-                }
-            });
         });
     }
 
@@ -766,6 +773,33 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         mDMS.put("segundos", (double) Math.round(mSeconds));
 
         return mDMS;
+    }
+
+    /**
+     * Funcion encargada se guardar en directorio de celular una imagen bitmap
+     *
+     * @param bitmap  Bitmap de la imagen
+     * @param context Contexto necesario para usar recursos
+     * @return Path de la imagen
+     */
+    public Uri getLocalBitmapUri(Bitmap bitmap, Context context) throws IOException {
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(quakeModel.getFechaLocal());
+        int date = (int) c.getTimeInMillis();
+
+        File mFile = new File(context.getCacheDir(), "share_" + quakeModel.getCiudad().toLowerCase() + "_" + date + ".jpeg");
+
+        if (mFile.exists()) {
+            Timber.i("Share image exist");
+        } else {
+            Timber.i("Share image not exist");
+
+            FileOutputStream out = new FileOutputStream(mFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            out.close();
+        }
+        return FileProvider.getUriForFile(context, "cl.figonzal.lastquakechile.fileprovider", mFile);
     }
 }
 
