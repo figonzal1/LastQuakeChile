@@ -16,8 +16,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 
-import cl.figonzal.lastquakechile.services.Utils;
-
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
