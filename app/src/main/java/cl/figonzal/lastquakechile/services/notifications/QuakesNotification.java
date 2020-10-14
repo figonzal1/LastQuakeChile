@@ -70,25 +70,26 @@ public class QuakesNotification implements NotificationService {
 
     /**
      * Funcion encargada de checkear la suscripcion del usuario al canal de alertas de sismos
+     *
+     * @param subcribed Boleano para determinar suscripcion a tema
      */
-    public boolean checkSuscriptionQuakes() {
-
-        boolean mSuscrito = (boolean) sharedPrefService.getData(context.getString(R.string.FIREBASE_PREF_KEY), true);
+    public void suscribedToQuakes(boolean subcribed) {
 
         //Suscribir a tema quakes
-        if (mSuscrito) {
+        if (subcribed) {
 
             com.google.firebase.messaging.FirebaseMessaging.getInstance().subscribeToTopic(context.getString(R.string.FIREBASE_TOPIC_NAME))
                     .addOnCompleteListener(task -> {
 
                         if (task.isSuccessful()) {
 
+                            //Modificar valor en sharepref de settings
+                            sharedPrefService.saveData(context.getString(R.string.FIREBASE_PREF_KEY), true);
+
                             Timber.i(context.getString(R.string.TAG_FIREBASE_SUSCRIPTION_OK));
-                            crashlytics.setCustomKey(context.getString(R.string.FIREBASE_PREF_KEY), true);
+                            crashlytics.setCustomKey(context.getString(R.string.SUSCRITO_QUAKE), true);
                         }
                     });
-
-            return true;
         }
 
         //Desuscribir a tema quakes
@@ -103,11 +104,9 @@ public class QuakesNotification implements NotificationService {
 
                         //LOG ZONE
                         Timber.i(context.getString(R.string.TAG_FIREBASE_SUSCRIPTION_DELETE));
-                        crashlytics.setCustomKey(context.getString(R.string.FIREBASE_PREF_KEY), false);
+                        crashlytics.setCustomKey(context.getString(R.string.SUSCRITO_QUAKE), false);
                     })
                     .addOnFailureListener(e -> Timber.i(context.getString(R.string.TAG_FIREBASE_SUSCRIPTION_ALREADY)));
-
-            return false;
         }
     }
 
@@ -204,8 +203,10 @@ public class QuakesNotification implements NotificationService {
 
     /**
      * Funcion que muestra notificacion generica
+     *
+     * @param remoteMessage Mensaje desde FCM
      */
-    public void showNotificationGeneric() {
+    public void showNotificationGeneric(RemoteMessage remoteMessage) {
 
         //Maneja la notificacion cuando esta en foreground
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, context.getString(R.string.FIREBASE_CHANNEL_ID_QUAKES))

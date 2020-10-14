@@ -3,10 +3,7 @@ package cl.figonzal.lastquakechile.views.fragments;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Application;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,8 +38,10 @@ import cl.figonzal.lastquakechile.model.QuakeModel;
 import cl.figonzal.lastquakechile.repository.NetworkRepository;
 import cl.figonzal.lastquakechile.repository.QuakeRepository;
 import cl.figonzal.lastquakechile.services.AdsService;
+import cl.figonzal.lastquakechile.services.SharedPrefService;
 import cl.figonzal.lastquakechile.viewmodel.QuakeListViewModel;
 import cl.figonzal.lastquakechile.viewmodel.ViewModelFactory;
+import timber.log.Timber;
 
 
 public class QuakeFragment extends Fragment implements SearchView.OnQueryTextListener {
@@ -65,6 +64,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
     private DateManager dateManager;
     private ViewsManager viewsManager;
 
+    private SharedPrefService sharedPrefService;
+
     public QuakeFragment() {
     }
 
@@ -80,6 +81,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         dateManager = new DateManager();
         crashlytics = FirebaseCrashlytics.getInstance();
         viewsManager = new ViewsManager();
+
+        sharedPrefService = new SharedPrefService(getContext());
     }
 
     @Override
@@ -177,9 +180,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
                 }
 
                 //LOG ZONE
-                Log.d(getString(R.string.TAG_FRAGMENT_QUAKE), getString(R.string.FRAGMENT_LOAD_LIST));
-
-                crashlytics.log(getString(R.string.TAG_FRAGMENT_QUAKE) + getString(R.string.FRAGMENT_LOAD_LIST));
+                Timber.i(getString(R.string.TAG_FRAGMENT_QUAKE) + ": " + getString(R.string.FRAGMENT_LOAD_LIST));
             }
         });
 
@@ -211,8 +212,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
      */
     private void showCardViewInformation(View v) {
 
-        final SharedPreferences sharedPreferences = requireActivity().getSharedPreferences(requireActivity().getString(R.string.SHARED_PREF_MASTER_KEY), Context.MODE_PRIVATE);
-        boolean isCardViewShow = sharedPreferences.getBoolean(getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO), true);
+        boolean isCardViewShow = (boolean) sharedPrefService.getData(getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO), true);
 
         if (isCardViewShow) {
             mCardViewInfo.setVisibility(View.VISIBLE);
@@ -224,9 +224,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
         mBtnCvInfo.setOnClickListener(v1 -> {
 
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean(getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO), false);
-            editor.apply();
+            sharedPrefService.saveData(getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO), false);
 
             mCardViewInfo.animate()
                     .translationY(-mCardViewInfo.getHeight())
@@ -241,8 +239,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
 
             //LOGS
-            Log.d(getString(R.string.TAG_CARD_VIEW_INFO), getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO_RESULT));
-            crashlytics.log(getString(R.string.TAG_CARD_VIEW_INFO) + getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO_RESULT));
+            Timber.i(getString(R.string.TAG_CARD_VIEW_INFO) + ": " + getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO_RESULT));
         });
     }
 

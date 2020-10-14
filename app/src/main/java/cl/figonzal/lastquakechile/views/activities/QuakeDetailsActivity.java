@@ -202,7 +202,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         //Boton compartir central
         mFabShare.setOnClickListener(v -> {
 
-            Timber.tag(getString(R.string.TAG_FAB_SHARE_STATUS)).d(getString(R.string.TAG_FAB_SHARE_STATUS_CLICKED));
+            Timber.i(getString(R.string.TAG_FAB_SHARE_STATUS) + ": " + getString(R.string.TAG_FAB_SHARE_STATUS_CLICKED));
 
             if (!mIsFabOpen) {
 
@@ -217,7 +217,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         //Logica de overlay
         mOverlay.setOnClickListener(v -> {
 
-            Timber.tag(getString(R.string.TAG_OVERLAY_DETAILS)).d(getString(R.string.TAG_OVERLAY_DETAILS_RESULT));
+            Timber.i(getString(R.string.TAG_OVERLAY_DETAILS) + ": " + getString(R.string.TAG_OVERLAY_DETAILS_RESULT));
 
             if (mIsFabOpen) {
                 closeFabMenu();
@@ -235,7 +235,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
 
             } else {
 
-                Timber.tag(getString(R.string.TAG_INTENT_SHARE)).d(getString(R.string.TAG_INTENT_SHARE_WSP));
+                Timber.i(getString(R.string.TAG_INTENT_SHARE) + ": " + getString(R.string.TAG_INTENT_SHARE_WSP));
 
                 Intent wspIntent = new Intent();
                 wspIntent.setAction(Intent.ACTION_SEND);
@@ -271,7 +271,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
 
             } else {
 
-                Timber.tag(getString(R.string.TAG_INTENT_SHARE)).d(getString(R.string.TAG_INTENT_SHARE_GM));
+                Timber.i(getString(R.string.TAG_INTENT_SHARE) + ": " + getString(R.string.TAG_INTENT_SHARE_GM));
 
                 Intent gmIntent = new Intent();
                 gmIntent.setAction(Intent.ACTION_SEND);
@@ -345,8 +345,8 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
     private void calculateGMS(String latitud, String longitud) {
 
         //Conversion de mLatitud a dms
-        double mLatUbicacion = Double.parseDouble(Objects.requireNonNull(latitud, "Latitud es nulo"));
-        double mLongUbicacion = Double.parseDouble(Objects.requireNonNull(longitud, "Longitud es nulo"));
+        double mLatUbicacion = Double.parseDouble(latitud);
+        double mLongUbicacion = Double.parseDouble(longitud);
 
         if (mLatUbicacion < 0) {
             mDmsLat = getString(R.string.coordenadas_sur);
@@ -487,7 +487,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
             }
         });
 
-        Timber.tag(getString(R.string.TAG_FAB_MENU)).i(getString(R.string.TAG_FAB_MENU_OPEN));
+        Timber.i(getString(R.string.TAG_FAB_MENU) + ": " + getString(R.string.TAG_FAB_MENU_OPEN));
     }
 
     /**
@@ -535,9 +535,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
             }
         });
 
-        Timber.tag(getString(R.string.TAG_FAB_MENU)).i(getString(R.string.TAG_FAB_MENU_CLOSE));
-        crashlytics.log(getString(R.string.TAG_FAB_MENU) + getString(R.string.TAG_FAB_MENU_CLOSE));
-
+        Timber.i(getString(R.string.TAG_FAB_MENU) + ": " + getString(R.string.TAG_FAB_MENU_CLOSE));
     }
 
     @Override

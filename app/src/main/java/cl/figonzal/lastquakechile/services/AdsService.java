@@ -63,7 +63,7 @@ public class AdsService {
             //Si la hora del celular es posterior a reward date
             if (now_date.after(reward_date)) {
 
-                Timber.tag(context.getString(R.string.TAG_REWARD_STATUS)).i(context.getString(R.string.TAG_REWARD_STATUS_EN_PERIODO));
+                Timber.i(context.getString(R.string.TAG_REWARD_STATUS_EN_PERIODO));
 
                 boolean showDialog = generateRandomNumber();
 
@@ -72,17 +72,17 @@ public class AdsService {
                     //Cargar dialog
                     mostrarDialog();
 
-                    Timber.tag(context.getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG)).i(context.getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG_ON));
+                    Timber.i(context.getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG_ON));
 
                 } else {
 
-                    Timber.tag(context.getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG)).i(context.getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG_OFF));
+                    Timber.i(context.getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG_OFF));
                 }
             }
 
             //Si el periodo de reward aun no pasa
             else if (now_date.before(reward_date)) {
-                Timber.tag(context.getString(R.string.TAG_REWARD_STATUS)).i(context.getString(R.string.TAG_REWARD_STATUS_PERIODO_INACTIVO));
+                Timber.i(context.getString(R.string.TAG_REWARD_STATUS_PERIODO_INACTIVO));
             }
         } catch (ParseException e) {
 
@@ -102,7 +102,7 @@ public class AdsService {
             @Override
             public void onRewardedVideoAdLoaded() {
 
-                Timber.tag(context.getString(R.string.TAG_VIDEO_REWARD_STATUS)).i(context.getString(R.string
+                Timber.i(context.getString(R.string.TAG_VIDEO_REWARD_STATUS) + ": " + context.getString(R.string
                         .TAG_VIDEO_REWARD_STATUS_LOADED));
                 rewardDialog();
             }
@@ -124,7 +124,7 @@ public class AdsService {
 
             @Override
             public void onRewarded(RewardItem rewardItem) {
-                Timber.tag(context.getString(R.string.TAG_VIDEO_REWARD_STATUS)).i(context.getString(R.string
+                Timber.i(context.getString(R.string
                         .TAG_VIDEO_REWARD_STATUS_REWARDED));
             }
 
@@ -141,16 +141,16 @@ public class AdsService {
             @Override
             public void onRewardedVideoCompleted() {
 
-                Timber.tag(context.getString(R.string.TAG_VIDEO_REWARD_STATUS)).i(context.getString(R.string
+                Timber.i(context.getString(R.string
                         .TAG_VIDEO_REWARD_STATUS_COMPLETED));
 
                 Date date_now = new Date();
 
-                Timber.tag(context.getString(R.string.TAG_POST_REWARD_HORA_AHORA)).i(dateManager.dateToString(context.getApplicationContext(), date_now));
+                Timber.i(context.getString(R.string.TAG_POST_REWARD_HORA_AHORA) + ": " + dateManager.dateToString(context.getApplicationContext(), date_now));
 
                 //sumar 24 horas al tiempo del celular
                 Date date_new = dateManager.addHoursToJavaUtilDate(date_now, 24);
-                Timber.tag(context.getString(R.string.TAG_POST_REWARD_HORA_REWARD)).i(dateManager.dateToString(context, date_new));
+                Timber.i(context.getString(R.string.TAG_POST_REWARD_HORA_REWARD) + ": " + dateManager.dateToString(context, date_new));
 
                 //Guardar fecha de termino de reward
                 sharedPrefService.saveData(context.getString(R.string.SHARED_PREF_END_REWARD_TIME), date_new.getTime());
@@ -174,7 +174,7 @@ public class AdsService {
 
         Date rewarDate = new Date((Long) sharedPrefService.getData(context.getString(R.string.SHARED_PREF_END_REWARD_TIME), 0L));
 
-        Timber.tag(context.getString(R.string.TAG_FRAGMENT_REWARD_DATE)).i(rewarDate.toString());
+        Timber.i(context.getString(R.string.TAG_FRAGMENT_REWARD_DATE) + ": " + rewarDate.toString());
         Date now_date = new Date();
 
         //si las 24 horas ya pasaron, cargar los ads nuevamente
@@ -203,7 +203,7 @@ public class AdsService {
             @Override
             public void onAdFailedToLoad(LoadAdError loadAdError) {
 
-                Timber.tag(context.getString(R.string.TAG_ADMOB_AD_STATUS)).w(context.getString(R.string.TAG_ADMOB_AD_STATUS_FAILED));
+                Timber.w(context.getString(R.string.TAG_ADMOB_AD_STATUS_FAILED));
                 mAdView.setVisibility(View.GONE);
                 super.onAdFailedToLoad(loadAdError);
             }
@@ -211,7 +211,7 @@ public class AdsService {
             @Override
             public void onAdLoaded() {
 
-                Timber.tag(context.getString(R.string.TAG_ADMOB_AD_STATUS)).w(context.getString(R.string.TAG_ADMOB_AD_STATUS_LOADED));
+                Timber.w(context.getString(R.string.TAG_ADMOB_AD_STATUS_LOADED));
                 mAdView.setVisibility(View.VISIBLE);
                 super.onAdLoaded();
             }
@@ -219,7 +219,7 @@ public class AdsService {
             @Override
             public void onAdOpened() {
 
-                Timber.tag(context.getString(R.string.TAG_ADMOB_AD_STATUS)).w(context.getString(R.string.TAG_ADMOB_AD_STATUS_OPEN));
+                Timber.w(context.getString(R.string.TAG_ADMOB_AD_STATUS_OPEN));
                 super.onAdOpened();
             }
         });

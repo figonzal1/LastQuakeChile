@@ -15,11 +15,8 @@ import timber.log.Timber;
 
 public class NightModeService implements LifecycleObserver {
 
-    private Activity activity;
-    private Window window;
-
-    public NightModeService() {
-    }
+    private final Activity activity;
+    private final Window window;
 
     public NightModeService(Activity activity, Lifecycle lifecycle, Window window) {
         this.activity = activity;
@@ -50,7 +47,7 @@ public class NightModeService implements LifecycleObserver {
 
             //fixAdViewNightMode(activity);
 
-            Timber.tag(activity.getString(R.string.TAG_NIGHT_MODE_MANUAL)).i(activity.getString(R.string.TAG_NIGHT_MODE_STATUS_ON));
+            Timber.i(activity.getString(R.string.TAG_NIGHT_MODE_MANUAL) + ": " + activity.getString(R.string.TAG_NIGHT_MODE_STATUS_ON));
         }
 
         //MODO AUTOMATICO
@@ -59,7 +56,7 @@ public class NightModeService implements LifecycleObserver {
 
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY);
 
-            Timber.tag(activity.getString(R.string.TAG_NIGHT_MODE_AUTO)).i(activity.getString(R.string.TAG_NIGHT_MODE_STATUS_ON));
+            Timber.i(activity.getString(R.string.TAG_NIGHT_MODE_AUTO) + ": " + activity.getString(R.string.TAG_NIGHT_MODE_STATUS_ON));
         }
 
         //DESACTIVADO
@@ -69,7 +66,7 @@ public class NightModeService implements LifecycleObserver {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             window.setStatusBarColor(activity.getColor(R.color.colorPrimaryVariant));
 
-            Timber.tag(activity.getString(R.string.TAG_NIGHT_MODE)).i(activity.getString(R.string.TAG_NIGHT_MODE_STATUS_OFF));
+            Timber.i(activity.getString(R.string.TAG_NIGHT_MODE) + ": " + activity.getString(R.string.TAG_NIGHT_MODE_STATUS_OFF));
         }
     }
 }

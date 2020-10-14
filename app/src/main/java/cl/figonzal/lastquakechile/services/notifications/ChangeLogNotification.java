@@ -81,12 +81,12 @@ public class ChangeLogNotification implements NotificationService {
                 notificationManager.notify(new Random().nextInt(60000), mBuilder.build());
 
                 //Logs
-                Timber.tag(context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS)).d(context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE_SHOWED));
+                Timber.i(context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE_SHOWED));
 
             } else {
 
                 //Logs
-                Timber.tag(context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS)).d(context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE_EMPTY));
+                Timber.i(context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE_EMPTY));
             }
         } catch (PackageManager.NameNotFoundException e) {
             Timber.e(e, "Package name not found: %s", e.getMessage());
@@ -106,8 +106,8 @@ public class ChangeLogNotification implements NotificationService {
             //GET SHARED PREF VERSION SAVED
             long shared_version_code = (long) sharedPrefService.getData(context.getString(R.string.SHARED_PREF_ACTUAL_VERSION_CODE), 0L);
 
-            Timber.tag(context.getString(R.string.TAG_SHARED_VERSION_CODE_APP)).d(String.valueOf(shared_version_code));
-            Timber.tag(context.getString(R.string.TAG_VERSION_CODE_APP)).d(String.valueOf(versionCode));
+            Timber.i(context.getString(R.string.TAG_SHARED_VERSION_CODE_APP) + ": " + shared_version_code);
+            Timber.i(context.getString(R.string.TAG_VERSION_CODE_APP) + ": " + versionCode);
 
             if (!ChangeLogNotification.TEST_MODE) {
 
@@ -123,7 +123,7 @@ public class ChangeLogNotification implements NotificationService {
                     sharedPrefService.saveData(context.getString(R.string.SHARED_PREF_ACTUAL_VERSION_CODE), versionCode);
 
                     //Logs
-                    Timber.tag(context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS)).d(context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE_SENDED));
+                    Timber.i(context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE_SENDED));
                 }
 
             } else {

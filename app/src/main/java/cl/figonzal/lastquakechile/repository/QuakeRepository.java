@@ -220,13 +220,13 @@ public class QuakeRepository implements NetworkRepository<QuakeModel> {
         SharedPreferences sharedPreferences = mApplication.getSharedPreferences(mApplication.getString(R.string.SHARED_PREF_MASTER_KEY), Context.MODE_PRIVATE);
         String limite = String.valueOf(sharedPreferences.getInt(mApplication.getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER), 0));
 
-        Timber.tag(mApplication.getString(R.string.TAG_RESPOSITORY_QUAKE_LIMIT)).i(limite);
+        Timber.i("Limite: %s", limite);
 
         if (limite.equals("0")) {
 
             limite = "15";
 
-            Timber.tag(mApplication.getString(R.string.TAG_RESPOSITORY_QUAKE_LIMIT)).i(limite);
+            Timber.i("Limite: %s", limite);
         }
 
         //Si servidor oficial arroja error, conectar a dev
@@ -242,7 +242,7 @@ public class QuakeRepository implements NetworkRepository<QuakeModel> {
                     listener,
                     errorListener);
 
-            Timber.tag(mApplication.getString(R.string.TAG_CONNECTION_SERVER_RESPALDO)).i(mApplication.getString(R.string.TAG_CONNECTION_SERVER_RESPALDO_RESPONSE));
+            Timber.i(mApplication.getString(R.string.TAG_CONNECTION_SERVER_RESPALDO_RESPONSE));
         }
 
         //Si servidor oficial funciona conectarse a él
@@ -255,7 +255,7 @@ public class QuakeRepository implements NetworkRepository<QuakeModel> {
                     listener,
                     errorListener);
 
-            Timber.tag(mApplication.getString(R.string.TAG_CONNECTION_SERVER_OFICIAL)).d(mApplication.getString(R.string.TAG_CONNECTION_SERVER_OFICIAL_RESPONSE));
+            Timber.i(mApplication.getString(R.string.TAG_CONNECTION_SERVER_OFICIAL_RESPONSE));
 
         }
         /*String url = String.format(Locale.US, mApplication.getString(R.string.URL_GET_PROD), limite);
