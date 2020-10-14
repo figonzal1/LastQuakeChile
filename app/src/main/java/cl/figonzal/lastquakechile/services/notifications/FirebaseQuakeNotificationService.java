@@ -15,6 +15,9 @@ public class FirebaseQuakeNotificationService extends FirebaseMessagingService {
     private FirebaseCrashlytics crashlytics;
     private QuakesNotification quakesNotification;
 
+    //Esta clase no puede tener contructor
+    //REF: https://firebase.google.com/docs/cloud-messaging?hl=es
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -27,12 +30,12 @@ public class FirebaseQuakeNotificationService extends FirebaseMessagingService {
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
-        Timber.tag(getString(R.string.TAG_FIREBASE_MESSAGE)).i("From: %s", remoteMessage.getFrom());
+        Timber.i("From: %s", remoteMessage.getFrom());
 
         //Si es notificacion con datos de sismos
         if (remoteMessage.getData().size() > 0) {
 
-            Timber.tag(getString(R.string.TAG_FIREBASE_MESSAGE)).i("Message data payload: %s", remoteMessage.getData());
+            Timber.i("Message data payload: %s", remoteMessage.getData());
             crashlytics.setCustomKey(getString(R.string.FIREBASE_MESSAGE_DATA_STATUS), true);
 
             quakesNotification.setRemoteMsg(remoteMessage);
@@ -42,10 +45,10 @@ public class FirebaseQuakeNotificationService extends FirebaseMessagingService {
         //Si es notificacion desde consola FCM
         if (remoteMessage.getNotification() != null) {
 
-            Timber.tag(getString(R.string.TAG_FIREBASE_MESSAGE)).i("Message notification: " + remoteMessage.getNotification().getTitle() + " - " + remoteMessage.getNotification().getBody());
+            Timber.i("Message notification: " + remoteMessage.getNotification().getTitle() + " - " + remoteMessage.getNotification().getBody());
             crashlytics.setCustomKey(getString(R.string.FIREBASE_MESSAGE_NOTIFICATION_STATUS), true);
 
-            quakesNotification.showNotificationGeneric();
+            quakesNotification.showNotificationGeneric(remoteMessage);
         }
     }
 
@@ -56,7 +59,7 @@ public class FirebaseQuakeNotificationService extends FirebaseMessagingService {
     public void onNewToken(@NonNull String s) {
         super.onNewToken(s);
 
-        Timber.tag(getString(R.string.TAG_FIREBASE_TOKEN)).i("Refreshed Token: %s", s);
+        Timber.i("Refresh token: %s", s);
         crashlytics.setUserId(s);
     }
 

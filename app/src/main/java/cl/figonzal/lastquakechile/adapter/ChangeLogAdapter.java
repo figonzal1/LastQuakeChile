@@ -15,7 +15,7 @@ import cl.figonzal.lastquakechile.model.ChangeLog;
 
 public class ChangeLogAdapter extends RecyclerView.Adapter<ChangeLogAdapter.ChangeLogViewHolder> {
 
-    private List<ChangeLog> changeLogList;
+    private final List<ChangeLog> changeLogList;
 
     public ChangeLogAdapter(List<ChangeLog> changeLogList) {
         this.changeLogList = changeLogList;
@@ -66,10 +66,10 @@ public class ChangeLogAdapter extends RecyclerView.Adapter<ChangeLogAdapter.Chan
 
     static class ChangeLogViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tvVersion;
-        private TextView tvReleaseDate;
-        private TextView tvChangesList;
-        private TextView tvBadge;
+        private final TextView tvVersion;
+        private final TextView tvReleaseDate;
+        private final TextView tvChangesList;
+        private final TextView tvBadge;
 
         private ChangeLogViewHolder(@NonNull View itemView) {
             super(itemView);

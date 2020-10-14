@@ -28,7 +28,7 @@ public class FirebaseService {
                 instanceIdResult -> {
 
                     String token = instanceIdResult.getToken();
-                    Timber.i(token);
+                    Timber.i("Token: %s", token);
                 });
     }
 }

@@ -13,8 +13,8 @@ import cl.figonzal.lastquakechile.repository.NetworkRepository;
 
 public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
-    private Application application;
-    private NetworkRepository<?> repository;
+    private final Application application;
+    private final NetworkRepository<?> repository;
 
     private DateManager dateManager;
 

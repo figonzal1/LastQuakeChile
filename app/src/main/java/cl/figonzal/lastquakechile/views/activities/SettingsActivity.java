@@ -182,14 +182,16 @@ public class SettingsActivity extends AppCompatActivity {
              */
             if (key.equals(activity.getString(R.string.FIREBASE_PREF_KEY))) {
 
-                boolean mSuscrito = quakesNotification.checkSuscriptionQuakes();
+                boolean notificationSwitch = preferences.getBoolean(activity.getString(R.string.FIREBASE_PREF_KEY), true);
 
                 //Si el switch esta ON, lanzar toast con SUSCRITO
-                if (mSuscrito) {
+                if (notificationSwitch) {
+                    quakesNotification.suscribedToQuakes(true);
                     Toast.makeText(getContext(), activity.getString(R.string.FIREBASE_PREF_KEY_TOAST_ALERTAS_ON), Toast.LENGTH_LONG).show();
                 }
                 //Si el switch esta off lanzar toast con NO SUSCRITO
                 else {
+                    quakesNotification.suscribedToQuakes(false);
                     Toast.makeText(getContext(), activity.getString(R.string.FIREBASE_PREF_KEY_TOAST_ALERTAS_OFF), Toast.LENGTH_LONG).show();
                 }
 
@@ -203,7 +205,7 @@ public class SettingsActivity extends AppCompatActivity {
                 seekBarPreference.setSummary(String.format(activity.getString(R.string.LIST_QUAKE_NUMBER_SUMMARY), seekBarPreference.getValue()));
                 sharedPrefService.saveData(activity.getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER), seekBarPreference.getValue());
 
-                Timber.tag(activity.getString(R.string.TAG_FRAGMENT_SETTINGS)).i(String.format(activity.getString(R.string.TAG_FRAGMENT_SETTINGS_QUAKE_LIST_LIMIT), seekBarPreference.getValue()));
+                Timber.i(activity.getString(R.string.TAG_FRAGMENT_SETTINGS_QUAKE_LIST_LIMIT), seekBarPreference.getValue());
             }
 
         }
