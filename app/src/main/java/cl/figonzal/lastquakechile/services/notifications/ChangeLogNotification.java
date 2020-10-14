@@ -20,7 +20,7 @@ import timber.log.Timber;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
-public class ChangeLogNotification implements NotiService {
+public class ChangeLogNotification implements NotificationService {
 
     private static final boolean TEST_MODE = false;
     private final Context context;
@@ -54,8 +54,6 @@ public class ChangeLogNotification implements NotiService {
 
         Timber.i(context.getString(R.string.FIREBASE_CHANNEL_CREATED_MESSAGE));
         crashlytics.setCustomKey(context.getString(R.string.FIREBASE_CHANNEL_STATUS), true);
-
-        configNotificationChangeLog();
     }
 
     @Override
@@ -98,7 +96,7 @@ public class ChangeLogNotification implements NotiService {
     /**
      * Funcion encargada de definir si muestra o no el changeLog
      */
-    private void configNotificationChangeLog() {
+    public void configNotificationChangeLog() {
         try {
 
             //GET PACKAGE VERSION
@@ -106,7 +104,7 @@ public class ChangeLogNotification implements NotiService {
             long versionCode = packageInfo.versionCode;
 
             //GET SHARED PREF VERSION SAVED
-            long shared_version_code = (long) sharedPrefService.getData(context.getString(R.string.SHARED_PREF_ACTUAL_VERSION_CODE), 0);
+            long shared_version_code = (long) sharedPrefService.getData(context.getString(R.string.SHARED_PREF_ACTUAL_VERSION_CODE), 0L);
 
             Timber.tag(context.getString(R.string.TAG_SHARED_VERSION_CODE_APP)).d(String.valueOf(shared_version_code));
             Timber.tag(context.getString(R.string.TAG_VERSION_CODE_APP)).d(String.valueOf(versionCode));
