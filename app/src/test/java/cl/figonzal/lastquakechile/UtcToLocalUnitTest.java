@@ -11,8 +11,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Objects;
 
-import cl.figonzal.lastquakechile.services.Utils;
-
 import static org.junit.Assert.assertEquals;
 
 /**
