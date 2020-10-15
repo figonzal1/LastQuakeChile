@@ -32,7 +32,6 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -88,7 +87,6 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
     private FloatingActionButton mFabGM;
     private View mOverlay;
 
-    private FirebaseCrashlytics crashlytics;
     private DateManager dateManager;
     private ViewsManager viewsManager;
     private PackageManager packageManager;
@@ -112,7 +110,6 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
 
     private void initResources() {
 
-        crashlytics = FirebaseCrashlytics.getInstance();
         dateManager = new DateManager();
         viewsManager = new ViewsManager();
         packageManager = new PackageManager();

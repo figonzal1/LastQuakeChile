@@ -4,7 +4,6 @@
     <string name="search">Search</string>
     <string name="circulo_pintado">Quake magnitude color</string>
     <string name="imagen_toolbar">Toolbar image</string>
-    <string name="imagen_geografica_posicion_sismo">Geographic position quake image</string>
     <string name="icono_tiempo">Time icon</string>
     <string name="tiempo">Date/Hour</string>
     <string name="icono_distancia">Distance icon</string>
@@ -27,8 +26,6 @@
     <string name="invitation_welcome">¡Welcome!</string>
     <string name="icono_ondas">Waves icon</string>
     <string name="invite">Invite friends</string>
-    <string name="INVITATION_TITLE">Invite your friends to use the app!</string>
-    <string name="INVITATION_SUBJECT">Download LastQuakeChile App</string>
     <string name="coordenadas_oeste">W</string>
     <string name="coordenadas_este">E</string>
     <string name="seccion_listado_de_sismos">List of quakes section</string>
