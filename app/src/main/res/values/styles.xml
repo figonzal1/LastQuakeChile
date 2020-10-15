@@ -28,5 +28,16 @@
         <item name="android:textColor">@color/colorOnSecondary</item>
     </style>
 
+    <style name="ToolbarTheme" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
+    <style name="IntroActivityTheme" parent="ThemeOverlay.MaterialComponents.Light">
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
+    <style name="OverlayTheme" parent="ThemeOverlay.MaterialComponents.Light">
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
 
 </resources>

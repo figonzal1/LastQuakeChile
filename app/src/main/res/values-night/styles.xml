@@ -28,5 +28,15 @@
         <item name="android:textColor">@color/colorOnSecondary</item>
     </style>
 
+    <style name="ToolbarTheme" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
+        <item name="android:background">@color/colorPrimaryNightMode</item>
+    </style>
 
+    <style name="InfoWindowsTheme" parent="ThemeOverlay.MaterialComponents.Dark">
+        <item name="android:background">@color/backgroundNightMode</item>
+    </style>
+
+    <style name="OverlayTheme" parent="ThemeOverlay.MaterialComponents.Dark">
+        <item name="android:background">@color/colorPrimaryNightMode</item>
+    </style>
 </resources>
