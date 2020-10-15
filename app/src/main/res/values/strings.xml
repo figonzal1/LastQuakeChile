@@ -30,7 +30,6 @@
     <string name="URL_GET_DEV" translatable="false">https://lastquakechile-server-dev.herokuapp.com/lastquakechile/api/quakes/?limite=%1$s</string>
     <string name="URL_GET_PROD_REPORTS" translatable="false">https://lastquakechile-server-prod.herokuapp.com/lastquakechile/api/reports</string>
     <string name="DEEP_LINK" translatable="false">https://lastquakechile.page.link/lqch</string>
-    <string name="desde_deep_link" translatable="false">desdeDeepLink</string>
 
     <!-- FORMAT -->
     <string name="DATETIME_FORMAT" translatable="false">yyyy-MM-dd HH:mm:ss</string>
@@ -71,7 +70,6 @@
     <string name="INTENT_ESTADO" translatable="false">estado</string>
 
     <!-- STRINGS DE LAYOUTS-->
-    <string name="tree_dots" translatable="false">&#8942;</string>
     <string name="circulo_pintado">Color magnitud sismo</string>
     <string name="imagen_toolbar">Imagen toolbar</string>
     <string name="quake_time_day" translatable="false">%1$d d</string>
@@ -84,7 +82,6 @@
     <string name="quake_time_hour_info_windows">Hace: %1$d h</string>
     <string name="quake_time_minute_info_windows">Hace: %1$d m</string>
     <string name="quake_time_second_info_windows">Hace: %1$d s</string>
-    <string name="imagen_geografica_posicion_sismo">Imagen geografica posición sismo</string>
     <string name="icono_tiempo">Icono tiempo</string>
     <string name="tiempo">Fecha/Hora</string>
     <string name="icono_distancia">Icono distancia</string>
@@ -143,44 +140,25 @@
     <string name="ultima_badge">Última</string>
 
     <!-- TAGS-->
-    <string name="TAG_FIREBASE_TOKEN" translatable="false">D/TOKEN_FIREBASE:</string>
-    <string name="TAG_FIREBASE_SUSCRIPTION" translatable="false">D/FIREBASE_SUSCRIPCION:</string>
     <string name="TAG_FIREBASE_SUSCRIPTION_OK" translatable="false">SUSCRITO</string>
     <string name="TAG_FIREBASE_SUSCRIPTION_ALREADY" translatable="false">YA ESTABA SUSCRITO</string>
     <string name="TAG_FIREBASE_SUSCRIPTION_DELETE" translatable="false">ELIMINADA</string>
-    <string name="TAG_FIREBASE_CHANNEL" translatable="false">D/FIREBASE_CHANNEL:</string>
-    <string name="TAG_FIREBASE_MESSAGE" translatable="false">D/FIREBASE_MESSAGE:</string>
-    <string name="TAG_FIREBASE_MESSAGE_DATA_INCOMING" translatable="false">NotificacionData recibida</string>
-    <string name="TAG_FIREBASE_MESSAGE_INCOMING" translatable="false">Notificacion recibida</string>
     <string name="FLAG_RETRY" translatable="false">Recargar</string>
     <string name="TAG_FRAGMENT_QUAKE" translatable="false">FRAGMENT_QUAKE</string>
     <string name="TAG_FRAGMENT_REPORTS" translatable="false">D/FRAGMENT_REPORTS: </string>
     <string name="FRAGMENT_LOAD_LIST" translatable="false">Listado cargado</string>
-    <string name="TAG_JSON_GENERAL_ERROR" translatable="false">D/JSON_GENERAL_ERROR: </string>
-    <string name="TAG_JSON_PARSE_ERROR" translatable="false">D/JSON_PARSE_ERROR: </string>
-    <string name="TAG_CONNECTION_OK" translatable="false">CONNECTION_OK</string>
-    <string name="TAG_QUAKES" translatable="false">QUAKES</string>
     <string name="CONNECTION_OK_RESPONSE" translatable="false">Conexion correcta</string>
-    <string name="CONNECTED" translatable="false">CONNECTION_STATUS</string>
     <string name="TAG_CARD_VIEW_INFO" translatable="false">CARD_VIEW_INFO</string>
-    <string name="TAG_FIRST_RUN_STATUS" translatable="false">FIRST_RUN</string>
-    <string name="FIRST_RUN_STATUS_RESPONSE" translatable="false">EJECUCION DE PRIMER INICIO</string>
-    <string name="TAG_INVITATION_RECEIVE" translatable="false">INVITACION</string>
     <string name="TAG_FAB_SHARE_STATUS" translatable="false">FAB SHARE</string>
     <string name="TAG_FAB_SHARE_STATUS_CLICKED" translatable="false">CLICKED</string>
-    <string name="TAG_FRAGMENT_SETTINGS" translatable="false">SETTINGS</string>
     <string name="TAG_FRAGMENT_SETTINGS_QUAKE_LIST_LIMIT" translatable="false">Numero de sismos fijados: %1$d</string>
-    <string name="LIST_QUAKE_NUMBER_SUMMARY">Últimos %1$d sismos</string>
-    <string name="TAG_RESPOSITORY_QUAKE_LIMIT" translatable="false">REPOSITORY_LIMIT_QUAKE</string>
+    <string name="LIST_QUAKE_NUMBER_SUMMARY" tools:ignore="PluralsCandidate">Últimos %1$d sismos</string>
     <string name="TAG_SHARED_VERSION_CODE_APP" translatable="false">SHARED_VERSION_CODE_APP</string>
     <string name="TAG_VERSION_CODE_APP" translatable="false">VERSION_CODE_APP</string>
-    <string name="TAG_VOLLEY_ERROR" translatable="false">D/VOLLEY_ERROR: </string>
     <string name="TAG_VOLLEY_ERROR_TIMEOUT" translatable="false">Timeout error</string>
     <string name="TAG_VOLLEY_ERROR_SERVER" translatable="false">Server error</string>
     <string name="TAG_VOLLEY_ERROR_NETWORK" translatable="false">Network error</string>
-    <string name="TAG_CONNECTION_SERVER_RESPALDO" translatable="false">D/SERVIDOR RESPALDO: </string>
     <string name="TAG_CONNECTION_SERVER_RESPALDO_RESPONSE" translatable="false">INTENTO DE CONEXION A RESPALDO (DEVELOPMENT)</string>
-    <string name="TAG_CONNECTION_SERVER_OFICIAL" translatable="false">D/SERVIDOR OFICIAL: </string>
     <string name="TAG_CONNECTION_SERVER_OFICIAL_RESPONSE" translatable="false">INTENTO DE CONEXION A OFICIAL (PRODUCTION)</string>
     <string name="TAG_INTENT" translatable="false">INTENT</string>
     <string name="TAG_INTENT_GOOGLEPLAY" translatable="false">Abriendo google play app</string>
@@ -188,9 +166,7 @@
     <string name="TRY_INTENT_NOTIFICATION_1" translatable="false">Realizando intent de notificacion</string>
     <string name="TRY_INTENT_NOTIFICATION" translatable="false">TRY_INTENT_NOTIFICATION</string>
     <string name="TRY_INTENT_DETALLE" translatable="false">Intent de detalle de sismo</string>
-    <string name="TAG_INTENT_DETALLE_HOME_UP" translatable="false">D/QUAKE_DETAILS: </string>
     <string name="TAG_INTENT_DETALLE_HOME_UP_RESPONSE" translatable="false">HOME UP PARENT CLICKEADO</string>
-    <string name="TAG_GOOGLE_PLAY" translatable="false">D/GOOGLE_PLAY: </string>
     <string name="GOOGLE_PLAY_SOLICITUD" translatable="false">Google Play - solicitando actualizacion</string>
     <string name="GOOGLE_PLAY_NOSOPORTADO" translatable="false">Google Play - no soportado</string>
     <string name="GOOGLE_PLAY_ACTUALIZADO" translatable="false">Google Play - actualizado</string>
@@ -203,7 +179,6 @@
     <string name="TAG_OVERLAY_DETAILS" translatable="false">OVERLAY-DETAILS</string>
     <string name="TAG_OVERLAY_DETAILS_RESULT" translatable="false">CLICKED</string>
     <string name="HOME_PARENT">Navegar hacia arriba</string>
-    <string name="TAG_MAP_FRAGMENT" translatable="false">D/MAP FRAGMENT: </string>
     <string name="TAG_INFO_WINDOWS_RESPONSE" translatable="false">INFO WINDOWS OPEN</string>
     <string name="TAG_MAP_READY_RESPONSE" translatable="false">MAP READY</string>
     <string name="TAG_INTENT_INFO_WINDOWS" translatable="false">Intent de infowindows a detalle de sismo</string>
@@ -240,12 +215,8 @@
     <string name="VIEWMODEL_SERVER_ERROR">¡Ups ha ocurrido un error! Intente mas tarde</string>
 
     <!-- INVITATION STRINGS -->
-    <string name="INVITATION_TITLE">¡Invita a tus amigos a usar la App!</string>
-    <string name="INVITATION_SUBJECT">Descarga LastQuakeChile App</string>
-    <string name="TAG_DEEP_LINK_INVITATION" translatable="false">D/INTENT_INVITACION: </string>
     <string name="INVITATION_STATUS" translatable="false">Invitacion sin datos</string>
     <string name="TAG_DEEP_LINK_DATA" translatable="false">DEEP_LINK</string>
-    <string name="TAG_INVITATION_ID" translatable="false">D/INVITACION_ID: </string>
 
     <!-- SHARE PREFERENCES KEYS (Variables) -->
     <string name="SHARED_PREF_MASTER_KEY" translatable="false">lastquakechile</string>
@@ -277,14 +248,10 @@
     <string name="night_mode_auto_pref_title_switch">Automático con ahorro de energía</string>
     <string name="night_mode_auto_pref_summary_on">Activado</string>
     <string name="night_mode_auto_pref_summary_off">Desactivado</string>
-    <string name="tag_adview_night_mode" translatable="false">ADVIEW - NIGHT MODE</string>
-    <string name="tag_adview_night_mode_response" translatable="false">Instanciacion manual adview modo noche</string>
-    <string name="tag_adview_night_mode_response_error" translatable="false">Error intentando instanciar manualmente adview modo noche</string>
 
 
     <!-- REWARD DIALOG TAGS -->
     <string name="REWARD_DIALOG" translatable="false">RewardDialog</string>
-    <string name="TAG_REWARD_DIALOG" translatable="false">D/REWARD_DIALOG_STATUS: </string>
     <string name="TAG_REWARD_DIALOG_BTN_VER_VIDEO" translatable="false">BOTON VER VIDEO PRESIONADO</string>
     <string name="TAG_REWARD_DIALOG_BTN_CANCEL" translatable="false">BOTON CANCEL PRESIONADO</string>
     <string name="TAG_VIDEO_REWARD_STATUS" translatable="false">D/VIDEO_REWARD_STATUS: </string>
@@ -293,21 +260,16 @@
     <string name="TAG_VIDEO_REWARD_STATUS_COMPLETED" translatable="false">COMPLETED</string>
     <string name="TAG_POST_REWARD_HORA_AHORA" translatable="false">POST_REWARD_HORA_AHORA</string>
     <string name="TAG_POST_REWARD_HORA_REWARD" translatable="false">POST_REWARD_HORA_REWARD</string>
-    <string name="TAG_REWARD_STATUS" translatable="false">D/REWARD_STATUS: </string>
     <string name="TAG_REWARD_STATUS_EN_PERIODO" translatable="false">EN PERIODO REWARD</string>
     <string name="TAG_REWARD_STATUS_PERIODO_INACTIVO" translatable="false">PERIODO REWARD INACTIVO</string>
-    <string name="TAG_RANDOM_SHOW_REWARD_DIALOG" translatable="false">D/RANDOM_SHOW: </string>
     <string name="TAG_RANDOM_SHOW_REWARD_DIALOG_ON" translatable="false">MOSTRAR DIALOG REWARD</string>
     <string name="TAG_RANDOM_SHOW_REWARD_DIALOG_OFF" translatable="false">NO MOSTRAR DIALOG REWARD</string>
     <string name="TAG_FRAGMENT_REWARD_DATE" translatable="false">FRAGMENT_REWARD_DATE</string>
-    <string name="TAG_ADS_SERVICE" translatable="false">D/FRAGMENT_LIST: </string>
     <string name="TAG_ADS_LOADED" translatable="false">ADS CARGADOS</string>
     <string name="TG_ADS_NOT_LOADED" translatable="false">ADS NO PERMITIDOS</string>
-    <string name="TAG_ADMOB_AD_STATUS" translatable="false">D/ADMOB_AD: </string>
     <string name="TAG_ADMOB_AD_STATUS_FAILED" translatable="false">FAILED TO LOAD</string>
     <string name="TAG_ADMOB_AD_STATUS_LOADED" translatable="false">ADD LOADED</string>
     <string name="TAG_ADMOB_AD_STATUS_OPEN" translatable="false">ADD OPEN</string>
-    <string name="TAG_NOTIFICATION_CHANGELOG_STATUS" translatable="false">D/NOTI_CHANGELOG_STATUS: </string>
     <string name="TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE_SENDED" translatable="false">ENVIADA</string>
     <string name="TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE_SHOWED" translatable="false">MOSTRADA</string>
     <string name="TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE_EMPTY" translatable="false">VACIA</string>

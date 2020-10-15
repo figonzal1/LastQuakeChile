@@ -12,6 +12,7 @@ import timber.log.Timber;
 public class CrashlyticsTree extends Timber.Tree {
 
 
+    @SuppressWarnings("UnnecessaryReturnStatement")
     @Override
     protected void log(int priority, @Nullable String tag, @NotNull String message, @Nullable Throwable t) {
 

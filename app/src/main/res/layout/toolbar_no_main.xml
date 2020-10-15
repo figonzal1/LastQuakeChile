@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:layout_gravity="top"
-    android:background="@color/colorPrimary"
     android:contentDescription="@string/titulo_toolbar"
-    android:theme="@style/ThemeOverlay.MaterialComponents.Dark"
+    android:theme="@style/ToolbarTheme"
     app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light" />
