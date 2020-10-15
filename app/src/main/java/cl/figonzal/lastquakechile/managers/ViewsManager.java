@@ -7,6 +7,7 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 
 import java.util.Locale;
+import java.util.Map;
 
 import cl.figonzal.lastquakechile.R;
 
@@ -157,6 +158,49 @@ public class ViewsManager {
                 tv_escala.setText(String.format(context.getString(R.string.quake_details_escala), context.getString(R.string.quake_details_magnitud_momento)));
                 break;
 
+        }
+    }
+
+    /**
+     * Funcion encargada de setear el tiempo en los text views
+     *
+     * @param context Contexto para utilizar recursos
+     * @param tiempos Variable que cuenta con el mapeo de dias,horas,minutos y segundos
+     * @param tv_hora Textview que será usado para fijar el tiempo
+     */
+    public void setTimeToTextView(Context context, Map<String, Long> tiempos, TextView tv_hora) {
+        Long mDays = tiempos.get(context.getString(R.string.UTILS_TIEMPO_DIAS));
+        Long mMinutes = tiempos.get(context.getString(R.string.UTILS_TIEMPO_MINUTOS));
+        Long mHours = tiempos.get(context.getString(R.string.UTILS_TIEMPO_HORAS));
+        Long mSeconds = tiempos.get(context.getString(R.string.UTILS_TIEMPO_SEGUNDOS));
+
+        //Condiciones días.
+        if (mDays != null && mDays == 0) {
+
+            if (mHours != null && mHours >= 1) {
+
+                tv_hora.setText(String.format(context.getString(R.string.quake_time_hour), mHours));
+
+            } else {
+
+                tv_hora.setText(String.format(context.getString(R.string.quake_time_minute), mMinutes));
+
+                if (mMinutes != null && mMinutes < 1) {
+
+                    tv_hora.setText(String.format(context.getString(R.string.quake_time_second), mSeconds));
+                }
+            }
+
+        } else if (mDays != null && mDays > 0) {
+
+            if (mHours != null && mHours == 0) {
+
+                tv_hora.setText(String.format(context.getString(R.string.quake_time_day), mDays));
+
+            } else if (mHours != null && mHours >= 1) {
+
+                tv_hora.setText(String.format(context.getString(R.string.quake_time_day_hour), mDays, mHours / 24));
+            }
         }
     }
 }
