@@ -5,10 +5,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
-import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
-import androidx.test.rule.ActivityTestRule;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -35,16 +36,14 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.core.IsNot.not;
 
-@RunWith(AndroidJUnit4ClassRunner.class)
+@RunWith(AndroidJUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @LargeTest
 public class NightModePrefTest {
 
     @Rule
-    public final ActivityTestRule<SettingsActivity> testRule =
-            new ActivityTestRule<>(SettingsActivity.class);
-
-    private Activity mActivity;
+    public final ActivityScenarioRule<SettingsActivity> rule = new ActivityScenarioRule<SettingsActivity>(SettingsActivity.class);
+    private Activity activity;
 
     private static Matcher<View> childAtPosition(
             final Matcher<View> parentMatcher, final int position) {
@@ -67,7 +66,9 @@ public class NightModePrefTest {
 
     @Before
     public void setup() {
-        mActivity = testRule.getActivity();
+        ActivityScenario<SettingsActivity> scenario = ActivityScenario.launch(SettingsActivity.class);
+
+        scenario.onActivity(activity -> this.activity = activity);
     }
 
     @Test
@@ -98,7 +99,7 @@ public class NightModePrefTest {
         }
 
         //Checkear display de Toast de shared pref TRUE
-        onView(withText(R.string.NIGHT_MODE_AUTO_KEY_TOAST_OFF)).inRoot(withDecorView(not(is(mActivity.getWindow().getDecorView()))))
+        onView(withText(R.string.NIGHT_MODE_AUTO_KEY_TOAST_OFF)).inRoot(withDecorView(not(is(activity.getWindow().getDecorView()))))
                 .check(matches(isDisplayed()));
 
         try {
@@ -136,7 +137,7 @@ public class NightModePrefTest {
         }
 
         //Checkear display de Toast de shared pref TRUE
-        onView(withText(R.string.NIGHT_MODE_MANUAL_KEY_TOAST_ON)).inRoot(withDecorView(not(is(mActivity.getWindow().getDecorView()))))
+        onView(withText(R.string.NIGHT_MODE_MANUAL_KEY_TOAST_ON)).inRoot(withDecorView(not(is(activity.getWindow().getDecorView()))))
                 .check(matches(isDisplayed()));
 
         try {
@@ -180,7 +181,7 @@ public class NightModePrefTest {
         }
 
         //Checkear display de Toast de shared pref TRUE
-        onView(withText(R.string.NIGHT_MODE_MANUAL_KEY_TOAST_OFF)).inRoot(withDecorView(not(is(mActivity.getWindow().getDecorView()))))
+        onView(withText(R.string.NIGHT_MODE_MANUAL_KEY_TOAST_OFF)).inRoot(withDecorView(not(is(activity.getWindow().getDecorView()))))
                 .check(matches(isDisplayed()));
 
         try {
@@ -217,7 +218,7 @@ public class NightModePrefTest {
         }
 
         //Checkear display de Toast de shared pref TRUE
-        onView(withText(R.string.NIGHT_MODE_AUTO_KEY_TOAST_ON)).inRoot(withDecorView(not(is(mActivity.getWindow().getDecorView()))))
+        onView(withText(R.string.NIGHT_MODE_AUTO_KEY_TOAST_ON)).inRoot(withDecorView(not(is(activity.getWindow().getDecorView()))))
                 .check(matches(isDisplayed()));
 
         try {

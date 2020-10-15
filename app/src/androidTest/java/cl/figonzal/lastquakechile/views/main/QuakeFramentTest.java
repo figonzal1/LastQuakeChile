@@ -1,6 +1,7 @@
-package cl.figonzal.lastquakechile.views.quakedetails;
+package cl.figonzal.lastquakechile.views.main;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -16,30 +17,33 @@ import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.views.activities.MainActivity;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
+
 @RunWith(AndroidJUnit4.class)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @LargeTest
-public class GmailShareTest {
+public class QuakeFramentTest {
 
+    private static final int TIME_TO_TEST = 5000;
     @Rule
-    public ActivityScenarioRule<MainActivity> rule = new ActivityScenarioRule<>(MainActivity.class);
-
+    public final ActivityScenarioRule<MainActivity> rule = new ActivityScenarioRule<>(MainActivity.class);
     private Context mContext;
 
     private static Matcher<View> childAtPosition(
@@ -62,21 +66,19 @@ public class GmailShareTest {
     }
 
     @Before
-    public void start() {
+    public void setup() {
         mContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(mContext.getString(R.string.SHARED_PREF_MASTER_KEY), Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(mContext.getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO), true);
+        editor.apply();
     }
 
     @Test
-    public void test_click_gmail_button() {
-        click_first_item();
+    public void test1_click_on_item() {
 
-        check_and_click_share();
-
-        check_and_click_gm();
-    }
-
-    private void click_first_item() {
-        //Hacer click en el primer item de la lista
         ViewInteraction quakeItem = onView(
                 allOf(withId(R.id.card_view),
                         childAtPosition(
@@ -89,56 +91,28 @@ public class GmailShareTest {
                                                 3)),
                                 0),
                         isDisplayed()));
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         quakeItem.perform(click());
+    }
+
+    @Test
+    public void test2_click_card_view_info() {
+
+        ViewInteraction button = onView(
+                allOf(withId(R.id.btn_info_accept),
+                        withText(mContext.getString(R.string.last_quakes_info_card_view_button)),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.card_view_info),
+                                        0),
+                                2),
+                        isDisplayed()));
+        button.perform(click());
 
         try {
-            Thread.sleep(5000);
+            Thread.sleep(TIME_TO_TEST);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
-    private void check_and_click_share() {
-
-        //Click sobre el boton de compartir
-        ViewInteraction buttonShare = onView(withId(R.id.fab_share));
-
-        //Checkear si esta desplegad o y es clickleable
-        buttonShare.check(matches(allOf(isDisplayed(), isClickable())));
-
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        //realizar click sobre el boton share
-        buttonShare.perform(click());
-
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void check_and_click_gm() {
-        //Buscar boton
-        ViewInteraction buttonGmail = onView(withId(R.id.fab_gmail));
-
-        //Checkear si esa desplegado y es clickcleable
-        buttonGmail.check(matches(allOf(isDisplayed(), isClickable())));
-
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
 }
