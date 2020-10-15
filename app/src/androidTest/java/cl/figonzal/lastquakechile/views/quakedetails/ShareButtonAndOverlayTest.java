@@ -6,10 +6,10 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.filters.LargeTest;
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
 import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.rule.ActivityTestRule;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -41,7 +41,7 @@ import static org.hamcrest.Matchers.allOf;
 public class ShareButtonAndOverlayTest {
 
     @Rule
-    public ActivityTestRule<MainActivity> testRule = new ActivityTestRule<>(MainActivity.class);
+    public ActivityScenarioRule<MainActivity> rule = new ActivityScenarioRule<>(MainActivity.class);
 
     private Context mContext;
 
@@ -73,12 +73,10 @@ public class ShareButtonAndOverlayTest {
     public void test1_click_first_item_then_click_navigate_up() {
         click_first_item();
 
-        //Boton parent
         ViewInteraction appCompatImageButton = onView(
-                allOf(withContentDescription(mContext.getString(R.string.HOME_PARENT)),
+                allOf(withContentDescription("Desplazarse hacia arriba"),
                         childAtPosition(
-                                allOf(withId(R.id.tool_bar),
-                                        withContentDescription(mContext.getString(R.string.titulo_toolbar)),
+                                allOf(withId(R.id.tool_bar), withContentDescription("Título toolbar"),
                                         childAtPosition(
                                                 withId(R.id.app_bar_detail),
                                                 0)),
