@@ -10,12 +10,11 @@
     <string name="ADMOB_ID_VIDEO" translatable="false">ca-app-pub-3940256099942544/5224354917</string>-->
 
     <!-- LAST CHANGE LOG -->
-    <string name="LAST_CHANGE_LOG" translatable="false"></string>
+    <string name="LAST_CHANGE_LOG" translatable="false">Probando probando</string>
 
     <!-- TOOLBAR Menu STRINGS -->
     <string name="refresh">Recargar</string>
     <string name="search">Buscar</string>
-    <string name="invite">Invitar amigos</string>
     <string name="settings">Configuración</string>
     <string name="more_options">Más opciones</string>
     <string name="change_logs">Historial de versiones</string>

@@ -1,14 +1,16 @@
 package cl.figonzal.lastquakechile.views.settings;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.filters.LargeTest;
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
-import androidx.test.rule.ActivityTestRule;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -40,116 +42,117 @@ import static org.hamcrest.core.AllOf.allOf;
 @LargeTest
 public class AlertPrefTest {
 
-	@Rule
-	public final ActivityTestRule<SettingsActivity> testRule =
-			new ActivityTestRule<>(SettingsActivity.class);
+    @Rule
+    public final ActivityScenarioRule<SettingsActivity> rule = new ActivityScenarioRule<>(SettingsActivity.class);
 
-	private Activity mActivity;
+    private Context mContext;
+    private Activity activity;
 
-	private static Matcher<View> childAtPosition(
-			final Matcher<View> parentMatcher, final int position) {
+    private static Matcher<View> childAtPosition(
+            final Matcher<View> parentMatcher, final int position) {
 
-		return new TypeSafeMatcher<View>() {
-			@Override
-			public void describeTo(Description description) {
-				description.appendText("Child at position " + position + " in parent ");
-				parentMatcher.describeTo(description);
-			}
+        return new TypeSafeMatcher<View>() {
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("Child at position " + position + " in parent ");
+                parentMatcher.describeTo(description);
+            }
 
-			@Override
-			public boolean matchesSafely(View view) {
-				ViewParent parent = view.getParent();
-				return parent instanceof ViewGroup && parentMatcher.matches(parent)
-						&& view.equals(((ViewGroup) parent).getChildAt(position));
-			}
-		};
-	}
+            @Override
+            public boolean matchesSafely(View view) {
+                ViewParent parent = view.getParent();
+                return parent instanceof ViewGroup && parentMatcher.matches(parent)
+                        && view.equals(((ViewGroup) parent).getChildAt(position));
+            }
+        };
+    }
 
-	@Before
-	public void setup() {
-		mActivity = testRule.getActivity();
+    @Before
+    public void setup() {
+        ActivityScenario<SettingsActivity> scenario = ActivityScenario.launch(SettingsActivity.class);
 
-	}
+        scenario.onActivity(activity -> this.activity = activity);
+    }
 
-	@Test
-	public void test1_check_switch_notificaciones_off() {
+    @Test
+    public void test1_check_switch_notificaciones_off() {
 
-		//Checkear si el switch esta desplegado, habilitado y es clickeable, la preferencia de
-		// notificaciones
-		ViewInteraction switchNotificaciones = onView(
-				allOf(childAtPosition(
-						allOf(withId(R.id.recycler_view),
-								childAtPosition(
-										withId(android.R.id.list_container),
-										0)),
-						3),
-						isDisplayed()));
+        //Checkear si el switch esta desplegado, habilitado y es clickeable, la preferencia de
+        // notificaciones
+        ViewInteraction switchNotificaciones = onView(
+                allOf(childAtPosition(
+                        allOf(withId(R.id.recycler_view),
+                                childAtPosition(
+                                        withId(android.R.id.list_container),
+                                        0)),
+                        3),
+                        isDisplayed()));
 
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-		//Realizar click
-		switchNotificaciones.perform(click());
+        //Realizar click
+        switchNotificaciones.perform(click());
 
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-		//Checkear display de Toast de shared pref TRUE
-		onView(withText(R.string.FIREBASE_PREF_KEY_TOAST_ALERTAS_OFF)).inRoot(withDecorView(not(is(mActivity.getWindow().getDecorView()))))
-				.check(matches(isDisplayed()));
+        //Checkear display de Toast de shared pref TRUE
+        onView(withText(R.string.FIREBASE_PREF_KEY_TOAST_ALERTAS_OFF)).inRoot(withDecorView(not(is(activity.getWindow().getDecorView()))))
+                .check(matches(isDisplayed()));
 
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
-	@Test
-	public void test2_check_switch_notificaciones_on() {
+    @Test
+    public void test2_check_switch_notificaciones_on() {
 
-		//Checkear si el switch esta desplegado, habilitado y es clickeable, la preferencia de
-		// notificaciones
-		ViewInteraction switchNotificaciones = onView(
-				allOf(childAtPosition(
-						allOf(withId(R.id.recycler_view),
-								childAtPosition(
-										withId(android.R.id.list_container),
-										0)),
-						3),
-						isDisplayed()));
+        //Checkear si el switch esta desplegado, habilitado y es clickeable, la preferencia de
+        // notificaciones
+        ViewInteraction switchNotificaciones = onView(
+                allOf(childAtPosition(
+                        allOf(withId(R.id.recycler_view),
+                                childAtPosition(
+                                        withId(android.R.id.list_container),
+                                        0)),
+                        3),
+                        isDisplayed()));
 
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-		//Realizar click
-		switchNotificaciones.perform(click());
+        //Realizar click
+        switchNotificaciones.perform(click());
 
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-		onView(withText(R.string.FIREBASE_PREF_KEY_TOAST_ALERTAS_ON)).
-				inRoot(withDecorView(not(is(mActivity.getWindow().getDecorView())))).
-				check(matches(isDisplayed()));
+        onView(withText(R.string.FIREBASE_PREF_KEY_TOAST_ALERTAS_ON)).
+                inRoot(withDecorView(not(is(activity.getWindow().getDecorView())))).
+                check(matches(isDisplayed()));
 
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 }
