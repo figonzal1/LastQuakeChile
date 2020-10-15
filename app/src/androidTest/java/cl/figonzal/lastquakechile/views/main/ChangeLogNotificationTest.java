@@ -1,29 +1,6 @@
 package cl.figonzal.lastquakechile.views.main;
 
-import android.content.Context;
-import android.content.pm.PackageManager;
-
-import androidx.test.filters.LargeTest;
-import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
-import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.rule.ActivityTestRule;
-import androidx.test.uiautomator.By;
-import androidx.test.uiautomator.UiDevice;
-import androidx.test.uiautomator.UiObject2;
-import androidx.test.uiautomator.Until;
-
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
-
-import cl.figonzal.lastquakechile.services.notifications.ChangeLogNotification;
-import cl.figonzal.lastquakechile.views.activities.MainActivity;
-
-import static org.junit.Assert.assertEquals;
-
+/*
 @RunWith(AndroidJUnit4ClassRunner.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @LargeTest
@@ -65,3 +42,4 @@ public class ChangeLogNotificationTest {
     }
 
 }
+*/

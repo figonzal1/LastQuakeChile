@@ -600,7 +600,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
 
         //SETEO DE HORA
         if (mTiempos != null) {
-            dateManager.setTimeToTextView(getApplicationContext(), mTiempos, mTvHora);
+            viewsManager.setTimeToTextView(getApplicationContext(), mTiempos, mTvHora);
         }
 
         //SETEO DE ESCALA
