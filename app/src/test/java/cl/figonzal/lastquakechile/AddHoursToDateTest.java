@@ -1,5 +1,6 @@
 package cl.figonzal.lastquakechile;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -10,17 +11,29 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 
+import cl.figonzal.lastquakechile.managers.DateManager;
+
+import static org.junit.Assert.assertEquals;
+
+
 @RunWith(Parameterized.class)
-public class UtilsTest {
+public class AddHoursToDateTest {
 
     private final Date dActual;
     private final Date dEsperado;
     private final int dHoras;
 
-    public UtilsTest(Date dActual, Date dEsperado, int dHoras) {
+    private DateManager dateManager;
+
+    public AddHoursToDateTest(Date dActual, Date dEsperado, int dHoras) {
         this.dActual = dActual;
         this.dEsperado = dEsperado;
         this.dHoras = dHoras;
+    }
+
+    @Before
+    public void setUp() {
+        dateManager = new DateManager();
     }
 
     @Parameterized.Parameters(name = "{index}: {0} = addHoursToJavaUtilDate({1},{2})")
@@ -41,6 +54,6 @@ public class UtilsTest {
 
     @Test
     public void add_hours_to_date() {
-        assertEquals(dEsperado, Utils.addHoursToJavaUtilDate(dActual, dHoras));
+        assertEquals(dEsperado, dateManager.addHoursToJavaUtilDate(dActual, dHoras));
     }
 }

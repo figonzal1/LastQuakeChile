@@ -76,7 +76,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
 
         //SETEO DE Textview HORA
         Map<String, Long> tiempos = dateManager.dateToDHMS(model.getFechaLocal());
-        dateManager.setTimeToTextView(context, tiempos, holder.tv_hora);
+        viewsManager.setTimeToTextView(context, tiempos, holder.tv_hora);
 
         //Sismo sensible
         if (model.getSensible()) {
