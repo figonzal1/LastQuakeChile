@@ -75,6 +75,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
     private TextView mTvGms;
     private TextView mFabTextWSP;
     private TextView mFabTextGM;
+    private TextView mFabTextTw;
     private TextView mTvEstado;
     private ImageView mIvSensible, mIvMagColor, mIvEstado;
     private String mDmsLat;
@@ -85,6 +86,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
     private FloatingActionButton mFabShare;
     private FloatingActionButton mFabWSP;
     private FloatingActionButton mFabGM;
+    private FloatingActionButton mFabTw;
     private View mOverlay;
 
     private DateManager dateManager;
@@ -148,6 +150,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         mFabShare = findViewById(R.id.fab_share);
         mFabWSP = findViewById(R.id.fab_wsp);
         mFabGM = findViewById(R.id.fab_gmail);
+        mFabTw = findViewById(R.id.fab_twitter);
 
         //Overlay
         mOverlay = findViewById(R.id.overlay);
@@ -254,6 +257,42 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
                 wspIntent.setType("image/*");
 
                 startActivity(wspIntent);
+            }
+        });
+
+        mFabTw.setOnClickListener(v -> {
+
+            Intent mIntent = getPackageManager().getLaunchIntentForPackage("com.twitter.android");
+
+            //Si no existe el paquete
+            if (mIntent == null) {
+
+                packageManager.doInstallation("com.twitter.android", getApplicationContext());
+
+            } else {
+
+                Timber.i(getString(R.string.TAG_INTENT_SHARE) + ": " + getString(R.string.TAG_INTENT_SHARE_WSP));
+
+                Intent tweetIntent = new Intent();
+                tweetIntent.setAction(Intent.ACTION_SEND);
+                tweetIntent.setPackage("com.twitter.android");
+                tweetIntent.putExtra(Intent.EXTRA_TEXT, String.format(Locale.US,
+                        "[Alerta sísmica]\n\n" +
+                                "Información sismológica\n" +
+                                "Ciudad: %1$s\n" +
+                                "Hora Local: %2$s\n" +
+                                "Magnitud: %3$.1f %4$s\n" +
+                                "Profundidad: %5$.1f Km\n" +
+                                "Georeferencia: %6$s\n\n" +
+                                "Descarga la app aquí -> %7$s" +
+                                "#LastQuakeChile #SismosChile"
+                        , quakeModel.getCiudad(), mFechaLocal, quakeModel.getMagnitud(), quakeModel.getEscala(), quakeModel.getProfundidad(), quakeModel.getReferencia(),
+                        getString(R.string.DEEP_LINK)
+                ));
+                tweetIntent.putExtra(Intent.EXTRA_STREAM, mBitmapUri);
+                tweetIntent.setType("image/*");
+
+                startActivity(tweetIntent);
             }
         });
 
@@ -439,26 +478,33 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         //mFabFB.show();
         mFabWSP.show();
         mFabGM.show();
+        mFabTw.show();
 
-        //mFabTextFB = findViewById(R.id.fab_text_fb);
         mFabTextWSP = findViewById(R.id.fab_text_wsp);
         mFabTextGM = findViewById(R.id.fab_text_gm);
+        mFabTextTw = findViewById(R.id.fab_text_tw);
 
         //Seteado de text en alpha 0 y visible
         mFabTextWSP.setAlpha(0f);
         mFabTextWSP.setVisibility(View.VISIBLE);
         mFabTextGM.setAlpha(0f);
         mFabTextGM.setVisibility(View.VISIBLE);
+        mFabTextTw.setAlpha(0f);
+        mFabTextTw.setVisibility(View.VISIBLE);
 
         //trasnlaciones de fabs y textos
         mFabWSP.animate().translationY(-getResources().getDimension(R.dimen.standard_65));
         mFabGM.animate().translationY(-getResources().getDimension(R.dimen.standard_130));
+        mFabTw.animate().translationY(-getResources().getDimension(R.dimen.standard_195));
+
         mFabTextWSP.animate().translationY(-getResources().getDimension(R.dimen.standard_65));
         mFabTextGM.animate().translationY(-getResources().getDimension(R.dimen.standard_130));
+        mFabTextTw.animate().translationY(-getResources().getDimension(R.dimen.standard_195));
 
         //Animacion de alpha para textos
         mFabTextWSP.animate().alpha(1.0f).setDuration(500);
         mFabTextGM.animate().alpha(1.0f).setDuration(500);
+        mFabTextTw.animate().alpha(1.0f).setDuration(500);
 
         mOverlay.setAlpha(0f);
 
@@ -495,18 +541,23 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         mIsFabOpen = false;
         mFabWSP.animate().translationY(0);
         mFabGM.animate().translationY(0);
+        mFabTw.animate().translationY(0);
 
         mFabGM.hide();
         mFabWSP.hide();
+        mFabTw.hide();
 
         mFabTextGM.animate().translationY(0);
         mFabTextGM.setVisibility(View.GONE);
         mFabTextWSP.animate().translationY(0);
         mFabTextWSP.setVisibility(View.GONE);
+        mFabTextTw.animate().translationY(0);
+        mFabTextTw.setVisibility(View.GONE);
 
         //Animacion de alpha para textos
         mFabTextWSP.animate().alpha(0.0f).setDuration(500);
         mFabTextGM.animate().alpha(0.0f).setDuration(500);
+        mFabTextTw.animate().alpha(0.0f).setDuration(500);
 
         //Animacion CLOSE de mOverlay
         mOverlay.setAlpha(0.85f);
