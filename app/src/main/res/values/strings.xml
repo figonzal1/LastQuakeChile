@@ -10,7 +10,7 @@
     <string name="ADMOB_ID_VIDEO" translatable="false">ca-app-pub-3940256099942544/5224354917</string>-->
 
     <!-- LAST CHANGE LOG -->
-    <string name="LAST_CHANGE_LOG" translatable="false">Probando probando</string>
+    <string name="LAST_CHANGE_LOG" translatable="false"></string>
 
     <!-- TOOLBAR Menu STRINGS -->
     <string name="refresh">Recargar</string>
@@ -110,8 +110,10 @@
     <string name="last_quakes_info_card_view_button">Entendido</string>
     <string name="last_quakes_info_card_view_description">En este listado se muestran los últimos 15 sismos ocurridos en Chile, puedes modificar la cantidad en la sección &#8942; -> Configuración</string>
     <string name="fab_gmail" translatable="false">Gmail</string>
+    <string name="fab_twitter" translatable="false">Twitter</string>
     <string name="fab_whatsapp" translatable="false">Whatsapp</string>
     <string name="boton_flotante_gmail">Botón flotante gmail</string>
+    <string name="boton_flotante_twitter">Botón flotante twitter</string>
     <string name="boton_flotante_whatsapp">Botón flotante whatsapp</string>
     <string name="boton_compartir_sismo">Botón compartir sismo</string>
     <string name="imagen_estado_sismo">Imagen estado sismo</string>
