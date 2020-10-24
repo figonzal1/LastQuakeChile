@@ -17,7 +17,7 @@ public class MainFragmentStateAdapter extends FragmentStateAdapter {
 
     private static final String[] tabs = new String[3];
 
-    public MainFragmentStateAdapter(FragmentActivity fa, Context context) {
+    public MainFragmentStateAdapter(@NonNull FragmentActivity fa, @NonNull Context context) {
         super(fa);
 
         tabs[0] = context.getString(R.string.tab_list);
@@ -25,6 +25,7 @@ public class MainFragmentStateAdapter extends FragmentStateAdapter {
         tabs[2] = context.getString(R.string.tab_map);
     }
 
+    @NonNull
     public static String[] getTabs() {
         return tabs;
     }

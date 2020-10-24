@@ -64,11 +64,13 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
     private DateManager dateManager;
     private ViewsManager viewsManager;
 
+    @Nullable
     private SharedPrefService sharedPrefService;
 
     public QuakeFragment() {
     }
 
+    @NonNull
     public static QuakeFragment newInstance() {
         return new QuakeFragment();
     }
@@ -103,7 +105,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         return v;
     }
 
-    private void instanciarRecursosInterfaz(View v) {
+    private void instanciarRecursosInterfaz(@NonNull View v) {
 
         quakeModelList = new ArrayList<>();
 
@@ -210,7 +212,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
      *
      * @param v Vista necesaria para mostrar el vardview
      */
-    private void showCardViewInformation(View v) {
+    private void showCardViewInformation(@NonNull View v) {
 
         boolean isCardViewShow = (boolean) sharedPrefService.getData(getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO), true);
 
@@ -249,7 +251,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
      * @param status Estado del mensaje (Timeout,server error, etc)
      * @param v      (Vista necesaria para mostrar sSnackbar en coordinator layout)
      */
-    private void showSnackBar(String status, View v) {
+    private void showSnackBar(@NonNull String status, @NonNull View v) {
 
         sSnackbar = Snackbar
                 .make(v, status, Snackbar.LENGTH_INDEFINITE)
@@ -299,7 +301,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
      * @return Booleano
      */
     @Override
-    public boolean onQueryTextChange(String s) {
+    public boolean onQueryTextChange(@NonNull String s) {
         String input = s.toLowerCase();
         mViewModel.doSearch(input);
         return true;

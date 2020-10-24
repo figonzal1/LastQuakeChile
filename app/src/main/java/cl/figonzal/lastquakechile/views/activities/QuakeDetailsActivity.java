@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -61,6 +62,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
      * Atributos Mapa
      */
     private GoogleMap mGoogleMap;
+    @Nullable
     private Bundle mMapViewBundle;
     private MapView mMapView;
 
@@ -80,6 +82,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
     private ImageView mIvSensible, mIvMagColor, mIvEstado;
     private String mDmsLat;
     private String mDmsLong;
+    @Nullable
     private String mFechaLocal;
     private Map<String, Long> mTiempos;
     private boolean mIsFabOpen = false;
@@ -95,7 +98,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
     private QuakeModel quakeModel;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quake_details);
 
@@ -378,7 +381,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
      * @param latitud  Latitud del sismo
      * @param longitud Longitud del sismo
      */
-    private void calculateGMS(String latitud, String longitud) {
+    private void calculateGMS(@NonNull String latitud, @NonNull String longitud) {
 
         //Conversion de mLatitud a dms
         double mLatUbicacion = Double.parseDouble(latitud);
@@ -416,7 +419,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
      *
      * @param b Bundle con los datos
      */
-    private void dateConfig(Bundle b) {
+    private void dateConfig(@NonNull Bundle b) {
 
         //SECCION CONVERSION DE TIEMPO UTC-LOCAL (DEPENDIENDO SI VIENE DE ADAPTER O DE
         // NOTIFICACION)
@@ -587,7 +590,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         // Respond to the action bar's Up/Home button
         if (item.getItemId() == android.R.id.home) {
@@ -666,7 +669,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(@NonNull GoogleMap googleMap) {
 
         mGoogleMap = googleMap;
 
@@ -802,6 +805,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
      * @param input Longitud o Latitud
      * @return grados, minutos, segundos en un Map
      */
+    @NonNull
     private Map<String, Double> latLonToDMS(double input) {
 
         Map<String, Double> mDMS = new HashMap<>();
@@ -828,7 +832,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
      * @param context Contexto necesario para usar recursos
      * @return Path de la imagen
      */
-    public Uri getLocalBitmapUri(Bitmap bitmap, Context context) throws IOException {
+    public Uri getLocalBitmapUri(@NonNull Bitmap bitmap, @NonNull Context context) throws IOException {
 
         Calendar c = Calendar.getInstance();
         c.setTime(quakeModel.getFechaLocal());

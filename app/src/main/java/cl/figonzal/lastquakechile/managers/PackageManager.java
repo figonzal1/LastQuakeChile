@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
+import androidx.annotation.NonNull;
+
 import cl.figonzal.lastquakechile.R;
 import timber.log.Timber;
 
@@ -18,7 +20,7 @@ public class PackageManager {
      * @param packageName Nombre del paquete
      * @param context     Contexto que permite utilizar recursos de strings
      */
-    public void doInstallation(String packageName, Context context) {
+    public void doInstallation(String packageName, @NonNull Context context) {
 
         Intent mIntent;
 

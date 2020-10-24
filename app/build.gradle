@@ -27,7 +27,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 23  //ultima version 20
-        versionName "1.5.0-alpha"
+        versionName "1.5.0-beta"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -83,11 +83,11 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
     //Firebase
-    implementation 'com.google.firebase:firebase-messaging:20.2.3'
-    implementation 'com.google.firebase:firebase-analytics:17.5.0'
+    implementation 'com.google.firebase:firebase-messaging:20.3.0'
+    implementation 'com.google.firebase:firebase-analytics:17.6.0'
     implementation 'com.google.firebase:firebase-crashlytics:17.2.1'
     implementation 'com.google.firebase:firebase-dynamic-links:19.1.0'
-    implementation 'com.google.firebase:firebase-ads:19.3.0'
+    implementation 'com.google.firebase:firebase-ads:19.5.0'
     implementation 'com.google.firebase:firebase-perf:19.0.8'
 
     implementation 'com.google.android.gms:play-services-maps:17.0.0' //Google Maps

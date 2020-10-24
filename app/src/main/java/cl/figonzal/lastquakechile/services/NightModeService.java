@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.view.Window;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
@@ -18,7 +19,7 @@ public class NightModeService implements LifecycleObserver {
     private final Activity activity;
     private final Window window;
 
-    public NightModeService(Activity activity, Lifecycle lifecycle, Window window) {
+    public NightModeService(Activity activity, @NonNull Lifecycle lifecycle, Window window) {
         this.activity = activity;
         this.window = window;
 

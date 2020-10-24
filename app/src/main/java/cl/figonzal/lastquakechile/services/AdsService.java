@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.gms.ads.AdListener;
@@ -29,6 +30,7 @@ public class AdsService {
     private RewardedVideoAd rewardedVideoAd;
     private final FragmentManager fragmentManager;
     private final Context context;
+    @NonNull
     private final SharedPrefService sharedPrefService;
 
     private final DateManager dateManager;
@@ -93,7 +95,7 @@ public class AdsService {
     /**
      * Funcion encargada de cargar el video de bonificacion
      */
-    public void loadRewardedVideo(final Activity activity) {
+    public void loadRewardedVideo(@NonNull final Activity activity) {
 
         rewardedVideoAd = MobileAds.getRewardedVideoAdInstance(context);
         rewardedVideoAd.loadAd(context.getString(R.string.ADMOB_ID_VIDEO), new AdRequest.Builder().build());
@@ -170,7 +172,7 @@ public class AdsService {
         fragment.show(fragmentManager, context.getString(R.string.REWARD_DIALOG));
     }
 
-    public void configurarIntersitial(AdView mAdView) {
+    public void configurarIntersitial(@NonNull AdView mAdView) {
 
         Date rewarDate = new Date((Long) sharedPrefService.getData(context.getString(R.string.SHARED_PREF_END_REWARD_TIME), 0L));
 
@@ -194,7 +196,7 @@ public class AdsService {
      *
      * @param mAdView AdView intersitial
      */
-    private void loadAds(final AdView mAdView) {
+    private void loadAds(@NonNull final AdView mAdView) {
 
         AdRequest adRequest = new AdRequest.Builder().build();
 

@@ -53,6 +53,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     private DateManager dateManager;
     private ViewsManager viewsManager;
 
+    @NonNull
     public static MapFragment newInstance() {
         return new MapFragment();
     }
@@ -99,7 +100,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(@NonNull GoogleMap googleMap) {
 
         this.googleMap = googleMap;
         this.googleMap.clear();
@@ -156,7 +157,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
      *
      * @param quakeModels Listado de sismos proveniente de viewModel
      */
-    private void cargarPins(List<QuakeModel> quakeModels) {
+    private void cargarPins(@NonNull List<QuakeModel> quakeModels) {
 
         for (int i = 0; i < quakeModels.size(); i++) {
 
@@ -190,13 +191,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         }
     }
 
+    @Nullable
     @Override
     public View getInfoWindow(Marker marker) {
         return null;
     }
 
     @Override
-    public View getInfoContents(Marker marker) {
+    public View getInfoContents(@NonNull Marker marker) {
         @SuppressLint("InflateParams") View mView = getLayoutInflater().inflate(R.layout.info_windows, null);
 
         Object mObject = marker.getTag();
@@ -271,7 +273,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     }
 
     @Override
-    public void onInfoWindowClick(Marker marker) {
+    public void onInfoWindowClick(@NonNull Marker marker) {
 
         Object mObject = marker.getTag();
         QuakeModel mModel = (QuakeModel) mObject;

@@ -35,6 +35,7 @@ public class ReportsViewModel extends AndroidViewModel {
         return mutableLiveReports;
     }
 
+    @NonNull
     public SingleLiveEvent<String> showMsgErrorList() {
 
         reportRepository = ReportRepository.getIntance(getApplication());
@@ -42,6 +43,7 @@ public class ReportsViewModel extends AndroidViewModel {
         return reportRepository.getMsgErrorList();
     }
 
+    @NonNull
     public MutableLiveData<Boolean> isLoading() {
 
         reportRepository = ReportRepository.getIntance(getApplication());

@@ -3,6 +3,7 @@ package cl.figonzal.lastquakechile.services;
 import android.app.Activity;
 import android.app.Dialog;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
@@ -19,7 +20,7 @@ public class GooglePlayService implements LifecycleObserver {
     private final GoogleApiAvailability googlePlay;
     private final Activity activity;
 
-    public GooglePlayService(Activity activity, Lifecycle lifecycle) {
+    public GooglePlayService(Activity activity, @NonNull Lifecycle lifecycle) {
         this.activity = activity;
         googlePlay = GoogleApiAvailability.getInstance();
         lifecycle.addObserver(this);
