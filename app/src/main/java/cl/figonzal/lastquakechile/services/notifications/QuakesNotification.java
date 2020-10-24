@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
@@ -34,6 +35,7 @@ import static android.content.Context.NOTIFICATION_SERVICE;
 public class QuakesNotification implements NotificationService {
 
     private final Context context;
+    @NonNull
     private final FirebaseCrashlytics crashlytics;
     private final SharedPrefService sharedPrefService;
     private RemoteMessage remoteMessage;
@@ -206,7 +208,7 @@ public class QuakesNotification implements NotificationService {
      *
      * @param remoteMessage Mensaje desde FCM
      */
-    public void showNotificationGeneric(RemoteMessage remoteMessage) {
+    public void showNotificationGeneric(@NonNull RemoteMessage remoteMessage) {
 
         //Maneja la notificacion cuando esta en foreground
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, context.getString(R.string.FIREBASE_CHANNEL_ID_QUAKES))

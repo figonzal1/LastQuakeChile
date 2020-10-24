@@ -100,4 +100,5 @@
     <string name="DICIEMBRE">December</string>
     <string name="change_logs">Version history</string>
     <string name="ultima_badge">Lastest</string>
+    <string name="boton_flotante_twitter">Floating button Twitter</string>
 </resources>

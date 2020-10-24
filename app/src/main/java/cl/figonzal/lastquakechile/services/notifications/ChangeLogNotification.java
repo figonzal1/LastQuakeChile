@@ -7,6 +7,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
@@ -25,6 +26,7 @@ public class ChangeLogNotification implements NotificationService {
     private static final boolean TEST_MODE = false;
     private final Context context;
     private final SharedPrefService sharedPrefService;
+    @NonNull
     private final FirebaseCrashlytics crashlytics;
 
     public ChangeLogNotification(Context context, SharedPrefService sharedPrefService) {

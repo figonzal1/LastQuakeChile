@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import androidx.annotation.NonNull;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -37,27 +38,29 @@ import static org.hamcrest.Matchers.allOf;
 @LargeTest
 public class WspShareTest {
 
-	@Rule
-	public ActivityScenarioRule<MainActivity> rule = new ActivityScenarioRule<MainActivity>(MainActivity.class);
+    @NonNull
+    @Rule
+    public ActivityScenarioRule<MainActivity> rule = new ActivityScenarioRule<MainActivity>(MainActivity.class);
 
-	private Context mContext;
+    private Context mContext;
 
-	private static Matcher<View> childAtPosition(
-			final Matcher<View> parentMatcher, final int position) {
+    @NonNull
+    private static Matcher<View> childAtPosition(
+            @NonNull final Matcher<View> parentMatcher, final int position) {
 
-		return new TypeSafeMatcher<View>() {
-			@Override
-			public void describeTo(Description description) {
-				description.appendText("Child at position " + position + " in parent ");
-				parentMatcher.describeTo(description);
-			}
+        return new TypeSafeMatcher<View>() {
+            @Override
+            public void describeTo(@NonNull Description description) {
+                description.appendText("Child at position " + position + " in parent ");
+                parentMatcher.describeTo(description);
+            }
 
-			@Override
-			public boolean matchesSafely(View view) {
-				ViewParent parent = view.getParent();
-				return parent instanceof ViewGroup && parentMatcher.matches(parent)
-						&& view.equals(((ViewGroup) parent).getChildAt(position));
-			}
+            @Override
+            public boolean matchesSafely(@NonNull View view) {
+                ViewParent parent = view.getParent();
+                return parent instanceof ViewGroup && parentMatcher.matches(parent)
+                        && view.equals(((ViewGroup) parent).getChildAt(position));
+            }
 		};
 	}
 

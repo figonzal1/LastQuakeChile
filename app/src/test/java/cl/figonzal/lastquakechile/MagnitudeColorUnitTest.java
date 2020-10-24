@@ -1,5 +1,7 @@
 package cl.figonzal.lastquakechile;
 
+import androidx.annotation.NonNull;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,6 +26,7 @@ public class MagnitudeColorUnitTest {
         this.magnitud = magnitud;
     }
 
+    @NonNull
     @Parameterized.Parameters(name = "{0} = getMagnitudeColor({1})")
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][]{

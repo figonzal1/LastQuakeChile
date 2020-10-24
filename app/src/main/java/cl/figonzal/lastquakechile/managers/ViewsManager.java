@@ -4,6 +4,7 @@ import android.content.Context;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
 import java.util.Locale;
@@ -125,7 +126,7 @@ public class ViewsManager {
      * @param tv_estado Texview que tendrá el valor de estado
      * @param iv_estado ImageView fijada dependiendo del valor de estado
      */
-    public void setStatusImage(Context context, String estado, TextView tv_estado, ImageView iv_estado) {
+    public void setStatusImage(@NonNull Context context, @NonNull String estado, @NonNull TextView tv_estado, @NonNull ImageView iv_estado) {
 
         if (estado.contains("preliminar")) {
 
@@ -146,7 +147,7 @@ public class ViewsManager {
      * @param escala    Escala del sismo puede ser Ml o Mw
      * @param tv_escala Textview que será fijado con el valor de escala
      */
-    public void setEscala(Context context, String escala, TextView tv_escala) {
+    public void setEscala(@NonNull Context context, @NonNull String escala, @NonNull TextView tv_escala) {
 
         switch (escala) {
 
@@ -168,7 +169,7 @@ public class ViewsManager {
      * @param tiempos Variable que cuenta con el mapeo de dias,horas,minutos y segundos
      * @param tv_hora Textview que será usado para fijar el tiempo
      */
-    public void setTimeToTextView(Context context, Map<String, Long> tiempos, TextView tv_hora) {
+    public void setTimeToTextView(@NonNull Context context, @NonNull Map<String, Long> tiempos, @NonNull TextView tv_hora) {
         Long mDays = tiempos.get(context.getString(R.string.UTILS_TIEMPO_DIAS));
         Long mMinutes = tiempos.get(context.getString(R.string.UTILS_TIEMPO_MINUTOS));
         Long mHours = tiempos.get(context.getString(R.string.UTILS_TIEMPO_HORAS));
