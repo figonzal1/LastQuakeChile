@@ -39,8 +39,8 @@ import static org.hamcrest.Matchers.allOf;
 public class WspShareTest {
 
     @NonNull
-    @Rule
-    public ActivityScenarioRule<MainActivity> rule = new ActivityScenarioRule<MainActivity>(MainActivity.class);
+	@Rule
+	public ActivityScenarioRule<MainActivity> rule = new ActivityScenarioRule<>(MainActivity.class);
 
     private Context mContext;
 

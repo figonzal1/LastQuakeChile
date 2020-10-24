@@ -432,12 +432,12 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         //Calcular DHMS de Date fecha_local
         if (mFechaLocal != null) {
 
-            Date mFechaLocal;
+            Date local_date;
             try {
-                mFechaLocal = dateManager.stringToDate(this, this.mFechaLocal);
+                local_date = dateManager.stringToDate(this, mFechaLocal);
 
-                quakeModel.setFechaLocal(mFechaLocal);
-                mTiempos = dateManager.dateToDHMS(mFechaLocal);
+                quakeModel.setFecha_local(local_date);
+                mTiempos = dateManager.dateToDHMS(quakeModel.getFecha_local());
             } catch (ParseException e) {
                 Timber.e(e, "Parse exception error: %s", e.getMessage());
             }
@@ -452,16 +452,20 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
 
             if (mFechaUtc != null) {
 
-                Date mDateFechaUtc;
+                Date fecha_utc;
                 try {
-                    mDateFechaUtc = dateManager.stringToDate(this, mFechaUtc);
-                    Date mDateFechaLocal = dateManager.utcToLocal(mDateFechaUtc);
-                    quakeModel.setFechaLocal(mDateFechaLocal);
-                    mTiempos = dateManager.dateToDHMS(mDateFechaLocal);
+                    fecha_utc = dateManager.stringToDate(this, mFechaUtc);
 
-                    //Setear string que será usado en textviews de detalle con la fecha transformada
-                    // de utc a local desde notificacion
-                    mFechaLocal = dateManager.dateToString(this, mDateFechaLocal);
+                    if (fecha_utc != null) {
+                        Date mDateFechaLocal = dateManager.utcToLocal(fecha_utc);
+
+                        quakeModel.setFecha_local(mDateFechaLocal);
+                        mTiempos = dateManager.dateToDHMS(mDateFechaLocal);
+
+                        //Setear string que será usado en textviews de detalle con la fecha transformada
+                        // de utc a local desde notificacion
+                        mFechaLocal = dateManager.dateToString(this, mDateFechaLocal);
+                    }
 
                 } catch (ParseException e) {
                     Timber.e(e, "Parse exception error: %s", e.getMessage());
@@ -835,7 +839,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
     public Uri getLocalBitmapUri(@NonNull Bitmap bitmap, @NonNull Context context) throws IOException {
 
         Calendar c = Calendar.getInstance();
-        c.setTime(quakeModel.getFechaLocal());
+        c.setTime(quakeModel.getFecha_local());
         int date = (int) c.getTimeInMillis();
 
         File mFile = new File(context.getCacheDir(), "share_" + quakeModel.getCiudad().toLowerCase() + "_" + date + ".jpeg");

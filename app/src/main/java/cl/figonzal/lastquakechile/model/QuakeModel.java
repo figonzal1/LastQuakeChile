@@ -6,135 +6,134 @@ import java.util.Date;
 
 public class QuakeModel {
 
-    private Date mFechaLocal;
-    private String mCiudad;
-    private String mLatitud;
-    private String mLongitud;
-    private Double mMagnitud;
-    private String mEscala;
-    private Double mProfundidad;
-    private Boolean mSensible;
-    private String mAgencia;
-    private String mReferencia;
-    private String mImagenUrl;
-    private String mEstado;
+    private Date fecha_local;
+    private String ciudad;
+    private String referencia;
+    private Double magnitud;
+    private String escala;
+    private Boolean sensible;
+    private String latitud;
+    private String longitud;
+    private Double profundidad;
+    private String agencia;
+    private String imagen_url;
+    private String estado;
 
     public QuakeModel() {
     }
 
-    public Date getFechaLocal() {
-        return mFechaLocal;
+    public Date getFecha_local() {
+        return fecha_local;
     }
 
-    public void setFechaLocal(Date fechaLocal) {
-        this.mFechaLocal = fechaLocal;
+    public void setFecha_local(Date fecha_local) {
+        this.fecha_local = fecha_local;
     }
 
     public String getCiudad() {
-        return mCiudad;
+        return ciudad;
     }
 
     public void setCiudad(String ciudad) {
-        this.mCiudad = ciudad;
-    }
-
-    public String getLatitud() {
-        return mLatitud;
-    }
-
-    public void setLatitud(String latitud) {
-        this.mLatitud = latitud;
-    }
-
-    public String getLongitud() {
-        return mLongitud;
-    }
-
-    public void setLongitud(String longitud) {
-        this.mLongitud = longitud;
-    }
-
-    public Double getMagnitud() {
-        return mMagnitud;
-    }
-
-    public void setMagnitud(Double magnitud) {
-        this.mMagnitud = magnitud;
-    }
-
-    public String getEscala() {
-        return mEscala;
-    }
-
-    public void setEscala(String escala) {
-        this.mEscala = escala;
-    }
-
-    public Double getProfundidad() {
-        return mProfundidad;
-    }
-
-    public void setProfundidad(Double profundidad) {
-        this.mProfundidad = profundidad;
-    }
-
-    public String getAgencia() {
-        return mAgencia;
-    }
-
-    public void setAgencia(String agencia) {
-        this.mAgencia = agencia;
+        this.ciudad = ciudad;
     }
 
     public String getReferencia() {
-        return mReferencia;
+        return referencia;
     }
 
     public void setReferencia(String referencia) {
-        this.mReferencia = referencia;
+        this.referencia = referencia;
     }
 
-    public String getImagenUrl() {
-        return mImagenUrl;
+    public Double getMagnitud() {
+        return magnitud;
     }
 
-    public void setImagenUrl(String imagen_url) {
-        this.mImagenUrl = imagen_url;
+    public void setMagnitud(Double magnitud) {
+        this.magnitud = magnitud;
+    }
+
+    public String getEscala() {
+        return escala;
+    }
+
+    public void setEscala(String escala) {
+        this.escala = escala;
     }
 
     public Boolean getSensible() {
-        return mSensible;
+        return sensible;
     }
 
     public void setSensible(Boolean sensible) {
-        this.mSensible = sensible;
+        this.sensible = sensible;
+    }
+
+    public String getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(String latitud) {
+        this.latitud = latitud;
+    }
+
+    public String getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(String longitud) {
+        this.longitud = longitud;
+    }
+
+    public Double getProfundidad() {
+        return profundidad;
+    }
+
+    public void setProfundidad(Double profundidad) {
+        this.profundidad = profundidad;
+    }
+
+    public String getAgencia() {
+        return agencia;
+    }
+
+    public void setAgencia(String agencia) {
+        this.agencia = agencia;
+    }
+
+    public String getImagen_url() {
+        return imagen_url;
+    }
+
+    public void setImagen_url(String imagen_url) {
+        this.imagen_url = imagen_url;
     }
 
     public String getEstado() {
-        return mEstado;
+        return estado;
     }
 
     public void setEstado(String estado) {
-        this.mEstado = estado;
+        this.estado = estado;
     }
 
     @NonNull
     @Override
     public String toString() {
-
         return "QuakeModel{" +
-                "mFechaLocal=" + mFechaLocal +
-                ", mCiudad='" + mCiudad + '\'' +
-                ", mLatitud='" + mLatitud + '\'' +
-                ", mLongitud='" + mLongitud + '\'' +
-                ", mMagnitud=" + mMagnitud +
-                ", mEscala='" + mEscala + '\'' +
-                ", mProfundidad=" + mProfundidad +
-                ", mSensible=" + mSensible +
-                ", mAgencia='" + mAgencia + '\'' +
-                ", mReferencia='" + mReferencia + '\'' +
-                ", mImagenUrl='" + mImagenUrl + '\'' +
-                ", mEstado='" + mEstado + '\'' +
+                "fecha_local=" + fecha_local +
+                ", ciudad='" + ciudad + '\'' +
+                ", referencia='" + referencia + '\'' +
+                ", magnitud=" + magnitud +
+                ", escala='" + escala + '\'' +
+                ", sensible=" + sensible +
+                ", latitud='" + latitud + '\'' +
+                ", longitud='" + longitud + '\'' +
+                ", profundidad=" + profundidad +
+                ", agencia='" + agencia + '\'' +
+                ", imagen_url='" + imagen_url + '\'' +
+                ", estado='" + estado + '\'' +
                 '}';
     }
 }
