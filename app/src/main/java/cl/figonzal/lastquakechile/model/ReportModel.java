@@ -6,7 +6,6 @@ import java.util.List;
 
 public class ReportModel {
 
-    private int id;
     private String mes_reporte;
     private int n_sensibles;
     private int n_sismos;
@@ -15,17 +14,9 @@ public class ReportModel {
     private double max_magnitud;
     private double min_profundidad;
 
-    private List<QuakesCity> quakesCities;
+    private List<QuakesCity> top_ciudades;
 
     public ReportModel() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getMes_reporte() {
@@ -84,12 +75,12 @@ public class ReportModel {
         this.min_profundidad = min_profundidad;
     }
 
-    public List<QuakesCity> getQuakesCities() {
-        return quakesCities;
+    public List<QuakesCity> getTop_ciudades() {
+        return top_ciudades;
     }
 
-    public void setQuakesCities(List<QuakesCity> quakesCities) {
-        this.quakesCities = quakesCities;
+    public void setTop_ciudades(List<QuakesCity> top_ciudades) {
+        this.top_ciudades = top_ciudades;
     }
 
     @NonNull
@@ -97,7 +88,6 @@ public class ReportModel {
     public String toString() {
 
         return "ReportModel{" +
-                "id=" + id +
                 ", fecha_reporte=" + mes_reporte +
                 ", n_sensibles=" + n_sensibles +
                 ", n_sismos=" + n_sismos +
@@ -105,7 +95,7 @@ public class ReportModel {
                 ", prom_profundidad=" + prom_profundidad +
                 ", max_magnitud=" + max_magnitud +
                 ", min_profundidad=" + min_profundidad +
-                ", quakesCities=" + quakesCities +
+                ", quakesCities=" + top_ciudades +
                 '}';
     }
 }

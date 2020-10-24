@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import java.util.Arrays;
 
+@SuppressWarnings("unused")
 public class ChangeLog {
 
     private String version;

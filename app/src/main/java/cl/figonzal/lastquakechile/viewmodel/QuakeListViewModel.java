@@ -28,12 +28,9 @@ public class QuakeListViewModel extends AndroidViewModel {
     //Live data con un listado de sismos
     private MutableLiveData<List<QuakeModel>> mQuakeMutableList;
 
-    private final DateManager dateManager;
-
     //Contructor para usar context dentro de la clase ViewModel
     public QuakeListViewModel(@NonNull Application application, NetworkRepository<QuakeModel> repository, DateManager dateManager) {
         super(application);
-        this.dateManager = dateManager;
 
         quakeRepository = repository;
     }
@@ -64,7 +61,7 @@ public class QuakeListViewModel extends AndroidViewModel {
      */
     public void refreshMutableQuakeList() {
 
-        quakeRepository = QuakeRepository.getIntance(getApplication(), dateManager);
+        quakeRepository = QuakeRepository.getIntance(getApplication());
         quakeRepository.getData();
     }
 
@@ -77,7 +74,7 @@ public class QuakeListViewModel extends AndroidViewModel {
     @NonNull
     public SingleLiveEvent<String> showMsgErrorList() {
 
-        quakeRepository = QuakeRepository.getIntance(getApplication(), dateManager);
+        quakeRepository = QuakeRepository.getIntance(getApplication());
 
         return quakeRepository.getMsgErrorList();
     }

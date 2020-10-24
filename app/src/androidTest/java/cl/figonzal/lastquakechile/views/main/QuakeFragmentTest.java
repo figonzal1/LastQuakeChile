@@ -40,7 +40,7 @@ import static org.hamcrest.Matchers.allOf;
 @RunWith(AndroidJUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @LargeTest
-public class QuakeFramentTest {
+public class QuakeFragmentTest {
 
     private static final int TIME_TO_TEST = 5000;
     @Rule

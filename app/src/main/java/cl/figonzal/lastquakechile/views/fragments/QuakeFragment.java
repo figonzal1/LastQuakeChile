@@ -129,7 +129,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         mProgressBar.setVisibility(View.VISIBLE);
 
         //Instanciar viewmodel
-        NetworkRepository<QuakeModel> repository = QuakeRepository.getIntance(application, dateManager);
+        NetworkRepository<QuakeModel> repository = QuakeRepository.getIntance(application);
         mViewModel = new ViewModelProvider(requireActivity(), new ViewModelFactory(application, repository, dateManager)).get(QuakeListViewModel.class);
 
         quakeAdapter = new QuakeAdapter(

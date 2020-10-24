@@ -12,16 +12,14 @@ import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.toolbox.StringRequest;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cl.figonzal.lastquakechile.R;
-import cl.figonzal.lastquakechile.model.QuakesCity;
 import cl.figonzal.lastquakechile.model.ReportModel;
 import cl.figonzal.lastquakechile.services.VolleySingleton;
 import cl.figonzal.lastquakechile.viewmodel.SingleLiveEvent;
@@ -34,7 +32,7 @@ public class ReportRepository implements NetworkRepository<ReportModel> {
     private final Application mApplication;
 
     //REPORTES
-    private final List<ReportModel> reportModelList = new ArrayList<>();
+    private List<ReportModel> reportModelList = new ArrayList<>();
     private final MutableLiveData<List<ReportModel>> reportMutableLiveData = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isLoadingReports = new MutableLiveData<>();
     private final SingleLiveEvent<String> responseMsgErrorList = new SingleLiveEvent<>();
@@ -75,58 +73,19 @@ public class ReportRepository implements NetworkRepository<ReportModel> {
 
     private void sendGetReports() {
 
-        Response.Listener<String> response = response1 -> {
+        Response.Listener<String> listener = response -> {
 
             reportModelList.clear();
 
-            //Log.d("REPONSE", response);
-            try {
+            Gson gson = new Gson();
 
-                JSONObject jsonObject = new JSONObject(response1);
+            JsonObject reportes = gson.fromJson(response, JsonObject.class);
 
-                JSONArray jsonReports = jsonObject.getJSONArray("reportes");
+            reportModelList = gson.fromJson(reportes.get("reportes"), new TypeToken<List<ReportModel>>() {
+            }.getType());
 
-                for (int i = 0; i < jsonReports.length(); i++) {
-
-                    JSONObject jsonReport = jsonReports.getJSONObject(i);
-
-                    ReportModel reportModel = new ReportModel();
-                    reportModel.setN_sismos(jsonReport.getInt("n_sismos"));
-                    reportModel.setN_sensibles(jsonReport.getInt("n_sensibles"));
-                    reportModel.setMes_reporte(jsonReport.getString("mes_reporte"));
-
-                    reportModel.setProm_magnitud(jsonReport.getDouble("prom_magnitud"));
-                    reportModel.setProm_profundidad(jsonReport.getDouble("prom_profundidad"));
-                    reportModel.setMax_magnitud(jsonReport.getDouble("max_magnitud"));
-                    reportModel.setMin_profundidad(jsonReport.getDouble("min_profundidad"));
-
-                    JSONArray jsonArray = jsonReport.getJSONArray("top_ciudades");
-
-                    List<QuakesCity> quakesCityList = new ArrayList<>();
-
-                    for (int j = 0; j < jsonArray.length(); j++) {
-
-                        JSONObject jsonCity = jsonArray.getJSONObject(j);
-
-                        QuakesCity city = new QuakesCity();
-                        city.setCiudad(jsonCity.getString("ciudad"));
-                        city.setN_sismos(jsonCity.getInt("n_sismos"));
-
-                        quakesCityList.add(city);
-                    }
-
-                    reportModel.setQuakesCities(quakesCityList);
-
-                    reportModelList.add(reportModel);
-                }
-
-                reportMutableLiveData.postValue(reportModelList);
-                isLoadingReports.postValue(false);
-
-            } catch (JSONException e) {
-
-                Timber.e(e, "Json exception: %s", e.getMessage());
-            }
+            reportMutableLiveData.postValue(reportModelList);
+            isLoadingReports.postValue(false);
         };
 
         final Response.ErrorListener errorListener = error -> {
@@ -159,7 +118,7 @@ public class ReportRepository implements NetworkRepository<ReportModel> {
 
         String url = mApplication.getString(R.string.URL_GET_PROD_REPORTS);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, response, errorListener);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, listener, errorListener);
         isLoadingReports.postValue(true);
 
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(

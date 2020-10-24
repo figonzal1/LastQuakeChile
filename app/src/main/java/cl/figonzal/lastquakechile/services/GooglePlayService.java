@@ -29,6 +29,7 @@ public class GooglePlayService implements LifecycleObserver {
     /**
      * Funcion que verifica si el dispositivo cuenta con GooglePlayServices actualizado cada vez que una actividad esta en modo "OnStart" (visible)
      */
+    @SuppressWarnings("unused")
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     public void checkPlayServices() {
 
