@@ -14,22 +14,15 @@ import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
-import java.util.TimeZone;
 
 import cl.figonzal.lastquakechile.R;
-import cl.figonzal.lastquakechile.managers.DateManager;
 import cl.figonzal.lastquakechile.model.QuakeModel;
 import cl.figonzal.lastquakechile.services.VolleySingleton;
 import cl.figonzal.lastquakechile.viewmodel.SingleLiveEvent;
@@ -43,7 +36,7 @@ public class QuakeRepository implements NetworkRepository<QuakeModel> {
     private final Application mApplication;
 
     //SISMOS
-    private final List<QuakeModel> mQuakeList = new ArrayList<>();
+    private List<QuakeModel> mQuakeList = new ArrayList<>();
     private final MutableLiveData<List<QuakeModel>> mQuakeMutableList = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isLoadingQuake = new MutableLiveData<>();
     private final SingleLiveEvent<String> responseMsgErrorList = new SingleLiveEvent<>();
@@ -51,17 +44,14 @@ public class QuakeRepository implements NetworkRepository<QuakeModel> {
     private boolean volleyError = false;
     private int contador_request = 0;
 
-    private final DateManager dateManager;
-
-    private QuakeRepository(Application application, DateManager dateManager) {
+    private QuakeRepository(Application application) {
         this.mApplication = application;
-        this.dateManager = dateManager;
     }
 
-    public static QuakeRepository getIntance(Application application, DateManager dateManager) {
+    public static QuakeRepository getIntance(Application application) {
 
         if (instance == null) {
-            instance = new QuakeRepository(application, dateManager);
+            instance = new QuakeRepository(application);
         }
         return instance;
     }
@@ -110,70 +100,29 @@ public class QuakeRepository implements NetworkRepository<QuakeModel> {
 
         Response.Listener<String> listener = response -> {
 
-            //Parseando la informacion desde heroku get_quakes.php
-            try {
+            Gson gson = new Gson();
+            JsonObject sismos = gson.fromJson(response, JsonObject.class);
 
-                JSONObject jsonObject = new JSONObject(response);
+            mQuakeList = gson.fromJson(sismos.get("sismos"), new TypeToken<List<QuakeModel>>() {
+            }.getType());
 
-                JSONArray mJsonArray = jsonObject.getJSONArray(mApplication.getString(R.string.JSON_KEY_QUAKES));
+            mQuakeMutableList.postValue(mQuakeList);
+            isLoadingQuake.postValue(false);
 
-                for (int i = 0; i < mJsonArray.length(); i++) {
+            //LOGS
+            Timber.i(mApplication.getString(R.string.CONNECTION_OK_RESPONSE));
 
-                    JSONObject mObject = mJsonArray.getJSONObject(i);
+            volleyError = false;
+            contador_request = 0;
 
-                    QuakeModel mModel = new QuakeModel();
-
-                    SimpleDateFormat mFormat = new SimpleDateFormat(mApplication.getString(R.string.DATETIME_FORMAT), Locale.US);
-                    mFormat.setTimeZone(TimeZone.getDefault());
-
-                    //OBTENER UTC DESDE PHP CONVERTIRLO A LOCAL DEL DISPOSITIVO
-                    Date mUtcDate = mFormat.parse(mObject.getString(mApplication.getString(R.string.JSON_KEY_FECHA_UTC)));
-                    Date mLocalDate = dateManager.utcToLocal(Objects.requireNonNull(mUtcDate, "Fecha utc nulo"));
-
-                    //LOCAL CALCULADO, NO PROVIENE DE CAMPO EN PHP
-                    mModel.setFechaLocal(mLocalDate);
-
-                    mModel.setCiudad(mObject.getString(mApplication.getString(R.string.JSON_KEY_CIUDAD)));
-                    mModel.setLatitud(mObject.getString(mApplication.getString(R.string.JSON_KEY_LATITUD)));
-                    mModel.setLongitud(mObject.getString(mApplication.getString(R.string.JSON_KEY_LONGITUD)));
-                    mModel.setMagnitud(mObject.getDouble(mApplication.getString(R.string.JSON_KEY_MAGNITUD)));
-                    mModel.setEscala(mObject.getString(mApplication.getString(R.string.JSON_KEY_ESCALA)));
-                    mModel.setProfundidad(mObject.getDouble(mApplication.getString(R.string.JSON_KEY_PROFUNDIDAD)));
-                    mModel.setAgencia(mObject.getString(mApplication.getString(R.string.JSON_KEY_AGENCIA)));
-                    mModel.setReferencia(mObject.getString(mApplication.getString(R.string.JSON_KEY_REFERENCIA)));
-                    mModel.setImagenUrl(mObject.getString(mApplication.getString(R.string.JSON_KEY_IMAGEN_URL)));
-                    mModel.setEstado(mObject.getString(mApplication.getString(R.string.JSON_KEY_ESTADO)));
-
-                    switch (mObject.getInt(mApplication.getString(R.string.JSON_KEY_SENSIBLE))) {
-
-                        case 0:
-                            mModel.setSensible(false);
-                            break;
-                        case 1:
-                            mModel.setSensible(true);
-                            break;
-                    }
-
-                    mQuakeList.add(mModel);
-                }
-
-                mQuakeMutableList.postValue(mQuakeList);
-                isLoadingQuake.postValue(false);
-
-                //LOGS
-                Timber.i(mApplication.getString(R.string.CONNECTION_OK_RESPONSE));
-
-                volleyError = false;
-                contador_request = 0;
-
-            } catch (JSONException e) {
+            /*} catch (JSONException e) {
 
                 Timber.e(e, "Json exepction error: %s", e.getMessage());
 
             } catch (ParseException e) {
 
                 Timber.e(e, "Json parse exception: %s", e.getMessage());
-            }
+            }*/
         };
 
         Response.ErrorListener errorListener = error -> {

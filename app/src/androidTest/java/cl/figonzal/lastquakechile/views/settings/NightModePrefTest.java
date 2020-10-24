@@ -43,7 +43,7 @@ import static org.hamcrest.core.IsNot.not;
 public class NightModePrefTest {
 
     @Rule
-    public final ActivityScenarioRule<SettingsActivity> rule = new ActivityScenarioRule<SettingsActivity>(SettingsActivity.class);
+    public final ActivityScenarioRule<SettingsActivity> rule = new ActivityScenarioRule<>(SettingsActivity.class);
     private Activity activity;
 
     @NonNull

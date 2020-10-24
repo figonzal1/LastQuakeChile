@@ -216,7 +216,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         String mEstado = Objects.requireNonNull(mModel).getEstado();
 
         //Setear estado e imagen del estado (Preliminar o verificado)
-        viewsManager.setStatusImage(getContext(), mEstado, mTvEstado, mIvEstado);
+        viewsManager.setStatusImage(requireContext(), mEstado, mTvEstado, mIvEstado);
 
         //Setear referencia del sismo en infoWindow
         mTvReferencia.setText(mModel.getReferencia());
@@ -232,7 +232,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         mTvProfundidad.setText(String.format(getString(R.string.profundidad_info_windows), mModel.getProfundidad()));
 
         //Calcular tiempos (Dates a DHMS)
-        Map<String, Long> mTiempos = dateManager.dateToDHMS(mModel.getFechaLocal());
+        Map<String, Long> mTiempos = dateManager.dateToDHMS(mModel.getFecha_local());
 
         //Separar mapeo de tiempos en dias, horas,minutos,segundos.
         Long mDias = mTiempos.get(getString(R.string.UTILS_TIEMPO_DIAS));
@@ -291,14 +291,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             //Cambiar la fecha local a string
             SimpleDateFormat mFormat = new SimpleDateFormat(getString(R.string.DATETIME_FORMAT),
                     Locale.US);
-            String fecha_local = mFormat.format(mModel.getFechaLocal());
+            String fecha_local = mFormat.format(mModel.getFecha_local());
 
             mBundle.putString(getString(R.string.INTENT_FECHA_LOCAL), fecha_local);
             mBundle.putDouble(getString(R.string.INTENT_MAGNITUD), mModel.getMagnitud());
             mBundle.putDouble(getString(R.string.INTENT_PROFUNDIDAD), mModel.getProfundidad());
             mBundle.putString(getString(R.string.INTENT_ESCALA), mModel.getEscala());
             mBundle.putBoolean(getString(R.string.INTENT_SENSIBLE), mModel.getSensible());
-            mBundle.putString(getString(R.string.INTENT_LINK_FOTO), mModel.getImagenUrl());
+            mBundle.putString(getString(R.string.INTENT_LINK_FOTO), mModel.getImagen_url());
             mBundle.putString(getString(R.string.INTENT_ESTADO), mModel.getEstado());
             mIntent.putExtras(mBundle);
 

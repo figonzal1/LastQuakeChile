@@ -52,7 +52,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
         holder.tv_max_mag_value.setText(String.format("%s", reportModel.getMax_magnitud()));
         holder.tv_min_prof_value.setText(String.format("%s km", reportModel.getMin_profundidad()));
 
-        List<QuakesCity> quakesCityList = reportModel.getQuakesCities();
+        List<QuakesCity> quakesCityList = reportModel.getTop_ciudades();
 
         holder.tv_nombre_c1.setText(quakesCityList.get(0).getCiudad());
         holder.tv_n_sismos_c1.setText(String.valueOf(quakesCityList.get(0).getN_sismos()));

@@ -60,12 +60,12 @@ public class ReportsFragment extends Fragment {
 
         instanciarRecursosInterfaz(v);
 
-        iniciarViewModels(v);
+        iniciarViewModels();
 
         return v;
     }
 
-    private void iniciarViewModels(final View v) {
+    private void iniciarViewModels() {
 
         reportsViewModel.isLoading().observe(requireActivity(), aBoolean -> {
 

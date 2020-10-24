@@ -4,28 +4,10 @@ import androidx.annotation.NonNull;
 
 public class QuakesCity {
 
-    private int id;
-    private int id_reports;
     private String ciudad;
     private int n_sismos;
 
     public QuakesCity() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getId_reports() {
-        return id_reports;
-    }
-
-    public void setId_reports(int id_reports) {
-        this.id_reports = id_reports;
     }
 
     public String getCiudad() {
@@ -49,8 +31,6 @@ public class QuakesCity {
     public String toString() {
 
         return "QuakesCity{" +
-                "id=" + id +
-                ", id_reports=" + id_reports +
                 ", ciudad='" + ciudad + '\'' +
                 ", n_sismos=" + n_sismos +
                 '}';

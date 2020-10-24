@@ -75,7 +75,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
         holder.iv_mag_color.setColorFilter(context.getColor(idColor));
 
         //SETEO DE Textview HORA
-        Map<String, Long> tiempos = dateManager.dateToDHMS(model.getFechaLocal());
+        Map<String, Long> tiempos = dateManager.dateToDHMS(model.getFecha_local());
         viewsManager.setTimeToTextView(context, tiempos, holder.tv_hora);
 
         //Sismo sensible
@@ -98,14 +98,14 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
 
             //CAmbiar la fecha local a string
             SimpleDateFormat format = new SimpleDateFormat(context.getString(R.string.DATETIME_FORMAT), Locale.US);
-            String fecha_local = format.format(model.getFechaLocal());
+            String fecha_local = format.format(model.getFecha_local());
             b.putString(context.getString(R.string.INTENT_FECHA_LOCAL), fecha_local);
 
             b.putDouble(context.getString(R.string.INTENT_MAGNITUD), model.getMagnitud());
             b.putDouble(context.getString(R.string.INTENT_PROFUNDIDAD), model.getProfundidad());
             b.putString(context.getString(R.string.INTENT_ESCALA), model.getEscala());
             b.putBoolean(context.getString(R.string.INTENT_SENSIBLE), model.getSensible());
-            b.putString(context.getString(R.string.INTENT_LINK_FOTO), model.getImagenUrl());
+            b.putString(context.getString(R.string.INTENT_LINK_FOTO), model.getImagen_url());
             b.putString(context.getString(R.string.INTENT_ESTADO), model.getEstado());
 
             intent.putExtras(b);
