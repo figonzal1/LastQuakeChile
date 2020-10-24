@@ -100,4 +100,5 @@
     <string name="FORMATO_REPORTE">Reporte %s %s</string>
     <string name="change_logs">Historial de versiones</string>
     <string name="ultima_badge">Última</string>
+    <string name="boton_flotante_twitter">Botón flotante twitter</string>
 </resources>

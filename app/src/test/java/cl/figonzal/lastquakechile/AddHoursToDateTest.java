@@ -1,5 +1,7 @@
 package cl.figonzal.lastquakechile;
 
+import androidx.annotation.NonNull;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,6 +38,7 @@ public class AddHoursToDateTest {
         dateManager = new DateManager();
     }
 
+    @NonNull
     @Parameterized.Parameters(name = "{index}: {0} = addHoursToJavaUtilDate({1},{2})")
     public static Collection<Object[]> data() throws ParseException {
         return Arrays.asList(new Object[][]{

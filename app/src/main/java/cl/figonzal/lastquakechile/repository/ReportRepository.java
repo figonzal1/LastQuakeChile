@@ -2,6 +2,7 @@ package cl.figonzal.lastquakechile.repository;
 
 import android.app.Application;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -52,6 +53,7 @@ public class ReportRepository implements NetworkRepository<ReportModel> {
         return instance;
     }
 
+    @NonNull
     @Override
     public MutableLiveData<List<ReportModel>> getData() {
         sendGetReports();
@@ -59,11 +61,13 @@ public class ReportRepository implements NetworkRepository<ReportModel> {
         return reportMutableLiveData;
     }
 
+    @NonNull
     @Override
     public MutableLiveData<Boolean> isLoading() {
         return isLoadingReports;
     }
 
+    @NonNull
     @Override
     public SingleLiveEvent<String> getMsgErrorList() {
         return responseMsgErrorList;

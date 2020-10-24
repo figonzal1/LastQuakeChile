@@ -3,6 +3,7 @@ package cl.figonzal.lastquakechile;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import org.junit.Before;
@@ -33,6 +34,7 @@ public class DateToStringTest {
         this.sEsperado = sEsperado;
     }
 
+    @NonNull
     @Parameterized.Parameters(name = "{0} = dateToString({1})")
     public static Collection<Object[]> data() throws ParseException {
         return Arrays.asList(new Object[][]{

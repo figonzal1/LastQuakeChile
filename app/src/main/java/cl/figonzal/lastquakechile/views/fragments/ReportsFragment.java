@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -40,6 +41,7 @@ public class ReportsFragment extends Fragment {
     public ReportsFragment() {
     }
 
+    @NonNull
     public static ReportsFragment newInstance() {
         return new ReportsFragment();
     }
@@ -51,7 +53,7 @@ public class ReportsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_reports, container, false);
@@ -118,7 +120,7 @@ public class ReportsFragment extends Fragment {
         });
     }
 
-    private void instanciarRecursosInterfaz(View v) {
+    private void instanciarRecursosInterfaz(@NonNull View v) {
 
         reportModelList = new ArrayList<>();
 

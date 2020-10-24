@@ -159,7 +159,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
         private final ConstraintLayout item;
         private TextView tv_ciudad;
 
-        private QuakeViewHolder(View itemView) {
+        private QuakeViewHolder(@NonNull View itemView) {
             super(itemView);
 
             tv_ciudad = itemView.findViewById(R.id.tv_ciudad);

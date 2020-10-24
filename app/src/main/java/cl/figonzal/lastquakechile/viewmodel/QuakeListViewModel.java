@@ -54,6 +54,7 @@ public class QuakeListViewModel extends AndroidViewModel {
         return mQuakeMutableList;
     }
 
+    @NonNull
     public MutableLiveData<Boolean> isLoading() {
         return quakeRepository.isLoading();
     }
@@ -73,6 +74,7 @@ public class QuakeListViewModel extends AndroidViewModel {
      *
      * @return Retorna el MutableLiveData del mensaje estado
      */
+    @NonNull
     public SingleLiveEvent<String> showMsgErrorList() {
 
         quakeRepository = QuakeRepository.getIntance(getApplication(), dateManager);
@@ -85,6 +87,7 @@ public class QuakeListViewModel extends AndroidViewModel {
      *
      * @return MutableLiveData de los simos filtrados
      */
+    @NonNull
     public MutableLiveData<List<QuakeModel>> showFilteredQuakeList() {
         return mQuakeMutableFilterList;
     }
@@ -94,7 +97,7 @@ public class QuakeListViewModel extends AndroidViewModel {
      *
      * @param s Texto que ingresa el usuario en la busqueda
      */
-    public void doSearch(String s) {
+    public void doSearch(@NonNull String s) {
 
         List<QuakeModel> mQuakeList = mQuakeMutableList.getValue();
 

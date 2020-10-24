@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -70,6 +71,7 @@ public class QuakeRepository implements NetworkRepository<QuakeModel> {
      *
      * @return MutableLiveData con los sismos
      */
+    @NonNull
     @Override
     public MutableLiveData<List<QuakeModel>> getData() {
         sendGetQuakes();
@@ -81,6 +83,7 @@ public class QuakeRepository implements NetworkRepository<QuakeModel> {
      *
      * @return MutableLibeData de status loading
      */
+    @NonNull
     @Override
     public MutableLiveData<Boolean> isLoading() {
         return isLoadingQuake;
@@ -91,6 +94,7 @@ public class QuakeRepository implements NetworkRepository<QuakeModel> {
      *
      * @return MutableLiveData de status data
      */
+    @NonNull
     @Override
     public SingleLiveEvent<String> getMsgErrorList() {
         return responseMsgErrorList;

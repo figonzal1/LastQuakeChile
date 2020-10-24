@@ -2,6 +2,9 @@ package cl.figonzal.lastquakechile.managers;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -25,7 +28,7 @@ public class DateManager {
      * @param fecha_local parametro que entrega la fecha local desde el modelo en cardview
      * @return retorna la diferencia en milisegundos
      */
-    private long calculateDiff(Date fecha_local) {
+    private long calculateDiff(@NonNull Date fecha_local) {
 
         long mDiff;
         Date mCurrentTime = new Date();
@@ -44,7 +47,8 @@ public class DateManager {
      *
      * @param fecha fecha local del modelo de sismo desde cardview
      */
-    public Map<String, Long> dateToDHMS(Date fecha) {
+    @NonNull
+    public Map<String, Long> dateToDHMS(@NonNull Date fecha) {
 
         long mDiff = calculateDiff(fecha);
         long mSeconds = mDiff / 1000;
@@ -67,7 +71,8 @@ public class DateManager {
      * @param date Parametro date Utc
      * @return retorna el date en local
      */
-    public Date utcToLocal(Date date) {
+    @NonNull
+    public Date utcToLocal(@NonNull Date date) {
 
         String mTimeZone = Calendar.getInstance().getTimeZone().getID();
         return new Date(date.getTime() + TimeZone.getTimeZone(mTimeZone).getOffset(date.getTime()));
@@ -80,7 +85,8 @@ public class DateManager {
      * @param sFecha Fecha en string que será convertida en date
      * @return dFecha Fecha en Date entregada por le funcion
      */
-    public Date stringToDate(Context context, String sFecha) throws ParseException {
+    @Nullable
+    public Date stringToDate(@NonNull Context context, @NonNull String sFecha) throws ParseException {
 
         SimpleDateFormat mFormat = new SimpleDateFormat(context.getString(R.string.DATETIME_FORMAT), Locale.US);
 
@@ -94,7 +100,8 @@ public class DateManager {
      * @param dFecha  Fecha que será convertida
      * @return String de la fecha
      */
-    public String dateToString(Context context, Date dFecha) {
+    @NonNull
+    public String dateToString(@NonNull Context context, @NonNull Date dFecha) {
 
         SimpleDateFormat mFormat = new SimpleDateFormat(context.getString(R.string.DATETIME_FORMAT), Locale.US);
 
@@ -108,7 +115,8 @@ public class DateManager {
      * @param hours Horas que seran sumadas
      * @return Date con las horas ya sumadas
      */
-    public Date addHoursToJavaUtilDate(Date date, int hours) {
+    @NonNull
+    public Date addHoursToJavaUtilDate(@NonNull Date date, int hours) {
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);

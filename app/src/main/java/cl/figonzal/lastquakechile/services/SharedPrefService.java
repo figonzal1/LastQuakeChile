@@ -3,6 +3,8 @@ package cl.figonzal.lastquakechile.services;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import androidx.annotation.Nullable;
+
 import cl.figonzal.lastquakechile.R;
 
 public class SharedPrefService {
@@ -37,6 +39,7 @@ public class SharedPrefService {
         editor.apply();
     }
 
+    @Nullable
     public Object getData(String key, Object defaultvalue) {
 
         Object result = null;
