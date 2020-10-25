@@ -37,20 +37,20 @@ public class RewardDialogFragment extends DialogFragment {
 
             if (rewardedVideoAd.isLoaded()) {
 
-                dismiss();
+                dialog.dismiss();
                 rewardedVideoAd.show();
 
                 Timber.i(getString(R.string.TAG_REWARD_DIALOG_BTN_VER_VIDEO));
             }
 
-            dismiss();
+            dialog.dismiss();
         });
 
         builder.setNegativeButton(R.string.REWARD_DIALOG_NEGATIVE, (dialog, which) -> {
 
             Timber.i(getString(R.string.TAG_REWARD_DIALOG_BTN_CANCEL));
 
-            dismiss();
+            dialog.dismiss();
         });
 
         return builder.create();
