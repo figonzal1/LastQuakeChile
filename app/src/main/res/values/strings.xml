@@ -3,11 +3,11 @@
 
     <string name="ADMOB_MASTER_KEY" translatable="false">ca-app-pub-6355378855577476~7414287525</string>
     <!-- PROD AD-->
-    <string name="ADMOB_ID_BANNER" translatable="false">ca-app-pub-6355378855577476/9207230747</string>
-    <string name="ADMOB_ID_VIDEO" translatable="false">ca-app-pub-6355378855577476/7649578822</string>
+    <!--<string name="ADMOB_ID_BANNER" translatable="false">ca-app-pub-6355378855577476/9207230747</string>-->
+    <!--<string name="ADMOB_ID_VIDEO" translatable="false">ca-app-pub-6355378855577476/7649578822</string>-->
     <!--TEST AD-->
-    <!--<string name="ADMOB_ID_BANNER" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="ADMOB_ID_VIDEO" translatable="false">ca-app-pub-3940256099942544/5224354917</string>-->
+    <string name="ADMOB_ID_BANNER" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="ADMOB_ID_VIDEO" translatable="false">ca-app-pub-3940256099942544/5224354917</string>
 
     <!-- LAST CHANGE LOG -->
     <string name="LAST_CHANGE_LOG" translatable="false"></string>
@@ -259,6 +259,7 @@
     <string name="TAG_VIDEO_REWARD_STATUS_LOADED" translatable="false">LOADED</string>
     <string name="TAG_VIDEO_REWARD_STATUS_REWARDED" translatable="false">REWARDED</string>
     <string name="TAG_VIDEO_REWARD_STATUS_COMPLETED" translatable="false">COMPLETED</string>
+    <string name="TAG_VIDEO_REWARD_STATUS_ERROR_LOAD" translatable="false">ERROR_LOAD</string>
     <string name="TAG_POST_REWARD_HORA_AHORA" translatable="false">POST_REWARD_HORA_AHORA</string>
     <string name="TAG_POST_REWARD_HORA_REWARD" translatable="false">POST_REWARD_HORA_REWARD</string>
     <string name="TAG_REWARD_STATUS_EN_PERIODO" translatable="false">EN PERIODO REWARD</string>
@@ -273,7 +274,7 @@
     <string name="TAG_ADMOB_AD_STATUS_OPEN" translatable="false">ADD OPEN</string>
     <string name="TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE_SENDED" translatable="false">ENVIADA</string>
     <string name="TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE_SHOWED" translatable="false">MOSTRADA</string>
-    <string name="TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE_EMPTY" translatable="false">VACIA</string>
+    <string name="TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE_EMPTY" translatable="false">VACIA -  NO MOSTRADA</string>
     <string name="REWAR_DIALOG_TITLE">¡Apoya a la aplicación!</string>
     <string name="REWARD_DIALOG_MESSAGE">Ve el video, apoya gratis monetariamente y recibe 1 día libre de publicidad</string>
     <string name="REWARD_DIALOG_POSITIVE">Ver video</string>

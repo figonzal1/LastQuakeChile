@@ -57,35 +57,42 @@ public class AdsService {
         DateManager dateManager = new DateManager();
         try {
 
-            String sharedDate = (String) sharedPrefService.getData(context.getString(R.string.SHARED_PREF_END_REWARD_TIME), 0);
+            String sharedDate = (String) sharedPrefService.getData(context.getString(R.string.SHARED_PREF_END_REWARD_TIME), "1970-08-12 00:00:00");
 
-            Date reward_date = dateManager.stringToDate(context, sharedDate);
-            Date now_date = new Date();
+            Date reward_date;
 
-            //Si la hora del celular es posterior a reward date
-            if (now_date.after(reward_date)) {
+            if (sharedDate != null) {
 
-                Timber.i(context.getString(R.string.TAG_REWARD_STATUS_EN_PERIODO));
+                reward_date = dateManager.stringToDate(context, sharedDate);
 
-                boolean showDialog = generateRandomNumber();
+                Date now_date = new Date();
 
-                if (showDialog) {
+                //Si la hora del celular es posterior a reward date
+                if (now_date.after(reward_date)) {
 
-                    //Cargar dialog
-                    mostrarDialog();
+                    Timber.i(context.getString(R.string.TAG_REWARD_STATUS_EN_PERIODO));
 
-                    Timber.i(context.getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG_ON));
+                    boolean showDialog = generateRandomNumber();
 
-                } else {
+                    if (showDialog) {
 
-                    Timber.i(context.getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG_OFF));
+                        //Cargar dialog
+                        mostrarDialog();
+
+                        Timber.i(context.getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG_ON));
+
+                    } else {
+
+                        Timber.i(context.getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG_OFF));
+                    }
+                }
+
+                //Si el periodo de reward aun no pasa
+                else if (now_date.before(reward_date)) {
+                    Timber.i(context.getString(R.string.TAG_REWARD_STATUS_PERIODO_INACTIVO));
                 }
             }
 
-            //Si el periodo de reward aun no pasa
-            else if (now_date.before(reward_date)) {
-                Timber.i(context.getString(R.string.TAG_REWARD_STATUS_PERIODO_INACTIVO));
-            }
         } catch (ParseException e) {
 
             Timber.e(e, "stringToDate error parse: %s", e.getMessage());
@@ -121,13 +128,26 @@ public class AdsService {
 
             @Override
             public void onRewardedVideoAdClosed() {
-
+                activity.recreate();
             }
 
             @Override
             public void onRewarded(RewardItem rewardItem) {
                 Timber.i(context.getString(R.string
                         .TAG_VIDEO_REWARD_STATUS_REWARDED));
+
+                Date date_now = new Date();
+
+                Timber.i(context.getString(R.string.TAG_POST_REWARD_HORA_AHORA) + ": " + dateManager.dateToString(context.getApplicationContext(), date_now));
+
+                //sumar 24 horas al tiempo del celular
+                Date date_new = dateManager.addHoursToJavaUtilDate(date_now, 24);
+                Timber.i(context.getString(R.string.TAG_POST_REWARD_HORA_REWARD) + ": " + dateManager.dateToString(context, date_new));
+
+                //Guardar fecha de termino de reward
+                sharedPrefService.saveData(context.getString(R.string.SHARED_PREF_END_REWARD_TIME), dateManager.dateToString(context, date_new));
+
+
             }
 
             @Override
@@ -143,21 +163,7 @@ public class AdsService {
             @Override
             public void onRewardedVideoCompleted() {
 
-                Timber.i(context.getString(R.string
-                        .TAG_VIDEO_REWARD_STATUS_COMPLETED));
-
-                Date date_now = new Date();
-
-                Timber.i(context.getString(R.string.TAG_POST_REWARD_HORA_AHORA) + ": " + dateManager.dateToString(context.getApplicationContext(), date_now));
-
-                //sumar 24 horas al tiempo del celular
-                Date date_new = dateManager.addHoursToJavaUtilDate(date_now, 24);
-                Timber.i(context.getString(R.string.TAG_POST_REWARD_HORA_REWARD) + ": " + dateManager.dateToString(context, date_new));
-
-                //Guardar fecha de termino de reward
-                sharedPrefService.saveData(context.getString(R.string.SHARED_PREF_END_REWARD_TIME), date_new.getTime());
-
-                activity.recreate();
+                Timber.i(context.getString(R.string.TAG_VIDEO_REWARD_STATUS_COMPLETED));
             }
         });
     }
@@ -174,21 +180,35 @@ public class AdsService {
 
     public void configurarIntersitial(@NonNull AdView mAdView) {
 
-        Date rewarDate = new Date((Long) sharedPrefService.getData(context.getString(R.string.SHARED_PREF_END_REWARD_TIME), 0L));
+        String reward_date = (String) sharedPrefService.getData(context.getString(R.string.SHARED_PREF_END_REWARD_TIME), "1970-08-12 00:00:00");
 
-        Timber.i(context.getString(R.string.TAG_FRAGMENT_REWARD_DATE) + ": " + rewarDate.toString());
-        Date now_date = new Date();
+        if (reward_date != null) {
 
-        //si las 24 horas ya pasaron, cargar los ads nuevamente
-        if (now_date.after(rewarDate)) {
+            try {
+                Date rewarDate = dateManager.stringToDate(context, reward_date);
 
-            loadAds(mAdView);
-            Timber.i(context.getString(R.string.TAG_ADS_LOADED));
+                if (rewarDate != null) {
+                    Timber.i(context.getString(R.string.TAG_FRAGMENT_REWARD_DATE) + ": " + rewarDate.toString());
 
-        } else {
-            mAdView.setVisibility(View.GONE);
-            Timber.i(context.getString(R.string.TG_ADS_NOT_LOADED));
+                    Date now_date = new Date();
+
+                    //si las 24 horas ya pasaron, cargar los ads nuevamente
+                    if (now_date.after(rewarDate)) {
+
+                        loadAds(mAdView);
+                        Timber.i(context.getString(R.string.TAG_ADS_LOADED));
+
+                    } else {
+                        mAdView.setVisibility(View.GONE);
+                        Timber.i(context.getString(R.string.TG_ADS_NOT_LOADED));
+                    }
+                }
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
+
     }
 
     /**
