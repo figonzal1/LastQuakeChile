@@ -9,6 +9,7 @@ import com.google.android.play.core.install.model.AppUpdateType;
 import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.android.play.core.tasks.Task;
 
+import cl.figonzal.lastquakechile.R;
 import timber.log.Timber;
 
 public class UpdaterService {
@@ -33,7 +34,7 @@ public class UpdaterService {
 
             if (result.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && result.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
 
-                Timber.i("Update available");
+                Timber.i(activity.getString(R.string.UPDATE_AVAILABLE));
 
                 try {
                     appUpdateManager.startUpdateFlowForResult(
@@ -42,10 +43,10 @@ public class UpdaterService {
                             activity,
                             UPDATE_CODE);
                 } catch (IntentSender.SendIntentException e) {
-                    Timber.e(e, "Update intent failed");
+                    Timber.e(e, activity.getString(R.string.UPDATE_INTENT_FAILED));
                 }
             } else {
-                Timber.i("Update not available");
+                Timber.i(activity.getString(R.string.UPDATE_NOT_AVAILABLE));
             }
         });
     }
