@@ -294,5 +294,10 @@
     <string name="NOVIEMBRE">Noviembre</string>
     <string name="DICIEMBRE">Diciembre</string>
     <string name="FORMATO_REPORTE">Reporte %s %s</string>
+    <string name="UPDATE_AVAILABLE" translatable="false">Update available</string>
+    <string name="UPDATE_INTENT_FAILED" translatable="false">Update intent failed</string>
+    <string name="UPDATE_NOT_AVAILABLE" translatable="false">Update not available</string>
+    <string name="UPDATE_OK" translatable="false">Update succesfull</string>
+    <string name="UPDATE_FAILED" translatable="false">Update flow failed! Result code: %s</string>
 
 </resources>
