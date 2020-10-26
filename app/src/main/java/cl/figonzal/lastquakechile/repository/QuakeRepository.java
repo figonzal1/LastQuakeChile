@@ -15,14 +15,17 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 import cl.figonzal.lastquakechile.R;
+import cl.figonzal.lastquakechile.managers.DateGsonDeserializer;
 import cl.figonzal.lastquakechile.model.QuakeModel;
 import cl.figonzal.lastquakechile.services.VolleySingleton;
 import cl.figonzal.lastquakechile.viewmodel.SingleLiveEvent;
@@ -100,7 +103,9 @@ public class QuakeRepository implements NetworkRepository<QuakeModel> {
 
         Response.Listener<String> listener = response -> {
 
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(Date.class, new DateGsonDeserializer(mApplication))
+                    .create();
             JsonObject sismos = gson.fromJson(response, JsonObject.class);
 
             mQuakeList = gson.fromJson(sismos.get("sismos"), new TypeToken<List<QuakeModel>>() {
