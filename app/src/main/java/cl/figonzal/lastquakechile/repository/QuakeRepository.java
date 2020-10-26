@@ -119,15 +119,6 @@ public class QuakeRepository implements NetworkRepository<QuakeModel> {
 
             volleyError = false;
             contador_request = 0;
-
-            /*} catch (JSONException e) {
-
-                Timber.e(e, "Json exepction error: %s", e.getMessage());
-
-            } catch (ParseException e) {
-
-                Timber.e(e, "Json parse exception: %s", e.getMessage());
-            }*/
         };
 
         Response.ErrorListener errorListener = error -> {
@@ -216,13 +207,6 @@ public class QuakeRepository implements NetworkRepository<QuakeModel> {
             Timber.i(mApplication.getString(R.string.TAG_CONNECTION_SERVER_OFICIAL_RESPONSE));
 
         }
-        /*String url = String.format(Locale.US, mApplication.getString(R.string.URL_GET_PROD), limite);
-        //TEST DEV DIRECTO
-        StringRequest mRequest = new StringRequest(
-                Request.Method.GET,
-                url,
-                listener,
-                errorListener);*/
         isLoadingQuake.postValue(true);
 
         mRequest.setRetryPolicy(new DefaultRetryPolicy(

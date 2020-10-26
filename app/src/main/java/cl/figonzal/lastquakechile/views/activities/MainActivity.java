@@ -48,7 +48,6 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int UPDATE_CODE = 300;
     private AppBarLayout mAppBarLayout;
     private ImageView mIvFoto;
     private AdsService adsService;
@@ -326,9 +325,9 @@ public class MainActivity extends AppCompatActivity {
 
         if (requestCode == UpdaterService.UPDATE_CODE) {
             if (resultCode == RESULT_OK) {
-                Timber.i("Update succesfull");
+                Timber.i(getString(R.string.UPDATE_OK));
             } else {
-                Timber.e("Update flow failed! Result code: %s", resultCode);
+                Timber.e(getString(R.string.UPDATE_FAILED), resultCode);
             }
         }
     }
