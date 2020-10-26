@@ -28,6 +28,7 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import cl.figonzal.lastquakechile.R;
@@ -38,17 +39,20 @@ import cl.figonzal.lastquakechile.services.FirebaseService;
 import cl.figonzal.lastquakechile.services.GooglePlayService;
 import cl.figonzal.lastquakechile.services.NightModeService;
 import cl.figonzal.lastquakechile.services.SharedPrefService;
+import cl.figonzal.lastquakechile.services.UpdaterService;
 import cl.figonzal.lastquakechile.services.notifications.ChangeLogNotification;
 import cl.figonzal.lastquakechile.services.notifications.QuakesNotification;
+import timber.log.Timber;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 public class MainActivity extends AppCompatActivity {
 
-
+    private static final int UPDATE_CODE = 300;
     private AppBarLayout mAppBarLayout;
     private ImageView mIvFoto;
     private AdsService adsService;
+    private UpdaterService updaterService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +79,10 @@ public class MainActivity extends AppCompatActivity {
         //Firebase services
         FirebaseService firebaseService = new FirebaseService(this, FirebaseMessaging.getInstance());
         firebaseService.getFirebaseToken();
+
+        //Updater service
+        updaterService = new UpdaterService(this, AppUpdateManagerFactory.create(this));
+        updaterService.checkAvailability();
 
         //Creacion de canal de notificaciones para sismos y para changelogs (Requerido para API >26)
         ChangeLogNotification changeLogNotification = new ChangeLogNotification(this, sharedPrefService);
@@ -294,7 +302,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         adsService.getRewardedVideoAd().resume(this);
+
+        updaterService.resumeUpdater();
     }
 
     @Override
@@ -307,6 +318,19 @@ public class MainActivity extends AppCompatActivity {
     public void onDestroy() {
         adsService.getRewardedVideoAd().destroy(this);
         super.onDestroy();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == UpdaterService.UPDATE_CODE) {
+            if (resultCode == RESULT_OK) {
+                Timber.i("Update succesfull");
+            } else {
+                Timber.e("Update flow failed! Result code: %s", resultCode);
+            }
+        }
     }
 
 }
