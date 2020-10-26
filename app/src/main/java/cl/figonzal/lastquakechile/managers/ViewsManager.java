@@ -29,94 +29,61 @@ public class ViewsManager {
         int mMagFloor = (int) Math.floor(magnitude);
         int mMagResourseId;
 
-        switch (mMagFloor) {
-
-            case 1:
-
-                if (forMapa) {
-                    mMagResourseId = R.color.magnitude1_alpha;
-                } else {
-                    mMagResourseId = R.color.magnitude1;
-                }
-
-                break;
-
-            case 2:
-
-                if (forMapa) {
-                    mMagResourseId = R.color.magnitude2_alpha;
-                } else {
-                    mMagResourseId = R.color.magnitude2;
-                }
-
-                break;
-
-            case 3:
-
-                if (forMapa) {
-                    mMagResourseId = R.color.magnitude3_alpha;
-                } else {
-                    mMagResourseId = R.color.magnitude3;
-                }
-
-                break;
-
-            case 4:
-
-                if (forMapa) {
-                    mMagResourseId = R.color.magnitude4_alpha;
-                } else {
-                    mMagResourseId = R.color.magnitude4;
-                }
-
-                break;
-
-            case 5:
-
-                if (forMapa) {
-                    mMagResourseId = R.color.magnitude5_alpha;
-                } else {
-                    mMagResourseId = R.color.magnitude5;
-                }
-
-                break;
-
-            case 6:
-
-                if (forMapa) {
-                    mMagResourseId = R.color.magnitude6_alpha;
-                } else {
-                    mMagResourseId = R.color.magnitude6;
-                }
-                break;
-
-            case 7:
-
-                if (forMapa) {
-                    mMagResourseId = R.color.magnitude7_alpha;
-                } else {
-                    mMagResourseId = R.color.magnitude7;
-                }
-                break;
-
-            case 8:
-            case 9:
-
-                if (forMapa) {
-                    mMagResourseId = R.color.magnitude8_alpha;
-                } else {
-                    mMagResourseId = R.color.magnitude8;
-                }
-
-                break;
-
-            //Si no, se elige color por defecto
-            default:
-                mMagResourseId = R.color.colorSecondary;
-                break;
+        if (mMagFloor == 1) {
+            if (forMapa) {
+                mMagResourseId = R.color.magnitude1_alpha;
+            } else {
+                mMagResourseId = R.color.magnitude1;
+            }
+        } else if (mMagFloor == 2) {
+            if (forMapa) {
+                mMagResourseId = R.color.magnitude2_alpha;
+            } else {
+                mMagResourseId = R.color.magnitude2;
+            }
+        } else if (mMagFloor == 3) {
+            if (forMapa) {
+                mMagResourseId = R.color.magnitude3_alpha;
+            } else {
+                mMagResourseId = R.color.magnitude3;
+            }
+        } else if (mMagFloor == 4) {
+            if (forMapa) {
+                mMagResourseId = R.color.magnitude4_alpha;
+            } else {
+                mMagResourseId = R.color.magnitude4;
+            }
+        } else if (mMagFloor == 5) {
+            if (forMapa) {
+                mMagResourseId = R.color.magnitude5_alpha;
+            } else {
+                mMagResourseId = R.color.magnitude5;
+            }
+        } else if (mMagFloor == 6) {
+            if (forMapa) {
+                mMagResourseId = R.color.magnitude6_alpha;
+            } else {
+                mMagResourseId = R.color.magnitude6;
+            }
+        } else if (mMagFloor == 7) {
+            if (forMapa) {
+                mMagResourseId = R.color.magnitude7_alpha;
+            } else {
+                mMagResourseId = R.color.magnitude7;
+            }
+        } else if (mMagFloor >= 8) {
+            if (forMapa) {
+                mMagResourseId = R.color.magnitude8_alpha;
+            } else {
+                mMagResourseId = R.color.magnitude8;
+            }
+        } else {
+            mMagResourseId = R.color.colorPrimary;
         }
+
         return mMagResourseId;
     }
+
 
     /**
      * Funcion que permite setear la imagen de estado del sismos (Preliminar o Verificado)
