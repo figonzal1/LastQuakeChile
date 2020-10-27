@@ -61,6 +61,14 @@ public class ChangeLogActivity extends AppCompatActivity {
     private void addChangeLogs() {
 
         //NEWER FIRTS
+        changeLogList.add(new ChangeLog("v1.5.0", "2020-10-27",
+                new String[]{
+                        "- Ahora comparte los sismos en twitter",
+                        "- Optimizaciones y mantenciones internas",
+                        "- Correcciones de errores"
+                }
+        ));
+
         changeLogList.add(new ChangeLog("v1.4.0", "2020-07-24",
                 new String[]{
                         "- Historial de versiones",
