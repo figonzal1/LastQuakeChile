@@ -32,7 +32,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.core.AllOf.allOf;
 
 @RunWith(AndroidJUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -81,7 +80,7 @@ public class MenuOptionsTest {
         }
 
         ViewInteraction overflowMenuButton = onView(
-                Matchers.allOf(withContentDescription("Más opciones"),
+                Matchers.allOf(withContentDescription(mContext.getString(R.string.TEST_MAS_OPCIONES)),
                         childAtPosition(
                                 childAtPosition(
                                         withId(R.id.tool_bar),
@@ -109,15 +108,15 @@ public class MenuOptionsTest {
             e.printStackTrace();
         }
 
-        ViewInteraction overflow = onView(
-                allOf(withContentDescription(mContext.getString(R.string.more_options)),
+        ViewInteraction overflowMenuButton = onView(
+                Matchers.allOf(withContentDescription(mContext.getString(R.string.TEST_MAS_OPCIONES)),
                         childAtPosition(
                                 childAtPosition(
                                         withId(R.id.tool_bar),
                                         2),
                                 2),
                         isDisplayed()));
-        overflow.perform(click());
+        overflowMenuButton.perform(click());
 
         try {
             Thread.sleep(2000);
@@ -151,15 +150,15 @@ public class MenuOptionsTest {
             e.printStackTrace();
         }
 
-        ViewInteraction overflow = onView(
-                allOf(withContentDescription(R.string.more_options),
+        ViewInteraction overflowMenuButton = onView(
+                Matchers.allOf(withContentDescription(mContext.getString(R.string.TEST_MAS_OPCIONES)),
                         childAtPosition(
                                 childAtPosition(
                                         withId(R.id.tool_bar),
                                         2),
                                 2),
                         isDisplayed()));
-        overflow.perform(click());
+        overflowMenuButton.perform(click());
 
         try {
             Thread.sleep(300);

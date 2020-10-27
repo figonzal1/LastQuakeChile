@@ -43,6 +43,7 @@ public class ChangeLogNotificationTest {
         context = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
         ChangeLogNotification changeLogNotification = new ChangeLogNotification(context, new SharedPrefService(context));
+        ChangeLogNotification.TEST_MODE = true;
         changeLogNotification.configNotificationChangeLog();
     }
 

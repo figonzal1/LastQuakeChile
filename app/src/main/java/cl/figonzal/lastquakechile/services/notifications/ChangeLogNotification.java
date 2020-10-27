@@ -23,7 +23,7 @@ import static android.content.Context.NOTIFICATION_SERVICE;
 
 public class ChangeLogNotification implements NotificationService {
 
-    private static final boolean TEST_MODE = false;
+    public static boolean TEST_MODE = false;
     private final Context context;
     private final SharedPrefService sharedPrefService;
     @NonNull
@@ -85,6 +85,9 @@ public class ChangeLogNotification implements NotificationService {
                 //Logs
                 Timber.i(context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE_SHOWED));
 
+            } else if (TEST_MODE) {
+                NotificationManager notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+                notificationManager.notify(new Random().nextInt(60000), mBuilder.build());
             } else {
 
                 //Logs
