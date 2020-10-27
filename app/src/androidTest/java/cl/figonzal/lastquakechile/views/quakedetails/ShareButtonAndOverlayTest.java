@@ -77,9 +77,9 @@ public class ShareButtonAndOverlayTest {
         click_first_item();
 
         ViewInteraction appCompatImageButton = onView(
-                allOf(withContentDescription("Desplazarse hacia arriba"),
+                allOf(withContentDescription(mContext.getString(R.string.TEST_TEXT)),
                         childAtPosition(
-                                allOf(withId(R.id.tool_bar), withContentDescription("Título toolbar"),
+                                allOf(withId(R.id.tool_bar), withContentDescription(mContext.getString(R.string.TEST_TOOLBAR)),
                                         childAtPosition(
                                                 withId(R.id.app_bar_detail),
                                                 0)),
@@ -119,7 +119,7 @@ public class ShareButtonAndOverlayTest {
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
-                                5),
+                                7),
                         isDisplayed()));
         view.perform(click());
 
