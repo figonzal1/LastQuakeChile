@@ -3,11 +3,11 @@
 
     <string name="ADMOB_MASTER_KEY" translatable="false">ca-app-pub-6355378855577476~7414287525</string>
     <!-- PROD AD-->
-    <!--<string name="ADMOB_ID_BANNER" translatable="false">ca-app-pub-6355378855577476/9207230747</string>-->
-    <!--<string name="ADMOB_ID_VIDEO" translatable="false">ca-app-pub-6355378855577476/7649578822</string>-->
+    <string name="ADMOB_ID_BANNER" translatable="false">ca-app-pub-6355378855577476/9207230747</string>
+    <string name="ADMOB_ID_VIDEO" translatable="false">ca-app-pub-6355378855577476/7649578822</string>
     <!--TEST AD-->
-    <string name="ADMOB_ID_BANNER" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="ADMOB_ID_VIDEO" translatable="false">ca-app-pub-3940256099942544/5224354917</string>
+    <!--<string name="ADMOB_ID_BANNER" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="ADMOB_ID_VIDEO" translatable="false">ca-app-pub-3940256099942544/5224354917</string>-->
 
     <!-- LAST CHANGE LOG -->
     <string name="LAST_CHANGE_LOG" translatable="false"></string>
