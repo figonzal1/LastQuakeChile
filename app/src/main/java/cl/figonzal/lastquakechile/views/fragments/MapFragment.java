@@ -73,11 +73,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         dateManager = new DateManager();
         viewsManager = new ViewsManager();
 
-        /*mMapViewBundle = null;
+        mMapViewBundle = null;
         if (savedInstanceState != null) {
             mMapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY);
         }
-        setRetainInstance(true);*/
+        setRetainInstance(true);
     }
 
     @Override
@@ -88,7 +88,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
         QuakeListViewModel mQuakeListViewModel = new ViewModelProvider(requireActivity()).get(QuakeListViewModel.class);
 
-        mapView = mView.findViewById(R.id.map);
+        mapView = mView.findViewById(R.id.map_view);
 
         mQuakeListViewModel.showQuakeList().observe(requireActivity(), quakeModels -> {
 
@@ -310,6 +310,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
 
         Bundle mMapViewBundle = outState.getBundle(MAPVIEW_BUNDLE_KEY);
 
@@ -320,27 +321,36 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         }
 
         mapView.onSaveInstanceState(mMapViewBundle);
-
-        super.onSaveInstanceState(outState);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         mapView.onResume();
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        mapView.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mapView.onStop();
     }
 
     @Override
     public void onPause() {
-        super.onPause();
         mapView.onPause();
+        super.onPause();
     }
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         mapView.onDestroy();
+        super.onDestroy();
     }
 
     @Override

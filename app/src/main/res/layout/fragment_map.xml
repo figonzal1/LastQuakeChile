@@ -8,7 +8,7 @@
 
     <!-- own view of map to solve scrolling with viewpager2-->
     <cl.figonzal.lastquakechile.views.MapViewInScroll
-        android:id="@+id/map"
+        android:id="@+id/map_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
         map:cameraBearing="0"
