@@ -26,7 +26,7 @@ import androidx.core.content.FileProvider;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
@@ -55,16 +55,10 @@ import timber.log.Timber;
 
 public class QuakeDetailsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-
-    private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
-
     /*
      * Atributos Mapa
      */
     private GoogleMap mGoogleMap;
-    @Nullable
-    private Bundle mMapViewBundle;
-    private MapView mMapView;
 
     private Uri mBitmapUri;
     private TextView mTvCiudad;
@@ -105,10 +99,8 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         //Check night mode
         new NightModeService(this, this.getLifecycle(), getWindow());
 
-        mMapViewBundle = null;
-        if (savedInstanceState != null) {
-            mMapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY);
-        }
+        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map_fragment);
+        mapFragment.getMapAsync(this);
 
         initResources();
     }
@@ -119,9 +111,6 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         viewsManager = new ViewsManager();
         packageManager = new PackageManager();
 
-        mMapView = findViewById(R.id.map);
-        mMapView.onCreate(mMapViewBundle);
-        mMapView.getMapAsync(this);
 
         //Setting toolbar
         Toolbar mToolbar = findViewById(R.id.tool_bar);
@@ -761,46 +750,6 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         //Callback en espera de mapa completamente cargado
         mGoogleMap.setOnMapLoadedCallback(() -> {
         });
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-
-        Bundle mMapViewBundle = outState.getBundle(MAPVIEW_BUNDLE_KEY);
-
-        if (mMapViewBundle == null) {
-            mMapViewBundle = new Bundle();
-            outState.putBundle(MAPVIEW_BUNDLE_KEY, mMapViewBundle);
-        }
-
-        mMapView.onSaveInstanceState(mMapViewBundle);
-
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mMapView.onResume();
-
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mMapView.onPause();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mMapView.onDestroy();
-    }
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        mMapView.onLowMemory();
     }
 
     /**

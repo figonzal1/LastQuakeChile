@@ -43,6 +43,7 @@
         android:textColor="@android:color/white"
         android:textSize="14sp"
         android:textStyle="normal"
+        android:background="@android:color/transparent"
         card_view:layout_constraintBottom_toBottomOf="@+id/iv_iw_mag_color"
         card_view:layout_constraintEnd_toEndOf="@+id/iv_iw_mag_color"
         card_view:layout_constraintStart_toStartOf="@+id/iv_iw_mag_color"
