@@ -57,7 +57,7 @@ public class AdsService {
         DateManager dateManager = new DateManager();
         try {
 
-            String sharedDate = (String) sharedPrefService.getData(context.getString(R.string.SHARED_PREF_END_REWARD_TIME), "1970-08-12 00:00:00");
+            String sharedDate = (String) sharedPrefService.getData(context.getString(R.string.SHARED_PREF_END_REWARD_DATE), "1970-08-12 00:00:00");
 
             Date reward_date;
 
@@ -145,7 +145,7 @@ public class AdsService {
                 Timber.i(context.getString(R.string.TAG_POST_REWARD_HORA_REWARD) + ": " + dateManager.dateToString(context, date_new));
 
                 //Guardar fecha de termino de reward
-                sharedPrefService.saveData(context.getString(R.string.SHARED_PREF_END_REWARD_TIME), dateManager.dateToString(context, date_new));
+                sharedPrefService.saveData(context.getString(R.string.SHARED_PREF_END_REWARD_DATE), dateManager.dateToString(context, date_new));
 
 
             }
@@ -180,7 +180,7 @@ public class AdsService {
 
     public void configurarIntersitial(@NonNull AdView mAdView) {
 
-        String reward_date = (String) sharedPrefService.getData(context.getString(R.string.SHARED_PREF_END_REWARD_TIME), "1970-08-12 00:00:00");
+        String reward_date = (String) sharedPrefService.getData(context.getString(R.string.SHARED_PREF_END_REWARD_DATE), "1970-08-12 00:00:00");
 
         if (reward_date != null) {
 
