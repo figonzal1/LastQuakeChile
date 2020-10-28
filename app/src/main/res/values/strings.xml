@@ -225,8 +225,8 @@
     <string name="SHARED_PREF_STATUS_CARD_VIEW_INFO_RESULT" translatable="false">entendido</string>
     <string name="SHARED_PREF_LIST_QUAKE_NUMBER" translatable="false">pref_list_quake_number</string>
     <string name="SHARED_PREF_ACTUAL_VERSION_CODE" translatable="false">actual_version_code</string>
-    <string name="SHARED_PREF_END_REWARD_TIME" translatable="false">end_reward_time</string>
-    <string name="SHARED_PREF_FIRST_LOAD" translatable="false">isFirstLoad</string>
+    <string name="SHARED_PREF_END_REWARD_DATE" translatable="false">end_reward_date</string>
+    <string name="SHARED_PREF_FIRST_LOAD" translatable="false">is_first_load</string>
 
 
     <!-- NightMode -->
