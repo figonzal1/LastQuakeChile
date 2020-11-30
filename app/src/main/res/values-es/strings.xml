@@ -49,7 +49,6 @@
     <string name="NIGHT_MODE_AUTO_KEY_TOAST_ON">Automático activado</string>
     <string name="NIGHT_MODE_MANUAL_KEY_TOAST_OFF">Manual desactivado</string>
     <string name="NIGHT_MODE_MANUAL_KEY_TOAST_ON">Manual activado</string>
-    <string name="more_options">Más opciones</string>
     <string name="alert_pref_summary_off">Desactivadas</string>
     <string name="alert_pref_summary_on">Activadas</string>
     <string name="alert_pref_title">Notificaciones</string>
@@ -65,7 +64,6 @@
     <string name="night_mode_pref_title">Modo noche</string>
     <string name="tab_map">Mapa</string>
     <string name="tab_list">Sismos</string>
-	<string name="HOME_PARENT">Navegar hacia arriba</string>
     <string name="LIST_QUAKE_NUMBER_SUMMARY">Últimos %1$d sismos</string>
     <string name="quake_list_number_pref_title">Datos sismos</string>
     <string name="quake_list_number_pref_summary">Número de sismos que quieres ver en lista</string>
@@ -101,7 +99,4 @@
     <string name="change_logs">Historial de versiones</string>
     <string name="ultima_badge">Última</string>
     <string name="boton_flotante_twitter">Botón flotante twitter</string>
-    <string name="TEST_TEXT">Desplazarse hacia arriba</string>
-    <string name="TEST_MAS_OPCIONES">Más opciones</string>
-    <string name="TEST_TOOLBAR">Título toolbar</string>
 </resources>

@@ -23,7 +23,7 @@ import static android.content.Context.NOTIFICATION_SERVICE;
 
 public class ChangeLogNotification implements NotificationService {
 
-    public static boolean TEST_MODE = false;
+    public static final boolean TEST_MODE = false;
     private final Context context;
     private final SharedPrefService sharedPrefService;
     @NonNull
@@ -109,6 +109,7 @@ public class ChangeLogNotification implements NotificationService {
             long versionCode = packageInfo.versionCode;
 
             //GET SHARED PREF VERSION SAVED
+            //noinspection ConstantConditions
             long shared_version_code = (long) sharedPrefService.getData(context.getString(R.string.SHARED_PREF_ACTUAL_VERSION_CODE), 0L);
 
             Timber.i(context.getString(R.string.TAG_SHARED_VERSION_CODE_APP) + ": " + shared_version_code);

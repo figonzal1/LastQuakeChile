@@ -49,7 +49,6 @@
     <string name="NIGHT_MODE_AUTO_KEY_TOAST_ON">Automatic enabled</string>
     <string name="NIGHT_MODE_MANUAL_KEY_TOAST_OFF">Manual disabled</string>
     <string name="NIGHT_MODE_MANUAL_KEY_TOAST_ON">Manual enabled</string>
-    <string name="more_options">More options</string>
     <string name="alert_pref_summary_off">Disabled</string>
     <string name="alert_pref_title">Notifications</string>
     <string name="alert_pref_title_switch">Quake alerts</string>
@@ -65,7 +64,6 @@
     <string name="night_mode_pref_title">Night mode</string>
     <string name="tab_map">Map</string>
     <string name="tab_list">Quakes</string>
-	<string name="HOME_PARENT">Navigate up</string>
     <string name="LIST_QUAKE_NUMBER_SUMMARY">Last %1$d quakes</string>
     <string name="quake_list_number_pref_title">Quake data</string>
     <string name="quake_list_number_pref_summary">Number of quakes you want to see</string>
@@ -101,7 +99,4 @@
     <string name="change_logs">Version history</string>
     <string name="ultima_badge">Lastest</string>
     <string name="boton_flotante_twitter">Floating button Twitter</string>
-    <string name="TEST_TEXT">Navigate up</string>
-    <string name="TEST_MAS_OPCIONES">More options</string>
-    <string name="TEST_TOOLBAR">Toolbar title</string>
 </resources>
