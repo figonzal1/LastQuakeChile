@@ -214,6 +214,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
      */
     private void showCardViewInformation(@NonNull View v) {
 
+        //noinspection ConstantConditions
         boolean isCardViewShow = (boolean) sharedPrefService.getData(getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO), true);
 
         if (isCardViewShow) {
