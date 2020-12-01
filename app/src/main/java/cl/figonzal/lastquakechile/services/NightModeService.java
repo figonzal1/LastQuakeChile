@@ -29,7 +29,6 @@ public class NightModeService implements LifecycleObserver {
     /**
      * Funcion que permite revisar y establecer el modo noche desde Shared Preference Settings
      */
-    @SuppressWarnings("unused")
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     public void checkNightMode() {
 

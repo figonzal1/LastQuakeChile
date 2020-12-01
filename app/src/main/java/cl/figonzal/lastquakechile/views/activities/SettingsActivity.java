@@ -87,7 +87,6 @@ public class SettingsActivity extends AppCompatActivity {
                 seekBarPreference.setMin(10);
                 seekBarPreference.setMax(30);
 
-                //noinspection ConstantConditions
                 String limite = String.valueOf((int) sharedPrefService.getData(activity.getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER), 0));
 
                 //Setear resumen por defecto
