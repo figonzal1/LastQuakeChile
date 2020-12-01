@@ -283,5 +283,7 @@
     <string name="UPDATE_NOT_AVAILABLE" translatable="false">Update not available</string>
     <string name="UPDATE_OK" translatable="false">Update succesfull</string>
     <string name="UPDATE_FAILED" translatable="false">Update flow failed! Result code: %s</string>
-
+    <string name="TEST_TEXT">Desplazarse hacia arriba</string>
+    <string name="TEST_MAS_OPCIONES">Más opciones</string>
+    <string name="TEST_TOOLBAR">Título toolbar</string>
 </resources>

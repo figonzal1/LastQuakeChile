@@ -34,6 +34,8 @@ public class SharedPrefService {
             editor.putBoolean(key, (Boolean) value);
         } else if (value instanceof Float) {
             editor.putFloat(key, (Float) value);
+        } else if (value instanceof Long) {
+            editor.putLong(key, (Long) value);
         }
 
         editor.apply();

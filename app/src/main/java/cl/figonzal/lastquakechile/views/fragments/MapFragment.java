@@ -47,7 +47,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     private MapView mapView;
     private GoogleMap googleMap;
     private double mPromLat, mPromLong;
-    private Bundle mMapViewBundle;
+
     private List<QuakeModel> mListQuakeModel;
 
     private DateManager dateManager;
@@ -73,10 +73,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         dateManager = new DateManager();
         viewsManager = new ViewsManager();
 
-        mMapViewBundle = null;
-        if (savedInstanceState != null) {
-            mMapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY);
-        }
         setRetainInstance(true);
     }
 

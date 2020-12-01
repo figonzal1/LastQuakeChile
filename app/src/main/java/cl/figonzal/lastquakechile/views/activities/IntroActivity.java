@@ -112,7 +112,6 @@ public class IntroActivity extends AppCompatActivity {
 
         boolean isFirstLoad;
         try {
-            //noinspection ConstantConditions
             isFirstLoad = (boolean) sharedPrefService.getData(getString(R.string.SHARED_PREF_FIRST_LOAD), false);
         } catch (NullPointerException e) {
             Timber.e(e, "isFirstLoad error");

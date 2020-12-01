@@ -23,7 +23,7 @@ import static android.content.Context.NOTIFICATION_SERVICE;
 
 public class ChangeLogNotification implements NotificationService {
 
-    public static final boolean TEST_MODE = false;
+    public static boolean TEST_MODE = false;
     private final Context context;
     private final SharedPrefService sharedPrefService;
     @NonNull
@@ -77,7 +77,7 @@ public class ChangeLogNotification implements NotificationService {
                     .setSmallIcon(R.drawable.ic_lastquakechile_400)
                     .setAutoCancel(true);
 
-            if (!changelog.isEmpty()) {
+            if (!changelog.isEmpty() || TEST_MODE) {
 
                 NotificationManager notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
                 notificationManager.notify(new Random().nextInt(60000), mBuilder.build());
@@ -85,9 +85,6 @@ public class ChangeLogNotification implements NotificationService {
                 //Logs
                 Timber.i(context.getString(R.string.TAG_NOTIFICATION_CHANGELOG_STATUS_RESPONSE_SHOWED));
 
-            } else if (TEST_MODE) {
-                NotificationManager notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
-                notificationManager.notify(new Random().nextInt(60000), mBuilder.build());
             } else {
 
                 //Logs
@@ -109,19 +106,12 @@ public class ChangeLogNotification implements NotificationService {
             long versionCode = packageInfo.versionCode;
 
             //GET SHARED PREF VERSION SAVED
-            //noinspection ConstantConditions
             long shared_version_code = (long) sharedPrefService.getData(context.getString(R.string.SHARED_PREF_ACTUAL_VERSION_CODE), 0L);
 
             Timber.i(context.getString(R.string.TAG_SHARED_VERSION_CODE_APP) + ": " + shared_version_code);
             Timber.i(context.getString(R.string.TAG_VERSION_CODE_APP) + ": " + versionCode);
 
             if (!ChangeLogNotification.TEST_MODE) {
-
-                //Si variable shared no exite, actualizar dato
-                if (shared_version_code == 0) {
-
-                    sharedPrefService.saveData(context.getString(R.string.SHARED_PREF_ACTUAL_VERSION_CODE), versionCode);
-                }
 
                 if (shared_version_code < versionCode) {
 

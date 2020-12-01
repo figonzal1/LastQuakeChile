@@ -129,6 +129,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_detail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -182,8 +183,8 @@
 
                 <fragment
                     android:id="@+id/map_fragment"
-                    android:layout_width="match_parent"
                     class="com.google.android.gms.maps.MapFragment"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
             </com.google.android.material.card.MaterialCardView>
