@@ -44,10 +44,8 @@ public class ReportRepository implements NetworkRepository<ReportModel> {
     public static ReportRepository getIntance(Application application) {
 
         if (instance == null) {
-
             instance = new ReportRepository(application);
         }
-
         return instance;
     }
 

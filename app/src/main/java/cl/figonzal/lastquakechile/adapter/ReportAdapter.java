@@ -74,7 +74,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
 
     @Override
     public int getItemCount() {
-        return reportList.size();
+        return reportList != null ? reportList.size() : 0;
     }
 
     @Override
@@ -82,14 +82,8 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
         return position;
     }
 
-    public void actualizarLista(List<ReportModel> list) {
-
+    public void updateList(List<ReportModel> list) {
         this.reportList = list;
-        notifyDataSetChanged();
-    }
-
-    public List<ReportModel> getReportList() {
-        return reportList;
     }
 
     static class ReportViewHolder extends RecyclerView.ViewHolder {

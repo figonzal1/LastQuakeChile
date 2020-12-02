@@ -4,15 +4,14 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import cl.figonzal.lastquakechile.managers.DateManager;
 import cl.figonzal.lastquakechile.model.QuakeModel;
 import cl.figonzal.lastquakechile.repository.NetworkRepository;
-import cl.figonzal.lastquakechile.repository.QuakeRepository;
 
 
 /**
@@ -21,15 +20,12 @@ import cl.figonzal.lastquakechile.repository.QuakeRepository;
  */
 public class QuakeListViewModel extends AndroidViewModel {
 
-    //Live data con un listado de sismos filtrados
-    private final MutableLiveData<List<QuakeModel>> mQuakeMutableFilterList = new MutableLiveData<>();
-    //Repositorio de sismos
-    private NetworkRepository<QuakeModel> quakeRepository;
-    //Live data con un listado de sismos
+    private final NetworkRepository<QuakeModel> quakeRepository;
+    private MutableLiveData<List<QuakeModel>> mQuakeMutableFilterList;
     private MutableLiveData<List<QuakeModel>> mQuakeMutableList;
 
     //Contructor para usar context dentro de la clase ViewModel
-    public QuakeListViewModel(@NonNull Application application, NetworkRepository<QuakeModel> repository, DateManager dateManager) {
+    public QuakeListViewModel(@NonNull Application application, NetworkRepository<QuakeModel> repository) {
         super(application);
 
         quakeRepository = repository;
@@ -38,13 +34,11 @@ public class QuakeListViewModel extends AndroidViewModel {
     /**
      * Funcion encargada de recibir los datos de repositorio y que la View pueda acceder a ellos
      *
-     * @return retorna un mutablelivedata de listado de sismos
+     * @return retorna un LieData de listado de sismos
      */
-    public MutableLiveData<List<QuakeModel>> showQuakeList() {
+    public LiveData<List<QuakeModel>> showQuakeList() {
 
         if (mQuakeMutableList == null) {
-
-            mQuakeMutableList = new MutableLiveData<>();
             mQuakeMutableList = quakeRepository.getData();
         }
 
@@ -52,7 +46,7 @@ public class QuakeListViewModel extends AndroidViewModel {
     }
 
     @NonNull
-    public MutableLiveData<Boolean> isLoading() {
+    public LiveData<Boolean> isLoading() {
         return quakeRepository.isLoading();
     }
 
@@ -60,8 +54,6 @@ public class QuakeListViewModel extends AndroidViewModel {
      * La funcion fuerza el refresh de los datos del mutable
      */
     public void refreshMutableQuakeList() {
-
-        quakeRepository = QuakeRepository.getIntance(getApplication());
         quakeRepository.getData();
     }
 
@@ -73,9 +65,6 @@ public class QuakeListViewModel extends AndroidViewModel {
      */
     @NonNull
     public SingleLiveEvent<String> showMsgErrorList() {
-
-        quakeRepository = QuakeRepository.getIntance(getApplication());
-
         return quakeRepository.getMsgErrorList();
     }
 
@@ -85,7 +74,12 @@ public class QuakeListViewModel extends AndroidViewModel {
      * @return MutableLiveData de los simos filtrados
      */
     @NonNull
-    public MutableLiveData<List<QuakeModel>> showFilteredQuakeList() {
+    public LiveData<List<QuakeModel>> showFilteredQuakeList() {
+
+        if (mQuakeMutableFilterList == null) {
+
+            mQuakeMutableFilterList = new MutableLiveData<>();
+        }
         return mQuakeMutableFilterList;
     }
 

@@ -4,19 +4,17 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 
 import cl.figonzal.lastquakechile.model.ReportModel;
 import cl.figonzal.lastquakechile.repository.NetworkRepository;
-import cl.figonzal.lastquakechile.repository.ReportRepository;
 
 public class ReportsViewModel extends AndroidViewModel {
 
-
-    private NetworkRepository<ReportModel> reportRepository;
-
+    private final NetworkRepository<ReportModel> reportRepository;
     private MutableLiveData<List<ReportModel>> mutableLiveReports;
 
     public ReportsViewModel(@NonNull Application application, NetworkRepository<ReportModel> repository) {
@@ -37,23 +35,15 @@ public class ReportsViewModel extends AndroidViewModel {
 
     @NonNull
     public SingleLiveEvent<String> showMsgErrorList() {
-
-        reportRepository = ReportRepository.getIntance(getApplication());
-
         return reportRepository.getMsgErrorList();
     }
 
     @NonNull
-    public MutableLiveData<Boolean> isLoading() {
-
-        reportRepository = ReportRepository.getIntance(getApplication());
-
+    public LiveData<Boolean> isLoading() {
         return reportRepository.isLoading();
     }
 
     public void refreshMutableReportList() {
-
-        reportRepository = ReportRepository.getIntance(getApplication());
         reportRepository.getData();
     }
 }
