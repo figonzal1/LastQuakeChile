@@ -196,7 +196,7 @@
     <string name="UTILS_TIEMPO_SEGUNDOS" translatable="false">segundos</string>
 
     <!-- VIEWMODEL ERROR MESSAGES -->
-    <string name="VIEWMODEL_TIMEOUT_ERROR">Servidor no response, intente más tarde</string>
+    <string name="VIEWMODEL_TIMEOUT_ERROR">Servidor no responde, intente más tarde</string>
     <string name="VIEWMODEL_NOCONNECTION_ERROR">No tienes conexión a Internet</string>
     <string name="VIEWMODEL_SERVER_ERROR">¡Ups ha ocurrido un error! Intente mas tarde</string>
 
