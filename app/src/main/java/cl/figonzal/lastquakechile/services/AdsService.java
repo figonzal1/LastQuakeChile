@@ -5,7 +5,6 @@ import android.content.Context;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentManager;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -16,7 +15,6 @@ import com.google.android.gms.ads.rewarded.RewardedAd;
 import com.google.android.gms.ads.rewarded.RewardedAdCallback;
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 
-import java.text.ParseException;
 import java.util.Date;
 
 import cl.figonzal.lastquakechile.R;
@@ -27,18 +25,16 @@ import timber.log.Timber;
 public class AdsService {
 
     private final Activity activity;
-    private final FragmentManager fragmentManager;
     private final Context context;
     private final DateHandler dateHandler;
     private final SharedPrefService sharedPrefService;
     private RewardedAd rewardedAd;
 
-    public AdsService(Activity activity, Context context, FragmentManager fragmentManager, DateHandler dateHandler) {
+    public AdsService(Activity activity, Context context, DateHandler dateHandler) {
 
         MobileAds.initialize(context);
         this.activity = activity;
         this.context = context;
-        this.fragmentManager = fragmentManager;
         this.dateHandler = dateHandler;
 
         sharedPrefService = new SharedPrefService(context);
@@ -98,37 +94,27 @@ public class AdsService {
         rewardedAd.show(activity, rewardedAdCallback);
     }
 
-    public void configurarIntersitial(@NonNull AdView mAdView) {
+    public void loadBanner(@NonNull AdView mAdView) {
 
-        String reward_date = (String) sharedPrefService.getData(context.getString(R.string.SHARED_PREF_END_REWARD_DATE), "1970-08-12 00:00:00");
+        Date rewardDate = new Date((Long) sharedPrefService.getData(context.getString(R.string.SHARED_PREF_END_REWARD_DATE), 0L));
 
-        if (reward_date != null) {
+        if (rewardDate != null) {
 
-            try {
-                Date rewarDate = dateHandler.stringToDate(context, reward_date);
+            Timber.i(context.getString(R.string.TAG_FRAGMENT_REWARD_DATE) + ": " + dateHandler.dateToString(context, rewardDate));
 
-                if (rewarDate != null) {
-                    Timber.i(context.getString(R.string.TAG_FRAGMENT_REWARD_DATE) + ": " + rewarDate.toString());
+            Date now_date = new Date();
 
-                    Date now_date = new Date();
+            //si las 24 horas ya pasaron, cargar los ads nuevamente
+            if (now_date.after(rewardDate)) {
 
-                    //si las 24 horas ya pasaron, cargar los ads nuevamente
-                    if (now_date.after(rewarDate)) {
+                showBanner(mAdView);
+                Timber.i(context.getString(R.string.TAG_ADS_LOADED));
 
-                        loadAds(mAdView);
-                        Timber.i(context.getString(R.string.TAG_ADS_LOADED));
-
-                    } else {
-                        mAdView.setVisibility(View.GONE);
-                        Timber.i(context.getString(R.string.TG_ADS_NOT_LOADED));
-                    }
-                }
-
-            } catch (ParseException e) {
-                e.printStackTrace();
+            } else {
+                mAdView.setVisibility(View.GONE);
+                Timber.i(context.getString(R.string.TG_ADS_NOT_LOADED));
             }
         }
-
     }
 
     /**
@@ -136,7 +122,7 @@ public class AdsService {
      *
      * @param mAdView AdView intersitial
      */
-    private void loadAds(@NonNull final AdView mAdView) {
+    private void showBanner(@NonNull final AdView mAdView) {
 
         AdRequest adRequest = new AdRequest.Builder().build();
 
