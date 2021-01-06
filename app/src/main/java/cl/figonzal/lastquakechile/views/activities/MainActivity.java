@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         sharedPrefService = new SharedPrefService(getApplicationContext());
 
         //Ad service
-        adsService = new AdsService(this, getApplicationContext(), getSupportFragmentManager(), dateHandler);
+        adsService = new AdsService(this, getApplicationContext(), dateHandler);
         adsService.loadRewardVideo();
 
         //Night mode
@@ -282,7 +282,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (nowDate.after(rewardDate)) {
 
-            Timber.d("%s%s", getString(R.string.TAG_REWARD_STATUS), getString(R.string.TAG_REWARD_STATUS_EN_PERIODO));
+            Timber.i("%s%s", getString(R.string.TAG_REWARD_STATUS), getString(R.string.TAG_REWARD_STATUS_EN_PERIODO));
 
             boolean showDialog = generateRandomNumber();
 
@@ -292,12 +292,12 @@ public class MainActivity extends AppCompatActivity {
                 fragment.setCancelable(false);
                 fragment.show(getSupportFragmentManager(), getString(R.string.REWARD_DIALOG));
 
-                Timber.d("%s%s", getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG), getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG_ON));
+                Timber.i("%s%s", getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG), getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG_ON));
             } else {
-                Timber.d("%s%s", getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG), getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG_OFF));
+                Timber.i("%s%s", getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG), getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG_OFF));
             }
         } else if (nowDate.before(rewardDate)) {
-            Timber.d("%s%s", getString(R.string.TAG_REWARD_STATUS), getString(R.string.TAG_REWARD_STATUS_PERIODO_INACTIVO));
+            Timber.i("%s%s", getString(R.string.TAG_REWARD_STATUS), getString(R.string.TAG_REWARD_STATUS_PERIODO_INACTIVO));
         }
     }
 

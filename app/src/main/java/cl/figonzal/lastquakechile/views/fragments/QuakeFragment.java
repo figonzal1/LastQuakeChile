@@ -27,6 +27,7 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cl.figonzal.lastquakechile.R;
@@ -94,9 +95,9 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         // Inflate the layout for thi{s fragment
         final View v = inflater.inflate(R.layout.fragment_quake, container, false);
 
-        iniciarViewModelObservers();
-
         instanciarRecursosInterfaz(v);
+
+        iniciarViewModelObservers();
 
         //Seccion SHARED PREF CARD VIEW INFO
         showCardViewInformation(v);
@@ -110,8 +111,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
         mAdView = v.findViewById(R.id.adView);
 
-        AdsService adsService = new AdsService(requireActivity(), requireContext(), getParentFragmentManager(), dateHandler);
-        adsService.configurarIntersitial(mAdView);
+        AdsService adsService = new AdsService(requireActivity(), requireContext(), dateHandler);
+        adsService.loadBanner(mAdView);
 
         mRecycleView = v.findViewById(R.id.recycle_view_quakes);
         mRecycleView.setHasFixedSize(true);
@@ -126,7 +127,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         mProgressBar.setVisibility(View.VISIBLE);
 
         quakeAdapter = new QuakeAdapter(
-                mViewModel.showQuakeList().getValue(),
+                new ArrayList<>(),
                 requireActivity(),
                 dateHandler,
                 viewsManager
