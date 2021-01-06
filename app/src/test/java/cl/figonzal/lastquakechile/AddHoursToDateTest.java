@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 
-import cl.figonzal.lastquakechile.managers.DateManager;
+import cl.figonzal.lastquakechile.handlers.DateHandler;
 
 import static org.junit.Assert.assertEquals;
 
@@ -25,7 +25,7 @@ public class AddHoursToDateTest {
     private final Date dEsperado;
     private final int dHoras;
 
-    private DateManager dateManager;
+    private DateHandler dateHandler;
 
     public AddHoursToDateTest(Date dActual, Date dEsperado, int dHoras) {
         this.dActual = dActual;
@@ -35,7 +35,7 @@ public class AddHoursToDateTest {
 
     @Before
     public void setUp() {
-        dateManager = new DateManager();
+        dateHandler = new DateHandler();
     }
 
     @NonNull
@@ -57,6 +57,6 @@ public class AddHoursToDateTest {
 
     @Test
     public void add_hours_to_date() {
-        assertEquals(dEsperado, dateManager.addHoursToJavaUtilDate(dActual, dHoras));
+        assertEquals(dEsperado, dateHandler.addHoursToJavaUtilDate(dActual, dHoras));
     }
 }

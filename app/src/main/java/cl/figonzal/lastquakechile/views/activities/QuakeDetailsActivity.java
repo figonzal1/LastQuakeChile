@@ -46,9 +46,9 @@ import java.util.Map;
 import java.util.Objects;
 
 import cl.figonzal.lastquakechile.R;
-import cl.figonzal.lastquakechile.managers.DateManager;
-import cl.figonzal.lastquakechile.managers.PackageManager;
-import cl.figonzal.lastquakechile.managers.ViewsManager;
+import cl.figonzal.lastquakechile.handlers.DateHandler;
+import cl.figonzal.lastquakechile.handlers.PackageManager;
+import cl.figonzal.lastquakechile.handlers.ViewsManager;
 import cl.figonzal.lastquakechile.model.QuakeModel;
 import cl.figonzal.lastquakechile.services.NightModeService;
 import timber.log.Timber;
@@ -86,7 +86,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
     private FloatingActionButton mFabTw;
     private View mOverlay;
 
-    private DateManager dateManager;
+    private DateHandler dateHandler;
     private ViewsManager viewsManager;
     private PackageManager packageManager;
     private QuakeModel quakeModel;
@@ -107,7 +107,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
 
     private void initResources() {
 
-        dateManager = new DateManager();
+        dateHandler = new DateHandler();
         viewsManager = new ViewsManager();
         packageManager = new PackageManager();
 
@@ -423,10 +423,10 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
 
             Date local_date;
             try {
-                local_date = dateManager.stringToDate(this, mFechaLocal);
+                local_date = dateHandler.stringToDate(this, mFechaLocal);
 
                 quakeModel.setFecha_local(local_date);
-                mTiempos = dateManager.dateToDHMS(quakeModel.getFecha_local());
+                mTiempos = dateHandler.dateToDHMS(quakeModel.getFecha_local());
             } catch (ParseException e) {
                 Timber.e(e, "Parse exception error: %s", e.getMessage());
             }
@@ -443,17 +443,17 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
 
                 Date fecha_utc;
                 try {
-                    fecha_utc = dateManager.stringToDate(this, mFechaUtc);
+                    fecha_utc = dateHandler.stringToDate(this, mFechaUtc);
 
                     if (fecha_utc != null) {
-                        Date mDateFechaLocal = dateManager.utcToLocal(fecha_utc);
+                        Date mDateFechaLocal = dateHandler.utcToLocal(fecha_utc);
 
                         quakeModel.setFecha_local(mDateFechaLocal);
-                        mTiempos = dateManager.dateToDHMS(mDateFechaLocal);
+                        mTiempos = dateHandler.dateToDHMS(mDateFechaLocal);
 
                         //Setear string que será usado en textviews de detalle con la fecha transformada
                         // de utc a local desde notificacion
-                        mFechaLocal = dateManager.dateToString(this, mDateFechaLocal);
+                        mFechaLocal = dateHandler.dateToString(this, mDateFechaLocal);
                     }
 
                 } catch (ParseException e) {

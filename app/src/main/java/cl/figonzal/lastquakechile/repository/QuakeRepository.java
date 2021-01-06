@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Locale;
 
 import cl.figonzal.lastquakechile.R;
-import cl.figonzal.lastquakechile.managers.DateGsonDeserializer;
+import cl.figonzal.lastquakechile.handlers.DateGsonDeserializer;
 import cl.figonzal.lastquakechile.model.QuakeModel;
 import cl.figonzal.lastquakechile.services.VolleySingleton;
 import cl.figonzal.lastquakechile.viewmodel.SingleLiveEvent;

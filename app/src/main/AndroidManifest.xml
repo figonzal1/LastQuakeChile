@@ -63,13 +63,15 @@
         </activity> <!-- ADS -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="@string/ADMOB_MASTER_KEY" /> <!-- GMS -->
+            android:value="@string/ADMOB_MASTER_KEY" />
+        <!-- GMS -->
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" /> <!-- Google maps -->
+            android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_api_key" /> <!-- Icono de notificaciones por defecto usado FCM console en background -->
+            android:value="${mapsApiKey}" />
+        <!-- Icono de notificaciones por defecto usado FCM console en background -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_lastquakechile_400" /> <!-- Llamada a servicio de mensajeria -->
@@ -91,10 +93,10 @@
         </provider> <!-- TODO: Habilitar para produccion -->
         <meta-data
             android:name="firebase_performance_collection_enabled"
-            android:value="true" /> <!-- TODO: Habilitar para produccion -->
+            android:value="false" /> <!-- TODO: Habilitar para produccion -->
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"
-            android:value="true" />
+            android:value="false" />
     </application>
 
 </manifest>

@@ -12,170 +12,90 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.reward.RewardItem;
-import com.google.android.gms.ads.reward.RewardedVideoAd;
-import com.google.android.gms.ads.reward.RewardedVideoAdListener;
+import com.google.android.gms.ads.rewarded.RewardedAd;
+import com.google.android.gms.ads.rewarded.RewardedAdCallback;
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 
 import java.text.ParseException;
 import java.util.Date;
-import java.util.Random;
 
 import cl.figonzal.lastquakechile.R;
-import cl.figonzal.lastquakechile.dialogs.RewardDialogFragment;
-import cl.figonzal.lastquakechile.managers.DateManager;
+import cl.figonzal.lastquakechile.handlers.DateHandler;
+import cl.figonzal.lastquakechile.views.activities.MainActivity;
 import timber.log.Timber;
 
 public class AdsService {
 
-    private RewardedVideoAd rewardedVideoAd;
+    private final Activity activity;
     private final FragmentManager fragmentManager;
     private final Context context;
-    @NonNull
+    private final DateHandler dateHandler;
     private final SharedPrefService sharedPrefService;
+    private RewardedAd rewardedAd;
 
-    private final DateManager dateManager;
-
-    public AdsService(Context context, FragmentManager fragmentManager, DateManager dateManager) {
+    public AdsService(Activity activity, Context context, FragmentManager fragmentManager, DateHandler dateHandler) {
 
         MobileAds.initialize(context);
+        this.activity = activity;
         this.context = context;
         this.fragmentManager = fragmentManager;
-        this.dateManager = dateManager;
+        this.dateHandler = dateHandler;
 
         sharedPrefService = new SharedPrefService(context);
     }
 
-    public RewardedVideoAd getRewardedVideoAd() {
-        return rewardedVideoAd;
+    public void loadRewardVideo() {
+        rewardedAd = new RewardedAd(context, context.getString(R.string.ADMOB_ID_VIDEO));
+
+        RewardedAdLoadCallback adLoadCallback = new RewardedAdLoadCallback() {
+            @Override
+            public void onRewardedAdLoaded() {
+                super.onRewardedAdLoaded();
+
+                Timber.i("%s%s", context.getString(R.string.TAG_VIDEO_REWARD_STATUS), context.getString(R.string.TAG_VIDEO_REWARD_STATUS_LOADED));
+
+                //Try to show dialog
+                ((MainActivity) activity).rewardDialog();
+            }
+
+            @Override
+            public void onRewardedAdFailedToLoad(LoadAdError loadAdError) {
+                super.onRewardedAdFailedToLoad(loadAdError);
+                Timber.e("%s%s%s", context.getString(R.string.TAG_VIDEO_REWARD_STATUS), context.getString(R.string.TAG_VIDEO_REWARD_STATUS_FAILED), loadAdError.getResponseInfo());
+            }
+        };
+
+        rewardedAd.loadAd(new AdRequest.Builder().build(), adLoadCallback);
     }
 
-    /**
-     * Funcion que realiza la configuracion de reward dialog
-     */
-    public void rewardDialog() {
+    public void showRewardVideo() {
 
-        DateManager dateManager = new DateManager();
-        try {
-
-            String sharedDate = (String) sharedPrefService.getData(context.getString(R.string.SHARED_PREF_END_REWARD_DATE), "1970-08-12 00:00:00");
-
-            Date reward_date;
-
-            if (sharedDate != null) {
-
-                reward_date = dateManager.stringToDate(context, sharedDate);
-
-                Date now_date = new Date();
-
-                //Si la hora del celular es posterior a reward date
-                if (now_date.after(reward_date)) {
-
-                    Timber.i(context.getString(R.string.TAG_REWARD_STATUS_EN_PERIODO));
-
-                    boolean showDialog = generateRandomNumber();
-
-                    if (showDialog) {
-
-                        //Cargar dialog
-                        mostrarDialog();
-
-                        Timber.i(context.getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG_ON));
-
-                    } else {
-
-                        Timber.i(context.getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG_OFF));
-                    }
-                }
-
-                //Si el periodo de reward aun no pasa
-                else if (now_date.before(reward_date)) {
-                    Timber.i(context.getString(R.string.TAG_REWARD_STATUS_PERIODO_INACTIVO));
-                }
-            }
-
-        } catch (ParseException e) {
-
-            Timber.e(e, "stringToDate error parse: %s", e.getMessage());
-        }
-    }
-
-    /**
-     * Funcion encargada de cargar el video de bonificacion
-     */
-    public void loadRewardedVideo(@NonNull final Activity activity) {
-
-        rewardedVideoAd = MobileAds.getRewardedVideoAdInstance(context);
-        rewardedVideoAd.loadAd(context.getString(R.string.ADMOB_ID_VIDEO), new AdRequest.Builder().build());
-
-        rewardedVideoAd.setRewardedVideoAdListener(new RewardedVideoAdListener() {
+        RewardedAdCallback rewardedAdCallback = new RewardedAdCallback() {
             @Override
-            public void onRewardedVideoAdLoaded() {
+            public void onUserEarnedReward(@NonNull com.google.android.gms.ads.rewarded.RewardItem rewardItem) {
 
-                Timber.i(context.getString(R.string.TAG_VIDEO_REWARD_STATUS) + ": " + context.getString(R.string
-                        .TAG_VIDEO_REWARD_STATUS_LOADED));
-                rewardDialog();
+                Timber.i("%s%s", context.getString(R.string.TAG_VIDEO_REWARD_STATUS), context.getString(R.string.TAG_VIDEO_REWARD_STATUS_REWARDED));
+
+                Date dateNow = new Date();
+                Timber.i("%s%s", context.getString(R.string.TAG_HORA_AHORA), dateHandler.dateToString(context, dateNow));
+
+                //Sumar 24 hora al tiempo de celular
+                Date dateNew = dateHandler.addHoursToJavaUtilDate(dateNow, 24);
+                Timber.i("%s%s", context.getString(R.string.TAG_HORA_REWARD), dateHandler.dateToString(context, dateNew));
+
+                //Guardar fecha de termino
+                sharedPrefService.saveData(context.getString(R.string.SHARED_PREF_END_REWARD_DATE), dateNew.getTime());
             }
 
             @Override
-            public void onRewardedVideoAdOpened() {
-
-            }
-
-            @Override
-            public void onRewardedVideoStarted() {
-
-            }
-
-            @Override
-            public void onRewardedVideoAdClosed() {
+            public void onRewardedAdClosed() {
+                super.onRewardedAdClosed();
+                Timber.i("%s%s", context.getString(R.string.TAG_VIDEO_REWARD_STATUS), context.getString(R.string.TAG_VIDEO_REWARD_STATUS_CLOSED));
                 activity.recreate();
             }
+        };
 
-            @Override
-            public void onRewarded(RewardItem rewardItem) {
-                Timber.i(context.getString(R.string
-                        .TAG_VIDEO_REWARD_STATUS_REWARDED));
-
-                Date date_now = new Date();
-
-                Timber.i(context.getString(R.string.TAG_POST_REWARD_HORA_AHORA) + ": " + dateManager.dateToString(context.getApplicationContext(), date_now));
-
-                //sumar 24 horas al tiempo del celular
-                Date date_new = dateManager.addHoursToJavaUtilDate(date_now, 24);
-                Timber.i(context.getString(R.string.TAG_POST_REWARD_HORA_REWARD) + ": " + dateManager.dateToString(context, date_new));
-
-                //Guardar fecha de termino de reward
-                sharedPrefService.saveData(context.getString(R.string.SHARED_PREF_END_REWARD_DATE), dateManager.dateToString(context, date_new));
-
-
-            }
-
-            @Override
-            public void onRewardedVideoAdLeftApplication() {
-
-            }
-
-            @Override
-            public void onRewardedVideoAdFailedToLoad(int i) {
-
-            }
-
-            @Override
-            public void onRewardedVideoCompleted() {
-
-                Timber.i(context.getString(R.string.TAG_VIDEO_REWARD_STATUS_COMPLETED));
-            }
-        });
-    }
-
-    /**
-     * Funcion encargada de mostrar el dialog de rewards
-     */
-    private void mostrarDialog() {
-
-        RewardDialogFragment fragment = new RewardDialogFragment(context, rewardedVideoAd);
-        fragment.setCancelable(false);
-        fragment.show(fragmentManager, context.getString(R.string.REWARD_DIALOG));
+        rewardedAd.show(activity, rewardedAdCallback);
     }
 
     public void configurarIntersitial(@NonNull AdView mAdView) {
@@ -185,7 +105,7 @@ public class AdsService {
         if (reward_date != null) {
 
             try {
-                Date rewarDate = dateManager.stringToDate(context, reward_date);
+                Date rewarDate = dateHandler.stringToDate(context, reward_date);
 
                 if (rewarDate != null) {
                     Timber.i(context.getString(R.string.TAG_FRAGMENT_REWARD_DATE) + ": " + rewarDate.toString());
@@ -249,15 +169,8 @@ public class AdsService {
         mAdView.loadAd(adRequest);
     }
 
-    /**
-     * Funcion encargada de generar un numero aleatorio para dialogs.
-     *
-     * @return Booleano con el resultado
-     */
-    private boolean generateRandomNumber() {
 
-        Random random = new Random();
-        int item = random.nextInt(10);
-        return item % 3 == 0;
+    public RewardedAd getRewardedVideo() {
+        return this.rewardedAd;
     }
 }

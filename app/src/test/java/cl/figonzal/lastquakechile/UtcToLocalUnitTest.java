@@ -14,7 +14,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Objects;
 
-import cl.figonzal.lastquakechile.managers.DateManager;
+import cl.figonzal.lastquakechile.handlers.DateHandler;
 
 import static org.junit.Assert.assertEquals;
 
@@ -30,7 +30,7 @@ public class UtcToLocalUnitTest {
 
     private final String actual_utc;
     private final String esperado_local;
-    private DateManager dateManager;
+    private DateHandler dateHandler;
 
     public UtcToLocalUnitTest(String actual_utc, String esperado_local) {
         this.actual_utc = actual_utc;
@@ -52,7 +52,7 @@ public class UtcToLocalUnitTest {
 
     @Before
     public void setUp() {
-        dateManager = new DateManager();
+        dateHandler = new DateHandler();
     }
 
     @Test
@@ -64,7 +64,7 @@ public class UtcToLocalUnitTest {
         try {
 
             //Se testea quakeutils con actual
-            date_actual = dateManager.utcToLocal(Objects.requireNonNull(format.parse(actual_utc)));
+            date_actual = dateHandler.utcToLocal(Objects.requireNonNull(format.parse(actual_utc)));
         } catch (ParseException e) {
             e.printStackTrace();
         }

@@ -31,9 +31,13 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.util.Date;
+import java.util.Random;
+
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.adapter.MainFragmentStateAdapter;
-import cl.figonzal.lastquakechile.managers.DateManager;
+import cl.figonzal.lastquakechile.dialogs.RewardDialogFragment;
+import cl.figonzal.lastquakechile.handlers.DateHandler;
 import cl.figonzal.lastquakechile.services.AdsService;
 import cl.figonzal.lastquakechile.services.FirebaseService;
 import cl.figonzal.lastquakechile.services.GooglePlayService;
@@ -52,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView mIvFoto;
     private AdsService adsService;
     private UpdaterService updaterService;
+    private SharedPrefService sharedPrefService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,12 +67,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        DateManager dateManager = new DateManager();
-        SharedPrefService sharedPrefService = new SharedPrefService(getApplicationContext());
+        DateHandler dateHandler = new DateHandler();
+        sharedPrefService = new SharedPrefService(getApplicationContext());
 
         //Ad service
-        adsService = new AdsService(getApplicationContext(), getSupportFragmentManager(), dateManager);
-        adsService.loadRewardedVideo(MainActivity.this);
+        adsService = new AdsService(this, getApplicationContext(), getSupportFragmentManager(), dateHandler);
+        adsService.loadRewardVideo();
 
         //Night mode
         new NightModeService(this, this.getLifecycle(), getWindow());
@@ -268,6 +273,34 @@ public class MainActivity extends AppCompatActivity {
                 .into(mIvFoto);
     }
 
+    /**
+     * Determina si el dalogo se debe mostrar o no.
+     */
+    public void rewardDialog() {
+        Date rewardDate = new Date((long) sharedPrefService.getData(getString(R.string.SHARED_PREF_END_REWARD_DATE), 0L));
+        Date nowDate = new Date();
+
+        if (nowDate.after(rewardDate)) {
+
+            Timber.d("%s%s", getString(R.string.TAG_REWARD_STATUS), getString(R.string.TAG_REWARD_STATUS_EN_PERIODO));
+
+            boolean showDialog = generateRandomNumber();
+
+            if (showDialog) {
+
+                RewardDialogFragment fragment = new RewardDialogFragment(adsService);
+                fragment.setCancelable(false);
+                fragment.show(getSupportFragmentManager(), getString(R.string.REWARD_DIALOG));
+
+                Timber.d("%s%s", getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG), getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG_ON));
+            } else {
+                Timber.d("%s%s", getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG), getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG_OFF));
+            }
+        } else if (nowDate.before(rewardDate)) {
+            Timber.d("%s%s", getString(R.string.TAG_REWARD_STATUS), getString(R.string.TAG_REWARD_STATUS_PERIODO_INACTIVO));
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -302,21 +335,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        adsService.getRewardedVideoAd().resume(this);
-
         updaterService.resumeUpdater();
-    }
-
-    @Override
-    public void onPause() {
-        adsService.getRewardedVideoAd().pause(this);
-        super.onPause();
-    }
-
-    @Override
-    public void onDestroy() {
-        adsService.getRewardedVideoAd().destroy(this);
-        super.onDestroy();
     }
 
     @Override
@@ -332,4 +351,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Funcion encargada de generar un numero aleatorio para dialogs.
+     *
+     * @return Booleano con el resultado
+     */
+    private boolean generateRandomNumber() {
+
+        Random random = new Random();
+        int item = random.nextInt(10);
+        return item % 3 == 0;
+    }
 }
