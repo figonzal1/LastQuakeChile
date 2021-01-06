@@ -46,7 +46,9 @@ public class SharedPrefService {
 
         Object result = null;
 
-        if (defaultvalue instanceof Integer) {
+        if (defaultvalue instanceof Long) {
+            result = sharedPreferences.getLong(key, (Long) defaultvalue);
+        } else if (defaultvalue instanceof Integer) {
             result = sharedPreferences.getInt(key, (Integer) defaultvalue);
         } else if (defaultvalue instanceof String) {
             result = sharedPreferences.getString(key, (String) defaultvalue);
@@ -54,8 +56,6 @@ public class SharedPrefService {
             result = sharedPreferences.getBoolean(key, (Boolean) defaultvalue);
         } else if (defaultvalue instanceof Float) {
             result = sharedPreferences.getFloat(key, (Float) defaultvalue);
-        } else if (defaultvalue instanceof Long) {
-            result = sharedPreferences.getLong(key, (Long) defaultvalue);
         }
 
         return result;

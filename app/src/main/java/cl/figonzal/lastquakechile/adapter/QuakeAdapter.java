@@ -21,8 +21,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import cl.figonzal.lastquakechile.R;
-import cl.figonzal.lastquakechile.managers.DateManager;
-import cl.figonzal.lastquakechile.managers.ViewsManager;
+import cl.figonzal.lastquakechile.handlers.DateHandler;
+import cl.figonzal.lastquakechile.handlers.ViewsManager;
 import cl.figonzal.lastquakechile.model.QuakeModel;
 import cl.figonzal.lastquakechile.views.activities.QuakeDetailsActivity;
 import timber.log.Timber;
@@ -31,14 +31,14 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
 
     private List<QuakeModel> quakeModelList;
     private final Activity activity;
-    private final DateManager dateManager;
+    private final DateHandler dateHandler;
     private final ViewsManager viewsManager;
 
-    public QuakeAdapter(List<QuakeModel> quakeModelList, Activity activity, DateManager dateManager, ViewsManager viewsManager) {
+    public QuakeAdapter(List<QuakeModel> quakeModelList, Activity activity, DateHandler dateHandler, ViewsManager viewsManager) {
 
         this.quakeModelList = quakeModelList;
         this.activity = activity;
-        this.dateManager = dateManager;
+        this.dateHandler = dateHandler;
         this.viewsManager = viewsManager;
 
         setHasStableIds(true);
@@ -71,7 +71,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
         holder.iv_mag_color.setColorFilter(activity.getApplicationContext().getColor(idColor));
 
         //SETEO DE Textview HORA
-        Map<String, Long> tiempos = dateManager.dateToDHMS(model.getFecha_local());
+        Map<String, Long> tiempos = dateHandler.dateToDHMS(model.getFecha_local());
         viewsManager.setTimeToTextView(activity.getApplicationContext(), tiempos, holder.tv_hora);
 
         //Sismo sensible
