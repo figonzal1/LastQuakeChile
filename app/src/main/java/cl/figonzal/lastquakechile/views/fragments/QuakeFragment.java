@@ -31,8 +31,8 @@ import java.util.List;
 
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.adapter.QuakeAdapter;
-import cl.figonzal.lastquakechile.managers.DateManager;
-import cl.figonzal.lastquakechile.managers.ViewsManager;
+import cl.figonzal.lastquakechile.handlers.DateHandler;
+import cl.figonzal.lastquakechile.handlers.ViewsManager;
 import cl.figonzal.lastquakechile.model.QuakeModel;
 import cl.figonzal.lastquakechile.repository.NetworkRepository;
 import cl.figonzal.lastquakechile.repository.QuakeRepository;
@@ -60,7 +60,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
     private Application application;
 
     private FirebaseCrashlytics crashlytics;
-    private DateManager dateManager;
+    private DateHandler dateHandler;
     private ViewsManager viewsManager;
 
     @Nullable
@@ -79,7 +79,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         super.onCreate(savedInstanceState);
         application = requireActivity().getApplication();
 
-        dateManager = new DateManager();
+        dateHandler = new DateHandler();
         crashlytics = FirebaseCrashlytics.getInstance();
         viewsManager = new ViewsManager();
 
@@ -110,7 +110,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
         mAdView = v.findViewById(R.id.adView);
 
-        AdsService adsService = new AdsService(requireContext(), getParentFragmentManager(), dateManager);
+        AdsService adsService = new AdsService(requireActivity(), requireContext(), getParentFragmentManager(), dateHandler);
         adsService.configurarIntersitial(mAdView);
 
         mRecycleView = v.findViewById(R.id.recycle_view_quakes);
@@ -128,7 +128,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         quakeAdapter = new QuakeAdapter(
                 mViewModel.showQuakeList().getValue(),
                 requireActivity(),
-                dateManager,
+                dateHandler,
                 viewsManager
         );
 

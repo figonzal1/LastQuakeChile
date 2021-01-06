@@ -33,8 +33,8 @@ import java.util.Map;
 import java.util.Objects;
 
 import cl.figonzal.lastquakechile.R;
-import cl.figonzal.lastquakechile.managers.DateManager;
-import cl.figonzal.lastquakechile.managers.ViewsManager;
+import cl.figonzal.lastquakechile.handlers.DateHandler;
+import cl.figonzal.lastquakechile.handlers.ViewsManager;
 import cl.figonzal.lastquakechile.model.QuakeModel;
 import cl.figonzal.lastquakechile.viewmodel.QuakeListViewModel;
 import cl.figonzal.lastquakechile.views.activities.QuakeDetailsActivity;
@@ -50,7 +50,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
     private List<QuakeModel> mListQuakeModel;
 
-    private DateManager dateManager;
+    private DateHandler dateHandler;
     private ViewsManager viewsManager;
 
     @NonNull
@@ -70,7 +70,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        dateManager = new DateManager();
+        dateHandler = new DateHandler();
         viewsManager = new ViewsManager();
 
         setRetainInstance(true);
@@ -228,7 +228,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         mTvProfundidad.setText(String.format(getString(R.string.profundidad_info_windows), mModel.getProfundidad()));
 
         //Calcular tiempos (Dates a DHMS)
-        Map<String, Long> mTiempos = dateManager.dateToDHMS(mModel.getFecha_local());
+        Map<String, Long> mTiempos = dateHandler.dateToDHMS(mModel.getFecha_local());
 
         //Separar mapeo de tiempos en dias, horas,minutos,segundos.
         Long mDias = mTiempos.get(getString(R.string.UTILS_TIEMPO_DIAS));

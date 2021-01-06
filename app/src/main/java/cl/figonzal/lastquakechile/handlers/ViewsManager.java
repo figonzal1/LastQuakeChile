@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile.managers;
+package cl.figonzal.lastquakechile.handlers;
 
 import android.content.Context;
 import android.widget.ImageView;

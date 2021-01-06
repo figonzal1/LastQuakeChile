@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 
-import cl.figonzal.lastquakechile.managers.DateManager;
+import cl.figonzal.lastquakechile.handlers.DateHandler;
 
 import static junit.framework.TestCase.assertEquals;
 
@@ -26,7 +26,7 @@ public class StringToDateTest {
     private final String sActual;
     private final Date dEsperada;
     private Context context;
-    private DateManager dateManager;
+    private DateHandler dateHandler;
 
     public StringToDateTest(String sActual, Date dEsperada) {
         this.sActual = sActual;
@@ -54,7 +54,7 @@ public class StringToDateTest {
 
     @Before
     public void setUp() {
-        dateManager = new DateManager();
+        dateHandler = new DateHandler();
     }
 
     @Before
@@ -67,7 +67,7 @@ public class StringToDateTest {
 
         Date dActual = null;
         try {
-            dActual = dateManager.stringToDate(context, sActual);
+            dActual = dateHandler.stringToDate(context, sActual);
         } catch (ParseException e) {
             e.printStackTrace();
         }
