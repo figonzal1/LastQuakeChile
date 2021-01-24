@@ -64,7 +64,7 @@ public class ReportsFragment extends Fragment {
     private void iniciarViewModels() {
 
         //Reports Repository
-        NetworkRepository<ReportModel> repository = ReportRepository.getIntance(application);
+        NetworkRepository<ReportModel> repository = ReportRepository.getIntance(application.getApplicationContext());
         reportsViewModel = new ViewModelProvider(requireActivity(), new ViewModelFactory(application, repository)).get(ReportsViewModel.class);
 
         reportsViewModel.isLoading().observe(requireActivity(), aBoolean -> {

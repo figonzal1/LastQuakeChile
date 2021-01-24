@@ -143,7 +143,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
     private void iniciarViewModelObservers() {
 
         //Instanciar viewmodel
-        NetworkRepository<QuakeModel> repository = QuakeRepository.getIntance(application);
+        NetworkRepository<QuakeModel> repository = QuakeRepository.getIntance(application.getApplicationContext());
         mViewModel = new ViewModelProvider(requireActivity(), new ViewModelFactory(application, repository)).get(QuakeListViewModel.class);
 
         mViewModel.isLoading().observe(requireActivity(), aBoolean -> {
@@ -204,7 +204,6 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
      */
     private void showCardViewInformation(@NonNull View v) {
 
-        //noinspection ConstantConditions
         boolean isCardViewShow = (boolean) sharedPrefService.getData(getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO), true);
 
         if (isCardViewShow) {
