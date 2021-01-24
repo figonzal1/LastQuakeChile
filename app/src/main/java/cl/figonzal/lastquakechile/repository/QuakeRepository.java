@@ -1,6 +1,5 @@
 package cl.figonzal.lastquakechile.repository;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -36,7 +35,7 @@ public class QuakeRepository implements NetworkRepository<QuakeModel> {
 
     private static final String TAG_GET_QUAKES = "ListadoSismos";
     private static QuakeRepository instance;
-    private final Application mApplication;
+    private final Context appContext;
 
     //SISMOS
     private List<QuakeModel> mQuakeList = new ArrayList<>();
@@ -47,14 +46,14 @@ public class QuakeRepository implements NetworkRepository<QuakeModel> {
     private boolean volleyError = false;
     private int contador_request = 0;
 
-    private QuakeRepository(Application application) {
-        this.mApplication = application;
+    private QuakeRepository(Context appContext) {
+        this.appContext = appContext;
     }
 
-    public static QuakeRepository getIntance(Application application) {
+    public static QuakeRepository getIntance(Context context) {
 
         if (instance == null) {
-            instance = new QuakeRepository(application);
+            instance = new QuakeRepository(context);
         }
         return instance;
     }
@@ -104,7 +103,7 @@ public class QuakeRepository implements NetworkRepository<QuakeModel> {
         Response.Listener<String> listener = response -> {
 
             Gson gson = new GsonBuilder()
-                    .registerTypeAdapter(Date.class, new DateGsonDeserializer(mApplication))
+                    .registerTypeAdapter(Date.class, new DateGsonDeserializer(appContext))
                     .create();
             JsonObject sismos = gson.fromJson(response, JsonObject.class);
 
@@ -115,7 +114,7 @@ public class QuakeRepository implements NetworkRepository<QuakeModel> {
             isLoadingQuake.postValue(false);
 
             //LOGS
-            Timber.i(mApplication.getString(R.string.CONNECTION_OK_RESPONSE));
+            Timber.i(appContext.getString(R.string.CONNECTION_OK_RESPONSE));
 
             volleyError = false;
             contador_request = 0;
@@ -135,29 +134,29 @@ public class QuakeRepository implements NetworkRepository<QuakeModel> {
 
                 if (error instanceof TimeoutError) {
 
-                    Timber.e(mApplication.getString(R.string.TAG_VOLLEY_ERROR_TIMEOUT));
+                    Timber.e(appContext.getString(R.string.TAG_VOLLEY_ERROR_TIMEOUT));
 
-                    responseMsgErrorList.postValue(mApplication.getString(R.string.VIEWMODEL_TIMEOUT_ERROR));
+                    responseMsgErrorList.postValue(appContext.getString(R.string.VIEWMODEL_TIMEOUT_ERROR));
                 }
 
                 //Error de conexion a internet
                 else if (error instanceof NetworkError) {
 
-                    Timber.e(mApplication.getString(R.string.TAG_VOLLEY_ERROR_NETWORK));
+                    Timber.e(appContext.getString(R.string.TAG_VOLLEY_ERROR_NETWORK));
 
-                    responseMsgErrorList.postValue(mApplication.getString(R.string.VIEWMODEL_NOCONNECTION_ERROR));
+                    responseMsgErrorList.postValue(appContext.getString(R.string.VIEWMODEL_NOCONNECTION_ERROR));
                 }
 
                 //Error de servidor
                 else if (error instanceof ServerError) {
 
-                    Timber.e(mApplication.getString(R.string.TAG_VOLLEY_ERROR_SERVER));
+                    Timber.e(appContext.getString(R.string.TAG_VOLLEY_ERROR_SERVER));
 
-                    responseMsgErrorList.postValue(mApplication.getString(R.string.VIEWMODEL_SERVER_ERROR));
+                    responseMsgErrorList.postValue(appContext.getString(R.string.VIEWMODEL_SERVER_ERROR));
                 }
 
             } else {
-                VolleySingleton.getInstance(mApplication).cancelPendingRequests(TAG_GET_QUAKES);
+                VolleySingleton.getInstance(appContext).cancelPendingRequests(TAG_GET_QUAKES);
                 sendGetQuakes();
             }
 
@@ -166,8 +165,8 @@ public class QuakeRepository implements NetworkRepository<QuakeModel> {
         /*
          * SECCION CONEXION DE RESPALDOS
          */
-        SharedPreferences sharedPreferences = mApplication.getSharedPreferences(mApplication.getString(R.string.SHARED_PREF_MASTER_KEY), Context.MODE_PRIVATE);
-        String limite = String.valueOf(sharedPreferences.getInt(mApplication.getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER), 0));
+        SharedPreferences sharedPreferences = appContext.getSharedPreferences(appContext.getString(R.string.SHARED_PREF_MASTER_KEY), Context.MODE_PRIVATE);
+        String limite = String.valueOf(sharedPreferences.getInt(appContext.getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER), 0));
 
         Timber.i("Limite: %s", limite);
 
@@ -187,11 +186,11 @@ public class QuakeRepository implements NetworkRepository<QuakeModel> {
 
             mRequest = new StringRequest(
                     Request.Method.GET,
-                    String.format(Locale.US, mApplication.getString(R.string.URL_GET_DEV), limite),
+                    String.format(Locale.US, appContext.getString(R.string.URL_GET_DEV), limite),
                     listener,
                     errorListener);
 
-            Timber.i(mApplication.getString(R.string.TAG_CONNECTION_SERVER_RESPALDO_RESPONSE));
+            Timber.i(appContext.getString(R.string.TAG_CONNECTION_SERVER_RESPALDO_RESPONSE));
         }
 
         //Si servidor oficial funciona conectarse a él
@@ -200,11 +199,11 @@ public class QuakeRepository implements NetworkRepository<QuakeModel> {
             contador_request += 1;
             mRequest = new StringRequest(
                     Request.Method.GET,
-                    String.format(Locale.US, mApplication.getString(R.string.URL_GET_PROD_QUAKES), limite),
+                    String.format(Locale.US, appContext.getString(R.string.URL_GET_PROD_QUAKES), limite),
                     listener,
                     errorListener);
 
-            Timber.i(mApplication.getString(R.string.TAG_CONNECTION_SERVER_OFICIAL_RESPONSE));
+            Timber.i(appContext.getString(R.string.TAG_CONNECTION_SERVER_OFICIAL_RESPONSE));
 
         }
         isLoadingQuake.postValue(true);
@@ -213,6 +212,6 @@ public class QuakeRepository implements NetworkRepository<QuakeModel> {
                 0,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        VolleySingleton.getInstance(mApplication).addToRequestQueue(mRequest, TAG_GET_QUAKES);
+        VolleySingleton.getInstance(appContext).addToRequestQueue(mRequest, TAG_GET_QUAKES);
     }
 }
