@@ -243,16 +243,13 @@
     <string name="TAG_VIDEO_REWARD_STATUS" translatable="false">D/VIDEO_REWARD_STATUS: </string>
     <string name="TAG_VIDEO_REWARD_STATUS_LOADED" translatable="false">LOADED</string>
     <string name="TAG_VIDEO_REWARD_STATUS_REWARDED" translatable="false">REWARDED</string>
-    <string name="TAG_VIDEO_REWARD_STATUS_COMPLETED" translatable="false">COMPLETED</string>
-    <string name="TAG_POST_REWARD_HORA_AHORA" translatable="false">POST_REWARD_HORA_AHORA</string>
-    <string name="TAG_POST_REWARD_HORA_REWARD" translatable="false">POST_REWARD_HORA_REWARD</string>
     <string name="TAG_REWARD_STATUS_EN_PERIODO" translatable="false">EN PERIODO REWARD</string>
     <string name="TAG_REWARD_STATUS_PERIODO_INACTIVO" translatable="false">PERIODO REWARD INACTIVO</string>
     <string name="TAG_RANDOM_SHOW_REWARD_DIALOG_ON" translatable="false">MOSTRAR DIALOG REWARD</string>
     <string name="TAG_RANDOM_SHOW_REWARD_DIALOG_OFF" translatable="false">NO MOSTRAR DIALOG REWARD</string>
     <string name="TAG_FRAGMENT_REWARD_DATE" translatable="false">FRAGMENT_REWARD_DATE</string>
     <string name="TAG_ADS_LOADED" translatable="false">ADS CARGADOS</string>
-    <string name="TG_ADS_NOT_LOADED" translatable="false">ADS NO PERMITIDOS</string>
+    <string name="TAG_ADS_NOT_LOADED" translatable="false">ADS NO PERMITIDOS</string>
     <string name="TAG_ADMOB_AD_STATUS_FAILED" translatable="false">FAILED TO LOAD</string>
     <string name="TAG_ADMOB_AD_STATUS_LOADED" translatable="false">ADD LOADED</string>
     <string name="TAG_ADMOB_AD_STATUS_OPEN" translatable="false">ADD OPEN</string>

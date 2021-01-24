@@ -3,8 +3,6 @@ package cl.figonzal.lastquakechile.services;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import androidx.annotation.Nullable;
-
 import cl.figonzal.lastquakechile.R;
 
 public class SharedPrefService {
@@ -41,21 +39,20 @@ public class SharedPrefService {
         editor.apply();
     }
 
-    @Nullable
     public Object getData(String key, Object defaultvalue) {
 
-        Object result = null;
+        Object result;
 
         if (defaultvalue instanceof Long) {
             result = sharedPreferences.getLong(key, (Long) defaultvalue);
-        } else if (defaultvalue instanceof Integer) {
-            result = sharedPreferences.getInt(key, (Integer) defaultvalue);
-        } else if (defaultvalue instanceof String) {
-            result = sharedPreferences.getString(key, (String) defaultvalue);
-        } else if (defaultvalue instanceof Boolean) {
-            result = sharedPreferences.getBoolean(key, (Boolean) defaultvalue);
         } else if (defaultvalue instanceof Float) {
             result = sharedPreferences.getFloat(key, (Float) defaultvalue);
+        } else if (defaultvalue instanceof Integer) {
+            result = sharedPreferences.getInt(key, (Integer) defaultvalue);
+        } else if (defaultvalue instanceof Boolean) {
+            result = sharedPreferences.getBoolean(key, (Boolean) defaultvalue);
+        } else {
+            result = sharedPreferences.getString(key, (String) defaultvalue);
         }
 
         return result;
