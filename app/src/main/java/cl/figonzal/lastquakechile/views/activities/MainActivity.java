@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         new GooglePlayService(this, this.getLifecycle());
 
         //Firebase services
-        FirebaseService firebaseService = new FirebaseService(this, FirebaseMessaging.getInstance());
+        FirebaseService firebaseService = new FirebaseService(FirebaseMessaging.getInstance());
         firebaseService.getFirebaseToken();
 
         //Updater service

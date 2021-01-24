@@ -67,7 +67,11 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+
+    //TODO: BUG RESUELTO CON FASE BETA
+    //https://stackoverflow.com/questions/52537638/how-to-resolve-noclassdeffounderror-failed-resolution-of-landroid-view-viewon
+    implementation 'androidx.appcompat:appcompat:1.3.0-beta01'
+
     implementation 'androidx.core:core:1.3.2'
     //implementation 'com.google.android.play:core:1.8.0' //API opiniones
     implementation 'androidx.fragment:fragment:1.2.5'
@@ -93,7 +97,7 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
     //Firebase BOM
-    implementation platform('com.google.firebase:firebase-bom:26.1.0')
+    implementation platform('com.google.firebase:firebase-bom:26.3.0')
     //Firebase Dependency
     implementation 'com.google.firebase:firebase-ads'
     implementation 'com.google.firebase:firebase-analytics'
@@ -110,7 +114,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6' //GSON
 
     //junit
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test:runner:1.3.0'
     androidTestImplementation 'androidx.test:rules:1.3.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
