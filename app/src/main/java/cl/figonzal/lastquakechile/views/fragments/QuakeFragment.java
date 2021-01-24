@@ -63,8 +63,6 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
     private FirebaseCrashlytics crashlytics;
     private DateHandler dateHandler;
     private ViewsManager viewsManager;
-
-    @Nullable
     private SharedPrefService sharedPrefService;
 
     public QuakeFragment() {
