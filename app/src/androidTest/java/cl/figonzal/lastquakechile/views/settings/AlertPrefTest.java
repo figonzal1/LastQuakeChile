@@ -1,7 +1,6 @@
 package cl.figonzal.lastquakechile.views.settings;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -46,7 +45,6 @@ public class AlertPrefTest {
     @Rule
     public final ActivityScenarioRule<SettingsActivity> rule = new ActivityScenarioRule<>(SettingsActivity.class);
 
-    private Context mContext;
     private Activity activity;
 
     @NonNull

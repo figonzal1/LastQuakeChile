@@ -98,22 +98,21 @@ public class AdsService {
 
         Date rewardDate = new Date((Long) sharedPrefService.getData(context.getString(R.string.SHARED_PREF_END_REWARD_DATE), 0L));
 
-        if (rewardDate != null) {
+        Timber.i(context.getString(R.string.TAG_FRAGMENT_REWARD_DATE) + ": " + dateHandler.dateToString(context, rewardDate));
 
-            Timber.i(context.getString(R.string.TAG_FRAGMENT_REWARD_DATE) + ": " + dateHandler.dateToString(context, rewardDate));
+        Date now_date = new Date();
 
-            Date now_date = new Date();
+        //si las 24 horas ya pasaron, cargar los ads nuevamente
+        if (now_date.after(rewardDate)) {
 
-            //si las 24 horas ya pasaron, cargar los ads nuevamente
-            if (now_date.after(rewardDate)) {
+            //mostrar banner
+            showBanner(mAdView);
+            Timber.i(context.getString(R.string.TAG_ADS_LOADED));
 
-                showBanner(mAdView);
-                Timber.i(context.getString(R.string.TAG_ADS_LOADED));
-
-            } else {
-                mAdView.setVisibility(View.GONE);
-                Timber.i(context.getString(R.string.TG_ADS_NOT_LOADED));
-            }
+        } else {
+            //Esconder view
+            mAdView.setVisibility(View.GONE);
+            Timber.i(context.getString(R.string.TAG_ADS_NOT_LOADED));
         }
     }
 
