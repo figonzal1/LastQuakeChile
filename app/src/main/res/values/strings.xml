@@ -290,4 +290,6 @@
     <string name="TAG_VIDEO_REWARD_STATUS_CLOSED" translatable="false">CLOSED</string>
     <string name="TAG_VIDEO_REWARD_STATUS_FAILED" translatable="false">FAILED</string>
     <string name="TAG_RANDOM_SHOW_REWARD_DIALOG" translatable="false">RANDOM_SHOW: </string>
+    <string name="change_log_ultima_version">Última versión</string>
+    <string name="change_log_version_prueba">Versión de prueba</string>
 </resources>
