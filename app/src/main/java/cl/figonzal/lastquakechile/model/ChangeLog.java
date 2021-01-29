@@ -1,7 +1,5 @@
 package cl.figonzal.lastquakechile.model;
 
-import androidx.annotation.NonNull;
-
 import java.util.Arrays;
 
 public class ChangeLog {
@@ -9,11 +7,13 @@ public class ChangeLog {
     private String version;
     private String releaseDate;
     private String[] changes;
+    private boolean isPreRelease;
 
-    public ChangeLog(String version, String releaseDate, String[] changes) {
+    public ChangeLog(String version, String releaseDate, String[] changes, boolean isPreRelease) {
         this.version = version;
         this.releaseDate = releaseDate;
         this.changes = changes;
+        this.isPreRelease = isPreRelease;
     }
 
     public String getVersion() {
@@ -40,14 +40,21 @@ public class ChangeLog {
         this.releaseDate = releaseDate;
     }
 
-    @NonNull
+    public boolean isPreRelease() {
+        return isPreRelease;
+    }
+
+    public void setPreRelease(boolean preRelease) {
+        isPreRelease = preRelease;
+    }
+
     @Override
     public String toString() {
-
         return "ChangeLog{" +
                 "version='" + version + '\'' +
                 ", releaseDate='" + releaseDate + '\'' +
                 ", changes=" + Arrays.toString(changes) +
+                ", isPreRelease=" + isPreRelease +
                 '}';
     }
 }
