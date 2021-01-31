@@ -292,4 +292,5 @@
     <string name="TAG_RANDOM_SHOW_REWARD_DIALOG" translatable="false">RANDOM_SHOW: </string>
     <string name="change_log_ultima_version">Última versión</string>
     <string name="change_log_version_prueba">Versión de prueba</string>
+    <string name="INTENT_CHOOSER">Compartir sismos</string>
 </resources>
