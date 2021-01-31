@@ -1,6 +1,5 @@
 package cl.figonzal.lastquakechile.views.activities;
 
-import android.animation.Animator;
 import android.animation.IntEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -10,7 +9,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -69,9 +67,6 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
     private TextView mTvFecha;
     private TextView mTvHora;
     private TextView mTvGms;
-    private TextView mFabTextWSP;
-    private TextView mFabTextGM;
-    private TextView mFabTextTw;
     private TextView mTvEstado;
     private ImageView mIvSensible, mIvMagColor, mIvEstado;
     private String mDmsLat;
@@ -81,10 +76,6 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
     private Map<String, Long> mTiempos;
     private boolean mIsFabOpen = false;
     private FloatingActionButton mFabShare;
-    private FloatingActionButton mFabWSP;
-    private FloatingActionButton mFabGM;
-    private FloatingActionButton mFabTw;
-    private View mOverlay;
 
     private DateHandler dateHandler;
     private ViewsManager viewsManager;
@@ -140,13 +131,6 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
 
         //SETEO DE FLOATING BUTTONS
         mFabShare = findViewById(R.id.fab_share);
-        mFabWSP = findViewById(R.id.fab_wsp);
-        mFabGM = findViewById(R.id.fab_gmail);
-        mFabTw = findViewById(R.id.fab_twitter);
-
-        //Overlay
-        mOverlay = findViewById(R.id.overlay);
-        mOverlay.setVisibility(View.GONE);
 
         handleBundles();
     }
@@ -196,152 +180,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
 
             Timber.i(getString(R.string.TAG_FAB_SHARE_STATUS) + ": " + getString(R.string.TAG_FAB_SHARE_STATUS_CLICKED));
 
-            if (!mIsFabOpen) {
-
-                makeSnapshot();
-
-                showFabMenu();
-            } else {
-                closeFabMenu();
-            }
-        });
-
-        //Logica de overlay
-        mOverlay.setOnClickListener(v -> {
-
-            Timber.i(getString(R.string.TAG_OVERLAY_DETAILS) + ": " + getString(R.string.TAG_OVERLAY_DETAILS_RESULT));
-
-            if (mIsFabOpen) {
-                closeFabMenu();
-            }
-        });
-
-        mFabWSP.setOnClickListener(v -> {
-
-            Intent mIntent = getPackageManager().getLaunchIntentForPackage(getString(R.string.PACKAGE_NAME_WSP));
-
-            //Si no existe el paquete
-            if (mIntent == null) {
-
-                packageManager.doInstallation(getString(R.string.PACKAGE_NAME_WSP), getApplicationContext());
-
-            } else {
-
-                Timber.i(getString(R.string.TAG_INTENT_SHARE) + ": " + getString(R.string.TAG_INTENT_SHARE_WSP));
-
-                Intent wspIntent = new Intent();
-                wspIntent.setAction(Intent.ACTION_SEND);
-                wspIntent.setPackage(getString(R.string.PACKAGE_NAME_WSP));
-                wspIntent.putExtra(Intent.EXTRA_TEXT, String.format(Locale.US,
-                        "[Alerta sísmica]\n\n" +
-                                "Información sismológica\n" +
-                                "Ciudad: %1$s\n" +
-                                "Hora Local: %2$s\n" +
-                                "Magnitud: %3$.1f %4$s\n" +
-                                "Profundidad: %5$.1f Km\n" +
-                                "Georeferencia: %6$s\n\n" +
-                                "Para más información descarga la app LastQuakeChile aquí\n" +
-                                "%7$s"
-                        , quakeModel.getCiudad(), mFechaLocal, quakeModel.getMagnitud(), quakeModel.getEscala(), quakeModel.getProfundidad(), quakeModel.getReferencia(),
-                        getString(R.string.DEEP_LINK)
-                ));
-                wspIntent.putExtra(Intent.EXTRA_STREAM, mBitmapUri);
-                wspIntent.setType("image/*");
-
-                startActivity(wspIntent);
-            }
-        });
-
-        mFabTw.setOnClickListener(v -> {
-
-            Intent mIntent = getPackageManager().getLaunchIntentForPackage("com.twitter.android");
-
-            //Si no existe el paquete
-            if (mIntent == null) {
-
-                packageManager.doInstallation("com.twitter.android", getApplicationContext());
-
-            } else {
-
-                Timber.i(getString(R.string.TAG_INTENT_SHARE) + ": " + getString(R.string.TAG_INTENT_SHARE_WSP));
-
-                Intent tweetIntent = new Intent();
-                tweetIntent.setAction(Intent.ACTION_SEND);
-                tweetIntent.setPackage("com.twitter.android");
-                tweetIntent.putExtra(Intent.EXTRA_TEXT, String.format(Locale.US,
-                        "[Alerta sísmica]\n\n" +
-                                "Información sismológica\n" +
-                                "Ciudad: %1$s\n" +
-                                "Hora Local: %2$s\n" +
-                                "Magnitud: %3$.1f %4$s\n" +
-                                "Profundidad: %5$.1f Km\n" +
-                                "Georeferencia: %6$s\n\n" +
-                                "Descarga la app aquí -> %7$s" +
-                                "#LastQuakeChile #SismosChile"
-                        , quakeModel.getCiudad(), mFechaLocal, quakeModel.getMagnitud(), quakeModel.getEscala(), quakeModel.getProfundidad(), quakeModel.getReferencia(),
-                        getString(R.string.DEEP_LINK)
-                ));
-                tweetIntent.putExtra(Intent.EXTRA_STREAM, mBitmapUri);
-                tweetIntent.setType("image/*");
-
-                startActivity(tweetIntent);
-            }
-        });
-
-        mFabGM.setOnClickListener(v -> {
-
-            Intent mIntent = getPackageManager().getLaunchIntentForPackage(getString(R.string.PACKAGE_NAME_GMAIL));
-
-            //Si no existe el paquete
-            if (mIntent == null) {
-
-                packageManager.doInstallation(getString(R.string.PACKAGE_NAME_GMAIL), getApplicationContext());
-
-            } else {
-
-                Timber.i(getString(R.string.TAG_INTENT_SHARE) + ": " + getString(R.string.TAG_INTENT_SHARE_GM));
-
-                Intent gmIntent = new Intent();
-                gmIntent.setAction(Intent.ACTION_SEND);
-                gmIntent.setPackage(getString(R.string.PACKAGE_NAME_GMAIL));
-                gmIntent.putExtra(Intent.EXTRA_SUBJECT, String.format(Locale.US, "[Alerta " +
-                        "sísmica] - %1$.1f Richter en %2$s", quakeModel.getMagnitud(), quakeModel.getCiudad()));
-                gmIntent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(
-                        String.format(Locale.US,
-                                "<h3>\n" +
-                                        "  Información sismológica\n" +
-                                        "</h3>\n" +
-                                        "\n" +
-                                        "<table>\n" +
-                                        "  <tr><td>Hora Local: </td><td>%1$s</td></tr><br>\n" +
-                                        "  <tr><td>Ciudad: </td><td>%2$s</td></tr><br>\n" +
-                                        "  <tr><td>Magnitud: </td><td>%3$.1f " +
-                                        "%4$s</td></tr><br>\n" +
-                                        "  <tr><td>Profundidad: </td><td>%5$.1f " +
-                                        "Km</td></tr><br>\n" +
-                                        "  <tr><td>Georeferencia: " +
-                                        "</td><td>%6$s</td></tr><br>\n" +
-                                        "  <tr><td>Latitud: </td><td>%7$s</td></tr><br>\n" +
-                                        "  <tr><td>Longitud: </td><td>%8$s</td></tr><br>\n" +
-                                        "  <tr><td>Posicion GMS: </td><td>%9$s - " +
-                                        "%10$s</td></tr><br>\n" +
-                                        " \n" +
-                                        "</table>\n" +
-                                        "\n" +
-                                        "<h5>\n" +
-                                        "  Para más información descarga la app " +
-                                        "LastQuakeChile" +
-                                        " aquí %11$s \n" +
-                                        "</h5>"
-                                , mFechaLocal, quakeModel.getCiudad(), quakeModel.getMagnitud(), quakeModel.getEscala(), quakeModel.getProfundidad(),
-                                quakeModel.getReferencia(), quakeModel.getLatitud(), quakeModel.getLongitud(), mDmsLat, mDmsLong,
-                                getString(R.string.DEEP_LINK))));
-
-                gmIntent.putExtra(Intent.EXTRA_STREAM, mBitmapUri);
-                gmIntent.setType("image/*");
-
-                startActivity(gmIntent);
-            }
+            makeSnapshot();
         });
     }
 
@@ -356,11 +195,33 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
                     Timber.i("Snapshot google play");
 
                     mBitmapUri = getLocalBitmapUri(bitmap, getApplicationContext());
+
+                    shareQuake();
                 } catch (IOException e) {
                     Timber.e(e, "Error screenshot map: %s", e.getMessage());
                 }
             });
         }
+    }
+
+    private void shareQuake() {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, String.format(Locale.US,
+                "[Alerta sísmica] #sismo #chile\n\n" +
+                        "Información sismológica\n" +
+                        "Ciudad: %1$s\n" +
+                        "Hora Local: %2$s\n" +
+                        "Magnitud: %3$.1f %4$s\n" +
+                        "Profundidad: %5$.1f Km\n" +
+                        "Georeferencia: %6$s\n\n" +
+                        "Descarga la app aquí -> %7$s"
+                , quakeModel.getCiudad(), mFechaLocal, quakeModel.getMagnitud(), quakeModel.getEscala(), quakeModel.getProfundidad(), quakeModel.getReferencia(),
+                getString(R.string.DEEP_LINK)
+        ));
+        sendIntent.putExtra(Intent.EXTRA_STREAM, mBitmapUri);
+        sendIntent.setType("image/*");
+        startActivity(Intent.createChooser(sendIntent, getString(R.string.INTENT_CHOOSER)));
     }
 
     /**
@@ -465,123 +326,6 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
     }
 
 
-    /**
-     * Funcion que abre el floating button menu
-     */
-    private void showFabMenu() {
-        mIsFabOpen = true;
-
-        //mFabFB.show();
-        mFabWSP.show();
-        mFabGM.show();
-        mFabTw.show();
-
-        mFabTextWSP = findViewById(R.id.fab_text_wsp);
-        mFabTextGM = findViewById(R.id.fab_text_gm);
-        mFabTextTw = findViewById(R.id.fab_text_tw);
-
-        //Seteado de text en alpha 0 y visible
-        mFabTextWSP.setAlpha(0f);
-        mFabTextWSP.setVisibility(View.VISIBLE);
-        mFabTextGM.setAlpha(0f);
-        mFabTextGM.setVisibility(View.VISIBLE);
-        mFabTextTw.setAlpha(0f);
-        mFabTextTw.setVisibility(View.VISIBLE);
-
-        //trasnlaciones de fabs y textos
-        mFabWSP.animate().translationY(-getResources().getDimension(R.dimen.standard_65));
-        mFabGM.animate().translationY(-getResources().getDimension(R.dimen.standard_130));
-        mFabTw.animate().translationY(-getResources().getDimension(R.dimen.standard_195));
-
-        mFabTextWSP.animate().translationY(-getResources().getDimension(R.dimen.standard_65));
-        mFabTextGM.animate().translationY(-getResources().getDimension(R.dimen.standard_130));
-        mFabTextTw.animate().translationY(-getResources().getDimension(R.dimen.standard_195));
-
-        //Animacion de alpha para textos
-        mFabTextWSP.animate().alpha(1.0f).setDuration(500);
-        mFabTextGM.animate().alpha(1.0f).setDuration(500);
-        mFabTextTw.animate().alpha(1.0f).setDuration(500);
-
-        mOverlay.setAlpha(0f);
-
-        mOverlay.animate().alpha(0.85f).setDuration(500).setListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-                mOverlay.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        });
-
-        Timber.i(getString(R.string.TAG_FAB_MENU) + ": " + getString(R.string.TAG_FAB_MENU_OPEN));
-    }
-
-    /**
-     * Funcion que cierra el floating button menu
-     */
-    private void closeFabMenu() {
-
-        mIsFabOpen = false;
-        mFabWSP.animate().translationY(0);
-        mFabGM.animate().translationY(0);
-        mFabTw.animate().translationY(0);
-
-        mFabGM.hide();
-        mFabWSP.hide();
-        mFabTw.hide();
-
-        mFabTextGM.animate().translationY(0);
-        mFabTextGM.setVisibility(View.GONE);
-        mFabTextWSP.animate().translationY(0);
-        mFabTextWSP.setVisibility(View.GONE);
-        mFabTextTw.animate().translationY(0);
-        mFabTextTw.setVisibility(View.GONE);
-
-        //Animacion de alpha para textos
-        mFabTextWSP.animate().alpha(0.0f).setDuration(500);
-        mFabTextGM.animate().alpha(0.0f).setDuration(500);
-        mFabTextTw.animate().alpha(0.0f).setDuration(500);
-
-        //Animacion CLOSE de mOverlay
-        mOverlay.setAlpha(0.85f);
-        mOverlay.animate().alpha(0.0f).setDuration(500).setListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                mOverlay.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        });
-
-        Timber.i(getString(R.string.TAG_FAB_MENU) + ": " + getString(R.string.TAG_FAB_MENU_CLOSE));
-    }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
@@ -589,25 +333,11 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         if (item.getItemId() == android.R.id.home) {
 
             Timber.i(getString(R.string.TAG_INTENT_DETALLE_HOME_UP_RESPONSE));
-
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
             finish();
 
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBackPressed() {
-
-        if (!mIsFabOpen) {
-            super.onBackPressed();
-        } else {
-            closeFabMenu();
-        }
     }
 
     /**
