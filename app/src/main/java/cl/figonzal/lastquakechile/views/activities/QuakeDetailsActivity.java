@@ -45,7 +45,6 @@ import java.util.Objects;
 
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.handlers.DateHandler;
-import cl.figonzal.lastquakechile.handlers.PackageManager;
 import cl.figonzal.lastquakechile.handlers.ViewsManager;
 import cl.figonzal.lastquakechile.model.QuakeModel;
 import cl.figonzal.lastquakechile.services.NightModeService;
@@ -74,12 +73,10 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
     @Nullable
     private String mFechaLocal;
     private Map<String, Long> mTiempos;
-    private boolean mIsFabOpen = false;
     private FloatingActionButton mFabShare;
 
     private DateHandler dateHandler;
     private ViewsManager viewsManager;
-    private PackageManager packageManager;
     private QuakeModel quakeModel;
 
     @Override
@@ -100,7 +97,6 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
 
         dateHandler = new DateHandler();
         viewsManager = new ViewsManager();
-        packageManager = new PackageManager();
 
 
         //Setting toolbar

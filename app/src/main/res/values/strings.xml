@@ -3,11 +3,11 @@
 
     <string name="ADMOB_MASTER_KEY" translatable="false">ca-app-pub-6355378855577476~7414287525</string>
     <!-- PROD AD-->
-    <!--<string name="ADMOB_ID_BANNER" translatable="false">ca-app-pub-6355378855577476/9207230747</string>
-    <string name="ADMOB_ID_VIDEO" translatable="false">ca-app-pub-6355378855577476/7649578822</string>-->
+    <string name="ADMOB_ID_BANNER" translatable="false">ca-app-pub-6355378855577476/9207230747</string>
+    <string name="ADMOB_ID_VIDEO" translatable="false">ca-app-pub-6355378855577476/7649578822</string>
     <!--TEST AD-->
-    <string name="ADMOB_ID_BANNER" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="ADMOB_ID_VIDEO" translatable="false">ca-app-pub-3940256099942544/5224354917</string>
+    <!--<string name="ADMOB_ID_BANNER" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="ADMOB_ID_VIDEO" translatable="false">ca-app-pub-3940256099942544/5224354917</string>-->
 
     <!-- LAST CHANGE LOG -->
     <string name="LAST_CHANGE_LOG" translatable="false"></string>
@@ -119,7 +119,6 @@
     <string name="alert_pref_title_switch">Alertas de sismos</string>
     <string name="alert_pref_summary_on">Activadas</string>
     <string name="alert_pref_summary_off">Desactivadas</string>
-    <string name="ultima_badge">Última</string>
 
     <!-- TAGS-->
     <string name="TAG_FIREBASE_SUSCRIPTION_OK" translatable="false">SUSCRITO</string>
@@ -152,14 +151,6 @@
     <string name="GOOGLE_PLAY_SOLICITUD" translatable="false">Google Play - solicitando actualizacion</string>
     <string name="GOOGLE_PLAY_NOSOPORTADO" translatable="false">Google Play - no soportado</string>
     <string name="GOOGLE_PLAY_ACTUALIZADO" translatable="false">Google Play - actualizado</string>
-    <string name="TAG_INTENT_SHARE" translatable="false">SHARE_INTENT</string>
-    <string name="TAG_INTENT_SHARE_WSP" translatable="false">WHATSAPP SHARE INTENT</string>
-    <string name="TAG_INTENT_SHARE_GM" translatable="false">GMAIL SHARE INTENT</string>
-    <string name="TAG_FAB_MENU" translatable="false">FAB MENU</string>
-    <string name="TAG_FAB_MENU_OPEN" translatable="false">OPEN</string>
-    <string name="TAG_FAB_MENU_CLOSE" translatable="false">CLOSE</string>
-    <string name="TAG_OVERLAY_DETAILS" translatable="false">OVERLAY-DETAILS</string>
-    <string name="TAG_OVERLAY_DETAILS_RESULT" translatable="false">CLICKED</string>
     <string name="TAG_INFO_WINDOWS_RESPONSE" translatable="false">INFO WINDOWS OPEN</string>
     <string name="TAG_MAP_READY_RESPONSE" translatable="false">MAP READY</string>
     <string name="TAG_INTENT_INFO_WINDOWS" translatable="false">Intent de infowindows a detalle de sismo</string>
