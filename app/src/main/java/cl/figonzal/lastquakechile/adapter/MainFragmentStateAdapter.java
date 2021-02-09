@@ -33,13 +33,9 @@ public class MainFragmentStateAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        Fragment f = new Fragment();
+        Fragment f;
 
         switch (position) {
-
-            case 0:
-                f = QuakeFragment.newInstance();
-                break;
 
             case 1:
                 f = ReportsFragment.newInstance();
@@ -47,6 +43,12 @@ public class MainFragmentStateAdapter extends FragmentStateAdapter {
 
             case 2:
                 f = MapFragment.newInstance();
+                break;
+
+            case 0:
+
+            default:
+                f = QuakeFragment.newInstance();
                 break;
         }
         return f;
