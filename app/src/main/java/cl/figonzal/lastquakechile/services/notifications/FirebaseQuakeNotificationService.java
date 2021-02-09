@@ -63,9 +63,5 @@ public class FirebaseQuakeNotificationService extends FirebaseMessagingService {
         crashlytics.setUserId(s);
     }
 
-    @Override
-    public void onDeletedMessages() {
-        super.onDeletedMessages();
-    }
 }
 

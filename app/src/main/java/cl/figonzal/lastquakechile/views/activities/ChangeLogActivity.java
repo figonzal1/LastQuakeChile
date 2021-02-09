@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.adapter.ChangeLogAdapter;
@@ -34,10 +33,11 @@ public class ChangeLogActivity extends AppCompatActivity {
         Toolbar mToolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(mToolbar);
 
-        ActionBar actionBar = Objects.requireNonNull(getSupportActionBar(), "Action bar nulo");
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle(getString(R.string.change_logs));
-
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle(getString(R.string.change_logs));
+        }
         instanciarRecursosInterfaz();
     }
 
@@ -63,8 +63,8 @@ public class ChangeLogActivity extends AppCompatActivity {
         //NEWER FIRTS
         changeLogList.add(new ChangeLog("v1.5.1-beta", "2020-01-24",
                 new String[]{
-                        "- Comparte los sismos en Telegram",
-                        "- Actualizaciones de dependencias internas"
+                        "- Simplificación de la funcionalidad de compartir sismos",
+                        "- Actualizaciones de dependencias internas y correcciones de errores"
                 }, true));
         changeLogList.add(new ChangeLog("v1.5.0", "2020-10-27",
                 new String[]{

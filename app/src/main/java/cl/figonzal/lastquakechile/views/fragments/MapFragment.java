@@ -116,9 +116,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         this.googleMap.setOnInfoWindowClickListener(MapFragment.this);
 
         //Setear limites del mapa
-        //LIMITE NORTE (-15.6,-66.5)
-        //LIMITE SUR (-65.089, -66.203)
-        LatLngBounds mChile = new LatLngBounds(new LatLng(-65.089, -66.203), new LatLng(-15.6, -66.5));
+        LatLngBounds mChile = new LatLngBounds(new LatLng(-60.15, -78.06), new LatLng(-15.6, -66.5));
         this.googleMap.setLatLngBoundsForCameraTarget(mChile);
 
         //Configuraciones de mapa
