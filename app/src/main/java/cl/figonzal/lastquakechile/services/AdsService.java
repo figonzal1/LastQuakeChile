@@ -81,6 +81,9 @@ public class AdsService {
 
                 //Guardar fecha de termino
                 sharedPrefService.saveData(context.getString(R.string.SHARED_PREF_END_REWARD_DATE), dateNew.getTime());
+
+                //Usuario rewarded
+                sharedPrefService.saveData(context.getString(R.string.SHARED_PREF_EARNED_AD), (boolean) true);
             }
 
             @Override
