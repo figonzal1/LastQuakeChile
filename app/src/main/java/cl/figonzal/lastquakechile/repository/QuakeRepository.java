@@ -208,10 +208,11 @@ public class QuakeRepository implements NetworkRepository<QuakeModel> {
         }
         isLoadingQuake.postValue(true);
 
+        //1 minuto de espera y 0 retries
         mRequest.setRetryPolicy(new DefaultRetryPolicy(
+                1000,
                 0,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                2));
         VolleySingleton.getInstance(appContext).addToRequestQueue(mRequest, TAG_GET_QUAKES);
     }
 }

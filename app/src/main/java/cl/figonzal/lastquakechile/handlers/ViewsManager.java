@@ -29,6 +29,13 @@ public class ViewsManager {
         int mMagFloor = (int) Math.floor(magnitude);
         int mMagResourseId;
 
+        mMagResourseId = getColorResource(forMapa, mMagFloor);
+
+        return mMagResourseId;
+    }
+
+    private int getColorResource(boolean forMapa, int mMagFloor) {
+        int mMagResourseId;
         if (mMagFloor == 1) {
             if (forMapa) {
                 mMagResourseId = R.color.magnitude1_alpha;
@@ -80,7 +87,6 @@ public class ViewsManager {
         } else {
             mMagResourseId = R.color.colorPrimary;
         }
-
         return mMagResourseId;
     }
 
@@ -116,16 +122,10 @@ public class ViewsManager {
      */
     public void setEscala(@NonNull Context context, @NonNull String escala, @NonNull TextView tv_escala) {
 
-        switch (escala) {
-
-            case "Ml":
-                tv_escala.setText(String.format(context.getString(R.string.quake_details_escala), context.getString(R.string.quake_details_magnitud_local)));
-                break;
-
-            case "Mw":
-                tv_escala.setText(String.format(context.getString(R.string.quake_details_escala), context.getString(R.string.quake_details_magnitud_momento)));
-                break;
-
+        if (escala.contains("Mw")) {
+            tv_escala.setText(String.format(context.getString(R.string.quake_details_escala), context.getString(R.string.quake_details_magnitud_momento)));
+        } else {
+            tv_escala.setText(String.format(context.getString(R.string.quake_details_escala), context.getString(R.string.quake_details_magnitud_local)));
         }
     }
 
