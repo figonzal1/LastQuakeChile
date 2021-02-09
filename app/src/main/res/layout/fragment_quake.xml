@@ -36,7 +36,6 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycle_view_quakes"
-        android:name="cl.figonzal.lastquakechile.QuakesFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"

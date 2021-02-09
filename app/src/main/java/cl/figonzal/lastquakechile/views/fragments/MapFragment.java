@@ -116,12 +116,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         this.googleMap.setOnInfoWindowClickListener(MapFragment.this);
 
         //Setear limites del mapa
-        LatLngBounds mChile = new LatLngBounds(new LatLng(-55.15, -78.06), new LatLng(-15.6, -66.5));
+        //LIMITE NORTE (-15.6,-66.5)
+        //LIMITE SUR (-65.089, -66.203)
+        LatLngBounds mChile = new LatLngBounds(new LatLng(-65.089, -66.203), new LatLng(-15.6, -66.5));
         this.googleMap.setLatLngBoundsForCameraTarget(mChile);
 
         //Configuraciones de mapa
         this.googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        this.googleMap.setMinZoomPreference(5.0f);
+        this.googleMap.setMinZoomPreference(4.0f);
         this.googleMap.getUiSettings().setZoomControlsEnabled(true);
         this.googleMap.getUiSettings().setTiltGesturesEnabled(true);
         this.googleMap.getUiSettings().setMapToolbarEnabled(true);

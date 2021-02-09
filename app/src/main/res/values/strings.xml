@@ -207,6 +207,7 @@
     <string name="SHARED_PREF_ACTUAL_VERSION_CODE" translatable="false">actual_version_code</string>
     <string name="SHARED_PREF_END_REWARD_DATE" translatable="false">end_reward_date</string>
     <string name="SHARED_PREF_FIRST_LOAD" translatable="false">is_first_load</string>
+    <string name="SHARED_PREF_EARNED_AD" translatable="false">isEarned</string>
 
 
     <!-- NightMode -->
