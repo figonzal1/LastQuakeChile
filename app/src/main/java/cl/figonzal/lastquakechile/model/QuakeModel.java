@@ -11,7 +11,7 @@ public class QuakeModel {
     private String referencia;
     private Double magnitud;
     private String escala;
-    private Boolean sensible;
+    private String sensible;
     private String latitud;
     private String longitud;
     private Double profundidad;
@@ -62,11 +62,11 @@ public class QuakeModel {
         this.escala = escala;
     }
 
-    public boolean getSensible() {
+    public String getSensible() {
         return sensible;
     }
 
-    public void setSensible(boolean sensible) {
+    public void setSensible(String sensible) {
         this.sensible = sensible;
     }
 

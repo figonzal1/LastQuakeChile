@@ -73,7 +73,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
         viewsManager.setTimeToTextView(activity.getApplicationContext(), tiempos, holder.tv_hora);
 
         //Sismo sensible
-        if (model.getSensible()) {
+        if (model.getSensible().equals("1")) {
             holder.iv_sensible.setVisibility(View.VISIBLE);
         }
 
@@ -96,7 +96,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
             b.putDouble(activity.getApplicationContext().getString(R.string.INTENT_MAGNITUD), model.getMagnitud());
             b.putDouble(activity.getApplicationContext().getString(R.string.INTENT_PROFUNDIDAD), model.getProfundidad());
             b.putString(activity.getApplicationContext().getString(R.string.INTENT_ESCALA), model.getEscala());
-            b.putBoolean(activity.getApplicationContext().getString(R.string.INTENT_SENSIBLE), model.getSensible());
+            b.putString(activity.getApplicationContext().getString(R.string.INTENT_SENSIBLE), model.getSensible());
             b.putString(activity.getApplicationContext().getString(R.string.INTENT_LINK_FOTO), model.getImagen_url());
             b.putString(activity.getApplicationContext().getString(R.string.INTENT_ESTADO), model.getEstado());
 
