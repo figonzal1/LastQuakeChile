@@ -296,7 +296,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             mBundle.putDouble(getString(R.string.INTENT_MAGNITUD), mModel.getMagnitud());
             mBundle.putDouble(getString(R.string.INTENT_PROFUNDIDAD), mModel.getProfundidad());
             mBundle.putString(getString(R.string.INTENT_ESCALA), mModel.getEscala());
-            mBundle.putBoolean(getString(R.string.INTENT_SENSIBLE), mModel.getSensible());
+            mBundle.putString(getString(R.string.INTENT_SENSIBLE), mModel.getSensible());
             mBundle.putString(getString(R.string.INTENT_LINK_FOTO), mModel.getImagen_url());
             mBundle.putString(getString(R.string.INTENT_ESTADO), mModel.getEstado());
             mIntent.putExtras(mBundle);
