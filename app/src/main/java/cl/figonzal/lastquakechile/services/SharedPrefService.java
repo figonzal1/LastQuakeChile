@@ -29,7 +29,7 @@ public class SharedPrefService {
         } else if (value instanceof String) {
             editor.putString(key, (String) value);
         } else if (value instanceof Boolean) {
-            editor.putBoolean(key, (Boolean) value);
+            editor.putBoolean(key, (boolean) value);
         } else if (value instanceof Float) {
             editor.putFloat(key, (Float) value);
         } else if (value instanceof Long) {

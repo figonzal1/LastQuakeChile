@@ -145,7 +145,6 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         mViewModel = new ViewModelProvider(requireActivity(), new ViewModelFactory(application, repository)).get(QuakeListViewModel.class);
 
         mViewModel.isLoading().observe(requireActivity(), aBoolean -> {
-
             if (aBoolean) {
                 showProgressBar();
             } else {
@@ -164,6 +163,12 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
             quakeAdapter.updateList(list);
             quakeAdapter.notifyDataSetChanged();
+
+            if (quakeAdapter.getItemCount() == 0) {
+                tv_quakes_vacio.setVisibility(View.VISIBLE);
+            } else {
+                tv_quakes_vacio.setVisibility(View.INVISIBLE);
+            }
             //LOG ZONE
             Timber.i(getString(R.string.TAG_FRAGMENT_QUAKE) + ": " + getString(R.string.FRAGMENT_LOAD_LIST));
 
