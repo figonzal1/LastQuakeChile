@@ -15,6 +15,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.adapter.ReportAdapter;
 import cl.figonzal.lastquakechile.model.ReportModel;
@@ -54,9 +56,9 @@ public class ReportsFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_reports, container, false);
 
-        iniciarViewModels();
-
         instanciarRecursosInterfaz(v);
+
+        iniciarViewModels();
 
         return v;
     }
@@ -125,7 +127,7 @@ public class ReportsFragment extends Fragment {
         progressBar.setVisibility(View.VISIBLE);
 
         //Set adapter
-        reportAdapter = new ReportAdapter(reportsViewModel.showReports().getValue(), requireContext());
+        reportAdapter = new ReportAdapter(new ArrayList<>(), requireContext());
         rv.setAdapter(reportAdapter);
     }
 }

@@ -15,9 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import cl.figonzal.lastquakechile.R;
@@ -93,9 +91,7 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
             b.putString(activity.getApplicationContext().getString(R.string.INTENT_LONGITUD), model.getLongitud());
 
             //CAmbiar la fecha local a string
-            SimpleDateFormat format = new SimpleDateFormat(activity.getApplicationContext().getString(R.string.DATETIME_FORMAT), Locale.US);
-            String fecha_local = format.format(model.getFecha_local());
-            b.putString(activity.getApplicationContext().getString(R.string.INTENT_FECHA_LOCAL), fecha_local);
+            b.putString(activity.getApplicationContext().getString(R.string.INTENT_FECHA_LOCAL), dateHandler.dateToString(activity, model.getFecha_local()));
 
             b.putDouble(activity.getApplicationContext().getString(R.string.INTENT_MAGNITUD), model.getMagnitud());
             b.putDouble(activity.getApplicationContext().getString(R.string.INTENT_PROFUNDIDAD), model.getProfundidad());

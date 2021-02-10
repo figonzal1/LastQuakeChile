@@ -62,11 +62,11 @@ public class QuakeModel {
         this.escala = escala;
     }
 
-    public Boolean getSensible() {
+    public boolean getSensible() {
         return sensible;
     }
 
-    public void setSensible(Boolean sensible) {
+    public void setSensible(boolean sensible) {
         this.sensible = sensible;
     }
 

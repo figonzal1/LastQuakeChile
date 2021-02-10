@@ -53,6 +53,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     private DateHandler dateHandler;
     private ViewsManager viewsManager;
 
+    public MapFragment() {
+    }
+
     @NonNull
     public static MapFragment newInstance() {
         return new MapFragment();

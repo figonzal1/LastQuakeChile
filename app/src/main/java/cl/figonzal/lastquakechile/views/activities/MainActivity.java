@@ -60,12 +60,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
         //Setear configuraciones por defecto de ConfigActivity
         PreferenceManager.setDefaultValues(this, R.xml.root_preferences, false);
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
         DateHandler dateHandler = new DateHandler();
         sharedPrefService = new SharedPrefService(getApplicationContext());
