@@ -146,7 +146,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
             quakeModel.setMagnitud(mBundle.getDouble(getString(R.string.INTENT_MAGNITUD)));
             quakeModel.setProfundidad(mBundle.getDouble(getString(R.string.INTENT_PROFUNDIDAD)));
             quakeModel.setEscala(mBundle.getString(getString(R.string.INTENT_ESCALA)));
-            quakeModel.setSensible(mBundle.getBoolean(getString(R.string.INTENT_SENSIBLE)));
+            quakeModel.setSensible(mBundle.getString(getString(R.string.INTENT_SENSIBLE)));
             quakeModel.setEstado(mBundle.getString(getString(R.string.INTENT_ESTADO)));
             quakeModel.setLatitud(mBundle.getString(getString(R.string.INTENT_LATITUD)));
             quakeModel.setLongitud(mBundle.getString(getString(R.string.INTENT_LONGITUD)));
@@ -382,7 +382,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         }
 
         //SETEO SISMO SENSIBLE
-        if (quakeModel.getSensible()) {
+        if (quakeModel.getSensible().equals("1")) {
             mIvSensible.setVisibility(View.VISIBLE);
         }
     }
