@@ -61,12 +61,12 @@ public class ChangeLogActivity extends AppCompatActivity {
     private void addChangeLogs() {
 
         //NEWER FIRTS
-        changeLogList.add(new ChangeLog("v1.5.2-beta", "2021-02-09",
+        changeLogList.add(new ChangeLog("v1.5.2", "2021-02-22",
                 new String[]{
                         "- Ahora se puede ver la zona antartica en el mapa de sismos",
                         "- Simplificación de la funcionalidad de compartir sismos",
                         "- Actualizaciones de dependencias internas y correcciones de errores"
-                }, true));
+                }, false));
 
         changeLogList.add(new ChangeLog("v1.5.1", "2020-10-28",
                 new String[]{
