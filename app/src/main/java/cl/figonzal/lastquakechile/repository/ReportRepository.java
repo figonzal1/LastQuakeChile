@@ -120,10 +120,9 @@ public class ReportRepository implements NetworkRepository<ReportModel> {
         isLoadingReports.postValue(true);
 
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                3000,
                 0,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-
+                2));
         VolleySingleton.getInstance(appContext).addToRequestQueue(stringRequest, TAG_GET_REPORTS);
     }
 }

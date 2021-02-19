@@ -208,9 +208,9 @@ public class QuakeRepository implements NetworkRepository<QuakeModel> {
         }
         isLoadingQuake.postValue(true);
 
-        //1 minuto de espera y 0 retries
+        //3 seg de espera y 0 retries
         mRequest.setRetryPolicy(new DefaultRetryPolicy(
-                1000,
+                3000,
                 0,
                 2));
         VolleySingleton.getInstance(appContext).addToRequestQueue(mRequest, TAG_GET_QUAKES);

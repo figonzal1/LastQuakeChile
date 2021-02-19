@@ -24,9 +24,9 @@
     <string name="tab_reports">Reportes</string>
 
     <!-- URL SERVIDOR HEROKU -->
-    <string name="URL_GET_PROD_QUAKES" translatable="false">https://figonzal.cl/lastquakechile/api/v1/quakes/?limite=%1$s</string>
-    <string name="URL_GET_DEV" translatable="false">https://lastquakechile-server-dev.herokuapp.com/lastquakechile/api/quakes/?limite=%1$s</string>
-    <string name="URL_GET_PROD_REPORTS" translatable="false">https://figonzal.cl/lastquakechile/api/v1/reports</string>
+    <string name="URL_GET_PROD_QUAKES" translatable="false">https://lastquakechile-server-prod.herokuapp.com/lastquakechile/api/v1/quakes/?limite=%1$s</string>
+    <string name="URL_GET_DEV" translatable="false">https://lastquakechile-server-dev.herokuapp.com/lastquakechile/api/v1/quakes/?limite=%1$s</string>
+    <string name="URL_GET_PROD_REPORTS" translatable="false">https://lastquakechile-server-prod.herokuapp.com/lastquakechile/api/v1/reports</string>
     <string name="DEEP_LINK" translatable="false">https://lastquakechile.page.link/lqch</string>
 
     <!-- FORMAT -->
