@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile.managers;
+package cl.figonzal.lastquakechile.handlers;
 
 import android.content.Context;
 
@@ -28,10 +28,10 @@ public class DateGsonDeserializer implements JsonDeserializer<Date> {
     public Date deserialize(JsonElement element, Type typeOfT, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
         String date = element.getAsString();
 
-        DateManager dateManager = new DateManager();
+        DateHandler dateHandler = new DateHandler();
 
         try {
-            return dateManager.stringToDate(context, date);
+            return dateHandler.stringToDate(context, date);
         } catch (ParseException e) {
             Timber.e(e, "Parse gson deserializer exception");
         }

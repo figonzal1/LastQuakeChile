@@ -4,17 +4,18 @@ import androidx.annotation.NonNull;
 
 import java.util.Arrays;
 
-@SuppressWarnings("unused")
 public class ChangeLog {
 
     private String version;
     private String releaseDate;
     private String[] changes;
+    private boolean isPreRelease;
 
-    public ChangeLog(String version, String releaseDate, String[] changes) {
+    public ChangeLog(String version, String releaseDate, String[] changes, boolean isPreRelease) {
         this.version = version;
         this.releaseDate = releaseDate;
         this.changes = changes;
+        this.isPreRelease = isPreRelease;
     }
 
     public String getVersion() {
@@ -41,14 +42,22 @@ public class ChangeLog {
         this.releaseDate = releaseDate;
     }
 
+    public boolean isPreRelease() {
+        return isPreRelease;
+    }
+
+    public void setPreRelease(boolean preRelease) {
+        isPreRelease = preRelease;
+    }
+
     @NonNull
     @Override
     public String toString() {
-
         return "ChangeLog{" +
                 "version='" + version + '\'' +
                 ", releaseDate='" + releaseDate + '\'' +
                 ", changes=" + Arrays.toString(changes) +
+                ", isPreRelease=" + isPreRelease +
                 '}';
     }
 }

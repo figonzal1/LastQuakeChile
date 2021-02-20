@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.adapter.ReportAdapter;
@@ -29,7 +28,6 @@ import timber.log.Timber;
 
 public class ReportsFragment extends Fragment {
 
-    private List<ReportModel> reportModelList;
     private ReportsViewModel reportsViewModel;
     private ProgressBar progressBar;
     private TextView tv_reportes_vacios;
@@ -67,19 +65,18 @@ public class ReportsFragment extends Fragment {
 
     private void iniciarViewModels() {
 
+        //Reports Repository
+        NetworkRepository<ReportModel> repository = ReportRepository.getIntance(application.getApplicationContext());
+        reportsViewModel = new ViewModelProvider(requireActivity(), new ViewModelFactory(application, repository)).get(ReportsViewModel.class);
+
         reportsViewModel.isLoading().observe(requireActivity(), aBoolean -> {
 
             if (aBoolean) {
-
-                progressBar.setVisibility(View.VISIBLE);
-                tv_reportes_vacios.setVisibility(View.INVISIBLE);
-                rv.setVisibility(View.INVISIBLE);
-
+                showProgressBar();
             } else {
-                progressBar.setVisibility(View.INVISIBLE);
-                rv.setVisibility(View.VISIBLE);
+                hideProgressBar();
 
-                if (reportModelList.size() == 0) {
+                if (reportAdapter.getItemCount() == 0) {
                     tv_reportes_vacios.setVisibility(View.VISIBLE);
                 } else {
                     tv_reportes_vacios.setVisibility(View.INVISIBLE);
@@ -87,23 +84,10 @@ public class ReportsFragment extends Fragment {
             }
         });
 
-        reportsViewModel.showReports().observe(requireActivity(), reportModels -> {
+        reportsViewModel.showReports().observe(requireActivity(), reportList -> {
 
-            if (reportModels != null) {
-
-                reportModelList = reportModels;
-                reportAdapter.actualizarLista(reportModelList);
-
-                reportModelList = reportAdapter.getReportList();
-
-                progressBar.setVisibility(View.INVISIBLE);
-
-                if (reportModelList.size() == 0) {
-                    tv_reportes_vacios.setVisibility(View.VISIBLE);
-                } else {
-                    tv_reportes_vacios.setVisibility(View.INVISIBLE);
-                }
-            }
+            reportAdapter.updateList(reportList);
+            reportAdapter.notifyDataSetChanged();
 
             //LOG ZONE
             Timber.i(getString(R.string.TAG_FRAGMENT_REPORTS) + ": " + getString(R.string.FRAGMENT_LOAD_LIST));
@@ -111,18 +95,24 @@ public class ReportsFragment extends Fragment {
 
         reportsViewModel.showMsgErrorList().observe(requireActivity(), status -> {
 
-            if (status != null) {
-
-                progressBar.setVisibility(View.INVISIBLE);
-                rv.setVisibility(View.INVISIBLE);
-                reportAdapter.notifyDataSetChanged();
-            }
+            progressBar.setVisibility(View.INVISIBLE);
+            reportAdapter.notifyDataSetChanged();
+            reportAdapter.notifyDataSetChanged();
         });
     }
 
-    private void instanciarRecursosInterfaz(@NonNull View v) {
+    private void hideProgressBar() {
+        progressBar.setVisibility(View.INVISIBLE);
+        rv.setVisibility(View.VISIBLE);
+    }
 
-        reportModelList = new ArrayList<>();
+    private void showProgressBar() {
+        progressBar.setVisibility(View.VISIBLE);
+        tv_reportes_vacios.setVisibility(View.INVISIBLE);
+        rv.setVisibility(View.INVISIBLE);
+    }
+
+    private void instanciarRecursosInterfaz(@NonNull View v) {
 
         rv = v.findViewById(R.id.recycle_view_reports);
         rv.setHasFixedSize(true);
@@ -136,14 +126,8 @@ public class ReportsFragment extends Fragment {
         progressBar = v.findViewById(R.id.progress_bar_reportes);
         progressBar.setVisibility(View.VISIBLE);
 
-        NetworkRepository<ReportModel> repository = ReportRepository.getIntance(application);
-        reportsViewModel = new ViewModelProvider(requireActivity(), new ViewModelFactory(application, repository)).get(ReportsViewModel.class);
-
-        reportAdapter = new ReportAdapter(
-                reportModelList,
-                requireContext()
-        );
-
+        //Set adapter
+        reportAdapter = new ReportAdapter(new ArrayList<>(), requireContext());
         rv.setAdapter(reportAdapter);
     }
 }

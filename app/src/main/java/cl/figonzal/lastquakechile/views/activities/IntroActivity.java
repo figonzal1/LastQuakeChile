@@ -110,7 +110,7 @@ public class IntroActivity extends AppCompatActivity {
 
     private void checkFirstLoad() {
 
-        boolean isFirstLoad = (boolean) sharedPrefService.getData(getString(R.string.SHARED_PREF_FIRST_LOAD), (Boolean) true);
+        boolean isFirstLoad = (boolean) sharedPrefService.getData(getString(R.string.SHARED_PREF_FIRST_LOAD), false);
 
         Timber.i(getString(R.string.SHARED_PREF_FIRST_LOAD) + ": " + isFirstLoad);
 
@@ -119,6 +119,7 @@ public class IntroActivity extends AppCompatActivity {
             Timber.i("Abrir main activity directo");
 
             Intent intent = new Intent(IntroActivity.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
         } else {
@@ -131,5 +132,6 @@ public class IntroActivity extends AppCompatActivity {
 
             manageDynamicLink();
         }
+
     }
 }

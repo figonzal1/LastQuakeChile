@@ -48,7 +48,6 @@
             android:paddingTop="2dp"
             android:paddingEnd="10dp"
             android:paddingBottom="2dp"
-            android:text="@string/ultima_badge"
             android:textColor="@color/white"
             android:textSize="12sp"
             android:textStyle="bold"

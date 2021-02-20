@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.adapter.ChangeLogAdapter;
@@ -34,10 +33,11 @@ public class ChangeLogActivity extends AppCompatActivity {
         Toolbar mToolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(mToolbar);
 
-        ActionBar actionBar = Objects.requireNonNull(getSupportActionBar(), "Action bar nulo");
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle(getString(R.string.change_logs));
-
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle(getString(R.string.change_logs));
+        }
         instanciarRecursosInterfaz();
     }
 
@@ -54,28 +54,35 @@ public class ChangeLogActivity extends AppCompatActivity {
         LinearLayoutManager ly = new LinearLayoutManager(getApplicationContext());
         rv.setLayoutManager(ly);
 
-        ChangeLogAdapter adapter = new ChangeLogAdapter(changeLogList);
+        ChangeLogAdapter adapter = new ChangeLogAdapter(changeLogList, getApplicationContext());
         rv.setAdapter(adapter);
     }
 
     private void addChangeLogs() {
 
         //NEWER FIRTS
-        changeLogList.add(new ChangeLog("v1.5.0", "2020-10-27",
+        changeLogList.add(new ChangeLog("v1.5.2", "2021-02-22",
                 new String[]{
-                        "- Ahora comparte los sismos en twitter",
+                        "- Ahora se puede ver la zona antartica en el mapa de sismos",
+                        "- Simplificación de la funcionalidad de compartir sismos",
+                        "- Actualizaciones de dependencias internas y correcciones de errores"
+                }, false));
+
+        changeLogList.add(new ChangeLog("v1.5.1", "2020-10-28",
+                new String[]{
+                        "- Ahora comparte los sismos en Twitter",
                         "- Optimizaciones y mantenciones internas",
                         "- Correcciones de errores"
                 }
-        ));
+                , false));
 
-        changeLogList.add(new ChangeLog("v1.4.0", "2020-07-24",
+        changeLogList.add(new ChangeLog("v1.4.0", "2020-07-23",
                 new String[]{
                         "- Historial de versiones",
                         "- Mejoras visuales",
                         "- Actualizaciones internas"
                 }
-        ));
+                , false));
 
         changeLogList.add(new ChangeLog("v1.3.1", "2020-03-23",
                 new String[]{
@@ -83,7 +90,7 @@ public class ChangeLogActivity extends AppCompatActivity {
                         "- Se agregan reportes sismológicos mensuales",
                         "- Actualizaciones internas",
                 }
-        ));
+                , false));
 
         changeLogList.add(new ChangeLog("v1.2.2", "2019-10-1",
                 new String[]{
@@ -91,13 +98,13 @@ public class ChangeLogActivity extends AppCompatActivity {
                         "- Solución del problema al intentar compartir sismos por WhatsApp",
                         "- Correcciones menores"
                 }
-        ));
+                , false));
 
         changeLogList.add(new ChangeLog("v1.2.1", "2019-04-31",
                 new String[]{
                         "- Corrección de bug que provocaba cierres inesperados en algunos dispositivos",
                 }
-        ));
+                , false));
 
         changeLogList.add(new ChangeLog("v1.2.0", "2019-04-30",
                 new String[]{
@@ -106,7 +113,7 @@ public class ChangeLogActivity extends AppCompatActivity {
                         "- Mapa Google map con la ubicación de un sismo",
                         "- Correcciones de bugs",
                 }
-        ));
+                , false));
 
         changeLogList.add(new ChangeLog("v1.1.0", "2019-03-26",
                 new String[]{
@@ -114,14 +121,14 @@ public class ChangeLogActivity extends AppCompatActivity {
                         "- Mejoras de interfaz en actividad de bienvenida y actividad de detalles de sismos",
                         "- Corrección de listado de sismos repetidos al actualizar el listado"
                 }
-        ));
+                , false));
 
         changeLogList.add(new ChangeLog("v1.0.0", "2019-02-25",
                 new String[]{
                         "- ¡Ahora puedes compartir los sismos, en Facebook, Whatsapp o enviarlos por mail!",
                         "- Correcciones de rendimiento y accesibilidad",
                 }
-        ));
+                , false));
 
 
     }

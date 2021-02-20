@@ -36,7 +36,6 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycle_view_quakes"
-        android:name="cl.figonzal.lastquakechile.QuakesFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
@@ -82,7 +81,6 @@
         android:text="@string/no_hay_sismos_registrados"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        android:textColor="@color/colorOnPrimary"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

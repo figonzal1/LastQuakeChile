@@ -3,8 +3,6 @@ package cl.figonzal.lastquakechile.services;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import androidx.annotation.Nullable;
-
 import cl.figonzal.lastquakechile.R;
 
 public class SharedPrefService {
@@ -31,29 +29,30 @@ public class SharedPrefService {
         } else if (value instanceof String) {
             editor.putString(key, (String) value);
         } else if (value instanceof Boolean) {
-            editor.putBoolean(key, (Boolean) value);
+            editor.putBoolean(key, (boolean) value);
         } else if (value instanceof Float) {
             editor.putFloat(key, (Float) value);
+        } else if (value instanceof Long) {
+            editor.putLong(key, (Long) value);
         }
 
         editor.apply();
     }
 
-    @Nullable
     public Object getData(String key, Object defaultvalue) {
 
-        Object result = null;
+        Object result;
 
-        if (defaultvalue instanceof Integer) {
-            result = sharedPreferences.getInt(key, (Integer) defaultvalue);
-        } else if (defaultvalue instanceof String) {
-            result = sharedPreferences.getString(key, (String) defaultvalue);
-        } else if (defaultvalue instanceof Boolean) {
-            result = sharedPreferences.getBoolean(key, (Boolean) defaultvalue);
+        if (defaultvalue instanceof Long) {
+            result = sharedPreferences.getLong(key, (Long) defaultvalue);
         } else if (defaultvalue instanceof Float) {
             result = sharedPreferences.getFloat(key, (Float) defaultvalue);
-        } else if (defaultvalue instanceof Long) {
-            result = sharedPreferences.getLong(key, (Long) defaultvalue);
+        } else if (defaultvalue instanceof Integer) {
+            result = sharedPreferences.getInt(key, (Integer) defaultvalue);
+        } else if (defaultvalue instanceof Boolean) {
+            result = sharedPreferences.getBoolean(key, (Boolean) defaultvalue);
+        } else {
+            result = sharedPreferences.getString(key, (String) defaultvalue);
         }
 
         return result;

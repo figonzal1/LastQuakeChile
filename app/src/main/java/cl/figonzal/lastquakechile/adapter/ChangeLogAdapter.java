@@ -1,5 +1,7 @@
 package cl.figonzal.lastquakechile.adapter;
 
+import android.content.Context;
+import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +18,11 @@ import cl.figonzal.lastquakechile.model.ChangeLog;
 public class ChangeLogAdapter extends RecyclerView.Adapter<ChangeLogAdapter.ChangeLogViewHolder> {
 
     private final List<ChangeLog> changeLogList;
+    private final Context context;
 
-    public ChangeLogAdapter(List<ChangeLog> changeLogList) {
+    public ChangeLogAdapter(List<ChangeLog> changeLogList, Context context) {
         this.changeLogList = changeLogList;
+        this.context = context;
     }
 
     @NonNull
@@ -33,11 +37,18 @@ public class ChangeLogAdapter extends RecyclerView.Adapter<ChangeLogAdapter.Chan
     @Override
     public void onBindViewHolder(@NonNull ChangeLogViewHolder holder, int position) {
 
-        if (position == 0) {
+        ChangeLog changeLog = changeLogList.get(position);
+
+        if (position <= 1 && !changeLog.isPreRelease()) {
             holder.tvBadge.setVisibility(View.VISIBLE);
+            holder.tvBadge.setText(R.string.change_log_ultima_version);
         }
 
-        ChangeLog changeLog = changeLogList.get(position);
+        if (changeLog.isPreRelease()) {
+            holder.tvBadge.setVisibility(View.VISIBLE);
+            holder.tvBadge.setText(R.string.change_log_version_prueba);
+            holder.tvBadge.getBackground().setColorFilter(context.getColor(R.color.magnitude5), PorterDuff.Mode.SRC_OVER);
+        }
 
         holder.tvVersion.setText(changeLog.getVersion());
         holder.tvReleaseDate.setText(changeLog.getReleaseDate());

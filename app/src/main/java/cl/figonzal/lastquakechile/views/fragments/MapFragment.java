@@ -33,8 +33,8 @@ import java.util.Map;
 import java.util.Objects;
 
 import cl.figonzal.lastquakechile.R;
-import cl.figonzal.lastquakechile.managers.DateManager;
-import cl.figonzal.lastquakechile.managers.ViewsManager;
+import cl.figonzal.lastquakechile.handlers.DateHandler;
+import cl.figonzal.lastquakechile.handlers.ViewsManager;
 import cl.figonzal.lastquakechile.model.QuakeModel;
 import cl.figonzal.lastquakechile.viewmodel.QuakeListViewModel;
 import cl.figonzal.lastquakechile.views.activities.QuakeDetailsActivity;
@@ -47,11 +47,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     private MapView mapView;
     private GoogleMap googleMap;
     private double mPromLat, mPromLong;
-    private Bundle mMapViewBundle;
+
     private List<QuakeModel> mListQuakeModel;
 
-    private DateManager dateManager;
+    private DateHandler dateHandler;
     private ViewsManager viewsManager;
+
+    public MapFragment() {
+    }
 
     @NonNull
     public static MapFragment newInstance() {
@@ -70,13 +73,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        dateManager = new DateManager();
+        dateHandler = new DateHandler();
         viewsManager = new ViewsManager();
 
-        mMapViewBundle = null;
-        if (savedInstanceState != null) {
-            mMapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY);
-        }
         setRetainInstance(true);
     }
 
@@ -120,12 +119,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         this.googleMap.setOnInfoWindowClickListener(MapFragment.this);
 
         //Setear limites del mapa
-        LatLngBounds mChile = new LatLngBounds(new LatLng(-55.15, -78.06), new LatLng(-15.6, -66.5));
+        LatLngBounds mChile = new LatLngBounds(new LatLng(-60.15, -78.06), new LatLng(-15.6, -66.5));
         this.googleMap.setLatLngBoundsForCameraTarget(mChile);
 
         //Configuraciones de mapa
         this.googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        this.googleMap.setMinZoomPreference(5.0f);
+        this.googleMap.setMinZoomPreference(4.0f);
         this.googleMap.getUiSettings().setZoomControlsEnabled(true);
         this.googleMap.getUiSettings().setTiltGesturesEnabled(true);
         this.googleMap.getUiSettings().setMapToolbarEnabled(true);
@@ -232,7 +231,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         mTvProfundidad.setText(String.format(getString(R.string.profundidad_info_windows), mModel.getProfundidad()));
 
         //Calcular tiempos (Dates a DHMS)
-        Map<String, Long> mTiempos = dateManager.dateToDHMS(mModel.getFecha_local());
+        Map<String, Long> mTiempos = dateHandler.dateToDHMS(mModel.getFecha_local());
 
         //Separar mapeo de tiempos en dias, horas,minutos,segundos.
         Long mDias = mTiempos.get(getString(R.string.UTILS_TIEMPO_DIAS));
@@ -297,7 +296,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             mBundle.putDouble(getString(R.string.INTENT_MAGNITUD), mModel.getMagnitud());
             mBundle.putDouble(getString(R.string.INTENT_PROFUNDIDAD), mModel.getProfundidad());
             mBundle.putString(getString(R.string.INTENT_ESCALA), mModel.getEscala());
-            mBundle.putBoolean(getString(R.string.INTENT_SENSIBLE), mModel.getSensible());
+            mBundle.putString(getString(R.string.INTENT_SENSIBLE), mModel.getSensible());
             mBundle.putString(getString(R.string.INTENT_LINK_FOTO), mModel.getImagen_url());
             mBundle.putString(getString(R.string.INTENT_ESTADO), mModel.getEstado());
             mIntent.putExtras(mBundle);

@@ -16,7 +16,6 @@
     <string name="refresh">Recargar</string>
     <string name="search">Buscar</string>
     <string name="settings">Configuración</string>
-    <string name="more_options">Más opciones</string>
     <string name="change_logs">Historial de versiones</string>
 
     <!--TABS -->
@@ -25,33 +24,15 @@
     <string name="tab_reports">Reportes</string>
 
     <!-- URL SERVIDOR HEROKU -->
-    <string name="URL_GET_PROD_QUAKES" translatable="false">https://lastquakechile-server-prod.herokuapp.com/lastquakechile/api/quakes/?limite=%1$s</string>
-    <string name="URL_GET_DEV" translatable="false">https://lastquakechile-server-dev.herokuapp.com/lastquakechile/api/quakes/?limite=%1$s</string>
-    <string name="URL_GET_PROD_REPORTS" translatable="false">https://lastquakechile-server-prod.herokuapp.com/lastquakechile/api/reports</string>
+    <string name="URL_GET_PROD_QUAKES" translatable="false">https://lastquakechile-server-prod.herokuapp.com/lastquakechile/api/v1/quakes/?limite=%1$s</string>
+    <string name="URL_GET_DEV" translatable="false">https://lastquakechile-server-dev.herokuapp.com/lastquakechile/api/v1/quakes/?limite=%1$s</string>
+    <string name="URL_GET_PROD_REPORTS" translatable="false">https://lastquakechile-server-prod.herokuapp.com/lastquakechile/api/v1/reports</string>
     <string name="DEEP_LINK" translatable="false">https://lastquakechile.page.link/lqch</string>
 
     <!-- FORMAT -->
     <string name="DATETIME_FORMAT" translatable="false">yyyy-MM-dd HH:mm:ss</string>
 
-    <!-- PACKAGE NAMES -->
-    <string name="PACKAGE_NAME_WSP" translatable="false">com.whatsapp</string>
-    <string name="PACKAGE_NAME_GMAIL" translatable="false">com.google.android.gm</string>
-
     <!-- KEY DE JSON PARA PHP -->
-    <string name="JSON_KEY_QUAKES" translatable="false">sismos</string>
-    <string name="JSON_KEY_FECHA_UTC" translatable="false">fecha_utc</string>
-    <string name="JSON_KEY_CIUDAD" translatable="false">ciudad</string>
-    <string name="JSON_KEY_LATITUD" translatable="false">latitud</string>
-    <string name="JSON_KEY_LONGITUD" translatable="false">longitud</string>
-    <string name="JSON_KEY_MAGNITUD" translatable="false">magnitud</string>
-    <string name="JSON_KEY_ESCALA" translatable="false">escala</string>
-    <string name="JSON_KEY_PROFUNDIDAD" translatable="false">profundidad</string>
-    <string name="JSON_KEY_AGENCIA" translatable="false">agencia</string>
-    <string name="JSON_KEY_REFERENCIA" translatable="false">referencia</string>
-    <string name="JSON_KEY_IMAGEN_URL" translatable="false">imagen_url</string>
-    <string name="JSON_KEY_SENSIBLE" translatable="false">sensible</string>
-    <string name="JSON_KEY_ESTADO" translatable="false">estado</string>
-
     <!-- KEY PARA INTENT & NOTIFICACIONES -->
     <string name="INTENT_TITULO" translatable="false">titulo</string>
     <string name="INTENT_DESCRIPCION" translatable="false">descripcion</string>
@@ -138,7 +119,6 @@
     <string name="alert_pref_title_switch">Alertas de sismos</string>
     <string name="alert_pref_summary_on">Activadas</string>
     <string name="alert_pref_summary_off">Desactivadas</string>
-    <string name="ultima_badge">Última</string>
 
     <!-- TAGS-->
     <string name="TAG_FIREBASE_SUSCRIPTION_OK" translatable="false">SUSCRITO</string>
@@ -171,15 +151,6 @@
     <string name="GOOGLE_PLAY_SOLICITUD" translatable="false">Google Play - solicitando actualizacion</string>
     <string name="GOOGLE_PLAY_NOSOPORTADO" translatable="false">Google Play - no soportado</string>
     <string name="GOOGLE_PLAY_ACTUALIZADO" translatable="false">Google Play - actualizado</string>
-    <string name="TAG_INTENT_SHARE" translatable="false">SHARE_INTENT</string>
-    <string name="TAG_INTENT_SHARE_WSP" translatable="false">WHATSAPP SHARE INTENT</string>
-    <string name="TAG_INTENT_SHARE_GM" translatable="false">GMAIL SHARE INTENT</string>
-    <string name="TAG_FAB_MENU" translatable="false">FAB MENU</string>
-    <string name="TAG_FAB_MENU_OPEN" translatable="false">OPEN</string>
-    <string name="TAG_FAB_MENU_CLOSE" translatable="false">CLOSE</string>
-    <string name="TAG_OVERLAY_DETAILS" translatable="false">OVERLAY-DETAILS</string>
-    <string name="TAG_OVERLAY_DETAILS_RESULT" translatable="false">CLICKED</string>
-    <string name="HOME_PARENT">Navegar hacia arriba</string>
     <string name="TAG_INFO_WINDOWS_RESPONSE" translatable="false">INFO WINDOWS OPEN</string>
     <string name="TAG_MAP_READY_RESPONSE" translatable="false">MAP READY</string>
     <string name="TAG_INTENT_INFO_WINDOWS" translatable="false">Intent de infowindows a detalle de sismo</string>
@@ -211,7 +182,7 @@
     <string name="UTILS_TIEMPO_SEGUNDOS" translatable="false">segundos</string>
 
     <!-- VIEWMODEL ERROR MESSAGES -->
-    <string name="VIEWMODEL_TIMEOUT_ERROR">Servidor no response, intente más tarde</string>
+    <string name="VIEWMODEL_TIMEOUT_ERROR">Servidor no responde, intente más tarde</string>
     <string name="VIEWMODEL_NOCONNECTION_ERROR">No tienes conexión a Internet</string>
     <string name="VIEWMODEL_SERVER_ERROR">¡Ups ha ocurrido un error! Intente mas tarde</string>
 
@@ -227,6 +198,7 @@
     <string name="SHARED_PREF_ACTUAL_VERSION_CODE" translatable="false">actual_version_code</string>
     <string name="SHARED_PREF_END_REWARD_DATE" translatable="false">end_reward_date</string>
     <string name="SHARED_PREF_FIRST_LOAD" translatable="false">is_first_load</string>
+    <string name="SHARED_PREF_EARNED_AD" translatable="false">isEarned</string>
 
 
     <!-- NightMode -->
@@ -258,17 +230,13 @@
     <string name="TAG_VIDEO_REWARD_STATUS" translatable="false">D/VIDEO_REWARD_STATUS: </string>
     <string name="TAG_VIDEO_REWARD_STATUS_LOADED" translatable="false">LOADED</string>
     <string name="TAG_VIDEO_REWARD_STATUS_REWARDED" translatable="false">REWARDED</string>
-    <string name="TAG_VIDEO_REWARD_STATUS_COMPLETED" translatable="false">COMPLETED</string>
-    <string name="TAG_VIDEO_REWARD_STATUS_ERROR_LOAD" translatable="false">ERROR_LOAD</string>
-    <string name="TAG_POST_REWARD_HORA_AHORA" translatable="false">POST_REWARD_HORA_AHORA</string>
-    <string name="TAG_POST_REWARD_HORA_REWARD" translatable="false">POST_REWARD_HORA_REWARD</string>
     <string name="TAG_REWARD_STATUS_EN_PERIODO" translatable="false">EN PERIODO REWARD</string>
     <string name="TAG_REWARD_STATUS_PERIODO_INACTIVO" translatable="false">PERIODO REWARD INACTIVO</string>
     <string name="TAG_RANDOM_SHOW_REWARD_DIALOG_ON" translatable="false">MOSTRAR DIALOG REWARD</string>
     <string name="TAG_RANDOM_SHOW_REWARD_DIALOG_OFF" translatable="false">NO MOSTRAR DIALOG REWARD</string>
     <string name="TAG_FRAGMENT_REWARD_DATE" translatable="false">FRAGMENT_REWARD_DATE</string>
     <string name="TAG_ADS_LOADED" translatable="false">ADS CARGADOS</string>
-    <string name="TG_ADS_NOT_LOADED" translatable="false">ADS NO PERMITIDOS</string>
+    <string name="TAG_ADS_NOT_LOADED" translatable="false">ADS NO PERMITIDOS</string>
     <string name="TAG_ADMOB_AD_STATUS_FAILED" translatable="false">FAILED TO LOAD</string>
     <string name="TAG_ADMOB_AD_STATUS_LOADED" translatable="false">ADD LOADED</string>
     <string name="TAG_ADMOB_AD_STATUS_OPEN" translatable="false">ADD OPEN</string>
@@ -303,4 +271,13 @@
     <string name="TEST_MAS_OPCIONES">Más opciones</string>
     <string name="TEST_TOOLBAR">Título toolbar</string>
 
+    <string name="TAG_HORA_AHORA" translatable="false">HORA_AHORA:</string>
+    <string name="TAG_HORA_REWARD" translatable="false">"HORA_REWARD: "</string>
+    <string name="TAG_REWARD_STATUS" translatable="false">REWARD_STATUS: </string>
+    <string name="TAG_VIDEO_REWARD_STATUS_CLOSED" translatable="false">CLOSED</string>
+    <string name="TAG_VIDEO_REWARD_STATUS_FAILED" translatable="false">FAILED</string>
+    <string name="TAG_RANDOM_SHOW_REWARD_DIALOG" translatable="false">RANDOM_SHOW: </string>
+    <string name="change_log_ultima_version">Última versión</string>
+    <string name="change_log_version_prueba">Versión de prueba</string>
+    <string name="INTENT_CHOOSER">Compartir sismos</string>
 </resources>

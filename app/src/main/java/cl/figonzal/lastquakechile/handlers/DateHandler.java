@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile.managers;
+package cl.figonzal.lastquakechile.handlers;
 
 import android.content.Context;
 
@@ -16,9 +16,9 @@ import java.util.TimeZone;
 
 import cl.figonzal.lastquakechile.R;
 
-public class DateManager {
+public class DateHandler {
 
-    public DateManager() {
+    public DateHandler() {
     }
 
     /**

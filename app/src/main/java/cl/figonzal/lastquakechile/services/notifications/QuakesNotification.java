@@ -132,7 +132,7 @@ public class QuakesNotification implements NotificationService {
         double magnitud;
         String escala;
         double profundidad;
-        boolean sensible;
+        String sensible;
         String referencia;
         String imagen_url;
 
@@ -150,7 +150,7 @@ public class QuakesNotification implements NotificationService {
             escala = mObject.getString(context.getString(R.string.INTENT_ESCALA));
             profundidad = mObject.getDouble(context.getString(R.string.INTENT_PROFUNDIDAD));
             estado = mObject.getString(context.getString(R.string.INTENT_ESTADO));
-            sensible = mObject.getInt(context.getString(R.string.INTENT_SENSIBLE)) == 1;
+            sensible = mObject.getString(context.getString(R.string.INTENT_SENSIBLE));
 
             imagen_url = mObject.getString(context.getString(R.string.INTENT_LINK_FOTO));
 
@@ -170,7 +170,7 @@ public class QuakesNotification implements NotificationService {
             mBundle.putString(context.getString(R.string.INTENT_LATITUD), latitud);
             mBundle.putString(context.getString(R.string.INTENT_LONGITUD), longitud);
             mBundle.putDouble(context.getString(R.string.INTENT_MAGNITUD), magnitud);
-            mBundle.putBoolean(context.getString(R.string.INTENT_SENSIBLE), sensible);
+            mBundle.putString(context.getString(R.string.INTENT_SENSIBLE), sensible);
             mBundle.putDouble(context.getString(R.string.INTENT_PROFUNDIDAD), profundidad);
             mBundle.putString(context.getString(R.string.INTENT_ESCALA), escala);
             mBundle.putString(context.getString(R.string.INTENT_REFERENCIA), referencia);

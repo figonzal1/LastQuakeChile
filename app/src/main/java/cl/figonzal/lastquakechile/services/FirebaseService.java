@@ -1,19 +1,14 @@
 package cl.figonzal.lastquakechile.services;
 
-import android.app.Activity;
-
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import timber.log.Timber;
 
 public class FirebaseService {
 
-    private final Activity activity;
     private final FirebaseMessaging firebaseMessaging;
 
-    public FirebaseService(Activity activity, FirebaseMessaging firebaseMessaging) {
-        this.activity = activity;
+    public FirebaseService(FirebaseMessaging firebaseMessaging) {
         this.firebaseMessaging = firebaseMessaging;
     }
 
@@ -23,12 +18,17 @@ public class FirebaseService {
     public void getFirebaseToken() {
 
         //FIREBASE SECTION
-        firebaseMessaging.setAutoInitEnabled(true);
-        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(activity,
-                instanceIdResult -> {
 
-                    String token = instanceIdResult.getToken();
-                    Timber.i("Token: %s", token);
+        firebaseMessaging.getToken()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Timber.w("Fetching FCM registration token failed");
+                        return;
+                    }
+
+                    // Get new FCM registration token
+                    String token = task.getResult();
+                    Timber.i("Token %s", token);
                 });
     }
 }

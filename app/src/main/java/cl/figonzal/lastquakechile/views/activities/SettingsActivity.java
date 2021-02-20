@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -59,13 +58,10 @@ public class SettingsActivity extends AppCompatActivity {
     //Settings Fragment
     public static class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-        @Nullable
+
         private Activity activity;
-        @Nullable
         private SeekBarPreference seekBarPreference;
-        @Nullable
         private SharedPrefService sharedPrefService;
-        @Nullable
         private QuakesNotification quakesNotification;
 
         @Override
@@ -73,13 +69,10 @@ public class SettingsActivity extends AppCompatActivity {
 
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
 
-            if (getActivity() != null) {
+            activity = requireActivity();
+            sharedPrefService = new SharedPrefService(getContext());
 
-                activity = getActivity();
-                sharedPrefService = new SharedPrefService(getContext());
-
-                quakesNotification = new QuakesNotification(getContext(), sharedPrefService);
-            }
+            quakesNotification = new QuakesNotification(getContext(), sharedPrefService);
         }
 
         @Override

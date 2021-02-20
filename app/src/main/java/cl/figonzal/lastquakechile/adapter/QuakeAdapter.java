@@ -2,7 +2,6 @@ package cl.figonzal.lastquakechile.adapter;
 
 import android.app.Activity;
 import android.app.ActivityOptions;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Pair;
@@ -16,14 +15,12 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import cl.figonzal.lastquakechile.R;
-import cl.figonzal.lastquakechile.managers.DateManager;
-import cl.figonzal.lastquakechile.managers.ViewsManager;
+import cl.figonzal.lastquakechile.handlers.DateHandler;
+import cl.figonzal.lastquakechile.handlers.ViewsManager;
 import cl.figonzal.lastquakechile.model.QuakeModel;
 import cl.figonzal.lastquakechile.views.activities.QuakeDetailsActivity;
 import timber.log.Timber;
@@ -31,18 +28,15 @@ import timber.log.Timber;
 public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHolder> {
 
     private List<QuakeModel> quakeModelList;
-    private final Context context;
     private final Activity activity;
-
-    private final DateManager dateManager;
+    private final DateHandler dateHandler;
     private final ViewsManager viewsManager;
 
-    public QuakeAdapter(List<QuakeModel> quakeModelList, Context context, Activity activity, DateManager dateManager, ViewsManager viewsManager) {
+    public QuakeAdapter(List<QuakeModel> quakeModelList, Activity activity, DateHandler dateHandler, ViewsManager viewsManager) {
 
         this.quakeModelList = quakeModelList;
-        this.context = context;
         this.activity = activity;
-        this.dateManager = dateManager;
+        this.dateHandler = dateHandler;
         this.viewsManager = viewsManager;
 
         setHasStableIds(true);
@@ -68,18 +62,18 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
         holder.tv_referencia.setText(model.getReferencia());
 
         //Setea la magnitud con un maximo de 1 digito decimal.
-        holder.tv_magnitud.setText(String.format(context.getString(R.string.magnitud), model.getMagnitud()));
+        holder.tv_magnitud.setText(String.format(activity.getApplicationContext().getString(R.string.magnitud), model.getMagnitud()));
 
         //Setear el color de background dependiendo de magnitud del sismo
         int idColor = viewsManager.getMagnitudeColor(model.getMagnitud(), false);
-        holder.iv_mag_color.setColorFilter(context.getColor(idColor));
+        holder.iv_mag_color.setColorFilter(activity.getApplicationContext().getColor(idColor));
 
         //SETEO DE Textview HORA
-        Map<String, Long> tiempos = dateManager.dateToDHMS(model.getFecha_local());
-        viewsManager.setTimeToTextView(context, tiempos, holder.tv_hora);
+        Map<String, Long> tiempos = dateHandler.dateToDHMS(model.getFecha_local());
+        viewsManager.setTimeToTextView(activity.getApplicationContext(), tiempos, holder.tv_hora);
 
         //Sismo sensible
-        if (model.getSensible()) {
+        if (model.getSensible().equals("1")) {
             holder.iv_sensible.setVisibility(View.VISIBLE);
         }
 
@@ -88,30 +82,28 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
             /*
                 Datos para mostrar en el detalle de sismos
              */
-            Intent intent = new Intent(context, QuakeDetailsActivity.class);
+            Intent intent = new Intent(activity.getApplicationContext(), QuakeDetailsActivity.class);
 
             Bundle b = new Bundle();
-            b.putString(context.getString(R.string.INTENT_CIUDAD), model.getCiudad());
-            b.putString(context.getString(R.string.INTENT_REFERENCIA), model.getReferencia());
-            b.putString(context.getString(R.string.INTENT_LATITUD), model.getLatitud());
-            b.putString(context.getString(R.string.INTENT_LONGITUD), model.getLongitud());
+            b.putString(activity.getApplicationContext().getString(R.string.INTENT_CIUDAD), model.getCiudad());
+            b.putString(activity.getApplicationContext().getString(R.string.INTENT_REFERENCIA), model.getReferencia());
+            b.putString(activity.getApplicationContext().getString(R.string.INTENT_LATITUD), model.getLatitud());
+            b.putString(activity.getApplicationContext().getString(R.string.INTENT_LONGITUD), model.getLongitud());
 
             //CAmbiar la fecha local a string
-            SimpleDateFormat format = new SimpleDateFormat(context.getString(R.string.DATETIME_FORMAT), Locale.US);
-            String fecha_local = format.format(model.getFecha_local());
-            b.putString(context.getString(R.string.INTENT_FECHA_LOCAL), fecha_local);
+            b.putString(activity.getApplicationContext().getString(R.string.INTENT_FECHA_LOCAL), dateHandler.dateToString(activity, model.getFecha_local()));
 
-            b.putDouble(context.getString(R.string.INTENT_MAGNITUD), model.getMagnitud());
-            b.putDouble(context.getString(R.string.INTENT_PROFUNDIDAD), model.getProfundidad());
-            b.putString(context.getString(R.string.INTENT_ESCALA), model.getEscala());
-            b.putBoolean(context.getString(R.string.INTENT_SENSIBLE), model.getSensible());
-            b.putString(context.getString(R.string.INTENT_LINK_FOTO), model.getImagen_url());
-            b.putString(context.getString(R.string.INTENT_ESTADO), model.getEstado());
+            b.putDouble(activity.getApplicationContext().getString(R.string.INTENT_MAGNITUD), model.getMagnitud());
+            b.putDouble(activity.getApplicationContext().getString(R.string.INTENT_PROFUNDIDAD), model.getProfundidad());
+            b.putString(activity.getApplicationContext().getString(R.string.INTENT_ESCALA), model.getEscala());
+            b.putString(activity.getApplicationContext().getString(R.string.INTENT_SENSIBLE), model.getSensible());
+            b.putString(activity.getApplicationContext().getString(R.string.INTENT_LINK_FOTO), model.getImagen_url());
+            b.putString(activity.getApplicationContext().getString(R.string.INTENT_ESTADO), model.getEstado());
 
             intent.putExtras(b);
 
             //LOG
-            Timber.i(context.getString(R.string.TRY_INTENT_DETALLE));
+            Timber.i(activity.getApplicationContext().getString(R.string.TRY_INTENT_DETALLE));
 
             /*
                 Seccion transiciones animadas de TextViews
@@ -123,14 +115,14 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
                     Pair.create(holder.tv_referencia, "referencia"),
                     Pair.create(holder.tv_hora, "hora")
             );
-            context.startActivity(intent, options.toBundle());
+            activity.startActivity(intent, options.toBundle());
         });
 
     }
 
     @Override
     public int getItemCount() {
-        return quakeModelList.size();
+        return quakeModelList != null ? quakeModelList.size() : 0;
     }
 
     //Permite tener los id's fijos y no tener problemas con boleano sensible.
@@ -139,14 +131,8 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
         return position;
     }
 
-    public void actualizarLista(List<QuakeModel> list) {
-
+    public void updateList(List<QuakeModel> list) {
         this.quakeModelList = list;
-        notifyDataSetChanged();
-    }
-
-    public List<QuakeModel> getQuakeList() {
-        return quakeModelList;
     }
 
     static class QuakeViewHolder extends RecyclerView.ViewHolder {

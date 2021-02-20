@@ -32,8 +32,8 @@ import java.util.List;
 
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.adapter.QuakeAdapter;
-import cl.figonzal.lastquakechile.managers.DateManager;
-import cl.figonzal.lastquakechile.managers.ViewsManager;
+import cl.figonzal.lastquakechile.handlers.DateHandler;
+import cl.figonzal.lastquakechile.handlers.ViewsManager;
 import cl.figonzal.lastquakechile.model.QuakeModel;
 import cl.figonzal.lastquakechile.repository.NetworkRepository;
 import cl.figonzal.lastquakechile.repository.QuakeRepository;
@@ -61,10 +61,8 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
     private Application application;
 
     private FirebaseCrashlytics crashlytics;
-    private DateManager dateManager;
+    private DateHandler dateHandler;
     private ViewsManager viewsManager;
-
-    @Nullable
     private SharedPrefService sharedPrefService;
 
     public QuakeFragment() {
@@ -80,7 +78,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         super.onCreate(savedInstanceState);
         application = requireActivity().getApplication();
 
-        dateManager = new DateManager();
+        dateHandler = new DateHandler();
         crashlytics = FirebaseCrashlytics.getInstance();
         viewsManager = new ViewsManager();
 
@@ -107,14 +105,12 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
     private void instanciarRecursosInterfaz(@NonNull View v) {
 
-        quakeModelList = new ArrayList<>();
-
         mCardViewInfo = v.findViewById(R.id.card_view_info);
 
         mAdView = v.findViewById(R.id.adView);
 
-        AdsService adsService = new AdsService(requireContext(), getParentFragmentManager(), dateManager);
-        adsService.configurarIntersitial(mAdView);
+        AdsService adsService = new AdsService(requireActivity(), requireContext(), dateHandler);
+        adsService.loadBanner(mAdView);
 
         mRecycleView = v.findViewById(R.id.recycle_view_quakes);
         mRecycleView.setHasFixedSize(true);
@@ -128,15 +124,10 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         mProgressBar = v.findViewById(R.id.progress_bar_quakes);
         mProgressBar.setVisibility(View.VISIBLE);
 
-        //Instanciar viewmodel
-        NetworkRepository<QuakeModel> repository = QuakeRepository.getIntance(application);
-        mViewModel = new ViewModelProvider(requireActivity(), new ViewModelFactory(application, repository, dateManager)).get(QuakeListViewModel.class);
-
         quakeAdapter = new QuakeAdapter(
-                quakeModelList,
-                requireContext(),
+                new ArrayList<>(),
                 requireActivity(),
-                dateManager,
+                dateHandler,
                 viewsManager
         );
 
@@ -149,53 +140,44 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
      */
     private void iniciarViewModelObservers() {
 
+        //Instanciar viewmodel
+        NetworkRepository<QuakeModel> repository = QuakeRepository.getIntance(application.getApplicationContext());
+        mViewModel = new ViewModelProvider(requireActivity(), new ViewModelFactory(application, repository)).get(QuakeListViewModel.class);
+
         mViewModel.isLoading().observe(requireActivity(), aBoolean -> {
-
             if (aBoolean) {
-
-                mProgressBar.setVisibility(View.VISIBLE);
-                tv_quakes_vacio.setVisibility(View.INVISIBLE);
-                mRecycleView.setVisibility(View.INVISIBLE);
-
+                showProgressBar();
             } else {
-                mProgressBar.setVisibility(View.INVISIBLE);
-                mRecycleView.setVisibility(View.VISIBLE);
+                hideProgressBar();
+
+                if (quakeAdapter.getItemCount() == 0) {
+                    tv_quakes_vacio.setVisibility(View.VISIBLE);
+                } else {
+                    tv_quakes_vacio.setVisibility(View.INVISIBLE);
+                }
             }
         });
 
         //Viewmodel encargado de cargar los datos desde internet
         mViewModel.showQuakeList().observe(requireActivity(), list -> {
 
-            if (list != null) {
+            quakeAdapter.updateList(list);
+            quakeAdapter.notifyDataSetChanged();
 
-                quakeModelList = list;
-                quakeAdapter.actualizarLista(quakeModelList);
-
-                quakeModelList = quakeAdapter.getQuakeList();
-
-                mProgressBar.setVisibility(View.INVISIBLE);
-
-                if (quakeModelList.size() == 0) {
-                    tv_quakes_vacio.setVisibility(View.VISIBLE);
-                } else {
-                    tv_quakes_vacio.setVisibility(View.INVISIBLE);
-                }
-
-                //LOG ZONE
-                Timber.i(getString(R.string.TAG_FRAGMENT_QUAKE) + ": " + getString(R.string.FRAGMENT_LOAD_LIST));
+            if (quakeAdapter.getItemCount() == 0) {
+                tv_quakes_vacio.setVisibility(View.VISIBLE);
+            } else {
+                tv_quakes_vacio.setVisibility(View.INVISIBLE);
             }
+            //LOG ZONE
+            Timber.i(getString(R.string.TAG_FRAGMENT_QUAKE) + ": " + getString(R.string.FRAGMENT_LOAD_LIST));
+
         });
 
         //Viewmodel encargado de mostrar los mensajes de estado en los sSnackbar
         mViewModel.showMsgErrorList().observe(requireActivity(), status -> {
-
-            if (status != null) {
-
-                mProgressBar.setVisibility(View.INVISIBLE);
-                mRecycleView.setVisibility(View.INVISIBLE);
-                showSnackBar(status, requireActivity().findViewById(android.R.id.content));
-                quakeAdapter.notifyDataSetChanged();
-            }
+            showSnackBar(status, requireActivity().findViewById(android.R.id.content));
+            quakeAdapter.notifyDataSetChanged();
         });
 
         //ViewModel encargado de cargar los datos de sismos post-busqueda de usuario en SearchView
@@ -203,8 +185,19 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
             //Setear el mAdapter con la lista de quakes
             quakeModelList = list;
-            quakeAdapter.actualizarLista(quakeModelList);
+            quakeAdapter.updateList(quakeModelList);
         });
+    }
+
+    private void hideProgressBar() {
+        mProgressBar.setVisibility(View.INVISIBLE);
+        mRecycleView.setVisibility(View.VISIBLE);
+    }
+
+    private void showProgressBar() {
+        mProgressBar.setVisibility(View.VISIBLE);
+        tv_quakes_vacio.setVisibility(View.INVISIBLE);
+        mRecycleView.setVisibility(View.INVISIBLE);
     }
 
     /**
