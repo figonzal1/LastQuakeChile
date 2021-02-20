@@ -36,6 +36,7 @@ before_install:
   - mv google-services.json app/
   - chmod +x gradlew
   - export TZ=America/Santiago
+  - yes | sdkmanager "platforms;android-30"
 
 branches:
   except:
