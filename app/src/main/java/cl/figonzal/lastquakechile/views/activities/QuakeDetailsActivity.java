@@ -517,7 +517,7 @@ public class QuakeDetailsActivity extends AppCompatActivity implements OnMapRead
         c.setTime(quakeModel.getFecha_local());
         int date = (int) c.getTimeInMillis();
 
-        File mFile = new File(context.getCacheDir(), "share_" + quakeModel.getCiudad().toLowerCase() + "_" + date + ".jpeg");
+        File mFile = new File(context.getCacheDir(), "share" + date + ".jpeg");
 
         if (mFile.exists()) {
             Timber.i("Share image exist");
