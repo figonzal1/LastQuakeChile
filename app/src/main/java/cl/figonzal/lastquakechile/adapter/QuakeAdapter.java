@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -27,7 +28,7 @@ import timber.log.Timber;
 
 public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHolder> {
 
-    private List<QuakeModel> quakeModelList;
+    private final List<QuakeModel> quakeModelList;
     private final Activity activity;
     private final DateHandler dateHandler;
     private final ViewsManager viewsManager;
@@ -40,7 +41,6 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
         this.viewsManager = viewsManager;
 
         setHasStableIds(true);
-
     }
 
     @NonNull
@@ -128,11 +128,21 @@ public class QuakeAdapter extends RecyclerView.Adapter<QuakeAdapter.QuakeViewHol
     //Permite tener los id's fijos y no tener problemas con boleano sensible.
     @Override
     public long getItemId(int position) {
+        //TODO: RETURN ID
         return position;
     }
 
-    public void updateList(List<QuakeModel> list) {
-        this.quakeModelList = list;
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
+    public void updateList(List<QuakeModel> newList) {
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MyDiffCallback(newList, this.quakeModelList));
+        diffResult.dispatchUpdatesTo(this);
+
+        this.quakeModelList.clear();
+        this.quakeModelList.addAll(newList);
     }
 
     static class QuakeViewHolder extends RecyclerView.ViewHolder {

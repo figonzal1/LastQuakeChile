@@ -39,7 +39,7 @@ public class ChangeLogAdapter extends RecyclerView.Adapter<ChangeLogAdapter.Chan
 
         ChangeLog changeLog = changeLogList.get(position);
 
-        if (position <= 1 && !changeLog.isPreRelease()) {
+        if (position < 1 && !changeLog.isPreRelease()) {
             holder.tvBadge.setVisibility(View.VISIBLE);
             holder.tvBadge.setText(R.string.change_log_ultima_version);
         }

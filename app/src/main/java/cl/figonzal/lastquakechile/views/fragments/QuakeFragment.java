@@ -115,7 +115,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         mRecycleView = v.findViewById(R.id.recycle_view_quakes);
         mRecycleView.setHasFixedSize(true);
 
-        LinearLayoutManager ly = new LinearLayoutManager(getContext());
+        LinearLayoutManager ly = new LinearLayoutManager(requireContext());
         mRecycleView.setLayoutManager(ly);
 
         tv_quakes_vacio = v.findViewById(R.id.tv_quakes_vacios);
@@ -162,7 +162,6 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         mViewModel.showQuakeList().observe(requireActivity(), list -> {
 
             quakeAdapter.updateList(list);
-            quakeAdapter.notifyDataSetChanged();
 
             if (quakeAdapter.getItemCount() == 0) {
                 tv_quakes_vacio.setVisibility(View.VISIBLE);
@@ -177,15 +176,12 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         //Viewmodel encargado de mostrar los mensajes de estado en los sSnackbar
         mViewModel.showMsgErrorList().observe(requireActivity(), status -> {
             showSnackBar(status, requireActivity().findViewById(android.R.id.content));
-            quakeAdapter.notifyDataSetChanged();
         });
 
         //ViewModel encargado de cargar los datos de sismos post-busqueda de usuario en SearchView
         mViewModel.showFilteredQuakeList().observe(requireActivity(), list -> {
-
             //Setear el mAdapter con la lista de quakes
-            quakeModelList = list;
-            quakeAdapter.updateList(quakeModelList);
+            quakeAdapter.updateList(list);
         });
     }
 
