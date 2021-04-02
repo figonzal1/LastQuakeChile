@@ -28,7 +28,6 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.adapter.QuakeAdapter;
@@ -52,8 +51,6 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
     private QuakeListViewModel mViewModel;
     private QuakeAdapter quakeAdapter;
     private CardView mCardViewInfo;
-
-    private List<QuakeModel> quakeModelList;
 
     private AdView mAdView;
     private TextView tv_quakes_vacio;
@@ -109,7 +106,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
 
         mAdView = v.findViewById(R.id.adView);
 
-        AdsService adsService = new AdsService(requireActivity(), requireContext(), dateHandler);
+        AdsService adsService = new AdsService(requireActivity(), getParentFragmentManager(), requireContext(), dateHandler);
         adsService.loadBanner(mAdView);
 
         mRecycleView = v.findViewById(R.id.recycle_view_quakes);
@@ -174,9 +171,7 @@ public class QuakeFragment extends Fragment implements SearchView.OnQueryTextLis
         });
 
         //Viewmodel encargado de mostrar los mensajes de estado en los sSnackbar
-        mViewModel.showMsgErrorList().observe(requireActivity(), status -> {
-            showSnackBar(status, requireActivity().findViewById(android.R.id.content));
-        });
+        mViewModel.showMsgErrorList().observe(requireActivity(), status -> showSnackBar(status, requireActivity().findViewById(android.R.id.content)));
 
         //ViewModel encargado de cargar los datos de sismos post-busqueda de usuario en SearchView
         mViewModel.showFilteredQuakeList().observe(requireActivity(), list -> {

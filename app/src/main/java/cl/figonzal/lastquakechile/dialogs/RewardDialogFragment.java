@@ -30,7 +30,7 @@ public class RewardDialogFragment extends DialogFragment {
         builder.setMessage(R.string.REWARD_DIALOG_MESSAGE);
         builder.setPositiveButton(R.string.REWARD_DIALOG_POSITIVE, (dialog, which) -> {
 
-            if (adsService.getRewardedVideo().isLoaded()) {
+            if (adsService.getRewardedVideo() != null) {
                 dismiss();
                 adsService.showRewardVideo();
                 Timber.i(getString(R.string.TAG_REWARD_DIALOG_BTN_VER_VIDEO));

@@ -31,12 +31,8 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import java.util.Date;
-import java.util.Random;
-
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.adapter.MainFragmentStateAdapter;
-import cl.figonzal.lastquakechile.dialogs.RewardDialogFragment;
 import cl.figonzal.lastquakechile.handlers.DateHandler;
 import cl.figonzal.lastquakechile.services.AdsService;
 import cl.figonzal.lastquakechile.services.FirebaseService;
@@ -54,9 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarLayout mAppBarLayout;
     private ImageView mIvFoto;
-    private AdsService adsService;
     private UpdaterService updaterService;
-    private SharedPrefService sharedPrefService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,10 +61,10 @@ public class MainActivity extends AppCompatActivity {
         PreferenceManager.setDefaultValues(this, R.xml.root_preferences, false);
 
         DateHandler dateHandler = new DateHandler();
-        sharedPrefService = new SharedPrefService(getApplicationContext());
+        SharedPrefService sharedPrefService = new SharedPrefService(getApplicationContext());
 
         //Ad service
-        adsService = new AdsService(this, getApplicationContext(), dateHandler);
+        AdsService adsService = new AdsService(this, getSupportFragmentManager(), getApplicationContext(), dateHandler);
         adsService.loadRewardVideo();
 
         //Night mode
@@ -272,34 +266,6 @@ public class MainActivity extends AppCompatActivity {
                 .into(mIvFoto);
     }
 
-    /**
-     * Determina si el dalogo se debe mostrar o no.
-     */
-    public void rewardDialog() {
-        Date rewardDate = new Date((long) sharedPrefService.getData(getString(R.string.SHARED_PREF_END_REWARD_DATE), 0L));
-        Date nowDate = new Date();
-
-        if (nowDate.after(rewardDate)) {
-
-            Timber.i("%s%s", getString(R.string.TAG_REWARD_STATUS), getString(R.string.TAG_REWARD_STATUS_EN_PERIODO));
-
-            boolean showDialog = generateRandomNumber();
-
-            if (showDialog) {
-
-                RewardDialogFragment fragment = new RewardDialogFragment(adsService);
-                fragment.setCancelable(false);
-                fragment.show(getSupportFragmentManager(), getString(R.string.REWARD_DIALOG));
-
-                Timber.i("%s%s", getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG), getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG_ON));
-            } else {
-                Timber.i("%s%s", getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG), getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG_OFF));
-            }
-        } else if (nowDate.before(rewardDate)) {
-            Timber.i("%s%s", getString(R.string.TAG_REWARD_STATUS), getString(R.string.TAG_REWARD_STATUS_PERIODO_INACTIVO));
-        }
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -348,17 +314,5 @@ public class MainActivity extends AppCompatActivity {
                 Timber.e(getString(R.string.UPDATE_FAILED), resultCode);
             }
         }
-    }
-
-    /**
-     * Funcion encargada de generar un numero aleatorio para dialogs.
-     *
-     * @return Booleano con el resultado
-     */
-    private boolean generateRandomNumber() {
-
-        Random random = new Random();
-        int item = random.nextInt(10);
-        return item % 3 == 0;
     }
 }

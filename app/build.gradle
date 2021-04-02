@@ -26,8 +26,8 @@ android {
         applicationId "cl.figonzal.lastquakechile"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 28  //realease en 27
-        versionName "1.5.2-beta"
+        versionCode 30  //realease en 29
+        versionName "1.5.3-beta"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         Properties properties = new Properties()
@@ -97,7 +97,7 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
     //Firebase BOM
-    implementation platform('com.google.firebase:firebase-bom:26.3.0')
+    implementation platform('com.google.firebase:firebase-bom:26.7.0')
     //Firebase Dependency
     implementation 'com.google.firebase:firebase-ads'
     implementation 'com.google.firebase:firebase-analytics'
