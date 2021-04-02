@@ -5,21 +5,23 @@ import android.content.Context;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
 
+import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.LoadAdError;
-import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.rewarded.RewardedAd;
-import com.google.android.gms.ads.rewarded.RewardedAdCallback;
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 
 import java.util.Date;
+import java.util.Random;
 
 import cl.figonzal.lastquakechile.R;
+import cl.figonzal.lastquakechile.dialogs.RewardDialogFragment;
 import cl.figonzal.lastquakechile.handlers.DateHandler;
-import cl.figonzal.lastquakechile.views.activities.MainActivity;
 import timber.log.Timber;
 
 public class AdsService {
@@ -28,75 +30,125 @@ public class AdsService {
     private final Context context;
     private final DateHandler dateHandler;
     private final SharedPrefService sharedPrefService;
+
     private RewardedAd rewardedAd;
+    private final FragmentManager fragmentManager;
 
-    public AdsService(Activity activity, Context context, DateHandler dateHandler) {
-
-        MobileAds.initialize(context);
+    public AdsService(Activity activity, FragmentManager fragmentManager, Context context, DateHandler dateHandler) {
         this.activity = activity;
         this.context = context;
         this.dateHandler = dateHandler;
+        this.fragmentManager = fragmentManager;
 
         sharedPrefService = new SharedPrefService(context);
     }
 
+    /*
+    REWARD VIDEO
+     */
     public void loadRewardVideo() {
-        rewardedAd = new RewardedAd(context, context.getString(R.string.ADMOB_ID_VIDEO));
 
-        RewardedAdLoadCallback adLoadCallback = new RewardedAdLoadCallback() {
+        RewardedAdLoadCallback rewardedAdLoadCallback = new RewardedAdLoadCallback() {
             @Override
-            public void onRewardedAdLoaded() {
-                super.onRewardedAdLoaded();
-
+            public void onAdLoaded(@NonNull RewardedAd p0) {
+                super.onAdLoaded(p0);
+                rewardedAd = p0;
                 Timber.i("%s%s", context.getString(R.string.TAG_VIDEO_REWARD_STATUS), context.getString(R.string.TAG_VIDEO_REWARD_STATUS_LOADED));
 
-                //Try to show dialog
-                ((MainActivity) activity).rewardDialog();
+                try {
+                    rewardDialog();
+                } catch (IllegalStateException e) {
+                    Timber.e(e, "Error al llamar dialog");
+                }
             }
 
             @Override
-            public void onRewardedAdFailedToLoad(LoadAdError loadAdError) {
-                super.onRewardedAdFailedToLoad(loadAdError);
+            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                super.onAdFailedToLoad(loadAdError);
                 Timber.e("%s%s%s", context.getString(R.string.TAG_VIDEO_REWARD_STATUS), context.getString(R.string.TAG_VIDEO_REWARD_STATUS_FAILED), loadAdError.getResponseInfo());
             }
         };
 
-        rewardedAd.loadAd(new AdRequest.Builder().build(), adLoadCallback);
+        RewardedAd.load(
+                context,
+                context.getString(R.string.ADMOB_ID_VIDEO),
+                new AdRequest.Builder().build(),
+                rewardedAdLoadCallback
+        );
     }
 
     public void showRewardVideo() {
 
-        RewardedAdCallback rewardedAdCallback = new RewardedAdCallback() {
+        //Full Screen Callback
+        rewardedAd.setFullScreenContentCallback(new FullScreenContentCallback() {
             @Override
-            public void onUserEarnedReward(@NonNull com.google.android.gms.ads.rewarded.RewardItem rewardItem) {
+            public void onAdDismissedFullScreenContent() {
+                super.onAdDismissedFullScreenContent();
+                Timber.i("onAdDismissedFullScreenContent");
 
-                Timber.i("%s%s", context.getString(R.string.TAG_VIDEO_REWARD_STATUS), context.getString(R.string.TAG_VIDEO_REWARD_STATUS_REWARDED));
-
-                Date dateNow = new Date();
-                Timber.i("%s%s", context.getString(R.string.TAG_HORA_AHORA), dateHandler.dateToString(context, dateNow));
-
-                //Sumar 24 hora al tiempo de celular
-                Date dateNew = dateHandler.addHoursToJavaUtilDate(dateNow, 24);
-                Timber.i("%s%s", context.getString(R.string.TAG_HORA_REWARD), dateHandler.dateToString(context, dateNew));
-
-                //Guardar fecha de termino
-                sharedPrefService.saveData(context.getString(R.string.SHARED_PREF_END_REWARD_DATE), dateNew.getTime());
-
-                //Usuario rewarded
-                sharedPrefService.saveData(context.getString(R.string.SHARED_PREF_EARNED_AD), (boolean) true);
-            }
-
-            @Override
-            public void onRewardedAdClosed() {
-                super.onRewardedAdClosed();
-                Timber.i("%s%s", context.getString(R.string.TAG_VIDEO_REWARD_STATUS), context.getString(R.string.TAG_VIDEO_REWARD_STATUS_CLOSED));
                 activity.recreate();
             }
-        };
 
-        rewardedAd.show(activity, rewardedAdCallback);
+            @Override
+            public void onAdFailedToShowFullScreenContent(AdError adError) {
+                super.onAdFailedToShowFullScreenContent(adError);
+                Timber.e("onAdFailedToShowFullScreenContent");
+            }
+        });
+
+        rewardedAd.show(activity, rewardItem -> {
+            Timber.i("%s%s", context.getString(R.string.TAG_VIDEO_REWARD_STATUS), context.getString(R.string.TAG_VIDEO_REWARD_STATUS_REWARDED));
+
+            Date dateNow = new Date();
+            Timber.i("%s%s", context.getString(R.string.TAG_HORA_AHORA), dateHandler.dateToString(context, dateNow));
+
+            //Sumar 24 hora al tiempo de celular
+            Date dateNew = dateHandler.addHoursToJavaUtilDate(dateNow, 24);
+            Timber.i("%s%s", context.getString(R.string.TAG_HORA_REWARD), dateHandler.dateToString(context, dateNew));
+
+            //Guardar fecha de termino
+            sharedPrefService.saveData(context.getString(R.string.SHARED_PREF_END_REWARD_DATE), dateNew.getTime());
+
+            //Usuario rewarded
+            sharedPrefService.saveData(context.getString(R.string.SHARED_PREF_EARNED_AD), true);
+        });
     }
 
+    /**
+     * Determina si el dalogo se debe mostrar o no.
+     */
+    public void rewardDialog() {
+        Date rewardDate = new Date((long) sharedPrefService.getData(context.getString(R.string.SHARED_PREF_END_REWARD_DATE), 0L));
+        Date nowDate = new Date();
+
+        if (nowDate.after(rewardDate)) {
+
+            Timber.i("%s%s", context.getString(R.string.TAG_REWARD_STATUS), context.getString(R.string.TAG_REWARD_STATUS_EN_PERIODO));
+
+            boolean showDialog = generateRandomNumber();
+
+            if (showDialog) {
+
+                RewardDialogFragment fragment = new RewardDialogFragment(this);
+                fragment.setCancelable(false);
+                fragment.show(fragmentManager, context.getString(R.string.REWARD_DIALOG));
+
+                Timber.i("%s%s", context.getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG), context.getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG_ON));
+            } else {
+                Timber.i("%s%s", context.getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG), context.getString(R.string.TAG_RANDOM_SHOW_REWARD_DIALOG_OFF));
+            }
+        } else if (nowDate.before(rewardDate)) {
+            Timber.i("%s%s", context.getString(R.string.TAG_REWARD_STATUS), context.getString(R.string.TAG_REWARD_STATUS_PERIODO_INACTIVO));
+        }
+    }
+
+    public RewardedAd getRewardedVideo() {
+        return rewardedAd;
+    }
+
+    /*
+        BANNER SECTION
+     */
     public void loadBanner(@NonNull AdView mAdView) {
 
         Date rewardDate = new Date((Long) sharedPrefService.getData(context.getString(R.string.SHARED_PREF_END_REWARD_DATE), 0L));
@@ -141,7 +193,7 @@ public class AdsService {
             @Override
             public void onAdLoaded() {
 
-                Timber.w(context.getString(R.string.TAG_ADMOB_AD_STATUS_LOADED));
+                Timber.i(context.getString(R.string.TAG_ADMOB_AD_STATUS_LOADED));
                 mAdView.setVisibility(View.VISIBLE);
                 super.onAdLoaded();
             }
@@ -149,7 +201,7 @@ public class AdsService {
             @Override
             public void onAdOpened() {
 
-                Timber.w(context.getString(R.string.TAG_ADMOB_AD_STATUS_OPEN));
+                Timber.i(context.getString(R.string.TAG_ADMOB_AD_STATUS_OPEN));
                 super.onAdOpened();
             }
         });
@@ -157,8 +209,15 @@ public class AdsService {
         mAdView.loadAd(adRequest);
     }
 
+    /**
+     * Funcion encargada de generar un numero aleatorio para dialogs.
+     *
+     * @return Booleano con el resultado
+     */
+    private boolean generateRandomNumber() {
 
-    public RewardedAd getRewardedVideo() {
-        return this.rewardedAd;
+        Random random = new Random();
+        int item = random.nextInt(10);
+        return item % 3 == 0;
     }
 }
