@@ -1,4 +1,38 @@
-# LastQuakeChile <br/> [![CodeFactor](https://www.codefactor.io/repository/github/figonzal1/lastquakechile/badge)](https://www.codefactor.io/repository/github/figonzal1/lastquakechile) [![Known Vulnerabilities](https://snyk.io/test/github/figonzal1/LastQuakeChile/badge.svg)](https://snyk.io/test/github/figonzal1/LastQuakeChile) ![GitHub followers](https://img.shields.io/badge/HH-119.75%20[hr]-blueviolet)
+<p align="center">
+  <img src="https://github.com/figonzal1/LastQuakeChile/blob/master/app/src/main/ic_launcher_chile-web.png" width="200" height="200">
+</p>
+<h1 align="center">LastQuakeChile</h1>
+
+<p align="center">
+
+    <a href="https://img.shields.io/github/v/release/figonzal1/LastQuakeChile?color=orange&include_prereleases" alt="GitHub release">
+        <img alt="GitHub release" src="https://img.shields.io/github/v/release/figonzal1/LastQuakeChile?color=orange&include_prereleases">
+    </a>
+    
+    <a href="https://snyk.io/test/github/figonzal1/LastQuakeChile?targetFile=app/build.gradle" alt="Snyk">
+         <img src="https://snyk.io/test/github/figonzal1/LastQuakeChile/badge.svg?targetFile=app/build.gradle" />
+    </a>
+    
+    <a href="https://www.codefactor.io/repository/github/figonzal1/LastQuakeChile" alt="CodeFactor">
+         <img src="https://www.codefactor.io/repository/github/figonzal1/LastQuakeChile/badge" />
+    </a>
+    
+    <a href="https://img.shields.io/github/languages/top/figonzal1/LastQuakeChile?color=orange" alt="Top Language">
+         <img alt="GitHub repo language" src="https://img.shields.io/github/languages/top/figonzal1/LastQuakeChile?color=orange">
+    </a>
+    
+    <a href="https://img.shields.io/github/repo-size/figonzal1/LastQuakeChile" alt="GitHub repo size">
+         <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/figonzal1/LastQuakeChile">
+    </a>
+      
+    <a href="https://img.shields.io/github/last-commit/figonzal1/LastQuakeChile?color=yellow" alt="Last Commit">
+         <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/figonzal1/LastQuakeChile?color=yellow">
+    </a>
+      
+    <a href="https://img.shields.io/badge/HH-145.90%20[hr]-blueviolet" alt="Hours Spent">
+         <img alt="Hours Spent" src="https://img.shields.io/badge/HH-145.90%20[hr]-blueviolet">
+    </a>
+</p>
 
 | MasterBranch | DevBranch |
 |--------|------------|
@@ -16,7 +50,4 @@ Por otro lado, cada vez que ocurra un sismo de gran intensidad (sobre 5.0°+), a
 <img src="https://github.com/figonzal1/LastQuakeChile/blob/development/screenshots/Screenshot_20200723-170943.jpg" width="216" height="384"> <img src="https://github.com/figonzal1/LastQuakeChile/blob/development/screenshots/Screenshot_20200723-170953.jpg" width="216" height="384"> <img src="https://github.com/figonzal1/LastQuakeChile/blob/development/screenshots/Screenshot_20200723-170959.jpg" width="216" height="384"> <img src="https://github.com/figonzal1/LastQuakeChile/blob/development/screenshots/Screenshot_20200722-190930.jpg" width="216" height="384"> <img src="https://github.com/figonzal1/LastQuakeChile/blob/development/screenshots/Screenshot_20200723-171036.jpg" width="216" height="384"> <img src="https://github.com/figonzal1/LastQuakeChile/blob/development/screenshots/Screenshot_20200723-171011.jpg" width="216" height="384"> <img src="https://github.com/figonzal1/LastQuakeChile/blob/development/screenshots/Screenshot_20200723-171005.jpg" width="216" height="384"> <img src="https://github.com/figonzal1/LastQuakeChile/blob/development/screenshots/Screenshot_20190603-10254.jpg" width="216" height="384">
 
 # Descárgala
-* Puedes descargarla en la sección [Release](https://github.com/figonzal1/LastQuakeChile/releases) haciendo click en `app.aab`
-* Directamente en [Google Play](https://play.google.com/store/apps/details?id=cl.figonzal.lastquakechile)
-
 <a href="https://play.google.com/store/apps/details?id=cl.figonzal.lastquakechile" target="_blank"><img src="https://drive.google.com/uc?export=download&id=1c-VbbEiDdBR7fos-6TZ_-HxFHxXoarlw" width="282" height="84"></a>
