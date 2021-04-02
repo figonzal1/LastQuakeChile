@@ -9,6 +9,10 @@
     <img alt="GitHub release" src="https://img.shields.io/github/v/release/figonzal1/LastQuakeChile?color=orange&include_prereleases">
   </a>
   
+  <a href="https://travis-ci.com/figonzal1/LastQuakeChile" alt="Travis">
+          <img src="https://travis-ci.com/figonzal1/LastQuakeChile.svg?branch=test-travis" />
+  </a>
+  
   <a href="https://snyk.io/test/github/figonzal1/LastQuakeChile?targetFile=app/build.gradle" alt="Snyk">
         <img alt="Snyk" src="https://snyk.io/test/github/figonzal1/LastQuakeChile/badge.svg?targetFile=app/build.gradle" >
   </a>
