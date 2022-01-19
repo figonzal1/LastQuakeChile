@@ -26,6 +26,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <include
+        android:id="@+id/card_view_information"
         layout="@layout/card_view_information"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
