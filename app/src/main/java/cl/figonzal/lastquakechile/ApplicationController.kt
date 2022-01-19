@@ -1,19 +1,17 @@
-package cl.figonzal.lastquakechile;
+package cl.figonzal.lastquakechile
 
-import android.app.Application;
+import android.app.Application
+import timber.log.Timber
+import timber.log.Timber.DebugTree
 
-import timber.log.Timber;
+class ApplicationController : Application() {
 
-public class ApplicationController extends Application {
+    override fun onCreate() {
+        super.onCreate()
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        if (BuildConfig.DEBUG) {
-            Timber.plant(new Timber.DebugTree());
-        } else {
-            Timber.plant(new CrashlyticsTree());
+        when {
+            BuildConfig.DEBUG -> Timber.plant(DebugTree())
+            else -> Timber.plant(CrashlyticsTree())
         }
     }
 }

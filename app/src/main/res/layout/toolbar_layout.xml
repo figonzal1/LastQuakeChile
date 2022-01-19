@@ -34,7 +34,9 @@
                 app:layout_collapseParallaxMultiplier="0.5"
                 tools:background="@drawable/foto" />
 
-            <include layout="@layout/toolbar_main" />
+            <include
+                android:id="@+id/toolbar_main"
+                layout="@layout/toolbar_main" />
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabs"
