@@ -5,31 +5,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.adapter.ReportAdapter
 import cl.figonzal.lastquakechile.databinding.FragmentReportsBinding
-import cl.figonzal.lastquakechile.model.ReportModel
-import cl.figonzal.lastquakechile.repository.ReportRepository
-import cl.figonzal.lastquakechile.viewmodel.ReportsViewModel
+import cl.figonzal.lastquakechile.newcode.ui.NewReportsViewModel
 import cl.figonzal.lastquakechile.viewmodel.ViewModelFactory
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.*
 
 class ReportsFragment : Fragment() {
 
-    private var reportsViewModel: ReportsViewModel? = null
-    private var progressBar: ProgressBar? = null
-
-    private var tv_reportes_vacios: TextView? = null
     private var reportAdapter: ReportAdapter? = null
 
-    private var rv: RecyclerView? = null
     private var application: Application? = null
 
     private lateinit var binding: FragmentReportsBinding
@@ -44,76 +38,53 @@ class ReportsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentReportsBinding.inflate(inflater, container, false)
-        instanciarRecursosInterfaz(binding.root)
+        instanciarRecursosInterfaz()
         iniciarViewModels()
         return binding.root
     }
 
-    private fun iniciarViewModels() {
+    private fun instanciarRecursosInterfaz() {
 
-        //Reports Repository
-        val repository = ReportRepository.getIntance(requireContext())
+        with(binding) {
+            recycleViewReports.apply {
+                setHasFixedSize(true)
+                layoutManager = LinearLayoutManager(context)
 
-        reportsViewModel =
-            ViewModelProvider(
-                requireActivity(),
-                ViewModelFactory(application, repository)
-            )[ReportsViewModel::class.java]
-
-        reportsViewModel!!.isLoading.observe(requireActivity(), { aBoolean: Boolean ->
-            if (aBoolean) {
-                showProgressBar()
-            } else {
-                hideProgressBar()
-                if (reportAdapter!!.itemCount == 0) {
-                    tv_reportes_vacios!!.visibility = View.VISIBLE
-                } else {
-                    tv_reportes_vacios!!.visibility = View.INVISIBLE
-                }
+                reportAdapter = ReportAdapter(ArrayList(), requireContext())
+                recycleViewReports.adapter = reportAdapter
             }
-        })
-        reportsViewModel!!.showReports()
-            .observe(requireActivity(), { reportList: List<ReportModel?>? ->
-                reportAdapter!!.updateList(reportList)
-                reportAdapter!!.notifyDataSetChanged()
-
-                //LOG ZONE
-                Timber.i(getString(R.string.TAG_FRAGMENT_REPORTS) + ": " + getString(R.string.FRAGMENT_LOAD_LIST))
-            })
-        reportsViewModel!!.showMsgErrorList().observe(requireActivity(), { status: String? ->
-            progressBar!!.visibility = View.INVISIBLE
-            reportAdapter!!.notifyDataSetChanged()
-            reportAdapter!!.notifyDataSetChanged()
-        })
-    }
-
-    private fun hideProgressBar() {
-        progressBar!!.visibility = View.INVISIBLE
-        rv!!.visibility = View.VISIBLE
-    }
-
-    private fun showProgressBar() {
-        progressBar!!.visibility = View.VISIBLE
-        tv_reportes_vacios!!.visibility = View.INVISIBLE
-        rv!!.visibility = View.INVISIBLE
-    }
-
-    private fun instanciarRecursosInterfaz(v: View) {
-        rv = binding.recycleViewReports.apply {
-            setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(context)
         }
 
-        tv_reportes_vacios = binding.tvReportesVacios
-        tv_reportes_vacios!!.visibility = View.INVISIBLE
-
-        progressBar = binding.progressBarReportes
-        progressBar!!.visibility = View.VISIBLE
-
-        //Set adapter
-        reportAdapter = ReportAdapter(ArrayList(), requireContext())
-        rv!!.adapter = reportAdapter
     }
+
+    private fun iniciarViewModels() {
+
+        val viewModelNew: NewReportsViewModel = ViewModelProvider(
+            requireActivity(),
+            ViewModelFactory(
+                requireActivity().application
+            )
+        )[NewReportsViewModel::class.java]
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
+                viewModelNew.reports.collect {
+                    reportAdapter?.updateList(it)
+                    Timber.i(getString(R.string.TAG_FRAGMENT_REPORTS) + ": " + getString(R.string.FRAGMENT_LOAD_LIST))
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
+                viewModelNew.spinner.collect {
+                    binding.progressBarReportes.visibility = it
+                }
+            }
+        }
+
+    }
+
 
     companion object {
         @JvmStatic

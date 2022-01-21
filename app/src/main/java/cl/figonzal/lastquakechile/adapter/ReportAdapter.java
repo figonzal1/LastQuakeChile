@@ -84,6 +84,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
 
     public void updateList(List<ReportModel> list) {
         this.reportList = list;
+        notifyDataSetChanged();
     }
 
     static class ReportViewHolder extends RecyclerView.ViewHolder {

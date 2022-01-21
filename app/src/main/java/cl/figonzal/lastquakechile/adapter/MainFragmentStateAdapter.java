@@ -8,21 +8,20 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import cl.figonzal.lastquakechile.R;
-import cl.figonzal.lastquakechile.views.fragments.MapFragment;
 import cl.figonzal.lastquakechile.views.fragments.QuakeFragment;
 import cl.figonzal.lastquakechile.views.fragments.ReportsFragment;
 
 
 public class MainFragmentStateAdapter extends FragmentStateAdapter {
 
-    private static final String[] tabs = new String[3];
+    private static final String[] tabs = new String[2];
 
     public MainFragmentStateAdapter(@NonNull FragmentActivity fa, @NonNull Context context) {
         super(fa);
 
         tabs[0] = context.getString(R.string.tab_list);
         tabs[1] = context.getString(R.string.tab_reports);
-        tabs[2] = context.getString(R.string.tab_map);
+        //tabs[2] = context.getString(R.string.tab_map);
     }
 
     @NonNull
@@ -41,9 +40,9 @@ public class MainFragmentStateAdapter extends FragmentStateAdapter {
                 f = ReportsFragment.newInstance();
                 break;
 
-            case 2:
+            /*case 2:
                 f = MapFragment.newInstance();
-                break;
+                break;*/
 
             case 0:
 

@@ -80,26 +80,29 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.0'
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.6.10"
-    implementation 'androidx.fragment:fragment-ktx:1.4.0'
 
-    //Constraint layout
+    implementation 'androidx.fragment:fragment-ktx:1.4.0'
+    implementation "androidx.activity:activity-ktx:1.4.0"
     implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0' //Corrutinas
 
     //Life cycle components
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"   //Viewmodel
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.0"    //LiveData
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0" //LifecycleEvents
 
-    implementation 'androidx.preference:preference-ktx:1.1.1' //Preferencias de usuario
+    implementation 'androidx.preference:preference-ktx:1.1.1'
 
-    implementation 'com.google.android.material:material:1.4.0' //Material Design
-
-    implementation 'com.android.volley:volley:1.2.1' //Volley para HTTP
-
+    implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.palette:palette-ktx:1.0.0' //Paleta para mostrar toolbar transparente
 
-    //Glide para imagenes (Soporte con ANDROIDX)
-    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    implementation 'com.android.volley:volley:1.2.1' //Volley para HTTP
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    implementation 'com.github.bumptech.glide:glide:4.12.0' //Carga de imagenes
 
     //Firebase BOM
     implementation platform('com.google.firebase:firebase-bom:26.7.0')
