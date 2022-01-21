@@ -1,6 +1,6 @@
-package cl.figonzal.lastquakechile.newcode.data.remote
+package cl.figonzal.lastquakechile.reports_feature.data.remote
 
-import cl.figonzal.lastquakechile.model.ReportModel
+import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class ReportsRemoteDataSource {
 
-    private var reportList: List<ReportModel>? = null
+    private var reportList: List<Report>? = null
 
     private val okHttpClient = OkHttpClient().newBuilder()
         .addInterceptor(HttpLoggingInterceptor().apply {
@@ -17,7 +17,7 @@ class ReportsRemoteDataSource {
         }).build()
 
 
-    suspend fun getReports(): List<ReportModel> {
+    suspend fun getReports(): List<Report> {
 
         val service: ReportAPI = Retrofit.Builder()
             .baseUrl(ReportAPI.BASE_URL)
@@ -32,12 +32,14 @@ class ReportsRemoteDataSource {
         val call = service.listReports()
 
         reportList = if (call.isSuccessful) {
-            call.body()?.reportes
+            call.body()?.reportes?.map {
+                it.toDomainReport()
+            }
         } else {
             arrayListOf()
         }
 
-        return reportList as List<ReportModel>
+        return reportList as List<Report>
     }
 
 }

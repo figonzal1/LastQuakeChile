@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile.newcode.data.remote
+package cl.figonzal.lastquakechile.reports_feature.data.remote
 
 import retrofit2.Response
 import retrofit2.http.GET
