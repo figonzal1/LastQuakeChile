@@ -12,9 +12,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.adapter.ReportAdapter
 import cl.figonzal.lastquakechile.databinding.FragmentReportsBinding
-import cl.figonzal.lastquakechile.newcode.ui.NewReportsViewModel
+import cl.figonzal.lastquakechile.reports_feature.ui.NewReportsViewModel
+import cl.figonzal.lastquakechile.reports_feature.ui.ReportAdapter
 import cl.figonzal.lastquakechile.viewmodel.ViewModelFactory
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -50,7 +50,11 @@ class ReportsFragment : Fragment() {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(context)
 
-                reportAdapter = ReportAdapter(ArrayList(), requireContext())
+                reportAdapter =
+                    ReportAdapter(
+                        ArrayList(),
+                        requireContext()
+                    )
                 recycleViewReports.adapter = reportAdapter
             }
         }
