@@ -16,7 +16,6 @@ import cl.figonzal.lastquakechile.adapter.MainFragmentStateAdapter
 import cl.figonzal.lastquakechile.databinding.ActivityMainBinding
 import cl.figonzal.lastquakechile.handlers.DateHandler
 import cl.figonzal.lastquakechile.services.*
-import cl.figonzal.lastquakechile.services.notifications.ChangeLogNotification
 import cl.figonzal.lastquakechile.services.notifications.QuakesNotification
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -29,7 +28,6 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
-import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.firebase.messaging.FirebaseMessaging
 import timber.log.Timber
 
@@ -52,8 +50,8 @@ class MainActivity : AppCompatActivity() {
         val sharedPrefService = SharedPrefService(applicationContext)
 
         //Ad service
-        val adsService = AdsService(this, supportFragmentManager, applicationContext, dateHandler)
-        adsService.loadRewardVideo()
+        //val adsService = AdsService(this, supportFragmentManager, applicationContext, dateHandler)
+        //adsService.loadRewardVideo()
 
         //Night mode
         NightModeService(this, this.lifecycle, window)
@@ -66,18 +64,15 @@ class MainActivity : AppCompatActivity() {
         firebaseService.getFirebaseToken()
 
         //Updater service
-        updaterService = UpdaterService(this, AppUpdateManagerFactory.create(this))
-        updaterService!!.checkAvailability()
+        //updaterService = UpdaterService(this, AppUpdateManagerFactory.create(this))
+        //updaterService!!.checkAvailability()
 
         //Creacion de canal de notificaciones para sismos y para changelogs (Requerido para API >26)
-        val changeLogNotification = ChangeLogNotification(this, sharedPrefService)
         val quakeNotification = QuakesNotification(this, sharedPrefService)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             quakeNotification.createChannel()
-            changeLogNotification.createChannel()
         }
-        changeLogNotification.configNotificationChangeLog()
         quakeNotification.suscribedToQuakes(true)
 
         //Setear toolbars, viewpagers y tabs
@@ -211,7 +206,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        updaterService!!.resumeUpdater()
+        //updaterService!!.resumeUpdater()
     }
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

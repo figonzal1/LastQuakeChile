@@ -38,7 +38,6 @@
 
     <ProgressBar
         android:id="@+id/progress_bar_reportes"
-        style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -69,7 +69,7 @@ class QuakeFragment : Fragment(), SearchView.OnQueryTextListener {
         binding = FragmentQuakeBinding.inflate(inflater, container, false)
         with(binding) {
             instanciarRecursosInterfaz(root)
-            iniciarViewModelObservers()
+            //iniciarViewModelObservers()
 
             //Seccion SHARED PREF CARD VIEW INFO
             showCardViewInformation(root)
@@ -118,7 +118,7 @@ class QuakeFragment : Fragment(), SearchView.OnQueryTextListener {
         mViewModel =
             ViewModelProvider(
                 requireActivity(),
-                ViewModelFactory(application, repository)
+                ViewModelFactory(application!!)
             )[QuakeListViewModel::class.java]
 
         mViewModel!!.isLoading.observe(requireActivity(), { aBoolean: Boolean ->
