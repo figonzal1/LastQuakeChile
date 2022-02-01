@@ -8,6 +8,7 @@ import cl.figonzal.lastquakechile.reports_feature.data.repository.ReportReposito
 import cl.figonzal.lastquakechile.reports_feature.domain.use_case.GetReportsUseCase
 import cl.figonzal.lastquakechile.reports_feature.ui.NewReportsViewModel
 import cl.figonzal.lastquakechile.repository.QuakeRepository
+import kotlinx.coroutines.Dispatchers
 
 class ViewModelFactory(
     private val application: Application
@@ -23,7 +24,8 @@ class ViewModelFactory(
             ) as T
         } else {
             val repo = ReportRepositoryImpl(
-                ReportsRemoteDataSource()
+                ReportsRemoteDataSource(),
+                Dispatchers.IO
             )
             val useCase = GetReportsUseCase(repo)
             NewReportsViewModel(useCase) as T

@@ -1,6 +1,7 @@
 package cl.figonzal.lastquakechile.reports_feature.data.remote
 
 import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
+import cl.figonzal.lastquakechile.reports_feature.utils.Resource
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -17,7 +18,7 @@ class ReportsRemoteDataSource {
         }).build()
 
 
-    suspend fun getReports(): List<Report> {
+    suspend fun getReports(): Resource<List<Report>> {
 
         val service: ReportAPI = Retrofit.Builder()
             .baseUrl(ReportAPI.BASE_URL)
@@ -29,17 +30,17 @@ class ReportsRemoteDataSource {
             }
 
 
-        val call = service.listReports()
+        return try {
+            val call = service.listReports()
 
-        reportList = if (call.isSuccessful) {
-            call.body()?.reportes?.map {
-                it.toDomainReport()
+            if (call.isSuccessful) {
+                reportList = call.body()?.reportes?.map {
+                    it.toDomainReport()
+                }
             }
-        } else {
-            arrayListOf()
+            Resource.Success(reportList)
+        } catch (e: Exception) {
+            Resource.Error("Error al pedir reportes: $e")
         }
-
-        return reportList as List<Report>
     }
-
 }

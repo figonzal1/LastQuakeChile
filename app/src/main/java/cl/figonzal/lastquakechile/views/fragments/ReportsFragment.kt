@@ -1,6 +1,5 @@
 package cl.figonzal.lastquakechile.views.fragments
 
-import android.app.Application
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,50 +17,41 @@ import cl.figonzal.lastquakechile.reports_feature.ui.ReportAdapter
 import cl.figonzal.lastquakechile.viewmodel.ViewModelFactory
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.util.*
 
 class ReportsFragment : Fragment() {
 
     private var reportAdapter: ReportAdapter? = null
-
-    private var application: Application? = null
-
     private lateinit var binding: FragmentReportsBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        application = requireActivity().application
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentReportsBinding.inflate(inflater, container, false)
-        instanciarRecursosInterfaz()
-        iniciarViewModels()
+
+        bindingResources()
+        initViewModel()
+
         return binding.root
     }
 
-    private fun instanciarRecursosInterfaz() {
+    private fun bindingResources() {
 
         with(binding) {
+
             recycleViewReports.apply {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(context)
 
-                reportAdapter =
-                    ReportAdapter(
-                        ArrayList(),
-                        requireContext()
-                    )
-                recycleViewReports.adapter = reportAdapter
+                reportAdapter = ReportAdapter(ArrayList(), requireContext())
+                this.adapter = reportAdapter
             }
         }
 
     }
 
-    private fun iniciarViewModels() {
+    private fun initViewModel() {
 
         val viewModelNew: NewReportsViewModel = ViewModelProvider(
             requireActivity(),
@@ -70,23 +60,25 @@ class ReportsFragment : Fragment() {
             )
         )[NewReportsViewModel::class.java]
 
+
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.CREATED) {
-                viewModelNew.reports.collect {
-                    reportAdapter?.updateList(it)
-                    Timber.i(getString(R.string.TAG_FRAGMENT_REPORTS) + ": " + getString(R.string.FRAGMENT_LOAD_LIST))
+
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+
+                launch {
+                    viewModelNew.reportState.collect {
+
+                        binding.progressBarReportes.visibility = when {
+                            it.isLoading -> View.VISIBLE
+                            else -> View.GONE
+                        }
+
+                        reportAdapter?.updateList(it.reports)
+                        Timber.i(getString(R.string.TAG_FRAGMENT_REPORTS) + ": " + getString(R.string.FRAGMENT_LOAD_LIST))
+                    }
                 }
             }
         }
-
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.CREATED) {
-                viewModelNew.spinner.collect {
-                    binding.progressBarReportes.visibility = it
-                }
-            }
-        }
-
     }
 
 
