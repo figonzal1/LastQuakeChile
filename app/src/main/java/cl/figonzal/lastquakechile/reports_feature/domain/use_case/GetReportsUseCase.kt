@@ -2,14 +2,15 @@ package cl.figonzal.lastquakechile.reports_feature.domain.use_case
 
 import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
 import cl.figonzal.lastquakechile.reports_feature.domain.repository.ReportRepository
+import cl.figonzal.lastquakechile.reports_feature.utils.Resource
 import kotlinx.coroutines.flow.Flow
 
 class GetReportsUseCase(
-    private val report: ReportRepository
+    private val repository: ReportRepository
 ) {
 
-    operator fun invoke(): Flow<List<Report>> {
-        return report.getReports()
+    operator fun invoke(): Flow<Resource<List<Report>>> {
+        return repository.getReports()
     }
 
 }

@@ -1,5 +1,6 @@
 package cl.figonzal.lastquakechile.reports_feature.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +11,10 @@ import cl.figonzal.lastquakechile.databinding.CardViewReportsBinding
 import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
 import cl.figonzal.lastquakechile.reports_feature.ui.ReportAdapter.ReportViewHolder
 
-class ReportAdapter(private var reportList: List<Report>, private val context: Context) :
+class ReportAdapter(
+    private var reportList: MutableList<Report>,
+    private val context: Context
+) :
     RecyclerView.Adapter<ReportViewHolder>() {
 
 
@@ -33,8 +37,10 @@ class ReportAdapter(private var reportList: List<Report>, private val context: C
         return position.toLong()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateList(list: List<Report>) {
-        reportList = list
+        reportList.clear()
+        reportList.addAll(list)
         notifyDataSetChanged()
     }
 
