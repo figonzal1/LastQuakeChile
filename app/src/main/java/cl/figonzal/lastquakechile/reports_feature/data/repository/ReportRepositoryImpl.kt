@@ -1,6 +1,6 @@
 package cl.figonzal.lastquakechile.reports_feature.data.repository
 
-import cl.figonzal.lastquakechile.reports_feature.data.remote.ReportsRemoteDataSource
+import cl.figonzal.lastquakechile.reports_feature.data.remote.ReportRemoteDataSource
 import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
 import cl.figonzal.lastquakechile.reports_feature.domain.repository.ReportRepository
 import cl.figonzal.lastquakechile.reports_feature.utils.Resource
@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
 class ReportRepositoryImpl(
-    private val remoteDataSource: ReportsRemoteDataSource,
+    private val remoteDataSource: ReportRemoteDataSource,
     private val dispatcher: CoroutineDispatcher
 ) : ReportRepository {
 

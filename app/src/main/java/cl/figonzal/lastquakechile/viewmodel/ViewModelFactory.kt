@@ -3,10 +3,10 @@ package cl.figonzal.lastquakechile.viewmodel
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import cl.figonzal.lastquakechile.reports_feature.data.remote.ReportsRemoteDataSource
+import cl.figonzal.lastquakechile.reports_feature.data.remote.ReportRemoteDataSource
 import cl.figonzal.lastquakechile.reports_feature.data.repository.ReportRepositoryImpl
 import cl.figonzal.lastquakechile.reports_feature.domain.use_case.GetReportsUseCase
-import cl.figonzal.lastquakechile.reports_feature.ui.NewReportsViewModel
+import cl.figonzal.lastquakechile.reports_feature.ui.ReportViewModel
 import cl.figonzal.lastquakechile.repository.QuakeRepository
 import kotlinx.coroutines.Dispatchers
 
@@ -24,11 +24,11 @@ class ViewModelFactory(
             ) as T
         } else {
             val repo = ReportRepositoryImpl(
-                ReportsRemoteDataSource(),
+                ReportRemoteDataSource(),
                 Dispatchers.IO
             )
             val useCase = GetReportsUseCase(repo)
-            NewReportsViewModel(useCase) as T
+            ReportViewModel(useCase) as T
         }
     }
 }

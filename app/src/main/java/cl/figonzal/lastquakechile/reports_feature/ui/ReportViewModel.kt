@@ -5,14 +5,19 @@ import androidx.lifecycle.viewModelScope
 import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
 import cl.figonzal.lastquakechile.reports_feature.domain.use_case.GetReportsUseCase
 import cl.figonzal.lastquakechile.reports_feature.utils.Resource
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
-class NewReportsViewModel(private val getReportsUseCase: GetReportsUseCase) : ViewModel() {
+class ReportViewModel(private val getReportsUseCase: GetReportsUseCase) : ViewModel() {
 
     private val _reportState = MutableStateFlow(ReportState())
     val reportState = _reportState.asStateFlow()
+
+    private val _errorStatus = Channel<String>()
+    val errorStatus = _errorStatus.receiveAsFlow()
 
     init {
 
@@ -31,7 +36,12 @@ class NewReportsViewModel(private val getReportsUseCase: GetReportsUseCase) : Vi
                         )
                     }
                     is Resource.Error -> {
-                        //TODO: Emit to show snackbar with channel
+                        _errorStatus.send(it.message as String)
+
+                        _reportState.value = reportState.value.copy(
+                            isLoading = false,
+                            reports = emptyList()
+                        )
                     }
                 }
             }
