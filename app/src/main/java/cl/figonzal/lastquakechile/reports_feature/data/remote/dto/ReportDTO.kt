@@ -8,11 +8,11 @@ import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
  */
 data class ReportDTO(
     private val mes_reporte: String,
-    private val n_sensible: Int,
+    private val n_sensibles: Int,
     private val n_sismos: Int,
     private val prom_magnitud: Double,
     private val prom_profundidad: Double,
-    private val max_magnitude: Double,
+    private val max_magnitud: Double,
     private val min_profundidad: Double,
     private val top_ciudades: List<QuakesCity>
 
@@ -22,11 +22,11 @@ data class ReportDTO(
 
         return Report(
             reportMonth = mes_reporte,
-            nSensitive = n_sensible,
+            nSensitive = n_sensibles,
             nQuakes = n_sismos,
             promMagnitud = prom_magnitud,
             promDepth = prom_profundidad,
-            maxMagnitude = max_magnitude,
+            maxMagnitude = max_magnitud,
             minDepth = min_profundidad,
             topCities = top_ciudades
         )

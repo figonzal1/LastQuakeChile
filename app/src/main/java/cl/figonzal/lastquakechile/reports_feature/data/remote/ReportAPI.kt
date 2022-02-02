@@ -9,7 +9,7 @@ import retrofit2.http.GET
 interface ReportAPI {
 
     @GET("/lastquakechile/api/v1/reports")
-    suspend fun listReports(): Response<ReportsResult>
+    suspend fun listReports(): Response<ReportResult>
 
 
     companion object {

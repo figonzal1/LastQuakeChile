@@ -8,8 +8,8 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import cl.figonzal.lastquakechile.R;
+import cl.figonzal.lastquakechile.reports_feature.ui.ReportsFragment;
 import cl.figonzal.lastquakechile.views.fragments.QuakeFragment;
-import cl.figonzal.lastquakechile.views.fragments.ReportsFragment;
 
 
 public class MainFragmentStateAdapter extends FragmentStateAdapter {

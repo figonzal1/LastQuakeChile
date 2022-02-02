@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile.views.fragments
+package cl.figonzal.lastquakechile.reports_feature.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,9 +12,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.databinding.FragmentReportsBinding
-import cl.figonzal.lastquakechile.reports_feature.ui.NewReportsViewModel
-import cl.figonzal.lastquakechile.reports_feature.ui.ReportAdapter
 import cl.figonzal.lastquakechile.viewmodel.ViewModelFactory
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -53,17 +52,24 @@ class ReportsFragment : Fragment() {
 
     private fun initViewModel() {
 
-        val viewModelNew: NewReportsViewModel = ViewModelProvider(
+        val viewModelNew: ReportViewModel = ViewModelProvider(
             requireActivity(),
             ViewModelFactory(
                 requireActivity().application
             )
-        )[NewReportsViewModel::class.java]
+        )[ReportViewModel::class.java]
 
 
         lifecycleScope.launch {
 
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+
+                //Error Status
+                launch {
+                    viewModelNew.errorStatus.collect {
+                        Snackbar.make(binding.root, it, Snackbar.LENGTH_INDEFINITE).show()
+                    }
+                }
 
                 launch {
                     viewModelNew.reportState.collect {
@@ -73,10 +79,12 @@ class ReportsFragment : Fragment() {
                             else -> View.GONE
                         }
 
-                        reportAdapter?.updateList(it.reports)
+                        if (it.reports.isNotEmpty()) reportAdapter?.updateList(it.reports)
                         Timber.i(getString(R.string.TAG_FRAGMENT_REPORTS) + ": " + getString(R.string.FRAGMENT_LOAD_LIST))
                     }
                 }
+
+
             }
         }
     }
