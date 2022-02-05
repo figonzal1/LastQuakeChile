@@ -25,9 +25,13 @@ class ReportViewModel(private val getReportsUseCase: GetReportsUseCase) : ViewMo
 
             getReportsUseCase().collect {
 
-                _reportState.value = reportState.value.copy(isLoading = true)
-
                 when (it) {
+                    is Resource.Loading -> {
+                        _reportState.value = reportState.value.copy(
+                            isLoading = true
+                        )
+                    }
+
                     is Resource.Success -> {
 
                         _reportState.value = reportState.value.copy(
