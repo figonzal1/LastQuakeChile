@@ -2,7 +2,7 @@ package cl.figonzal.lastquakechile.reports_feature.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import cl.figonzal.lastquakechile.model.QuakesCity
+import cl.figonzal.lastquakechile.reports_feature.domain.model.QuakeCity
 
 @Entity
 data class QuakeCityEntity(
@@ -12,13 +12,11 @@ data class QuakeCityEntity(
     var idReport: Long? = null
 ) {
 
-    //TODO: Mejorar
-    fun toDomainQuakeCity(): QuakesCity {
-        val qC = QuakesCity()
+    fun toDomainQuakeCity(): QuakeCity {
 
-        qC.n_sismos = nQuakes
-        qC.ciudad = city
-
-        return qC
+        return QuakeCity(
+            city = city,
+            nQuakes = nQuakes
+        )
     }
 }

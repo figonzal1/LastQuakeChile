@@ -1,7 +1,7 @@
 package cl.figonzal.lastquakechile
 
 import android.app.Application
-import cl.figonzal.lastquakechile.reports_feature.data.local.AppDatabase
+import cl.figonzal.lastquakechile.core.AppDatabase
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 
