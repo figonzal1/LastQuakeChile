@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.adapter.QuakeAdapter
+import cl.figonzal.lastquakechile.core.ViewModelFactory
 import cl.figonzal.lastquakechile.databinding.FragmentQuakeBinding
 import cl.figonzal.lastquakechile.handlers.DateHandler
 import cl.figonzal.lastquakechile.handlers.ViewsManager
@@ -25,7 +26,6 @@ import cl.figonzal.lastquakechile.repository.QuakeRepository
 import cl.figonzal.lastquakechile.services.AdsService
 import cl.figonzal.lastquakechile.services.SharedPrefService
 import cl.figonzal.lastquakechile.viewmodel.QuakeListViewModel
-import cl.figonzal.lastquakechile.viewmodel.ViewModelFactory
 import com.google.android.gms.ads.AdView
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.crashlytics.FirebaseCrashlytics

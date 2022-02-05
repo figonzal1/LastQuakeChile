@@ -71,17 +71,17 @@ class ReportAdapter(
                 tvMaxMagValue.text = String.format("%s", maxMagnitude)
                 tvMinProfValue.text = String.format("%s km", minDepth)
 
-                tvNombreC1.text = quakesCityList[0].ciudad
-                tvNSismosC1.text = quakesCityList[0].n_sismos.toString()
+                tvNombreC1.text = quakesCityList[0].city
+                tvNSismosC1.text = quakesCityList[0].nQuakes.toString()
 
-                tvNombreC2.text = quakesCityList[1].ciudad
-                tvNSismosC2.text = quakesCityList[1].n_sismos.toString()
+                tvNombreC2.text = quakesCityList[1].city
+                tvNSismosC2.text = quakesCityList[1].nQuakes.toString()
 
-                tvNombreC3.text = quakesCityList[2].ciudad
-                tvNSismosC3.text = quakesCityList[2].n_sismos.toString()
+                tvNombreC3.text = quakesCityList[2].city
+                tvNSismosC3.text = quakesCityList[2].nQuakes.toString()
 
-                tvNombreC4.text = quakesCityList[3].ciudad
-                tvNSismosC4.text = quakesCityList[3].n_sismos.toString()
+                tvNombreC4.text = quakesCityList[3].city
+                tvNSismosC4.text = quakesCityList[3].nQuakes.toString()
             }
         }
     }

@@ -1,9 +1,10 @@
-package cl.figonzal.lastquakechile.reports_feature.data.local
+package cl.figonzal.lastquakechile.core
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import cl.figonzal.lastquakechile.reports_feature.data.local.ReportDAO
 import cl.figonzal.lastquakechile.reports_feature.data.local.entity.QuakeCityEntity
 import cl.figonzal.lastquakechile.reports_feature.data.local.entity.ReportEntity
 

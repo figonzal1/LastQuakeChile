@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile.viewmodel
+package cl.figonzal.lastquakechile.core
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
@@ -10,6 +10,7 @@ import cl.figonzal.lastquakechile.reports_feature.data.repository.ReportReposito
 import cl.figonzal.lastquakechile.reports_feature.domain.use_case.GetReportsUseCase
 import cl.figonzal.lastquakechile.reports_feature.ui.ReportViewModel
 import cl.figonzal.lastquakechile.repository.QuakeRepository
+import cl.figonzal.lastquakechile.viewmodel.QuakeListViewModel
 import kotlinx.coroutines.Dispatchers
 
 class ViewModelFactory(

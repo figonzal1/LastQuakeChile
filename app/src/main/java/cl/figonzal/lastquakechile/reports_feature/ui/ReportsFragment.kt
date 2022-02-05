@@ -11,8 +11,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.ViewModelFactory
 import cl.figonzal.lastquakechile.databinding.FragmentReportsBinding
-import cl.figonzal.lastquakechile.viewmodel.ViewModelFactory
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import timber.log.Timber
