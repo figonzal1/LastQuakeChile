@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.google.firebase.firebase-perf'
@@ -96,6 +97,12 @@ dependencies {
 
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.palette:palette-ktx:1.0.0' //Paleta para mostrar toolbar transparente
+
+    //ROOM
+    // Room components
+    implementation "androidx.room:room-ktx:2.4.0"
+    kapt "androidx.room:room-compiler:2.4.0"
+    androidTestImplementation "androidx.room:room-testing:2.4.0"
 
     implementation 'com.android.volley:volley:1.2.1' //Volley para HTTP
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
