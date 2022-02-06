@@ -1,11 +1,15 @@
 package cl.figonzal.lastquakechile.reports_feature.data.local
 
+import android.app.Application
+import cl.figonzal.lastquakechile.ApplicationController
 import cl.figonzal.lastquakechile.reports_feature.data.local.entity.ReportWithQuakeCity
 
 
 class ReportLocalDataSource(
-    private val reportDAO: ReportDAO
+    application: Application
 ) {
+
+    private val reportDAO = (application as ApplicationController).database.reportDao()
 
     fun getReports(): List<ReportWithQuakeCity> {
         return reportDAO.getReport()

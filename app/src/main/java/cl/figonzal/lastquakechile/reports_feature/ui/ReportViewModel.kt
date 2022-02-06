@@ -2,9 +2,9 @@ package cl.figonzal.lastquakechile.reports_feature.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import cl.figonzal.lastquakechile.core.Resource
 import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
 import cl.figonzal.lastquakechile.reports_feature.domain.use_case.GetReportsUseCase
-import cl.figonzal.lastquakechile.reports_feature.utils.Resource
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
