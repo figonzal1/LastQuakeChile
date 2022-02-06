@@ -1,5 +1,7 @@
 package cl.figonzal.lastquakechile;
 
+import static org.junit.Assert.assertEquals;
+
 import androidx.annotation.NonNull;
 
 import org.junit.Before;
@@ -14,9 +16,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Objects;
 
-import cl.figonzal.lastquakechile.handlers.DateHandler;
-
-import static org.junit.Assert.assertEquals;
+import cl.figonzal.lastquakechile.core.utils.DateHandler;
 
 /**
  * Example local unit test, which will execute on the development machine (host).

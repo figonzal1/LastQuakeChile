@@ -1,41 +1,34 @@
 package cl.figonzal.lastquakechile.views.activities
 
-import android.animation.IntEvaluator
-import android.animation.ValueAnimator
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.FileProvider
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.getMagnitudeColor
+import cl.figonzal.lastquakechile.core.setEscala
+import cl.figonzal.lastquakechile.core.setTimeToTextView
 import cl.figonzal.lastquakechile.databinding.ActivityQuakeDetailsBinding
-import cl.figonzal.lastquakechile.handlers.DateHandler
-import cl.figonzal.lastquakechile.handlers.ViewsManager
-import cl.figonzal.lastquakechile.model.QuakeModel
+import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import cl.figonzal.lastquakechile.services.NightModeService
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapFragment
 import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.model.CircleOptions
-import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import java.text.ParseException
 import java.util.*
 import kotlin.math.abs
 import kotlin.math.floor
@@ -64,9 +57,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
     private var mFechaLocal: String? = null
     private var mTiempos: Map<String, Long>? = null
     private var mFabShare: FloatingActionButton? = null
-    private var dateHandler: DateHandler? = null
-    private var viewsManager: ViewsManager? = null
-    private var quakeModel: QuakeModel? = null
+    private var quake: Quake? = null
 
     private lateinit var binding: ActivityQuakeDetailsBinding
 
@@ -86,9 +77,6 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun initResources() {
-        dateHandler = DateHandler()
-        viewsManager = ViewsManager()
-
 
         //Setting toolbar
         val mToolbar = findViewById<Toolbar>(R.id.tool_bar)
@@ -126,23 +114,24 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         //Obtener datos desde intent
         val mBundle = intent.extras
-        if (mBundle != null) {
+
+        /*if (mBundle != null) {
 
             //OBTENCION DE INFO DESDE INTENT
-            quakeModel = QuakeModel()
-            quakeModel!!.ciudad = mBundle.getString(getString(R.string.INTENT_CIUDAD))
-            quakeModel!!.referencia = mBundle.getString(getString(R.string.INTENT_REFERENCIA))
-            quakeModel!!.magnitud = mBundle.getDouble(getString(R.string.INTENT_MAGNITUD))
-            quakeModel!!.profundidad = mBundle.getDouble(getString(R.string.INTENT_PROFUNDIDAD))
-            quakeModel!!.escala = mBundle.getString(getString(R.string.INTENT_ESCALA))
-            quakeModel!!.sensible = mBundle.getString(getString(R.string.INTENT_SENSIBLE))
-            quakeModel!!.estado = mBundle.getString(getString(R.string.INTENT_ESTADO))
-            quakeModel!!.latitud = mBundle.getString(getString(R.string.INTENT_LATITUD))
-            quakeModel!!.longitud = mBundle.getString(getString(R.string.INTENT_LONGITUD))
+            quake = Quake()
+            quake!!.city = mBundle.getString(getString(R.string.INTENT_CIUDAD))
+            quake!!.reference = mBundle.getString(getString(R.string.INTENT_REFERENCIA))
+            quake!!.magnitude = mBundle.getDouble(getString(R.string.INTENT_MAGNITUD))
+            quake!!.depth = mBundle.getDouble(getString(R.string.INTENT_PROFUNDIDAD))
+            quake!!.scale = mBundle.getString(getString(R.string.INTENT_ESCALA))
+            quake!!.isSensitive = mBundle.getString(getString(R.string.INTENT_SENSIBLE))
+            quake!!.estado = mBundle.getString(getString(R.string.INTENT_ESTADO))
+            quake!!.latitud = mBundle.getString(getString(R.string.INTENT_LATITUD))
+            quake!!.longitud = mBundle.getString(getString(R.string.INTENT_LONGITUD))
 
             //Calculo de Grados,Minutos y segundos de
             //mLatitud y mLongitud
-            calculateGMS(quakeModel!!.latitud, quakeModel!!.longitud)
+            calculateGMS(quake!!.latitud, quake!!.longitud)
 
             //Configuración de fechas locales y utc
             dateConfig(mBundle)
@@ -152,7 +141,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
             //Seteo de floating buttons
             setFloatingButtons()
-        }
+        }*/
     }
 
     /**
@@ -201,12 +190,12 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                 
                 Descarga la app aquí -> %7${"$"}s
                 """.trimIndent(),
-                quakeModel!!.ciudad,
+                quake!!.city,
                 mFechaLocal,
-                quakeModel!!.magnitud,
-                quakeModel!!.escala,
-                quakeModel!!.profundidad,
-                quakeModel!!.referencia,
+                quake!!.magnitude,
+                quake!!.scale,
+                quake!!.depth,
+                quake!!.reference,
                 getString(R.string.DEEP_LINK)
             )
         )
@@ -279,6 +268,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
         mFechaLocal = b.getString(getString(R.string.INTENT_FECHA_LOCAL))
         val mFechaUtc = b.getString(getString(R.string.INTENT_FECHA_UTC))
 
+        /*
 
         //SI INTENT VIENE DE ADAPTER
         //Convertir mFechaLocal a Date
@@ -287,8 +277,8 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
             val local_date: Date?
             try {
                 local_date = dateHandler!!.stringToDate(this, mFechaLocal!!)
-                quakeModel!!.fecha_local = local_date
-                mTiempos = dateHandler!!.dateToDHMS(quakeModel!!.fecha_local)
+                quake!!.localDate = local_date
+                mTiempos = dateHandler!!.dateToDHMS(quake!!.localDate)
             } catch (e: ParseException) {
                 Timber.e(e, "Parse exception error: %s", e.message)
             }
@@ -299,7 +289,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                     fecha_utc = dateHandler!!.stringToDate(this, mFechaUtc)
                     if (fecha_utc != null) {
                         val mDateFechaLocal = dateHandler!!.utcToLocal(fecha_utc)
-                        quakeModel!!.fecha_local = mDateFechaLocal
+                        quake!!.localDate = mDateFechaLocal
                         mTiempos = dateHandler!!.dateToDHMS(mDateFechaLocal)
 
                         //Setear string que será usado en textviews de detalle con la fecha transformada
@@ -310,7 +300,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                     Timber.e(e, "Parse exception error: %s", e.message)
                 }
             }
-        }
+        }*/
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -331,22 +321,22 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         //Setear titulo de mCiudad en activity
         val actionBar = supportActionBar
-        actionBar?.title = quakeModel!!.ciudad
+        actionBar?.title = quake!!.city
 
         //Setear nombre mCiudad
-        mTvCiudad!!.text = quakeModel!!.ciudad
+        mTvCiudad!!.text = quake!!.city
 
         //Setear mReferencia
-        mTvReferencia!!.text = quakeModel!!.referencia
+        mTvReferencia!!.text = quake!!.reference
 
         //Setear mMagnitud en en circulo de color
-        mTvMagnitud!!.text = String.format(getString(R.string.magnitud), quakeModel!!.magnitud)
+        mTvMagnitud!!.text = String.format(getString(R.string.magnitud), quake!!.magnitude)
 
         //Setear el color de background dependiendo de mMagnitud del sismo
         mIvMagColor!!.setColorFilter(
             getColor(
-                viewsManager!!.getMagnitudeColor(
-                    quakeModel!!.magnitud,
+                getMagnitudeColor(
+                    quake!!.magnitude,
                     false
                 )
             )
@@ -356,7 +346,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
         mTvProfundidad!!.text = String.format(
             Locale.US,
             getString(R.string.quake_details_profundidad),
-            quakeModel!!.profundidad
+            quake!!.depth
         )
 
         //Setear fecha
@@ -366,29 +356,27 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
         mTvGms!!.text = String.format(getString(R.string.format_coordenadas), mDmsLat, mDmsLong)
 
         //SETEO DE ESTADO
-        if (quakeModel!!.estado != null) {
+        /*if (quake!!.estado != null) {
             viewsManager!!.setStatusImage(
                 applicationContext,
-                quakeModel!!.estado,
+                quake!!.estado,
                 mTvEstado!!,
                 mIvEstado!!
             )
-        }
+        }*/
 
         //SETEO DE HORA
         if (mTiempos != null) {
-            viewsManager!!.setTimeToTextView(applicationContext, mTiempos!!, mTvHora!!)
+            mTvHora?.setTimeToTextView(mTiempos!!)
         }
 
         //SETEO DE ESCALA
-        if (quakeModel!!.escala != null) {
-            viewsManager!!.setEscala(applicationContext, quakeModel!!.escala, mTvEscala!!)
-        }
+        mTvEscala?.setEscala(quake!!.scale)
 
         //SETEO SISMO SENSIBLE
-        if (quakeModel!!.sensible == "1") {
+        /*if (quake!!.isSensitive == "1") {
             mIvSensible!!.visibility = View.VISIBLE
-        }
+        }*/
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -413,11 +401,12 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
         mGoogleMap!!.uiSettings.isMapToolbarEnabled = false
         mGoogleMap!!.uiSettings.isRotateGesturesEnabled = false
         mGoogleMap!!.uiSettings.isCompassEnabled = false
-        val mLatLong = LatLng(
-            quakeModel!!.latitud.toDouble(), quakeModel!!.longitud.toDouble()
-        )
-        val mIdColor = viewsManager!!.getMagnitudeColor(quakeModel!!.magnitud, true)
+        /*val mLatLong = LatLng(
+            quake!!.latitud.toDouble(), quake!!.longitud.toDouble()
+        )*/
+        val mIdColor = getMagnitudeColor(quake!!.magnitude, true)
 
+        /*
         //Circulo grande con color segun magnitud
         mGoogleMap!!.addCircle(
             CircleOptions()
@@ -477,7 +466,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
         mGoogleMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLong, 6.0f))
 
         //Callback en espera de mapa completamente cargado
-        mGoogleMap!!.setOnMapLoadedCallback {}
+        mGoogleMap!!.setOnMapLoadedCallback {}*/
     }
 
     /**
@@ -510,7 +499,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
     @Throws(IOException::class)
     fun getLocalBitmapUri(bitmap: Bitmap, context: Context): Uri {
         val c = Calendar.getInstance()
-        c.time = quakeModel!!.fecha_local
+        //c.time = quake!!.localDate
         val date = c.timeInMillis.toInt()
         val mFile = File(context.cacheDir, "share$date.jpeg")
         if (mFile.exists()) {

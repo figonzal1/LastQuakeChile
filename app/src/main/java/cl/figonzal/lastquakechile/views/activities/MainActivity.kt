@@ -14,7 +14,6 @@ import androidx.preference.PreferenceManager
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.adapter.MainFragmentStateAdapter
 import cl.figonzal.lastquakechile.databinding.ActivityMainBinding
-import cl.figonzal.lastquakechile.handlers.DateHandler
 import cl.figonzal.lastquakechile.services.*
 import cl.figonzal.lastquakechile.services.notifications.QuakesNotification
 import com.bumptech.glide.Glide
@@ -46,7 +45,6 @@ class MainActivity : AppCompatActivity() {
 
         //Setear configuraciones por defecto de ConfigActivity
         PreferenceManager.setDefaultValues(this, R.xml.root_preferences, false)
-        val dateHandler = DateHandler()
         val sharedPrefService = SharedPrefService(applicationContext)
 
         //Ad service
@@ -202,11 +200,6 @@ class MainActivity : AppCompatActivity() {
             return true
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        //updaterService!!.resumeUpdater()
     }
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

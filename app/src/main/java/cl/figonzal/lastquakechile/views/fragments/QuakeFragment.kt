@@ -6,45 +6,35 @@ import android.app.Application
 import android.os.Bundle
 import android.view.*
 import android.widget.Button
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.adapter.QuakeAdapter
 import cl.figonzal.lastquakechile.core.ViewModelFactory
 import cl.figonzal.lastquakechile.databinding.FragmentQuakeBinding
-import cl.figonzal.lastquakechile.handlers.DateHandler
-import cl.figonzal.lastquakechile.handlers.ViewsManager
-import cl.figonzal.lastquakechile.model.QuakeModel
-import cl.figonzal.lastquakechile.repository.NetworkRepository
-import cl.figonzal.lastquakechile.repository.QuakeRepository
-import cl.figonzal.lastquakechile.services.AdsService
+import cl.figonzal.lastquakechile.quake_feature.ui.QuakeAdapter
+import cl.figonzal.lastquakechile.quake_feature.ui.QuakeViewModel
 import cl.figonzal.lastquakechile.services.SharedPrefService
-import cl.figonzal.lastquakechile.viewmodel.QuakeListViewModel
 import com.google.android.gms.ads.AdView
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.*
 
 class QuakeFragment : Fragment(), SearchView.OnQueryTextListener {
     private var sSnackbar: Snackbar? = null
-    private var mRecycleView: RecyclerView? = null
-    private var mProgressBar: ProgressBar? = null
-    private var mViewModel: QuakeListViewModel? = null
     private var quakeAdapter: QuakeAdapter? = null
     private var mCardViewInfo: CardView? = null
     private var mAdView: AdView? = null
-    private var tv_quakes_vacio: TextView? = null
     private var application: Application? = null
     private var crashlytics: FirebaseCrashlytics? = null
-    private var dateHandler: DateHandler? = null
-    private var viewsManager: ViewsManager? = null
     private var sharedPrefService: SharedPrefService? = null
 
     private lateinit var binding: FragmentQuakeBinding
@@ -52,9 +42,7 @@ class QuakeFragment : Fragment(), SearchView.OnQueryTextListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         application = requireActivity().application
-        dateHandler = DateHandler()
         crashlytics = FirebaseCrashlytics.getInstance()
-        viewsManager = ViewsManager()
         sharedPrefService = SharedPrefService(context)
     }
 
@@ -67,13 +55,64 @@ class QuakeFragment : Fragment(), SearchView.OnQueryTextListener {
 
         // Inflate the layout for thi{s fragment
         binding = FragmentQuakeBinding.inflate(inflater, container, false)
-        with(binding) {
-            instanciarRecursosInterfaz(root)
-            //iniciarViewModelObservers()
 
-            //Seccion SHARED PREF CARD VIEW INFO
-            showCardViewInformation(root)
-            return root
+        bindingResources()
+        initViewModel()
+
+        return binding.root
+    }
+
+    private fun initViewModel() {
+
+        val viewModel: QuakeViewModel = ViewModelProvider(
+            requireActivity(),
+            ViewModelFactory(
+                requireActivity().application
+            )
+        )[QuakeViewModel::class.java]
+
+        lifecycleScope.launch {
+
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+
+                //TODO: Make error state
+                //launch {}
+
+                launch {
+                    viewModel.quakeState.collect {
+
+                        binding.progressBarQuakes.visibility = when {
+                            it.isLoading -> View.VISIBLE
+                            else -> View.GONE
+                        }
+
+                        binding.tvQuakesVacios.visibility = when {
+                            it.isLoading -> View.VISIBLE
+                            else -> View.GONE
+                        }
+
+                        if (it.quakes.isNotEmpty()) quakeAdapter?.updateList(it.quakes)
+                        Timber.i(getString(R.string.TAG_FRAGMENT_QUAKE) + ": " + getString(R.string.FRAGMENT_LOAD_LIST))
+                    }
+                }
+            }
+        }
+
+    }
+
+    private fun bindingResources() {
+        with(binding) {
+
+            recycleViewQuakes.apply {
+                setHasFixedSize(true)
+                layoutManager = LinearLayoutManager(context)
+
+                quakeAdapter = QuakeAdapter(
+                    ArrayList(),
+                    requireActivity()
+                )
+                this.adapter = quakeAdapter
+            }
         }
     }
 
@@ -81,98 +120,9 @@ class QuakeFragment : Fragment(), SearchView.OnQueryTextListener {
         mCardViewInfo = binding.cardViewInformation.cardViewInfo
 
         mAdView = binding.adView
-        val adsService =
-            AdsService(requireActivity(), parentFragmentManager, requireContext(), dateHandler)
-        adsService.loadBanner(mAdView!!)
-
-        mRecycleView = binding.recycleViewQuakes
-        mRecycleView!!.setHasFixedSize(true)
-
-        val ly = LinearLayoutManager(requireContext())
-        mRecycleView!!.layoutManager = ly
-
-        tv_quakes_vacio = binding.tvQuakesVacios
-        tv_quakes_vacio!!.visibility = View.INVISIBLE
-
-        mProgressBar = binding.progressBarQuakes
-        mProgressBar!!.visibility = View.VISIBLE
-
-        quakeAdapter = QuakeAdapter(
-            ArrayList(),
-            requireActivity(),
-            dateHandler,
-            viewsManager
-        )
-        mRecycleView!!.adapter = quakeAdapter
-    }
-
-    /**
-     * Funcion que contiene los ViewModels encargados de cargar los datos asincronamente a la UI
-     */
-    private fun iniciarViewModelObservers() {
-
-        //Instanciar viewmodel
-        val repository: NetworkRepository<QuakeModel> =
-            QuakeRepository.getIntance(application!!.applicationContext)
-
-        mViewModel =
-            ViewModelProvider(
-                requireActivity(),
-                ViewModelFactory(application!!)
-            )[QuakeListViewModel::class.java]
-
-        mViewModel!!.isLoading.observe(requireActivity(), { aBoolean: Boolean ->
-            if (aBoolean) {
-                showProgressBar()
-            } else {
-                hideProgressBar()
-                if (quakeAdapter!!.itemCount == 0) {
-                    tv_quakes_vacio!!.visibility = View.VISIBLE
-                } else {
-                    tv_quakes_vacio!!.visibility = View.INVISIBLE
-                }
-            }
-        })
-
-        //Viewmodel encargado de cargar los datos desde internet
-        mViewModel!!.showQuakeList().observe(requireActivity(), { list: List<QuakeModel> ->
-            quakeAdapter!!.updateList(list)
-            if (quakeAdapter!!.itemCount == 0) {
-                tv_quakes_vacio!!.visibility = View.VISIBLE
-            } else {
-                tv_quakes_vacio!!.visibility = View.INVISIBLE
-            }
-            //LOG ZONE
-            Timber.i(getString(R.string.TAG_FRAGMENT_QUAKE) + ": " + getString(R.string.FRAGMENT_LOAD_LIST))
-        })
-
-        //Viewmodel encargado de mostrar los mensajes de estado en los sSnackbar
-        mViewModel!!.showMsgErrorList().observe(
-            requireActivity(),
-            { status: String ->
-                showSnackBar(
-                    status,
-                    requireActivity().findViewById(android.R.id.content)
-                )
-            })
-
-        //ViewModel encargado de cargar los datos de sismos post-busqueda de usuario en SearchView
-        mViewModel!!.showFilteredQuakeList()
-            .observe(requireActivity(), { list: List<QuakeModel?>? ->
-                //Setear el mAdapter con la lista de quakes
-                quakeAdapter!!.updateList(list)
-            })
-    }
-
-    private fun hideProgressBar() {
-        mProgressBar!!.visibility = View.INVISIBLE
-        mRecycleView!!.visibility = View.VISIBLE
-    }
-
-    private fun showProgressBar() {
-        mProgressBar!!.visibility = View.VISIBLE
-        tv_quakes_vacio!!.visibility = View.INVISIBLE
-        mRecycleView!!.visibility = View.INVISIBLE
+        //val adsService =
+        //  AdsService(requireActivity(), parentFragmentManager, requireContext(), dateHandler)
+        //adsService.loadBanner(mAdView!!)
     }
 
     /**
@@ -181,6 +131,7 @@ class QuakeFragment : Fragment(), SearchView.OnQueryTextListener {
      * @param v Vista necesaria para mostrar el vardview
      */
     private fun showCardViewInformation(v: View) {
+
         val isCardViewShow = sharedPrefService!!.getData(
             getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO),
             true
@@ -222,8 +173,6 @@ class QuakeFragment : Fragment(), SearchView.OnQueryTextListener {
         sSnackbar = Snackbar
             .make(v, status, Snackbar.LENGTH_INDEFINITE)
             .setAction(getString(R.string.FLAG_RETRY)) {
-                mViewModel!!.refreshMutableQuakeList()
-                mProgressBar!!.visibility = View.VISIBLE
                 crashlytics!!.setCustomKey(
                     getString(R.string.SNACKBAR_NOCONNECTION_ERROR_PRESSED),
                     true
@@ -241,16 +190,6 @@ class QuakeFragment : Fragment(), SearchView.OnQueryTextListener {
         sSnackbar!!.show()
     }
 
-    override fun onResume() {
-        mAdView!!.resume()
-        super.onResume()
-    }
-
-    override fun onPause() {
-        mAdView!!.pause()
-        super.onPause()
-    }
-
     override fun onQueryTextSubmit(s: String): Boolean {
         //List<QuakeModel> filteredList= mViewModel.doSearch(s);
         //mViewModel.setFilteredList(filteredList);
@@ -266,7 +205,7 @@ class QuakeFragment : Fragment(), SearchView.OnQueryTextListener {
      */
     override fun onQueryTextChange(s: String): Boolean {
         val input = s.lowercase(Locale.getDefault())
-        mViewModel!!.doSearch(input)
+        //mViewModel!!.doSearch(input)
         return true
     }
 
@@ -285,7 +224,7 @@ class QuakeFragment : Fragment(), SearchView.OnQueryTextListener {
                 }
 
                 override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
-                    mViewModel!!.refreshMutableQuakeList()
+                    //mViewModel!!.refreshMutableQuakeList()
 
                     //Se vuelve a mostrar boton refresh
                     menu.findItem(R.id.refresh_menu).isVisible = true
@@ -300,7 +239,7 @@ class QuakeFragment : Fragment(), SearchView.OnQueryTextListener {
         if (item.itemId == R.id.refresh_menu) {
 
             //Se refresca el listado de sismos
-            mViewModel!!.refreshMutableQuakeList()
+            //mViewModel!!.refreshMutableQuakeList()
 
             //Si el sSnackbar de estado de datos esta ON y el usuario presiona refresh desde
             // toolbar

@@ -13,9 +13,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 
-import cl.figonzal.lastquakechile.handlers.DateHandler;
-
-import static org.junit.Assert.assertEquals;
+import cl.figonzal.lastquakechile.core.utils.DateHandler;
 
 
 @RunWith(Parameterized.class)
