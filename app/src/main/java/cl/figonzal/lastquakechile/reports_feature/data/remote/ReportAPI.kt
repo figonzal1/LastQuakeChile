@@ -10,9 +10,4 @@ interface ReportAPI {
 
     @GET("/lastquakechile/api/v1/reports")
     suspend fun listReports(): Response<ReportResult>
-
-
-    companion object {
-        const val BASE_URL: String = "https://lastquakechile-server-prod.herokuapp.com"
-    }
 }

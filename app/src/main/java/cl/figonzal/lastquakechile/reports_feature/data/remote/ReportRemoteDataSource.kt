@@ -1,31 +1,19 @@
 package cl.figonzal.lastquakechile.reports_feature.data.remote
 
+import android.app.Application
+import cl.figonzal.lastquakechile.ApplicationController
 import cl.figonzal.lastquakechile.reports_feature.data.local.entity.ReportWithQuakeCity
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 
-class ReportRemoteDataSource {
+class ReportRemoteDataSource(
+    private val application: Application
+) {
 
-    private val okHttpClient = OkHttpClient().newBuilder()
-        .addInterceptor(HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
-        }).build()
-
+    private val service: ReportAPI by lazy {
+        (application as ApplicationController).apiService.create(ReportAPI::class.java)
+    }
 
     suspend fun getReports(): List<ReportWithQuakeCity> {
-
-        val service: ReportAPI = Retrofit.Builder()
-            .baseUrl(ReportAPI.BASE_URL)
-            .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .run {
-                create(ReportAPI::class.java)
-            }
-
 
         val call = service.listReports()
 

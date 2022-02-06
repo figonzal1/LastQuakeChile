@@ -3,7 +3,6 @@ package cl.figonzal.lastquakechile.core
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import cl.figonzal.lastquakechile.ApplicationController
 import cl.figonzal.lastquakechile.reports_feature.data.local.ReportLocalDataSource
 import cl.figonzal.lastquakechile.reports_feature.data.remote.ReportRemoteDataSource
 import cl.figonzal.lastquakechile.reports_feature.data.repository.ReportRepositoryImpl
@@ -27,10 +26,8 @@ class ViewModelFactory(
             ) as T
         } else {
             val repo = ReportRepositoryImpl(
-                ReportLocalDataSource(
-                    (application as ApplicationController).database.reportDao()
-                ),
-                ReportRemoteDataSource(),
+                ReportLocalDataSource(application),
+                ReportRemoteDataSource(application),
                 Dispatchers.IO
             )
             val useCase = GetReportsUseCase(repo)

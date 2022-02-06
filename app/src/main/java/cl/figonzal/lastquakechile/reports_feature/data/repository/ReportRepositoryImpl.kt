@@ -1,10 +1,10 @@
 package cl.figonzal.lastquakechile.reports_feature.data.repository
 
+import cl.figonzal.lastquakechile.core.Resource
 import cl.figonzal.lastquakechile.reports_feature.data.local.ReportLocalDataSource
 import cl.figonzal.lastquakechile.reports_feature.data.remote.ReportRemoteDataSource
 import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
 import cl.figonzal.lastquakechile.reports_feature.domain.repository.ReportRepository
-import cl.figonzal.lastquakechile.reports_feature.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -73,5 +73,4 @@ class ReportRepositoryImpl(
         }
 
     }.flowOn(dispatcher)
-
 }
