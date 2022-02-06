@@ -23,7 +23,7 @@
         card_view:srcCompat="@drawable/circle_shape" />
 
     <TextView
-        android:id="@+id/tv_ciudad"
+        android:id="@+id/tv_city"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -36,19 +36,19 @@
         tools:text="Nombre Ciudad" />
 
     <TextView
-        android:id="@+id/tv_hora"
+        android:id="@+id/tv_hour"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textSize="12sp"
-        card_view:layout_constraintBottom_toBottomOf="@+id/tv_ciudad"
+        card_view:layout_constraintBottom_toBottomOf="@+id/tv_city"
         card_view:layout_constraintEnd_toEndOf="parent"
-        card_view:layout_constraintTop_toTopOf="@+id/tv_ciudad"
+        card_view:layout_constraintTop_toTopOf="@+id/tv_city"
         tools:text="XX D X h" />
 
     <TextView
-        android:id="@+id/tv_referencia"
+        android:id="@+id/tv_reference"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginEnd="16dp"
@@ -60,13 +60,13 @@
         android:textSize="14sp"
         card_view:layout_constraintBottom_toBottomOf="@+id/iv_mag_color"
         card_view:layout_constraintEnd_toEndOf="parent"
-        card_view:layout_constraintStart_toStartOf="@+id/tv_ciudad"
-        card_view:layout_constraintTop_toBottomOf="@+id/tv_ciudad"
+        card_view:layout_constraintStart_toStartOf="@+id/tv_city"
+        card_view:layout_constraintTop_toBottomOf="@+id/tv_city"
         tools:text="Referencia de la ciudad" />
 
 
     <TextView
-        android:id="@+id/tv_magnitud"
+        android:id="@+id/tv_magnitude"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:maxLength="4"
@@ -80,18 +80,18 @@
         tools:text="9.5" />
 
     <ImageView
-        android:id="@+id/iv_sensible"
+        android:id="@+id/iv_sensitive"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginStart="4dp"
         android:layout_marginEnd="8dp"
         android:contentDescription="@string/icono_sensible"
         android:visibility="invisible"
-        card_view:layout_constraintBottom_toBottomOf="@+id/tv_ciudad"
-        card_view:layout_constraintEnd_toStartOf="@+id/tv_hora"
+        card_view:layout_constraintBottom_toBottomOf="@+id/tv_city"
+        card_view:layout_constraintEnd_toStartOf="@+id/tv_hour"
         card_view:layout_constraintHorizontal_bias="0.0"
-        card_view:layout_constraintStart_toEndOf="@+id/tv_ciudad"
-        card_view:layout_constraintTop_toTopOf="@+id/tv_ciudad"
+        card_view:layout_constraintStart_toEndOf="@+id/tv_city"
+        card_view:layout_constraintTop_toTopOf="@+id/tv_city"
         card_view:srcCompat="@drawable/ic_warning_black_24dp" />
 
     <View
@@ -102,8 +102,8 @@
         android:background="?attr/dividerHorizontal"
         android:visibility="visible"
         card_view:layout_constraintBottom_toBottomOf="parent"
-        card_view:layout_constraintEnd_toEndOf="@+id/tv_hora"
-        card_view:layout_constraintStart_toStartOf="@+id/tv_referencia"
+        card_view:layout_constraintEnd_toEndOf="@+id/tv_hour"
+        card_view:layout_constraintStart_toStartOf="@+id/tv_reference"
         card_view:layout_constraintTop_toBottomOf="@+id/iv_mag_color" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

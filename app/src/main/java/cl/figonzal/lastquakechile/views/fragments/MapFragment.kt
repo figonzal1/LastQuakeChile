@@ -10,13 +10,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.getMagnitudeColor
 import cl.figonzal.lastquakechile.databinding.FragmentMapBinding
-import cl.figonzal.lastquakechile.handlers.DateHandler
-import cl.figonzal.lastquakechile.handlers.ViewsManager
-import cl.figonzal.lastquakechile.model.QuakeModel
-import cl.figonzal.lastquakechile.viewmodel.QuakeListViewModel
+import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import cl.figonzal.lastquakechile.views.activities.QuakeDetailsActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -24,10 +21,11 @@ import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.model.*
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.MapStyleOptions
+import com.google.android.gms.maps.model.Marker
 import timber.log.Timber
-import java.text.SimpleDateFormat
-import java.util.*
 
 class MapFragment : Fragment(), OnMapReadyCallback, InfoWindowAdapter, OnInfoWindowClickListener {
 
@@ -35,23 +33,18 @@ class MapFragment : Fragment(), OnMapReadyCallback, InfoWindowAdapter, OnInfoWin
     private lateinit var googleMap: GoogleMap
     private var mPromLat = 0.0
     private var mPromLong = 0.0
-    private lateinit var mListQuakeModel: List<QuakeModel>
-    private lateinit var dateHandler: DateHandler
-    private lateinit var viewsManager: ViewsManager
+    private lateinit var mListQuake: List<Quake>
 
     private lateinit var binding: FragmentMapBinding
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mapView!!.onCreate(savedInstanceState)
-        mapView!!.onResume()
+        mapView.onCreate(savedInstanceState)
+        mapView.onResume()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        dateHandler = DateHandler()
-        viewsManager = ViewsManager()
         retainInstance = true
     }
 
@@ -60,15 +53,15 @@ class MapFragment : Fragment(), OnMapReadyCallback, InfoWindowAdapter, OnInfoWin
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentMapBinding.inflate(inflater, container, false)
-        val mQuakeListViewModel =
-            ViewModelProvider(requireActivity())[QuakeListViewModel::class.java]
+        //val mQuakeListViewModel =
+        //    ViewModelProvider(requireActivity())[QuakeListViewModel::class.java]
 
         mapView = binding.mapView
-        mQuakeListViewModel.showQuakeList()
-            .observe(requireActivity(), { quakeModels: List<QuakeModel> ->
-                mListQuakeModel = quakeModels
-                mapView.getMapAsync(this@MapFragment)
-            })
+        //mQuakeListViewModel.showQuakeList()
+        //    .observe(requireActivity(), { quakes: List<Quake> ->
+        //        mListQuake = quakes
+        //        mapView.getMapAsync(this@MapFragment)
+        //    })
         return binding.root
     }
 
@@ -111,11 +104,11 @@ class MapFragment : Fragment(), OnMapReadyCallback, InfoWindowAdapter, OnInfoWin
         mPromLong = 0.0
 
         //Cargar pines y circulos
-        cargarPins(mListQuakeModel)
+        cargarPins(mListQuake)
 
         //Calculo de promedios
-        mPromLat /= mListQuakeModel.size.toDouble()
-        mPromLong /= mListQuakeModel.size.toDouble()
+        mPromLat /= mListQuake.size.toDouble()
+        mPromLong /= mListQuake.size.toDouble()
 
         //Calcular punto central de pines y ubicar camara en posicion promedio
         val mPuntoPromedio = LatLng(mPromLat, mPromLong)
@@ -129,13 +122,14 @@ class MapFragment : Fragment(), OnMapReadyCallback, InfoWindowAdapter, OnInfoWin
      * Funcion encargada de dibujar los pins y marcas circulares para cada sismos obtenido de la
      * lista.
      *
-     * @param quakeModels Listado de sismos proveniente de viewModel
+     * @param quakes Listado de sismos proveniente de viewModel
      */
-    private fun cargarPins(quakeModels: List<QuakeModel>) {
-        for (i in quakeModels.indices) {
+    private fun cargarPins(quakes: List<Quake>) {
+        for (i in quakes.indices) {
 
+            /*
             //Obtener sismos i-esimo
-            val mModel = quakeModels[i]
+            val mModel = quakes[i]
 
             //Obtener clase latlong del sismo
             val mLatLong = LatLng(mModel.latitud.toDouble(), mModel.longitud.toDouble())
@@ -145,7 +139,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, InfoWindowAdapter, OnInfoWin
             mPromLong += mModel.longitud.toDouble()
 
             //Buscar color
-            val mIdColor = viewsManager.getMagnitudeColor(mModel.magnitud, true)
+            val mIdColor = viewsManager.getMagnitudeColor(mModel.magnitude, true)
 
             //Marcador de epicentro
             googleMap.addMarker(
@@ -157,10 +151,10 @@ class MapFragment : Fragment(), OnMapReadyCallback, InfoWindowAdapter, OnInfoWin
             //Circulo en pin
             val mCircleOptions = CircleOptions()
                 .center(mLatLong)
-                .radius(10000 * mModel.magnitud)
+                .radius(10000 * mModel.magnitude)
                 .fillColor(requireContext().getColor(mIdColor))
                 .strokeColor(requireContext().getColor(R.color.grey_dark_alpha))
-            googleMap.addCircle(mCircleOptions)
+            googleMap.addCircle(mCircleOptions)*/
         }
     }
 
@@ -173,7 +167,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, InfoWindowAdapter, OnInfoWin
         @SuppressLint("InflateParams") val mView =
             layoutInflater.inflate(R.layout.info_windows, null)
         val mObject = marker.tag
-        val mModel = mObject as QuakeModel
+        val mModel = mObject as Quake
         val mTvMagnitud = mView.findViewById<TextView>(R.id.tv_iw_magnitud)
         val mTvReferencia = mView.findViewById<TextView>(R.id.tv_iw_referencia)
         val mIvMagColor = mView.findViewById<ImageView>(R.id.iv_iw_mag_color)
@@ -183,37 +177,38 @@ class MapFragment : Fragment(), OnMapReadyCallback, InfoWindowAdapter, OnInfoWin
         val mIvEstado = mView.findViewById<ImageView>(R.id.iv_iw_estado)
 
         //SECCION ESTADO
-        val mEstado = mModel.estado
+        //val mEstado = mModel.estado
 
         //Setear estado e imagen del estado (Preliminar o verificado)
-        viewsManager.setStatusImage(requireContext(), mEstado, mTvEstado, mIvEstado)
+        //viewsManager.setStatusImage(requireContext(), mEstado, mTvEstado, mIvEstado)
 
         //Setear referencia del sismo en infoWindow
-        mTvReferencia.text = mModel.referencia
+        mTvReferencia.text = mModel.reference
 
         //Setear magnitud del sismo dentro de circulo coloreado
         mTvMagnitud.text =
-            String.format(requireContext().getString(R.string.magnitud), mModel.magnitud)
+            String.format(requireContext().getString(R.string.magnitud), mModel.magnitude)
 
         //Colorear circulo según la magnitud del sismo
-        val idColor = viewsManager.getMagnitudeColor(mModel.magnitud, false)
+        val idColor = getMagnitudeColor(mModel.magnitude, false)
         mIvMagColor.setColorFilter(requireContext().getColor(idColor))
 
         //Setear la profundidad del sismo
         mTvProfundidad.text =
-            String.format(getString(R.string.profundidad_info_windows), mModel.profundidad)
+            String.format(getString(R.string.profundidad_info_windows), mModel.depth)
 
         //Calcular tiempos (Dates a DHMS)
-        val mTiempos = dateHandler.dateToDHMS(
-            mModel.fecha_local
-        )
+        /*val mTiempos = dateHandler.dateToDHMS(
+            mModel.localDate
+        )*/
 
         //Separar mapeo de tiempos en dias, horas,minutos,segundos.
-        val mDias = mTiempos[getString(R.string.UTILS_TIEMPO_DIAS)]
+        /*val mDias = mTiempos[getString(R.string.UTILS_TIEMPO_DIAS)]
         val mMinutos = mTiempos[getString(R.string.UTILS_TIEMPO_MINUTOS)]
         val mHoras = mTiempos[getString(R.string.UTILS_TIEMPO_HORAS)]
-        val mSegundos = mTiempos[getString(R.string.UTILS_TIEMPO_SEGUNDOS)]
+        val mSegundos = mTiempos[getString(R.string.UTILS_TIEMPO_SEGUNDOS)]*/
 
+        /*
         //Condiciones días.
         if (mDias != null && mDias == 0L) {
             if (mHoras != null && mHoras >= 1) {
@@ -239,7 +234,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, InfoWindowAdapter, OnInfoWin
                     )
                 }
             }
-        }
+        }*/
 
         //Log zone
         Timber.i(getString(R.string.TAG_INFO_WINDOWS_RESPONSE))
@@ -248,13 +243,14 @@ class MapFragment : Fragment(), OnMapReadyCallback, InfoWindowAdapter, OnInfoWin
 
     override fun onInfoWindowClick(marker: Marker) {
         val mObject = marker.tag
-        val mModel = mObject as QuakeModel?
+        val mModel = mObject as Quake?
         val mIntent = Intent(context, QuakeDetailsActivity::class.java)
         val mBundle = Bundle()
 
+        /*
         if (mModel != null) {
-            mBundle.putString(getString(R.string.INTENT_CIUDAD), mModel.ciudad)
-            mBundle.putString(getString(R.string.INTENT_REFERENCIA), mModel.referencia)
+            mBundle.putString(getString(R.string.INTENT_CIUDAD), mModel.city)
+            mBundle.putString(getString(R.string.INTENT_REFERENCIA), mModel.reference)
             mBundle.putString(getString(R.string.INTENT_LATITUD), mModel.latitud)
             mBundle.putString(getString(R.string.INTENT_LONGITUD), mModel.longitud)
 
@@ -265,18 +261,18 @@ class MapFragment : Fragment(), OnMapReadyCallback, InfoWindowAdapter, OnInfoWin
             )
             mBundle.putString(
                 getString(R.string.INTENT_FECHA_LOCAL),
-                mFormat.format(mModel.fecha_local)
+                mFormat.format(mModel.localDate)
             )
-            mBundle.putDouble(getString(R.string.INTENT_MAGNITUD), mModel.magnitud)
-            mBundle.putDouble(getString(R.string.INTENT_PROFUNDIDAD), mModel.profundidad)
-            mBundle.putString(getString(R.string.INTENT_ESCALA), mModel.escala)
-            mBundle.putString(getString(R.string.INTENT_SENSIBLE), mModel.sensible)
+            mBundle.putDouble(getString(R.string.INTENT_MAGNITUD), mModel.magnitude)
+            mBundle.putDouble(getString(R.string.INTENT_PROFUNDIDAD), mModel.depth)
+            mBundle.putString(getString(R.string.INTENT_ESCALA), mModel.scale)
+            mBundle.putString(getString(R.string.INTENT_SENSIBLE), mModel.isSensitive)
             mBundle.putString(getString(R.string.INTENT_LINK_FOTO), mModel.imagen_url)
             mBundle.putString(getString(R.string.INTENT_ESTADO), mModel.estado)
             mIntent.putExtras(mBundle)
             Timber.i(getString(R.string.TAG_INTENT) + ": " + getString(R.string.TAG_INTENT_INFO_WINDOWS))
             startActivity(mIntent)
-        }
+        }*/
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

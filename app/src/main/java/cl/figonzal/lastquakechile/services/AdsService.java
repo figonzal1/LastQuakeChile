@@ -21,23 +21,20 @@ import java.util.Random;
 
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.dialogs.RewardDialogFragment;
-import cl.figonzal.lastquakechile.handlers.DateHandler;
 import timber.log.Timber;
 
 public class AdsService {
 
     private final Activity activity;
     private final Context context;
-    private final DateHandler dateHandler;
     private final SharedPrefService sharedPrefService;
 
     private RewardedAd rewardedAd;
     private final FragmentManager fragmentManager;
 
-    public AdsService(Activity activity, FragmentManager fragmentManager, Context context, DateHandler dateHandler) {
+    public AdsService(Activity activity, FragmentManager fragmentManager, Context context) {
         this.activity = activity;
         this.context = context;
-        this.dateHandler = dateHandler;
         this.fragmentManager = fragmentManager;
 
         sharedPrefService = new SharedPrefService(context);
@@ -96,22 +93,23 @@ public class AdsService {
             }
         });
 
+        /*
         rewardedAd.show(activity, rewardItem -> {
             Timber.i("%s%s", context.getString(R.string.TAG_VIDEO_REWARD_STATUS), context.getString(R.string.TAG_VIDEO_REWARD_STATUS_REWARDED));
 
             Date dateNow = new Date();
-            Timber.i("%s%s", context.getString(R.string.TAG_HORA_AHORA), dateHandler.dateToString(context, dateNow));
+            Timber.i("%s%s", context.getString(R.string.TAG_HORA_AHORA), dateToString(context, dateNow));
 
             //Sumar 24 hora al tiempo de celular
-            Date dateNew = dateHandler.addHoursToJavaUtilDate(dateNow, 24);
-            Timber.i("%s%s", context.getString(R.string.TAG_HORA_REWARD), dateHandler.dateToString(context, dateNew));
+            LocalDateTime dateNew = addHoursToJavaUtilDate(dateNow, 24);
+            Timber.i("%s%s", context.getString(R.string.TAG_HORA_REWARD), dateToString(context, dateNew));
 
             //Guardar fecha de termino
             sharedPrefService.saveData(context.getString(R.string.SHARED_PREF_END_REWARD_DATE), dateNew.getTime());
 
             //Usuario rewarded
             sharedPrefService.saveData(context.getString(R.string.SHARED_PREF_EARNED_AD), true);
-        });
+        });*/
     }
 
     /**
@@ -153,7 +151,7 @@ public class AdsService {
 
         Date rewardDate = new Date((Long) sharedPrefService.getData(context.getString(R.string.SHARED_PREF_END_REWARD_DATE), 0L));
 
-        Timber.i(context.getString(R.string.TAG_FRAGMENT_REWARD_DATE) + ": " + dateHandler.dateToString(context, rewardDate));
+        //Timber.i(context.getString(R.string.TAG_FRAGMENT_REWARD_DATE) + ": " + dateHandler.dateToString(context, rewardDate));
 
         Date now_date = new Date();
 

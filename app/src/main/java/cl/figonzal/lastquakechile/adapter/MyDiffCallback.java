@@ -5,14 +5,14 @@ import androidx.recyclerview.widget.DiffUtil;
 
 import java.util.List;
 
-import cl.figonzal.lastquakechile.model.QuakeModel;
+import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake;
 
 public class MyDiffCallback extends DiffUtil.Callback {
 
-    List<QuakeModel> oldPersons;
-    List<QuakeModel> newPersons;
+    List<Quake> oldPersons;
+    List<Quake> newPersons;
 
-    public MyDiffCallback(List<QuakeModel> newPersons, List<QuakeModel> oldPersons) {
+    public MyDiffCallback(List<Quake> newPersons, List<Quake> oldPersons) {
         this.newPersons = newPersons;
         this.oldPersons = oldPersons;
     }
@@ -29,7 +29,7 @@ public class MyDiffCallback extends DiffUtil.Callback {
 
     @Override
     public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-        return oldPersons.get(oldItemPosition).getImagen_url().equals(newPersons.get(newItemPosition).getImagen_url());
+        return false;
     }
 
     @Override

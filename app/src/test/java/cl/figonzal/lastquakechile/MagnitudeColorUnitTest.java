@@ -10,16 +10,14 @@ import org.junit.runners.Parameterized;
 import java.util.Arrays;
 import java.util.Collection;
 
-import cl.figonzal.lastquakechile.handlers.ViewsManager;
-
-import static org.junit.Assert.assertEquals;
+import cl.figonzal.lastquakechile.core.Utils;
 
 @RunWith(Parameterized.class)
 public class MagnitudeColorUnitTest {
 
     private final double magnitud;
     private final int colorEsperado;
-    private ViewsManager viewsManager;
+    private Utils utils;
 
     public MagnitudeColorUnitTest(double magnitud, int colorEsperado) {
         this.colorEsperado = colorEsperado;
@@ -51,11 +49,11 @@ public class MagnitudeColorUnitTest {
 
     @Before
     public void setUp() {
-        viewsManager = new ViewsManager();
+        utils = new Utils();
     }
 
     @Test
     public void give_magnitude_return_magnitud_color() {
-        assertEquals(colorEsperado, viewsManager.getMagnitudeColor(magnitud, false));
+        assertEquals(colorEsperado, utils.getMagnitudeColor(magnitud, false));
     }
 }
