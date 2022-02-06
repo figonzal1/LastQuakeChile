@@ -1,9 +1,6 @@
 package cl.figonzal.lastquakechile.quake_feature.data.remote.dto
 
-import cl.figonzal.lastquakechile.quake_feature.domain.model.Coordinates
-import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import cl.figonzal.lastquakechile.quake_feature.data.local.entity.QuakeEntity
 
 /**
  * Here make changes if API for reports changes
@@ -25,20 +22,18 @@ data class QuakeDTO(
 ) {
 
     //DTO -> Entity -> MOdel domain
-    //TODO: Make entity
 
-    fun toDomainQuake(): Quake {
+    fun toQuakeEntity(): QuakeEntity {
 
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-
-        return Quake(
-            localDate = LocalDateTime.parse(fecha_local, formatter),
+        return QuakeEntity(
+            localDate = fecha_local,
             city = ciudad,
             reference = referencia,
             magnitude = magnitud,
             depth = profundidad,
             scale = escala,
-            coordinates = Coordinates(latitud, longitud),
+            latitude = latitud,
+            longitude = longitud,
             isSensitive = sensible == "1",
             isVerified = estado == "Verificado"
         )

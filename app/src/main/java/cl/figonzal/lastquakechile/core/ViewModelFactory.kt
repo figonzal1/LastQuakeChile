@@ -3,6 +3,7 @@ package cl.figonzal.lastquakechile.core
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import cl.figonzal.lastquakechile.quake_feature.data.local.QuakeLocalDataSource
 import cl.figonzal.lastquakechile.quake_feature.data.remote.QuakeRemoteDataSource
 import cl.figonzal.lastquakechile.quake_feature.data.repository.QuakeRepositoryImpl
 import cl.figonzal.lastquakechile.quake_feature.domain.uses_cases.GetQuakesUseCase
@@ -23,7 +24,11 @@ class ViewModelFactory(
 
         return if (modelClass == QuakeViewModel::class.java) {
 
-            val repo = QuakeRepositoryImpl(QuakeRemoteDataSource(application), Dispatchers.IO)
+            val repo = QuakeRepositoryImpl(
+                QuakeLocalDataSource(application),
+                QuakeRemoteDataSource(application),
+                Dispatchers.IO
+            )
             val useCase = GetQuakesUseCase(repo)
             QuakeViewModel(useCase) as T
         } else {

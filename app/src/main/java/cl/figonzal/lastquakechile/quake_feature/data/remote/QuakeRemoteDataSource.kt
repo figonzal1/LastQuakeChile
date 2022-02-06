@@ -2,7 +2,7 @@ package cl.figonzal.lastquakechile.quake_feature.data.remote
 
 import android.app.Application
 import cl.figonzal.lastquakechile.ApplicationController
-import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
+import cl.figonzal.lastquakechile.quake_feature.data.local.entity.QuakeEntity
 
 class QuakeRemoteDataSource(
     private val application: Application
@@ -12,10 +12,10 @@ class QuakeRemoteDataSource(
         (application as ApplicationController).apiService.create(QuakeAPI::class.java)
     }
 
-    suspend fun getQuakes(): List<Quake> {
+    suspend fun getQuakes(): List<QuakeEntity> {
 
-        val call = service.listQuakes(2)
+        val call = service.listQuakes(15)
 
-        return call.body()?.quakes?.map { it.toDomainQuake() } ?: emptyList()
+        return call.body()?.quakes?.map { it.toQuakeEntity() }!!
     }
 }

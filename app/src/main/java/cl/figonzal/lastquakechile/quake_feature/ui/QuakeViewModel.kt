@@ -5,8 +5,10 @@ import androidx.lifecycle.viewModelScope
 import cl.figonzal.lastquakechile.core.Resource
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import cl.figonzal.lastquakechile.quake_feature.domain.uses_cases.GetQuakesUseCase
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 class QuakeViewModel(
@@ -15,6 +17,9 @@ class QuakeViewModel(
 
     private val _quakeState = MutableStateFlow(QuakeState())
     val quakeState = _quakeState.asStateFlow()
+
+    private val _errorStatus = Channel<String>()
+    val errorStatus = _errorStatus.receiveAsFlow()
 
     init {
 
@@ -37,7 +42,14 @@ class QuakeViewModel(
                         )
                     }
 
-                    //TODO_: error resource
+                    is Resource.Error -> {
+                        _errorStatus.send(it.message as String)
+
+                        _quakeState.value = quakeState.value.copy(
+                            isLoading = false,
+                            quakes = emptyList()
+                        )
+                    }
                 }
             }
         }
