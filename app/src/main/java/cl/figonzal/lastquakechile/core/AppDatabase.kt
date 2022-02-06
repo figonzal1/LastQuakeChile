@@ -4,17 +4,20 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import cl.figonzal.lastquakechile.quake_feature.data.local.QuakeDAO
+import cl.figonzal.lastquakechile.quake_feature.data.local.entity.QuakeEntity
 import cl.figonzal.lastquakechile.reports_feature.data.local.ReportDAO
 import cl.figonzal.lastquakechile.reports_feature.data.local.entity.QuakeCityEntity
 import cl.figonzal.lastquakechile.reports_feature.data.local.entity.ReportEntity
 
 @Database(
-    entities = [ReportEntity::class, QuakeCityEntity::class],
-    version = 1,
+    entities = [QuakeEntity::class, ReportEntity::class, QuakeCityEntity::class],
+    version = 2,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
 
+    abstract fun quakeDao(): QuakeDAO
     abstract fun reportDao(): ReportDAO
 
     companion object {
