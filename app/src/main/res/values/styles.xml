@@ -1,6 +1,101 @@
 <resources>
 
-    <!-- Base application theme. -->
+    <!-- GENERAL / BASE STYLES -->
+    <style name="BaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Text Styles -->
+        <item name="textAppearanceHeadline1">@style/TextAppearance.MaterialComponents.Headline1
+        </item>
+        <item name="textAppearanceHeadline2">@style/TextAppearance.MaterialComponents.Headline2
+        </item>
+        <item name="textAppearanceHeadline3">@style/TextAppearance.MaterialComponents.Headline3
+        </item>
+        <item name="textAppearanceHeadline4">@style/TextAppearance.MaterialComponents.Headline4
+        </item>
+        <item name="textAppearanceHeadline5">@style/TextAppearance.MaterialComponents.Headline5
+        </item>
+        <item name="textAppearanceHeadline6">@style/TextAppearance.MaterialComponents.Headline6
+        </item>
+        <item name="textAppearanceSubtitle1">@style/TextAppearance.MaterialComponents.Subtitle1
+        </item>
+        <item name="textAppearanceSubtitle2">@style/TextAppearance.MaterialComponents.Subtitle2
+        </item>
+        <item name="textAppearanceBody1">@style/TextAppearance.MaterialComponents.Body1</item>
+        <item name="textAppearanceBody2">@style/TextAppearance.MaterialComponents.Body2</item>
+        <item name="textAppearanceButton">@style/TextAppearance.MaterialComponents.Button</item>
+        <item name="textAppearanceCaption">@style/TextAppearance.MaterialComponents.Caption</item>
+        <item name="textAppearanceOverline">@style/TextAppearance.MaterialComponents.Overline</item>
+
+        <!--Material shape attributes-->
+        <item name="shapeAppearanceSmallComponent">
+            @style/ShapeAppearance.LastQuakeChile.SmallComponent
+        </item>
+        <item name="shapeAppearanceMediumComponent">
+            @style/ShapeAppearance.LastQuakeChile.MediumComponent
+        </item>
+        <item name="shapeAppearanceLargeComponent">
+            @style/ShapeAppearance.LastQuakeChile.LargeComponent
+        </item>
+
+        <!-- Card View Style -->
+        <item name="materialCardViewStyle">@style/Widget.App.CardView</item>
+    </style>
+
+    <!-- Card View Theming -->
+    <style name="Widget.App.CardView" parent="Widget.MaterialComponents.CardView">
+        <!-- Card view shape -->
+        <item name="shapeAppearance">@style/ShapeAppearance.LastQuakeChile.CardView</item>
+    </style>
+
+    <!--
+        PARTICULAR
+        DESDE AQUI A ABAJO
+    -->
+    <style name="AppTheme" parent="BaseTheme">
+
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
+        <item name="colorOnPrimary">@color/colorOnPrimary</item>
+        <item name="android:statusBarColor">@color/colorPrimaryVariant</item>
+
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorOnSecondary">@color/colorOnSecondary</item>
+
+        <item name="colorSurface">@color/colorSurface</item>
+        <item name="colorOnSurface">@color/colorOnSurface</item>
+
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:fontFamily">@font/roboto</item>
+
+        <!-- Toolbar Style -->
+        <item name="toolbarStyle">@style/Widget.App.Toolbar</item>
+
+        <!-- Material Button Style -->
+        <item name="materialButtonStyle">@style/Widget.App.Button</item>
+
+    </style>
+
+    <!-- Button light style -->
+    <style name="Widget.App.Button" parent="Widget.MaterialComponents.Button">
+
+        <item name="backgroundTint">?attr/colorSecondary</item>
+        <item name="android:textColor">?attr/colorOnSecondary</item>
+        <item name="android:textAppearance">?attr/textAppearanceButton</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.LastQuakeChile.Button</item>
+    </style>
+
+    <!-- Toolbar Theming Light -->
+    <style name="Widget.App.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Toolbar</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Toolbar" parent="">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
+        <item name="colorOnPrimary">@color/colorOnPrimary</item>
+    </style>
+
+
+    <!-- Base application theme
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 
         <item name="android:fontFamily">@font/roboto</item>
@@ -30,14 +125,6 @@
 
     <style name="ToolbarTheme" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
         <item name="android:background">@color/colorPrimary</item>
-    </style>
-
-    <style name="IntroActivityTheme" parent="ThemeOverlay.MaterialComponents.Light">
-        <item name="android:background">@color/colorPrimary</item>
-    </style>
-
-    <style name="OverlayTheme" parent="ThemeOverlay.MaterialComponents.Light">
-        <item name="android:background">@color/colorPrimary</item>
-    </style>
+    </style>-->
 
 </resources>

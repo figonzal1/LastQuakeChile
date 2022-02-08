@@ -1,6 +1,6 @@
 <resources>
 
-    <!-- Base application theme. -->
+    <!-- Base application theme
     <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
 
         <item name="android:fontFamily">@font/roboto</item>
@@ -38,5 +38,5 @@
 
     <style name="OverlayTheme" parent="ThemeOverlay.MaterialComponents.Dark">
         <item name="android:background">@color/colorPrimaryNightMode</item>
-    </style>
+    </style>-->
 </resources>
