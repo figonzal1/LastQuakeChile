@@ -10,6 +10,7 @@ import android.view.MenuItem
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.preference.PreferenceManager
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.ui.MainFragmentStateAdapter
@@ -44,6 +45,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -86,7 +88,7 @@ class MainActivity : AppCompatActivity() {
     private fun setToolbarViewPagerTabs() {
 
         //Buscar toolbar en resources
-        val mToolbar = binding.toolbarLayout.toolbarMain?.toolBar
+        val mToolbar = binding.toolbarLayout.toolbarMain.toolBar
         setSupportActionBar(mToolbar)
 
         //Appbar layout para minimizar el collapse toolbar cuando se presiona el tab de mapa
@@ -131,7 +133,7 @@ class MainActivity : AppCompatActivity() {
         if (modeNightType == Configuration.UI_MODE_NIGHT_YES) {
             mCollapsingToolbarLayout.setContentScrimColor(
                 resources.getColor(
-                    R.color.colorPrimaryNightMode,
+                    R.color.colorPrimary,
                     theme
                 )
             )

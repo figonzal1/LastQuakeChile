@@ -5,5 +5,4 @@
     android:layout_height="?attr/actionBarSize"
     android:layout_gravity="top"
     android:contentDescription="@string/titulo_toolbar"
-    android:theme="@style/ToolbarTheme"
     app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light" />

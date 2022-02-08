@@ -34,7 +34,7 @@ class SettingsActivity : AppCompatActivity() {
             .replace(R.id.settings_menu, SettingsFragment())
             .commit()
 
-        setSupportActionBar(binding.toolbarNoMain?.toolBar)
+        setSupportActionBar(binding.toolbarNoMain.toolBar)
 
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
@@ -58,7 +58,7 @@ class SettingsActivity : AppCompatActivity() {
         private var sharedPrefUtil: SharedPrefUtil? = null
         private var quakesNotification: QuakesNotification? = null
 
-        override fun onCreatePreferences(savedInstanceState: Bundle, rootKey: String) {
+        override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
 
             sharedPrefUtil = SharedPrefUtil(requireContext())
@@ -243,12 +243,12 @@ class SettingsActivity : AppCompatActivity() {
 
         override fun onResume() {
             super.onResume()
-            preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+            preferenceScreen.sharedPreferences?.registerOnSharedPreferenceChangeListener(this)
         }
 
         override fun onPause() {
             super.onPause()
-            preferenceScreen.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
+            preferenceScreen.sharedPreferences?.unregisterOnSharedPreferenceChangeListener(this)
         }
     }
 }

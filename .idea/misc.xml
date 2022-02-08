@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/layout-night/info_windows.xml" value="0.2265625" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/layout/activity_change_log.xml" value="0.36666666666666664" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/layout/activity_intro.xml" value="0.36666666666666664" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
@@ -11,8 +12,11 @@
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/layout/card_view_information.xml" value="0.36666666666666664" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/layout/card_view_quake.xml" value="0.33796296296296297" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/layout/card_view_reports.xml" value="0.36666666666666664" />
+        <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/layout/fragment_map.xml" value="0.2265625" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/layout/fragment_quake.xml" value="0.36666666666666664" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/layout/fragment_reports.xml" value="0.36666666666666664" />
+        <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/layout/info_windows.xml" value="0.2265625" />
+        <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/layout/overlay.xml" value="0.2265625" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/layout/settings_activity.xml" value="0.36102564102564105" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/layout/toolbar_layout.xml" value="0.36666666666666664" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/layout/toolbar_main.xml" value="0.36666666666666664" />

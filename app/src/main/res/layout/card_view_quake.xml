@@ -8,8 +8,7 @@
     android:clickable="true"
     android:elevation="0dp"
     android:focusable="true"
-    android:foreground="?attr/selectableItemBackground"
-    android:theme="@style/AppTheme">
+    android:foreground="?attr/selectableItemBackground">
 
     <ImageView
         android:id="@+id/iv_mag_color"

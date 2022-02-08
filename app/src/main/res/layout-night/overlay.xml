@@ -1,6 +1,0 @@
-<View xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="0dp"
-    android:layout_height="0dp"
-    android:alpha="0.85"
-    android:elevation="5dp"
-    android:theme="@style/OverlayTheme" />

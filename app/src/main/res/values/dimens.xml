@@ -3,4 +3,7 @@
     <dimen name="standard_65">65dp</dimen>
     <dimen name="standard_130">130dp</dimen>
     <dimen name="standard_195">195dp</dimen>
+
+    <dimen name="corner_radius_8dp">8dp</dimen>
+    <dimen name="corner_radius_4dp">4dp</dimen>
 </resources>

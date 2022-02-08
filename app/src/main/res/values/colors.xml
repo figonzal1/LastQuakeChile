@@ -4,22 +4,15 @@
     <!-- LIGHT COLORS-->
     <color name="colorPrimary">#3f51b5</color>
     <color name="colorPrimaryVariant">#303F9F</color>
-    <color name="colorSecondary">#00bbff</color>
-
     <color name="colorOnPrimary">#A1000000</color>
+
+    <color name="colorSecondary">#00bbff</color>
     <color name="colorOnSecondary">#9C000000</color>
 
     <color name="colorSurface">#FFFFFF</color>
     <color name="colorOnSurface">#000</color>
 
     <color name="background">#efefef</color>
-
-    <!-- Night Color-->
-    <color name="colorPrimaryNightMode">#253561</color>
-    <color name="colorPrimaryVariantNightMode">#1C2746</color>
-    <color name="colorSecondaryNightMode">#006994</color>
-    <color name="colorSurfaceNightMode">#323236</color>
-    <color name="backgroundNightMode">#28282C</color>
 
     <color name="white">#fff</color>
     <color name="grey">#efefef</color>
