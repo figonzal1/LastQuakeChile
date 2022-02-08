@@ -1,5 +1,7 @@
 package cl.figonzal.lastquakechile.services.notifications;
 
+import static android.content.Context.NOTIFICATION_SERVICE;
+
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -23,11 +25,9 @@ import java.util.Objects;
 import java.util.Random;
 
 import cl.figonzal.lastquakechile.R;
-import cl.figonzal.lastquakechile.services.SharedPrefService;
+import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil;
 import cl.figonzal.lastquakechile.views.activities.QuakeDetailsActivity;
 import timber.log.Timber;
-
-import static android.content.Context.NOTIFICATION_SERVICE;
 
 /**
  * Notificaciones de sismos con implementacion de Firebase
@@ -37,12 +37,12 @@ public class QuakesNotification implements NotificationService {
     private final Context context;
     @NonNull
     private final FirebaseCrashlytics crashlytics;
-    private final SharedPrefService sharedPrefService;
+    private final SharedPrefUtil sharedPrefUtil;
     private RemoteMessage remoteMessage;
 
-    public QuakesNotification(Context context, SharedPrefService sharedPrefService) {
+    public QuakesNotification(Context context, SharedPrefUtil sharedPrefUtil) {
         this.context = context;
-        this.sharedPrefService = sharedPrefService;
+        this.sharedPrefUtil = sharedPrefUtil;
 
         crashlytics = FirebaseCrashlytics.getInstance();
     }
@@ -86,7 +86,7 @@ public class QuakesNotification implements NotificationService {
                         if (task.isSuccessful()) {
 
                             //Modificar valor en sharepref de settings
-                            sharedPrefService.saveData(context.getString(R.string.FIREBASE_PREF_KEY), true);
+                            sharedPrefUtil.saveData(context.getString(R.string.FIREBASE_PREF_KEY), true);
 
                             Timber.i(context.getString(R.string.TAG_FIREBASE_SUSCRIPTION_OK));
                             crashlytics.setCustomKey(context.getString(R.string.SUSCRITO_QUAKE), true);
@@ -102,7 +102,7 @@ public class QuakesNotification implements NotificationService {
                     .addOnCompleteListener(task -> {
 
                         //Modificar valor en sharepref de settings
-                        sharedPrefService.saveData(context.getString(R.string.FIREBASE_PREF_KEY), false);
+                        sharedPrefUtil.saveData(context.getString(R.string.FIREBASE_PREF_KEY), false);
 
                         //LOG ZONE
                         Timber.i(context.getString(R.string.TAG_FIREBASE_SUSCRIPTION_DELETE));

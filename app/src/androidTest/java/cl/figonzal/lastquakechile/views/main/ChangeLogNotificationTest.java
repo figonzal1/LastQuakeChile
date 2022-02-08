@@ -1,6 +1,8 @@
 package cl.figonzal.lastquakechile.views.main;
 
 
+import static org.junit.Assert.assertEquals;
+
 import android.content.Context;
 import android.content.pm.PackageManager;
 
@@ -20,11 +22,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
-import cl.figonzal.lastquakechile.services.SharedPrefService;
+import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil;
 import cl.figonzal.lastquakechile.services.notifications.ChangeLogNotification;
 import cl.figonzal.lastquakechile.views.activities.MainActivity;
-
-import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -42,7 +42,7 @@ public class ChangeLogNotificationTest {
         uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         context = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        ChangeLogNotification changeLogNotification = new ChangeLogNotification(context, new SharedPrefService(context));
+        ChangeLogNotification changeLogNotification = new ChangeLogNotification(context, new SharedPrefUtil(context));
         ChangeLogNotification.TEST_MODE = true;
         changeLogNotification.configNotificationChangeLog();
     }

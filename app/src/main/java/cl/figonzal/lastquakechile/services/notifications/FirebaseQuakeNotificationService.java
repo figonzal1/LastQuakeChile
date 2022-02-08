@@ -7,7 +7,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import cl.figonzal.lastquakechile.R;
-import cl.figonzal.lastquakechile.services.SharedPrefService;
+import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil;
 import timber.log.Timber;
 
 public class FirebaseQuakeNotificationService extends FirebaseMessagingService {
@@ -23,7 +23,7 @@ public class FirebaseQuakeNotificationService extends FirebaseMessagingService {
         super.onCreate();
 
         crashlytics = FirebaseCrashlytics.getInstance();
-        quakesNotification = new QuakesNotification(getApplicationContext(), new SharedPrefService(getApplicationContext()));
+        quakesNotification = new QuakesNotification(getApplicationContext(), new SharedPrefUtil(getApplicationContext()));
     }
 
     @Override

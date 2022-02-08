@@ -12,9 +12,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.adapter.MainFragmentStateAdapter
+import cl.figonzal.lastquakechile.core.ui.MainFragmentStateAdapter
+import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.databinding.ActivityMainBinding
-import cl.figonzal.lastquakechile.services.*
+import cl.figonzal.lastquakechile.services.FirebaseService
+import cl.figonzal.lastquakechile.services.GooglePlayService
+import cl.figonzal.lastquakechile.services.NightModeService
+import cl.figonzal.lastquakechile.services.UpdaterService
 import cl.figonzal.lastquakechile.services.notifications.QuakesNotification
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -45,11 +49,7 @@ class MainActivity : AppCompatActivity() {
 
         //Setear configuraciones por defecto de ConfigActivity
         PreferenceManager.setDefaultValues(this, R.xml.root_preferences, false)
-        val sharedPrefService = SharedPrefService(applicationContext)
-
-        //Ad service
-        //val adsService = AdsService(this, supportFragmentManager, applicationContext, dateHandler)
-        //adsService.loadRewardVideo()
+        val sharedPrefService = SharedPrefUtil(applicationContext)
 
         //Night mode
         NightModeService(this, this.lifecycle, window)
@@ -99,7 +99,7 @@ class MainActivity : AppCompatActivity() {
         //Seteo de tabs.
         val tabLayout = binding.toolbarLayout.tabs
         TabLayoutMediator(tabLayout, viewPager2) { tab: TabLayout.Tab, position: Int ->
-            tab.text = MainFragmentStateAdapter.getTabs()[position]
+            tab.text = MainFragmentStateAdapter.tabs[position]
         }.attach()
         for (i in 0 until tabLayout.tabCount) {
             val tab = tabLayout.getTabAt(i)
