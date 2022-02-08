@@ -1,6 +1,6 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/card_view_info"
+    android:id="@+id/cv_info"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:elevation="0dp"
@@ -28,7 +28,7 @@
             android:alpha="0.87"
             android:fontFamily="sans-serif"
             android:text="@string/last_quakes_info_card_view_tittle"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -40,8 +40,8 @@
             android:layout_marginTop="8dp"
             android:fontFamily="sans-serif"
             android:text="@string/last_quakes_info_card_view_description"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textSize="14sp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             app:layout_constraintEnd_toEndOf="@+id/tv_changelog_title"
             app:layout_constraintStart_toStartOf="@+id/tv_changelog_title"
             app:layout_constraintTop_toBottomOf="@+id/tv_changelog_title" />
