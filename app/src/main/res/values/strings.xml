@@ -199,20 +199,16 @@
 
 
     <!-- NightMode -->
-    <string name="NIGHT_MODE_MANUAL_KEY" translatable="false">pref_manual_night_mode</string>
-    <string name="NIGHT_MODE_AUTO_KEY" translatable="false">pref_auto_night_mode</string>
-    <string name="TAG_NIGHT_MODE_MANUAL" translatable="false">NIGHT MODE MANUAL</string>
+    <string name="NIGHT_MODE_KEY" translatable="false">pref_night_mode</string>
     <string name="TAG_NIGHT_MODE_STATUS_ON" translatable="false">ON</string>
     <string name="TAG_NIGHT_MODE_STATUS_OFF" translatable="false">OFF</string>
     <string name="TAG_NIGHT_MODE_AUTO" translatable="false">NIGHT MODE AUTO</string>
     <string name="TAG_NIGHT_MODE" translatable="false">NIGHT MODE</string>
-    <string name="NIGHT_MODE_AUTO_KEY_TOAST_ON">Automático activado</string>
-    <string name="NIGHT_MODE_MANUAL_KEY_TOAST_ON">Manual activado</string>
-    <string name="NIGHT_MODE_MANUAL_KEY_TOAST_OFF">Manual desactivado</string>
-    <string name="NIGHT_MODE_AUTO_KEY_TOAST_OFF">Automático desactivado</string>
+    <string name="NIGHT_MODE_KEY_TOAST_ON">Modo noche activado</string>
+    <string name="NIGHT_MODE_KEY_TOAST_OFF">Modo noche desactivado</string>
     <string name="night_mode_pref_summary">Ahorra batería y evita tu cansancio ocular</string>
     <string name="night_mode_pref_title">Modo noche</string>
-    <string name="night_mode_manual_pref_title_switch">Forzar modo noche</string>
+    <string name="night_mode_pref_title_switch">Modo noche</string>
     <string name="night_mode_manual_pref_summary_on">Activado</string>
     <string name="night_mode_manual_pref_summary_off">Desactivado</string>
     <string name="night_mode_auto_pref_title_switch">Automático con ahorro de energía</string>

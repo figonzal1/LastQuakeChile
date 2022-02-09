@@ -45,10 +45,7 @@
     <string name="settings">Configuración</string>
     <string name="FIREBASE_PREF_KEY_TOAST_ALERTAS_OFF">Alertas desactivadas</string>
     <string name="FIREBASE_PREF_KEY_TOAST_ALERTAS_ON">Alertas activadas</string>
-    <string name="NIGHT_MODE_AUTO_KEY_TOAST_OFF">Automático desactivado</string>
-    <string name="NIGHT_MODE_AUTO_KEY_TOAST_ON">Automático activado</string>
-    <string name="NIGHT_MODE_MANUAL_KEY_TOAST_OFF">Manual desactivado</string>
-    <string name="NIGHT_MODE_MANUAL_KEY_TOAST_ON">Manual activado</string>
+    <string name="NIGHT_MODE_KEY_TOAST_ON">Modo noche activado</string>
     <string name="alert_pref_summary_off">Desactivadas</string>
     <string name="alert_pref_summary_on">Activadas</string>
     <string name="alert_pref_title">Notificaciones</string>
@@ -59,7 +56,7 @@
     <string name="night_mode_auto_pref_title_switch">Automático con ahorro de energía</string>
     <string name="night_mode_manual_pref_summary_off">Desactivado</string>
     <string name="night_mode_manual_pref_summary_on">Activado</string>
-    <string name="night_mode_manual_pref_title_switch">Forzar modo noche</string>
+    <string name="night_mode_pref_title_switch">Modo noche</string>
     <string name="night_mode_pref_summary">Ahorra batería y evita tu cansancio ocular</string>
     <string name="night_mode_pref_title">Modo noche</string>
     <string name="tab_map">Mapa</string>
@@ -104,4 +101,5 @@
     <string name="change_log_ultima_version">Última versión</string>
     <string name="change_log_version_prueba">Versión de prueba</string>
     <string name="INTENT_CHOOSER">Compartir sismos</string>
+    <string name="NIGHT_MODE_KEY_TOAST_OFF">Modo noche desactivado</string>
 </resources>

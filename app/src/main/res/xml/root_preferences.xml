@@ -1,4 +1,4 @@
-<androidx.preference.PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
         app:iconSpaceReserved="false"
@@ -34,24 +34,15 @@
         app:summary="@string/night_mode_pref_summary"
         app:title="@string/night_mode_pref_title">
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             app:defaultValue="false"
             app:iconSpaceReserved="false"
-            app:key="@string/NIGHT_MODE_MANUAL_KEY"
+            app:key="@string/NIGHT_MODE_KEY"
             app:summaryOff="@string/night_mode_manual_pref_summary_off"
             app:summaryOn="@string/night_mode_manual_pref_summary_on"
-            app:title="@string/night_mode_manual_pref_title_switch"
-            app:useSimpleSummaryProvider="true" />
-
-        <SwitchPreference
-            app:defaultValue="true"
-            app:iconSpaceReserved="false"
-            app:key="@string/NIGHT_MODE_AUTO_KEY"
-            app:summaryOff="@string/night_mode_auto_pref_summary_off"
-            app:summaryOn="@string/night_mode_auto_pref_summary_on"
-            app:title="@string/night_mode_auto_pref_title_switch"
+            app:title="@string/night_mode_pref_title_switch"
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
 
-</androidx.preference.PreferenceScreen>
+</PreferenceScreen>
