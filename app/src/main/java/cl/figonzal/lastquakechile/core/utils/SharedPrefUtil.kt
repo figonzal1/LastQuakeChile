@@ -2,41 +2,53 @@ package cl.figonzal.lastquakechile.core.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.core.content.edit
 import cl.figonzal.lastquakechile.R
 
 class SharedPrefUtil(context: Context) {
 
-    private var sharedPreferences: SharedPreferences? = null
+    private val sharedPreferences: SharedPreferences = context.getSharedPreferences(
+        context.getString(R.string.SHARED_PREF_MASTER_KEY),
+        Context.MODE_PRIVATE
+    )
 
-    init {
-        sharedPreferences = context.getSharedPreferences(
-            context.getString(R.string.SHARED_PREF_MASTER_KEY),
-            Context.MODE_PRIVATE
-        )
+    /**
+     * Function date save data in shared preferences
+     *
+     * @param key Key that store the data in shared preferences
+     * @param value The value which will be store in shared preferences
+     */
+    fun saveData(key: String, value: Any) {
+
+        sharedPreferences.edit(true) {
+            when (value) {
+                is Int -> putInt(key, value)
+                is Boolean -> putBoolean(key, value)
+                is Long -> putLong(key, value)
+                is Float -> putFloat(key, value)
+                else -> putString(key, value as String)
+            }
+        }
     }
 
-    fun saveData(key: String?, value: Any?) {
-        val editor = sharedPreferences!!.edit()
+    /**
+     * Function that retrieve data from shared preferences
+     *
+     * @param key Key that store the data in shared preferences
+     * @param defaultvalue If the store value is inaccessible
+     * @return Any
+     */
+    fun getData(key: String, defaultvalue: Any): Any {
 
-        when (value) {
-            is Int -> editor.putInt(key, (value as Int?)!!)
-            is String -> editor.putString(key, value as String?)
-            is Boolean -> editor.putBoolean(key, value)
-            is Float -> editor.putFloat(key, (value as Float?)!!)
-            is Long -> editor.putLong(key, (value as Long?)!!)
-        }
-        editor.apply()
-    }
+        with(sharedPreferences) {
+            return when (defaultvalue) {
+                is Int -> getInt(key, defaultvalue)
+                is Boolean -> getBoolean(key, defaultvalue)
+                is Float -> getFloat(key, defaultvalue)
+                is Long -> getLong(key, defaultvalue)
+                else -> getString(key, defaultvalue as String)!!
 
-    fun getData(key: String?, defaultvalue: Any?): Any? {
-        val result: Any?
-        result = when (defaultvalue) {
-            is Long -> sharedPreferences!!.getLong(key, (defaultvalue as Long?)!!)
-            is Float -> sharedPreferences!!.getFloat(key, (defaultvalue as Float?)!!)
-            is Int -> sharedPreferences!!.getInt(key, (defaultvalue as Int?)!!)
-            is Boolean -> sharedPreferences!!.getBoolean(key, (defaultvalue as Boolean?)!!)
-            else -> sharedPreferences!!.getString(key, defaultvalue as String?)
+            }
         }
-        return result
     }
 }

@@ -1,7 +1,9 @@
 package cl.figonzal.lastquakechile.core
 
+import android.content.Context
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import cl.figonzal.lastquakechile.R
 import java.util.*
@@ -94,7 +96,7 @@ fun ImageView.setStatusImage(
                 context.getString(R.string.quakes_details_estado_sismo),
                 context.getString(R.string.quakes_details_estado_sismo_preliminar)
             )
-            this.setImageDrawable(
+            setImageDrawable(
                 ContextCompat.getDrawable(
                     context,
                     R.drawable.ic_progress_check_24
@@ -108,7 +110,7 @@ fun ImageView.setStatusImage(
                 context.getString(R.string.quakes_details_estado_sismo),
                 context.getString(R.string.quakes_details_estado_sismo_verificado)
             )
-            this.setImageDrawable(
+            setImageDrawable(
                 ContextCompat.getDrawable(
                     context,
                     R.drawable.ic_baseline_check_circle_24px
@@ -124,16 +126,19 @@ fun ImageView.setStatusImage(
  * @param escala    Escala del sismo puede ser Ml o Mw
  */
 fun TextView.setEscala(escala: String) {
-    if (escala.contains("Mw")) {
-        this.text = String.format(
-            context.getString(R.string.quake_details_escala),
-            context.getString(R.string.quake_details_magnitud_momento)
-        )
-    } else {
-        this.text = String.format(
-            context.getString(R.string.quake_details_escala),
-            context.getString(R.string.quake_details_magnitud_local)
-        )
+    text = when {
+        escala.contains("Mw") -> {
+            String.format(
+                context.getString(R.string.quake_details_escala),
+                context.getString(R.string.quake_details_magnitud_momento)
+            )
+        }
+        else -> {
+            String.format(
+                context.getString(R.string.quake_details_escala),
+                context.getString(R.string.quake_details_magnitud_local)
+            )
+        }
     }
 }
 
@@ -178,4 +183,12 @@ fun TextView.setTimeToTextView(tiempos: Map<String, Long>) {
             }
         }
     }
+}
+
+fun Context.toast(stringId: Int) {
+    Toast.makeText(
+        this,
+        this.getString(stringId),
+        Toast.LENGTH_LONG
+    ).show()
 }

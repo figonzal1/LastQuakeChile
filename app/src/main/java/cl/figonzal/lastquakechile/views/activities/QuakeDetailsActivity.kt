@@ -68,7 +68,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
         setContentView(binding.root)
 
         //Check night mode
-        NightModeService(this, this.lifecycle, window)
+        NightModeService(this)
         val mapFragment = fragmentManager.findFragmentById(R.id.map_fragment) as MapFragment
 
         mapFragment.getMapAsync(this)

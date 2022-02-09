@@ -91,40 +91,7 @@
     <style name="ThemeOverlay.App.Toolbar" parent="">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
-        <item name="colorOnPrimary">@color/colorOnPrimary</item>
+        <item name="colorOnPrimary">@color/colorSurface</item>
     </style>
-
-
-    <!-- Base application theme
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-
-        <item name="android:fontFamily">@font/roboto</item>
-
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
-        <item name="colorOnPrimary">@color/colorOnPrimary</item>
-        <item name="android:statusBarColor">@color/colorPrimaryVariant</item>
-
-        <item name="colorSecondary">@color/colorSecondary</item>
-        <item name="colorOnSecondary">@color/colorOnSecondary</item>
-
-        <item name="colorSurface">@color/colorSurface</item>
-        <item name="colorOnSurface">@color/colorOnSurface</item>
-
-        <item name="materialButtonStyle">@style/ButtonTheme</item>
-
-        <item name="android:windowBackground">@color/background</item>
-
-    </style>
-
-    <style name="ButtonTheme" parent="Widget.MaterialComponents.Button">
-
-        <item name="backgroundTint">@color/colorSecondary</item>
-        <item name="android:textColor">@color/colorOnSecondary</item>
-    </style>
-
-    <style name="ToolbarTheme" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
-        <item name="android:background">@color/colorPrimary</item>
-    </style>-->
 
 </resources>

@@ -1,5 +1,16 @@
 package cl.figonzal.lastquakechile.views.settings;
 
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.core.IsNot.not;
+
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,17 +36,6 @@ import org.junit.runners.MethodSorters;
 
 import cl.figonzal.lastquakechile.R;
 import cl.figonzal.lastquakechile.views.activities.SettingsActivity;
-
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.core.IsNot.not;
 
 @RunWith(AndroidJUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -139,7 +139,7 @@ public class NightModePrefTest {
         }
 
         //Checkear display de Toast de shared pref TRUE
-        onView(withText(R.string.NIGHT_MODE_MANUAL_KEY_TOAST_ON)).inRoot(withDecorView(not(is(activity.getWindow().getDecorView()))))
+        onView(withText(R.string.NIGHT_MODE_KEY_TOAST_ON)).inRoot(withDecorView(not(is(activity.getWindow().getDecorView()))))
                 .check(matches(isDisplayed()));
 
         try {
