@@ -11,7 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.getMagnitudeColor
+import cl.figonzal.lastquakechile.core.utils.getMagnitudeColor
 import cl.figonzal.lastquakechile.databinding.FragmentMapBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import cl.figonzal.lastquakechile.views.activities.QuakeDetailsActivity

@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile.core
+package cl.figonzal.lastquakechile.core.utils
 
 import android.content.Context
 import android.widget.ImageView

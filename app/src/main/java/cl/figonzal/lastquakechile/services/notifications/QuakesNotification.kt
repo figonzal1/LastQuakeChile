@@ -183,7 +183,7 @@ class QuakesNotification(private val context: Context, private val sharedPrefUti
                 }
                 putExtras(bundle)
 
-            }.also {
+            }.also { it ->
 
                 val pendingIntent =
                     PendingIntent.getActivity(context, 0, it, PendingIntent.FLAG_ONE_SHOT)

@@ -9,8 +9,8 @@ import androidx.appcompat.app.AppCompatDelegate.*
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SeekBarPreference
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.toast
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
+import cl.figonzal.lastquakechile.core.utils.toast
 import cl.figonzal.lastquakechile.databinding.SettingsActivityBinding
 import cl.figonzal.lastquakechile.services.notifications.QuakesNotification
 import timber.log.Timber
@@ -119,7 +119,7 @@ class SettingsActivity : AppCompatActivity() {
                         nightModeAndRecreate(MODE_NIGHT_NO)
 
                         //Mostrar toast modo noche desactivado
-                        requireContext().toast(R.string.NIGHT_MODE_MANUAL_KEY_TOAST_OFF)
+                        requireContext().toast(R.string.NIGHT_MODE_KEY_TOAST_OFF)
                     }
                 }
             }

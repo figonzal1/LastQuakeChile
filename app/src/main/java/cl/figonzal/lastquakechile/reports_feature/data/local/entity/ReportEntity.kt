@@ -3,7 +3,7 @@ package cl.figonzal.lastquakechile.reports_feature.data.local.entity
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity()
+@Entity
 data class ReportEntity(
     @PrimaryKey val id: Long? = null,
     val reportMonth: String,
