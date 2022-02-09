@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.getMagnitudeColor
-import cl.figonzal.lastquakechile.core.setTimeToTextView
 import cl.figonzal.lastquakechile.core.utils.dateToDHMS
+import cl.figonzal.lastquakechile.core.utils.getMagnitudeColor
+import cl.figonzal.lastquakechile.core.utils.setTimeToTextView
 import cl.figonzal.lastquakechile.databinding.CardViewQuakeBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeAdapter.QuakeViewHolder
