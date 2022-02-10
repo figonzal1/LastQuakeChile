@@ -1,7 +1,7 @@
-package cl.figonzal.lastquakechile
+package cl.figonzal.lastquakechile.core
 
 import android.app.Application
-import cl.figonzal.lastquakechile.core.AppDatabase
+import cl.figonzal.lastquakechile.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

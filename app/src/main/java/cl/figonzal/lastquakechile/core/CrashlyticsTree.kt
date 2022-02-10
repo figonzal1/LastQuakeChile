@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile
+package cl.figonzal.lastquakechile.core
 
 import android.util.Log
 import com.google.firebase.crashlytics.FirebaseCrashlytics

@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile.views.fragments
+package cl.figonzal.lastquakechile.quake_feature.ui
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -20,7 +20,6 @@ import cl.figonzal.lastquakechile.core.utils.setStatusImage
 import cl.figonzal.lastquakechile.databinding.FragmentMapsNewBinding
 import cl.figonzal.lastquakechile.databinding.InfoWindowsBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
-import cl.figonzal.lastquakechile.quake_feature.ui.QuakeViewModel
 import cl.figonzal.lastquakechile.views.activities.QuakeDetailsActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap

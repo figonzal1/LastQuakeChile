@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile.views.activities
+package cl.figonzal.lastquakechile.core.ui
 
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
