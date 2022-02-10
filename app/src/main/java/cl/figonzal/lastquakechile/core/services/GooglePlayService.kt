@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile.core.utils
+package cl.figonzal.lastquakechile.core.services
 
 import android.app.Activity
 import androidx.lifecycle.DefaultLifecycleObserver

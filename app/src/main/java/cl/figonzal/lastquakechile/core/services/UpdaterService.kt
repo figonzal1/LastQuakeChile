@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile.services
+package cl.figonzal.lastquakechile.core.services
 
 import android.app.Activity
 import android.content.IntentSender.SendIntentException

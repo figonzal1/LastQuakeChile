@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile.services.notifications
+package cl.figonzal.lastquakechile.core.services.notifications
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -243,4 +243,9 @@ class QuakesNotification(private val context: Context, private val sharedPrefUti
             }
     }
 
+}
+
+interface NotificationService {
+    fun createChannel()
+    fun showNotification(remoteMessage: RemoteMessage)
 }

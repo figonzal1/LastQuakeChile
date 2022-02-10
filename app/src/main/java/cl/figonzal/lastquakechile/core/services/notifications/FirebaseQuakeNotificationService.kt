@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile.services.notifications
+package cl.figonzal.lastquakechile.core.services.notifications
 
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
