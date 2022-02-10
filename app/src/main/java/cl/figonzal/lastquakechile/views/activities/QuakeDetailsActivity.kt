@@ -128,7 +128,7 @@ class QuakeDetailsActivity : AppCompatActivity() {
 
         supportActionBar?.title = quake.city
 
-        with(binding) {
+        with(binding.includeCvQuakeDetail) {
 
             //Set city name
             tvCiudadDetail.text = quake.city
@@ -141,7 +141,7 @@ class QuakeDetailsActivity : AppCompatActivity() {
                 String.format(getString(R.string.magnitud), quake.magnitude)
 
             //Setear el color de background dependiendo de mMagnitud del sismo
-            ivMagColorDetail.setColorFilter(getMagnitudeColor(quake.magnitude, false))
+            ivMagColorDetail.setColorFilter(getColor(getMagnitudeColor(quake.magnitude, false)))
 
             //Setear mProfundidad
             tvEpicentro.text =
@@ -153,9 +153,6 @@ class QuakeDetailsActivity : AppCompatActivity() {
 
             //Calculo de Grados,Minutos y segundos
             tvGms.formatDMS(quake.coordinates)
-
-            //Calculo de estado
-            ivEstado.setStatusImage(quake.isVerified, binding.tvEstado)
 
             //Calcular hora
             tvHoraDetail.setTimeToTextView(dateToDHMS(quake.localDate))
@@ -169,6 +166,9 @@ class QuakeDetailsActivity : AppCompatActivity() {
                 else -> View.GONE
             }
         }
+
+        //Calculo de estado
+        binding.ivEstado.setStatusImage(quake.isVerified, binding.tvEstado)
     }
 /*
     override fun onMapReady(googleMap: GoogleMap) {

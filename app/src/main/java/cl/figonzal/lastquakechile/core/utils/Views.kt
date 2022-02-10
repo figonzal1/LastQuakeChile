@@ -26,11 +26,13 @@ import kotlin.math.floor
  * @return id recurso desde colors.xml
  */
 fun getMagnitudeColor(magnitude: Double, forMapa: Boolean): Int {
-    val mMagFloor = floor(magnitude).toInt()
-    return getColorResource(forMapa, mMagFloor)
+    return getColorResource(forMapa, floor(magnitude).toInt())
 }
 
 private fun getColorResource(forMapa: Boolean, mMagFloor: Int): Int {
+
+    Timber.e(mMagFloor.toString())
+
     return when {
         mMagFloor == 1 -> {
             when {

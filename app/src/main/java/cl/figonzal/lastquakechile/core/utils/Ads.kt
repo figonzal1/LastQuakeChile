@@ -1,5 +1,6 @@
 package cl.figonzal.lastquakechile.core.utils
 
+import android.annotation.SuppressLint
 import android.view.View
 import cl.figonzal.lastquakechile.R
 import com.google.android.gms.ads.AdListener
@@ -12,29 +13,27 @@ import timber.log.Timber
 /**
  * Funcion encargada de cargar la publicidad presente en el listado
  */
+@SuppressLint("MissingPermission")
 fun AdView.loadBanner() {
 
-    apply {
+    adListener = object : AdListener() {
 
-        adListener = object : AdListener() {
-
-            override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                Timber.w(context.getString(R.string.TAG_ADMOB_AD_STATUS_FAILED))
-                visibility = View.GONE
-                super.onAdFailedToLoad(loadAdError)
-            }
-
-            override fun onAdLoaded() {
-                Timber.i(context.getString(R.string.TAG_ADMOB_AD_STATUS_LOADED))
-                visibility = View.VISIBLE
-                super.onAdLoaded()
-            }
-
-            override fun onAdOpened() {
-                Timber.i(context.getString(R.string.TAG_ADMOB_AD_STATUS_OPEN))
-                super.onAdOpened()
-            }
+        override fun onAdFailedToLoad(loadAdError: LoadAdError) {
+            Timber.w(context.getString(R.string.TAG_ADMOB_AD_STATUS_FAILED))
+            visibility = View.GONE
+            super.onAdFailedToLoad(loadAdError)
         }
-        loadAd(AdRequest.Builder().build())
+
+        override fun onAdLoaded() {
+            Timber.i(context.getString(R.string.TAG_ADMOB_AD_STATUS_LOADED))
+            visibility = View.VISIBLE
+            super.onAdLoaded()
+        }
+
+        override fun onAdOpened() {
+            Timber.i(context.getString(R.string.TAG_ADMOB_AD_STATUS_OPEN))
+            super.onAdOpened()
+        }
     }
+    loadAd(AdRequest.Builder().build())
 }
