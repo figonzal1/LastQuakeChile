@@ -7,7 +7,7 @@
     tools:context=".reports_feature.ui.ReportsFragment">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/izquierda"
+        android:id="@+id/left_guide"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:orientation="vertical"
@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/derecha"
+        android:id="@+id/right_guide"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:orientation="vertical"

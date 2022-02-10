@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/izquierda"
+        android:id="@+id/left_guide"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:orientation="vertical"
@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/derecha"
+        android:id="@+id/right_guide"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:orientation="vertical"
@@ -29,9 +29,9 @@
         layout="@layout/card_view_information"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        ads:layout_constraintEnd_toEndOf="parent"
-        ads:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="8dp"
+        ads:layout_constraintEnd_toStartOf="@+id/right_guide"
+        ads:layout_constraintStart_toStartOf="@+id/left_guide"
         ads:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -57,9 +57,9 @@
         ads:adSize="BANNER"
         ads:adUnitId="@string/ADMOB_ID_BANNER"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/derecha"
+        app:layout_constraintEnd_toStartOf="@+id/right_guide"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/izquierda" />
+        app:layout_constraintStart_toStartOf="@+id/left_guide" />
 
     <ProgressBar
         android:id="@+id/progress_bar_quakes"
