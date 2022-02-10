@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile.views
+package cl.figonzal.lastquakechile.core.ui
 
 import android.content.Context
 import android.util.AttributeSet

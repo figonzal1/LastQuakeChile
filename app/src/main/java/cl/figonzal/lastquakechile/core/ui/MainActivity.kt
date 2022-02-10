@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile.views.activities
+package cl.figonzal.lastquakechile.core.ui
 
 import android.content.Intent
 import android.graphics.drawable.Drawable
@@ -15,7 +15,6 @@ import cl.figonzal.lastquakechile.core.services.GooglePlayService
 import cl.figonzal.lastquakechile.core.services.NightModeService
 import cl.figonzal.lastquakechile.core.services.UpdaterService
 import cl.figonzal.lastquakechile.core.services.notifications.QuakesNotification
-import cl.figonzal.lastquakechile.core.ui.MainFragmentStateAdapter
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.getFirebaseToken
 import cl.figonzal.lastquakechile.databinding.ActivityMainBinding

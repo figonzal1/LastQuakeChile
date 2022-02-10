@@ -35,7 +35,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
 import cl.figonzal.lastquakechile.R;
-import cl.figonzal.lastquakechile.views.activities.SettingsActivity;
+import cl.figonzal.lastquakechile.core.ui.SettingsActivity;
 
 @RunWith(AndroidJUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)

@@ -1,7 +1,7 @@
 package cl.figonzal.lastquakechile.reports_feature.data.remote
 
 import android.app.Application
-import cl.figonzal.lastquakechile.ApplicationController
+import cl.figonzal.lastquakechile.core.ApplicationController
 import cl.figonzal.lastquakechile.reports_feature.data.local.entity.ReportWithQuakeCity
 
 
