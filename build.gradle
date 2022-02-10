@@ -22,12 +22,12 @@ buildscript {
         // Add the Firebase Crashlytics Gradle plugin.
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.8.1'
 
+        // Performance Monitoring plugin
         // Add the dependency for the Performance Monitoring plugin
         classpath 'com.google.firebase:perf-plugin:1.4.0'
 
         //Google maps secrets
         classpath 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.0'
-// Performance Monitoring plugin
     }
 }
 

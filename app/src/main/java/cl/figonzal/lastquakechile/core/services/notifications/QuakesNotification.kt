@@ -7,18 +7,18 @@ import android.content.Context
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.os.Build
-import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat.*
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
+import cl.figonzal.lastquakechile.quake_feature.data.remote.dto.QuakeDTO
 import cl.figonzal.lastquakechile.views.activities.QuakeDetailsActivity
 import com.google.android.gms.tasks.Task
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.RemoteMessage
-import org.json.JSONException
 import timber.log.Timber
+import java.io.Serializable
 import java.util.*
 
 /**
@@ -126,62 +126,18 @@ class QuakesNotification(private val context: Context, private val sharedPrefUti
     override fun showNotification(remoteMessage: RemoteMessage) {
 
         //Obtener datos desde send_notification.php en servidor
-        val mParams: MutableMap<String, String> = remoteMessage.data
+        val result: MutableMap<String, String> = remoteMessage.data
 
-        val title: String
-        val description: String
-        val city: String
-        val utcDate: String
-        val status: String
-        val latitude: String
-        val longitude: String
-        val magnitude: Double
-        val scale: String
-        val depth: Double
-        val isSensitive: String
-        val reference: String
-        val imgUrl: String
-        try {
+        //Decompress data from FCM
+        with(result) {
 
-            with(mParams) {
-                title = getValue(context.getString(R.string.INTENT_TITULO))
-                description = getValue(context.getString(R.string.INTENT_DESCRIPCION))
-                utcDate = getValue(context.getString(R.string.INTENT_FECHA_UTC))
-                city = getValue(context.getString(R.string.INTENT_CIUDAD))
-                reference = getValue(context.getString(R.string.INTENT_REFERENCIA))
-                latitude = getValue(context.getString(R.string.INTENT_LATITUD))
-                longitude = getValue(context.getString(R.string.INTENT_LONGITUD))
-                magnitude = getValue(context.getString(R.string.INTENT_MAGNITUD)).toDouble()
-                scale = getValue(context.getString(R.string.INTENT_ESCALA))
-                depth = getValue(context.getString(R.string.INTENT_PROFUNDIDAD)).toDouble()
-                status = getValue(context.getString(R.string.INTENT_ESTADO))
-                isSensitive = getValue(context.getString(R.string.INTENT_SENSIBLE))
-                imgUrl = getValue(context.getString(R.string.INTENT_LINK_FOTO))
-            }
+            val data = handleFcmData(this)
 
-
-            /*
-            PREPARACION DE INTENT DESDE INFO EN PHP
-            */
             Intent(context, QuakeDetailsActivity::class.java).apply {
                 addFlags(FLAG_ACTIVITY_CLEAR_TOP)
-
-                val bundle = Bundle().apply {
-                    putString(context.getString(R.string.INTENT_TITULO), title)
-                    putString(context.getString(R.string.INTENT_DESCRIPCION), description)
-                    putString(context.getString(R.string.INTENT_CIUDAD), city)
-                    putString(context.getString(R.string.INTENT_FECHA_UTC), utcDate)
-                    putString(context.getString(R.string.INTENT_LATITUD), latitude)
-                    putString(context.getString(R.string.INTENT_LONGITUD), longitude)
-                    putDouble(context.getString(R.string.INTENT_MAGNITUD), magnitude)
-                    putString(context.getString(R.string.INTENT_SENSIBLE), isSensitive)
-                    putDouble(context.getString(R.string.INTENT_PROFUNDIDAD), depth)
-                    putString(context.getString(R.string.INTENT_ESCALA), scale)
-                    putString(context.getString(R.string.INTENT_REFERENCIA), reference)
-                    putString(context.getString(R.string.INTENT_LINK_FOTO), imgUrl)
-                    putString(context.getString(R.string.INTENT_ESTADO), status)
-                }
-                putExtras(bundle)
+                putExtra(context.getString(R.string.INTENT_TITULO), data[0].toString())
+                putExtra(context.getString(R.string.INTENT_DESCRIPCION), data[1].toString())
+                putExtra("quake", data[2] as Serializable)
 
             }.also { it ->
 
@@ -191,29 +147,26 @@ class QuakesNotification(private val context: Context, private val sharedPrefUti
                 Timber.i(context.getString(R.string.TRY_INTENT_NOTIFICATION_1))
                 crashlytics.setCustomKey(context.getString(R.string.TRY_INTENT_NOTIFICATION), true)
 
-
+                //Build notification
                 Builder(
                     context,
                     context.getString(R.string.FIREBASE_CHANNEL_ID_QUAKES)
                 ).setSmallIcon(R.drawable.ic_lastquakechile_400)
-                    .setContentTitle(title)
-                    .setContentText(description)
-                    .setStyle(BigTextStyle().bigText(description))
+                    .setContentTitle(data[0].toString())
+                    .setContentText(data[1].toString())
+                    .setStyle(BigTextStyle().bigText(data[1].toString()))
                     .setPriority(PRIORITY_MAX)
                     .setAutoCancel(true)
                     .setContentIntent(pendingIntent)
-                    .also {
+                    .run {
 
                         //Notify
                         (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(
                             Random().nextInt(60000),
-                            it.build()
+                            build()
                         )
                     }
             }
-
-        } catch (e: JSONException) {
-            Timber.e(e, "JSon object exception error: %s", e.message)
         }
     }
 
@@ -243,6 +196,29 @@ class QuakesNotification(private val context: Context, private val sharedPrefUti
             }
     }
 
+
+    private fun handleFcmData(mutableMap: MutableMap<String, String>): ArrayList<Any> {
+
+        with(mutableMap) {
+            val title = getValue(context.getString(R.string.INTENT_TITULO))
+            val description = getValue(context.getString(R.string.INTENT_DESCRIPCION))
+
+            val quake = QuakeDTO(
+                fecha_utc = getValue(context.getString(R.string.INTENT_FECHA_UTC)),
+                ciudad = getValue(context.getString(R.string.INTENT_CIUDAD)),
+                referencia = getValue(context.getString(R.string.INTENT_REFERENCIA)),
+                latitud = getValue(context.getString(R.string.INTENT_LATITUD)).toDouble(),
+                longitud = getValue(context.getString(R.string.INTENT_LONGITUD)).toDouble(),
+                magnitud = getValue(context.getString(R.string.INTENT_MAGNITUD)).toDouble(),
+                escala = getValue(context.getString(R.string.INTENT_ESCALA)),
+                profundidad = getValue(context.getString(R.string.INTENT_PROFUNDIDAD)).toDouble(),
+                estado = getValue(context.getString(R.string.INTENT_ESTADO)),
+                sensible = getValue(context.getString(R.string.INTENT_SENSIBLE)),
+            ).toQuakeEntity().toDomainQuake()
+
+            return arrayListOf(title, description, quake)
+        }
+    }
 }
 
 interface NotificationService {

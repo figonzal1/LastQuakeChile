@@ -2,6 +2,9 @@ package cl.figonzal.lastquakechile.quake_feature.ui
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.ActivityOptions
+import android.content.Intent
+import android.util.Pair
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +16,7 @@ import cl.figonzal.lastquakechile.core.utils.setTimeToTextView
 import cl.figonzal.lastquakechile.databinding.CardViewQuakeBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeAdapter.QuakeViewHolder
+import cl.figonzal.lastquakechile.views.activities.QuakeDetailsActivity
 import timber.log.Timber
 
 class QuakeAdapter(
@@ -87,48 +91,32 @@ class QuakeAdapter(
                     else -> View.GONE
                 }
 
+                root.setOnClickListener {
+
+                    /*
+                        Datos para mostrar en el detalle de sismos
+                     */
+                    Intent(activity.applicationContext, QuakeDetailsActivity::class.java).apply {
+                        putExtra("quake", quake)
+
+
+                        //LOG
+                        Timber.i(activity.applicationContext.getString(R.string.TRY_INTENT_DETALLE))
+
+
+                        val options = ActivityOptions.makeSceneTransitionAnimation(
+                            activity,
+                            Pair(binding.ivMagColor, "color_magnitud"),
+                            Pair(binding.tvMagnitude, "magnitud"),
+                            Pair(binding.tvCity, "ciudad"),
+                            Pair(binding.tvReference, "referencia"),
+                            Pair(binding.tvHour, "hora")
+                        )
+                        activity.startActivity(this, options.toBundle())
+                    }
+                }
+
             }
-
-            //holder.item.setOnClickListener { v: View? ->
-
-            /*
-                Datos para mostrar en el detalle de sismos
-             */
-            //val intent = Intent(activity.applicationContext, QuakeDetailsActivity::class.java)
-
-            /*Bundle b = new Bundle();
-            b.putString(activity.getApplicationContext().getString(R.string.INTENT_CIUDAD), model.getCity());
-            b.putString(activity.getApplicationContext().getString(R.string.INTENT_REFERENCIA), model.getReference());
-            b.putString(activity.getApplicationContext().getString(R.string.INTENT_LATITUD), model.getLatitud());
-            b.putString(activity.getApplicationContext().getString(R.string.INTENT_LONGITUD), model.getLongitud());
-
-            //CAmbiar la fecha local a string
-            b.putString(activity.getApplicationContext().getString(R.string.INTENT_FECHA_LOCAL), dateHandler.dateToString(activity, model.getLocalDate()));
-
-            b.putDouble(activity.getApplicationContext().getString(R.string.INTENT_MAGNITUD), model.getMagnitude());
-            b.putDouble(activity.getApplicationContext().getString(R.string.INTENT_PROFUNDIDAD), model.getDepth());
-            b.putString(activity.getApplicationContext().getString(R.string.INTENT_ESCALA), model.getScale());
-            b.putString(activity.getApplicationContext().getString(R.string.INTENT_SENSIBLE), model.isSensitive());
-            b.putString(activity.getApplicationContext().getString(R.string.INTENT_LINK_FOTO), model.getImagen_url());
-            b.putString(activity.getApplicationContext().getString(R.string.INTENT_ESTADO), model.getEstado());
-
-            intent.putExtras(b);*/
-
-            //LOG
-            Timber.i(activity.applicationContext.getString(R.string.TRY_INTENT_DETALLE))
-
-            /*
-            val options = ActivityOptions.makeSceneTransitionAnimation(
-                activity,
-                Pair.create(holder.iv_mag_color, "color_magnitud"),
-                Pair.create(holder.tv_magnitud, "magnitud"),
-                Pair.create(holder.tv_ciudad, "ciudad"),
-                Pair.create(holder.tv_referencia, "referencia"),
-                Pair.create(holder.tv_hora, "hora")
-            )
-            activity.startActivity(intent, options.toBundle())*/
         }
     }
-
-
 }

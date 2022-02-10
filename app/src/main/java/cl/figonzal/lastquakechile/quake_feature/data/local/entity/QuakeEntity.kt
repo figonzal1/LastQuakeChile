@@ -5,12 +5,14 @@ import androidx.room.PrimaryKey
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Coordinates
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
 @Entity
 class QuakeEntity(
     @PrimaryKey val id: Long? = null,
-    val localDate: String,
+    val utcDate: String,
     val city: String,
     val reference: String,
     val magnitude: Double,
@@ -26,7 +28,10 @@ class QuakeEntity(
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 
         return Quake(
-            localDate = LocalDateTime.parse(localDate, formatter),
+            localDate = LocalDateTime.parse(utcDate, formatter).atZone(ZoneOffset.UTC)
+                .withZoneSameInstant(
+                    ZoneId.systemDefault()
+                ).toLocalDateTime(),
             city = city,
             reference = reference,
             magnitude = magnitude,

@@ -1,13 +1,10 @@
 package cl.figonzal.lastquakechile.core.utils
 
-import android.content.Context
-import cl.figonzal.lastquakechile.R
-import java.text.SimpleDateFormat
 import java.time.Duration
 import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter.ofPattern
-import java.util.*
+import kotlin.math.abs
+import kotlin.math.floor
+import kotlin.math.roundToLong
 
 
 /**
@@ -35,47 +32,22 @@ fun dateToDHMS(fecha: LocalDateTime): Map<String, Long> {
 }
 
 /**
- * Convierte desde UTC a Local de dispositivo (Según zona horaria)
+ * Funcion que permite cambiaar latitud o longitud a DMS
  *
- * @param date Parametro date Utc
- * @return retorna el date en local
+ * @param input Longitud o Latitud
+ * @return grados, minutos, segundos en un Map
  */
-fun utcToLocal(date: LocalDateTime): LocalDateTime {
+fun latLongToDMS(input: Double): Map<String, Double> {
 
-    // convert LocalDateTime to ZonedDateTime, with default system zone id
-    return date.atZone(ZoneId.systemDefault()).toLocalDateTime()
-}
+    val dmsMap = HashMap<String, Double>()
+    val abs = abs(input)
 
-/**
- * Funcion encargada de transformar un String a un Date
- *
- * @param sFecha Fecha en string que será convertida en date
- * @return dFecha Fecha en Date entregada por le funcion
- */
-fun stringToDate(context: Context, sFecha: String): LocalDateTime {
+    val degree = floor(abs)
+    val minutes = floor((abs - degree) * 3600 / 60)
+    val seg = ((abs - degree) * 3600 / 60 - minutes) * 60
 
-    return LocalDateTime.parse(sFecha, ofPattern(context.getString(R.string.DATETIME_FORMAT)))
-}
-
-/**
- * Funcion que convierte una fecha date en un string
- *
- * @param context Contexto utilizado para el uso de strings
- * @param dFecha  Fecha que será convertida
- * @return String de la fecha
- */
-fun dateToString(context: Context, dFecha: Date): String {
-    val mFormat = SimpleDateFormat(context.getString(R.string.DATETIME_FORMAT), Locale.US)
-    return mFormat.format(dFecha)
-}
-
-/**
- * Funcion encargada de sumar horas a un date
- *
- * @param date  Date al que se le sumaran horas
- * @param hours Horas que seran sumadas
- * @return Date con las horas ya sumadas
- */
-fun addHoursToJavaUtilDate(date: LocalDateTime, hours: Long): LocalDateTime {
-    return date.plusHours(hours)
+    dmsMap["grados"] = floor(abs(input))
+    dmsMap["minutos"] = minutes.roundToLong().toDouble()
+    dmsMap["segundos"] = seg.roundToLong().toDouble()
+    return dmsMap
 }

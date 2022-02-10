@@ -117,7 +117,7 @@ class QuakeFragment : Fragment() {
         }
 
         //Load Banner
-        loadBanner(binding.adView)
+        binding.adView.loadBanner()
     }
 
     private fun showCvInfo() {

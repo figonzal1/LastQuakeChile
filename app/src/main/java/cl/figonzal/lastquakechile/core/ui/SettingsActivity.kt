@@ -31,7 +31,7 @@ class SettingsActivity : AppCompatActivity() {
                 .commit()
         }
 
-        setSupportActionBar(binding.toolbarNoMain.toolBar)
+        setSupportActionBar(binding.includeToolbar.materialToolbar)
 
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)

@@ -1,5 +1,6 @@
 package cl.figonzal.lastquakechile.quake_feature.domain.model
 
+import java.io.Serializable
 import java.time.LocalDateTime
 
 data class Quake(
@@ -13,4 +14,4 @@ data class Quake(
     val coordinates: Coordinates,
     val isSensitive: Boolean = false,
     val isVerified: Boolean = false,
-)
+) : Serializable
