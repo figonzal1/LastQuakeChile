@@ -1,12 +1,14 @@
 package cl.figonzal.lastquakechile.quake_feature.data.remote.dto
 
+import androidx.room.Ignore
 import cl.figonzal.lastquakechile.quake_feature.data.local.entity.QuakeEntity
 
 /**
  * Here make changes if API for reports changes
  */
 data class QuakeDTO(
-    private val fecha_local: String,
+    @Ignore
+    private val fecha_local: String? = null,
     private val fecha_utc: String,
     private val ciudad: String,
     private val referencia: String,
@@ -16,8 +18,10 @@ data class QuakeDTO(
     private val latitud: Double,
     private val longitud: Double,
     private val profundidad: Double,
-    private val agencia: String,
-    private val imagen_url: String,
+    @Ignore
+    private val agencia: String? = null,
+    @Ignore
+    private val imagen_url: String? = null,
     private val estado: String
 ) {
 
@@ -26,7 +30,7 @@ data class QuakeDTO(
     fun toQuakeEntity(): QuakeEntity {
 
         return QuakeEntity(
-            localDate = fecha_local,
+            utcDate = fecha_utc,
             city = ciudad,
             reference = referencia,
             magnitude = magnitud,

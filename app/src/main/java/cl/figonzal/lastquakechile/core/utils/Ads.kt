@@ -12,9 +12,9 @@ import timber.log.Timber
 /**
  * Funcion encargada de cargar la publicidad presente en el listado
  */
-fun loadBanner(mAdView: AdView) {
+fun AdView.loadBanner() {
 
-    mAdView.apply {
+    apply {
 
         adListener = object : AdListener() {
 

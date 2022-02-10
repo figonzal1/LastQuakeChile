@@ -1,12 +1,20 @@
 package cl.figonzal.lastquakechile.core.utils
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.net.Uri
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.quake_feature.domain.model.Coordinates
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
+import timber.log.Timber
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 import java.util.*
 import kotlin.math.floor
 
@@ -232,4 +240,75 @@ fun TextView.calculateHours(quake: Quake, context: Context) {
             }
         }
     }
+}
+
+/**
+ * Coordinates to DMS
+ */
+fun TextView.formatDMS(coordinates: Coordinates) {
+
+    //Calculo de lat to GMS
+    val latDMS = latLongToDMS(coordinates.latitude)
+    val degreeLat = latDMS["grados"]
+    val minLat = latDMS["minutos"]
+    val segLat = latDMS["segundos"]
+
+    val dmsLat = String.format(
+        Locale.US,
+        "%.1f° %.1f' %.1f'' %s",
+        degreeLat,
+        minLat,
+        segLat,
+        when {
+            coordinates.latitude < 0 -> this.context.getString(R.string.coordenadas_sur)
+            else -> this.context.getString(R.string.coordenadas_norte)
+        }
+    )
+
+    //Calculo de long to GMS
+    val longDMS = latLongToDMS(coordinates.longitude)
+    val degreeLong = longDMS["grados"]
+    val minLong = longDMS["minutos"]
+    val segLong = longDMS["segundos"]
+
+    val dmsLong = String.format(
+        Locale.US,
+        "%.1f° %.1f' %.1f'' %s",
+        degreeLong,
+        minLong,
+        segLong,
+        when {
+            coordinates.longitude < 0 -> this.context.getString(R.string.coordenadas_oeste)
+            else -> this.context.getString(R.string.coordenadas_este)
+        }
+    )
+
+    text =
+        String.format(this.context.getString(R.string.format_coordenadas), dmsLat, dmsLong)
+}
+
+/**
+ * Funcion encargada se guardar en directorio de celular una imagen bitmap
+ *
+ * @param bitmap  Bitmap de la imagen
+ * @param context Contexto necesario para usar recursos
+ * @return Path de la imagen
+ */
+@Throws(IOException::class)
+fun Context.getLocalBitmapUri(bitmap: Bitmap): Uri {
+
+    val c = Calendar.getInstance()
+    val date = c.timeInMillis.toInt()
+    val file = File(this.cacheDir, "share$date.jpeg")
+
+    when {
+        file.exists() -> Timber.i("Share image exist")
+        else -> {
+            Timber.i("Share image not exist")
+            val out = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
+            out.close()
+        }
+    }
+    return FileProvider.getUriForFile(this, "cl.figonzal.lastquakechile.fileprovider", file)
 }
