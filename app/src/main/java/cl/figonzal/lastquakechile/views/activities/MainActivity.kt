@@ -1,7 +1,6 @@
 package cl.figonzal.lastquakechile.views.activities
 
 import android.content.Intent
-import android.content.res.Configuration.*
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
@@ -12,14 +11,14 @@ import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.preference.PreferenceManager
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.services.GooglePlayService
+import cl.figonzal.lastquakechile.core.services.NightModeService
+import cl.figonzal.lastquakechile.core.services.UpdaterService
+import cl.figonzal.lastquakechile.core.services.notifications.QuakesNotification
 import cl.figonzal.lastquakechile.core.ui.MainFragmentStateAdapter
-import cl.figonzal.lastquakechile.core.utils.GooglePlayService
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.getFirebaseToken
 import cl.figonzal.lastquakechile.databinding.ActivityMainBinding
-import cl.figonzal.lastquakechile.services.NightModeService
-import cl.figonzal.lastquakechile.services.UpdaterService
-import cl.figonzal.lastquakechile.services.notifications.QuakesNotification
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -98,34 +97,6 @@ class MainActivity : AppCompatActivity() {
             viewPager.apply {
                 adapter = MainFragmentStateAdapter(this@MainActivity, applicationContext)
                 setTabs(tabs, appBar)
-            }
-
-            //Setear collapsing toolbar con titulo estatico superior y animacion de colores al recoger
-            with(binding.toolbarLayout.collapsingToolbar) {
-
-                isTitleEnabled = true
-
-                resources.configuration.uiMode and UI_MODE_NIGHT_MASK.apply {
-
-                    //Detecta modo noche automatico como YES
-                    when (this) {
-                        UI_MODE_NIGHT_YES -> {
-                            setContentScrimColor(
-                                resources.getColor(
-                                    R.color.colorPrimary,
-                                    theme
-                                )
-                            )
-                        }
-                        UI_MODE_NIGHT_NO -> {
-                            setContentScrimColor(
-                                resources.getColor(
-                                    R.color.colorPrimary, theme
-                                )
-                            )
-                        }
-                    }
-                }
             }
         }
 

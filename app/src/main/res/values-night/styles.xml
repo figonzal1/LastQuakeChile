@@ -34,4 +34,13 @@
         <item name="colorOnPrimary">@color/colorOnSurface</item>
     </style>
 
+    <!-- Button dark style -->
+    <style name="Widget.App.Button" parent="Widget.MaterialComponents.Button">
+
+        <item name="backgroundTint">?attr/colorSecondary</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="android:textAppearance">?attr/textAppearanceButton</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.LastQuakeChile.Button</item>
+    </style>
+
 </resources>

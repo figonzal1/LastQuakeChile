@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.fragments.MapFragment">
+    tools:context=".views.fragments.MapsFragmentNew">
 
     <!-- own view of map to solve scrolling with viewpager2-->
     <cl.figonzal.lastquakechile.views.MapViewInScroll

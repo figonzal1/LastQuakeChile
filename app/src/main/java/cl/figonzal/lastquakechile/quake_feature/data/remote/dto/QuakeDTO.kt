@@ -35,7 +35,7 @@ data class QuakeDTO(
             latitude = latitud,
             longitude = longitud,
             isSensitive = sensible == "1",
-            isVerified = estado == "Verificado"
+            isVerified = estado == "verificado"
         )
     }
 }

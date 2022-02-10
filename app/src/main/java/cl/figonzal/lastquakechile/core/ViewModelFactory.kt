@@ -15,30 +15,36 @@ import cl.figonzal.lastquakechile.reports_feature.domain.use_case.GetReportsUseC
 import cl.figonzal.lastquakechile.reports_feature.ui.ReportViewModel
 import kotlinx.coroutines.Dispatchers
 
+@Suppress("UNCHECKED_CAST")
 class ViewModelFactory(
     private val application: Application
-) : ViewModelProvider.NewInstanceFactory() {
+) : ViewModelProvider.Factory {
+
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
 
-
-        return if (modelClass == QuakeViewModel::class.java) {
-
-            val repo = QuakeRepositoryImpl(
-                QuakeLocalDataSource(application),
-                QuakeRemoteDataSource(application),
-                Dispatchers.IO
-            )
-            val useCase = GetQuakesUseCase(repo)
-            QuakeViewModel(useCase) as T
-        } else {
-            val repo = ReportRepositoryImpl(
-                ReportLocalDataSource(application),
-                ReportRemoteDataSource(application),
-                Dispatchers.IO
-            )
-            val useCase = GetReportsUseCase(repo)
-            ReportViewModel(useCase) as T
+        when {
+            modelClass.isAssignableFrom(QuakeViewModel::class.java) -> return QuakeViewModel(
+                GetQuakesUseCase(
+                    QuakeRepositoryImpl(
+                        QuakeLocalDataSource(application),
+                        QuakeRemoteDataSource(application),
+                        Dispatchers.IO
+                    )
+                )
+            ) as T
+            modelClass.isAssignableFrom(ReportViewModel::class.java) -> return ReportViewModel(
+                GetReportsUseCase(
+                    ReportRepositoryImpl(
+                        ReportLocalDataSource(application),
+                        ReportRemoteDataSource(application),
+                        Dispatchers.IO
+                    )
+                )
+            ) as T
+            else -> throw IllegalArgumentException("Unknown ViewModel class")
         }
+
+
     }
 }

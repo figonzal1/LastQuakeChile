@@ -7,6 +7,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeFragment
 import cl.figonzal.lastquakechile.reports_feature.ui.ReportsFragment
+import cl.figonzal.lastquakechile.views.fragments.MapsFragmentNew
 
 class MainFragmentStateAdapter(fa: FragmentActivity, context: Context) : FragmentStateAdapter(fa) {
 
@@ -14,7 +15,7 @@ class MainFragmentStateAdapter(fa: FragmentActivity, context: Context) : Fragmen
         return when (position) {
             0 -> QuakeFragment.newInstance()
             1 -> ReportsFragment.newInstance()
-            else -> QuakeFragment.newInstance()
+            else -> MapsFragmentNew.newInstance()
         }
     }
 
@@ -23,12 +24,12 @@ class MainFragmentStateAdapter(fa: FragmentActivity, context: Context) : Fragmen
     }
 
     companion object {
-        val tabs = arrayOfNulls<String>(2)
+        val tabs = arrayOfNulls<String>(3)
     }
 
     init {
         tabs[0] = context.getString(R.string.tab_list)
         tabs[1] = context.getString(R.string.tab_reports)
-        //tabs[2] = context.getString(R.string.tab_map);
+        tabs[2] = context.getString(R.string.tab_map)
     }
 }

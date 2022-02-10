@@ -6,6 +6,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import java.util.*
 import kotlin.math.floor
 
@@ -85,12 +86,12 @@ private fun getColorResource(forMapa: Boolean, mMagFloor: Int): Int {
  * @param tv_estado Texview que tendrá el valor de estado
  */
 fun ImageView.setStatusImage(
-    estado: String,
+    estado: Boolean,
     tv_estado: TextView
 ) {
 
     when {
-        estado.contains("preliminar") -> {
+        !estado -> {
             tv_estado.text = String.format(
                 Locale.US,
                 context.getString(R.string.quakes_details_estado_sismo),
@@ -103,7 +104,7 @@ fun ImageView.setStatusImage(
                 )
             )
         }
-        estado.contains("verificado") -> {
+        estado -> {
 
             tv_estado.text = String.format(
                 Locale.US,
@@ -191,4 +192,44 @@ fun Context.toast(stringId: Int) {
         this.getString(stringId),
         Toast.LENGTH_LONG
     ).show()
+}
+
+fun TextView.calculateHours(quake: Quake, context: Context) {
+
+    val timeMap = dateToDHMS(quake.localDate)
+
+    val days = timeMap[context.getString(R.string.UTILS_TIEMPO_DIAS)]
+    val hour = timeMap[context.getString(R.string.UTILS_TIEMPO_HORAS)]
+    val min = timeMap[context.getString(R.string.UTILS_TIEMPO_MINUTOS)]
+    val seg = timeMap[context.getString(R.string.UTILS_TIEMPO_SEGUNDOS)]
+
+    //Condiciones días.
+    when {
+        days != null && days == 0L -> {
+
+            when {
+                hour != null && hour >= 1 -> text =
+                    String.format(context.getString(R.string.quake_time_hour_info_windows), hour)
+                else -> {
+                    text = String.format(
+                        context.getString(R.string.quake_time_minute_info_windows),
+                        min
+                    )
+
+                    if (min != null && min < 1) text = String.format(
+                        context.getString(R.string.quake_time_second_info_windows), seg
+                    )
+                }
+            }
+        }
+        days != null && days > 0 -> {
+            when {
+                hour != null && hour == 0L -> text =
+                    String.format(context.getString(R.string.quake_time_day_info_windows), days)
+                hour != null && hour >= 1 -> text = String.format(
+                    context.getString(R.string.quake_time_day_hour_info_windows), days, hour / 24
+                )
+            }
+        }
+    }
 }

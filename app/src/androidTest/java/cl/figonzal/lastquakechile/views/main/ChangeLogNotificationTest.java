@@ -22,8 +22,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
+import cl.figonzal.lastquakechile.core.services.notifications.ChangeLogNotification;
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil;
-import cl.figonzal.lastquakechile.services.notifications.ChangeLogNotification;
 import cl.figonzal.lastquakechile.views.activities.MainActivity;
 
 @RunWith(AndroidJUnit4.class)

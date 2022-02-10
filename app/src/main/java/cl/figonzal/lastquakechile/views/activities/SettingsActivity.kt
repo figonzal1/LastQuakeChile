@@ -9,10 +9,10 @@ import androidx.appcompat.app.AppCompatDelegate.*
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SeekBarPreference
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.services.notifications.QuakesNotification
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.toast
 import cl.figonzal.lastquakechile.databinding.SettingsActivityBinding
-import cl.figonzal.lastquakechile.services.notifications.QuakesNotification
 import timber.log.Timber
 
 class SettingsActivity : AppCompatActivity() {
