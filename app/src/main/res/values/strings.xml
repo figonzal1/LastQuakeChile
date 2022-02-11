@@ -273,4 +273,5 @@
     <string name="change_log_ultima_version">Última versión</string>
     <string name="change_log_version_prueba">Versión de prueba</string>
     <string name="INTENT_CHOOSER">Compartir sismos</string>
+    <string name="title_activity_maps_delete">MapsActivityDelete</string>
 </resources>

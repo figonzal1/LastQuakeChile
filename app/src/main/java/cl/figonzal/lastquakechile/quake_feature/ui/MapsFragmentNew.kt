@@ -2,7 +2,6 @@ package cl.figonzal.lastquakechile.quake_feature.ui
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +15,7 @@ import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.ViewModelFactory
 import cl.figonzal.lastquakechile.core.utils.calculateHours
 import cl.figonzal.lastquakechile.core.utils.getMagnitudeColor
+import cl.figonzal.lastquakechile.core.utils.setNightMode
 import cl.figonzal.lastquakechile.core.utils.setStatusImage
 import cl.figonzal.lastquakechile.databinding.FragmentMapsNewBinding
 import cl.figonzal.lastquakechile.databinding.InfoWindowsBinding
@@ -28,7 +28,6 @@ import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.Marker
 import com.google.maps.android.ktx.addCircle
 import com.google.maps.android.ktx.addMarker
@@ -96,7 +95,7 @@ class MapsFragmentNew : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener
             setLatLngBoundsForCameraTarget(mChile)
 
             //NIght mode
-            setNightMode()
+            setNightMode(requireContext())
 
             //configuraciones mapa
             mapType = MAP_TYPE_NORMAL
@@ -129,20 +128,7 @@ class MapsFragmentNew : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener
         Timber.i(getString(R.string.TAG_MAP_READY_RESPONSE))
     }
 
-    private fun GoogleMap.setNightMode() {
-        //NIGHT MODE MAPA
-        val nightModeFlags =
-            requireContext().resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
 
-        if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
-            setMapStyle(
-                MapStyleOptions.loadRawResourceStyle(
-                    requireContext(),
-                    R.raw.map_night_mode
-                )
-            )
-        }
-    }
 
     private fun GoogleMap.cargarPines() {
 
