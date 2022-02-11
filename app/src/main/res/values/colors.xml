@@ -4,7 +4,7 @@
     <!-- LIGHT COLORS-->
     <color name="colorPrimary">#3f51b5</color>
     <color name="colorPrimaryVariant">#303F9F</color>
-    <color name="colorOnPrimary">#A1000000</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
 
     <color name="colorSecondary">#00bbff</color>
     <color name="colorOnSecondary">#9C000000</color>
