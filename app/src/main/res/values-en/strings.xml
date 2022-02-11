@@ -102,4 +102,8 @@
     <string name="change_log_version_prueba">Test version</string>
     <string name="INTENT_CHOOSER">Share quakes</string>
     <string name="NIGHT_MODE_KEY_TOAST_OFF">Night mode off</string>
+    <string name="version">"Version "</string>
+    <string name="solucionamos_el_problema">Solved things</string>
+    <string name="entendido">Ok</string>
+    <string name="qu_hay_de_nuevo_en_la_app">" What's new in the app?"</string>
 </resources>

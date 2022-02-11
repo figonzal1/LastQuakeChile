@@ -10,13 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.utils.dateToDHMS
 import cl.figonzal.lastquakechile.core.utils.getMagnitudeColor
+import cl.figonzal.lastquakechile.core.utils.localDateToDHMS
 import cl.figonzal.lastquakechile.core.utils.setTimeToTextView
 import cl.figonzal.lastquakechile.databinding.CardViewQuakeBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeAdapter.QuakeViewHolder
-import cl.figonzal.lastquakechile.views.activities.QuakeDetailsActivity
 import timber.log.Timber
 
 class QuakeAdapter(
@@ -83,7 +82,7 @@ class QuakeAdapter(
                 ivMagColor.setColorFilter(activity.applicationContext.getColor(idColor))
 
                 tvHour.apply {
-                    this.setTimeToTextView(dateToDHMS(quake.localDate))
+                    this.setTimeToTextView(quake.localDate.localDateToDHMS())
                 }
 
                 ivSensitive.visibility = when {

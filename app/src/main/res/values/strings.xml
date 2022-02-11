@@ -196,6 +196,8 @@
     <string name="SHARED_PREF_END_REWARD_DATE" translatable="false">end_reward_date</string>
     <string name="SHARED_PREF_FIRST_LOAD" translatable="false">is_first_load</string>
     <string name="SHARED_PREF_EARNED_AD" translatable="false">isEarned</string>
+    <string name="SHARED_VERSION_CODE_APP" translatable="false">STORE VERSION CODE: </string>
+    <string name="VERSION_CODE_APP" translatable="false">INSTALLED VERSION CODE: </string>
 
 
     <!-- NightMode -->
@@ -273,5 +275,11 @@
     <string name="change_log_ultima_version">Última versión</string>
     <string name="change_log_version_prueba">Versión de prueba</string>
     <string name="INTENT_CHOOSER">Compartir sismos</string>
-    <string name="title_activity_maps_delete">MapsActivityDelete</string>
+    <string name="version">Versión </string>
+    <string name="qu_hay_de_nuevo_en_la_app">¿Qué hay de nuevo en la app?</string>
+    <string name="solucionamos_el_problema">Solucionamos el problema</string>
+    <string name="entendido">Entendido</string>
+    <string name="NEW_VERSION_DETECTED" translatable="false">NUEVA VERSION DETECTADA</string>
+    <string name="NO_NEW_VERSION_DETECTED" translatable="false">NUEVA VERSION NO DETECTADA</string>
+
 </resources>

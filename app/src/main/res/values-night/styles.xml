@@ -21,6 +21,9 @@
 
         <!-- Toolbar Style -->
         <item name="toolbarStyle">@style/Widget.App.Toolbar</item>
+
+        <!-- Material Button Dark Style -->
+        <item name="materialButtonStyle">@style/Widget.App.Button</item>
     </style>
 
     <!-- Toolbar Theming Light -->
@@ -37,10 +40,15 @@
     <!-- Button dark style -->
     <style name="Widget.App.Button" parent="Widget.MaterialComponents.Button">
 
-        <item name="backgroundTint">?attr/colorSecondary</item>
-        <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Button</item>
         <item name="android:textAppearance">?attr/textAppearanceButton</item>
         <item name="shapeAppearance">@style/ShapeAppearance.LastQuakeChile.Button</item>
     </style>
+
+    <style name="ThemeOverlay.App.Button" parent="">
+        <item name="colorPrimary">@color/colorSecondary</item>
+        <item name="colorOnPrimary">@color/colorOnSecondary</item>
+    </style>
+
 
 </resources>

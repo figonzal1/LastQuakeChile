@@ -33,10 +33,6 @@
             android:value="${MAPS_API_KEY}" />
 
         <activity
-            android:name=".views.activities.MapsActivityDelete"
-            android:exported="false"
-            android:label="@string/title_activity_maps_delete" />
-        <activity
             android:name=".core.ui.MainActivity"
             android:exported="true">
             <intent-filter>
@@ -46,7 +42,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".views.activities.QuakeDetailsActivity"
+            android:name=".quake_feature.ui.QuakeDetailsActivity"
             android:parentActivityName=".core.ui.MainActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">

@@ -102,4 +102,8 @@
     <string name="change_log_version_prueba">Versión de prueba</string>
     <string name="INTENT_CHOOSER">Compartir sismos</string>
     <string name="NIGHT_MODE_KEY_TOAST_OFF">Modo noche desactivado</string>
+    <string name="version">"Versión "</string>
+    <string name="qu_hay_de_nuevo_en_la_app">¿Qué hay de nuevo en la app?</string>
+    <string name="solucionamos_el_problema">Solucionamos el problema</string>
+    <string name="entendido">Entendido</string>
 </resources>

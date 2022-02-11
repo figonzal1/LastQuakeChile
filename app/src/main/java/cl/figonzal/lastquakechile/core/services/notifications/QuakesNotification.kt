@@ -12,7 +12,7 @@ import androidx.core.app.NotificationCompat.*
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.quake_feature.data.remote.dto.QuakeDTO
-import cl.figonzal.lastquakechile.views.activities.QuakeDetailsActivity
+import cl.figonzal.lastquakechile.quake_feature.ui.QuakeDetailsActivity
 import com.google.android.gms.tasks.Task
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.messaging.FirebaseMessaging

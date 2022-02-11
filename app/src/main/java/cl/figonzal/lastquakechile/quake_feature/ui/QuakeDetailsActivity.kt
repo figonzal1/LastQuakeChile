@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile.views.activities
+package cl.figonzal.lastquakechile.quake_feature.ui
 
 import android.animation.IntEvaluator
 import android.animation.ValueAnimator
@@ -110,7 +110,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
             tvGms.formatDMS(quake.coordinates)
 
             //Calcular hora
-            tvHoraDetail.setTimeToTextView(dateToDHMS(quake.localDate))
+            tvHoraDetail.setTimeToTextView(quake.localDate.localDateToDHMS())
 
             //Scale
             tvEscala.text = quake.scale

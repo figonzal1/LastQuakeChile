@@ -20,7 +20,6 @@ import cl.figonzal.lastquakechile.core.utils.setStatusImage
 import cl.figonzal.lastquakechile.databinding.FragmentMapsNewBinding
 import cl.figonzal.lastquakechile.databinding.InfoWindowsBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
-import cl.figonzal.lastquakechile.views.activities.QuakeDetailsActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.*
@@ -243,7 +242,7 @@ class MapsFragmentNew : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener
                 )
             )
 
-            tvIwHora.calculateHours(quake, requireContext())
+            tvIwHora.calculateHours(quake)
 
             ivIwEstado.setStatusImage(quake.isVerified, tvIwEstado)
         }
