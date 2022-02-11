@@ -31,8 +31,6 @@ fun getMagnitudeColor(magnitude: Double, forMapa: Boolean): Int {
 
 private fun getColorResource(forMapa: Boolean, mMagFloor: Int): Int {
 
-    Timber.e(mMagFloor.toString())
-
     return when {
         mMagFloor == 1 -> {
             when {
@@ -204,14 +202,14 @@ fun Context.toast(stringId: Int) {
     ).show()
 }
 
-fun TextView.calculateHours(quake: Quake, context: Context) {
+fun TextView.calculateHours(quake: Quake) {
 
-    val timeMap = dateToDHMS(quake.localDate)
+    val timeMap = quake.localDate.localDateToDHMS()
 
-    val days = timeMap[context.getString(R.string.UTILS_TIEMPO_DIAS)]
-    val hour = timeMap[context.getString(R.string.UTILS_TIEMPO_HORAS)]
-    val min = timeMap[context.getString(R.string.UTILS_TIEMPO_MINUTOS)]
-    val seg = timeMap[context.getString(R.string.UTILS_TIEMPO_SEGUNDOS)]
+    val days = timeMap[this.context.getString(R.string.UTILS_TIEMPO_DIAS)]
+    val hour = timeMap[this.context.getString(R.string.UTILS_TIEMPO_HORAS)]
+    val min = timeMap[this.context.getString(R.string.UTILS_TIEMPO_MINUTOS)]
+    val seg = timeMap[this.context.getString(R.string.UTILS_TIEMPO_SEGUNDOS)]
 
     //Condiciones días.
     when {
@@ -219,15 +217,18 @@ fun TextView.calculateHours(quake: Quake, context: Context) {
 
             when {
                 hour != null && hour >= 1 -> text =
-                    String.format(context.getString(R.string.quake_time_hour_info_windows), hour)
+                    String.format(
+                        this.context.getString(R.string.quake_time_hour_info_windows),
+                        hour
+                    )
                 else -> {
                     text = String.format(
-                        context.getString(R.string.quake_time_minute_info_windows),
+                        this.context.getString(R.string.quake_time_minute_info_windows),
                         min
                     )
 
                     if (min != null && min < 1) text = String.format(
-                        context.getString(R.string.quake_time_second_info_windows), seg
+                        this.context.getString(R.string.quake_time_second_info_windows), seg
                     )
                 }
             }
@@ -235,9 +236,14 @@ fun TextView.calculateHours(quake: Quake, context: Context) {
         days != null && days > 0 -> {
             when {
                 hour != null && hour == 0L -> text =
-                    String.format(context.getString(R.string.quake_time_day_info_windows), days)
+                    String.format(
+                        this.context.getString(R.string.quake_time_day_info_windows),
+                        days
+                    )
                 hour != null && hour >= 1 -> text = String.format(
-                    context.getString(R.string.quake_time_day_hour_info_windows), days, hour / 24
+                    this.context.getString(R.string.quake_time_day_hour_info_windows),
+                    days,
+                    hour / 24
                 )
             }
         }
@@ -250,7 +256,7 @@ fun TextView.calculateHours(quake: Quake, context: Context) {
 fun TextView.formatDMS(coordinates: Coordinates) {
 
     //Calculo de lat to GMS
-    val latDMS = latLongToDMS(coordinates.latitude)
+    val latDMS = coordinates.latitude.latLongToDMS()
     val degreeLat = latDMS["grados"]
     val minLat = latDMS["minutos"]
     val segLat = latDMS["segundos"]
@@ -268,7 +274,7 @@ fun TextView.formatDMS(coordinates: Coordinates) {
     )
 
     //Calculo de long to GMS
-    val longDMS = latLongToDMS(coordinates.longitude)
+    val longDMS = coordinates.longitude.latLongToDMS()
     val degreeLong = longDMS["grados"]
     val minLong = longDMS["minutos"]
     val segLong = longDMS["segundos"]
@@ -290,11 +296,7 @@ fun TextView.formatDMS(coordinates: Coordinates) {
 }
 
 /**
- * Funcion encargada se guardar en directorio de celular una imagen bitmap
- *
- * @param bitmap  Bitmap de la imagen
- * @param context Contexto necesario para usar recursos
- * @return Path de la imagen
+ * Save snapshot from google map in cache directory
  */
 @Throws(IOException::class)
 fun Context.getLocalBitmapUri(bitmap: Bitmap): Uri {
@@ -313,4 +315,17 @@ fun Context.getLocalBitmapUri(bitmap: Bitmap): Uri {
         }
     }
     return FileProvider.getUriForFile(this, "cl.figonzal.lastquakechile.fileprovider", file)
+}
+
+fun List<String>.printChangeLogList(): CharSequence {
+    var changes = ""
+
+    this.indices.forEach { i ->
+
+        changes = when {
+            i > 0 -> changes.plus("\n" + this[i])
+            else -> changes.plus(this[i])
+        }
+    }
+    return changes
 }

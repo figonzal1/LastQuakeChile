@@ -9,10 +9,6 @@ import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.LoadAdError
 import timber.log.Timber
 
-
-/**
- * Funcion encargada de cargar la publicidad presente en el listado
- */
 @SuppressLint("MissingPermission")
 fun AdView.loadBanner() {
 

@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.preference.PreferenceManager
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.services.ChangeLogService
 import cl.figonzal.lastquakechile.core.services.GooglePlayService
 import cl.figonzal.lastquakechile.core.services.NightModeService
 import cl.figonzal.lastquakechile.core.services.UpdaterService
@@ -53,6 +54,9 @@ class MainActivity : AppCompatActivity() {
 
         //GP services
         lifecycle.addObserver(GooglePlayService(this))
+
+        //ChangeLog Service
+        lifecycle.addObserver(ChangeLogService(this, SharedPrefUtil(this)))
 
         //Firebase services
         getFirebaseToken()
