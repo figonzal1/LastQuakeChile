@@ -1,6 +1,5 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/card_view_map"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:elevation="4dp"
@@ -9,9 +8,8 @@
     app:layout_constraintHorizontal_bias="0.0"
     app:layout_constraintTop_toTopOf="parent">
 
-    <fragment
-        android:id="@+id/map_fragment"
-        class="com.google.android.gms.maps.MapFragment"
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/map_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
