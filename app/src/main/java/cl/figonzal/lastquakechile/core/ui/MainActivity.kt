@@ -32,6 +32,7 @@ import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
 import timber.log.Timber
 
+
 class MainActivity : AppCompatActivity() {
 
     private var updaterService: UpdaterService? = null
@@ -95,6 +96,11 @@ class MainActivity : AppCompatActivity() {
 
             //Buscar toolbar en resources
             setSupportActionBar(toolbarMain.toolBar)
+
+            collapsingToolbar.isTitleEnabled = true
+            collapsingToolbar.setContentScrimColor(
+                getColor(R.color.colorPrimary)
+            )
 
             //View pager para los fragments (Solo 1 fragment en esta app)
             viewPager.apply {

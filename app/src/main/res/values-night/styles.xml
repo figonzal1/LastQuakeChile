@@ -26,17 +26,6 @@
         <item name="materialButtonStyle">@style/Widget.App.Button</item>
     </style>
 
-    <!-- Toolbar Theming Light -->
-    <style name="Widget.App.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
-        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Toolbar</item>
-    </style>
-
-    <style name="ThemeOverlay.App.Toolbar" parent="">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
-        <item name="colorOnPrimary">@color/colorOnSurface</item>
-    </style>
-
     <!-- Button dark style -->
     <style name="Widget.App.Button" parent="Widget.MaterialComponents.Button">
 
@@ -48,6 +37,17 @@
     <style name="ThemeOverlay.App.Button" parent="">
         <item name="colorPrimary">@color/colorSecondary</item>
         <item name="colorOnPrimary">@color/colorOnSecondary</item>
+    </style>
+
+    <!-- Toolbar Theming Dark -->
+    <style name="Widget.App.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Toolbar</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Toolbar" parent="">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
+        <item name="colorOnPrimary">@color/colorOnSurface</item>
     </style>
 
 
