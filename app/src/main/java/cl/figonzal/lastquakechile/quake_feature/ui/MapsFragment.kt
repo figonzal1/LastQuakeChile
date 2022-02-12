@@ -17,7 +17,7 @@ import cl.figonzal.lastquakechile.core.utils.calculateHours
 import cl.figonzal.lastquakechile.core.utils.getMagnitudeColor
 import cl.figonzal.lastquakechile.core.utils.setNightMode
 import cl.figonzal.lastquakechile.core.utils.setStatusImage
-import cl.figonzal.lastquakechile.databinding.FragmentMapsNewBinding
+import cl.figonzal.lastquakechile.databinding.FragmentMapsBinding
 import cl.figonzal.lastquakechile.databinding.InfoWindowsBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -34,14 +34,14 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 
-class MapsFragmentNew : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener,
+class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener,
     OnMapReadyCallback {
 
     private val MAPVIEW_BUNDLE_KEY = "MapViewBundleKey"
 
     private lateinit var quakeList: List<Quake>
     private lateinit var mapView: MapView
-    private lateinit var binding: FragmentMapsNewBinding
+    private lateinit var binding: FragmentMapsBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,7 +49,7 @@ class MapsFragmentNew : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener
         savedInstanceState: Bundle?
     ): View {
 
-        binding = FragmentMapsNewBinding.inflate(inflater, container, false)
+        binding = FragmentMapsBinding.inflate(inflater, container, false)
 
         mapView = binding.mapView
         mapView.onCreate(savedInstanceState)
@@ -118,15 +118,14 @@ class MapsFragmentNew : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener
             //Cargar pines
             cargarPines()
 
-            setInfoWindowAdapter(this@MapsFragmentNew)
+            setInfoWindowAdapter(this@MapsFragment)
 
-            setOnInfoWindowClickListener(this@MapsFragmentNew)
+            setOnInfoWindowClickListener(this@MapsFragment)
         }
 
         //Log zone
         Timber.i(getString(R.string.TAG_MAP_READY_RESPONSE))
     }
-
 
 
     private fun GoogleMap.cargarPines() {
@@ -175,8 +174,8 @@ class MapsFragmentNew : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener
 
     companion object {
         @JvmStatic
-        fun newInstance(): MapsFragmentNew {
-            return MapsFragmentNew()
+        fun newInstance(): MapsFragment {
+            return MapsFragment()
         }
     }
 
@@ -226,14 +225,14 @@ class MapsFragmentNew : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener
 
         with(infoBinding) {
 
-            tvIwReferencia.text = quake.reference
+            tvIwReference.text = quake.reference
 
-            tvIwMagnitud.text = String.format(
+            tvIwMagnitude.text = String.format(
                 requireContext().getString(R.string.magnitud),
                 quake.magnitude
             )
 
-            tvIwProfundidad.text =
+            tvIwDepth.text =
                 String.format(getString(R.string.profundidad_info_windows), quake.depth)
 
             ivIwMagColor.setColorFilter(
@@ -242,9 +241,9 @@ class MapsFragmentNew : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener
                 )
             )
 
-            tvIwHora.calculateHours(quake)
+            tvIwHour.calculateHours(quake)
 
-            ivIwEstado.setStatusImage(quake.isVerified, tvIwEstado)
+            ivIwIsVerified.setStatusImage(quake.isVerified, tvIwIsVerified)
         }
 
         //Log zone

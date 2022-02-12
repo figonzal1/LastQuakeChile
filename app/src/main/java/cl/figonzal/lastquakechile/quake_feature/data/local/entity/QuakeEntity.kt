@@ -12,6 +12,7 @@ import java.time.format.DateTimeFormatter
 @Entity
 class QuakeEntity(
     @PrimaryKey val id: Long? = null,
+    val quakeCode: Int? = null,
     val utcDate: String,
     val city: String,
     val reference: String,
@@ -28,6 +29,7 @@ class QuakeEntity(
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 
         return Quake(
+            quakeCode = quakeCode,
             localDate = LocalDateTime.parse(utcDate, formatter).atZone(ZoneOffset.UTC)
                 .withZoneSameInstant(
                     ZoneId.systemDefault()

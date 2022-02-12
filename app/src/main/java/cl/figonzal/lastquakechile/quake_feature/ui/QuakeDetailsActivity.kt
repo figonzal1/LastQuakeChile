@@ -15,7 +15,6 @@ import cl.figonzal.lastquakechile.databinding.ActivityQuakeDetailsBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.GoogleMap.MAP_TYPE_NORMAL
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
@@ -139,8 +138,20 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
             //NIght mode
             setNightMode(this@QuakeDetailsActivity)
-            //configuraciones mapa
-            mapType = MAP_TYPE_NORMAL
+
+            mapType = GoogleMap.MAP_TYPE_NORMAL
+            setMinZoomPreference(5.0f)
+            uiSettings.isZoomGesturesEnabled = false
+            uiSettings.isZoomControlsEnabled = true
+
+            uiSettings.isTiltGesturesEnabled = false
+            uiSettings.isScrollGesturesEnabled = false
+
+            uiSettings.isMapToolbarEnabled = false
+            uiSettings.isRotateGesturesEnabled = false
+            uiSettings.isCompassEnabled = false
+
+
 
             addCircle {
                 center(latLong)
