@@ -1,6 +1,5 @@
 package cl.figonzal.lastquakechile.quake_feature.ui
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Intent
@@ -8,6 +7,7 @@ import android.util.Pair
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.utils.getMagnitudeColor
@@ -18,14 +18,11 @@ import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeAdapter.QuakeViewHolder
 import timber.log.Timber
 
+
 class QuakeAdapter(
     private val quakeList: MutableList<Quake>,
     private val activity: Activity,
 ) : RecyclerView.Adapter<QuakeViewHolder>() {
-
-    init {
-        setHasStableIds(true)
-    }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): QuakeViewHolder {
 
@@ -43,21 +40,13 @@ class QuakeAdapter(
         return quakeList.size
     }
 
-    //Permite tener los id's fijos y no tener problemas con boleano sensible.
-    override fun getItemId(position: Int): Long {
-        //TODO: RETURN ID
-        return position.toLong()
-    }
-
-    override fun getItemViewType(position: Int): Int {
-        return position
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
     fun updateList(newList: List<Quake>) {
+
+        val diffCallback = QuakeCallback(quakeList, newList)
+        val diffQuakes = DiffUtil.calculateDiff(diffCallback)
         quakeList.clear()
         quakeList.addAll(newList)
-        notifyDataSetChanged()
+        diffQuakes.dispatchUpdatesTo(this)
     }
 
     inner class QuakeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -118,4 +107,28 @@ class QuakeAdapter(
             }
         }
     }
+
+    inner class QuakeCallback(private val oldList: List<Quake>, private val newList: List<Quake>) :
+        DiffUtil.Callback() {
+
+        override fun getOldListSize(): Int {
+            return oldList.size
+        }
+
+        override fun getNewListSize(): Int {
+            return newList.size
+        }
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldList[oldItemPosition].quakeCode == newList[newItemPosition].quakeCode
+        }
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldList[oldItemPosition].magnitude == newList[newItemPosition].magnitude &&
+                    oldList[oldItemPosition].city == newList[newItemPosition].city &&
+                    oldList[oldItemPosition].quakeCode == newList[newItemPosition].quakeCode
+
+        }
+    }
 }
+

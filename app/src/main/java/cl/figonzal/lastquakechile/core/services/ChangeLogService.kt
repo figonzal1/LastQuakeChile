@@ -57,11 +57,7 @@ class ChangeLogService(
 
                 Timber.d(context.getString(R.string.NEW_VERSION_DETECTED))
             }
-            else -> {
-                showBottomDialog()
-
-                Timber.d(context.getString(R.string.NO_NEW_VERSION_DETECTED))
-            }
+            else -> Timber.d(context.getString(R.string.NO_NEW_VERSION_DETECTED))
         }
     }
 

@@ -20,7 +20,6 @@ data class QuakeDTO(
     private val profundidad: Double,
     @Ignore
     private val agencia: String? = null,
-    @Ignore
     private val imagen_url: String? = null,
     private val estado: String
 ) {
@@ -30,6 +29,7 @@ data class QuakeDTO(
     fun toQuakeEntity(): QuakeEntity {
 
         return QuakeEntity(
+            quakeCode = imagen_url?.toInt(),
             utcDate = fecha_utc,
             city = ciudad,
             reference = referencia,
