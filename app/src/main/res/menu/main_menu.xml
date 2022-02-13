@@ -4,13 +4,8 @@
     <group>
 
         <item
-            android:id="@+id/changelog_menu"
-            android:orderInCategory="2"
-            android:title="@string/change_logs"
-            app:showAsAction="never" />
-        <item
             android:id="@+id/settings_menu"
-            android:orderInCategory="3"
+            android:orderInCategory="1"
             android:title="@string/settings"
             app:showAsAction="never" />
     </group>

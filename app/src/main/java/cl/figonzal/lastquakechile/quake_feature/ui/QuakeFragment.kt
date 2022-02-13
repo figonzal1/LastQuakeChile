@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter
 import android.app.Application
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -91,6 +90,7 @@ class QuakeFragment : Fragment() {
 
                         if (it.quakes.isNotEmpty()) {
                             quakeAdapter.updateList(it.quakes)
+                            binding.recycleViewQuakes.smoothScrollToPosition(0)
                         }
 
                         Timber.i(getString(R.string.TAG_FRAGMENT_QUAKE) + ": " + getString(R.string.FRAGMENT_LOAD_LIST))
@@ -168,13 +168,6 @@ class QuakeFragment : Fragment() {
             }
             .setActionTextColor(resources.getColor(R.color.colorSecondary, requireContext().theme))
             .show()
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.refresh_menu) {
-            return true
-        }
-        return false
     }
 
     companion object {

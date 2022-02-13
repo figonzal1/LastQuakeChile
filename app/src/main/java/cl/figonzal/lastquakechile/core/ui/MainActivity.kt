@@ -190,21 +190,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.main_menu, menu)
+        menuInflater.inflate(R.menu.main_menu, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        if (item.itemId == R.id.settings_menu) {
+        return when (item.itemId) {
+            R.id.settings_menu -> {
 
-            Intent(this@MainActivity, SettingsActivity::class.java).apply {
-                startActivity(this)
+                Intent(this@MainActivity, SettingsActivity::class.java).apply {
+                    startActivity(this)
+                }
+                true
             }
-            return true
+            else -> super.onOptionsItemSelected(item)
         }
-        return super.onOptionsItemSelected(item)
     }
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
