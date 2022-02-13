@@ -8,9 +8,11 @@ import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.core.app.NotificationCompat.*
+import androidx.core.app.NotificationCompat.BigTextStyle
+import androidx.core.app.NotificationCompat.Builder
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
+import cl.figonzal.lastquakechile.core.utils.notificate
 import cl.figonzal.lastquakechile.quake_feature.data.remote.dto.QuakeDTO
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeDetailsActivity
 import com.google.android.gms.tasks.Task
@@ -19,7 +21,6 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.RemoteMessage
 import timber.log.Timber
 import java.io.Serializable
-import java.util.*
 
 /**
  * Notificaciones de sismos con implementacion de Firebase
@@ -137,35 +138,16 @@ class QuakesNotification(private val context: Context, private val sharedPrefUti
                 addFlags(FLAG_ACTIVITY_CLEAR_TOP)
                 putExtra(context.getString(R.string.INTENT_TITULO), data[0].toString())
                 putExtra(context.getString(R.string.INTENT_DESCRIPCION), data[1].toString())
-                putExtra("quake", data[2] as Serializable)
+                putExtra(context.getString(R.string.INTENT_QUAKE), data[2] as Serializable)
 
-            }.also { it ->
+            }.also { intent ->
 
-                val pendingIntent =
-                    PendingIntent.getActivity(context, 0, it, PendingIntent.FLAG_ONE_SHOT)
+                PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE).run {
+                    context.notificate(data, this)
+                }
 
                 Timber.i(context.getString(R.string.TRY_INTENT_NOTIFICATION_1))
                 crashlytics.setCustomKey(context.getString(R.string.TRY_INTENT_NOTIFICATION), true)
-
-                //Build notification
-                Builder(
-                    context,
-                    context.getString(R.string.FIREBASE_CHANNEL_ID_QUAKES)
-                ).setSmallIcon(R.drawable.ic_lastquakechile_400)
-                    .setContentTitle(data[0].toString())
-                    .setContentText(data[1].toString())
-                    .setStyle(BigTextStyle().bigText(data[1].toString()))
-                    .setPriority(PRIORITY_MAX)
-                    .setAutoCancel(true)
-                    .setContentIntent(pendingIntent)
-                    .run {
-
-                        //Notify
-                        (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(
-                            Random().nextInt(60000),
-                            build()
-                        )
-                    }
             }
         }
     }
@@ -214,6 +196,7 @@ class QuakesNotification(private val context: Context, private val sharedPrefUti
                 profundidad = getValue(context.getString(R.string.INTENT_PROFUNDIDAD)).toDouble(),
                 estado = getValue(context.getString(R.string.INTENT_ESTADO)),
                 sensible = getValue(context.getString(R.string.INTENT_SENSIBLE)),
+                imagen_url = getValue(context.getString(R.string.INTENT_QUAKE_CODE)).toString(),
             ).toQuakeEntity().toDomainQuake()
 
             return arrayListOf(title, description, quake)

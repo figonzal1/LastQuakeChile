@@ -38,6 +38,7 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener,
     private lateinit var googleMap: GoogleMap
     private lateinit var binding: FragmentMapsBinding
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -132,37 +133,11 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener,
     }
 
     override fun onInfoWindowClick(p0: Marker) {
-        val mObject = p0.tag
-        val mModel = mObject as Quake?
-        val mIntent = Intent(context, QuakeDetailsActivity::class.java)
-        val mBundle = Bundle()
-
-        /*
-        if (mModel != null) {
-            mBundle.putString(getString(R.string.INTENT_CIUDAD), mModel.city)
-            mBundle.putString(getString(R.string.INTENT_REFERENCIA), mModel.reference)
-            mBundle.putString(getString(R.string.INTENT_LATITUD), mModel.latitud)
-            mBundle.putString(getString(R.string.INTENT_LONGITUD), mModel.longitud)
-
-            //Cambiar la fecha local a string
-            val mFormat = SimpleDateFormat(
-                getString(R.string.DATETIME_FORMAT),
-                Locale.US
-            )
-            mBundle.putString(
-                getString(R.string.INTENT_FECHA_LOCAL),
-                mFormat.format(mModel.localDate)
-            )
-            mBundle.putDouble(getString(R.string.INTENT_MAGNITUD), mModel.magnitude)
-            mBundle.putDouble(getString(R.string.INTENT_PROFUNDIDAD), mModel.depth)
-            mBundle.putString(getString(R.string.INTENT_ESCALA), mModel.scale)
-            mBundle.putString(getString(R.string.INTENT_SENSIBLE), mModel.isSensitive)
-            mBundle.putString(getString(R.string.INTENT_LINK_FOTO), mModel.imagen_url)
-            mBundle.putString(getString(R.string.INTENT_ESTADO), mModel.estado)
-            mIntent.putExtras(mBundle)
-            Timber.i(getString(R.string.TAG_INTENT) + ": " + getString(R.string.TAG_INTENT_INFO_WINDOWS))
-            startActivity(mIntent)
-        }*/
+        val quake = p0.tag as Quake
+        Intent(context, QuakeDetailsActivity::class.java).apply {
+            putExtra(getString(R.string.INTENT_QUAKE), quake)
+            startActivity(this)
+        }
     }
 
     override fun getInfoWindow(p0: Marker): View? {
