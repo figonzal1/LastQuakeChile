@@ -7,6 +7,7 @@ import android.util.Pair
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cl.figonzal.lastquakechile.R
@@ -85,7 +86,7 @@ class QuakeAdapter(
                         Datos para mostrar en el detalle de sismos
                      */
                     Intent(activity.applicationContext, QuakeDetailsActivity::class.java).apply {
-                        putExtra("quake", quake)
+                        putExtra(activity.getString(R.string.INTENT_QUAKE), quake)
 
 
                         //LOG
@@ -100,7 +101,7 @@ class QuakeAdapter(
                             Pair(binding.tvReference, "referencia"),
                             Pair(binding.tvHour, "hora")
                         )
-                        activity.startActivity(this, options.toBundle())
+                        startActivity(activity, this, options.toBundle())
                     }
                 }
 

@@ -38,6 +38,7 @@
 
         <!-- Card View Style -->
         <item name="materialCardViewStyle">@style/Widget.App.CardView</item>
+
     </style>
 
     <!-- Card View Theming -->

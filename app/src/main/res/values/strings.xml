@@ -31,6 +31,7 @@
 
     <!-- KEY DE JSON PARA PHP -->
     <!-- KEY PARA INTENT & NOTIFICACIONES -->
+    <string name="INTENT_QUAKE" translatable="false">quake</string>
     <string name="INTENT_TITULO" translatable="false">titulo</string>
     <string name="INTENT_DESCRIPCION" translatable="false">descripcion</string>
     <string name="INTENT_CIUDAD" translatable="false">ciudad</string>
@@ -43,7 +44,7 @@
     <string name="INTENT_PROFUNDIDAD" translatable="false">profundidad</string>
     <string name="INTENT_ESCALA" translatable="false">escala</string>
     <string name="INTENT_SENSIBLE" translatable="false">sensible</string>
-    <string name="INTENT_LINK_FOTO" translatable="false">imagen_url</string>
+    <string name="INTENT_QUAKE_CODE" translatable="false">imagen_url</string>
     <string name="INTENT_ESTADO" translatable="false">estado</string>
 
     <!-- STRINGS DE LAYOUTS-->

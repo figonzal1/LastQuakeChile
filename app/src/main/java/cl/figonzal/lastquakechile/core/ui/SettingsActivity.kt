@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate.*
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SeekBarPreference
 import cl.figonzal.lastquakechile.R
@@ -21,6 +22,7 @@ class SettingsActivity : AppCompatActivity() {
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen()
         binding = SettingsActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

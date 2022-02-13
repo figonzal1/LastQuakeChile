@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.utils.*
 import cl.figonzal.lastquakechile.databinding.ActivityQuakeDetailsBinding
@@ -35,6 +36,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen()
         binding = ActivityQuakeDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -61,7 +63,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun handleBundles() {
 
         //Obtener datos desde intent
-        quake = intent.extras?.get("quake") as Quake
+        quake = intent.extras?.get(getString(R.string.INTENT_QUAKE)) as Quake
 
         //Seteo de textview
         setTextViews()
