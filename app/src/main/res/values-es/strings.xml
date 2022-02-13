@@ -106,4 +106,5 @@
     <string name="qu_hay_de_nuevo_en_la_app">¿Qué hay de nuevo en la app?</string>
     <string name="solucionamos_el_problema">Solucionamos el problema</string>
     <string name="entendido">Entendido</string>
+    <string name="map_type">Tipo de mapa</string>
 </resources>

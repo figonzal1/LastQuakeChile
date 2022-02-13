@@ -281,5 +281,6 @@
     <string name="entendido">Entendido</string>
     <string name="NEW_VERSION_DETECTED" translatable="false">NUEVA VERSION DETECTADA</string>
     <string name="NO_NEW_VERSION_DETECTED" translatable="false">NUEVA VERSION NO DETECTADA</string>
+    <string name="map_type">Tipo de mapa</string>
 
 </resources>

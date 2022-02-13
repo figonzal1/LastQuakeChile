@@ -8,10 +8,40 @@ import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Circle
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
+import com.google.maps.android.ktx.addCircle
+import com.google.maps.android.ktx.addMarker
 import timber.log.Timber
 import java.io.IOException
 import java.util.*
+
+fun GoogleMap.cargarPines(quakeList: List<Quake>, context: Context) {
+
+    for (quake in quakeList) {
+
+        //LatLong of quake
+        val epicentre = LatLng(quake.coordinates.latitude, quake.coordinates.longitude)
+
+        //Search magnitude color
+        val quakeColor = getMagnitudeColor(quake.magnitude, true)
+
+        apply {
+
+            addMarker {
+                position(epicentre)
+                alpha(0.9f)
+            }?.tag = quake
+
+            addCircle {
+                center(epicentre)
+                radius(10000 * quake.magnitude)
+                fillColor(context.getColor(quakeColor))
+                strokeColor(context.getColor(R.color.grey_dark_alpha))
+            }
+        }
+    }
+}
 
 fun GoogleMap.setNightMode(context: Context) {
 
@@ -27,6 +57,21 @@ fun GoogleMap.setNightMode(context: Context) {
             )
         )
     }
+}
+
+fun calculatePromCords(quakeList: List<Quake>): LatLng {
+    var promLat = 0.0
+    var promLong = 0.0
+
+    quakeList.onEach {
+        promLat += it.coordinates.latitude
+        promLong += it.coordinates.longitude
+    }
+
+    promLat /= quakeList.size.toDouble()
+    promLong /= quakeList.size.toDouble()
+
+    return LatLng(promLat, promLong)
 }
 
 fun Circle.animate(body: Circle.() -> Unit): Circle {

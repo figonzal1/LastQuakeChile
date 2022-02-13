@@ -3,9 +3,7 @@ package cl.figonzal.lastquakechile.quake_feature.ui
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
@@ -13,10 +11,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.ViewModelFactory
-import cl.figonzal.lastquakechile.core.utils.calculateHours
-import cl.figonzal.lastquakechile.core.utils.getMagnitudeColor
-import cl.figonzal.lastquakechile.core.utils.setNightMode
-import cl.figonzal.lastquakechile.core.utils.setStatusImage
+import cl.figonzal.lastquakechile.core.ui.dialog.MapTerrainDialogFragment
+import cl.figonzal.lastquakechile.core.utils.*
 import cl.figonzal.lastquakechile.databinding.FragmentMapsBinding
 import cl.figonzal.lastquakechile.databinding.InfoWindowsBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
@@ -28,8 +24,6 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
-import com.google.maps.android.ktx.addCircle
-import com.google.maps.android.ktx.addMarker
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -41,6 +35,7 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener,
 
     private lateinit var quakeList: List<Quake>
     private lateinit var mapView: MapView
+    private lateinit var googleMap: GoogleMap
     private lateinit var binding: FragmentMapsBinding
 
     override fun onCreateView(
@@ -80,15 +75,17 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener,
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
-        //mapFragment?.getMapAsync(callback)
         mapView.getMapAsync(this)
+        setHasOptionsMenu(true)
     }
 
     @SuppressLint("PotentialBehaviorOverride")
     override fun onMapReady(p0: GoogleMap) {
 
         p0.apply {
+
+            googleMap = this
+
             //Setear limites del mapa
             val mChile = LatLngBounds(LatLng(-60.15, -78.06), LatLng(-15.6, -66.5))
             setLatLngBoundsForCameraTarget(mChile)
@@ -111,12 +108,12 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener,
 
             moveCamera(
                 CameraUpdateFactory.newLatLngZoom(
-                    calculatePromCords(), 5.0f
+                    calculatePromCords(quakeList), 5.0f
                 )
             )
 
             //Cargar pines
-            cargarPines()
+            cargarPines(quakeList, requireContext())
 
             setInfoWindowAdapter(this@MapsFragment)
 
@@ -125,51 +122,6 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener,
 
         //Log zone
         Timber.i(getString(R.string.TAG_MAP_READY_RESPONSE))
-    }
-
-
-    private fun GoogleMap.cargarPines() {
-
-        for (quake in quakeList) {
-
-            //LatLong of quake
-            val epicentre = LatLng(quake.coordinates.latitude, quake.coordinates.longitude)
-
-            //Search magnitude color
-            val quakeColor = getMagnitudeColor(quake.magnitude, true)
-
-            apply {
-
-                addMarker {
-                    position(epicentre)
-                    alpha(0.9f)
-                }?.tag = quake
-
-                addCircle {
-                    center(epicentre)
-                    radius(10000 * quake.magnitude)
-                    fillColor(requireContext().getColor(quakeColor))
-                    strokeColor(requireContext().getColor(R.color.grey_dark_alpha))
-                }
-
-
-            }
-        }
-    }
-
-    private fun calculatePromCords(): LatLng {
-        var promLat = 0.0
-        var promLong = 0.0
-
-        quakeList.onEach {
-            promLat += it.coordinates.latitude
-            promLong += it.coordinates.longitude
-        }
-
-        promLat /= quakeList.size.toDouble()
-        promLong /= quakeList.size.toDouble()
-
-        return LatLng(promLat, promLong)
     }
 
     companion object {
@@ -291,5 +243,21 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener,
     override fun onLowMemory() {
         super.onLowMemory()
         mapView.onLowMemory()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.fragment_map_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        return when (item.itemId) {
+            R.id.layers_menu -> {
+
+                MapTerrainDialogFragment(googleMap).show(parentFragmentManager, "Dialogo mapType")
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

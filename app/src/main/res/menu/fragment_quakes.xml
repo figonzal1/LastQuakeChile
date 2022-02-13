@@ -8,6 +8,7 @@
         android:icon="@drawable/ic_refresh_white_24dp"
         android:orderInCategory="2"
         android:title="@string/refresh"
+        android:visible="false"
         app:showAsAction="always|collapseActionView"
         tools:ignore="AlwaysShowAction" />
     <item
@@ -15,19 +16,14 @@
         android:icon="@drawable/ic_search_white_24dp"
         android:orderInCategory="1"
         android:title="@string/search"
+        android:visible="false"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="always|collapseActionView" />
 
     <group>
-
-        <item
-            android:id="@+id/changelog_menu"
-            android:orderInCategory="4"
-            android:title="@string/change_logs"
-            app:showAsAction="never" />
         <item
             android:id="@+id/settings_menu"
-            android:orderInCategory="5"
+            android:orderInCategory="4"
             android:title="@string/settings"
             app:showAsAction="never" />
     </group>
