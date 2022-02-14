@@ -1,0 +1,170 @@
+package cl.figonzal.lastquakechile.core.ui
+
+import android.annotation.SuppressLint
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.RatingBar
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.databinding.FragmentAdMobBinding
+import com.google.android.gms.ads.*
+import com.google.android.gms.ads.nativead.NativeAd
+import com.google.android.gms.ads.nativead.NativeAdOptions
+import com.google.android.gms.ads.nativead.NativeAdView
+import timber.log.Timber
+
+class AdMobFragment : Fragment() {
+
+    private var currentNativeAd: NativeAd? = null
+    private lateinit var binding: FragmentAdMobBinding
+
+    @SuppressLint("MissingPermission")
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+
+        binding = FragmentAdMobBinding.inflate(inflater, container, false)
+
+        refreshAd()
+
+        return binding.root
+
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun refreshAd() {
+        AdLoader.Builder(requireContext(), getString(R.string.ADMOB_ID_NATIVE))
+            .forNativeAd { nativeAd ->
+
+                if (requireActivity().isDestroyed || requireActivity().isFinishing || requireActivity().isChangingConfigurations) {
+                    nativeAd.destroy()
+                    return@forNativeAd
+                }
+
+                currentNativeAd?.destroy()
+                currentNativeAd = nativeAd
+
+                val adView = layoutInflater.inflate(R.layout.ad_unified, null) as NativeAdView
+
+                populateNativeAdView(nativeAd, adView)
+
+                binding.admobContainer.apply {
+                    removeAllViews()
+                    addView(adView)
+                }
+            }
+            .withAdListener(object : AdListener() {
+
+                override fun onAdLoaded() {
+                    binding.progressBar.visibility = View.GONE
+                }
+
+                override fun onAdFailedToLoad(p0: LoadAdError?) {
+                    Timber.e("Failed to load native ad with error $p0")
+                }
+
+            })
+            .withNativeAdOptions(
+                NativeAdOptions.Builder()
+                    .setVideoOptions(
+                        VideoOptions.Builder().setStartMuted(false).build()
+                    )
+                    .build()
+            )
+            .build().loadAd(AdRequest.Builder().build())
+    }
+
+    private fun populateNativeAdView(nativeAd: NativeAd, adView: NativeAdView) {
+
+        with(adView) {
+            iconView = findViewById<ImageView>(R.id.ad_app_icon)
+            headlineView = findViewById<TextView>(R.id.ad_title)
+            starRatingView = findViewById<RatingBar>(R.id.ad_rating_bar)
+            mediaView = findViewById(R.id.ad_media)
+            bodyView = findViewById<TextView>(R.id.ad_body)
+            callToActionView = findViewById(R.id.ad_call_to_action)
+
+            //Asset guaranteed
+            (headlineView as TextView).text = nativeAd.headline
+            mediaView.setMediaContent(nativeAd.mediaContent)
+
+            //app icon
+            adView.iconView.visibility = when (nativeAd.icon) {
+                null -> View.INVISIBLE
+                else -> {
+                    (adView.iconView as ImageView).setImageDrawable(nativeAd.icon.drawable)
+                    View.VISIBLE
+                }
+            }
+
+            //body text
+            adView.bodyView.visibility = when (nativeAd.body) {
+                null -> View.INVISIBLE
+                else -> {
+                    (adView.bodyView as TextView).text = nativeAd.body
+                    View.VISIBLE
+                }
+            }
+
+            //start rating
+            adView.starRatingView.visibility = when (nativeAd.starRating) {
+                null -> {
+                    View.INVISIBLE
+                }
+                else -> {
+                    (adView.starRatingView as RatingBar).rating = nativeAd.starRating.toFloat()
+                    View.VISIBLE
+                }
+            }
+
+            adView.callToActionView.visibility = when (nativeAd.callToAction) {
+                null -> View.INVISIBLE
+                else -> {
+                    (adView.callToActionView as Button).text = nativeAd.callToAction
+                    View.VISIBLE
+                }
+            }
+
+            //End population ad
+            adView.setNativeAd(nativeAd)
+        }
+
+
+        val vc = nativeAd.mediaContent.videoController
+
+        when {
+            vc.hasVideoContent() -> vc.videoLifecycleCallbacks =
+                object : VideoController.VideoLifecycleCallbacks() {
+                    override fun onVideoEnd() {
+                        //refreshAd()
+                        super.onVideoEnd()
+                    }
+                }
+            else -> {
+                //refreshAd()
+            }
+        }
+    }
+
+    companion object {
+
+        fun newInstance(): AdMobFragment {
+            return AdMobFragment()
+        }
+    }
+
+    override fun onDestroy() {
+        currentNativeAd?.destroy()
+        super.onDestroy()
+
+    }
+}
+
+

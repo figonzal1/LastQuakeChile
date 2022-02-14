@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -12,6 +13,7 @@ import androidx.core.content.FileProvider
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Coordinates
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
+import com.google.android.material.tabs.TabLayout
 import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
@@ -329,4 +331,12 @@ fun List<String>.printChangeLogList(): CharSequence {
         }
     }
     return changes
+}
+
+fun TabLayout.setTabWidthAsWrapContent(tabPosition: Int) {
+    val layout = (this.getChildAt(0) as LinearLayout).getChildAt(tabPosition) as LinearLayout
+    val layoutParams = layout.layoutParams as LinearLayout.LayoutParams
+    layoutParams.weight = 0f
+    layoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT
+    layout.layoutParams = layoutParams
 }

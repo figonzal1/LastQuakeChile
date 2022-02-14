@@ -10,10 +10,34 @@ import cl.figonzal.lastquakechile.R
 import com.google.android.gms.ads.*
 import timber.log.Timber
 
+/*
+ * BANNER SECTION
+ */
 @SuppressLint("MissingPermission")
-fun AdView.load(activity: Activity) {
+fun Activity.startAds(frameLayout: FrameLayout): AdView {
 
-    adSize = adSize(this, activity)
+    var initialLayoutComplete = false
+
+    val adView = AdView(this)
+
+    with(frameLayout) {
+        addView(adView)
+        viewTreeObserver.addOnGlobalLayoutListener {
+
+            if (!initialLayoutComplete) {
+                initialLayoutComplete = true
+                adView.loadAnchored(this@startAds)
+            }
+        }
+    }
+    return adView
+}
+
+@SuppressLint("MissingPermission")
+fun AdView.loadAnchored(activity: Activity) {
+
+    //getAdSize
+    adSize = anchoredAddSize(this, activity)
 
     adUnitId = activity.getString(R.string.ADMOB_ID_BANNER)
 
@@ -36,28 +60,7 @@ fun AdView.load(activity: Activity) {
     loadAd(AdRequest.Builder().build())
 }
 
-
-@SuppressLint("MissingPermission")
-fun Activity.startAds(container: FrameLayout): AdView {
-
-    MobileAds.initialize(this)
-
-    var initialLayoutComplete = false
-
-    val adView = AdView(this)
-    container.addView(adView)
-    container.viewTreeObserver.addOnGlobalLayoutListener {
-
-        if (!initialLayoutComplete) {
-            initialLayoutComplete = true
-            adView.load(this)
-        }
-    }
-
-    return adView
-}
-
-private fun adSize(adView: AdView, activity: Activity): AdSize {
+private fun anchoredAddSize(adView: AdView, activity: Activity): AdSize {
 
     val display = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
         activity.display
@@ -77,3 +80,9 @@ private fun adSize(adView: AdView, activity: Activity): AdSize {
     val adWidth = (adWidthPixels / density).toInt()
     return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(activity, adWidth)
 }
+
+/*
+    NATIVE AD
+ */
+
+

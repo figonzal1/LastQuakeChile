@@ -14,8 +14,9 @@ class MainFragmentStateAdapter(fa: FragmentActivity, context: Context) : Fragmen
     override fun createFragment(position: Int): Fragment {
         return when (position) {
             0 -> QuakeFragment.newInstance()
-            1 -> ReportsFragment.newInstance()
-            else -> MapsFragment.newInstance()
+            1 -> AdMobFragment.newInstance()
+            2 -> MapsFragment.newInstance()
+            else -> ReportsFragment.newInstance()
         }
     }
 
@@ -24,12 +25,13 @@ class MainFragmentStateAdapter(fa: FragmentActivity, context: Context) : Fragmen
     }
 
     companion object {
-        val tabs = arrayOfNulls<String>(3)
+        val tabs = arrayOfNulls<String>(4)
     }
 
     init {
         tabs[0] = context.getString(R.string.tab_list)
-        tabs[1] = context.getString(R.string.tab_reports)
+        tabs[1] = ""
         tabs[2] = context.getString(R.string.tab_map)
+        tabs[3] = context.getString(R.string.tab_reports)
     }
 }

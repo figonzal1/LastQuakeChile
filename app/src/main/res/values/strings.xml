@@ -9,6 +9,7 @@
     <string name="ADMOB_ID_VIDEO" translatable="false">ca-app-pub-6355378855577476/7649578822</string>-->
     <!--TEST AD-->
     <string name="ADMOB_ID_BANNER" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="ADMOB_ID_NATIVE" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
 
     <!-- TOOLBAR Menu STRINGS -->
     <string name="refresh">Recargar</string>
