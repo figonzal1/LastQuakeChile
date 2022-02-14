@@ -2,6 +2,7 @@ package cl.figonzal.lastquakechile.core
 
 import android.app.Application
 import cl.figonzal.lastquakechile.BuildConfig
+import cl.figonzal.lastquakechile.R
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -30,9 +31,11 @@ class ApplicationController : Application() {
             level = HttpLoggingInterceptor.Level.BODY
         }).build()
 
-    val apiService: Retrofit = Retrofit.Builder()
-        .baseUrl("https://lastquakechile-server-prod.herokuapp.com")
-        .client(okHttpClient)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
+    val apiService: Retrofit by lazy {
+        Retrofit.Builder()
+            .baseUrl(this.getString(R.string.BASE_URL))
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
 }

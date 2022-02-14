@@ -81,7 +81,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/iv_new_version"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -91,6 +91,7 @@
         app:layout_constraintStart_toEndOf="@+id/tv_title"
         app:layout_constraintTop_toTopOf="@+id/tv_title"
         app:layout_constraintVertical_bias="0.0"
+        android:contentDescription="@string/new_version_icon"
         app:srcCompat="@drawable/ic_baseline_new_releases_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

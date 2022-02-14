@@ -19,18 +19,9 @@
     <string name="FIREBASE_CHANNEL_DESCRIPTION_QUAKES">Recibe alertas de sismos sobre 5 grados</string>
     <string name="last_quakes_info_card_view_tittle">Últimos sismos</string>
     <string name="last_quakes_info_card_view_button">Entendido</string>
-    <string name="VIEWMODEL_TIMEOUT_ERROR">Servidor no responde, intente más tarde</string>
-    <string name="VIEWMODEL_NOCONNECTION_ERROR">No tienes conexión a Internet</string>
-    <string name="VIEWMODEL_SERVER_ERROR">¡Ups ha ocurrido un error! Intente mas tarde</string>
-    <string name="icono_app">Icono app</string>
-    <string name="invitation_welcome">¡Bienvenido!</string>
-    <string name="icono_ondas">Icono ondas</string>
     <string name="coordenadas_oeste">O</string>
     <string name="coordenadas_este">E</string>
     <string name="seccion_listado_de_sismos">Sección listado de sismos</string>
-    <string name="titulo_toolbar">Título toolbar</string>
-    <string name="boton_flotante_gmail">Botón flotante gmail</string>
-    <string name="boton_flotante_whatsapp">Botón flotante whatsapp</string>
     <string name="boton_compartir_sismo">Botón compartir sismo</string>
     <string name="imagen_estado_sismo">Imagen estado sismo</string>
     <string name="quakes_details_estado_sismo">Sismo %s</string>
@@ -51,9 +42,6 @@
     <string name="alert_pref_title">Notificaciones</string>
     <string name="alert_pref_title_switch">Alertas de sismos</string>
     <string name="alert_pref_summary">Recibe notificaciones de sismos de +5.0 grados</string>
-    <string name="night_mode_auto_pref_summary_off">Desactivado</string>
-    <string name="night_mode_auto_pref_summary_on">Activado</string>
-    <string name="night_mode_auto_pref_title_switch">Automático con ahorro de energía</string>
     <string name="night_mode_manual_pref_summary_off">Desactivado</string>
     <string name="night_mode_manual_pref_summary_on">Activado</string>
     <string name="night_mode_pref_title_switch">Modo noche</string>
@@ -61,13 +49,14 @@
     <string name="night_mode_pref_title">Modo noche</string>
     <string name="tab_map">Mapa</string>
     <string name="tab_list">Sismos</string>
-    <string name="LIST_QUAKE_NUMBER_SUMMARY">Últimos %1$d sismos</string>
+    <plurals name="LIST_QUAKE_NUMBER_SUMMARY">
+        <item quantity="one">Último %1$d sismo</item>
+        <item quantity="other">Últimos %1$d sismos</item>
+    </plurals>
     <string name="quake_list_number_pref_title">Datos sismos</string>
     <string name="quake_list_number_pref_summary">Número de sismos que quieres ver en lista</string>
     <string name="last_quakes_info_card_view_description">En este listado se muestran los últimos 15 sismos ocurridos en Chile, puedes modificar la cantidad en la sección &#8942; -> Configuración</string>
     <string name="tab_reports">Reportes</string>
-    <string name="no_hay_sismos_registrados">No hay sismos registrados</string>
-    <string name="no_hay_reportes_registrados">No hay reportes registrados</string>
     <string name="icono_reporte_mensual">Icono reporte mensual</string>
     <string name="n_sismos_reportados">N° sismos reportados</string>
     <string name="n_sismos_sensibles">N° sismos sensibles</string>
@@ -76,10 +65,6 @@
     <string name="m_xima_magnitud">Máxima magnitud</string>
     <string name="m_nima_profundidad">Mínima profundidad</string>
     <string name="top_ciudades_con_m_s_sismos">Top ciudades con más sismos</string>
-    <string name="REWARD_DIALOG_NEGATIVE">Cancelar</string>
-    <string name="REWARD_DIALOG_POSITIVE">Ver video</string>
-    <string name="REWARD_DIALOG_MESSAGE">Ve el video, apoya gratis monetariamente y recibe 1 día libre de publicidad</string>
-    <string name="REWAR_DIALOG_TITLE">¡Apoya a la aplicación!</string>
     <string name="JAN">Enero</string>
     <string name="FEB">Febrero</string>
     <string name="MAR">Marzo</string>
@@ -94,12 +79,9 @@
     <string name="DEC">Diciembre</string>
     <string name="FORMATO_REPORTE">Reporte %s %s</string>
     <string name="change_logs">Historial de versiones</string>
-    <string name="boton_flotante_twitter">Botón flotante twitter</string>
     <string name="TEST_TEXT">Desplazarse hacia arriba</string>
     <string name="TEST_MAS_OPCIONES">Más opciones</string>
     <string name="TEST_TOOLBAR">Título toolbar</string>
-    <string name="change_log_ultima_version">Última versión</string>
-    <string name="change_log_version_prueba">Versión de prueba</string>
     <string name="INTENT_CHOOSER">Compartir sismos</string>
     <string name="NIGHT_MODE_KEY_TOAST_OFF">Modo noche desactivado</string>
     <string name="version">"Versión "</string>
@@ -107,4 +89,6 @@
     <string name="solucionamos_el_problema">Solucionamos el problema</string>
     <string name="entendido">Entendido</string>
     <string name="map_type">Tipo de mapa</string>
+    <string name="new_version_icon">Icono nueva version</string>
+    <string name="estilo_mapa">Estilo Mapa</string>
 </resources>

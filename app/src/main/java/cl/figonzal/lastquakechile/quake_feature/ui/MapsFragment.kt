@@ -31,7 +31,7 @@ import timber.log.Timber
 class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener,
     OnMapReadyCallback {
 
-    private val MAPVIEW_BUNDLE_KEY = "MapViewBundleKey"
+    private val mapViewKey = "MapViewBundleKey"
 
     private lateinit var quakeList: List<Quake>
     private lateinit var mapView: MapView
@@ -182,10 +182,10 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener,
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        var mMapViewBundle = outState.getBundle(MAPVIEW_BUNDLE_KEY)
+        var mMapViewBundle = outState.getBundle(mapViewKey)
         if (mMapViewBundle == null) {
             mMapViewBundle = Bundle()
-            outState.putBundle(MAPVIEW_BUNDLE_KEY, mMapViewBundle)
+            outState.putBundle(mapViewKey, mMapViewBundle)
         }
         mapView.onSaveInstanceState(mMapViewBundle)
     }
