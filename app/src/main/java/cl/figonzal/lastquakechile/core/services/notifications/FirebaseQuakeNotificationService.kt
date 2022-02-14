@@ -12,8 +12,6 @@ class FirebaseQuakeNotificationService : FirebaseMessagingService() {
     private lateinit var crashlytics: FirebaseCrashlytics
     private var quakesNotification: QuakesNotification? = null
 
-    //Esta clase no puede tener contructor
-    //REF: https://firebase.google.com/docs/cloud-messaging?hl=es
     override fun onCreate() {
         super.onCreate()
         crashlytics = FirebaseCrashlytics.getInstance()
@@ -58,5 +56,9 @@ class FirebaseQuakeNotificationService : FirebaseMessagingService() {
         super.onNewToken(s)
         Timber.i("Refresh token: %s", s)
         crashlytics.setUserId(s)
+    }
+
+    override fun onDeletedMessages() {
+        super.onDeletedMessages()
     }
 }

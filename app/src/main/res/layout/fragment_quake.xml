@@ -38,28 +38,13 @@
         android:id="@+id/recycle_view_quakes"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
         android:contentDescription="@string/seccion_listado_de_sismos"
-        ads:layout_constraintBottom_toTopOf="@+id/adView"
+        ads:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/include"
         tools:listitem="@layout/card_view_quake" />
-
-
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:visibility="invisible"
-        ads:adSize="BANNER"
-        ads:adUnitId="@string/ADMOB_ID_BANNER"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/right_guide"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/left_guide" />
 
     <ProgressBar
         android:id="@+id/progress_bar_quakes"
