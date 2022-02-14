@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -21,6 +22,7 @@ import cl.figonzal.lastquakechile.core.services.UpdaterService
 import cl.figonzal.lastquakechile.core.services.notifications.QuakesNotification
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.getFirebaseToken
+import cl.figonzal.lastquakechile.core.utils.setTabWidthAsWrapContent
 import cl.figonzal.lastquakechile.core.utils.startAds
 import cl.figonzal.lastquakechile.databinding.ActivityMainBinding
 import com.bumptech.glide.Glide
@@ -31,6 +33,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
@@ -69,6 +72,7 @@ class MainActivity : AppCompatActivity() {
         getFirebaseToken()
 
         //Ads service
+        MobileAds.initialize(this)
         adView = startAds(binding.adViewContainer)
 
         //Updater service
@@ -134,21 +138,42 @@ class MainActivity : AppCompatActivity() {
 
                     when (i) {
                         0 -> setIcon(R.drawable.ic_quakes_24dp)
-                        1 -> setIcon(R.drawable.ic_report_24dp)
+                        1 -> setIcon(R.drawable.ic_baseline_campaign_24)
                         2 -> setIcon(R.drawable.ic_map_24dp)
+                        3 -> setIcon(R.drawable.ic_report_24dp)
+
                     }
                 }
+
             }
+
+            tabLayout.setTabWidthAsWrapContent(1)
 
             tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab) {
-                    appBar.setExpanded(tab.position != 2)
+
+                    when (tab.position) {
+                        1 -> hideAdBanner(true)
+                        else -> hideAdBanner(false)
+                    }
+
+                    when {
+                        tab.position != 1 || tab.position != 2 -> appBar.setExpanded(false)
+                        else -> appBar.setExpanded(true)
+                    }
                 }
 
                 override fun onTabUnselected(tab: TabLayout.Tab) {}
                 override fun onTabReselected(tab: TabLayout.Tab) {}
             })
 
+        }
+    }
+
+    private fun hideAdBanner(hide: Boolean) {
+        binding.adViewContainer.visibility = when (hide) {
+            true -> View.GONE
+            false -> View.VISIBLE
         }
     }
 
