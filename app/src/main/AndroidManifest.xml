@@ -22,6 +22,14 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
 
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="@string/ADMOB_MASTER_KEY" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
         <activity
             android:name=".core.ui.MainActivity"
             android:exported="true"
@@ -49,23 +57,20 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".core.ui.MainActivity" />
-        </activity> <!-- ADS -->
-        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="@string/ADMOB_MASTER_KEY" /> <!-- GMS -->
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" /> <!-- Icono de notificaciones por defecto usado FCM console en background -->
+        </activity>
+
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_lastquakechile_400" /> <!-- Llamada a servicio de mensajeria -->
+            android:resource="@drawable/ic_lastquakechile_400" />
+
         <service
             android:name=".core.services.notifications.FirebaseQuakeNotificationService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-        </service> <!-- Provider usado para buscar rutas de imagenes y pasarlas a Uri's -->
+        </service>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="cl.figonzal.lastquakechile.fileprovider"

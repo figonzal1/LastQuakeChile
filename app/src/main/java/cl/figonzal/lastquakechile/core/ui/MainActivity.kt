@@ -2,6 +2,7 @@
 
 package cl.figonzal.lastquakechile.core.ui
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Build
@@ -20,6 +21,7 @@ import cl.figonzal.lastquakechile.core.services.UpdaterService
 import cl.figonzal.lastquakechile.core.services.notifications.QuakesNotification
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.getFirebaseToken
+import cl.figonzal.lastquakechile.core.utils.startAds
 import cl.figonzal.lastquakechile.databinding.ActivityMainBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -28,6 +30,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
+import com.google.android.gms.ads.AdView
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
@@ -37,10 +40,11 @@ import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var adView: AdView
     private var updaterService: UpdaterService? = null
-
     private lateinit var binding: ActivityMainBinding
 
+    @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
@@ -63,6 +67,9 @@ class MainActivity : AppCompatActivity() {
 
         //Firebase services
         getFirebaseToken()
+
+        //Ads service
+        adView = startAds(binding.adViewContainer)
 
         //Updater service
         //updaterService = UpdaterService(this, AppUpdateManagerFactory.create(this))
@@ -219,5 +226,23 @@ class MainActivity : AppCompatActivity() {
                 else -> Timber.e(getString(R.string.UPDATE_FAILED), resultCode)
             }
         }
+    }
+
+    /** Called when leaving the activity  */
+    public override fun onPause() {
+        adView.pause()
+        super.onPause()
+    }
+
+    /** Called when returning to the activity  */
+    public override fun onResume() {
+        super.onResume()
+        adView.resume()
+    }
+
+    /** Called before the activity is destroyed  */
+    public override fun onDestroy() {
+        adView.destroy()
+        super.onDestroy()
     }
 }

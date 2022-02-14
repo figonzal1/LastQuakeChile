@@ -101,6 +101,7 @@ dependencies {
     //Google Play Core
     implementation 'com.google.android.play:core-ktx:1.8.1'
 
+
     //Google Maps
     // KTX for the Maps SDK for Android
     implementation 'com.google.maps.android:maps-ktx:3.2.1'
@@ -123,11 +124,11 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:26.7.0')
     //Firebase Dependency
     implementation 'com.google.firebase:firebase-ads'
-    implementation 'com.google.firebase:firebase-analytics'
-    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.firebase:firebase-dynamic-links'
-    implementation 'com.google.firebase:firebase-messaging'
-    implementation 'com.google.firebase:firebase-perf'
+    implementation 'com.google.firebase:firebase-messaging-ktx'
+    implementation 'com.google.firebase:firebase-perf-ktx'
 
     //junit
     testImplementation 'junit:junit:4.13.2'

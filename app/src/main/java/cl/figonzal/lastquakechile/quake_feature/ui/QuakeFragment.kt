@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.ViewModelFactory
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
-import cl.figonzal.lastquakechile.core.utils.loadBanner
 import cl.figonzal.lastquakechile.databinding.FragmentQuakeBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -115,9 +114,6 @@ class QuakeFragment : Fragment() {
                 this.adapter = quakeAdapter
             }
         }
-
-        //Load Banner
-        binding.adView.loadBanner()
     }
 
     private fun showCvInfo() {
