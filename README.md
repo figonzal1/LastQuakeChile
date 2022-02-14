@@ -5,35 +5,35 @@
 
 <p align="center">
 
-  <a href="https://img.shields.io/github/v/release/figonzal1/LastQuakeChile?color=orange&include_prereleases" alt="GitHub release">
+  <a href="https://img.shields.io/github/v/release/figonzal1/LastQuakeChile?color=orange&include_prereleases" >
     <img alt="GitHub release" src="https://img.shields.io/github/v/release/figonzal1/LastQuakeChile?color=orange&include_prereleases">
   </a>
-  
-  <a href="https://travis-ci.com/figonzal1/LastQuakeChile" alt="Travis">
+
+  <a href="https://travis-ci.com/figonzal1/LastQuakeChile" >
           <img src="https://travis-ci.com/figonzal1/LastQuakeChile.svg?branch=test-travis" />
   </a>
-  
-  <a href="https://snyk.io/test/github/figonzal1/LastQuakeChile?targetFile=app/build.gradle" alt="Snyk">
+
+  <a href="https://snyk.io/test/github/figonzal1/LastQuakeChile?targetFile=app/build.gradle" >
         <img alt="Snyk" src="https://snyk.io/test/github/figonzal1/LastQuakeChile/badge.svg?targetFile=app/build.gradle" >
   </a>
-    
-  <a href="https://www.codefactor.io/repository/github/figonzal1/LastQuakeChile" alt="CodeFactor">
+
+  <a href="https://www.codefactor.io/repository/github/figonzal1/LastQuakeChile" >
         <img src="https://www.codefactor.io/repository/github/figonzal1/LastQuakeChile/badge" >
   </a>
 
-  <a href="https://img.shields.io/github/languages/top/figonzal1/LastQuakeChile?color=orange" alt="Top Language">
+  <a href="https://img.shields.io/github/languages/top/figonzal1/LastQuakeChile?color=orange" >
         <img alt="GitHub repo language" src="https://img.shields.io/github/languages/top/figonzal1/LastQuakeChile?color=orange">
   </a>
-    
-   <a href="https://img.shields.io/github/repo-size/figonzal1/LastQuakeChile" alt="GitHub repo size">
+
+   <a href="https://img.shields.io/github/repo-size/figonzal1/LastQuakeChile" >
          <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/figonzal1/LastQuakeChile">
     </a>
-      
-   <a href="https://img.shields.io/github/last-commit/figonzal1/LastQuakeChile?color=yellow" alt="Last Commit">
+
+   <a href="https://img.shields.io/github/last-commit/figonzal1/LastQuakeChile?color=yellow" >
         <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/figonzal1/LastQuakeChile?color=yellow">
    </a>
-      
-   <a href="https://img.shields.io/badge/HH-248.32%20[hr]-blueviolet" alt="Hours Spent">
+
+   <a href="https://img.shields.io/badge/HH-248.32%20[hr]-blueviolet" >
         <img alt="Hours Spent" src="https://img.shields.io/badge/HH-248.32%20[hr]-blueviolet">
    </a>
 </p>

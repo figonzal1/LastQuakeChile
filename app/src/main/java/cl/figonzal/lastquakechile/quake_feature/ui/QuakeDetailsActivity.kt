@@ -3,7 +3,6 @@ package cl.figonzal.lastquakechile.quake_feature.ui
 import android.animation.IntEvaluator
 import android.animation.ValueAnimator
 import android.graphics.Color
-import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -25,10 +24,8 @@ import java.time.format.DateTimeFormatter
 
 class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
-    private val MAPVIEW_BUNDLE_KEY = "MapViewBundleKey"
+    private val mapViewKey = "MapViewBundleKey"
     private lateinit var mapView: MapView
-    private lateinit var googleMap: GoogleMap
-    private var mBitmapUri: Uri? = null
     private lateinit var quake: Quake
 
     private lateinit var binding: ActivityQuakeDetailsBinding
@@ -115,7 +112,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
             tvHoraDetail.setTimeToTextView(quake.localDate.localDateToDHMS())
 
             //Scale
-            tvEscala.text = quake.scale
+            tvEscala.setScale(quake.scale)
 
             //sensitive
             ivSensibleDetail.visibility = when {
@@ -225,10 +222,10 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        var mMapViewBundle = outState.getBundle(MAPVIEW_BUNDLE_KEY)
+        var mMapViewBundle = outState.getBundle(mapViewKey)
         if (mMapViewBundle == null) {
             mMapViewBundle = Bundle()
-            outState.putBundle(MAPVIEW_BUNDLE_KEY, mMapViewBundle)
+            outState.putBundle(mapViewKey, mMapViewBundle)
         }
         mapView.onSaveInstanceState(mMapViewBundle)
     }

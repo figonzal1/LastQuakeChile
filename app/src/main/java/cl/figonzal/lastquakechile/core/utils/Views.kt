@@ -1,5 +1,6 @@
 package cl.figonzal.lastquakechile.core.utils
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
@@ -134,7 +135,7 @@ fun ImageView.setStatusImage(
  *
  * @param escala    Escala del sismo puede ser Ml o Mw
  */
-fun TextView.setEscala(escala: String) {
+fun TextView.setScale(escala: String) {
     text = when {
         escala.contains("Mw") -> {
             String.format(
@@ -194,10 +195,10 @@ fun TextView.setTimeToTextView(tiempos: Map<String, Long>) {
     }
 }
 
-fun Context.toast(stringId: Int) {
+fun Activity.toast(stringId: Int) {
     Toast.makeText(
         this,
-        this.getString(stringId),
+        getString(stringId),
         Toast.LENGTH_LONG
     ).show()
 }

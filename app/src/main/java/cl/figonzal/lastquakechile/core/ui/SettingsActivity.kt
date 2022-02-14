@@ -62,28 +62,26 @@ class SettingsActivity : AppCompatActivity() {
             super.onCreate(savedInstanceState)
 
             //Seek bar
-            findPreference<SeekBarPreference>(requireContext().getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER))?.apply {
+            findPreference<SeekBarPreference>(resources.getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER))?.apply {
 
                 min = 10
                 max = 30
 
                 val limite = sharedPrefUtil.getData(
-                    requireContext().getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER), 0
+                    resources.getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER), 0
                 )
 
                 //Setear resumen por defecto
                 when (limite) {
                     0 -> {
                         value = 15
-                        summary = String.format(
-                            requireContext().getString(R.string.LIST_QUAKE_NUMBER_SUMMARY),
-                            15
-                        )
+                        summary =
+                            resources.getQuantityString(R.plurals.LIST_QUAKE_NUMBER_SUMMARY, 15)
+
                     }
-                    else -> summary = String.format(
-                        requireContext().getString(R.string.LIST_QUAKE_NUMBER_SUMMARY),
-                        limite
-                    )
+                    else -> summary =
+                        resources.getQuantityString(R.plurals.LIST_QUAKE_NUMBER_SUMMARY, 15)
+
                 }
             }
         }
@@ -93,35 +91,35 @@ class SettingsActivity : AppCompatActivity() {
             /*
              * Preferencia Modo Noche
              */
-            if (key.equals(requireContext().getString(R.string.NIGHT_MODE_KEY))) {
+            if (key.equals(resources.getString(R.string.NIGHT_MODE_KEY))) {
 
                 //Si el modo manual esta activado
                 when (preferences?.getBoolean(
-                    requireContext().getString(R.string.NIGHT_MODE_KEY), false
+                    resources.getString(R.string.NIGHT_MODE_KEY), false
                 )) {
                     true -> {
 
                         sharedPrefUtil.saveData(
-                            requireContext().getString(R.string.NIGHT_MODE_KEY),
+                            resources.getString(R.string.NIGHT_MODE_KEY),
                             true
                         )
 
                         nightModeAndRecreate(MODE_NIGHT_YES)
 
                         //Mostrar toast modo manual activado
-                        requireContext().toast(R.string.NIGHT_MODE_KEY_TOAST_ON)
+                        requireActivity().toast(R.string.NIGHT_MODE_KEY_TOAST_ON)
 
                     }
                     else -> {
 
                         sharedPrefUtil.saveData(
-                            requireContext().getString(R.string.NIGHT_MODE_KEY),
+                            resources.getString(R.string.NIGHT_MODE_KEY),
                             false
                         )
                         nightModeAndRecreate(MODE_NIGHT_NO)
 
                         //Mostrar toast modo noche desactivado
-                        requireContext().toast(R.string.NIGHT_MODE_KEY_TOAST_OFF)
+                        requireActivity().toast(R.string.NIGHT_MODE_KEY_TOAST_OFF)
                     }
                 }
             }
@@ -129,10 +127,10 @@ class SettingsActivity : AppCompatActivity() {
             /*
              * Preferencias de alertas
              */
-            if (key == requireContext().getString(R.string.FIREBASE_PREF_KEY)) {
+            if (key == resources.getString(R.string.FIREBASE_PREF_KEY)) {
 
                 preferences?.getBoolean(
-                    requireContext().getString(R.string.FIREBASE_PREF_KEY),
+                    resources.getString(R.string.FIREBASE_PREF_KEY),
                     true
                 ).also {
 
@@ -140,11 +138,11 @@ class SettingsActivity : AppCompatActivity() {
                     when (it) {
                         true -> {
                             quakesNotification.suscribedToQuakes(true)
-                            requireContext().toast(R.string.FIREBASE_PREF_KEY_TOAST_ALERTAS_ON)
+                            requireActivity().toast(R.string.FIREBASE_PREF_KEY_TOAST_ALERTAS_ON)
                         }
                         else -> {
                             quakesNotification.suscribedToQuakes(false)
-                            requireContext().toast(R.string.FIREBASE_PREF_KEY_TOAST_ALERTAS_OFF)
+                            requireActivity().toast(R.string.FIREBASE_PREF_KEY_TOAST_ALERTAS_OFF)
                         }
                     }
                 }
@@ -153,20 +151,19 @@ class SettingsActivity : AppCompatActivity() {
             /*
              * Preferencias de numero de sismos
              */
-            if (key == requireContext().getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER)) {
+            if (key == resources.getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER)) {
 
                 seekBarPreference.apply {
 
-                    summary = String.format(
-                        requireContext().getString(R.string.LIST_QUAKE_NUMBER_SUMMARY),
-                        value
-                    )
+                    summary =
+                        resources.getQuantityString(R.plurals.LIST_QUAKE_NUMBER_SUMMARY, value)
+
                     sharedPrefUtil.saveData(
-                        requireContext().getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER),
+                        resources.getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER),
                         value
                     )
                     Timber.i(
-                        requireContext().getString(R.string.TAG_FRAGMENT_SETTINGS_QUAKE_LIST_LIMIT),
+                        resources.getString(R.string.TAG_FRAGMENT_SETTINGS_QUAKE_LIST_LIMIT),
                         value
                     )
                 }
@@ -176,7 +173,7 @@ class SettingsActivity : AppCompatActivity() {
 
         private fun nightModeAndRecreate(mode: Int) {
             setDefaultNightMode(mode)
-            requireContext().setTheme(R.style.AppTheme)
+            requireActivity().setTheme(R.style.AppTheme)
             requireActivity().recreate()
         }
 
