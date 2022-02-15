@@ -81,8 +81,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.0'
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.6.10"
-
-    implementation 'androidx.fragment:fragment-ktx:1.4.0'
+  implementation 'androidx.fragment:fragment-ktx:1.4.0'
     implementation "androidx.activity:activity-ktx:1.4.0"
     implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
 
@@ -100,7 +99,7 @@ dependencies {
 
     //Google Play
     implementation 'com.google.android.play:core-ktx:1.8.1'
-    implementation 'com.google.android.gms:play-services-ads:20.3.0'
+    implementation 'com.google.android.gms:play-services-ads:20.5.0'
 
     //Google Maps
     // KTX for the Maps SDK for Android
@@ -121,7 +120,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.12.0' //Carga de imagenes
 
     //Firebase BOM
-    implementation platform('com.google.firebase:firebase-bom:26.7.0')
+    implementation platform('com.google.firebase:firebase-bom:29.0.4')
     //Firebase Dependency
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'

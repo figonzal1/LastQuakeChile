@@ -98,19 +98,19 @@ class AdMobFragment : Fragment() {
 
             //Asset guaranteed
             (headlineView as TextView).text = nativeAd.headline
-            mediaView.setMediaContent(nativeAd.mediaContent)
+            nativeAd.mediaContent?.let { mediaView?.setMediaContent(it) }
 
             //app icon
-            adView.iconView.visibility = when (nativeAd.icon) {
+            adView.iconView?.visibility = when (nativeAd.icon) {
                 null -> View.INVISIBLE
                 else -> {
-                    (adView.iconView as ImageView).setImageDrawable(nativeAd.icon.drawable)
+                    (adView.iconView as ImageView).setImageDrawable(nativeAd.icon?.drawable)
                     View.VISIBLE
                 }
             }
 
             //body text
-            adView.bodyView.visibility = when (nativeAd.body) {
+            adView.bodyView?.visibility = when (nativeAd.body) {
                 null -> View.INVISIBLE
                 else -> {
                     (adView.bodyView as TextView).text = nativeAd.body
@@ -119,17 +119,20 @@ class AdMobFragment : Fragment() {
             }
 
             //start rating
-            adView.starRatingView.visibility = when (nativeAd.starRating) {
+            adView.starRatingView?.visibility = when (nativeAd.starRating) {
                 null -> {
                     View.INVISIBLE
                 }
                 else -> {
-                    (adView.starRatingView as RatingBar).rating = nativeAd.starRating.toFloat()
+                    nativeAd.starRating?.let {
+                        (adView.starRatingView as RatingBar).rating = it.toFloat()
+                    }
+
                     View.VISIBLE
                 }
             }
 
-            adView.callToActionView.visibility = when (nativeAd.callToAction) {
+            adView.callToActionView?.visibility = when (nativeAd.callToAction) {
                 null -> View.INVISIBLE
                 else -> {
                     (adView.callToActionView as Button).text = nativeAd.callToAction
@@ -142,10 +145,10 @@ class AdMobFragment : Fragment() {
         }
 
 
-        val vc = nativeAd.mediaContent.videoController
+        val vc = nativeAd.mediaContent?.videoController
 
         when {
-            vc.hasVideoContent() -> vc.videoLifecycleCallbacks =
+            vc?.hasVideoContent() == true -> vc.videoLifecycleCallbacks =
                 object : VideoController.VideoLifecycleCallbacks() {
                     override fun onVideoEnd() {
                         //refreshAd()
