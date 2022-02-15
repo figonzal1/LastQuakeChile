@@ -98,9 +98,9 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0"
 
-    //Google Play Core
+    //Google Play
     implementation 'com.google.android.play:core-ktx:1.8.1'
-
+    implementation 'com.google.android.gms:play-services-ads:20.3.0'
 
     //Google Maps
     // KTX for the Maps SDK for Android
@@ -123,7 +123,6 @@ dependencies {
     //Firebase BOM
     implementation platform('com.google.firebase:firebase-bom:26.7.0')
     //Firebase Dependency
-    implementation 'com.google.firebase:firebase-ads'
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.firebase:firebase-dynamic-links'

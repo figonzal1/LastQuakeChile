@@ -93,14 +93,25 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <include
-                android:id="@+id/include_cv_quake_detail"
-                layout="@layout/card_view_quake_detail"
+                android:id="@+id/include_cv_admob"
+                layout="@layout/card_view_admob"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 app:layout_constraintEnd_toStartOf="@+id/right_guide"
                 app:layout_constraintStart_toStartOf="@+id/left_guide"
                 app:layout_constraintTop_toTopOf="@+id/horizontal_guide" />
+
+
+            <include
+                android:id="@+id/include_cv_quake_detail"
+                layout="@layout/card_view_quake_detail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/right_guide"
+                app:layout_constraintStart_toStartOf="@+id/left_guide"
+                app:layout_constraintTop_toBottomOf="@+id/include_cv_admob" />
 
 
             <androidx.constraintlayout.widget.Guideline
@@ -124,7 +135,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="32dp"
                 android:contentDescription="@string/imagen_estado_sismo"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tv_estado"
