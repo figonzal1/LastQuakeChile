@@ -34,11 +34,13 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
 import timber.log.Timber
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -54,6 +56,10 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val testDeviceIds = Arrays.asList("AADCDB8868D6F854F75225420A8F220E")
+        val configuration = RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build()
+        MobileAds.setRequestConfiguration(configuration)
 
         //Setear configuraciones por defecto de ConfigActivity
         PreferenceManager.setDefaultValues(this, R.xml.root_preferences, false)
@@ -87,6 +93,8 @@ class MainActivity : AppCompatActivity() {
 
         //Setear imagen de toolbar
         loadImageToolbar()
+
+        MobileAds.openAdInspector(this) { }
     }
 
     private fun setUpNotificationService(sharedPrefUtil: SharedPrefUtil) {

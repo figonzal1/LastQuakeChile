@@ -211,6 +211,9 @@
     <string name="map_type">Tipo de mapa</string>
     <string name="new_version_icon">Icono nueva version</string>
     <string name="estilo_mapa">Estilo Mapa</string>
+    <string name="ad">Ad</string>
+    <string name="icono_aplicacion_publicidad">Icono aplicacion publicidad</string>
+    <string name="ver_m_s">Ver más</string>
 
 
 </resources>

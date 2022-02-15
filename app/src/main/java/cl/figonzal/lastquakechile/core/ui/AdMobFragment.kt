@@ -32,18 +32,18 @@ class AdMobFragment : Fragment() {
 
         binding = FragmentAdMobBinding.inflate(inflater, container, false)
 
-        refreshAd()
+        refreshAd(container)
 
         return binding.root
 
     }
 
     @SuppressLint("MissingPermission")
-    private fun refreshAd() {
+    private fun refreshAd(container: ViewGroup?) {
         AdLoader.Builder(requireContext(), getString(R.string.ADMOB_ID_NATIVE))
             .forNativeAd { nativeAd ->
 
-                if (requireActivity().isDestroyed || requireActivity().isFinishing || requireActivity().isChangingConfigurations) {
+                if (isDetached || isRemoving) {
                     nativeAd.destroy()
                     return@forNativeAd
                 }
@@ -51,13 +51,18 @@ class AdMobFragment : Fragment() {
                 currentNativeAd?.destroy()
                 currentNativeAd = nativeAd
 
-                val adView = layoutInflater.inflate(R.layout.ad_unified, null) as NativeAdView
+                if (isAdded) {
+                    val adView = layoutInflater.inflate(
+                        R.layout.ad_mob_fragment_template,
+                        container
+                    ) as NativeAdView
 
-                populateNativeAdView(nativeAd, adView)
+                    populateNativeAdView(nativeAd, adView)
 
-                binding.admobContainer.apply {
-                    removeAllViews()
-                    addView(adView)
+                    binding.admobContainer.apply {
+                        removeAllViews()
+                        addView(adView)
+                    }
                 }
             }
             .withAdListener(object : AdListener() {

@@ -7,7 +7,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.4'
+        classpath 'com.android.tools.build:gradle:7.1.1'
 
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
 
@@ -24,7 +24,7 @@ buildscript {
 
         // Performance Monitoring plugin
         // Add the dependency for the Performance Monitoring plugin
-        classpath 'com.google.firebase:perf-plugin:1.4.0'
+        classpath 'com.google.firebase:perf-plugin:1.4.1'
 
         //Google maps secrets
         classpath 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.0'
