@@ -94,7 +94,7 @@
 
             <include
                 android:id="@+id/include_cv_admob"
-                layout="@layout/card_view_admob"
+                layout="@layout/card_view_admob_details"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"

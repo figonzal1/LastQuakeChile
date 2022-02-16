@@ -50,8 +50,8 @@
     <string name="tab_map">Mapa</string>
     <string name="tab_list">Sismos</string>
     <plurals name="LIST_QUAKE_NUMBER_SUMMARY">
-        <item quantity="one">Último %1$d sismo</item>
-        <item quantity="other">Últimos %1$d sismos</item>
+        <item quantity="one">Último %d sismo</item>
+        <item quantity="other">Últimos %d sismos</item>
     </plurals>
     <string name="quake_list_number_pref_title">Datos sismos</string>
     <string name="quake_list_number_pref_summary">Número de sismos que quieres ver en lista</string>

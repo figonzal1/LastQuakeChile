@@ -50,8 +50,8 @@
     <string name="tab_map">Map</string>
     <string name="tab_list">Quakes</string>
     <plurals name="LIST_QUAKE_NUMBER_SUMMARY">
-        <item quantity="one">Last %1$d quake</item>
-        <item quantity="other">Last %1$d quakes</item>
+        <item quantity="one">Last %d quake</item>
+        <item quantity="other">Last %d quakes</item>
     </plurals>
     <string name="quake_list_number_pref_title">Quake data</string>
     <string name="quake_list_number_pref_summary">Number of quakes you want to see</string>

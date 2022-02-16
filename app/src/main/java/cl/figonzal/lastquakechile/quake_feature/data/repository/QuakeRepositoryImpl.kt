@@ -47,7 +47,6 @@ class QuakeRepositoryImpl(
 
             emit(
                 Resource.Error(
-                    data = cacheList,
                     message = "Oops, something went wrong!"
                 )
             )
@@ -57,7 +56,6 @@ class QuakeRepositoryImpl(
 
             emit(
                 Resource.Error(
-                    data = cacheList,
                     message = "Couldn't reach server, check your internet connection."
                 )
             )

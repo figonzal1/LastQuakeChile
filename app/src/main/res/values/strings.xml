@@ -113,8 +113,8 @@
     <string name="TAG_FAB_SHARE_STATUS_CLICKED" translatable="false">CLICKED</string>
     <string name="TAG_FRAGMENT_SETTINGS_QUAKE_LIST_LIMIT" translatable="false">Numero de sismos fijados: %1$d</string>
     <plurals name="LIST_QUAKE_NUMBER_SUMMARY">
-        <item quantity="one">Último %1$d sismo</item>
-        <item quantity="other">Últimos %1$d sismos</item>
+        <item quantity="one">Último %d sismo</item>
+        <item quantity="other">Últimos %d sismos</item>
     </plurals>
     <string name="TAG_INTENT_GOOGLEPLAY" translatable="false">Abriendo google play app</string>
     <string name="TAG_INTENT_NAVEGADOR" translatable="false">Abriendo navegador</string>
