@@ -150,7 +150,7 @@ class QuakeFragment : Fragment() {
                     })
 
                 //LOGS
-                Timber.d(getString(R.string.TAG_CARD_VIEW_INFO) + ": " + getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO_RESULT))
+                Timber.d(getString(R.string.TAG_CARD_VIEW_INFO) + ": Entendido")
             }
         }
 

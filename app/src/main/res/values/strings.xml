@@ -106,7 +106,7 @@
     <string name="TAG_FIREBASE_SUSCRIPTION_DELETE" translatable="false">ELIMINADA</string>
     <string name="FLAG_RETRY" translatable="false">Recargar</string>
     <string name="TAG_FRAGMENT_QUAKE" translatable="false">FRAGMENT_QUAKE</string>
-    <string name="TAG_FRAGMENT_REPORTS" translatable="false">D/FRAGMENT_REPORTS: </string>
+    <string name="TAG_FRAGMENT_REPORTS" translatable="false">FRAGMENT_REPORTS</string>
     <string name="FRAGMENT_LOAD_LIST" translatable="false">Listado cargado</string>
     <string name="TAG_CARD_VIEW_INFO" translatable="false">CARD_VIEW_INFO</string>
     <string name="TAG_FAB_SHARE_STATUS" translatable="false">FAB SHARE</string>
@@ -153,12 +153,9 @@
 
     <!-- SHARE PREFERENCES KEYS (Variables) -->
     <string name="SHARED_PREF_MASTER_KEY" translatable="false">lastquakechile</string>
-    <string name="SHARED_PREF_STATUS_CARD_VIEW_INFO" translatable="false">is_show_card_view_info</string>
-    <string name="SHARED_PREF_STATUS_CARD_VIEW_INFO_RESULT" translatable="false">entendido</string>
-    <string name="SHARED_PREF_LIST_QUAKE_NUMBER" translatable="false">pref_list_quake_number</string>
-    <string name="SHARED_PREF_ACTUAL_VERSION_CODE" translatable="false">actual_version_code</string>
-    <string name="SHARED_VERSION_CODE_APP" translatable="false">STORE VERSION CODE: </string>
-    <string name="VERSION_CODE_APP" translatable="false">INSTALLED VERSION CODE: </string>
+    <string name="SHARED_PREF_STATUS_CARD_VIEW_INFO" translatable="false">is_show_cv_info</string>
+    <string name="SHARED_PREF_LIST_QUAKE_NUMBER" translatable="false">quake_limit</string>
+    <string name="SHARED_PREF_ACTUAL_VERSION_CODE" translatable="false">actual_v_code</string>
 
 
     <!-- NightMode -->
@@ -191,7 +188,7 @@
     <string name="OCT">Octubre</string>
     <string name="NOV">Noviembre</string>
     <string name="DEC">Diciembre</string>
-    <string name="FORMATO_REPORTE">Reporte %s %s</string>
+    <string name="FORMATO_REPORTE" formatted="false">Reporte %s %s</string>
     <string name="UPDATE_AVAILABLE" translatable="false">Update available</string>
     <string name="UPDATE_INTENT_FAILED" translatable="false">Update intent failed</string>
     <string name="UPDATE_NOT_AVAILABLE" translatable="false">Update not available</string>
@@ -216,6 +213,8 @@
     <string name="HTTP_ERROR">Ups, algo funcionó mal!</string>
     <string name="IO_ERROR">Revisa tu conexión a Internet</string>
     <string name="ad" translatable="false">Ad</string>
+    <string name="SHARED_VERSION_CODE_APP" translatable="false">STORE VERSION CODE: </string>
+    <string name="VERSION_CODE_APP" translatable="false">INSTALLED VERSION CODE: </string>
 
 
 </resources>
