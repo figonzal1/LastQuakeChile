@@ -91,4 +91,8 @@
     <string name="map_type">Map type</string>
     <string name="new_version_icon">New Version Icon</string>
     <string name="estilo_mapa">Map style</string>
+    <string name="icono_aplicacion_publicidad">Ad icon</string>
+    <string name="ver_m_s">Visit site</string>
+    <string name="HTTP_ERROR">Oops, something went wrong!</string>
+    <string name="IO_ERROR">Check your internet connection</string>
 </resources>

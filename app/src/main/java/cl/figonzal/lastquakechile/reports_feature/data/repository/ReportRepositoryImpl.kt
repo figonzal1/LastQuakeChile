@@ -1,5 +1,7 @@
 package cl.figonzal.lastquakechile.reports_feature.data.repository
 
+import android.app.Application
+import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.Resource
 import cl.figonzal.lastquakechile.reports_feature.data.local.ReportLocalDataSource
 import cl.figonzal.lastquakechile.reports_feature.data.remote.ReportRemoteDataSource
@@ -19,7 +21,8 @@ import java.io.IOException
 class ReportRepositoryImpl(
     private val localDataSource: ReportLocalDataSource,
     private val remoteDataSource: ReportRemoteDataSource,
-    private val dispatcher: CoroutineDispatcher
+    private val dispatcher: CoroutineDispatcher,
+    private val application: Application
 ) : ReportRepository {
 
     override fun getReports(): Flow<Resource<List<Report>>> = flow {
@@ -56,7 +59,7 @@ class ReportRepositoryImpl(
                 emit(
                     Resource.Error(
                         data = emptyList(),
-                        message = "Oops, something went wrong!"
+                        message = application.getString(R.string.HTTP_ERROR)
                     )
                 )
             } catch (e: IOException) {
@@ -66,7 +69,7 @@ class ReportRepositoryImpl(
                 emit(
                     Resource.Error(
                         data = emptyList(),
-                        message = "Couldn't reach server, check your internet connection."
+                        message = application.getString(R.string.IO_ERROR)
                     )
                 )
             }

@@ -1,5 +1,7 @@
 package cl.figonzal.lastquakechile.quake_feature.data.repository
 
+import android.app.Application
+import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.Resource
 import cl.figonzal.lastquakechile.quake_feature.data.local.QuakeLocalDataSource
 import cl.figonzal.lastquakechile.quake_feature.data.remote.QuakeRemoteDataSource
@@ -16,7 +18,8 @@ import java.io.IOException
 class QuakeRepositoryImpl(
     private val localDataSource: QuakeLocalDataSource,
     private val remoteDataSource: QuakeRemoteDataSource,
-    private val dispatcher: CoroutineDispatcher
+    private val dispatcher: CoroutineDispatcher,
+    private val application: Application
 ) : QuakeRepository {
 
 
@@ -37,7 +40,7 @@ class QuakeRepositoryImpl(
 
             cacheList = localDataSource.getQuakes().map { it.toDomainQuake() }
 
-            Timber.e("List updated with network call")
+            Timber.d("List updated with network call")
 
             emit(Resource.Success(cacheList))
 
@@ -47,7 +50,7 @@ class QuakeRepositoryImpl(
 
             emit(
                 Resource.Error(
-                    message = "Oops, something went wrong!"
+                    message = application.getString(R.string.HTTP_ERROR)
                 )
             )
         } catch (e: IOException) {
@@ -56,7 +59,7 @@ class QuakeRepositoryImpl(
 
             emit(
                 Resource.Error(
-                    message = "Couldn't reach server, check your internet connection."
+                    message = application.getString(R.string.IO_ERROR)
                 )
             )
         }

@@ -19,7 +19,7 @@ class ReportViewModel(private val getReportsUseCase: GetReportsUseCase) : ViewMo
     private val _errorStatus = Channel<String>()
     val errorStatus = _errorStatus.receiveAsFlow()
 
-    init {
+    fun getReports() {
 
         viewModelScope.launch {
 
