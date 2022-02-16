@@ -24,6 +24,7 @@ import timber.log.Timber
 
 class QuakeFragment : Fragment() {
 
+    private lateinit var viewModel: QuakeViewModel
     private var application: Application? = null
 
     private lateinit var sharedPrefUtil: SharedPrefUtil
@@ -60,7 +61,7 @@ class QuakeFragment : Fragment() {
 
     private fun initViewModel() {
 
-        val viewModel: QuakeViewModel = ViewModelProvider(
+        viewModel = ViewModelProvider(
             requireActivity(),
             ViewModelFactory(
                 requireActivity().application
@@ -71,10 +72,12 @@ class QuakeFragment : Fragment() {
 
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
+                viewModel.getQuakes()
+
                 //Error Status
                 launch {
                     viewModel.errorStatus.collect {
-                        showSnackBar()
+                        showSnackBar(it)
                     }
                 }
 
@@ -153,10 +156,13 @@ class QuakeFragment : Fragment() {
 
     }
 
-    private fun showSnackBar() {
+    private fun showSnackBar(string: String) {
         Snackbar
-            .make(binding.root, "Reset conexion", Snackbar.LENGTH_INDEFINITE)
+            .make(binding.root, string, Snackbar.LENGTH_INDEFINITE)
             .setAction(getString(R.string.FLAG_RETRY)) {
+
+                viewModel.getQuakes()
+
                 crashlytics.setCustomKey(
                     getString(R.string.SNACKBAR_NOCONNECTION_ERROR_PRESSED),
                     true

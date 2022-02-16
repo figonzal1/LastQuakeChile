@@ -52,7 +52,7 @@
                 app:tabIndicatorFullWidth="true"
                 app:tabIndicatorGravity="bottom"
                 app:tabInlineLabel="true"
-                app:tabMode="fixed"
+                app:tabMode="scrollable"
                 app:tabSelectedTextColor="@color/white"
                 app:tabTextColor="@color/grey_dark" />
 

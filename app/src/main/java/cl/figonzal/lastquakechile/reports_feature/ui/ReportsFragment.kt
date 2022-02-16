@@ -14,14 +14,23 @@ import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.ViewModelFactory
 import cl.figonzal.lastquakechile.databinding.FragmentReportsBinding
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class ReportsFragment : Fragment() {
 
+    private lateinit var crashlytics: FirebaseCrashlytics
+    private lateinit var viewModel: ReportViewModel
     private var reportAdapter: ReportAdapter? = null
+
     private lateinit var binding: FragmentReportsBinding
 
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        crashlytics = FirebaseCrashlytics.getInstance()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,7 +61,7 @@ class ReportsFragment : Fragment() {
 
     private fun initViewModel() {
 
-        val viewModelNew: ReportViewModel = ViewModelProvider(
+        viewModel = ViewModelProvider(
             requireActivity(),
             ViewModelFactory(
                 requireActivity().application
@@ -64,15 +73,17 @@ class ReportsFragment : Fragment() {
 
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
+                viewModel.getReports()
+
                 //Error Status
                 launch {
-                    viewModelNew.errorStatus.collect {
-                        Snackbar.make(binding.root, it, Snackbar.LENGTH_INDEFINITE).show()
+                    viewModel.errorStatus.collect {
+                        showSnackBar(it)
                     }
                 }
 
                 launch {
-                    viewModelNew.reportState.collect {
+                    viewModel.reportState.collect {
 
                         binding.progressBarReportes.visibility = when {
                             it.isLoading -> View.VISIBLE
@@ -87,6 +98,22 @@ class ReportsFragment : Fragment() {
 
             }
         }
+    }
+
+    private fun showSnackBar(string: String) {
+        Snackbar
+            .make(binding.root, string, Snackbar.LENGTH_INDEFINITE)
+            .setAction(getString(R.string.FLAG_RETRY)) {
+
+                viewModel.getReports()
+
+                crashlytics.setCustomKey(
+                    getString(R.string.SNACKBAR_NOCONNECTION_ERROR_PRESSED),
+                    true
+                )
+            }
+            .setActionTextColor(resources.getColor(R.color.colorSecondary, requireContext().theme))
+            .show()
     }
 
 

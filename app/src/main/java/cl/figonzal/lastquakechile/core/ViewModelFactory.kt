@@ -29,7 +29,8 @@ class ViewModelFactory(
                     QuakeRepositoryImpl(
                         QuakeLocalDataSource(application),
                         QuakeRemoteDataSource(application),
-                        Dispatchers.IO
+                        Dispatchers.IO,
+                        application
                     )
                 )
             ) as T
@@ -38,7 +39,8 @@ class ViewModelFactory(
                     ReportRepositoryImpl(
                         ReportLocalDataSource(application),
                         ReportRemoteDataSource(application),
-                        Dispatchers.IO
+                        Dispatchers.IO,
+                        application
                     )
                 )
             ) as T

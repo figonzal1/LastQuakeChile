@@ -21,7 +21,7 @@ class QuakeViewModel(
     private val _errorStatus = Channel<String>()
     val errorStatus = _errorStatus.receiveAsFlow()
 
-    init {
+    fun getQuakes() {
 
         viewModelScope.launch {
 

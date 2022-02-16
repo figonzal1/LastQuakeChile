@@ -211,9 +211,11 @@
     <string name="map_type">Tipo de mapa</string>
     <string name="new_version_icon">Icono nueva version</string>
     <string name="estilo_mapa">Estilo Mapa</string>
-    <string name="ad">Ad</string>
     <string name="icono_aplicacion_publicidad">Icono aplicacion publicidad</string>
     <string name="ver_m_s">Ver más</string>
+    <string name="HTTP_ERROR">Ups, algo funcionó mal!</string>
+    <string name="IO_ERROR">Revisa tu conexión a Internet</string>
+    <string name="ad" translatable="false">Ad</string>
 
 
 </resources>

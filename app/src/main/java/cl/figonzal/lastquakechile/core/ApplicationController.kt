@@ -28,7 +28,7 @@ class ApplicationController : Application() {
      */
     private val okHttpClient = OkHttpClient().newBuilder()
         .addInterceptor(HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
+            level = HttpLoggingInterceptor.Level.NONE
         }).build()
 
     val apiService: Retrofit by lazy {
