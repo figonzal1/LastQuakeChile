@@ -65,7 +65,7 @@
     <string name="m_xima_magnitud">Maximum magnitude</string>
     <string name="m_nima_profundidad">Minimum depth</string>
     <string name="top_ciudades_con_m_s_sismos">Top cities with the most earthquakes</string>
-    <string name="FORMATO_REPORTE">Report %s %s</string>
+    <string name="FORMATO_REPORTE" formatted="false">Report %s %s</string>
     <string name="JAN">January</string>
     <string name="FEB">February</string>
     <string name="MAR">March</string>
@@ -87,7 +87,7 @@
     <string name="version">"Version "</string>
     <string name="solucionamos_el_problema">Solved things</string>
     <string name="entendido">OK</string>
-    <string name="qu_hay_de_nuevo_en_la_app">" What's new in the app?"</string>
+    <string name="qu_hay_de_nuevo_en_la_app">What\'s new in the app?</string>
     <string name="map_type">Map type</string>
     <string name="new_version_icon">New Version Icon</string>
     <string name="estilo_mapa">Map style</string>

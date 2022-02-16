@@ -5,6 +5,7 @@ import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -15,6 +16,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.ui.dialog.MapTerrainDialogFragment
 import cl.figonzal.lastquakechile.core.utils.*
 import cl.figonzal.lastquakechile.databinding.ActivityQuakeDetailsBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
@@ -35,6 +37,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
     //MAP
     private val mapViewKey = "MapViewBundleKey"
     private lateinit var mapView: MapView
+    private lateinit var googleMap: GoogleMap
 
     //NativeAd
     private var currentNativeAd: NativeAd? = null
@@ -57,8 +60,6 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
         refreshAd()
 
         bindingResources()
-
-        MobileAds.openAdInspector(this) { }
     }
 
     @SuppressLint("MissingPermission")
@@ -199,17 +200,6 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
         setTextViews()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
-        // Respond to the action bar's Up/Home button
-        if (item.itemId == android.R.id.home) {
-            Timber.d(getString(R.string.TAG_INTENT_DETALLE_HOME_UP_RESPONSE))
-            finish()
-            return true
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
     private fun setTextViews() {
 
 
@@ -267,6 +257,8 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         //Circulo grande con color segun magnitud
         p0.apply {
+
+            googleMap = p0
 
             //NIght mode
             setNightMode(this@QuakeDetailsActivity)
@@ -392,5 +384,28 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onLowMemory() {
         super.onLowMemory()
         mapView.onLowMemory()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.quake_details_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        // Respond to the action bar's Up/Home button
+        return when (item.itemId) {
+            android.R.id.home -> {
+                Timber.d(getString(R.string.TAG_INTENT_DETALLE_HOME_UP_RESPONSE))
+                finish()
+                true
+            }
+            R.id.layers_menu -> {
+
+                MapTerrainDialogFragment(googleMap).show(supportFragmentManager, "Dialogo mapType")
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

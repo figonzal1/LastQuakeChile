@@ -1,10 +1,12 @@
 package cl.figonzal.lastquakechile.reports_feature.data.remote.dto
 
+import androidx.annotation.Keep
 import cl.figonzal.lastquakechile.reports_feature.data.local.entity.ReportEntity
 
 /**
  * Here make changes if API for reports changes
  */
+@Keep
 data class ReportDTO(
     private val mes_reporte: String,
     private val n_sensibles: Int,

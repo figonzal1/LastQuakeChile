@@ -77,7 +77,7 @@
     <string name="OCT">Octubre</string>
     <string name="NOV">Noviembre</string>
     <string name="DEC">Diciembre</string>
-    <string name="FORMATO_REPORTE">Reporte %s %s</string>
+    <string name="FORMATO_REPORTE" formatted="false">Reporte %s %s</string>
     <string name="change_logs">Historial de versiones</string>
     <string name="TEST_TEXT">Desplazarse hacia arriba</string>
     <string name="TEST_MAS_OPCIONES">Más opciones</string>

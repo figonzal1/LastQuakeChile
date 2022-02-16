@@ -1,11 +1,13 @@
 package cl.figonzal.lastquakechile.quake_feature.data.remote.dto
 
+import androidx.annotation.Keep
 import androidx.room.Ignore
 import cl.figonzal.lastquakechile.quake_feature.data.local.entity.QuakeEntity
 
 /**
  * Here make changes if API for reports changes
  */
+@Keep
 data class QuakeDTO(
     @Ignore
     private val fecha_local: String? = null,
