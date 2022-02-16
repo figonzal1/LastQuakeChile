@@ -48,7 +48,7 @@ class GooglePlayService(private val activity: Activity) :
                     activity.finish()
                 }
             }
-            else -> Timber.i(activity.getString(R.string.GOOGLE_PLAY_ACTUALIZADO))
+            else -> Timber.d(activity.getString(R.string.GOOGLE_PLAY_ACTUALIZADO))
         }
     }
 

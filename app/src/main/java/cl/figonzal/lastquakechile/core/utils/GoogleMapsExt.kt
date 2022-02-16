@@ -85,7 +85,7 @@ fun Context.makeSnapshot(googleMap: GoogleMap, quake: Quake) {
 
     googleMap.snapshot {
         try {
-            Timber.i("Snapshot google play")
+            Timber.d("Snapshot google play")
             val bitMapUri = it?.let { it1 -> this.getLocalBitmapUri(it1) }
             this.shareQuake(quake, bitMapUri)
         } catch (e: IOException) {

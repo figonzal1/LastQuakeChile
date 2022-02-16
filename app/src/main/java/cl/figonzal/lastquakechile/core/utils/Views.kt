@@ -309,9 +309,9 @@ fun Context.getLocalBitmapUri(bitmap: Bitmap): Uri {
     val file = File(this.cacheDir, "share$date.jpeg")
 
     when {
-        file.exists() -> Timber.i("Share image exist")
+        file.exists() -> Timber.d("Share image exist")
         else -> {
-            Timber.i("Share image not exist")
+            Timber.d("Share image not exist")
             val out = FileOutputStream(file)
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
             out.close()

@@ -25,7 +25,7 @@ class UpdaterService(
                     AppUpdateType.IMMEDIATE
                 ) -> {
 
-                    Timber.i(activity.getString(R.string.UPDATE_AVAILABLE))
+                    Timber.d(activity.getString(R.string.UPDATE_AVAILABLE))
                     try {
                         appUpdateManager.startUpdateFlowForResult(
                             result,
@@ -38,7 +38,7 @@ class UpdaterService(
                     }
                 }
                 else -> {
-                    Timber.i(activity.getString(R.string.UPDATE_NOT_AVAILABLE))
+                    Timber.d(activity.getString(R.string.UPDATE_NOT_AVAILABLE))
                 }
             }
         }

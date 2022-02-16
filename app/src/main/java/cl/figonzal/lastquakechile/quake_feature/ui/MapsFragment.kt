@@ -65,7 +65,7 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener,
                     viewModel.quakeState.collect {
                         quakeList = it.quakes
 
-                        Timber.i(getString(R.string.FRAGMENT_LOAD_LIST))
+                        Timber.d(getString(R.string.FRAGMENT_LOAD_LIST))
                     }
                 }
             }
@@ -122,7 +122,7 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener,
         }
 
         //Log zone
-        Timber.i(getString(R.string.TAG_MAP_READY_RESPONSE))
+        Timber.d(getString(R.string.TAG_MAP_READY_RESPONSE))
     }
 
     companion object {
@@ -174,7 +174,7 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener,
         }
 
         //Log zone
-        Timber.i(getString(R.string.TAG_INFO_WINDOWS_RESPONSE))
+        Timber.d(getString(R.string.TAG_INFO_WINDOWS_RESPONSE))
 
         return infoBinding.root
     }

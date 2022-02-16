@@ -247,7 +247,7 @@ class MainActivity : AppCompatActivity() {
 
         if (requestCode == UpdaterService.UPDATE_CODE) {
             when (resultCode) {
-                RESULT_OK -> Timber.i(getString(R.string.UPDATE_OK))
+                RESULT_OK -> Timber.d(getString(R.string.UPDATE_OK))
                 else -> Timber.e(getString(R.string.UPDATE_FAILED), resultCode)
             }
         }

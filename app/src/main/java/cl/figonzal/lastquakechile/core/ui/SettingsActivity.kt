@@ -169,7 +169,7 @@ class SettingsActivity : AppCompatActivity() {
                         resources.getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER),
                         value
                     )
-                    Timber.i(
+                    Timber.d(
                         resources.getString(R.string.TAG_FRAGMENT_SETTINGS_QUAKE_LIST_LIMIT),
                         value
                     )

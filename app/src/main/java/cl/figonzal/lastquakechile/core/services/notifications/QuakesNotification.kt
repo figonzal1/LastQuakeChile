@@ -56,7 +56,7 @@ class QuakesNotification(private val context: Context, private val sharedPrefUti
         }
 
 
-        Timber.i(context.getString(R.string.FIREBASE_CHANNEL_CREATED_MESSAGE))
+        Timber.d(context.getString(R.string.FIREBASE_CHANNEL_CREATED_MESSAGE))
         crashlytics.setCustomKey(context.getString(R.string.FIREBASE_CHANNEL_STATUS), true)
     }
 
@@ -82,7 +82,7 @@ class QuakesNotification(private val context: Context, private val sharedPrefUti
                                     true
                                 )
 
-                                Timber.i(context.getString(R.string.TAG_FIREBASE_SUSCRIPTION_OK))
+                                Timber.d(context.getString(R.string.TAG_FIREBASE_SUSCRIPTION_OK))
                                 crashlytics.setCustomKey(
                                     context.getString(R.string.SUSCRITO_QUAKE),
                                     true
@@ -102,7 +102,7 @@ class QuakesNotification(private val context: Context, private val sharedPrefUti
                                 )
 
                                 //LOG ZONE
-                                Timber.i(context.getString(R.string.TAG_FIREBASE_SUSCRIPTION_DELETE))
+                                Timber.d(context.getString(R.string.TAG_FIREBASE_SUSCRIPTION_DELETE))
                                 crashlytics.setCustomKey(
                                     context.getString(R.string.SUSCRITO_QUAKE),
                                     false
@@ -112,7 +112,7 @@ class QuakesNotification(private val context: Context, private val sharedPrefUti
 
                     }
                     .addOnFailureListener {
-                        Timber.i(
+                        Timber.d(
                             context.getString(R.string.TAG_FIREBASE_SUSCRIPTION_ALREADY)
                         )
                     }
@@ -146,7 +146,7 @@ class QuakesNotification(private val context: Context, private val sharedPrefUti
                     context.notificate(data, this)
                 }
 
-                Timber.i(context.getString(R.string.TRY_INTENT_NOTIFICATION_1))
+                Timber.d(context.getString(R.string.TRY_INTENT_NOTIFICATION_1))
                 crashlytics.setCustomKey(context.getString(R.string.TRY_INTENT_NOTIFICATION), true)
             }
         }
