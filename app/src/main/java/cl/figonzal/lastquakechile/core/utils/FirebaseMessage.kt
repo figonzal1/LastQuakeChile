@@ -23,7 +23,7 @@ fun getFirebaseToken() {
 
             // Get new FCM registration token
             val token = task.result
-            Timber.i("Token %s", token)
+            Timber.d("Token %s", token)
         }
 }
 

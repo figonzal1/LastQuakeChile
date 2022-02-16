@@ -15,7 +15,7 @@ fun Context.doInstallation(packageName: String) {
     try {
 
         //LOG
-        Timber.i(getString(R.string.TAG_INTENT_GOOGLEPLAY))
+        Timber.d(getString(R.string.TAG_INTENT_GOOGLEPLAY))
 
         //Intenta abrir google play
         startActivity(Intent(Intent.ACTION_VIEW).apply {

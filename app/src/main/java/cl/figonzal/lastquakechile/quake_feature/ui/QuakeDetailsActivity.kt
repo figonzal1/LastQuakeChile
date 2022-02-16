@@ -203,7 +203,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         // Respond to the action bar's Up/Home button
         if (item.itemId == android.R.id.home) {
-            Timber.i(getString(R.string.TAG_INTENT_DETALLE_HOME_UP_RESPONSE))
+            Timber.d(getString(R.string.TAG_INTENT_DETALLE_HOME_UP_RESPONSE))
             finish()
             return true
         }
@@ -341,11 +341,11 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
             moveCamera(CameraUpdateFactory.newLatLngZoom(latLong, 6.0f))
 
             //Log zone
-            Timber.i(getString(R.string.TAG_MAP_READY_RESPONSE))
+            Timber.d(getString(R.string.TAG_MAP_READY_RESPONSE))
 
             //Seteo de floating buttons
             binding.fabShare.setOnClickListener {
-                Timber.i(getString(R.string.TAG_FAB_SHARE_STATUS) + ": " + getString(R.string.TAG_FAB_SHARE_STATUS_CLICKED))
+                Timber.d(getString(R.string.TAG_FAB_SHARE_STATUS) + ": " + getString(R.string.TAG_FAB_SHARE_STATUS_CLICKED))
                 this@QuakeDetailsActivity.makeSnapshot(p0, quake)
             }
         }

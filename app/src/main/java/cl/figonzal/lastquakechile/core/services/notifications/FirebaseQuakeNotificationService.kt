@@ -24,12 +24,12 @@ class FirebaseQuakeNotificationService : FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
-        Timber.i("From: %s", remoteMessage.from)
+        Timber.d("From: %s", remoteMessage.from)
 
         //Si es notificacion con datos de sismos
         if (remoteMessage.data.isNotEmpty()) {
 
-            Timber.i("Message data payload: %s", remoteMessage.data)
+            Timber.d("Message data payload: %s", remoteMessage.data)
             crashlytics.setCustomKey(getString(R.string.FIREBASE_MESSAGE_DATA_STATUS), true)
 
             quakesNotification?.showNotification(remoteMessage)
@@ -37,7 +37,7 @@ class FirebaseQuakeNotificationService : FirebaseMessagingService() {
 
         //Si es notificacion desde consola FCM
         if (remoteMessage.notification != null) {
-            Timber.i(
+            Timber.d(
                 "Message notification: " + remoteMessage.notification!!
                     .title + " - " + remoteMessage.notification!!.body
             )
@@ -54,7 +54,7 @@ class FirebaseQuakeNotificationService : FirebaseMessagingService() {
      */
     override fun onNewToken(s: String) {
         super.onNewToken(s)
-        Timber.i("Refresh token: %s", s)
+        Timber.d("Refresh token: %s", s)
         crashlytics.setUserId(s)
     }
 

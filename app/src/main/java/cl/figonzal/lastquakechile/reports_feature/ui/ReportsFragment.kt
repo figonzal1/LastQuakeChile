@@ -91,7 +91,7 @@ class ReportsFragment : Fragment() {
                         }
 
                         if (it.reports.isNotEmpty()) reportAdapter?.updateList(it.reports)
-                        Timber.i(getString(R.string.TAG_FRAGMENT_REPORTS) + ": " + getString(R.string.FRAGMENT_LOAD_LIST))
+                        Timber.d(getString(R.string.TAG_FRAGMENT_REPORTS) + ": " + getString(R.string.FRAGMENT_LOAD_LIST))
                     }
                 }
 

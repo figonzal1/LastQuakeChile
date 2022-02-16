@@ -95,7 +95,7 @@ class QuakeFragment : Fragment() {
                             binding.recycleViewQuakes.smoothScrollToPosition(0)
                         }
 
-                        Timber.i(getString(R.string.TAG_FRAGMENT_QUAKE) + ": " + getString(R.string.FRAGMENT_LOAD_LIST))
+                        Timber.d(getString(R.string.TAG_FRAGMENT_QUAKE) + ": " + getString(R.string.FRAGMENT_LOAD_LIST))
                     }
                 }
             }
@@ -150,7 +150,7 @@ class QuakeFragment : Fragment() {
                     })
 
                 //LOGS
-                Timber.i(getString(R.string.TAG_CARD_VIEW_INFO) + ": " + getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO_RESULT))
+                Timber.d(getString(R.string.TAG_CARD_VIEW_INFO) + ": " + getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO_RESULT))
             }
         }
 

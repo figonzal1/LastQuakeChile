@@ -49,12 +49,12 @@ fun AdView.loadAnchored(activity: Activity) {
         }
 
         override fun onAdLoaded() {
-            Timber.i(activity.getString(R.string.TAG_ADMOB_AD_STATUS_LOADED))
+            Timber.d(activity.getString(R.string.TAG_ADMOB_AD_STATUS_LOADED))
             visibility = View.VISIBLE
         }
 
         override fun onAdOpened() {
-            Timber.i(activity.getString(R.string.TAG_ADMOB_AD_STATUS_OPEN))
+            Timber.d(activity.getString(R.string.TAG_ADMOB_AD_STATUS_OPEN))
         }
     }
     loadAd(AdRequest.Builder().build())
