@@ -109,16 +109,16 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
             (headlineView as TextView).text = nativeAd.headline
 
             //app icon
-            adView.iconView.visibility = when (nativeAd.icon) {
+            adView.iconView?.visibility = when (nativeAd.icon) {
                 null -> View.INVISIBLE
                 else -> {
-                    (adView.iconView as ImageView).setImageDrawable(nativeAd.icon.drawable)
+                    (adView.iconView as ImageView).setImageDrawable(nativeAd.icon?.drawable)
                     View.VISIBLE
                 }
             }
 
             //body text
-            adView.bodyView.visibility = when (nativeAd.body) {
+            adView.bodyView?.visibility = when (nativeAd.body) {
                 null -> View.INVISIBLE
                 else -> {
                     (adView.bodyView as TextView).text = nativeAd.body
@@ -127,17 +127,19 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
             }
 
             //start rating
-            adView.starRatingView.visibility = when (nativeAd.starRating) {
+            adView.starRatingView?.visibility = when (nativeAd.starRating) {
                 null -> {
                     View.INVISIBLE
                 }
                 else -> {
-                    (adView.starRatingView as RatingBar).rating = nativeAd.starRating.toFloat()
+                    nativeAd.starRating?.let {
+                        (adView.starRatingView as RatingBar).rating = it.toFloat()
+                    }
                     View.VISIBLE
                 }
             }
 
-            adView.callToActionView.visibility = when (nativeAd.callToAction) {
+            adView.callToActionView?.visibility = when (nativeAd.callToAction) {
                 null -> View.INVISIBLE
                 else -> {
                     (adView.callToActionView as Button).text = nativeAd.callToAction
@@ -146,7 +148,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
             }
 
             //store text
-            adView.storeView.visibility = when (nativeAd.store) {
+            adView.storeView?.visibility = when (nativeAd.store) {
                 null -> View.INVISIBLE
                 else -> {
                     (adView.storeView as TextView).text = nativeAd.store
@@ -159,10 +161,10 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
 
-        val vc = nativeAd.mediaContent.videoController
+        val vc = nativeAd.mediaContent?.videoController
 
         when {
-            vc.hasVideoContent() -> vc.videoLifecycleCallbacks =
+            vc?.hasVideoContent() == true -> vc.videoLifecycleCallbacks =
                 object : VideoController.VideoLifecycleCallbacks() {
                     override fun onVideoEnd() {
                         //refreshAd()

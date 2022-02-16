@@ -35,8 +35,7 @@
 
         <activity
             android:name=".core.ui.MainActivity"
-            android:exported="true"
-            android:theme="@style/AppTheme.Starting">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

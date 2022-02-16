@@ -45,7 +45,7 @@ class SettingsActivity : AppCompatActivity() {
     //Settings Fragment
     class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeListener {
 
-        private lateinit var seekBarPreference: SeekBarPreference
+        private var seekBarPreference: SeekBarPreference? = null
 
         private val sharedPrefUtil: SharedPrefUtil by lazy {
             SharedPrefUtil(requireContext())
@@ -61,28 +61,31 @@ class SettingsActivity : AppCompatActivity() {
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
 
+            seekBarPreference =
+                findPreference(resources.getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER))
+
             //Seek bar
-            findPreference<SeekBarPreference>(resources.getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER))?.apply {
+            seekBarPreference?.apply {
 
                 min = 10
                 max = 30
 
                 val limite = sharedPrefUtil.getData(
                     resources.getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER), 0
-                )
+                ) as Int
 
                 //Setear resumen por defecto
-                when (limite) {
-                    0 -> {
-                        value = 15
-                        summary =
-                            resources.getQuantityString(R.plurals.LIST_QUAKE_NUMBER_SUMMARY, 15)
-
-                    }
-                    else -> summary =
-                        resources.getQuantityString(R.plurals.LIST_QUAKE_NUMBER_SUMMARY, 15)
-
+                value = when (limite) {
+                    0 -> 15
+                    else -> limite
                 }
+
+                summary =
+                    resources.getQuantityString(
+                        R.plurals.LIST_QUAKE_NUMBER_SUMMARY,
+                        value,
+                        value
+                    )
             }
         }
 
@@ -153,10 +156,14 @@ class SettingsActivity : AppCompatActivity() {
              */
             if (key == resources.getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER)) {
 
-                seekBarPreference.apply {
+                seekBarPreference?.apply {
 
                     summary =
-                        resources.getQuantityString(R.plurals.LIST_QUAKE_NUMBER_SUMMARY, value)
+                        resources.getQuantityString(
+                            R.plurals.LIST_QUAKE_NUMBER_SUMMARY,
+                            value,
+                            value
+                        )
 
                     sharedPrefUtil.saveData(
                         resources.getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER),
@@ -173,8 +180,12 @@ class SettingsActivity : AppCompatActivity() {
 
         private fun nightModeAndRecreate(mode: Int) {
             setDefaultNightMode(mode)
-            requireActivity().setTheme(R.style.AppTheme)
-            requireActivity().recreate()
+
+            with(requireActivity()) {
+                setTheme(R.style.AppTheme)
+                recreate()
+            }
+
         }
 
         override fun onResume() {
