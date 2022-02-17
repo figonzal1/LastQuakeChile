@@ -4,11 +4,11 @@ import android.app.Application
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.ApplicationController
 import cl.figonzal.lastquakechile.quake_feature.data.local.entity.QuakeEntity
 
 class QuakeRemoteDataSource(
-    private val application: Application
+    application: Application,
+    private val quakeAPI: QuakeAPI
 ) {
 
     //Leer preference settings
@@ -20,13 +20,9 @@ class QuakeRemoteDataSource(
             15
         )
 
-    private val service: QuakeAPI by lazy {
-        (application as ApplicationController).apiService.create(QuakeAPI::class.java)
-    }
-
     suspend fun getQuakes(): List<QuakeEntity> {
 
-        val call = limit?.let { service.listQuakes(it) }
+        val call = limit?.let { quakeAPI.listQuakes(it) }
 
         return call?.body()?.quakes?.map { it.toQuakeEntity() }!!
     }
