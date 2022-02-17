@@ -6,22 +6,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.ViewModelFactory
 import cl.figonzal.lastquakechile.databinding.FragmentReportsBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 class ReportsFragment : Fragment() {
 
     private lateinit var crashlytics: FirebaseCrashlytics
-    private lateinit var viewModel: ReportViewModel
+    private val viewModel: ReportViewModel by viewModel()
     private var reportAdapter: ReportAdapter? = null
 
     private lateinit var binding: FragmentReportsBinding
@@ -60,14 +59,6 @@ class ReportsFragment : Fragment() {
     }
 
     private fun initViewModel() {
-
-        viewModel = ViewModelProvider(
-            requireActivity(),
-            ViewModelFactory(
-                requireActivity().application
-            )
-        )[ReportViewModel::class.java]
-
 
         lifecycleScope.launch {
 

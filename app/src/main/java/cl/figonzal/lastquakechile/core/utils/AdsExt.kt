@@ -62,11 +62,11 @@ fun AdView.loadAnchored(activity: Activity) {
 
 private fun anchoredAddSize(adView: AdView, activity: Activity): AdSize {
 
-    val display = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-        activity.display
-    } else {
-        activity.windowManager.defaultDisplay
+    val display = when {
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.R -> activity.display
+        else -> activity.windowManager.defaultDisplay
     }
+
     val outMetrics = DisplayMetrics()
     display?.getMetrics(outMetrics)
 
@@ -80,9 +80,4 @@ private fun anchoredAddSize(adView: AdView, activity: Activity): AdSize {
     val adWidth = (adWidthPixels / density).toInt()
     return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(activity, adWidth)
 }
-
-/*
-    NATIVE AD
- */
-
 

@@ -21,7 +21,7 @@ import java.io.IOException
 class ReportRepositoryImpl(
     private val localDataSource: ReportLocalDataSource,
     private val remoteDataSource: ReportRemoteDataSource,
-    private val dispatcher: CoroutineDispatcher,
+    private val ioDispatcher: CoroutineDispatcher,
     private val application: Application
 ) : ReportRepository {
 
@@ -75,5 +75,5 @@ class ReportRepositoryImpl(
             }
         }
 
-    }.flowOn(dispatcher)
+    }.flowOn(ioDispatcher)
 }

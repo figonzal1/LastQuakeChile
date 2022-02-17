@@ -9,22 +9,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.ViewModelFactory
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.databinding.FragmentQuakeBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
 
 class QuakeFragment : Fragment() {
 
-    private lateinit var viewModel: QuakeViewModel
+    private val viewModel: QuakeViewModel by sharedViewModel()
     private var application: Application? = null
 
     private lateinit var sharedPrefUtil: SharedPrefUtil
@@ -60,13 +59,6 @@ class QuakeFragment : Fragment() {
     }
 
     private fun initViewModel() {
-
-        viewModel = ViewModelProvider(
-            requireActivity(),
-            ViewModelFactory(
-                requireActivity().application
-            )
-        )[QuakeViewModel::class.java]
 
         lifecycleScope.launch {
 

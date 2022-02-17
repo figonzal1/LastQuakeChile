@@ -81,7 +81,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.0'
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.6.10"
-  implementation 'androidx.fragment:fragment-ktx:1.4.0'
+    implementation 'androidx.fragment:fragment-ktx:1.4.0'
     implementation "androidx.activity:activity-ktx:1.4.0"
     implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
 
@@ -92,6 +92,10 @@ dependencies {
 
     implementation 'com.jakewharton.timber:timber:5.0.1' //Timber logs
     implementation 'com.google.code.gson:gson:2.8.9' //GSON
+
+    //Dependency injection KOIN
+    implementation "io.insert-koin:koin-core:3.1.5"
+    implementation "io.insert-koin:koin-android:3.1.5"
 
     //Life cycle components
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
@@ -141,6 +145,9 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.4.0'
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.4.0'
+
+    //Koin test
+    testImplementation "io.insert-koin:koin-test:3.1.5"
 
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 }

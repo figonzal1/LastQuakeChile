@@ -6,11 +6,9 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.ViewModelFactory
 import cl.figonzal.lastquakechile.core.ui.dialog.MapTerrainDialogFragment
 import cl.figonzal.lastquakechile.core.utils.*
 import cl.figonzal.lastquakechile.databinding.FragmentMapsBinding
@@ -25,12 +23,14 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
 
 
 class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener,
     OnMapReadyCallback {
 
+    private val viewModel: QuakeViewModel by sharedViewModel()
     private val mapViewKey = "MapViewBundleKey"
 
     private lateinit var quakeList: List<Quake>
@@ -49,13 +49,6 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener,
 
         mapView = binding.mapView
         mapView.onCreate(savedInstanceState)
-
-        val viewModel: QuakeViewModel = ViewModelProvider(
-            requireActivity(),
-            ViewModelFactory(
-                requireActivity().application
-            )
-        )[QuakeViewModel::class.java]
 
         lifecycleScope.launch {
 
