@@ -137,14 +137,19 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.4.0'
     androidTestImplementation 'androidx.test:rules:1.4.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    testImplementation "org.mockito.kotlin:mockito-kotlin:4.0.0"
+    testImplementation 'org.mockito:mockito-inline:4.3.1'
+
+    //For runBlockingTest, CoroutineDispatcher etc.
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0"
+    //For InstantTaskExecutorRule
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
 
     //UI AUTOMATOR
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
 
     //Espreso
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.4.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.4.0'
 
     //Koin test
     testImplementation "io.insert-koin:koin-test:3.1.5"
