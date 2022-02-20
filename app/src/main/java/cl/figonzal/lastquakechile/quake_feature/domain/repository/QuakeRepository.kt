@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface QuakeRepository {
 
-    fun getQuakes(): Flow<Resource<List<Quake>>>
+    fun getQuakes(limit: Int): Flow<Resource<List<Quake>>>
 }

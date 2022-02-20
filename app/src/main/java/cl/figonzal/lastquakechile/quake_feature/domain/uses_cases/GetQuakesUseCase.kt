@@ -6,10 +6,11 @@ import cl.figonzal.lastquakechile.quake_feature.domain.repository.QuakeRepositor
 import kotlinx.coroutines.flow.Flow
 
 class GetQuakesUseCase(
-    private val repository: QuakeRepository
+    private val repository: QuakeRepository,
+    private val limit: Int
 ) {
 
     operator fun invoke(): Flow<Resource<List<Quake>>> {
-        return repository.getQuakes()
+        return repository.getQuakes(limit)
     }
 }

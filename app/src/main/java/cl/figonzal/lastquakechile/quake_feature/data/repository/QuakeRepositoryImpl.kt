@@ -23,7 +23,7 @@ class QuakeRepositoryImpl(
 ) : QuakeRepository {
 
 
-    override fun getQuakes(): Flow<Resource<List<Quake>>> = flow {
+    override fun getQuakes(limit: Int): Flow<Resource<List<Quake>>> = flow {
 
         emit(Resource.Loading())
 
@@ -32,7 +32,7 @@ class QuakeRepositoryImpl(
 
         try {
             localDataSource.deleteAll()
-            remoteDataSource.getQuakes().onEach {
+            remoteDataSource.getQuakes(limit).onEach {
                 //store remote result in cache
                 localDataSource.insert(it)
 
