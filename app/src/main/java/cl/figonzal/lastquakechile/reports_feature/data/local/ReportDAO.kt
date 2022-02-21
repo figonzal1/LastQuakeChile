@@ -7,7 +7,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import cl.figonzal.lastquakechile.reports_feature.data.local.entity.QuakeCityEntity
 import cl.figonzal.lastquakechile.reports_feature.data.local.entity.ReportEntity
-import cl.figonzal.lastquakechile.reports_feature.data.local.entity.ReportWithQuakeCity
+import cl.figonzal.lastquakechile.reports_feature.data.local.entity.ReportWithQuakeCityEntity
 
 @Dao
 abstract class ReportDAO {
@@ -20,16 +20,16 @@ abstract class ReportDAO {
 
     @Transaction
     @Query("SELECT * FROM reportentity")
-    abstract fun getReport(): List<ReportWithQuakeCity>
+    abstract fun getReport(): List<ReportWithQuakeCityEntity>
 
-    fun insert(reportWithQuakeCities: ReportWithQuakeCity) {
+    fun insert(reportWithQuakeCitiesEntity: ReportWithQuakeCityEntity) {
 
-        val reportID = insertReport(reportWithQuakeCities.report)
+        val reportID = insertReport(reportWithQuakeCitiesEntity.report)
 
-        reportWithQuakeCities.topCities.forEach {
+        reportWithQuakeCitiesEntity.topCities.forEach {
             it.idReport = reportID
         }
 
-        insertAll(reportWithQuakeCities.topCities)
+        insertAll(reportWithQuakeCitiesEntity.topCities)
     }
 }

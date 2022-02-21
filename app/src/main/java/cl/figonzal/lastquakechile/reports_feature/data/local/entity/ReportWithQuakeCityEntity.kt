@@ -6,7 +6,7 @@ import androidx.room.Relation
 import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
 
 @Entity
-data class ReportWithQuakeCity(
+data class ReportWithQuakeCityEntity(
     @Embedded
     val report: ReportEntity,
 
