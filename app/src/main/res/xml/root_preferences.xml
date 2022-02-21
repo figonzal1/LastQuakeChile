@@ -1,4 +1,5 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:key="preferenceScreen">
 
     <PreferenceCategory
         app:iconSpaceReserved="false"
@@ -31,6 +32,8 @@
 
     <PreferenceCategory
         app:iconSpaceReserved="false"
+        app:isPreferenceVisible="false"
+        app:key="@string/NIGH_MODE_CATEGORY_KEY"
         app:summary="@string/night_mode_pref_summary"
         app:title="@string/night_mode_pref_title">
 

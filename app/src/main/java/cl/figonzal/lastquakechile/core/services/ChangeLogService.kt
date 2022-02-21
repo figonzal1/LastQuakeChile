@@ -18,6 +18,7 @@ class ChangeLogService(
 ) :
     DefaultLifecycleObserver {
 
+    private var versionCode: Int = BuildConfig.VERSION_CODE
     private val version = context.getString(R.string.version) + BuildConfig.VERSION_NAME
     private val listImprovements = listOf(
         "- Se agrega menu de configuración",
@@ -35,9 +36,6 @@ class ChangeLogService(
 
     private fun configChangeLog() {
 
-        //GET PACKAGE VERSION CODE
-        val versionCode = BuildConfig.VERSION_CODE
-
         //GET STORED VERSION CODE
         val sharedVersionCode = sharedPrefUtil.getData(
             context.getString(R.string.SHARED_PREF_ACTUAL_VERSION_CODE),
@@ -51,10 +49,6 @@ class ChangeLogService(
             sharedVersionCode < versionCode -> {
 
                 showBottomDialog()
-                sharedPrefUtil.saveData(
-                    context.getString(R.string.SHARED_PREF_ACTUAL_VERSION_CODE), versionCode
-                )
-
                 Timber.d(context.getString(R.string.NEW_VERSION_DETECTED))
             }
             else -> Timber.d(context.getString(R.string.NO_NEW_VERSION_DETECTED))
@@ -71,7 +65,12 @@ class ChangeLogService(
             findViewById<TextView>(R.id.tv_version)?.text = version
             findViewById<TextView>(R.id.tv_changes_list)?.text =
                 listImprovements.printChangeLogList()
-            findViewById<MaterialButton>(R.id.btn_change_log)?.setOnClickListener { dismiss() }
+            findViewById<MaterialButton>(R.id.btn_change_log)?.setOnClickListener {
+                sharedPrefUtil.saveData(
+                    context.getString(R.string.SHARED_PREF_ACTUAL_VERSION_CODE), versionCode
+                )
+                dismiss()
+            }
 
             show()
         }

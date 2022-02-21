@@ -215,6 +215,8 @@
     <string name="SHARED_VERSION_CODE_APP" translatable="false">STORE VERSION CODE: </string>
     <string name="VERSION_CODE_APP" translatable="false">INSTALLED VERSION CODE: </string>
     <string name="ad" translatable="false">Ad</string>
-
+    <string name="NIGH_MODE_CATEGORY_KEY" translatable="false">nighModePrefCategory</string>
+    <string name="show_night_mode" translatable="false">Mostrar preferencia de night mode</string>
+    <string name="hide_night_mode" translatable="false">No mostrar preferencia de night mode</string>
 
 </resources>

@@ -2,11 +2,13 @@ package cl.figonzal.lastquakechile.core.ui
 
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
+import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate.*
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SeekBarPreference
 import cl.figonzal.lastquakechile.R
@@ -26,14 +28,12 @@ class SettingsActivity : AppCompatActivity() {
         binding = SettingsActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (savedInstanceState == null) {
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.settings_menu, SettingsFragment())
-                .commit()
-        }
-
         setSupportActionBar(binding.includeToolbar.materialToolbar)
+
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.settings_menu, SettingsFragment())
+            .commit()
 
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
@@ -43,7 +43,8 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     //Settings Fragment
-    class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeListener {
+    class SettingsFragment : PreferenceFragmentCompat(),
+        OnSharedPreferenceChangeListener {
 
         private var seekBarPreference: SeekBarPreference? = null
 
@@ -56,15 +57,11 @@ class SettingsActivity : AppCompatActivity() {
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
-        }
 
-        override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
-
+            //QUAKE LIMIT PREFERENCE
             seekBarPreference =
                 findPreference(resources.getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER))
 
-            //Seek bar
             seekBarPreference?.apply {
 
                 min = 10
@@ -86,6 +83,19 @@ class SettingsActivity : AppCompatActivity() {
                         value,
                         value
                     )
+            }
+
+            //NIGHT MODE PREFERENCE
+            when {
+                Build.VERSION.SDK_INT < Build.VERSION_CODES.Q -> {
+
+                    Timber.d(getString(R.string.show_night_mode))
+                    val nightModePrefCategory: PreferenceCategory? =
+                        findPreference(getString(R.string.NIGH_MODE_CATEGORY_KEY))
+
+                    nightModePrefCategory?.isVisible = true
+                }
+                else -> Timber.d(getString(R.string.hide_night_mode))
             }
         }
 

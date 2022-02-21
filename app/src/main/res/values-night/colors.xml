@@ -4,7 +4,7 @@
     <!-- Night Color-->
     <color name="colorPrimary">#253561</color>
     <color name="colorPrimaryVariant">#1C2746</color>
-    <color name="colorOnPrimary">#FFFFFF</color>
+    <color name="colorOnPrimary">#8CFFFFFF</color>
 
     <color name="colorSecondary">#006994</color>
     <color name="colorOnSecondary">#FFFFFF</color>
@@ -13,7 +13,5 @@
     <color name="colorOnSurface">#8CFFFFFF</color>
 
     <color name="background">#28282C</color>
-
-    <color name="changeLogDivider">#4DB3B3B3</color>
 
 </resources>
