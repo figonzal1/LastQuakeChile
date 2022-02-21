@@ -1,13 +1,13 @@
 package cl.figonzal.lastquakechile.reports_feature.data.remote
 
-import cl.figonzal.lastquakechile.reports_feature.data.local.entity.ReportWithQuakeCity
+import cl.figonzal.lastquakechile.reports_feature.data.local.entity.ReportWithQuakeCityEntity
 
 
 class ReportRemoteDataSource(
     private val reportAPI: ReportAPI
 ) {
 
-    suspend fun getReports(): List<ReportWithQuakeCity> {
+    suspend fun getReports(): List<ReportWithQuakeCityEntity> {
 
         val call = reportAPI.listReports()
 
@@ -16,7 +16,7 @@ class ReportRemoteDataSource(
             val reportEntity = it.toReportEntity()
             val topCities = it.top_ciudades.map { it.toQuakeCityEntity() }
 
-            ReportWithQuakeCity(
+            ReportWithQuakeCityEntity(
                 report = reportEntity,
                 topCities = topCities
             )
