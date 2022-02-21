@@ -28,8 +28,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
         android:maxLines="1"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:textSize="14sp"
+        android:textAppearance="?attr/textAppearanceSubtitle1"
         card_view:layout_constraintStart_toEndOf="@id/iv_mag_color"
         card_view:layout_constraintTop_toTopOf="@+id/iv_mag_color"
         tools:text="Nombre Ciudad" />
@@ -39,8 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        android:textSize="12sp"
+        android:textAppearance="?attr/textAppearanceCaption"
         card_view:layout_constraintBottom_toBottomOf="@+id/tv_city"
         card_view:layout_constraintEnd_toEndOf="parent"
         card_view:layout_constraintTop_toTopOf="@+id/tv_city"
@@ -51,12 +49,12 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginStart="4dp"
         android:layout_marginBottom="4dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:paddingTop="0dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        android:textSize="14sp"
+        android:textAppearance="?attr/textAppearanceCaption"
         card_view:layout_constraintBottom_toBottomOf="@+id/iv_mag_color"
         card_view:layout_constraintEnd_toEndOf="parent"
         card_view:layout_constraintStart_toStartOf="@+id/tv_city"
@@ -66,11 +64,12 @@
 
     <TextView
         android:id="@+id/tv_magnitude"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
         android:maxLength="4"
+        android:textAppearance="?attr/textAppearanceHeadline5"
         android:textColor="@android:color/white"
-        android:textSize="21sp"
         android:textStyle="normal"
         card_view:layout_constraintBottom_toBottomOf="@+id/iv_mag_color"
         card_view:layout_constraintEnd_toEndOf="@+id/iv_mag_color"
@@ -91,7 +90,8 @@
         card_view:layout_constraintHorizontal_bias="0.0"
         card_view:layout_constraintStart_toEndOf="@+id/tv_city"
         card_view:layout_constraintTop_toTopOf="@+id/tv_city"
-        card_view:srcCompat="@drawable/ic_warning_black_24dp" />
+        card_view:srcCompat="@drawable/ic_warning_black_24dp"
+        tools:visibility="visible" />
 
     <View
         android:id="@+id/divider"

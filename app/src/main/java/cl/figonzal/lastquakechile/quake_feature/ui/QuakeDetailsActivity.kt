@@ -208,17 +208,17 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
         with(binding.includeCvQuakeDetail) {
 
             //Set city name
-            tvCiudadDetail.text = quake.city
+            tvCity.text = quake.city
 
             //Setear mReferencia
-            tvReferenciaDetail.text = quake.reference
+            tvReference.text = quake.reference
 
             //Setear mMagnitud en en circulo de color
-            tvMagnitudDetail.text =
+            tvMagnitude.text =
                 String.format(getString(R.string.magnitud), quake.magnitude)
 
             //Setear el color de background dependiendo de mMagnitud del sismo
-            ivMagColorDetail.setColorFilter(getColor(getMagnitudeColor(quake.magnitude, false)))
+            ivMagColor.setColorFilter(getColor(getMagnitudeColor(quake.magnitude, false)))
 
             //Setear mProfundidad
             tvEpicentro.text =
@@ -232,13 +232,13 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
             tvGms.formatDMS(quake.coordinates)
 
             //Calcular hora
-            tvHoraDetail.setTimeToTextView(quake.localDate.localDateToDHMS())
+            tvHour.setTimeToTextView(quake.localDate.localDateToDHMS())
 
             //Scale
             tvEscala.setScale(quake.scale)
 
             //sensitive
-            ivSensibleDetail.visibility = when {
+            ivSensitive.visibility = when {
                 quake.isSensitive -> View.VISIBLE
                 else -> View.GONE
             }
