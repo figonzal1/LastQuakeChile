@@ -131,21 +131,14 @@ class MainActivity : AppCompatActivity() {
             //Seteo de tabs.
             TabLayoutMediator(tabs, viewPager) { tab: TabLayout.Tab, position: Int ->
                 tab.text = MainFragmentStateAdapter.tabs[position]
-            }.attach()
 
-            for (i in 0 until tabLayout.tabCount) {
-                tabLayout.getTabAt(i)?.apply {
-
-                    when (i) {
-                        0 -> setIcon(R.drawable.ic_quakes_24dp)
-                        1 -> setIcon(R.drawable.ic_baseline_campaign_24)
-                        2 -> setIcon(R.drawable.ic_map_24dp)
-                        3 -> setIcon(R.drawable.ic_report_24dp)
-
-                    }
+                when (position) {
+                    0 -> tab.setIcon(R.drawable.ic_quakes_24dp)
+                    1 -> tab.setIcon(R.drawable.ic_baseline_campaign_24)
+                    2 -> tab.setIcon(R.drawable.ic_map_24dp)
+                    3 -> tab.setIcon(R.drawable.ic_report_24dp)
                 }
-
-            }
+            }.attach()
 
             tabLayout.setTabWidthAsWrapContent(1)
 

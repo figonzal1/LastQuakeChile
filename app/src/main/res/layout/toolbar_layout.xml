@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
     <!-- AppBar -->
@@ -18,7 +18,7 @@
             android:id="@+id/collapsing_toolbar"
             style="@style/Widget.App.Toolbar"
             android:layout_width="match_parent"
-            android:layout_height="230dp"
+            android:layout_height="200dp"
             android:fitsSystemWindows="true"
             app:expandedTitleGravity="bottom"
             app:expandedTitleMarginBottom="?attr/actionBarSize"
@@ -45,12 +45,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="bottom"
+                android:layout_marginBottom="8dp"
                 android:background="@android:color/transparent"
                 app:tabGravity="fill"
                 app:tabIconTint="@color/white"
-                app:tabIndicatorColor="@color/colorSecondary"
-                app:tabIndicatorFullWidth="true"
-                app:tabIndicatorGravity="bottom"
+                app:tabIndicatorHeight="0dp"
                 app:tabInlineLabel="true"
                 app:tabMode="scrollable"
                 app:tabSelectedTextColor="@color/white"
@@ -60,13 +59,24 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/view_pager"
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        android:layout_marginTop="-16dp"
+        android:fitsSystemWindows="true"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="4dp"
+        app:layout_anchor="@id/app_bar"
+        app:layout_anchorGravity="bottom|center"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" />
+    </com.google.android.material.card.MaterialCardView>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 

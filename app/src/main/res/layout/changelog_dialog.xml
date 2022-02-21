@@ -28,11 +28,11 @@
         tools:text="Versión: XX.XX.X" />
 
     <View
-        android:id="@+id/separator"
+        android:id="@+id/divider"
         android:layout_width="0dp"
         android:layout_height="0.5dp"
         android:layout_marginTop="16dp"
-        android:background="@color/changeLogDivider"
+        android:background="?attr/dividerHorizontal"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tv_title"
@@ -50,10 +50,10 @@
         android:paddingBottom="2dp"
         android:text="@string/solucionamos_el_problema"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/separator"
+        app:layout_constraintEnd_toEndOf="@+id/divider"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/separator"
-        app:layout_constraintTop_toBottomOf="@+id/separator" />
+        app:layout_constraintStart_toStartOf="@+id/divider"
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
 
     <TextView
         android:id="@+id/tv_changes_list"
@@ -61,7 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="@+id/separator"
+        app:layout_constraintEnd_toEndOf="@+id/divider"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/tv_title"
         app:layout_constraintTop_toBottomOf="@+id/tv_problems"
@@ -75,7 +75,7 @@
         android:layout_marginTop="16dp"
         android:text="@string/entendido"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/separator"
+        app:layout_constraintEnd_toEndOf="@+id/divider"
         app:layout_constraintStart_toStartOf="@+id/tv_problems"
         app:layout_constraintTop_toBottomOf="@+id/tv_changes_list"
         app:layout_constraintVertical_bias="0.0" />
@@ -85,13 +85,13 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
+        android:contentDescription="@string/new_version_icon"
         app:layout_constraintBottom_toBottomOf="@+id/tv_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/tv_title"
         app:layout_constraintTop_toTopOf="@+id/tv_title"
         app:layout_constraintVertical_bias="0.0"
-        android:contentDescription="@string/new_version_icon"
         app:srcCompat="@drawable/ic_baseline_new_releases_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

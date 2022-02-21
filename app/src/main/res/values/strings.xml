@@ -188,7 +188,7 @@
     <string name="OCT">Octubre</string>
     <string name="NOV">Noviembre</string>
     <string name="DEC">Diciembre</string>
-    <string name="FORMATO_REPORTE" formatted="false">Reporte %s %s</string>
+    <string name="FORMATO_REPORTE" formatted="false">%s %s</string>
     <string name="UPDATE_AVAILABLE" translatable="false">Update available</string>
     <string name="UPDATE_INTENT_FAILED" translatable="false">Update intent failed</string>
     <string name="UPDATE_NOT_AVAILABLE" translatable="false">Update not available</string>
@@ -212,9 +212,9 @@
     <string name="ver_m_s">Ver más</string>
     <string name="HTTP_ERROR">Ups, algo funcionó mal!</string>
     <string name="IO_ERROR">Revisa tu conexión a Internet</string>
-    <string name="ad" translatable="false">Ad</string>
     <string name="SHARED_VERSION_CODE_APP" translatable="false">STORE VERSION CODE: </string>
     <string name="VERSION_CODE_APP" translatable="false">INSTALLED VERSION CODE: </string>
+    <string name="ad" translatable="false">Ad</string>
 
 
 </resources>
