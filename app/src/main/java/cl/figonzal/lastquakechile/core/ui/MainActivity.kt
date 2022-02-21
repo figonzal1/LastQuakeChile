@@ -60,7 +60,15 @@ class MainActivity : AppCompatActivity() {
         val sharedPrefUtil = SharedPrefUtil(applicationContext)
 
         //Night mode
-        lifecycle.addObserver(NightModeService(this))
+        when {
+            Build.VERSION.SDK_INT < Build.VERSION_CODES.Q -> {
+                Timber.d("ANDROID_VERSION < Q: ${Build.VERSION.SDK_INT}")
+                lifecycle.addObserver(NightModeService(this))
+            }
+            else -> {
+                Timber.d("ANDROID_VERSION > Q: ${Build.VERSION.SDK_INT}")
+            }
+        }
 
         //GP services
         lifecycle.addObserver(GooglePlayService(this))

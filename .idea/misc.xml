@@ -3,19 +3,33 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/drawable-night/ic_adjust_24dp.xml" value="0.2805" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/drawable-night/ic_baseline_arrow_back_24.xml" value="0.2955" />
+        <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/drawable-night/ic_date.xml" value="0.2805" />
+        <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/drawable-night/ic_near_24dp.xml" value="0.2805" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/drawable-night/ic_report_24dp.xml" value="0.181" />
+        <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/drawable-night/ic_show_chart_black_24dp.xml" value="0.2805" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/drawable-night/release_badge.xml" value="0.1985" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/drawable/ad_attribution.xml" value="0.2965" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/drawable/circle_shape.xml" value="0.218" />
+        <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/drawable/ic_adjust_24dp.xml" value="0.2805" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.2955" />
+        <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/drawable/ic_baseline_campaign_24.xml" value="0.2805" />
+        <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/drawable/ic_baseline_check_circle_24px.xml" value="0.2805" />
+        <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/drawable/ic_baseline_layers_24.xml" value="0.2805" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/drawable/ic_baseline_new_releases_24.xml" value="0.234" />
+        <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/drawable/ic_date.xml" value="0.2935" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/drawable/ic_fab_gmail.xml" value="0.1985" />
+        <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/drawable/ic_map_24dp.xml" value="0.2805" />
+        <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/drawable/ic_near_24dp.xml" value="0.2805" />
+        <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/drawable/ic_progress_check_24.xml" value="0.2805" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/drawable/ic_quakes_24dp.xml" value="0.3085" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/drawable/ic_refresh_white_24dp.xml" value="0.2425" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/drawable/ic_report_24dp.xml" value="0.181" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/drawable/ic_search_white_24dp.xml" value="0.2425" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/drawable/ic_share_24px.xml" value="0.3155" />
+        <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/drawable/ic_show_chart_black_24dp.xml" value="0.2805" />
+        <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/drawable/ic_warning_black_24dp.xml" value="0.2805" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/drawable/round_badge.xml" value="0.234" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/layout-night/info_windows.xml" value="1.0" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/layout/activity_change_log.xml" value="0.36666666666666664" />
@@ -32,7 +46,7 @@
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/layout/card_view_information.xml" value="0.36666666666666664" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/layout/card_view_mapview.xml" value="0.36666666666666664" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/layout/card_view_quake.xml" value="0.33796296296296297" />
-        <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/layout/card_view_quake_detail.xml" value="0.36102564102564105" />
+        <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/layout/card_view_quake_detail.xml" value="1.0" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/layout/card_view_reports.xml" value="0.36666666666666664" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/layout/changelog_dialog.xml" value="0.36666666666666664" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/layout/fragment_ad_mob.xml" value="0.36666666666666664" />
@@ -53,7 +67,7 @@
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/menu/fragment_quakes.xml" value="0.23645833333333333" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/menu/main_menu.xml" value="0.36666666666666664" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/menu/quake_details_menu.xml" value="0.36666666666666664" />
-        <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/xml/root_preferences.xml" value="0.36666666666666664" />
+        <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/xml/root_preferences.xml" value="0.1" />
       </map>
     </option>
   </component>
