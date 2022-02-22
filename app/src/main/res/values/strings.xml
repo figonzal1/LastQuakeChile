@@ -1,21 +1,21 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name" translatable="false">LastQuakeChile</string>
 
-    <string name="BASE_URL" translatable="false">https://lastquakechile-server-prod.herokuapp.com</string>
-
     <string name="ADMOB_MASTER_KEY" translatable="false">ca-app-pub-6355378855577476~7414287525</string>
     <!-- PROD AD-->
     <!--<string name="ADMOB_ID_BANNER" translatable="false">ca-app-pub-6355378855577476/9207230747</string>
-    <string name="ADMOB_ID_VIDEO" translatable="false">ca-app-pub-6355378855577476/7649578822</string>-->
+    <string name="ADMOB_ID_VIDEO" translatable="false">ca-app-pub-6355378855577476/7649578822</string>
+    <string name="ADMOB_ID_APPOPEN" translatable="false">ca-app-pub-6355378855577476/7856079761</string>-->
+
     <!--TEST AD-->
     <string name="ADMOB_ID_BANNER" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
     <string name="ADMOB_ID_NATIVE" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="ADMOB_ID_APPOPEN" translatable="false">ca-app-pub-3940256099942544/3419835294</string>
 
     <!-- TOOLBAR Menu STRINGS -->
     <string name="refresh">Recargar</string>
     <string name="search">Buscar</string>
     <string name="settings">Configuración</string>
-    <string name="change_logs">Historial de versiones</string>
 
     <!--TABS -->
     <string name="tab_map">Mapa</string>
@@ -194,9 +194,6 @@
     <string name="UPDATE_NOT_AVAILABLE" translatable="false">Update not available</string>
     <string name="UPDATE_OK" translatable="false">Update succesfull</string>
     <string name="UPDATE_FAILED" translatable="false">Update flow failed! Result code: %s</string>
-    <string name="TEST_TEXT">Desplazarse hacia arriba</string>
-    <string name="TEST_MAS_OPCIONES">Más opciones</string>
-    <string name="TEST_TOOLBAR">Título toolbar</string>
 
     <string name="INTENT_CHOOSER">Compartir sismos</string>
     <string name="version">Versión </string>
@@ -218,5 +215,8 @@
     <string name="NIGH_MODE_CATEGORY_KEY" translatable="false">nighModePrefCategory</string>
     <string name="show_night_mode" translatable="false">Mostrar preferencia de night mode</string>
     <string name="hide_night_mode" translatable="false">No mostrar preferencia de night mode</string>
+    <string name="app_open_onstart" translatable="false">onStart - checking adIfAvailable</string>
+    <string name="app_open_ad_not_show" translatable="false">Can not show ad</string>
+    <string name="app_open_show_ad" translatable="false">Will show ad</string>
 
 </resources>

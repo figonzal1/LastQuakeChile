@@ -33,7 +33,6 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.MobileAds
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
@@ -80,7 +79,6 @@ class MainActivity : AppCompatActivity() {
         getFirebaseToken()
 
         //Ads service
-        MobileAds.initialize(this)
         adView = startAds(binding.adViewContainer)
 
         //Updater service
