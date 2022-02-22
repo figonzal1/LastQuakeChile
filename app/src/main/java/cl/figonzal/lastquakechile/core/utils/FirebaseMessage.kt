@@ -31,7 +31,7 @@ fun Context.notificate(data: ArrayList<Any>, pendingIntent: PendingIntent) {
 
     NotificationCompat.Builder(
         this,
-        this.getString(R.string.FIREBASE_CHANNEL_ID_QUAKES)
+        this.getString(R.string.firebase_channel_id_quakes)
     ).setSmallIcon(R.drawable.ic_lastquakechile_400)
         .setContentTitle(data[0].toString())
         .setContentText(data[1].toString())

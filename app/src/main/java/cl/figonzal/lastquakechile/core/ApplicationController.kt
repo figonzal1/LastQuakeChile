@@ -18,9 +18,6 @@ import timber.log.Timber.DebugTree
 
 class ApplicationController : Application() {
 
-    companion object {
-        lateinit var appOpenService: AppOpenService
-    }
 
     override fun onCreate() {
         super.onCreate()
@@ -44,6 +41,6 @@ class ApplicationController : Application() {
 
         MobileAds.initialize(this) { }
 
-        appOpenService = AppOpenService(this)
+        AppOpenService(this)
     }
 }

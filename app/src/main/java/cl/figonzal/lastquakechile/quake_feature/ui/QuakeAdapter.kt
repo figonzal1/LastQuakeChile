@@ -90,7 +90,7 @@ class QuakeAdapter(
 
 
                         //LOG
-                        Timber.d(activity.applicationContext.getString(R.string.TRY_INTENT_DETALLE))
+                        Timber.d(activity.applicationContext.getString(R.string.TRY_INTENT_DETAIL))
 
 
                         val options = ActivityOptions.makeSceneTransitionAnimation(

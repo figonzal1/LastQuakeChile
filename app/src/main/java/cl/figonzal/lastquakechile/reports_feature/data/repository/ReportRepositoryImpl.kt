@@ -34,7 +34,7 @@ class ReportRepositoryImpl(
         when {
             cacheList.isNotEmpty() -> {
 
-                Timber.d("Emit cached reportList")
+                Timber.d(application.getString(R.string.EMIT_CACHE_LIST))
 
                 emit(Resource.Success(cacheList))
             }
@@ -47,29 +47,29 @@ class ReportRepositoryImpl(
 
                 }.map { it.toDomainReport() }
 
-                Timber.d("Emit network reportList")
+                Timber.d(application.getString(R.string.LIST_NETWORK_CALL))
 
                 cacheList = localDataSource.getReports().map { it.toDomainReport() }
                 emit(Resource.Success(cacheList))
 
             } catch (e: HttpException) {
 
-                Timber.e("Emit http error")
+                Timber.e(application.getString(R.string.EMIT_HTTP_ERROR))
 
                 emit(
                     Resource.Error(
                         data = emptyList(),
-                        message = application.getString(R.string.HTTP_ERROR)
+                        message = application.getString(R.string.http_error)
                     )
                 )
             } catch (e: IOException) {
 
-                Timber.e("Emit ioexception")
+                Timber.e(application.getString(R.string.EMIT_IO_EXCEPTION))
 
                 emit(
                     Resource.Error(
                         data = emptyList(),
-                        message = application.getString(R.string.IO_ERROR)
+                        message = application.getString(R.string.io_error)
                     )
                 )
             }

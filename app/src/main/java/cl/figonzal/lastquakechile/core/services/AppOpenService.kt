@@ -76,7 +76,7 @@ class AppOpenService(private val applicationController: ApplicationController) :
 
     /** Utility method that checks if ad exists and can be shown.  */
     private fun isAdAvailable(): Boolean {
-        return appOpenAd != null && wasLoadTimeLessThanNHoursAgo(4);
+        return appOpenAd != null && wasLoadTimeLessThanNHoursAgo(4)
     }
 
     /** Check if ad was loaded more than n hours ago. */
@@ -94,7 +94,7 @@ class AppOpenService(private val applicationController: ApplicationController) :
         // and an ad is available.
         if (!isShowingAd && isAdAvailable()) {
 
-            Timber.d(applicationController.getString(R.string.app_open_show_ad))
+            Timber.d(applicationController.getString(R.string.APP_OPEN_SHOW_AD))
             val fullScreenContentCallback: FullScreenContentCallback =
                 object : FullScreenContentCallback() {
                     override fun onAdDismissedFullScreenContent() {
@@ -112,13 +112,13 @@ class AppOpenService(private val applicationController: ApplicationController) :
             appOpenAd?.fullScreenContentCallback = fullScreenContentCallback
             appOpenAd?.show(currentActivity!!)
         } else {
-            Timber.d(applicationController.getString(R.string.app_open_ad_not_show))
+            Timber.d(applicationController.getString(R.string.APP_OPEN_AD_NOT_SHOW))
             fetchAd()
         }
     }
 
     override fun onStart(owner: LifecycleOwner) {
-        Timber.d(applicationController.getString(R.string.app_open_onstart))
+        Timber.d(applicationController.getString(R.string.AD_OPEN_ON_START))
 
         showAdIfAvailable()
     }
@@ -126,11 +126,11 @@ class AppOpenService(private val applicationController: ApplicationController) :
     override fun onActivityCreated(p0: Activity, p1: Bundle?) {}
 
     override fun onActivityStarted(p0: Activity) {
-        currentActivity = p0;
+        currentActivity = p0
     }
 
     override fun onActivityResumed(p0: Activity) {
-        currentActivity = p0;
+        currentActivity = p0
     }
 
     override fun onActivityPaused(p0: Activity) {}

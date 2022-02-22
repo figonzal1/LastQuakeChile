@@ -34,6 +34,6 @@ fun provideReportAPI(apiService: Retrofit): ReportAPI {
 
 fun provideLimitedList(context: Context): Int =
     PreferenceManager.getDefaultSharedPreferences(context).getInt(
-        context.getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER),
+        context.getString(R.string.shared_pref_list_quake_limit),
         15
     )

@@ -20,7 +20,7 @@ class FakeReportAPI : ReportAPI {
                         prom_profundidad = 90.08,
                         max_magnitud = 5.7,
                         min_profundidad = 2.00,
-                        top_ciudades = listOf<QuakeCityDTO>(
+                        top_ciudades = listOf(
                             QuakeCityDTO("socaire", 65),
                             QuakeCityDTO("ollagua", 49),
                             QuakeCityDTO("mina collahuasi", 47),

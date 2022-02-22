@@ -42,6 +42,35 @@
     <string name="INTENT_QUAKE_CODE" translatable="false">imagen_url</string>
     <string name="INTENT_ESTADO" translatable="false">estado</string>
 
+    <!-- FIREBASE strings -->
+    <string name="firebase_channel_id_quakes" translatable="false">1</string>
+    <string name="firebase_channel_name_quakes">Alerta sismos</string>
+    <string name="firebase_channel_description_quakes">Recibe alertas de sismos sobre 5 grados</string>
+    <string name="firebase_channel_status" translatable="false">channel_created</string>
+    <string name="firebase_msg_data_status" translatable="false">data_message_received</string>
+    <string name="firebase_msg_notification_status" translatable="false">notification_message_received</string>
+    <string name="try_intent_notification" translatable="false">TRY_INTENT_NOTIFICATION</string>
+    <string name="firebase_pref_key" translatable="false">pref_suscrito_quake</string>
+    <string name="subsqribed_quake" translatable="false">subscribed_quake</string>
+    <string name="firebase_topic_name" translatable="false">Quakes</string>
+    <string name="firebase_pref_key_alert_on">Alertas activadas</string>
+    <string name="firebase_pref_key_alert_off">Alertas desactivadas</string>
+    <string name="snackbar_error" translatable="false">snackbar_error</string>
+
+    <!-- Strings para calculo de tiempo -->
+    <string name="utils_time_day" translatable="false">days</string>
+    <string name="utils_time_hour" translatable="false">hours</string>
+    <string name="utils_time_min" translatable="false">minutes</string>
+    <string name="utils_time_seg" translatable="false">seconds</string>
+
+    <!-- SHARE PREFERENCES KEYS (Variables) -->
+    <string name="shared_pref_master_key" translatable="false">lastquakechile</string>
+    <string name="shared_pref_status_card_view_info" translatable="false">is_show_cv_info</string>
+    <string name="shared_pref_list_quake_limit" translatable="false">quake_limit</string>
+    <string name="shared_pref_actual_version_code" translatable="false">actual_v_code</string>
+    <string name="night_mode_category_key" translatable="false">nigh_mode_pref_category</string>
+
+
     <!-- STRINGS DE LAYOUTS-->
     <string name="circulo_pintado">Color magnitud sismo</string>
     <string name="imagen_toolbar">Imagen toolbar</string>
@@ -99,83 +128,20 @@
     <string name="alert_pref_title_switch">Alertas de sismos</string>
     <string name="alert_pref_summary_on">Activadas</string>
     <string name="alert_pref_summary_off">Desactivadas</string>
-
-    <!-- TAGS-->
-    <string name="TAG_FIREBASE_SUSCRIPTION_OK" translatable="false">SUSCRITO</string>
-    <string name="TAG_FIREBASE_SUSCRIPTION_ALREADY" translatable="false">YA ESTABA SUSCRITO</string>
-    <string name="TAG_FIREBASE_SUSCRIPTION_DELETE" translatable="false">ELIMINADA</string>
-    <string name="FLAG_RETRY" translatable="false">Recargar</string>
-    <string name="TAG_FRAGMENT_QUAKE" translatable="false">FRAGMENT_QUAKE</string>
-    <string name="TAG_FRAGMENT_REPORTS" translatable="false">FRAGMENT_REPORTS</string>
-    <string name="FRAGMENT_LOAD_LIST" translatable="false">Listado cargado</string>
-    <string name="TAG_CARD_VIEW_INFO" translatable="false">CARD_VIEW_INFO</string>
-    <string name="TAG_FAB_SHARE_STATUS" translatable="false">FAB SHARE</string>
-    <string name="TAG_FAB_SHARE_STATUS_CLICKED" translatable="false">CLICKED</string>
-    <string name="TAG_FRAGMENT_SETTINGS_QUAKE_LIST_LIMIT" translatable="false">Numero de sismos fijados: %1$d</string>
-    <plurals name="LIST_QUAKE_NUMBER_SUMMARY">
+    <string name="snackbar_retry">Recargar</string>
+    <plurals name="list_quake_number_summary">
         <item quantity="one">Último %d sismo</item>
         <item quantity="other">Últimos %d sismos</item>
     </plurals>
-    <string name="TAG_INTENT_GOOGLEPLAY" translatable="false">Abriendo google play app</string>
-    <string name="TAG_INTENT_NAVEGADOR" translatable="false">Abriendo navegador</string>
-    <string name="TRY_INTENT_NOTIFICATION_1" translatable="false">Realizando intent de notificacion</string>
-    <string name="TRY_INTENT_NOTIFICATION" translatable="false">TRY_INTENT_NOTIFICATION</string>
-    <string name="TRY_INTENT_DETALLE" translatable="false">Intent de detalle de sismo</string>
-    <string name="TAG_INTENT_DETALLE_HOME_UP_RESPONSE" translatable="false">HOME UP PARENT CLICKEADO</string>
-    <string name="GOOGLE_PLAY_SOLICITUD" translatable="false">Google Play - solicitando actualizacion</string>
-    <string name="GOOGLE_PLAY_NOSOPORTADO" translatable="false">Google Play - no soportado</string>
-    <string name="GOOGLE_PLAY_ACTUALIZADO" translatable="false">Google Play - actualizado</string>
-    <string name="TAG_INFO_WINDOWS_RESPONSE" translatable="false">INFO WINDOWS OPEN</string>
-    <string name="TAG_MAP_READY_RESPONSE" translatable="false">MAP READY</string>
-
-    <!-- FIREBASE strings -->
-    <string name="FIREBASE_CHANNEL_ID_QUAKES" translatable="false">1</string>
-    <string name="FIREBASE_CHANNEL_NAME_QUAKES">Alerta sismos</string>
-    <string name="FIREBASE_CHANNEL_DESCRIPTION_QUAKES">Recibe alertas de sismos sobre 5 grados</string>
-    <string name="FIREBASE_CHANNEL_STATUS" translatable="false">CANAL_CREADO</string>
-    <string name="FIREBASE_MESSAGE_DATA_STATUS" translatable="false">MESSAGE_DATA_RECEIVED</string>
-    <string name="FIREBASE_MESSAGE_NOTIFICATION_STATUS" translatable="false">MESSAGE_NOTIFICATION_RECEIVED</string>
-    <string name="FIREBASE_CHANNEL_CREATED_MESSAGE" translatable="false">Canal de notificacion creado</string>
-    <string name="FIREBASE_PREF_KEY" translatable="false">pref_suscrito_quake</string>
-    <string name="SUSCRITO_QUAKE" translatable="false">suscrito_quake</string>
-    <string name="FIREBASE_TOPIC_NAME" translatable="false">Quakes</string>
-    <string name="FIREBASE_PREF_KEY_TOAST_ALERTAS_ON">Alertas activadas</string>
-    <string name="FIREBASE_PREF_KEY_TOAST_ALERTAS_OFF">Alertas desactivadas</string>
-
-    <!-- Strings de Snackbars -->
-    <string name="SNACKBAR_NOCONNECTION_ERROR_PRESSED" translatable="false">SNACKBAR_NOCONNECTION_ERROR</string>
-
-    <!-- Strings para calculo de tiempo -->
-    <string name="UTILS_TIEMPO_DIAS" translatable="false">dias</string>
-    <string name="UTILS_TIEMPO_HORAS" translatable="false">horas</string>
-    <string name="UTILS_TIEMPO_MINUTOS" translatable="false">minutos</string>
-    <string name="UTILS_TIEMPO_SEGUNDOS" translatable="false">segundos</string>
-
-    <!-- SHARE PREFERENCES KEYS (Variables) -->
-    <string name="SHARED_PREF_MASTER_KEY" translatable="false">lastquakechile</string>
-    <string name="SHARED_PREF_STATUS_CARD_VIEW_INFO" translatable="false">is_show_cv_info</string>
-    <string name="SHARED_PREF_LIST_QUAKE_NUMBER" translatable="false">quake_limit</string>
-    <string name="SHARED_PREF_ACTUAL_VERSION_CODE" translatable="false">actual_v_code</string>
-
-
-    <!-- NightMode -->
-    <string name="NIGHT_MODE_KEY" translatable="false">pref_night_mode</string>
-    <string name="TAG_NIGHT_MODE" translatable="false">NIGHT MODE</string>
-    <string name="NIGHT_MODE_KEY_TOAST_ON">Modo noche activado</string>
-    <string name="NIGHT_MODE_KEY_TOAST_OFF">Modo noche desactivado</string>
+    <string name="night_mode_key" translatable="false">pref_night_mode</string>
+    <string name="night_mode_key_toast_on">Modo noche activado</string>
+    <string name="night_mode_key_toast_off">Modo noche desactivado</string>
     <string name="night_mode_pref_summary">Ahorra batería y evita tu cansancio ocular</string>
     <string name="night_mode_pref_title">Modo noche</string>
     <string name="night_mode_pref_title_switch">Modo noche</string>
     <string name="night_mode_manual_pref_summary_on">Activado</string>
     <string name="night_mode_manual_pref_summary_off">Desactivado</string>
 
-
-    <!-- REWARD DIALOG TAGS -->
-    <string name="TAG_ADMOB_AD_STATUS_FAILED" translatable="false">FAILED TO LOAD</string>
-    <string name="TAG_ADMOB_AD_STATUS_LOADED" translatable="false">ADD LOADED</string>
-    <string name="TAG_ADMOB_AD_STATUS_OPEN" translatable="false">ADD OPEN</string>
-
-    <!-- Reportes -->
     <string name="JAN">Enero</string>
     <string name="FEB">Febrero</string>
     <string name="MAR">Marzo</string>
@@ -188,35 +154,70 @@
     <string name="OCT">Octubre</string>
     <string name="NOV">Noviembre</string>
     <string name="DEC">Diciembre</string>
-    <string name="FORMATO_REPORTE" formatted="false">%s %s</string>
-    <string name="UPDATE_AVAILABLE" translatable="false">Update available</string>
-    <string name="UPDATE_INTENT_FAILED" translatable="false">Update intent failed</string>
-    <string name="UPDATE_NOT_AVAILABLE" translatable="false">Update not available</string>
-    <string name="UPDATE_OK" translatable="false">Update succesfull</string>
-    <string name="UPDATE_FAILED" translatable="false">Update flow failed! Result code: %s</string>
-
-    <string name="INTENT_CHOOSER">Compartir sismos</string>
+    <string name="REPORT_FORMAT" formatted="false">%s %s</string>
+    <string name="intent_chooser">Compartir sismos</string>
     <string name="version">Versión </string>
     <string name="qu_hay_de_nuevo_en_la_app">¿Qué hay de nuevo en la app?</string>
     <string name="solucionamos_el_problema">Solucionamos el problema</string>
     <string name="entendido">Entendido</string>
-    <string name="NEW_VERSION_DETECTED" translatable="false">NUEVA VERSION DETECTADA</string>
-    <string name="NO_NEW_VERSION_DETECTED" translatable="false">NUEVA VERSION NO DETECTADA</string>
     <string name="map_type">Tipo de mapa</string>
     <string name="new_version_icon">Icono nueva version</string>
     <string name="estilo_mapa">Estilo Mapa</string>
     <string name="icono_aplicacion_publicidad">Icono aplicacion publicidad</string>
     <string name="ver_m_s">Ver más</string>
-    <string name="HTTP_ERROR">Ups, algo funcionó mal!</string>
-    <string name="IO_ERROR">Revisa tu conexión a Internet</string>
-    <string name="SHARED_VERSION_CODE_APP" translatable="false">STORE VERSION CODE: </string>
-    <string name="VERSION_CODE_APP" translatable="false">INSTALLED VERSION CODE: </string>
+    <string name="http_error">Ups, algo funcionó mal!</string>
+    <string name="io_error">Revisa tu conexión a Internet</string>
     <string name="ad" translatable="false">Ad</string>
-    <string name="NIGH_MODE_CATEGORY_KEY" translatable="false">nighModePrefCategory</string>
-    <string name="show_night_mode" translatable="false">Mostrar preferencia de night mode</string>
-    <string name="hide_night_mode" translatable="false">No mostrar preferencia de night mode</string>
-    <string name="app_open_onstart" translatable="false">onStart - checking adIfAvailable</string>
-    <string name="app_open_ad_not_show" translatable="false">Can not show ad</string>
-    <string name="app_open_show_ad" translatable="false">Will show ad</string>
+    <string name="icon_ad_app">Icono publicidad</string>
+
+    <!-- FOR TIMBER -->
+    <string name="AD_OPEN_ON_START" translatable="false">onStart - checking adIfAvailable</string>
+    <string name="APP_OPEN_SHOW_AD" translatable="false">Will show ad</string>
+    <string name="APP_OPEN_AD_NOT_SHOW" translatable="false">Can not show ad</string>
+    <string name="SHARED_VERSION_CODE_APP" translatable="false">Store version code: </string>
+    <string name="VERSION_CODE_APP" translatable="false">Installed version code: </string>
+    <string name="NEW_VERSION_DETECTED" translatable="false">New version detected</string>
+    <string name="NO_NEW_VERSION_DETECTED" translatable="false">New version NOT detected</string>
+    <string name="GP_UPDATED" translatable="false">Updated</string>
+    <string name="NIGHT_MODE" translatable="false">NightMode</string>
+    <string name="UPDATE_AVAILABLE" translatable="false">Update available</string>
+    <string name="UPDATE_NOT_AVAILABLE" translatable="false">Update not available</string>
+    <string name="FIREBASE_CHANNEL_CREATED_MESSAGE" translatable="false">Notification channel created</string>
+    <string name="TRY_INTENT_NOTIFICATION_1" translatable="false">Trying intent notification</string>
+    <string name="FIREBASE_SUB_OK" translatable="false">Subscribed</string>
+    <string name="FIREBASE_SUB_DELETE" translatable="false">Subscription deleted</string>
+    <string name="FIREBASE_SUB_ALREADY" translatable="false">Already subscribed</string>
+    <string name="UPDATE_OK" translatable="false">Update succesfull</string>
+    <string name="SHOW_NIGH_MODE" translatable="false">Show night mode preference</string>
+    <string name="HIDE_NIGHT_MODE" translatable="false">Dont show night mode preference</string>
+    <string name="FRAGMENT_SETTINGS_QUAKE_LIST_LIMIT" translatable="false">Quake Limit: %1$d</string>
+    <string name="ADMOB_AD_FAILED" translatable="false">Failed to load</string>
+    <string name="ADMOB_AD_LOADED" translatable="false">Add loaded</string>
+    <string name="ADMOB_AD_OPEN" translatable="false">Add open</string>
+    <string name="GOOGLE_MAP_SNAPSHOT" translatable="false">Snapshot google play</string>
+    <string name="INTENT_GOOGLEPLAY" translatable="false">Opening google play</string>
+    <string name="IMAGE_CACHE_EXISTS" translatable="false">Share image exist</string>
+    <string name="IMAGE_CACHE_NOT_EXISTS" translatable="false">Share image not exist</string>
+    <string name="LIST_NETWORK_CALL" translatable="false">List updated with network call</string>
+    <string name="EMIT_HTTP_ERROR" translatable="false">Emit http error</string>
+    <string name="EMIT_IO_EXCEPTION" translatable="false">Emit ioexception</string>
+    <string name="INFO_WINDOWS_RESPONSE" translatable="false">Info windows open</string>
+    <string name="FRAGMENT_LOAD_LIST" translatable="false">List loaded in fragment</string>
+    <string name="MAP_READY_RESPONSE" translatable="false">Map ready</string>
+    <string name="TRY_INTENT_DETAIL" translatable="false">QuakeDetail intent</string>
+    <string name="FAB_SHARE" translatable="false">FAB SHARE</string>
+    <string name="CLICKED" translatable="false">CLICKED</string>
+    <string name="INTENT_DETAIL_HOME_UP" translatable="false">Home up clicked</string>
+    <string name="FRAGMENT_QUAKE" translatable="false">FRAGMENT_QUAKE</string>
+    <string name="CV_INFO" translatable="false">CV_INFO</string>
+    <string name="EMIT_CACHE_LIST" translatable="false">Emit cached reportList</string>
+    <string name="FRAGMENT_REPORTS" translatable="false">FRAGMENT_REPORTS</string>
+    <string name="UPDATE_INTENT_FAILED" translatable="false">Update intent failed</string>
+    <string name="UPDATE_FAILED" translatable="false">Update flow failed! Result code: %s</string>
+    <string name="INTENT_BROWSER" translatable="false">Opening browser</string>
+    <string name="GP_REQUEST" translatable="false">Request update</string>
+    <string name="GP_NOT_SUPPORTED" translatable="false">Not supported</string>
+    <string name="UPDATE_MANAGER_FAILED" translatable="false">onResume updater manager failed</string>
+    <string name="GOOGLE_MAP_ERROR_SNAPSHOT" translatable="false">Error screenshot map: %s</string>
 
 </resources>

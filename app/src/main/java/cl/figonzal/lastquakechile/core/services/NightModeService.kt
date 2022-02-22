@@ -25,7 +25,7 @@ class NightModeService(
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity)
 
         val manualNightMode =
-            sharedPreferences.getBoolean(activity.getString(R.string.NIGHT_MODE_KEY), false)
+            sharedPreferences.getBoolean(activity.getString(R.string.night_mode_key), false)
 
         //MANUAL MODE
         //manual mode activated
@@ -35,7 +35,7 @@ class NightModeService(
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 
                 Timber.d(
-                    activity.getString(R.string.TAG_NIGHT_MODE) + ": ON"
+                    activity.getString(R.string.NIGHT_MODE) + ": ON"
                 )
             }
 
@@ -43,7 +43,7 @@ class NightModeService(
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
                 Timber.d(
-                    activity.getString(R.string.TAG_NIGHT_MODE) + ": OFF"
+                    activity.getString(R.string.NIGHT_MODE) + ": OFF"
                 )
             }
         }

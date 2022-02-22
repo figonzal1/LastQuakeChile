@@ -29,7 +29,7 @@ class GooglePlayService(private val activity: Activity) :
             resultCode != ConnectionResult.SUCCESS -> when {
                 googlePlay.isUserResolvableError(resultCode) -> {
 
-                    Timber.e(activity.getString(R.string.GOOGLE_PLAY_SOLICITUD))
+                    Timber.e(activity.getString(R.string.GP_REQUEST))
 
                     //Solicitar al usuario actualizar google play
                     googlePlay.getErrorDialog(
@@ -44,11 +44,11 @@ class GooglePlayService(private val activity: Activity) :
                 else -> {
 
                     //El error no puede ser resuelto por el usuario y la app se cierra
-                    Timber.e(activity.getString(R.string.GOOGLE_PLAY_NOSOPORTADO))
+                    Timber.e(activity.getString(R.string.GP_NOT_SUPPORTED))
                     activity.finish()
                 }
             }
-            else -> Timber.d(activity.getString(R.string.GOOGLE_PLAY_ACTUALIZADO))
+            else -> Timber.d(activity.getString(R.string.GP_UPDATED))
         }
     }
 

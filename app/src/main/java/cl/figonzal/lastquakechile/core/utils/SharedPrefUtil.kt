@@ -8,7 +8,7 @@ import cl.figonzal.lastquakechile.R
 class SharedPrefUtil(context: Context) {
 
     private val sharedPreferences: SharedPreferences = context.getSharedPreferences(
-        context.getString(R.string.SHARED_PREF_MASTER_KEY),
+        context.getString(R.string.shared_pref_master_key),
         Context.MODE_PRIVATE
     )
 

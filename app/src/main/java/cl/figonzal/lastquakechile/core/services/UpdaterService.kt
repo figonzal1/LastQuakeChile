@@ -58,7 +58,7 @@ class UpdaterService(
                             UPDATE_CODE
                         )
                     } catch (e: SendIntentException) {
-                        Timber.e(e, "onResume updater manager failed")
+                        Timber.e(e, activity.getString(R.string.UPDATE_MANAGER_FAILED))
                     }
                 }
             }

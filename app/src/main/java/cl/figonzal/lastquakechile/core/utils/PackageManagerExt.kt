@@ -15,7 +15,7 @@ fun Context.doInstallation(packageName: String) {
     try {
 
         //LOG
-        Timber.d(getString(R.string.TAG_INTENT_GOOGLEPLAY))
+        Timber.d(getString(R.string.INTENT_GOOGLEPLAY))
 
         //Intenta abrir google play
         startActivity(Intent(Intent.ACTION_VIEW).apply {
@@ -26,7 +26,7 @@ fun Context.doInstallation(packageName: String) {
     } catch (anfe: ActivityNotFoundException) {
 
         //Si google play no esta abre webview
-        Timber.w(anfe, getString(R.string.TAG_INTENT_NAVEGADOR))
+        Timber.w(anfe, getString(R.string.INTENT_BROWSER))
 
         startActivity(
             Intent(

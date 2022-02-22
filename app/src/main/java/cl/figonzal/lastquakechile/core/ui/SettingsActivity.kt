@@ -60,7 +60,7 @@ class SettingsActivity : AppCompatActivity() {
 
             //QUAKE LIMIT PREFERENCE
             seekBarPreference =
-                findPreference(resources.getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER))
+                findPreference(resources.getString(R.string.shared_pref_list_quake_limit))
 
             seekBarPreference?.apply {
 
@@ -68,7 +68,7 @@ class SettingsActivity : AppCompatActivity() {
                 max = 30
 
                 val limite = sharedPrefUtil.getData(
-                    resources.getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER), 0
+                    resources.getString(R.string.shared_pref_list_quake_limit), 0
                 ) as Int
 
                 //Setear resumen por defecto
@@ -79,7 +79,7 @@ class SettingsActivity : AppCompatActivity() {
 
                 summary =
                     resources.getQuantityString(
-                        R.plurals.LIST_QUAKE_NUMBER_SUMMARY,
+                        R.plurals.list_quake_number_summary,
                         value,
                         value
                     )
@@ -89,13 +89,13 @@ class SettingsActivity : AppCompatActivity() {
             when {
                 Build.VERSION.SDK_INT < Build.VERSION_CODES.Q -> {
 
-                    Timber.d(getString(R.string.show_night_mode))
+                    Timber.d(getString(R.string.SHOW_NIGH_MODE))
                     val nightModePrefCategory: PreferenceCategory? =
-                        findPreference(getString(R.string.NIGH_MODE_CATEGORY_KEY))
+                        findPreference(getString(R.string.night_mode_category_key))
 
                     nightModePrefCategory?.isVisible = true
                 }
-                else -> Timber.d(getString(R.string.hide_night_mode))
+                else -> Timber.d(getString(R.string.HIDE_NIGHT_MODE))
             }
         }
 
@@ -104,35 +104,35 @@ class SettingsActivity : AppCompatActivity() {
             /*
              * Preferencia Modo Noche
              */
-            if (key.equals(resources.getString(R.string.NIGHT_MODE_KEY))) {
+            if (key.equals(resources.getString(R.string.night_mode_key))) {
 
                 //Si el modo manual esta activado
                 when (preferences?.getBoolean(
-                    resources.getString(R.string.NIGHT_MODE_KEY), false
+                    resources.getString(R.string.night_mode_key), false
                 )) {
                     true -> {
 
                         sharedPrefUtil.saveData(
-                            resources.getString(R.string.NIGHT_MODE_KEY),
+                            resources.getString(R.string.night_mode_key),
                             true
                         )
 
                         nightModeAndRecreate(MODE_NIGHT_YES)
 
                         //Mostrar toast modo manual activado
-                        requireActivity().toast(R.string.NIGHT_MODE_KEY_TOAST_ON)
+                        requireActivity().toast(R.string.night_mode_key_toast_on)
 
                     }
                     else -> {
 
                         sharedPrefUtil.saveData(
-                            resources.getString(R.string.NIGHT_MODE_KEY),
+                            resources.getString(R.string.night_mode_key),
                             false
                         )
                         nightModeAndRecreate(MODE_NIGHT_NO)
 
                         //Mostrar toast modo noche desactivado
-                        requireActivity().toast(R.string.NIGHT_MODE_KEY_TOAST_OFF)
+                        requireActivity().toast(R.string.night_mode_key_toast_off)
                     }
                 }
             }
@@ -140,10 +140,10 @@ class SettingsActivity : AppCompatActivity() {
             /*
              * Preferencias de alertas
              */
-            if (key == resources.getString(R.string.FIREBASE_PREF_KEY)) {
+            if (key == resources.getString(R.string.firebase_pref_key)) {
 
                 preferences?.getBoolean(
-                    resources.getString(R.string.FIREBASE_PREF_KEY),
+                    resources.getString(R.string.firebase_pref_key),
                     true
                 ).also {
 
@@ -151,11 +151,11 @@ class SettingsActivity : AppCompatActivity() {
                     when (it) {
                         true -> {
                             quakesNotification.suscribedToQuakes(true)
-                            requireActivity().toast(R.string.FIREBASE_PREF_KEY_TOAST_ALERTAS_ON)
+                            requireActivity().toast(R.string.firebase_pref_key_alert_on)
                         }
                         else -> {
                             quakesNotification.suscribedToQuakes(false)
-                            requireActivity().toast(R.string.FIREBASE_PREF_KEY_TOAST_ALERTAS_OFF)
+                            requireActivity().toast(R.string.firebase_pref_key_alert_off)
                         }
                     }
                 }
@@ -164,23 +164,23 @@ class SettingsActivity : AppCompatActivity() {
             /*
              * Preferencias de numero de sismos
              */
-            if (key == resources.getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER)) {
+            if (key == resources.getString(R.string.shared_pref_list_quake_limit)) {
 
                 seekBarPreference?.apply {
 
                     summary =
                         resources.getQuantityString(
-                            R.plurals.LIST_QUAKE_NUMBER_SUMMARY,
+                            R.plurals.list_quake_number_summary,
                             value,
                             value
                         )
 
                     sharedPrefUtil.saveData(
-                        resources.getString(R.string.SHARED_PREF_LIST_QUAKE_NUMBER),
+                        resources.getString(R.string.shared_pref_list_quake_limit),
                         value
                     )
                     Timber.d(
-                        resources.getString(R.string.TAG_FRAGMENT_SETTINGS_QUAKE_LIST_LIMIT),
+                        resources.getString(R.string.FRAGMENT_SETTINGS_QUAKE_LIST_LIMIT),
                         value
                     )
                 }

@@ -30,7 +30,7 @@ class FirebaseQuakeNotificationService : FirebaseMessagingService() {
         if (remoteMessage.data.isNotEmpty()) {
 
             Timber.d("Message data payload: %s", remoteMessage.data)
-            crashlytics.setCustomKey(getString(R.string.FIREBASE_MESSAGE_DATA_STATUS), true)
+            crashlytics.setCustomKey(getString(R.string.firebase_msg_data_status), true)
 
             quakesNotification?.showNotification(remoteMessage)
         }
@@ -42,7 +42,7 @@ class FirebaseQuakeNotificationService : FirebaseMessagingService() {
                     .title + " - " + remoteMessage.notification!!.body
             )
             crashlytics.setCustomKey(
-                getString(R.string.FIREBASE_MESSAGE_NOTIFICATION_STATUS),
+                getString(R.string.firebase_msg_notification_status),
                 true
             )
             quakesNotification?.showNotificationGeneric(remoteMessage)
