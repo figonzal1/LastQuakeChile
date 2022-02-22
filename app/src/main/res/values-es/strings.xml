@@ -78,10 +78,6 @@
     <string name="NOV">Noviembre</string>
     <string name="DEC">Diciembre</string>
     <string name="FORMATO_REPORTE" formatted="false">%s %s</string>
-    <string name="change_logs">Historial de versiones</string>
-    <string name="TEST_TEXT">Desplazarse hacia arriba</string>
-    <string name="TEST_MAS_OPCIONES">Más opciones</string>
-    <string name="TEST_TOOLBAR">Título toolbar</string>
     <string name="INTENT_CHOOSER">Compartir sismos</string>
     <string name="NIGHT_MODE_KEY_TOAST_OFF">Modo noche desactivado</string>
     <string name="version">"Versión "</string>

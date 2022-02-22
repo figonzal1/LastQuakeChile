@@ -78,10 +78,6 @@
     <string name="OCT">October</string>
     <string name="NOV">November</string>
     <string name="DEC">December</string>
-    <string name="change_logs">Version history</string>
-    <string name="TEST_TEXT">Navigate up</string>
-    <string name="TEST_MAS_OPCIONES">More options</string>
-    <string name="TEST_TOOLBAR">Toolbar title</string>
     <string name="INTENT_CHOOSER">Share quakes</string>
     <string name="NIGHT_MODE_KEY_TOAST_OFF">Night mode off</string>
     <string name="version">"Version "</string>
