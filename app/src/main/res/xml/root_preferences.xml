@@ -8,7 +8,7 @@
         app:title="@string/quake_list_number_pref_title">
         <SeekBarPreference
             app:iconSpaceReserved="false"
-            app:key="@string/SHARED_PREF_LIST_QUAKE_NUMBER"
+            app:key="@string/shared_pref_list_quake_limit"
             app:showSeekBarValue="true"
             app:useSimpleSummaryProvider="true" />
 
@@ -22,7 +22,7 @@
         <SwitchPreferenceCompat
             app:defaultValue="true"
             app:iconSpaceReserved="false"
-            app:key="@string/FIREBASE_PREF_KEY"
+            app:key="@string/firebase_pref_key"
             app:summaryOff="@string/alert_pref_summary_off"
             app:summaryOn="@string/alert_pref_summary_on"
             app:title="@string/alert_pref_title_switch"
@@ -33,14 +33,14 @@
     <PreferenceCategory
         app:iconSpaceReserved="false"
         app:isPreferenceVisible="false"
-        app:key="@string/NIGH_MODE_CATEGORY_KEY"
+        app:key="@string/night_mode_category_key"
         app:summary="@string/night_mode_pref_summary"
         app:title="@string/night_mode_pref_title">
 
         <SwitchPreferenceCompat
             app:defaultValue="false"
             app:iconSpaceReserved="false"
-            app:key="@string/NIGHT_MODE_KEY"
+            app:key="@string/night_mode_key"
             app:summaryOff="@string/night_mode_manual_pref_summary_off"
             app:summaryOn="@string/night_mode_manual_pref_summary_on"
             app:title="@string/night_mode_pref_title_switch"

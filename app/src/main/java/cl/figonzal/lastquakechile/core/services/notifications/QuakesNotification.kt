@@ -34,8 +34,8 @@ class QuakesNotification(private val context: Context, private val sharedPrefUti
     override fun createChannel() {
 
         //Definicion de atributos de canal de notificacion
-        val name = context.getString(R.string.FIREBASE_CHANNEL_NAME_QUAKES)
-        val description = context.getString(R.string.FIREBASE_CHANNEL_DESCRIPTION_QUAKES)
+        val name = context.getString(R.string.firebase_channel_name_quakes)
+        val description = context.getString(R.string.firebase_channel_description_quakes)
 
         val importance = NotificationManager.IMPORTANCE_HIGH
 
@@ -43,7 +43,7 @@ class QuakesNotification(private val context: Context, private val sharedPrefUti
 
             createNotificationChannel(
                 NotificationChannel(
-                    context.getString(R.string.FIREBASE_CHANNEL_ID_QUAKES),
+                    context.getString(R.string.firebase_channel_id_quakes),
                     name,
                     importance
                 ).apply {
@@ -57,7 +57,7 @@ class QuakesNotification(private val context: Context, private val sharedPrefUti
 
 
         Timber.d(context.getString(R.string.FIREBASE_CHANNEL_CREATED_MESSAGE))
-        crashlytics.setCustomKey(context.getString(R.string.FIREBASE_CHANNEL_STATUS), true)
+        crashlytics.setCustomKey(context.getString(R.string.firebase_channel_status), true)
     }
 
     /**
@@ -72,39 +72,39 @@ class QuakesNotification(private val context: Context, private val sharedPrefUti
             //Suscribir a tema quakes
             //Eliminacion de la suscripcion
             when {
-                subcribed -> this.subscribeToTopic(context.getString(R.string.FIREBASE_TOPIC_NAME))
+                subcribed -> this.subscribeToTopic(context.getString(R.string.firebase_topic_name))
                     .addOnCompleteListener { task: Task<Void?> ->
                         when {
                             task.isSuccessful -> {
                                 //Modificar valor en sharepref de settings
                                 sharedPrefUtil.saveData(
-                                    context.getString(R.string.FIREBASE_PREF_KEY),
+                                    context.getString(R.string.firebase_pref_key),
                                     true
                                 )
 
-                                Timber.d(context.getString(R.string.TAG_FIREBASE_SUSCRIPTION_OK))
+                                Timber.d(context.getString(R.string.FIREBASE_SUB_OK))
                                 crashlytics.setCustomKey(
-                                    context.getString(R.string.SUSCRITO_QUAKE),
+                                    context.getString(R.string.subsqribed_quake),
                                     true
                                 )
                             }
                         }
                     }
-                else -> this.unsubscribeFromTopic(context.getString(R.string.FIREBASE_TOPIC_NAME))
+                else -> this.unsubscribeFromTopic(context.getString(R.string.firebase_topic_name))
                     .addOnCompleteListener { task: Task<Void> ->
 
                         when {
                             task.isSuccessful -> {
                                 //Modificar valor en sharepref de settings
                                 sharedPrefUtil.saveData(
-                                    context.getString(R.string.FIREBASE_PREF_KEY),
+                                    context.getString(R.string.firebase_pref_key),
                                     false
                                 )
 
                                 //LOG ZONE
-                                Timber.d(context.getString(R.string.TAG_FIREBASE_SUSCRIPTION_DELETE))
+                                Timber.d(context.getString(R.string.FIREBASE_SUB_DELETE))
                                 crashlytics.setCustomKey(
-                                    context.getString(R.string.SUSCRITO_QUAKE),
+                                    context.getString(R.string.subsqribed_quake),
                                     false
                                 )
                             }
@@ -113,7 +113,7 @@ class QuakesNotification(private val context: Context, private val sharedPrefUti
                     }
                     .addOnFailureListener {
                         Timber.d(
-                            context.getString(R.string.TAG_FIREBASE_SUSCRIPTION_ALREADY)
+                            context.getString(R.string.FIREBASE_SUB_ALREADY)
                         )
                     }
             }
@@ -147,7 +147,7 @@ class QuakesNotification(private val context: Context, private val sharedPrefUti
                 }
 
                 Timber.d(context.getString(R.string.TRY_INTENT_NOTIFICATION_1))
-                crashlytics.setCustomKey(context.getString(R.string.TRY_INTENT_NOTIFICATION), true)
+                crashlytics.setCustomKey(context.getString(R.string.try_intent_notification), true)
             }
         }
     }
@@ -162,7 +162,7 @@ class QuakesNotification(private val context: Context, private val sharedPrefUti
         //Maneja la notificacion cuando esta en foreground
         Builder(
             context,
-            context.getString(R.string.FIREBASE_CHANNEL_ID_QUAKES)
+            context.getString(R.string.firebase_channel_id_quakes)
         ).setContentTitle(remoteMessage.notification?.title)
             .setContentText(remoteMessage.notification?.body)
             .setStyle(
@@ -172,7 +172,7 @@ class QuakesNotification(private val context: Context, private val sharedPrefUti
             .setAutoCancel(true)
             .also {
                 (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(
-                    context.getString(R.string.FIREBASE_CHANNEL_ID_QUAKES).toInt(),
+                    context.getString(R.string.firebase_channel_id_quakes).toInt(),
                     it.build()
                 )
             }

@@ -21,10 +21,10 @@ fun LocalDateTime.localDateToDHMS(): Map<String, Long> {
     val mDays = mHours / 24
 
     return mutableMapOf(
-        "dias" to mDays,
-        "horas" to mHours,
-        "minutos" to mMinutes,
-        "segundos" to mSeconds
+        "days" to mDays,
+        "hours" to mHours,
+        "minutes" to mMinutes,
+        "seconds" to mSeconds
     )
 }
 

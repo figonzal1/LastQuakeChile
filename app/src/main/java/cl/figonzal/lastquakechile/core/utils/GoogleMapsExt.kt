@@ -85,11 +85,11 @@ fun Context.makeSnapshot(googleMap: GoogleMap, quake: Quake) {
 
     googleMap.snapshot {
         try {
-            Timber.d("Snapshot google play")
+            Timber.d(getString(R.string.GOOGLE_MAP_SNAPSHOT))
             val bitMapUri = it?.let { it1 -> this.getLocalBitmapUri(it1) }
             this.shareQuake(quake, bitMapUri)
         } catch (e: IOException) {
-            Timber.e(e, "Error screenshot map: %s", e.message)
+            Timber.e(e, getString(R.string.GOOGLE_MAP_ERROR_SNAPSHOT), e.message)
         }
     }
 
@@ -124,6 +124,6 @@ private fun Context.shareQuake(quake: Quake, bitMapUri: Uri?) {
         )
         putExtra(Intent.EXTRA_STREAM, bitMapUri)
         type = "image/*"
-        startActivity(Intent.createChooser(this, getString(R.string.INTENT_CHOOSER)))
+        startActivity(Intent.createChooser(this, getString(R.string.intent_chooser)))
     }
 }

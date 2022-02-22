@@ -87,7 +87,7 @@ class QuakeFragment : Fragment() {
                             binding.recycleViewQuakes.smoothScrollToPosition(0)
                         }
 
-                        Timber.d(getString(R.string.TAG_FRAGMENT_QUAKE) + ": " + getString(R.string.FRAGMENT_LOAD_LIST))
+                        Timber.d(getString(R.string.FRAGMENT_QUAKE) + ": " + getString(R.string.FRAGMENT_LOAD_LIST))
                     }
                 }
             }
@@ -114,7 +114,7 @@ class QuakeFragment : Fragment() {
     private fun showCvInfo() {
 
         val isCvShowed = sharedPrefUtil.getData(
-            getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO),
+            getString(R.string.shared_pref_status_card_view_info),
             true
         ) as Boolean
 
@@ -127,7 +127,7 @@ class QuakeFragment : Fragment() {
             binding.include.btnInfoAccept.setOnClickListener {
 
                 sharedPrefUtil.saveData(
-                    getString(R.string.SHARED_PREF_STATUS_CARD_VIEW_INFO),
+                    getString(R.string.shared_pref_status_card_view_info),
                     false
                 )
 
@@ -142,7 +142,7 @@ class QuakeFragment : Fragment() {
                     })
 
                 //LOGS
-                Timber.d(getString(R.string.TAG_CARD_VIEW_INFO) + ": Entendido")
+                Timber.d(getString(R.string.CV_INFO) + ": Ok")
             }
         }
 
@@ -151,12 +151,12 @@ class QuakeFragment : Fragment() {
     private fun showSnackBar(string: String) {
         Snackbar
             .make(binding.root, string, Snackbar.LENGTH_INDEFINITE)
-            .setAction(getString(R.string.FLAG_RETRY)) {
+            .setAction(getString(R.string.snackbar_retry)) {
 
                 viewModel.getQuakes()
 
                 crashlytics.setCustomKey(
-                    getString(R.string.SNACKBAR_NOCONNECTION_ERROR_PRESSED),
+                    getString(R.string.snackbar_error),
                     true
                 )
             }

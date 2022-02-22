@@ -59,7 +59,7 @@ class ReportAdapter(
 
                 tvTitleReport.text =
                     String.format(
-                        context.getString(R.string.FORMATO_REPORTE),
+                        context.getString(R.string.REPORT_FORMAT),
                         getMonth(nMonth),
                         anno
                     )

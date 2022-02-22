@@ -44,17 +44,17 @@ fun AdView.loadAnchored(activity: Activity) {
     adListener = object : AdListener() {
 
         override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-            Timber.w(activity.getString(R.string.TAG_ADMOB_AD_STATUS_FAILED))
+            Timber.w(activity.getString(R.string.ADMOB_AD_FAILED))
             visibility = View.GONE
         }
 
         override fun onAdLoaded() {
-            Timber.d(activity.getString(R.string.TAG_ADMOB_AD_STATUS_LOADED))
+            Timber.d(activity.getString(R.string.ADMOB_AD_LOADED))
             visibility = View.VISIBLE
         }
 
         override fun onAdOpened() {
-            Timber.d(activity.getString(R.string.TAG_ADMOB_AD_STATUS_OPEN))
+            Timber.d(activity.getString(R.string.ADMOB_AD_OPEN))
         }
     }
     loadAd(AdRequest.Builder().build())

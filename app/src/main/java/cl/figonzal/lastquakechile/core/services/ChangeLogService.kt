@@ -38,7 +38,7 @@ class ChangeLogService(
 
         //GET STORED VERSION CODE
         val sharedVersionCode = sharedPrefUtil.getData(
-            context.getString(R.string.SHARED_PREF_ACTUAL_VERSION_CODE),
+            context.getString(R.string.shared_pref_actual_version_code),
             0
         ) as Int
 
@@ -67,7 +67,7 @@ class ChangeLogService(
                 listImprovements.printChangeLogList()
             findViewById<MaterialButton>(R.id.btn_change_log)?.setOnClickListener {
                 sharedPrefUtil.saveData(
-                    context.getString(R.string.SHARED_PREF_ACTUAL_VERSION_CODE), versionCode
+                    context.getString(R.string.shared_pref_actual_version_code), versionCode
                 )
                 dismiss()
             }

@@ -115,7 +115,7 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener,
         }
 
         //Log zone
-        Timber.d(getString(R.string.TAG_MAP_READY_RESPONSE))
+        Timber.d(getString(R.string.MAP_READY_RESPONSE))
     }
 
     companion object {
@@ -167,7 +167,7 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener,
         }
 
         //Log zone
-        Timber.d(getString(R.string.TAG_INFO_WINDOWS_RESPONSE))
+        Timber.d(getString(R.string.INFO_WINDOWS_RESPONSE))
 
         return infoBinding.root
     }

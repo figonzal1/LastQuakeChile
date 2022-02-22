@@ -82,7 +82,7 @@ class ReportsFragment : Fragment() {
                         }
 
                         if (it.reports.isNotEmpty()) reportAdapter?.updateList(it.reports)
-                        Timber.d(getString(R.string.TAG_FRAGMENT_REPORTS) + ": " + getString(R.string.FRAGMENT_LOAD_LIST))
+                        Timber.d(getString(R.string.FRAGMENT_REPORTS) + ": " + getString(R.string.FRAGMENT_LOAD_LIST))
                     }
                 }
 
@@ -94,12 +94,12 @@ class ReportsFragment : Fragment() {
     private fun showSnackBar(string: String) {
         Snackbar
             .make(binding.root, string, Snackbar.LENGTH_INDEFINITE)
-            .setAction(getString(R.string.FLAG_RETRY)) {
+            .setAction(getString(R.string.snackbar_retry)) {
 
                 viewModel.getReports()
 
                 crashlytics.setCustomKey(
-                    getString(R.string.SNACKBAR_NOCONNECTION_ERROR_PRESSED),
+                    getString(R.string.snackbar_error),
                     true
                 )
             }

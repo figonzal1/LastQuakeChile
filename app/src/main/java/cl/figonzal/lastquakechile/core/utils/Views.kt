@@ -161,10 +161,10 @@ fun TextView.setScale(escala: String) {
  */
 fun TextView.setTimeToTextView(tiempos: Map<String, Long>) {
 
-    val mDays: Long = tiempos[context.getString(R.string.UTILS_TIEMPO_DIAS)]!!
-    val mMinutes: Long = tiempos[context.getString(R.string.UTILS_TIEMPO_MINUTOS)]!!
-    val mHours: Long = tiempos[context.getString(R.string.UTILS_TIEMPO_HORAS)]!!
-    val mSeconds: Long = tiempos[context.getString(R.string.UTILS_TIEMPO_SEGUNDOS)]!!
+    val mDays: Long = tiempos[context.getString(R.string.utils_time_day)]!!
+    val mMinutes: Long = tiempos[context.getString(R.string.utils_time_min)]!!
+    val mHours: Long = tiempos[context.getString(R.string.utils_time_hour)]!!
+    val mSeconds: Long = tiempos[context.getString(R.string.utils_time_seg)]!!
 
     //Condiciones días.
     when {
@@ -209,10 +209,10 @@ fun TextView.calculateHours(quake: Quake) {
 
     val timeMap = quake.localDate.localDateToDHMS()
 
-    val days = timeMap[this.context.getString(R.string.UTILS_TIEMPO_DIAS)]
-    val hour = timeMap[this.context.getString(R.string.UTILS_TIEMPO_HORAS)]
-    val min = timeMap[this.context.getString(R.string.UTILS_TIEMPO_MINUTOS)]
-    val seg = timeMap[this.context.getString(R.string.UTILS_TIEMPO_SEGUNDOS)]
+    val days = timeMap[this.context.getString(R.string.utils_time_day)]
+    val hour = timeMap[this.context.getString(R.string.utils_time_hour)]
+    val min = timeMap[this.context.getString(R.string.utils_time_min)]
+    val seg = timeMap[this.context.getString(R.string.utils_time_seg)]
 
     //Condiciones días.
     when {
@@ -309,9 +309,9 @@ fun Context.getLocalBitmapUri(bitmap: Bitmap): Uri {
     val file = File(this.cacheDir, "share$date.jpeg")
 
     when {
-        file.exists() -> Timber.d("Share image exist")
+        file.exists() -> Timber.d(getString(R.string.IMAGE_CACHE_EXISTS))
         else -> {
-            Timber.d("Share image not exist")
+            Timber.d(getString(R.string.IMAGE_CACHE_NOT_EXISTS))
             val out = FileOutputStream(file)
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
             out.close()

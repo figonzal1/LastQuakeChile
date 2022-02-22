@@ -31,7 +31,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="Icon ad app"
+            android:contentDescription="@string/icon_ad_app"
             app:layout_constraintVertical_bias="0.1" />
 
         <TextView
