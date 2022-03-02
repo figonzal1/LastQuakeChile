@@ -1,5 +1,6 @@
 package cl.figonzal.lastquakechile.reports_feature.di
 
+import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.provideReportAPI
 import cl.figonzal.lastquakechile.core.utils.provideReportDao
 import cl.figonzal.lastquakechile.reports_feature.data.local.ReportLocalDataSource
@@ -22,12 +23,16 @@ val reportModule = module {
     single { provideReportAPI(get(named("apiService"))) }
     single { ReportRemoteDataSource(get()) }
 
+    //SharedPrefUtils
+    single { SharedPrefUtil(get()) }
+
     //Repository
     single<ReportRepository> {
         ReportRepositoryImpl(
             get(),
             get(),
             get(named("ioDispatcher")),
+            get(),
             get()
         )
     }

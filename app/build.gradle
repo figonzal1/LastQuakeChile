@@ -29,7 +29,7 @@ android {
         applicationId "cl.figonzal.lastquakechile"
         minSdkVersion 23
         targetSdkVersion 31
-        versionCode 31 //realease en 29
+        versionCode 30 //realease en 29
         versionName "1.5.4-beta"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 

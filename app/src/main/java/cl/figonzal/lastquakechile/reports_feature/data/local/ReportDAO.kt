@@ -18,6 +18,12 @@ abstract class ReportDAO {
     @Insert(onConflict = REPLACE)
     abstract fun insertAll(topCities: List<QuakeCityEntity>)
 
+    @Query("Delete from reportentity")
+    abstract fun deleteAllReportEntity()
+
+    @Query("Delete from quakecityentity")
+    abstract fun deleteAllQuakeCityEntity()
+
     @Transaction
     @Query("SELECT * FROM reportentity")
     abstract fun getReport(): List<ReportWithQuakeCityEntity>
@@ -31,5 +37,10 @@ abstract class ReportDAO {
         }
 
         insertAll(reportWithQuakeCitiesEntity.topCities)
+    }
+
+    fun deleteAll() {
+        deleteAllQuakeCityEntity()
+        deleteAllReportEntity()
     }
 }

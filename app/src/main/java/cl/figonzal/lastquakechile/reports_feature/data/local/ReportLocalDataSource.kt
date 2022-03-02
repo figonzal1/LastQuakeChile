@@ -14,4 +14,8 @@ class ReportLocalDataSource(
     fun insert(reportEntity: ReportWithQuakeCityEntity) {
         reportDAO.insert(reportEntity)
     }
+
+    fun deleteAll() {
+        reportDAO.deleteAll()
+    }
 }
