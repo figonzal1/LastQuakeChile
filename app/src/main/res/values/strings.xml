@@ -69,6 +69,7 @@
     <string name="shared_pref_list_quake_limit" translatable="false">quake_limit</string>
     <string name="shared_pref_actual_version_code" translatable="false">actual_v_code</string>
     <string name="night_mode_category_key" translatable="false">nigh_mode_pref_category</string>
+    <string name="shared_report_cache" translatable="false">reports_cache_entry</string>
 
 
     <!-- STRINGS DE LAYOUTS-->

@@ -2,6 +2,7 @@ package cl.figonzal.lastquakechile.core.utils
 
 import java.time.Duration
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import kotlin.math.abs
 import kotlin.math.floor
 import kotlin.math.roundToLong
@@ -44,4 +45,14 @@ fun Double.latLongToDMS(): Map<String, Double> {
     dmsMap["minutos"] = minutes.roundToLong().toDouble()
     dmsMap["segundos"] = seg.roundToLong().toDouble()
     return dmsMap
+}
+
+fun LocalDateTime.localDateTimeToString(): String {
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+    return this.format(formatter)
+}
+
+fun String.stringToLocalDateTime(): LocalDateTime {
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+    return LocalDateTime.parse(this, formatter)
 }
