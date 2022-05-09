@@ -21,7 +21,7 @@ class ReportsFragment : Fragment() {
 
     private lateinit var crashlytics: FirebaseCrashlytics
     private val viewModel: ReportViewModel by viewModel()
-    private var reportAdapter: ReportAdapter? = null
+    private lateinit var reportAdapter: ReportAdapter
 
     private lateinit var binding: FragmentReportsBinding
 
@@ -60,15 +60,16 @@ class ReportsFragment : Fragment() {
 
     private fun initViewModel() {
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
 
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-
-                viewModel.getReports()
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
 
                 //Error Status
                 launch {
                     viewModel.errorStatus.collect {
+
+                        binding.includeNoWifi.root.visibility = View.VISIBLE
+                        binding.progressBarReportes.visibility = View.GONE
                         showSnackBar(it)
                     }
                 }
@@ -76,19 +77,23 @@ class ReportsFragment : Fragment() {
                 launch {
                     viewModel.reportState.collect {
 
-                        binding.progressBarReportes.visibility = when {
-                            it.isLoading -> View.VISIBLE
-                            else -> View.GONE
-                        }
+                        when {
+                            it.isLoading -> {
+                                binding.progressBarReportes.visibility = View.VISIBLE
+                            }
+                            !it.isLoading && it.reports.isNotEmpty() -> {
 
-                        if (it.reports.isNotEmpty()) reportAdapter?.updateList(it.reports)
-                        Timber.d(getString(R.string.FRAGMENT_REPORTS) + ": " + getString(R.string.FRAGMENT_LOAD_LIST))
+                                binding.progressBarReportes.visibility = View.GONE
+
+                                reportAdapter.updateList(it.reports)
+                                Timber.d(getString(R.string.FRAGMENT_REPORTS) + ": " + getString(R.string.FRAGMENT_LOAD_LIST))
+                            }
+                        }
                     }
                 }
-
-
             }
         }
+        viewModel.getReports()
     }
 
     private fun showSnackBar(string: String) {

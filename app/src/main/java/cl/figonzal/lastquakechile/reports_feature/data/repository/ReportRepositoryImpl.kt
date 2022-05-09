@@ -49,6 +49,7 @@ class ReportRepositoryImpl(
                 val reports = remoteDataSource.getReports()
 
                 if (reports.isNotEmpty()) {
+
                     localDataSource.deleteAll()
 
                     reports.onEach {
@@ -74,28 +75,19 @@ class ReportRepositoryImpl(
 
                 Timber.e(application.getString(R.string.EMIT_HTTP_ERROR))
 
-                emit(
-                    Resource.Error(
-                        data = emptyList(),
-                        message = application.getString(R.string.http_error)
-                    )
-                )
+                emit(Resource.Error(message = application.getString(R.string.http_error)))
             } catch (e: IOException) {
 
                 Timber.e(application.getString(R.string.EMIT_IO_EXCEPTION))
 
-                emit(
-                    Resource.Error(
-                        data = emptyList(),
-                        message = application.getString(R.string.io_error)
-                    )
-                )
+                emit(Resource.Error(message = application.getString(R.string.io_error)))
             }
         }
 
     }.flowOn(ioDispatcher)
 
     private fun isCacheExpired(): Boolean {
+
         val sharedTimeCached = sharedPrefUtil.getData(
             application.getString(R.string.shared_report_cache),
             LocalDateTime.now().minusDays(2).localDateTimeToString()

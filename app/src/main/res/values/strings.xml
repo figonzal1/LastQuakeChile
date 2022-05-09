@@ -3,13 +3,16 @@
 
     <string name="ADMOB_MASTER_KEY" translatable="false">ca-app-pub-6355378855577476~7414287525</string>
     <!-- PROD AD-->
-    <!--<string name="ADMOB_ID_BANNER" translatable="false">ca-app-pub-6355378855577476/9207230747</string>
-    <string name="ADMOB_ID_VIDEO" translatable="false">ca-app-pub-6355378855577476/7649578822</string>
-    <string name="ADMOB_ID_APPOPEN" translatable="false">ca-app-pub-6355378855577476/7856079761</string>-->
+    <!--<string name="ADMOB_ID_BANNER" translatable="false">ca-app-pub-6355378855577476/5493893896</string>
+    <string name="ADMOB_ID_APPOPEN" translatable="false">ca-app-pub-6355378855577476/7856079761</string>
+    string name="ADMOB_ID_NATIVE_FRAGMENT" translatable="false">ca-app-pub-6355378855577476/5493893896</string>
+    <string name="ADMOB_ID_NATIVE_DETAILS" translatable="false">ca-app-pub-6355378855577476/2723765487</string>
+    -->
 
     <!--TEST AD-->
     <string name="ADMOB_ID_BANNER" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="ADMOB_ID_NATIVE" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="ADMOB_ID_NATIVE_FRAGMENT" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="ADMOB_ID_NATIVE_DETAILS" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
     <string name="ADMOB_ID_APPOPEN" translatable="false">ca-app-pub-3940256099942544/3419835294</string>
 
     <!-- TOOLBAR Menu STRINGS -->
@@ -227,5 +230,7 @@
     <string name="contact_summary">¿Sugerencias? ¿Problemas?</string>
     <string name="about">Acerca</string>
     <string name="mail_to_felipe" translatable="false">mailto:felipe.gonzalezalarcon94@gmail.com</string>
+    <string name="no_apagado">Wifi apagado</string>
+    <string name="wifi_off_msg">Por favor, revisa tu conexión</string>
 
 </resources>

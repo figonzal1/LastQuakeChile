@@ -27,9 +27,7 @@ class ReportViewModel(private val getReportsUseCase: GetReportsUseCase) : ViewMo
 
                 when (it) {
                     is Resource.Loading -> {
-                        _reportState.value = reportState.value.copy(
-                            isLoading = true
-                        )
+                        _reportState.value = reportState.value.copy(isLoading = true)
                     }
 
                     is Resource.Success -> {
@@ -42,10 +40,7 @@ class ReportViewModel(private val getReportsUseCase: GetReportsUseCase) : ViewMo
                     is Resource.Error -> {
                         _errorStatus.send(it.message as String)
 
-                        _reportState.value = reportState.value.copy(
-                            isLoading = false,
-                            reports = emptyList()
-                        )
+                        _reportState.value = reportState.value.copy(isLoading = false)
                     }
                 }
             }

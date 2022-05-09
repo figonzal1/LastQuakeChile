@@ -58,43 +58,6 @@ class QuakeFragment : Fragment() {
         return binding.root
     }
 
-    private fun initViewModel() {
-
-        lifecycleScope.launch {
-
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-
-                viewModel.getQuakes()
-
-                //Error Status
-                launch {
-                    viewModel.errorStatus.collect {
-                        showSnackBar(it)
-                    }
-                }
-
-                launch {
-                    viewModel.quakeState.collect {
-
-                        binding.progressBarQuakes.visibility = when {
-                            it.isLoading -> View.VISIBLE
-                            else -> View.GONE
-                        }
-
-
-                        if (it.quakes.isNotEmpty()) {
-                            quakeAdapter.updateList(it.quakes)
-                            binding.recycleViewQuakes.smoothScrollToPosition(0)
-                        }
-
-                        Timber.d(getString(R.string.FRAGMENT_QUAKE) + ": " + getString(R.string.FRAGMENT_LOAD_LIST))
-                    }
-                }
-            }
-        }
-
-    }
-
     private fun bindingResources() {
         with(binding) {
 
@@ -102,13 +65,48 @@ class QuakeFragment : Fragment() {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(context)
 
-                quakeAdapter = QuakeAdapter(
-                    ArrayList(),
-                    requireActivity()
-                )
+                quakeAdapter = QuakeAdapter(ArrayList(), requireActivity())
                 this.adapter = quakeAdapter
             }
         }
+    }
+
+    private fun initViewModel() {
+
+        viewLifecycleOwner.lifecycleScope.launch {
+
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+
+                //Error Status
+                launch {
+                    viewModel.errorStatus.collect {
+
+                        binding.includeNoWifi.root.visibility = View.VISIBLE
+                        binding.progressBarQuakes.visibility = View.GONE
+                        showSnackBar(it)
+                    }
+                }
+
+                launch {
+                    viewModel.quakeState.collect {
+
+                        when {
+                            it.isLoading -> {
+                                binding.progressBarQuakes.visibility = View.VISIBLE
+                            }
+                            !it.isLoading && it.quakes.isNotEmpty() -> {
+
+                                binding.progressBarQuakes.visibility = View.GONE
+
+                                quakeAdapter.updateList(it.quakes)
+                                Timber.d(getString(R.string.FRAGMENT_QUAKE) + ": " + getString(R.string.FRAGMENT_LOAD_LIST))
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        viewModel.getQuakes()
     }
 
     private fun showCvInfo() {
