@@ -92,6 +92,6 @@
         app:layout_constraintStart_toEndOf="@+id/tv_title"
         app:layout_constraintTop_toTopOf="@+id/tv_title"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/ic_baseline_new_releases_24" />
+        app:srcCompat="@drawable/ic_round_new_releases_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

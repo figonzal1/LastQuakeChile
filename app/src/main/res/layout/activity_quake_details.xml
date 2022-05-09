@@ -28,7 +28,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:rippleColor="@color/colorPrimaryVariant"
-        app:srcCompat="@drawable/ic_share_24px"
+        app:srcCompat="@drawable/ic_round_share_24"
         app:tint="@color/white" />
 
     <include
@@ -143,7 +143,7 @@
                 app:layout_constraintStart_toStartOf="@+id/left_status_guide"
                 app:layout_constraintTop_toBottomOf="@+id/include_cv_quake_detail"
                 app:layout_constraintVertical_bias="0.20"
-                app:srcCompat="@drawable/ic_baseline_check_circle_24px" />
+                app:srcCompat="@drawable/ic_round_check_circle_24" />
 
             <TextView
                 android:id="@+id/tv_estado"

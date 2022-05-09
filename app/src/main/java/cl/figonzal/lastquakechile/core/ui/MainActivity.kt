@@ -140,9 +140,9 @@ class MainActivity : AppCompatActivity() {
 
                 when (position) {
                     0 -> tab.setIcon(R.drawable.ic_quakes_24dp)
-                    1 -> tab.setIcon(R.drawable.ic_baseline_campaign_24)
-                    2 -> tab.setIcon(R.drawable.ic_map_24dp)
-                    3 -> tab.setIcon(R.drawable.ic_report_24dp)
+                    1 -> tab.setIcon(R.drawable.ic_round_campaign_24)
+                    2 -> tab.setIcon(R.drawable.ic_round_place_24)
+                    3 -> tab.setIcon(R.drawable.ic_round_analytics_24)
                 }
             }.attach()
 

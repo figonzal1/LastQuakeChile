@@ -90,7 +90,7 @@
             card_view:layout_constraintHorizontal_bias="0.0"
             card_view:layout_constraintStart_toEndOf="@+id/tv_city"
             card_view:layout_constraintTop_toTopOf="@+id/tv_city"
-            card_view:srcCompat="@drawable/ic_warning_black_24dp"
+            card_view:srcCompat="@drawable/ic_round_warning_24"
             tools:visibility="visible" />
 
         <ImageView
@@ -100,7 +100,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:contentDescription="@string/icono_tiempo"
-            android:src="@drawable/ic_date"
+            android:src="@drawable/ic_round_date_range_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/divider" />
 
@@ -161,7 +161,7 @@
             android:visibility="visible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/barrier"
-            app:srcCompat="@drawable/ic_near_24dp" />
+            app:srcCompat="@drawable/ic_round_near_me_24" />
 
         <TextView
             android:id="@+id/tv_titulo_gms"
@@ -212,7 +212,7 @@
             android:contentDescription="@string/icono_epicentro"
             app:layout_constraintStart_toStartOf="@+id/guia_vertical"
             app:layout_constraintTop_toBottomOf="@+id/divider"
-            card_view:srcCompat="@drawable/ic_adjust_24dp" />
+            card_view:srcCompat="@drawable/ic_round_adjust_24" />
 
         <TextView
             android:id="@+id/tv_titulo_epicentro"
@@ -251,7 +251,7 @@
             android:contentDescription="@string/icono_escala"
             app:layout_constraintStart_toStartOf="@+id/guia_vertical"
             app:layout_constraintTop_toTopOf="@+id/barrier"
-            card_view:srcCompat="@drawable/ic_show_chart_black_24dp" />
+            card_view:srcCompat="@drawable/ic_round_scale_24" />
 
         <TextView
             android:id="@+id/tv_titulo_escala"

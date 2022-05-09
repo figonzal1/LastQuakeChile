@@ -48,8 +48,8 @@
         android:id="@+id/tv_reference"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginEnd="16dp"
         android:layout_marginStart="4dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="4dp"
         android:ellipsize="end"
         android:maxLines="1"
@@ -90,7 +90,7 @@
         card_view:layout_constraintHorizontal_bias="0.0"
         card_view:layout_constraintStart_toEndOf="@+id/tv_city"
         card_view:layout_constraintTop_toTopOf="@+id/tv_city"
-        card_view:srcCompat="@drawable/ic_warning_black_24dp"
+        card_view:srcCompat="@drawable/ic_round_warning_24"
         tools:visibility="visible" />
 
     <View
