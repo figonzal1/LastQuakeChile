@@ -93,4 +93,9 @@
     <string name="io_error">Check your internet connection</string>
     <string name="icon_ad_app">Icon ad app</string>
     <string name="snackbar_retry">Retry</string>
+    <string name="version_key">version</string>
+    <string name="about_msg">LastQuakeChile, allows you to quickly view the latest earthquakes in Chile</string>
+    <string name="contact_developer">Contact developer</string>
+    <string name="contact_summary">Suggestions? Problems?</string>
+    <string name="about">About</string>
 </resources>

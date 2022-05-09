@@ -1,16 +1,20 @@
 package cl.figonzal.lastquakechile.core.ui
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate.*
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SeekBarPreference
+import cl.figonzal.lastquakechile.BuildConfig
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.services.notifications.QuakesNotification
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
@@ -57,6 +61,24 @@ class SettingsActivity : AppCompatActivity() {
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
+
+            //VERSION
+            findPreference<Preference>(getString(R.string.version_key)).apply {
+                this?.summary = BuildConfig.VERSION_NAME
+            }
+
+            //VERSION
+            findPreference<Preference>(getString(R.string.contact_key))?.setOnPreferenceClickListener {
+                Intent(Intent.ACTION_SENDTO).apply {
+                    data = Uri.parse(getString(R.string.mail_to_felipe))
+
+                    if (resolveActivity(requireActivity().packageManager) != null) {
+                        startActivity(this)
+                    }
+                }
+
+                true
+            }
 
             //QUAKE LIMIT PREFERENCE
             seekBarPreference =

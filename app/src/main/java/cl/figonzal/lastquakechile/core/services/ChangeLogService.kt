@@ -46,7 +46,7 @@ class ChangeLogService(
         Timber.d("${context.getString(R.string.VERSION_CODE_APP)}$versionCode")
 
         when {
-            sharedVersionCode < versionCode -> {
+            sharedVersionCode < versionCode && sharedVersionCode != 0 -> {
 
                 showBottomDialog()
                 Timber.d(context.getString(R.string.NEW_VERSION_DETECTED))
