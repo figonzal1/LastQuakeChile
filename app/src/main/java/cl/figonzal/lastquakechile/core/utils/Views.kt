@@ -111,7 +111,7 @@ fun ImageView.setStatusImage(
             setImageDrawable(
                 ContextCompat.getDrawable(
                     context,
-                    R.drawable.ic_progress_check_24
+                    R.drawable.ic_round_check_circle_outline_24
                 )
             )
         }
@@ -125,7 +125,7 @@ fun ImageView.setStatusImage(
             setImageDrawable(
                 ContextCompat.getDrawable(
                     context,
-                    R.drawable.ic_baseline_check_circle_24px
+                    R.drawable.ic_round_check_circle_24
                 )
             )
         }

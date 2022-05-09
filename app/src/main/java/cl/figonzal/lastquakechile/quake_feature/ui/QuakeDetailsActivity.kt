@@ -181,7 +181,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
         //Muestra la flecha en toolbar para volver atras
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
-            setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24)
+            setHomeAsUpIndicator(R.drawable.ic_round_arrow_back_24)
         }
 
         handleBundles()

@@ -5,20 +5,9 @@
     tools:ignore="UnusedResources">
 
     <item
-        android:id="@+id/search_menu"
-        android:icon="@drawable/ic_search_white_24dp"
-        android:orderInCategory="1"
-        android:title="@string/search"
-        android:visible="false"
-        app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:showAsAction="ifRoom|collapseActionView" />
-
-    <group>
-        <item
-            android:id="@+id/settings_menu"
-            android:orderInCategory="4"
-            android:title="@string/settings"
-            app:showAsAction="never" />
-    </group>
+        android:id="@+id/settings_menu"
+        android:orderInCategory="4"
+        android:title="@string/settings"
+        app:showAsAction="never" />
 
 </menu>

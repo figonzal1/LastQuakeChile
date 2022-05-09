@@ -86,7 +86,7 @@
         card_view:layout_constraintHorizontal_chainStyle="packed"
         card_view:layout_constraintStart_toStartOf="parent"
         card_view:layout_constraintTop_toTopOf="@+id/tv_iw_is_verified"
-        card_view:srcCompat="@drawable/ic_baseline_check_circle_24px" />
+        card_view:srcCompat="@drawable/ic_round_check_circle_24" />
 
     <TextView
         android:id="@+id/tv_iw_is_verified"
