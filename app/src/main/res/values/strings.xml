@@ -157,7 +157,7 @@
     <string name="DEC">Diciembre</string>
     <string name="REPORT_FORMAT" formatted="false">%s %s</string>
     <string name="intent_chooser">Compartir sismos</string>
-    <string name="version">Versión </string>
+    <string name="version">Versión</string>
     <string name="qu_hay_de_nuevo_en_la_app">¿Qué hay de nuevo en la app?</string>
     <string name="solucionamos_el_problema">Solucionamos el problema</string>
     <string name="entendido">Entendido</string>
@@ -220,5 +220,12 @@
     <string name="GP_NOT_SUPPORTED" translatable="false">Not supported</string>
     <string name="UPDATE_MANAGER_FAILED" translatable="false">onResume updater manager failed</string>
     <string name="GOOGLE_MAP_ERROR_SNAPSHOT" translatable="false">Error screenshot map: %s</string>
+    <string name="about_msg">LastQuakeChile, te permite visualizar rápidamente los últimos sismos ocurridos en Chile</string>
+    <string name="version_key">versión</string>
+    <string name="contact_key" translatable="false">contact_email</string>
+    <string name="contact_developer">Contacto desarrollador</string>
+    <string name="contact_summary">¿Sugerencias? ¿Problemas?</string>
+    <string name="about">Acerca</string>
+    <string name="mail_to_felipe" translatable="false">mailto:felipe.gonzalezalarcon94@gmail.com</string>
 
 </resources>

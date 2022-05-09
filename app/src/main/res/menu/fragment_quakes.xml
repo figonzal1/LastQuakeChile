@@ -5,21 +5,13 @@
     tools:ignore="UnusedResources">
 
     <item
-        android:id="@+id/refresh_menu"
-        android:icon="@drawable/ic_refresh_white_24dp"
-        android:orderInCategory="2"
-        android:title="@string/refresh"
-        android:visible="false"
-        app:showAsAction="always|collapseActionView"
-        tools:ignore="AlwaysShowAction" />
-    <item
         android:id="@+id/search_menu"
         android:icon="@drawable/ic_search_white_24dp"
         android:orderInCategory="1"
         android:title="@string/search"
         android:visible="false"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:showAsAction="always|collapseActionView" />
+        app:showAsAction="ifRoom|collapseActionView" />
 
     <group>
         <item

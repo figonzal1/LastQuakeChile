@@ -93,4 +93,9 @@
     <string name="io_error">Revisa tu conexión a Internet</string>
     <string name="icon_ad_app">Icono publicidad</string>
     <string name="snackbar_retry">Recargar</string>
+    <string name="version_key">versión</string>
+    <string name="about_msg">LastQuakeChile, te permite visualizar rápidamente los últimos sismos ocurridos en Chile</string>
+    <string name="contact_developer">Contacto desarrollador</string>
+    <string name="contact_summary">¿Sugerencias? ¿Problemas?</string>
+    <string name="about">Acerca</string>
 </resources>

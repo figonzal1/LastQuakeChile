@@ -1,13 +1,16 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     app:key="preferenceScreen">
 
     <PreferenceCategory
-        app:iconSpaceReserved="false"
+        app:icon="@drawable/ic_round_list_24"
+        app:iconSpaceReserved="true"
         app:selectable="false"
         app:summary="@string/quake_list_number_pref_summary"
         app:title="@string/quake_list_number_pref_title">
+
         <SeekBarPreference
-            app:iconSpaceReserved="false"
+            app:iconSpaceReserved="true"
             app:key="@string/shared_pref_list_quake_limit"
             app:showSeekBarValue="true"
             app:useSimpleSummaryProvider="true" />
@@ -15,13 +18,14 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        app:icon="@drawable/ic_round_notifications_24"
         app:iconSpaceReserved="false"
         app:summary="@string/alert_pref_summary"
         app:title="@string/alert_pref_title">
 
         <SwitchPreferenceCompat
             app:defaultValue="true"
-            app:iconSpaceReserved="false"
+            app:iconSpaceReserved="true"
             app:key="@string/firebase_pref_key"
             app:summaryOff="@string/alert_pref_summary_off"
             app:summaryOn="@string/alert_pref_summary_on"
@@ -45,6 +49,31 @@
             app:summaryOn="@string/night_mode_manual_pref_summary_on"
             app:title="@string/night_mode_pref_title_switch"
             app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:icon="@drawable/ic_round_contact_support_24"
+        app:iconSpaceReserved="true"
+        app:title="@string/about">
+
+        <Preference
+            app:iconSpaceReserved="true"
+            app:summary="@string/about_msg" />
+
+        <Preference
+            app:allowDividerAbove="true"
+            app:iconSpaceReserved="true"
+            app:key="@string/version_key"
+            app:title="@string/version"
+            tools:summary="3.5" />
+
+        <Preference
+            app:allowDividerAbove="true"
+            app:iconSpaceReserved="true"
+            app:key="@string/contact_key"
+            app:summary="@string/contact_summary"
+            app:title="@string/contact_developer" />
 
     </PreferenceCategory>
 

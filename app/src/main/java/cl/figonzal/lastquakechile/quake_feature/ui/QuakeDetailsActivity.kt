@@ -87,7 +87,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
             }
             .withAdListener(object : AdListener() {
 
-                override fun onAdFailedToLoad(p0: LoadAdError?) {
+                override fun onAdFailedToLoad(p0: LoadAdError) {
                     Timber.e("Failed to load native ad with error $p0")
                 }
 
@@ -167,10 +167,6 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
         when {
             vc?.hasVideoContent() == true -> vc.videoLifecycleCallbacks =
                 object : VideoController.VideoLifecycleCallbacks() {
-                    override fun onVideoEnd() {
-                        //refreshAd()
-                        super.onVideoEnd()
-                    }
                 }
             else -> {
                 //refreshAd()

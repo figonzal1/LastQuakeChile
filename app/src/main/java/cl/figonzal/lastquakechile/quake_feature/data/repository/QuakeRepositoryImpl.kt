@@ -32,11 +32,11 @@ class QuakeRepositoryImpl(
 
         try {
             localDataSource.deleteAll()
-            remoteDataSource.getQuakes(limit).onEach {
+            remoteDataSource.getQuakes(limit)?.onEach {
                 //store remote result in cache
                 localDataSource.insert(it)
 
-            }.map { it.toDomainQuake() }
+            }?.map { it.toDomainQuake() }
 
             cacheList = localDataSource.getQuakes().map { it.toDomainQuake() }
 

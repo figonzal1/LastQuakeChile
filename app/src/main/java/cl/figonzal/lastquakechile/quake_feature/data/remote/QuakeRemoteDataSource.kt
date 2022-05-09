@@ -6,10 +6,10 @@ class QuakeRemoteDataSource(
     private val quakeAPI: QuakeAPI
 ) {
 
-    suspend fun getQuakes(limit: Int): List<QuakeEntity> {
+    suspend fun getQuakes(limit: Int): List<QuakeEntity>? {
 
         val call = quakeAPI.listQuakes(limit)
 
-        return call.body()?.quakes?.map { it.toQuakeEntity() }!!
+        return call.body()?.quakes?.map { it.toQuakeEntity() }
     }
 }
