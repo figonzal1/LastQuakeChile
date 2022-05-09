@@ -13,8 +13,8 @@ class MainFragmentStateAdapter(fa: FragmentActivity, context: Context) : Fragmen
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> QuakeFragment.newInstance()
-            1 -> AdMobFragment.newInstance()
+            0 -> AdMobFragment.newInstance()
+            1 -> QuakeFragment.newInstance()
             2 -> MapsFragment.newInstance()
             else -> ReportsFragment.newInstance()
         }
@@ -29,8 +29,8 @@ class MainFragmentStateAdapter(fa: FragmentActivity, context: Context) : Fragmen
     }
 
     init {
-        tabs[0] = context.getString(R.string.tab_list)
-        tabs[1] = ""
+        tabs[0] = ""
+        tabs[1] = context.getString(R.string.tab_list)
         tabs[2] = context.getString(R.string.tab_map)
         tabs[3] = context.getString(R.string.tab_reports)
     }

@@ -13,6 +13,10 @@ import androidx.core.content.FileProvider
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Coordinates
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import com.google.android.material.tabs.TabLayout
 import timber.log.Timber
 import java.io.File
@@ -340,3 +344,23 @@ fun TabLayout.setTabWidthAsWrapContent(tabPosition: Int) {
     layoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT
     layout.layoutParams = layoutParams
 }
+
+/**
+ * Load image to imageView from URL
+ *
+ * @param url
+ * @param imageView
+ * @return
+ */
+fun Context.loadImage(url: Int, imageView: ImageView) = Glide.with(this)
+    .load(url)
+    .centerCrop()
+    .error(R.drawable.not_found)
+    .placeholder(R.drawable.placeholder)
+    .transition(
+        DrawableTransitionOptions.withCrossFade(
+            DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build()
+        )
+    )
+    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+    .into(imageView)

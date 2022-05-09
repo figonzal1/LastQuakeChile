@@ -40,7 +40,7 @@ class AdMobFragment : Fragment() {
 
     @SuppressLint("MissingPermission")
     private fun refreshAd(container: ViewGroup?) {
-        AdLoader.Builder(requireContext(), getString(R.string.ADMOB_ID_NATIVE))
+        AdLoader.Builder(requireContext(), getString(R.string.ADMOB_ID_NATIVE_FRAGMENT))
             .forNativeAd { nativeAd ->
 
                 if (isDetached || isRemoving) {
@@ -71,7 +71,9 @@ class AdMobFragment : Fragment() {
                     binding.progressBar.visibility = View.GONE
                 }
 
-                override fun onAdFailedToLoad(p0: LoadAdError?) {
+                override fun onAdFailedToLoad(p0: LoadAdError) {
+                    binding.progressBar.visibility = View.GONE
+                    binding.includeNoWifi.root.visibility = View.VISIBLE
                     Timber.e("Failed to load native ad with error $p0")
                 }
 
@@ -150,10 +152,6 @@ class AdMobFragment : Fragment() {
         when {
             vc?.hasVideoContent() == true -> vc.videoLifecycleCallbacks =
                 object : VideoController.VideoLifecycleCallbacks() {
-                    override fun onVideoEnd() {
-                        //refreshAd()
-                        super.onVideoEnd()
-                    }
                 }
             else -> {
                 //refreshAd()

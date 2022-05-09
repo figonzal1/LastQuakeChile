@@ -4,14 +4,12 @@ package cl.figonzal.lastquakechile.core.ui
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.preference.PreferenceManager
 import cl.figonzal.lastquakechile.R
@@ -20,18 +18,8 @@ import cl.figonzal.lastquakechile.core.services.GooglePlayService
 import cl.figonzal.lastquakechile.core.services.NightModeService
 import cl.figonzal.lastquakechile.core.services.UpdaterService
 import cl.figonzal.lastquakechile.core.services.notifications.QuakesNotification
-import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
-import cl.figonzal.lastquakechile.core.utils.getFirebaseToken
-import cl.figonzal.lastquakechile.core.utils.setTabWidthAsWrapContent
-import cl.figonzal.lastquakechile.core.utils.startAds
+import cl.figonzal.lastquakechile.core.utils.*
 import cl.figonzal.lastquakechile.databinding.ActivityMainBinding
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.Target
 import com.google.android.gms.ads.AdView
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayout
@@ -92,7 +80,7 @@ class MainActivity : AppCompatActivity() {
         setToolbarViewPagerTabs()
 
         //Setear imagen de toolbar
-        loadImageToolbar()
+        loadImage(R.drawable.foto, binding.toolbarLayout.toolbarImage)
     }
 
     private fun setUpNotificationService(sharedPrefUtil: SharedPrefUtil) {
@@ -139,25 +127,29 @@ class MainActivity : AppCompatActivity() {
                 tab.text = MainFragmentStateAdapter.tabs[position]
 
                 when (position) {
-                    0 -> tab.setIcon(R.drawable.ic_quakes_24dp)
-                    1 -> tab.setIcon(R.drawable.ic_round_campaign_24)
+                    0 -> {
+                        tab.setIcon(R.drawable.ic_round_campaign_24)
+                        hideAdBanner(true)
+                    }
+                    1 -> tab.setIcon(R.drawable.ic_quakes_24dp)
                     2 -> tab.setIcon(R.drawable.ic_round_place_24)
                     3 -> tab.setIcon(R.drawable.ic_round_analytics_24)
                 }
             }.attach()
 
-            tabLayout.setTabWidthAsWrapContent(1)
+
+            tabLayout.setTabWidthAsWrapContent(0)
 
             tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab) {
 
                     when (tab.position) {
-                        1 -> hideAdBanner(true)
+                        0 -> hideAdBanner(true)
                         else -> hideAdBanner(false)
                     }
 
                     when {
-                        tab.position != 1 || tab.position != 2 -> appBar.setExpanded(false)
+                        tab.position != 0 || tab.position != 2 -> appBar.setExpanded(false)
                         else -> appBar.setExpanded(true)
                     }
                 }
@@ -173,52 +165,6 @@ class MainActivity : AppCompatActivity() {
         binding.adViewContainer.visibility = when (hide) {
             true -> View.GONE
             false -> View.VISIBLE
-        }
-    }
-
-
-    /**
-     * Funcion encargada de cargar la imagen de fondo en el toolbar
-     */
-    private fun loadImageToolbar() {
-
-        with(binding.toolbarLayout.toolbarImage) {
-
-            Glide.with(this)
-                .load(R.drawable.foto)
-                .apply(
-                    RequestOptions()
-                        .placeholder(R.drawable.placeholder)
-                        .error(R.drawable.not_found)
-                )
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .listener(object : RequestListener<Drawable?> {
-                    override fun onLoadFailed(
-                        e: GlideException?, model: Any,
-                        target: Target<Drawable?>,
-                        isFirstResource: Boolean
-                    ): Boolean {
-
-                        setImageDrawable(
-                            ContextCompat.getDrawable(
-                                applicationContext,
-                                R.drawable.not_found
-                            )
-                        )
-                        return false
-                    }
-
-                    //No es necesario usarlo (If u want)
-                    override fun onResourceReady(
-                        resource: Drawable?, model: Any,
-                        target: Target<Drawable?>,
-                        dataSource: DataSource,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        return false
-                    }
-                })
-                .into(this@with)
         }
     }
 

@@ -24,6 +24,9 @@
 
         <!-- Material Button Dark Style -->
         <item name="materialButtonStyle">@style/Widget.App.Button</item>
+
+        <!-- Snackbar style -->
+        <item name="snackbarStyle">@style/Widget.App.Snackbar</item>
     </style>
 
     <!-- Button dark style -->
@@ -48,6 +51,16 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
         <item name="colorOnPrimary">@color/colorOnSurface</item>
+    </style>
+
+    <style name="Widget.App.Snackbar" parent="Widget.MaterialComponents.Snackbar">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Snackbar</item>
+        <item name="actionTextColorAlpha">1</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Snackbar" parent="">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorOnSurface">@color/white</item>
     </style>
 
 

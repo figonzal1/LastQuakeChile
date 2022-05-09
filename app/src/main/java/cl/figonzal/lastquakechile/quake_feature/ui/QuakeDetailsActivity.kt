@@ -64,7 +64,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     @SuppressLint("MissingPermission")
     private fun refreshAd() {
-        AdLoader.Builder(this, getString(R.string.ADMOB_ID_NATIVE))
+        AdLoader.Builder(this, getString(R.string.ADMOB_ID_NATIVE_DETAILS))
             .forNativeAd { nativeAd ->
 
                 if (isDestroyed || isFinishing || isChangingConfigurations) {
