@@ -35,7 +35,8 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        app:iconSpaceReserved="false"
+        app:icon="@drawable/ic_round_mode_night_24"
+        app:iconSpaceReserved="true"
         app:isPreferenceVisible="false"
         app:key="@string/night_mode_category_key"
         app:summary="@string/night_mode_pref_summary"
@@ -43,7 +44,7 @@
 
         <SwitchPreferenceCompat
             app:defaultValue="false"
-            app:iconSpaceReserved="false"
+            app:iconSpaceReserved="true"
             app:key="@string/night_mode_key"
             app:summaryOff="@string/night_mode_manual_pref_summary_off"
             app:summaryOn="@string/night_mode_manual_pref_summary_on"
