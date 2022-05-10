@@ -29,8 +29,8 @@ android {
         applicationId "cl.figonzal.lastquakechile"
         minSdkVersion 23
         targetSdkVersion 31
-        versionCode 31
-        versionName "1.6.0-beta"
+        versionCode 32
+        versionName "1.6"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         Properties properties = new Properties()
