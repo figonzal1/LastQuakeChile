@@ -63,7 +63,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="-16dp"
-        android:fitsSystemWindows="true"
+        android:paddingBottom="24dp"
         app:cardCornerRadius="24dp"
         app:cardElevation="4dp"
         app:layout_anchor="@id/app_bar"
