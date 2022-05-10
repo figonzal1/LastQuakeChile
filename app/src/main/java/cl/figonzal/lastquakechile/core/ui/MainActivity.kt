@@ -25,6 +25,7 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import timber.log.Timber
 
 
@@ -70,8 +71,8 @@ class MainActivity : AppCompatActivity() {
         adView = startAds(binding.adViewContainer)
 
         //Updater service
-        //updaterService = UpdaterService(this, AppUpdateManagerFactory.create(this))
-        //updaterService!!.checkAvailability()
+        updaterService = UpdaterService(this, AppUpdateManagerFactory.create(this))
+        updaterService!!.checkAvailability()
 
         //Creacion de canal de notificaciones para sismos y para changelogs (Requerido para API >26)
         setUpNotificationService(sharedPrefUtil)
@@ -208,6 +209,7 @@ class MainActivity : AppCompatActivity() {
     public override fun onResume() {
         super.onResume()
         adView.resume()
+        updaterService?.resumeUpdater()
     }
 
     /** Called before the activity is destroyed  */
