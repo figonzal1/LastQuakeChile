@@ -52,12 +52,15 @@
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/drawable/ic_warning_black_24dp.xml" value="0.329" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/drawable/round_badge.xml" value="0.329" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/layout-night/info_windows.xml" value="0.11197916666666667" />
+        <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/layout/activity_quake_details.xml" value="0.2546875" />
+        <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/layout/ad_mob_fragment_template.xml" value="0.36666666666666664" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/layout/card_view_quake.xml" value="0.36666666666666664" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/layout/card_view_quake_detail.xml" value="0.22916666666666666" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/layout/card_view_reports.xml" value="0.2546875" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/layout/changelog_dialog.xml" value="0.11197916666666667" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/layout/fragment_ad_mob.xml" value="0.36666666666666664" />
+        <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/layout/fragment_maps.xml" value="0.36666666666666664" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/layout/fragment_quake.xml" value="0.36666666666666664" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/layout/fragment_reports.xml" value="0.36666666666666664" />
         <entry key="..\:/figon/GithubProjects/LastQuakeChile/app/src/main/res/layout/info_windows.xml" value="0.23229166666666667" />
