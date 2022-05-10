@@ -21,8 +21,9 @@ class ChangeLogService(
     private var versionCode: Int = BuildConfig.VERSION_CODE
     private val version = context.getString(R.string.version) + BuildConfig.VERSION_NAME
     private val listImprovements = listOf(
-        "- Se agrega menu de configuración",
-        "- Actualizaciones internas necesarias"
+        "- Nueva interfaz, mucho más moderna",
+        "- Soporte para Android 12",
+        "- Mejoras y correcciones de bugs"
     )
 
     override fun onCreate(owner: LifecycleOwner) {
