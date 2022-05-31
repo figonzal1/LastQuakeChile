@@ -31,6 +31,8 @@
 
 This is the repository of the **LastQuakeChile application - Earthquakes in Chile**
 
+<a href="https://play.google.com/store/apps/details?id=cl.figonzal.lastquakechile"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" height="75"></a>
+
 # Description
 
 **LastQuakeChile**, is an information and seismic alert system, where you can review the last 15
@@ -43,4 +45,4 @@ earthquake simply by pressing the notification.
 
 # Screenshots
 
-<img src="https://github.com/figonzal1/LastQuakeChile/blob/development/screenshots/Screenshot_20200723-170943.jpg" width="216" height="384"> <img src="https://github.com/figonzal1/LastQuakeChile/blob/development/screenshots/Screenshot_20200723-170953.jpg" width="216" height="384"> <img src="https://github.com/figonzal1/LastQuakeChile/blob/development/screenshots/Screenshot_20200723-170959.jpg" width="216" height="384"> <img src="https://github.com/figonzal1/LastQuakeChile/blob/development/screenshots/Screenshot_20200722-190930.jpg" width="216" height="384"> <img src="https://github.com/figonzal1/LastQuakeChile/blob/development/screenshots/Screenshot_20200723-171036.jpg" width="216" height="384"> <img src="https://github.com/figonzal1/LastQuakeChile/blob/development/screenshots/Screenshot_20200723-171011.jpg" width="216" height="384"> <img src="https://github.com/figonzal1/LastQuakeChile/blob/development/screenshots/Screenshot_20200723-171005.jpg" width="216" height="384"> <img src="https://github.com/figonzal1/LastQuakeChile/blob/development/screenshots/Screenshot_20190603-10254.jpg" width="216" height="384">
+<img src="https://github.com/figonzal1/LastQuakeChile/blob/main/screenshots/Screenshot_20220510-152928_LastQuakeChile.jpg" width="216" height="420"> <img src="https://github.com/figonzal1/LastQuakeChile/blob/main/screenshots/Screenshot_20220510-152935_LastQuakeChile.jpg" width="216" height="420"> <img src="https://github.com/figonzal1/LastQuakeChile/blob/main/screenshots/Screenshot_20220510-152943_LastQuakeChile.jpg" width="216" height="420"> <img src="https://github.com/figonzal1/LastQuakeChile/blob/main/screenshots/Screenshot_20220510-153014_LastQuakeChile.jpg" width="216" height="420"> <img src="https://github.com/figonzal1/LastQuakeChile/blob/main/screenshots/Screenshot_20220510-153024_LastQuakeChile.jpg" width="216" height="420"> <img src="https://github.com/figonzal1/LastQuakeChile/blob/main/screenshots/Screenshot_20220510-153002_LastQuakeChile.jpg" width="216" height="420"> <img src="https://github.com/figonzal1/LastQuakeChile/blob/main/screenshots/Screenshot_20220510-152950_LastQuakeChile.jpg" width="216" height="420"> <img src="https://github.com/figonzal1/LastQuakeChile/blob/main/screenshots/Screenshot_20190603-10254.jpg" width="216" height="420"> 
