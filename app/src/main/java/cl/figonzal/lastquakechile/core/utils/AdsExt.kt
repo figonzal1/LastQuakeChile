@@ -37,7 +37,7 @@ fun Activity.startAds(frameLayout: FrameLayout): AdView {
 fun AdView.loadAnchored(activity: Activity) {
 
     //getAdSize
-    adSize = anchoredAddSize(this, activity)
+    setAdSize(anchoredAddSize(this, activity))
 
     adUnitId = activity.getString(R.string.ADMOB_ID_BANNER)
 
@@ -62,22 +62,25 @@ fun AdView.loadAnchored(activity: Activity) {
 
 private fun anchoredAddSize(adView: AdView, activity: Activity): AdSize {
 
+    @Suppress("DEPRECATION")
     val display = when {
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.R -> activity.display
         else -> activity.windowManager.defaultDisplay
     }
 
-    val outMetrics = DisplayMetrics()
-    display?.getMetrics(outMetrics)
+    with(DisplayMetrics()) {
+        @Suppress("DEPRECATION")
+        display?.getMetrics(this)
 
-    val density = outMetrics.density
+        val density = this.density
 
-    var adWidthPixels = adView.width.toFloat()
-    if (adWidthPixels == 0f) {
-        adWidthPixels = outMetrics.widthPixels.toFloat()
+        var adWidthPixels = adView.width.toFloat()
+        if (adWidthPixels == 0f) {
+            adWidthPixels = this.widthPixels.toFloat()
+        }
+
+        val adWidth = (adWidthPixels / density).toInt()
+        return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(activity, adWidth)
     }
-
-    val adWidth = (adWidthPixels / density).toInt()
-    return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(activity, adWidth)
 }
 
