@@ -10,25 +10,25 @@ import cl.figonzal.lastquakechile.reports_feature.data.local.entity.ReportEntity
 import cl.figonzal.lastquakechile.reports_feature.data.local.entity.ReportWithQuakeCityEntity
 
 @Dao
-abstract class ReportDAO {
+interface ReportDAO {
 
     @Insert(onConflict = REPLACE)
-    abstract fun insertReport(report: ReportEntity): Long
+    suspend fun insertReport(report: ReportEntity): Long
 
     @Insert(onConflict = REPLACE)
-    abstract fun insertAll(topCities: List<QuakeCityEntity>)
+    suspend fun insertAll(topCities: List<QuakeCityEntity>)
 
     @Query("Delete from reportentity")
-    abstract fun deleteAllReportEntity()
+    suspend fun deleteAllReportEntity()
 
     @Query("Delete from quakecityentity")
-    abstract fun deleteAllQuakeCityEntity()
+    suspend fun deleteAllQuakeCityEntity()
 
     @Transaction
     @Query("SELECT * FROM reportentity")
-    abstract fun getReport(): List<ReportWithQuakeCityEntity>
+    fun getReports(): List<ReportWithQuakeCityEntity>
 
-    fun insert(reportWithQuakeCitiesEntity: ReportWithQuakeCityEntity) {
+    suspend fun insert(reportWithQuakeCitiesEntity: ReportWithQuakeCityEntity) {
 
         val reportID = insertReport(reportWithQuakeCitiesEntity.report)
 
@@ -39,7 +39,7 @@ abstract class ReportDAO {
         insertAll(reportWithQuakeCitiesEntity.topCities)
     }
 
-    fun deleteAll() {
+    suspend fun deleteAll() {
         deleteAllQuakeCityEntity()
         deleteAllReportEntity()
     }

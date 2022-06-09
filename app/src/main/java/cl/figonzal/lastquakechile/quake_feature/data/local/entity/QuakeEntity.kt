@@ -10,7 +10,7 @@ import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
 @Entity
-class QuakeEntity(
+data class QuakeEntity(
     @PrimaryKey val id: Long? = null,
     val quakeCode: Int? = null,
     val utcDate: String,

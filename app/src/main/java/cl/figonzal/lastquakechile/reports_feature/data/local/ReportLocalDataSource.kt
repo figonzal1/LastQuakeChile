@@ -8,14 +8,14 @@ class ReportLocalDataSource(
 ) {
 
     fun getReports(): List<ReportWithQuakeCityEntity> {
-        return reportDAO.getReport()
+        return reportDAO.getReports()
     }
 
-    fun insert(reportEntity: ReportWithQuakeCityEntity) {
+    suspend fun insert(reportEntity: ReportWithQuakeCityEntity) {
         reportDAO.insert(reportEntity)
     }
 
-    fun deleteAll() {
+    suspend fun deleteAll() {
         reportDAO.deleteAll()
     }
 }
