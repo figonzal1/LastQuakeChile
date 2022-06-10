@@ -6,8 +6,8 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.ui.dialog.MapTerrainDialogFragment
 import cl.figonzal.lastquakechile.core.utils.*
@@ -50,18 +50,14 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener,
         mapView = binding.mapView
         mapView.onCreate(savedInstanceState)
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
 
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-
-                launch {
-                    viewModel.quakeState.collect {
-                        quakeList = it.quakes
-
-                        Timber.d(getString(R.string.FRAGMENT_LOAD_LIST))
-                    }
+            viewModel.quakeState
+                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collect {
+                    quakeList = it.quakes
+                    Timber.d(getString(R.string.FRAGMENT_LOAD_LIST))
                 }
-            }
         }
 
         return binding.root
@@ -156,8 +152,8 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener,
                 String.format(getString(R.string.profundidad_info_windows), quake.depth)
 
             ivIwMagColor.setColorFilter(
-                requireContext().getColor(
-                    getMagnitudeColor(quake.magnitude, false)
+                resources.getColor(
+                    getMagnitudeColor(quake.magnitude, false), requireActivity().theme
                 )
             )
 

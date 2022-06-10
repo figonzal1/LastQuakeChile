@@ -27,7 +27,7 @@ data class ReportDTO(
             reportMonth = mes_reporte,
             nSensitive = n_sensibles,
             nQuakes = n_sismos,
-            promMagnitud = prom_magnitud,
+            promMagnitude = prom_magnitud,
             promDepth = prom_profundidad,
             maxMagnitude = max_magnitud,
             minDepth = min_profundidad

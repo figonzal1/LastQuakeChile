@@ -32,7 +32,7 @@ class QuakeViewModelTest {
     }
 
     @Test
-    fun `return list with size equal to 1`() = runTest {
+    fun `limit 3 should return quakeStatus with list size equal to 3`() = runTest {
 
         with(QuakeViewModel(GetQuakesUseCase(FakeQuakeRepository(dispatcher), 3))) {
 
@@ -40,15 +40,16 @@ class QuakeViewModelTest {
 
             val job = launch(dispatcher) {
 
-                val result = quakeState.drop(2).first()
-                assertThat(result.quakes.size).isEqualTo(3)
+                //Drop init state flow & loading resource state
+                val resultState: QuakeState = quakeState.drop(2).first()
+                assertThat(resultState.quakes.size).isEqualTo(3)
             }
             job.cancel()
         }
     }
 
     @Test
-    fun `return emptyList`() = runTest {
+    fun `limit 0 should return quakeStatus with empty List`() = runTest {
         with(QuakeViewModel(GetQuakesUseCase(FakeQuakeRepository(dispatcher), 0))) {
 
             getQuakes()
@@ -60,5 +61,22 @@ class QuakeViewModelTest {
             }
             job.cancel()
         }
+    }
+
+    @Test
+    fun `network error should activate errorStatus`() = runTest {
+        val fakeRepo = FakeQuakeRepository(dispatcher)
+        fakeRepo.shouldReturnNetworkError = true
+
+        val viewModel = QuakeViewModel(GetQuakesUseCase(fakeRepo, 3))
+
+        viewModel.getQuakes()
+
+        val job = launch(dispatcher) {
+            val result = viewModel.errorStatus.first()
+            assertThat(result).isEqualTo("Test network error")
+        }
+
+        job.cancel()
     }
 }

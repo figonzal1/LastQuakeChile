@@ -4,7 +4,7 @@ data class Report(
     val reportMonth: String,
     val nSensitive: Int,
     val nQuakes: Int,
-    val promMagnitud: Double,
+    val promMagnitude: Double,
     val promDepth: Double,
     val maxMagnitude: Double,
     val minDepth: Double,

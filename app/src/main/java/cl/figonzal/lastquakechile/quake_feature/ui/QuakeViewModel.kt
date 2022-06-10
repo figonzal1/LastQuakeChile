@@ -2,7 +2,7 @@ package cl.figonzal.lastquakechile.quake_feature.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cl.figonzal.lastquakechile.core.Resource
+import cl.figonzal.lastquakechile.core.utils.Resource
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import cl.figonzal.lastquakechile.quake_feature.domain.uses_cases.GetQuakesUseCase
 import kotlinx.coroutines.channels.Channel

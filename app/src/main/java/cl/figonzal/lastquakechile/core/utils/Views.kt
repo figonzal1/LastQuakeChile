@@ -4,6 +4,9 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -26,8 +29,7 @@ import java.util.*
 import kotlin.math.floor
 
 /**
- * Funcion encargada de setear los colores de background
- * dependiendo de la magnitud del sismo
+ * Function that sets backgrund colors depending on the magnitude of the earthquake
  *
  * @param magnitude Magnitud del sismo desde el cardview
  * @return id recurso desde colors.xml
@@ -94,20 +96,23 @@ private fun getColorResource(forMapa: Boolean, mMagFloor: Int): Int {
     }
 }
 
+fun ViewGroup.layoutInflater(layout: Int): View =
+    LayoutInflater.from(context).inflate(layout, this, false)
+
 /**
- * Funcion que permite setear la imagen de estado del sismos (Preliminar o Verificado)
+ * Function that lets set quake status image (Preliminary or Verified)
  *
- * @param estado    Estado del sismos (preliminar/verificado)
- * @param tv_estado Texview que tendrá el valor de estado
+ * @param state    Quake state
+ * @param tvState Texview that hold the value
  */
 fun ImageView.setStatusImage(
-    estado: Boolean,
-    tv_estado: TextView
+    state: Boolean,
+    tvState: TextView
 ) {
 
     when {
-        !estado -> {
-            tv_estado.text = String.format(
+        !state -> {
+            tvState.text = String.format(
                 Locale.US,
                 context.getString(R.string.quakes_details_estado_sismo),
                 context.getString(R.string.quakes_details_estado_sismo_preliminar)
@@ -119,9 +124,9 @@ fun ImageView.setStatusImage(
                 )
             )
         }
-        estado -> {
+        state -> {
 
-            tv_estado.text = String.format(
+            tvState.text = String.format(
                 Locale.US,
                 context.getString(R.string.quakes_details_estado_sismo),
                 context.getString(R.string.quakes_details_estado_sismo_verificado)

@@ -12,7 +12,7 @@ import androidx.core.app.NotificationCompat.BigTextStyle
 import androidx.core.app.NotificationCompat.Builder
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
-import cl.figonzal.lastquakechile.core.utils.notificate
+import cl.figonzal.lastquakechile.core.utils.notification
 import cl.figonzal.lastquakechile.quake_feature.data.remote.dto.QuakeDTO
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeDetailsActivity
 import com.google.android.gms.tasks.Task
@@ -143,7 +143,7 @@ class QuakesNotification(private val context: Context, private val sharedPrefUti
             }.also { intent ->
 
                 PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE).run {
-                    context.notificate(data, this)
+                    context.notification(data, this)
                 }
 
                 Timber.d(context.getString(R.string.TRY_INTENT_NOTIFICATION_1))

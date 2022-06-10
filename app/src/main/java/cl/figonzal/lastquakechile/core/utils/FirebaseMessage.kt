@@ -27,7 +27,7 @@ fun getFirebaseToken() {
         }
 }
 
-fun Context.notificate(data: ArrayList<Any>, pendingIntent: PendingIntent) {
+fun Context.notification(data: ArrayList<Any>, pendingIntent: PendingIntent) {
 
     NotificationCompat.Builder(
         this,
@@ -44,7 +44,7 @@ fun Context.notificate(data: ArrayList<Any>, pendingIntent: PendingIntent) {
             val quake = data[2] as Quake
 
             //Notify
-            (this@notificate.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(
+            (this@notification.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(
                 quake.quakeCode!!.toInt(),
                 build()
             )

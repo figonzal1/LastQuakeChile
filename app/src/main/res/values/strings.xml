@@ -2,6 +2,10 @@
     <string name="app_name" translatable="false">LastQuakeChile</string>
 
     <string name="ADMOB_MASTER_KEY" translatable="false">ca-app-pub-6355378855577476~7414287525</string>
+
+    <string name="ROOM_DB_NAME" translatable="false">lqch_database</string>
+    <string name="DEEP_LINK" translatable="false">https://lastquakechile.page.link/lqch</string>
+
     <!-- PROD AD-->
     <string name="ADMOB_ID_BANNER" translatable="false">ca-app-pub-6355378855577476/5493893896</string>
     <string name="ADMOB_ID_APPOPEN" translatable="false">ca-app-pub-6355378855577476/7856079761</string>
@@ -23,9 +27,6 @@
     <string name="tab_map">Mapa</string>
     <string name="tab_list">Sismos</string>
     <string name="tab_reports">Reportes</string>
-
-    <!-- URL SERVIDOR HEROKU -->
-    <string name="DEEP_LINK" translatable="false">https://lastquakechile.page.link/lqch</string>
 
     <!-- KEY DE JSON PARA PHP -->
     <!-- KEY PARA INTENT & NOTIFICACIONES -->
@@ -72,6 +73,13 @@
     <string name="shared_pref_actual_version_code" translatable="false">actual_v_code</string>
     <string name="night_mode_category_key" translatable="false">nigh_mode_pref_category</string>
     <string name="shared_report_cache" translatable="false">reports_cache_entry</string>
+
+    <!-- KEY INTENT -->
+    <string name="INTENT_KEY_COLOR_MAGNITUDE" translatable="false">color_magnitud</string>
+    <string name="INTENT_KEY_MAGNITUDE" translatable="false">magnitud</string>
+    <string name="INTENT_KEY_CITY" translatable="false">ciudad</string>
+    <string name="INTENT_KEY_REFERENCE" translatable="false">referencia</string>
+    <string name="INTENT_KEY_HOUR" translatable="false">hora</string>
 
 
     <!-- STRINGS DE LAYOUTS-->

@@ -184,11 +184,6 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
             setHomeAsUpIndicator(R.drawable.ic_round_arrow_back_24)
         }
 
-        handleBundles()
-    }
-
-    private fun handleBundles() {
-
         //Obtener datos desde intent
         quake = intent.extras?.get(getString(R.string.INTENT_QUAKE)) as Quake
 
@@ -197,7 +192,6 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun setTextViews() {
-
 
         supportActionBar?.title = quake.city
 

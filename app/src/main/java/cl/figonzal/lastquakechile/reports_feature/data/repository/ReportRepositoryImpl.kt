@@ -2,7 +2,7 @@ package cl.figonzal.lastquakechile.reports_feature.data.repository
 
 import android.app.Application
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.Resource
+import cl.figonzal.lastquakechile.core.utils.Resource
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.localDateTimeToString
 import cl.figonzal.lastquakechile.core.utils.stringToLocalDateTime

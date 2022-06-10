@@ -20,7 +20,7 @@ data class ReportWithQuakeCityEntity(
             reportMonth = report.reportMonth,
             nSensitive = report.nSensitive,
             nQuakes = report.nQuakes,
-            promMagnitud = report.promMagnitud,
+            promMagnitude = report.promMagnitude,
             promDepth = report.promDepth,
             maxMagnitude = report.maxMagnitude,
             minDepth = report.minDepth,

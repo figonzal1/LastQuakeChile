@@ -1,6 +1,6 @@
 package cl.figonzal.lastquakechile.quake_feature.data.repository
 
-import cl.figonzal.lastquakechile.core.Resource
+import cl.figonzal.lastquakechile.core.utils.Resource
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Coordinates
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import cl.figonzal.lastquakechile.quake_feature.domain.repository.QuakeRepository
@@ -63,7 +63,7 @@ class FakeQuakeRepository(
 
         when {
             shouldReturnNetworkError -> {
-                emit(Resource.Error("Network Error"))
+                emit(Resource.Error("Test network error"))
             }
             else -> {
                 emit(Resource.Success(quakeList.take(limit)))
