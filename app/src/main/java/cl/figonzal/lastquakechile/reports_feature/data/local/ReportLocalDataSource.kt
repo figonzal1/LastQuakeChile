@@ -11,11 +11,11 @@ class ReportLocalDataSource(
         return reportDAO.getReports()
     }
 
-    suspend fun insert(reportEntity: ReportWithQuakeCityEntity) {
+    fun insert(reportEntity: ReportWithQuakeCityEntity) {
         reportDAO.insert(reportEntity)
     }
 
-    suspend fun deleteAll() {
+    fun deleteAll() {
         reportDAO.deleteAll()
     }
 }

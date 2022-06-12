@@ -10,11 +10,11 @@ import cl.figonzal.lastquakechile.quake_feature.data.local.entity.QuakeEntity
 interface QuakeDAO {
 
     @Insert(onConflict = REPLACE)
-    suspend fun insertQuake(quake: QuakeEntity)
+    fun insertQuake(quake: QuakeEntity)
 
     @Query("SELECT * FROM quakeentity")
     fun getQuakes(): List<QuakeEntity>
 
     @Query("DELETE FROM quakeentity")
-    suspend fun deleteAll()
+    fun deleteAll(): Int
 }

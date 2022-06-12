@@ -10,11 +10,11 @@ class QuakeLocalDataSource(
         return quakeDAO.getQuakes()
     }
 
-    suspend fun insert(quake: QuakeEntity) {
+    fun insert(quake: QuakeEntity) {
         quakeDAO.insertQuake(quake)
     }
 
-    suspend fun deleteAll() {
+    fun deleteAll() {
         quakeDAO.deleteAll()
     }
 }

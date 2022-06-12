@@ -3,6 +3,7 @@ package cl.figonzal.lastquakechile.core
 import android.app.Application
 import cl.figonzal.lastquakechile.BuildConfig
 import cl.figonzal.lastquakechile.core.di.appModule
+import cl.figonzal.lastquakechile.core.di.intrumentationTestModule
 import cl.figonzal.lastquakechile.core.di.networkModule
 import cl.figonzal.lastquakechile.core.services.AppOpenService
 import cl.figonzal.lastquakechile.quake_feature.di.quakeModule
@@ -31,7 +32,7 @@ class ApplicationController : Application() {
             )
             androidContext(this@ApplicationController)
 
-            modules(appModule, networkModule, quakeModule, reportModule)
+            modules(appModule, networkModule, quakeModule, reportModule, intrumentationTestModule)
         }
 
         when {
