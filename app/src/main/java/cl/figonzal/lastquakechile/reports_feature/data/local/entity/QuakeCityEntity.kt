@@ -12,11 +12,8 @@ data class QuakeCityEntity(
     var idReport: Long? = null
 ) {
 
-    fun toDomainQuakeCity(): QuakeCity {
-
-        return QuakeCity(
-            city = city,
-            nQuakes = nQuakes
-        )
-    }
+    fun toDomainQuakeCity() = QuakeCity(
+        city = city,
+        nQuakes = nQuakes
+    )
 }

@@ -15,8 +15,7 @@ import timber.log.Timber
 class ChangeLogService(
     private val context: Context,
     private val sharedPrefUtil: SharedPrefUtil
-) :
-    DefaultLifecycleObserver {
+) : DefaultLifecycleObserver {
 
     private var versionCode: Int = BuildConfig.VERSION_CODE
     private val version = context.getString(R.string.version) + BuildConfig.VERSION_NAME
@@ -28,10 +27,6 @@ class ChangeLogService(
 
     override fun onCreate(owner: LifecycleOwner) {
         super.onCreate(owner)
-        checkChangeLogVersion()
-    }
-
-    private fun checkChangeLogVersion() {
         configChangeLog()
     }
 

@@ -36,9 +36,7 @@ class UpdaterService(
                         Timber.e(e, activity.getString(R.string.UPDATE_INTENT_FAILED))
                     }
                 }
-                else -> {
-                    Timber.d(activity.getString(R.string.UPDATE_NOT_AVAILABLE))
-                }
+                else -> Timber.d(activity.getString(R.string.UPDATE_NOT_AVAILABLE))
             }
         }
     }

@@ -47,7 +47,6 @@ class QuakeFragment : Fragment() {
     ): View {
         setHasOptionsMenu(true)
 
-        // Inflate the layout for thi{s fragment
         binding = FragmentQuakeBinding.inflate(inflater, container, false)
 
         bindingResources()
@@ -146,26 +145,19 @@ class QuakeFragment : Fragment() {
 
     }
 
-    private fun showSnackBar(string: String) {
-        Snackbar
-            .make(binding.root, string, Snackbar.LENGTH_INDEFINITE)
-            .setAction(getString(R.string.snackbar_retry)) {
+    private fun showSnackBar(string: String) = Snackbar
+        .make(binding.root, string, Snackbar.LENGTH_INDEFINITE)
+        .setAction(getString(R.string.snackbar_retry)) {
 
-                viewModel.getQuakes()
+            viewModel.getQuakes()
 
-                crashlytics.setCustomKey(
-                    getString(R.string.snackbar_error),
-                    true
-                )
-            }
-            .setActionTextColor(resources.getColor(R.color.colorSecondary, requireContext().theme))
-            .show()
-    }
+            crashlytics.setCustomKey(getString(R.string.snackbar_error), true)
+        }
+        .setActionTextColor(resources.getColor(R.color.colorSecondary, requireContext().theme))
+        .show()
 
     companion object {
         @JvmStatic
-        fun newInstance(): QuakeFragment {
-            return QuakeFragment()
-        }
+        fun newInstance() = QuakeFragment()
     }
 }

@@ -1,13 +1,12 @@
 package cl.figonzal.lastquakechile.core.utils
 
 import android.content.Context
-import android.content.SharedPreferences
 import androidx.core.content.edit
 import cl.figonzal.lastquakechile.R
 
 class SharedPrefUtil(context: Context) {
 
-    private val sharedPreferences: SharedPreferences = context.getSharedPreferences(
+    private val sharedPreferences = context.getSharedPreferences(
         context.getString(R.string.shared_pref_master_key),
         Context.MODE_PRIVATE
     )
@@ -35,18 +34,18 @@ class SharedPrefUtil(context: Context) {
      * Function that retrieve data from shared preferences
      *
      * @param key Key that store the data in shared preferences
-     * @param defaultvalue If the store value is inaccessible
+     * @param defaultValue If the store value is inaccessible
      * @return Any
      */
-    fun getData(key: String, defaultvalue: Any): Any {
+    fun getData(key: String, defaultValue: Any): Any {
 
         with(sharedPreferences) {
-            return when (defaultvalue) {
-                is Int -> getInt(key, defaultvalue)
-                is Boolean -> getBoolean(key, defaultvalue)
-                is Float -> getFloat(key, defaultvalue)
-                is Long -> getLong(key, defaultvalue)
-                else -> getString(key, defaultvalue as String)!!
+            return when (defaultValue) {
+                is Int -> getInt(key, defaultValue)
+                is Boolean -> getBoolean(key, defaultValue)
+                is Float -> getFloat(key, defaultValue)
+                is Long -> getLong(key, defaultValue)
+                else -> getString(key, defaultValue as String)!!
 
             }
         }

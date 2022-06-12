@@ -4,7 +4,7 @@ import androidx.annotation.Keep
 import cl.figonzal.lastquakechile.reports_feature.data.local.entity.ReportEntity
 
 /**
- * Here make changes if API for reports changes
+ * Here make changes if API for reports changes too
  */
 @Keep
 data class ReportDTO(
@@ -20,17 +20,13 @@ data class ReportDTO(
 ) {
 
     //Remember: DTO -> Entity -> Model domain
-
-    fun toReportEntity(): ReportEntity {
-
-        return ReportEntity(
-            reportMonth = mes_reporte,
-            nSensitive = n_sensibles,
-            nQuakes = n_sismos,
-            promMagnitude = prom_magnitud,
-            promDepth = prom_profundidad,
-            maxMagnitude = max_magnitud,
-            minDepth = min_profundidad
-        )
-    }
+    fun toReportEntity() = ReportEntity(
+        reportMonth = mes_reporte,
+        nSensitive = n_sensibles,
+        nQuakes = n_sismos,
+        promMagnitude = prom_magnitud,
+        promDepth = prom_profundidad,
+        maxMagnitude = max_magnitud,
+        minDepth = min_profundidad
+    )
 }

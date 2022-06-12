@@ -178,16 +178,13 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         setSupportActionBar(binding.includeToolbar.materialToolbar)
 
-        //Muestra la flecha en toolbar para volver atras
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
             setHomeAsUpIndicator(R.drawable.ic_round_arrow_back_24)
         }
 
-        //Obtener datos desde intent
         quake = intent.extras?.get(getString(R.string.INTENT_QUAKE)) as Quake
 
-        //Seteo de textview
         setTextViews()
     }
 
@@ -197,60 +194,47 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         with(binding.includeCvQuakeDetail) {
 
-            //Set city name
             tvCity.text = quake.city
 
-            //Setear mReferencia
             tvReference.text = quake.reference
 
-            //Setear mMagnitud en en circulo de color
             tvMagnitude.text =
                 String.format(getString(R.string.magnitud), quake.magnitude)
 
-            //Setear el color de background dependiendo de mMagnitud del sismo
             ivMagColor.setColorFilter(getColor(getMagnitudeColor(quake.magnitude, false)))
 
-            //Setear mProfundidad
             tvEpicentro.text =
                 String.format(getString(R.string.quake_details_profundidad), quake.depth)
 
-            //Setear fecha
             tvFecha.text =
                 quake.localDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
 
-            //Calculo de Grados,Minutos y segundos
             tvGms.formatDMS(quake.coordinates)
 
-            //Calcular hora
-            tvHour.setTimeToTextView(quake.localDate.localDateToDHMS())
+            tvHour.timeToText(quake)
 
-            //Scale
             tvEscala.setScale(quake.scale)
 
-            //sensitive
             ivSensitive.visibility = when {
                 quake.isSensitive -> View.VISIBLE
                 else -> View.GONE
             }
         }
 
-        //Calculo de estado
         binding.ivEstado.setStatusImage(quake.isVerified, binding.tvEstado)
     }
 
     override fun onMapReady(p0: GoogleMap) {
 
-        val quakeMagColor: Int = getColor(getMagnitudeColor(quake.magnitude, true))
+        val quakeMagColor = getColor(getMagnitudeColor(quake.magnitude, true))
         val greyAlpha = getColor(R.color.grey_dark_alpha)
 
         val latLong = LatLng(quake.coordinates.latitude, quake.coordinates.longitude)
 
-        //Circulo grande con color segun magnitud
         p0.apply {
 
             googleMap = p0
 
-            //NIght mode
             setNightMode(this@QuakeDetailsActivity)
 
             mapType = GoogleMap.MAP_TYPE_NORMAL
@@ -264,8 +248,6 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
             uiSettings.isMapToolbarEnabled = false
             uiSettings.isRotateGesturesEnabled = false
             uiSettings.isCompassEnabled = false
-
-
 
             addCircle {
                 center(latLong)

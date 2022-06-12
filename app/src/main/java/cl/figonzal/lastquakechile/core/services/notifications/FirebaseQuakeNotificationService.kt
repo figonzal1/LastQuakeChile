@@ -16,17 +16,16 @@ class FirebaseQuakeNotificationService : FirebaseMessagingService() {
         super.onCreate()
         crashlytics = FirebaseCrashlytics.getInstance()
         quakesNotification = QuakesNotification(
-            applicationContext, SharedPrefUtil(
-                applicationContext
-            )
+            applicationContext, SharedPrefUtil(applicationContext)
         )
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
+
         Timber.d("From: %s", remoteMessage.from)
 
-        //Si es notificacion con datos de sismos
+        //Notification with quake data
         if (remoteMessage.data.isNotEmpty()) {
 
             Timber.d("Message data payload: %s", remoteMessage.data)
@@ -35,7 +34,7 @@ class FirebaseQuakeNotificationService : FirebaseMessagingService() {
             quakesNotification?.showNotification(remoteMessage)
         }
 
-        //Si es notificacion desde consola FCM
+        //Notification from FCM
         if (remoteMessage.notification != null) {
             Timber.d(
                 "Message notification: " + remoteMessage.notification!!
@@ -49,9 +48,6 @@ class FirebaseQuakeNotificationService : FirebaseMessagingService() {
         }
     }
 
-    /**
-     * Funcion que muestra notificacion desde PHP
-     */
     override fun onNewToken(s: String) {
         super.onNewToken(s)
         Timber.d("Refresh token: %s", s)

@@ -16,7 +16,7 @@ import timber.log.Timber
 import java.io.IOException
 import java.util.*
 
-fun GoogleMap.cargarPines(quakeList: List<Quake>, context: Context) {
+fun GoogleMap.loadPins(quakeList: List<Quake>, context: Context) {
 
     for (quake in quakeList) {
 
@@ -43,45 +43,52 @@ fun GoogleMap.cargarPines(quakeList: List<Quake>, context: Context) {
     }
 }
 
+/**
+ * Night mode for google map
+ */
 fun GoogleMap.setNightMode(context: Context) {
 
-    //NIGHT MODE MAPA
+    //NIGHT MODE MAP
     val nightModeFlags =
         context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
 
     if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
         setMapStyle(
-            MapStyleOptions.loadRawResourceStyle(
-                context,
-                R.raw.map_night_mode
-            )
+            MapStyleOptions.loadRawResourceStyle(context, R.raw.map_night_mode)
         )
     }
 }
 
-fun calculatePromCords(quakeList: List<Quake>): LatLng {
-    var promLat = 0.0
-    var promLong = 0.0
+/**
+ * Calculate mean coordinates of quakeList
+ */
+fun calculateMeanCords(quakeList: List<Quake>): LatLng {
+    var meanLat = 0.0
+    var meanLong = 0.0
 
     quakeList.onEach {
-        promLat += it.coordinates.latitude
-        promLong += it.coordinates.longitude
+        meanLat += it.coordinates.latitude
+        meanLong += it.coordinates.longitude
     }
 
-    promLat /= quakeList.size.toDouble()
-    promLong /= quakeList.size.toDouble()
+    meanLat /= quakeList.size.toDouble()
+    meanLong /= quakeList.size.toDouble()
 
-    return LatLng(promLat, promLong)
+    return LatLng(meanLat, meanLong)
 }
 
+/**
+ * Animate circle
+ */
 fun Circle.animate(body: Circle.() -> Unit): Circle {
     body()
     return this
 }
 
+/**
+ * Google maps take snapshot
+ */
 fun Context.makeSnapshot(googleMap: GoogleMap, quake: Quake) {
-
-    //Tomar screenshot del mapa para posterior funcion de compartir
 
     googleMap.snapshot {
         try {
@@ -95,6 +102,7 @@ fun Context.makeSnapshot(googleMap: GoogleMap, quake: Quake) {
 
 }
 
+//TODO: Externalizar compartir sismo
 private fun Context.shareQuake(quake: Quake, bitMapUri: Uri?) {
     Intent().apply {
         action = Intent.ACTION_SEND

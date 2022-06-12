@@ -13,6 +13,9 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
+/**
+ * Koin sub module for report
+ */
 val reportModule = module {
 
     //Local DataSources Dependency
@@ -28,13 +31,7 @@ val reportModule = module {
 
     //Repository
     single<ReportRepository> {
-        ReportRepositoryImpl(
-            get(),
-            get(),
-            get(named("ioDispatcher")),
-            get(),
-            get()
-        )
+        ReportRepositoryImpl(get(), get(), get(named("ioDispatcher")), get(), get())
     }
 
     //getReportsUseCase

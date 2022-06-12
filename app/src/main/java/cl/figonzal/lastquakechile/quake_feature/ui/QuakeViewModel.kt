@@ -30,9 +30,7 @@ class QuakeViewModel(
                 when (it) {
 
                     is Resource.Loading -> {
-                        _quakeState.value = quakeState.value.copy(
-                            isLoading = true
-                        )
+                        _quakeState.value = quakeState.value.copy(isLoading = true)
                     }
 
                     is Resource.Success -> {

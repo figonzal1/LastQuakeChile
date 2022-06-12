@@ -5,7 +5,7 @@ import androidx.room.Ignore
 import cl.figonzal.lastquakechile.quake_feature.data.local.entity.QuakeEntity
 
 /**
- * Here make changes if API for reports changes
+ * Here make changes if API for quakes changes too
  */
 @Keep
 data class QuakeDTO(
@@ -26,22 +26,18 @@ data class QuakeDTO(
     private val estado: String
 ) {
 
-    //DTO -> Entity -> MOdel domain
-
-    fun toQuakeEntity(): QuakeEntity {
-
-        return QuakeEntity(
-            quakeCode = imagen_url?.toInt(),
-            utcDate = fecha_utc,
-            city = ciudad,
-            reference = referencia,
-            magnitude = magnitud,
-            depth = profundidad,
-            scale = escala,
-            latitude = latitud,
-            longitude = longitud,
-            isSensitive = sensible == "1",
-            isVerified = estado == "verificado"
-        )
-    }
+    //DTO -> Entity -> Model domain
+    fun toQuakeEntity() = QuakeEntity(
+        quakeCode = imagen_url?.toInt(),
+        utcDate = fecha_utc,
+        city = ciudad,
+        reference = referencia,
+        magnitude = magnitud,
+        depth = profundidad,
+        scale = escala,
+        latitude = latitud,
+        longitude = longitud,
+        isSensitive = sensible == "1",
+        isVerified = estado == "verificado"
+    )
 }

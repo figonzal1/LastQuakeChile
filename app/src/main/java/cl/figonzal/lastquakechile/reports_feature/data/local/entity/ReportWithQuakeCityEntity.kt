@@ -15,18 +15,16 @@ data class ReportWithQuakeCityEntity(
     )
     val topCities: List<QuakeCityEntity>
 ) {
-    fun toDomainReport(): Report {
-        return Report(
-            reportMonth = report.reportMonth,
-            nSensitive = report.nSensitive,
-            nQuakes = report.nQuakes,
-            promMagnitude = report.promMagnitude,
-            promDepth = report.promDepth,
-            maxMagnitude = report.maxMagnitude,
-            minDepth = report.minDepth,
-            topCities = topCities.map {
-                it.toDomainQuakeCity()
-            }
-        )
-    }
+    fun toDomainReport() = Report(
+        reportMonth = report.reportMonth,
+        nSensitive = report.nSensitive,
+        nQuakes = report.nQuakes,
+        promMagnitude = report.promMagnitude,
+        promDepth = report.promDepth,
+        maxMagnitude = report.maxMagnitude,
+        minDepth = report.minDepth,
+        topCities = topCities.map {
+            it.toDomainQuakeCity()
+        }
+    )
 }

@@ -9,12 +9,13 @@ import cl.figonzal.lastquakechile.quake_feature.data.repository.QuakeRepositoryI
 import cl.figonzal.lastquakechile.quake_feature.domain.repository.QuakeRepository
 import cl.figonzal.lastquakechile.quake_feature.domain.uses_cases.GetQuakesUseCase
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeViewModel
-import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
-
+/**
+ * Koin sub module for quakes
+ */
 val quakeModule = module {
 
     //Local DataSources Dependency
@@ -30,10 +31,9 @@ val quakeModule = module {
 
     //getQuakeUseCase
     factory {
-        GetQuakesUseCase(get(), provideLimitedList(androidContext()))
+        GetQuakesUseCase(get(), provideLimitedList(get()))
     }
 
     //viewModel
     viewModel { QuakeViewModel(get()) }
-
 }

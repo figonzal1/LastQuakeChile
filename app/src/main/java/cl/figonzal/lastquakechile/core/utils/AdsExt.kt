@@ -60,6 +60,9 @@ fun AdView.loadAnchored(activity: Activity) {
     loadAd(AdRequest.Builder().build())
 }
 
+/**
+ * Calculate add sizes for ad
+ */
 private fun anchoredAddSize(adView: AdView, activity: Activity): AdSize {
 
     @Suppress("DEPRECATION")

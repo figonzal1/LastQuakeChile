@@ -160,10 +160,7 @@ class AdMobFragment : Fragment() {
     }
 
     companion object {
-
-        fun newInstance(): AdMobFragment {
-            return AdMobFragment()
-        }
+        fun newInstance() = AdMobFragment()
     }
 
     override fun onDestroy() {

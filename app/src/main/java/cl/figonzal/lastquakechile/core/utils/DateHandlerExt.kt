@@ -30,7 +30,7 @@ fun LocalDateTime.localDateToDHMS(): Map<String, Long> {
 }
 
 /**
- * Lat or Long to Map<Degree,Hours,Miutes,Seconds>
+ * Lat or Long to Map<Degree,Hours,Minutes,Seconds>
  */
 fun Double.latLongToDMS(): Map<String, Double> {
 

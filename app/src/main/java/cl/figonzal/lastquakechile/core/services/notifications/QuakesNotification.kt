@@ -22,18 +22,24 @@ import com.google.firebase.messaging.RemoteMessage
 import timber.log.Timber
 import java.io.Serializable
 
-/**
- * Notificaciones de sismos con implementacion de Firebase
- */
-class QuakesNotification(private val context: Context, private val sharedPrefUtil: SharedPrefUtil) :
-    NotificationService {
+interface NotificationService {
+    fun createChannel()
+    fun showNotification(remoteMessage: RemoteMessage)
+}
 
-    private val crashlytics: FirebaseCrashlytics = FirebaseCrashlytics.getInstance()
+/**
+ * NotificationService implementation
+ */
+class QuakesNotification(
+    private val context: Context,
+    private val sharedPrefUtil: SharedPrefUtil
+) : NotificationService {
+
+    private val crashlytics = FirebaseCrashlytics.getInstance()
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     override fun createChannel() {
 
-        //Definicion de atributos de canal de notificacion
         val name = context.getString(R.string.firebase_channel_name_quakes)
         val description = context.getString(R.string.firebase_channel_description_quakes)
 
@@ -61,32 +67,32 @@ class QuakesNotification(private val context: Context, private val sharedPrefUti
     }
 
     /**
-     * Funcion encargada de checkear la suscripcion del usuario al canal de alertas de sismos
+     * Function that checks subscriptions to quake channels alerts
      *
-     * @param subcribed Boleano para determinar suscripcion a tema
+     * @param isSubscribed
      */
-    fun suscribedToQuakes(subcribed: Boolean) {
-
+    fun subscribedToQuakes(isSubscribed: Boolean) {
 
         with(FirebaseMessaging.getInstance()) {
-            //Suscribir a tema quakes
-            //Eliminacion de la suscripcion
+
             when {
-                subcribed -> this.subscribeToTopic(context.getString(R.string.firebase_topic_name))
+                isSubscribed -> this.subscribeToTopic(context.getString(R.string.firebase_topic_name))
                     .addOnCompleteListener { task: Task<Void?> ->
                         when {
                             task.isSuccessful -> {
-                                //Modificar valor en sharepref de settings
-                                sharedPrefUtil.saveData(
-                                    context.getString(R.string.firebase_pref_key),
-                                    true
-                                )
 
-                                Timber.d(context.getString(R.string.FIREBASE_SUB_OK))
-                                crashlytics.setCustomKey(
-                                    context.getString(R.string.subsqribed_quake),
-                                    true
-                                )
+                                with(true) {
+                                    sharedPrefUtil.saveData(
+                                        context.getString(R.string.firebase_pref_key),
+                                        this
+                                    )
+
+                                    Timber.d(context.getString(R.string.FIREBASE_SUB_OK))
+                                    crashlytics.setCustomKey(
+                                        context.getString(R.string.subsqribed_quake),
+                                        this
+                                    )
+                                }
                             }
                         }
                     }
@@ -95,21 +101,21 @@ class QuakesNotification(private val context: Context, private val sharedPrefUti
 
                         when {
                             task.isSuccessful -> {
-                                //Modificar valor en sharepref de settings
-                                sharedPrefUtil.saveData(
-                                    context.getString(R.string.firebase_pref_key),
-                                    false
-                                )
 
-                                //LOG ZONE
-                                Timber.d(context.getString(R.string.FIREBASE_SUB_DELETE))
-                                crashlytics.setCustomKey(
-                                    context.getString(R.string.subsqribed_quake),
-                                    false
-                                )
+                                with(false) {
+                                    sharedPrefUtil.saveData(
+                                        context.getString(R.string.firebase_pref_key),
+                                        this
+                                    )
+
+                                    Timber.d(context.getString(R.string.FIREBASE_SUB_DELETE))
+                                    crashlytics.setCustomKey(
+                                        context.getString(R.string.subsqribed_quake),
+                                        this
+                                    )
+                                }
                             }
                         }
-
                     }
                     .addOnFailureListener {
                         Timber.d(
@@ -118,19 +124,17 @@ class QuakesNotification(private val context: Context, private val sharedPrefUti
                     }
             }
         }
-
     }
 
     /**
-     * Funcion que muestra notificacion de FCM
+     * Show notification function from own server
+     *
+     * @remoteMessage: RemoteMessage with quake data
      */
     override fun showNotification(remoteMessage: RemoteMessage) {
 
-        //Obtener datos desde send_notification.php en servidor
-        val result: MutableMap<String, String> = remoteMessage.data
-
-        //Decompress data from FCM
-        with(result) {
+        //Get data from php file in lqch-server
+        with(remoteMessage.data) {
 
             val data = handleFcmData(this)
 
@@ -153,21 +157,18 @@ class QuakesNotification(private val context: Context, private val sharedPrefUti
     }
 
     /**
-     * Funcion que muestra notificacion generica
+     * Show notification function from FCM (Generic)
      *
-     * @param remoteMessage Mensaje desde FCM
+     * @remoteMessage: RemoteMessage with FCM
      */
     fun showNotificationGeneric(remoteMessage: RemoteMessage) {
 
-        //Maneja la notificacion cuando esta en foreground
         Builder(
             context,
             context.getString(R.string.firebase_channel_id_quakes)
         ).setContentTitle(remoteMessage.notification?.title)
             .setContentText(remoteMessage.notification?.body)
-            .setStyle(
-                BigTextStyle().bigText(remoteMessage.notification?.body)
-            )
+            .setStyle(BigTextStyle().bigText(remoteMessage.notification?.body))
             .setSmallIcon(R.drawable.ic_lastquakechile_400)
             .setAutoCancel(true)
             .also {
@@ -178,7 +179,9 @@ class QuakesNotification(private val context: Context, private val sharedPrefUti
             }
     }
 
-
+    /**
+     * Fill data to objects with data from notification
+     */
     private fun handleFcmData(mutableMap: MutableMap<String, String>): ArrayList<Any> {
 
         with(mutableMap) {
@@ -202,9 +205,4 @@ class QuakesNotification(private val context: Context, private val sharedPrefUti
             return arrayListOf(title, description, quake)
         }
     }
-}
-
-interface NotificationService {
-    fun createChannel()
-    fun showNotification(remoteMessage: RemoteMessage)
 }

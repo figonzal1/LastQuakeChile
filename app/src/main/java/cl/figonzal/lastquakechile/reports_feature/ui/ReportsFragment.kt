@@ -96,27 +96,20 @@ class ReportsFragment : Fragment() {
         viewModel.getReports()
     }
 
-    private fun showSnackBar(string: String) {
-        Snackbar
-            .make(binding.root, string, Snackbar.LENGTH_INDEFINITE)
-            .setAction(getString(R.string.snackbar_retry)) {
+    private fun showSnackBar(string: String) = Snackbar
+        .make(binding.root, string, Snackbar.LENGTH_INDEFINITE)
+        .setAction(getString(R.string.snackbar_retry)) {
 
-                viewModel.getReports()
+            viewModel.getReports()
 
-                crashlytics.setCustomKey(
-                    getString(R.string.snackbar_error),
-                    true
-                )
-            }
-            .setActionTextColor(resources.getColor(R.color.colorSecondary, requireContext().theme))
-            .show()
-    }
+            crashlytics.setCustomKey(getString(R.string.snackbar_error), true)
+        }
+        .setActionTextColor(resources.getColor(R.color.colorSecondary, requireContext().theme))
+        .show()
 
 
     companion object {
         @JvmStatic
-        fun newInstance(): ReportsFragment {
-            return ReportsFragment()
-        }
+        fun newInstance() = ReportsFragment()
     }
 }

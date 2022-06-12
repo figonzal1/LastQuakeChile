@@ -7,9 +7,7 @@ class ReportLocalDataSource(
     private val reportDAO: ReportDAO
 ) {
 
-    fun getReports(): List<ReportWithQuakeCityEntity> {
-        return reportDAO.getReports()
-    }
+    fun getReports() = reportDAO.getReports()
 
     fun insert(reportEntity: ReportWithQuakeCityEntity) {
         reportDAO.insert(reportEntity)

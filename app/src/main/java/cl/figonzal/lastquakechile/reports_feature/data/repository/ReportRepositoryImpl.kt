@@ -48,7 +48,7 @@ class ReportRepositoryImpl(
                 //Network call
                 val reports = remoteDataSource.getReports()
 
-                if (reports.isNotEmpty()) {
+                if (!reports.isNullOrEmpty()) {
 
                     localDataSource.deleteAll()
 

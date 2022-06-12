@@ -29,10 +29,10 @@ import java.util.*
 import kotlin.math.floor
 
 /**
- * Function that sets backgrund colors depending on the magnitude of the earthquake
+ * Function that sets background colors depending on the magnitude of the earthquake
  *
- * @param magnitude Magnitud del sismo desde el cardview
- * @return id recurso desde colors.xml
+ * @param magnitude Quake magnitude
+ * @return id color resource
  */
 fun getMagnitudeColor(magnitude: Double, forMapa: Boolean): Int {
     return getColorResource(forMapa, floor(magnitude).toInt())
@@ -96,6 +96,9 @@ private fun getColorResource(forMapa: Boolean, mMagFloor: Int): Int {
     }
 }
 
+/**
+ * Inflater any view
+ */
 fun ViewGroup.layoutInflater(layout: Int): View =
     LayoutInflater.from(context).inflate(layout, this, false)
 
@@ -103,7 +106,7 @@ fun ViewGroup.layoutInflater(layout: Int): View =
  * Function that lets set quake status image (Preliminary or Verified)
  *
  * @param state    Quake state
- * @param tvState Texview that hold the value
+ * @param tvState TextView that hold the value
  */
 fun ImageView.setStatusImage(
     state: Boolean,
@@ -142,13 +145,13 @@ fun ImageView.setStatusImage(
 }
 
 /**
- * Funcion que permite setear el textview de escala dependiendo del valor del string
+ * Setting scale textview depending on the value of string
  *
- * @param escala    Escala del sismo puede ser Ml o Mw
+ * @param scale Quake scale
  */
-fun TextView.setScale(escala: String) {
+fun TextView.setScale(scale: String) {
     text = when {
-        escala.contains("Mw") -> {
+        scale.contains("Mw") -> {
             String.format(
                 context.getString(R.string.quake_details_escala),
                 context.getString(R.string.quake_details_magnitud_momento)
@@ -164,48 +167,8 @@ fun TextView.setScale(escala: String) {
 }
 
 /**
- * Funcion encargada de setear el tiempo en los text views
- *
- * @param tiempos Variable que cuenta con el mapeo de dias,horas,minutos y segundos
+ * Extension for toast
  */
-fun TextView.setTimeToTextView(tiempos: Map<String, Long>) {
-
-    val mDays: Long = tiempos[context.getString(R.string.utils_time_day)]!!
-    val mMinutes: Long = tiempos[context.getString(R.string.utils_time_min)]!!
-    val mHours: Long = tiempos[context.getString(R.string.utils_time_hour)]!!
-    val mSeconds: Long = tiempos[context.getString(R.string.utils_time_seg)]!!
-
-    //Condiciones días.
-    when {
-        mDays == 0L -> {
-            when {
-                mHours >= 1 ->
-                    this.text = String.format(context.getString(R.string.quake_time_hour), mHours)
-                else -> {
-                    this.text =
-                        String.format(context.getString(R.string.quake_time_minute), mMinutes)
-                    if (mMinutes < 1) {
-                        this.text =
-                            String.format(context.getString(R.string.quake_time_second), mSeconds)
-                    }
-                }
-            }
-        }
-        mDays > 0 -> {
-            when {
-                mHours == 0L -> this.text =
-                    String.format(context.getString(R.string.quake_time_day), mDays)
-                mHours >= 1 -> this.text =
-                    String.format(
-                        context.getString(R.string.quake_time_day_hour),
-                        mDays,
-                        mHours / 24
-                    )
-            }
-        }
-    }
-}
-
 fun Activity.toast(stringId: Int) {
     Toast.makeText(
         this,
@@ -214,7 +177,10 @@ fun Activity.toast(stringId: Int) {
     ).show()
 }
 
-fun TextView.calculateHours(quake: Quake) {
+/**
+ * Transform localDateTime to a string text in (days or hours or minutes)
+ */
+fun TextView.timeToText(quake: Quake) {
 
     val timeMap = quake.localDate.localDateToDHMS()
 
@@ -223,7 +189,6 @@ fun TextView.calculateHours(quake: Quake) {
     val min = timeMap[this.context.getString(R.string.utils_time_min)]
     val seg = timeMap[this.context.getString(R.string.utils_time_seg)]
 
-    //Condiciones días.
     when {
         days != null && days == 0L -> {
 
@@ -267,7 +232,6 @@ fun TextView.calculateHours(quake: Quake) {
  */
 fun TextView.formatDMS(coordinates: Coordinates) {
 
-    //Calculo de lat to GMS
     val latDMS = coordinates.latitude.latLongToDMS()
     val degreeLat = latDMS["grados"]
     val minLat = latDMS["minutos"]
@@ -285,7 +249,6 @@ fun TextView.formatDMS(coordinates: Coordinates) {
         }
     )
 
-    //Calculo de long to GMS
     val longDMS = coordinates.longitude.latLongToDMS()
     val degreeLong = longDMS["grados"]
     val minLong = longDMS["minutos"]
@@ -329,6 +292,9 @@ fun Context.getLocalBitmapUri(bitmap: Bitmap): Uri {
     return FileProvider.getUriForFile(this, "cl.figonzal.lastquakechile.fileprovider", file)
 }
 
+/**
+ * Function to print change log features
+ */
 fun List<String>.printChangeLogList(): CharSequence {
     var changes = ""
 
@@ -342,6 +308,9 @@ fun List<String>.printChangeLogList(): CharSequence {
     return changes
 }
 
+/**
+ * Set width for icons in tabs
+ */
 fun TabLayout.setTabWidthAsWrapContent(tabPosition: Int) {
     val layout = (this.getChildAt(0) as LinearLayout).getChildAt(tabPosition) as LinearLayout
     val layoutParams = layout.layoutParams as LinearLayout.LayoutParams

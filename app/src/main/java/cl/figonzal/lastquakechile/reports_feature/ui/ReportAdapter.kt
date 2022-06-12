@@ -2,11 +2,11 @@ package cl.figonzal.lastquakechile.reports_feature.ui
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.utils.layoutInflater
 import cl.figonzal.lastquakechile.databinding.CardViewReportsBinding
 import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
 import cl.figonzal.lastquakechile.reports_feature.ui.ReportAdapter.ReportViewHolder
@@ -19,8 +19,7 @@ class ReportAdapter(
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReportViewHolder {
-        val v =
-            LayoutInflater.from(parent.context).inflate(R.layout.card_view_reports, parent, false)
+        val v = parent.layoutInflater(R.layout.card_view_reports)
         return ReportViewHolder(v)
     }
 
@@ -29,13 +28,9 @@ class ReportAdapter(
     }
 
 
-    override fun getItemCount(): Int {
-        return reportList.size
-    }
+    override fun getItemCount(): Int = reportList.size
 
-    override fun getItemId(position: Int): Long {
-        return position.toLong()
-    }
+    override fun getItemId(position: Int): Long = position.toLong()
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateList(list: List<Report>) {
@@ -58,11 +53,7 @@ class ReportAdapter(
             with(binding) {
 
                 tvTitleReport.text =
-                    String.format(
-                        context.getString(R.string.REPORT_FORMAT),
-                        getMonth(nMonth),
-                        anno
-                    )
+                    String.format(context.getString(R.string.REPORT_FORMAT), getMonth(nMonth), anno)
 
                 tvNQuakesValue.text = nQuakes.toString()
                 tvNSensiblesValue.text = nSensitive.toString()

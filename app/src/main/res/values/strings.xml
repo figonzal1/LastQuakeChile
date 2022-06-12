@@ -1,22 +1,24 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name" translatable="false">LastQuakeChile</string>
 
+    <string name="API_URL" translatable="false">https://lastquakechile-server-prod.herokuapp.com</string>
+
     <string name="ADMOB_MASTER_KEY" translatable="false">ca-app-pub-6355378855577476~7414287525</string>
 
     <string name="ROOM_DB_NAME" translatable="false">lqch_database</string>
     <string name="DEEP_LINK" translatable="false">https://lastquakechile.page.link/lqch</string>
 
     <!-- PROD AD-->
-    <string name="ADMOB_ID_BANNER" translatable="false">ca-app-pub-6355378855577476/5493893896</string>
+    <!--<string name="ADMOB_ID_BANNER" translatable="false">ca-app-pub-6355378855577476/5493893896</string>
     <string name="ADMOB_ID_APPOPEN" translatable="false">ca-app-pub-6355378855577476/7856079761</string>
     <string name="ADMOB_ID_NATIVE_FRAGMENT" translatable="false">ca-app-pub-6355378855577476/2611250693</string>
     <string name="ADMOB_ID_NATIVE_DETAILS" translatable="false">ca-app-pub-6355378855577476/2723765487</string>
-
+-->
     <!--TEST AD-->
-    <!--<string name="ADMOB_ID_BANNER" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="ADMOB_ID_BANNER" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
     <string name="ADMOB_ID_NATIVE_FRAGMENT" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
     <string name="ADMOB_ID_NATIVE_DETAILS" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
-    <string name="ADMOB_ID_APPOPEN" translatable="false">ca-app-pub-3940256099942544/3419835294</string>-->
+    <string name="ADMOB_ID_APPOPEN" translatable="false">ca-app-pub-3940256099942544/3419835294</string>
 
     <!-- TOOLBAR Menu STRINGS -->
     <string name="refresh">Recargar</string>

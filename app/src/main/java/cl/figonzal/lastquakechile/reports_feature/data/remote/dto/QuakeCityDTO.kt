@@ -4,18 +4,15 @@ import androidx.annotation.Keep
 import cl.figonzal.lastquakechile.reports_feature.data.local.entity.QuakeCityEntity
 
 /**
- * Here make changes if API for reports changes
+ * Here make changes if API for reports changes too
  */
 @Keep
 data class QuakeCityDTO(
     private val ciudad: String,
     private val n_sismos: Int
 ) {
-    fun toQuakeCityEntity(): QuakeCityEntity {
-
-        return QuakeCityEntity(
-            city = ciudad,
-            nQuakes = n_sismos
-        )
-    }
+    fun toQuakeCityEntity() = QuakeCityEntity(
+        city = ciudad,
+        nQuakes = n_sismos
+    )
 }

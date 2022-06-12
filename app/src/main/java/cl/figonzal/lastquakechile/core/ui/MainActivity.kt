@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //Setear configuraciones por defecto de ConfigActivity
+        //Default preferences
         PreferenceManager.setDefaultValues(this, R.xml.root_preferences, false)
         val sharedPrefUtil = SharedPrefUtil(applicationContext)
 
@@ -74,13 +74,10 @@ class MainActivity : AppCompatActivity() {
         updaterService = UpdaterService(this, AppUpdateManagerFactory.create(this))
         updaterService!!.checkAvailability()
 
-        //Creacion de canal de notificaciones para sismos y para changelogs (Requerido para API >26)
         setUpNotificationService(sharedPrefUtil)
 
-        //Setear toolbars, viewpagers y tabs
         setToolbarViewPagerTabs()
 
-        //Setear imagen de toolbar
         loadImage(R.drawable.foto, binding.toolbarLayout.toolbarImage)
     }
 
@@ -91,18 +88,14 @@ class MainActivity : AppCompatActivity() {
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> createChannel()
             }
 
-            suscribedToQuakes(true)
+            subscribedToQuakes(true)
         }
     }
 
-    /**
-     * Setear elementos de UI necesarios para el funcionamiento de la APP
-     */
     private fun setToolbarViewPagerTabs() {
 
         with(binding.toolbarLayout) {
 
-            //Buscar toolbar en resources
             setSupportActionBar(toolbarMain.toolBar)
 
             collapsingToolbar.isTitleEnabled = true
@@ -110,7 +103,7 @@ class MainActivity : AppCompatActivity() {
                 getColor(R.color.colorPrimary)
             )
 
-            //View pager para los fragments (Solo 1 fragment en esta app)
+            //View pager for fragments
             viewPager.apply {
                 adapter = MainFragmentStateAdapter(this@MainActivity, applicationContext)
                 setTabs(tabs, appBar)
@@ -123,7 +116,7 @@ class MainActivity : AppCompatActivity() {
 
         with(binding.toolbarLayout) {
 
-            //Seteo de tabs.
+            //Setting tabs
             TabLayoutMediator(tabs, viewPager) { tab: TabLayout.Tab, position: Int ->
                 tab.text = MainFragmentStateAdapter.tabs[position]
 

@@ -7,7 +7,7 @@ class ReportRemoteDataSource(
     private val reportAPI: ReportAPI
 ) {
 
-    suspend fun getReports(): List<ReportWithQuakeCityEntity> {
+    suspend fun getReports(): List<ReportWithQuakeCityEntity>? {
 
         val call = reportAPI.listReports()
 
@@ -20,6 +20,6 @@ class ReportRemoteDataSource(
                 report = reportEntity,
                 topCities = topCities
             )
-        }!!
+        }
     }
 }

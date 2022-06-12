@@ -17,20 +17,16 @@ private val okHttpClient = OkHttpClient().newBuilder()
         level = HttpLoggingInterceptor.Level.NONE
     }).build()
 
-fun provideApiService(): Retrofit =
+fun provideApiService(url: String): Retrofit =
     Retrofit.Builder()
-        .baseUrl("https://lastquakechile-server-prod.herokuapp.com")
+        .baseUrl(url)
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-fun provideQuakeAPI(apiService: Retrofit): QuakeAPI {
-    return apiService.create(QuakeAPI::class.java)
-}
+fun provideQuakeAPI(apiService: Retrofit): QuakeAPI = apiService.create(QuakeAPI::class.java)
 
-fun provideReportAPI(apiService: Retrofit): ReportAPI {
-    return apiService.create(ReportAPI::class.java)
-}
+fun provideReportAPI(apiService: Retrofit): ReportAPI = apiService.create(ReportAPI::class.java)
 
 fun provideLimitedList(context: Context): Int =
     PreferenceManager.getDefaultSharedPreferences(context).getInt(

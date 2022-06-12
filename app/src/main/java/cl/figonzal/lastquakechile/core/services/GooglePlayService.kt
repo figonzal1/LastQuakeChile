@@ -8,10 +8,11 @@ import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import timber.log.Timber
 
-class GooglePlayService(private val activity: Activity) :
-    DefaultLifecycleObserver {
+class GooglePlayService(
+    private val activity: Activity
+) : DefaultLifecycleObserver {
 
-    private val googlePlay: GoogleApiAvailability = GoogleApiAvailability.getInstance()
+    private val googlePlay = GoogleApiAvailability.getInstance()
 
     override fun onStart(owner: LifecycleOwner) {
         super.onStart(owner)
@@ -23,15 +24,14 @@ class GooglePlayService(private val activity: Activity) :
 
         val resultCode = googlePlay.isGooglePlayServicesAvailable(activity)
 
-        //Si existe algun problema con google play
-        //Si el error puede ser resuelto por el usuario
         when {
+            //If some problem occurred
             resultCode != ConnectionResult.SUCCESS -> when {
                 googlePlay.isUserResolvableError(resultCode) -> {
 
                     Timber.e(activity.getString(R.string.GP_REQUEST))
 
-                    //Solicitar al usuario actualizar google play
+                    //Tell user that need to update Google play
                     googlePlay.getErrorDialog(
                         activity,
                         resultCode,
@@ -42,8 +42,7 @@ class GooglePlayService(private val activity: Activity) :
                     }
                 }
                 else -> {
-
-                    //El error no puede ser resuelto por el usuario y la app se cierra
+                    //The problem cannot be handle & the app close
                     Timber.e(activity.getString(R.string.GP_NOT_SUPPORTED))
                     activity.finish()
                 }

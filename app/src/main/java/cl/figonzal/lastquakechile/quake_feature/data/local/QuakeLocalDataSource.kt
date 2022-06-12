@@ -6,9 +6,7 @@ class QuakeLocalDataSource(
     private val quakeDAO: QuakeDAO
 ) {
 
-    fun getQuakes(): List<QuakeEntity> {
-        return quakeDAO.getQuakes()
-    }
+    fun getQuakes(): List<QuakeEntity> = quakeDAO.getQuakes()
 
     fun insert(quake: QuakeEntity) {
         quakeDAO.insertQuake(quake)

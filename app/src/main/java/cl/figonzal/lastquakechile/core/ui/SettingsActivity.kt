@@ -62,24 +62,44 @@ class SettingsActivity : AppCompatActivity() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
 
-            //VERSION
-            findPreference<Preference>(getString(R.string.version_key)).apply {
-                this?.summary = BuildConfig.VERSION_NAME
+            configVersionPreferences()
+
+            configQuakeLimits()
+
+            configNightMode()
+        }
+
+        override fun onSharedPreferenceChanged(preferences: SharedPreferences?, key: String?) {
+
+            handleChangesNightMode(preferences, key)
+
+            handleChangesNotificationSubscription(preferences, key)
+
+            handleChangesQuakeLimits(key)
+        }
+
+        private fun nightModeAndRecreate(mode: Int) {
+            setDefaultNightMode(mode)
+
+            with(requireActivity()) {
+                setTheme(R.style.AppTheme)
+                recreate()
             }
 
-            //VERSION
-            findPreference<Preference>(getString(R.string.contact_key))?.setOnPreferenceClickListener {
-                Intent(Intent.ACTION_SENDTO).apply {
-                    data = Uri.parse(getString(R.string.mail_to_felipe))
+        }
 
-                    if (resolveActivity(requireActivity().packageManager) != null) {
-                        startActivity(this)
-                    }
-                }
+        override fun onResume() {
+            super.onResume()
+            preferenceScreen.sharedPreferences?.registerOnSharedPreferenceChangeListener(this)
+        }
 
-                true
-            }
+        override fun onPause() {
+            super.onPause()
+            preferenceScreen.sharedPreferences?.unregisterOnSharedPreferenceChangeListener(this)
+        }
 
+
+        private fun configQuakeLimits() {
             //QUAKE LIMIT PREFERENCE
             seekBarPreference =
                 findPreference(resources.getString(R.string.shared_pref_list_quake_limit))
@@ -106,7 +126,29 @@ class SettingsActivity : AppCompatActivity() {
                         value
                     )
             }
+        }
 
+        private fun configVersionPreferences() {
+            //VERSION
+            findPreference<Preference>(getString(R.string.version_key)).apply {
+                this?.summary = BuildConfig.VERSION_NAME
+            }
+
+            //VERSION
+            findPreference<Preference>(getString(R.string.contact_key))?.setOnPreferenceClickListener {
+                Intent(Intent.ACTION_SENDTO).apply {
+                    data = Uri.parse(getString(R.string.mail_to_felipe))
+
+                    if (resolveActivity(requireActivity().packageManager) != null) {
+                        startActivity(this)
+                    }
+                }
+
+                true
+            }
+        }
+
+        private fun configNightMode() {
             //NIGHT MODE PREFERENCE
             when {
                 Build.VERSION.SDK_INT < Build.VERSION_CODES.Q -> {
@@ -121,16 +163,13 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
-        override fun onSharedPreferenceChanged(preferences: SharedPreferences?, key: String?) {
+        private fun handleChangesNightMode(preferences: SharedPreferences?, key: String?) {
 
-            /*
-             * Preferencia Modo Noche
-             */
             if (key.equals(resources.getString(R.string.night_mode_key))) {
 
-                //Si el modo manual esta activado
                 when (preferences?.getBoolean(
-                    resources.getString(R.string.night_mode_key), false
+                    resources.getString(R.string.night_mode_key),
+                    false
                 )) {
                     true -> {
 
@@ -141,7 +180,6 @@ class SettingsActivity : AppCompatActivity() {
 
                         nightModeAndRecreate(MODE_NIGHT_YES)
 
-                        //Mostrar toast modo manual activado
                         requireActivity().toast(R.string.night_mode_key_toast_on)
 
                     }
@@ -153,15 +191,17 @@ class SettingsActivity : AppCompatActivity() {
                         )
                         nightModeAndRecreate(MODE_NIGHT_NO)
 
-                        //Mostrar toast modo noche desactivado
                         requireActivity().toast(R.string.night_mode_key_toast_off)
                     }
                 }
             }
+        }
 
-            /*
-             * Preferencias de alertas
-             */
+        private fun handleChangesNotificationSubscription(
+            preferences: SharedPreferences?,
+            key: String?
+        ) {
+
             if (key == resources.getString(R.string.firebase_pref_key)) {
 
                 preferences?.getBoolean(
@@ -172,20 +212,20 @@ class SettingsActivity : AppCompatActivity() {
                     //Si el switch esta ON, lanzar toast con SUSCRITO
                     when (it) {
                         true -> {
-                            quakesNotification.suscribedToQuakes(true)
+                            quakesNotification.subscribedToQuakes(true)
                             requireActivity().toast(R.string.firebase_pref_key_alert_on)
                         }
                         else -> {
-                            quakesNotification.suscribedToQuakes(false)
+                            quakesNotification.subscribedToQuakes(false)
                             requireActivity().toast(R.string.firebase_pref_key_alert_off)
                         }
                     }
                 }
             }
+        }
 
-            /*
-             * Preferencias de numero de sismos
-             */
+        private fun handleChangesQuakeLimits(key: String?) {
+
             if (key == resources.getString(R.string.shared_pref_list_quake_limit)) {
 
                 seekBarPreference?.apply {
@@ -208,26 +248,6 @@ class SettingsActivity : AppCompatActivity() {
                 }
 
             }
-        }
-
-        private fun nightModeAndRecreate(mode: Int) {
-            setDefaultNightMode(mode)
-
-            with(requireActivity()) {
-                setTheme(R.style.AppTheme)
-                recreate()
-            }
-
-        }
-
-        override fun onResume() {
-            super.onResume()
-            preferenceScreen.sharedPreferences?.registerOnSharedPreferenceChangeListener(this)
-        }
-
-        override fun onPause() {
-            super.onPause()
-            preferenceScreen.sharedPreferences?.unregisterOnSharedPreferenceChangeListener(this)
         }
     }
 

@@ -24,13 +24,11 @@ class NightModeService(
         //Leer preference settings
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity)
 
-        val manualNightMode =
+        val isNightModeActivated =
             sharedPreferences.getBoolean(activity.getString(R.string.night_mode_key), false)
 
-        //MANUAL MODE
-        //manual mode activated
         when {
-            manualNightMode -> {
+            isNightModeActivated -> {
 
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 

@@ -97,13 +97,10 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener,
             }
 
             moveCamera(
-                CameraUpdateFactory.newLatLngZoom(
-                    calculatePromCords(quakeList), 5.0f
-                )
+                CameraUpdateFactory.newLatLngZoom(calculateMeanCords(quakeList), 5.0f)
             )
 
-            //Cargar pines
-            cargarPines(quakeList, requireContext())
+            loadPins(quakeList, requireContext())
 
             setInfoWindowAdapter(this@MapsFragment)
 
@@ -116,9 +113,7 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener,
 
     companion object {
         @JvmStatic
-        fun newInstance(): MapsFragment {
-            return MapsFragment()
-        }
+        fun newInstance() = MapsFragment()
     }
 
     override fun onInfoWindowClick(p0: Marker) {
@@ -157,7 +152,7 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener,
                 )
             )
 
-            tvIwHour.calculateHours(quake)
+            tvIwHour.timeToText(quake)
 
             ivIwIsVerified.setStatusImage(quake.isVerified, tvIwIsVerified)
         }
