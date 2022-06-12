@@ -14,12 +14,27 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.koin.dsl.module
+import org.koin.test.KoinTest
+import org.koin.test.KoinTestRule
+import org.koin.test.inject
 
 @ExperimentalCoroutinesApi
-class QuakeViewModelTest {
+class QuakeViewModelTest : KoinTest {
 
     private val dispatcher = StandardTestDispatcher()
+    private val repository: FakeQuakeRepository by inject()
+
+    @get:Rule
+    val koinTestRule = KoinTestRule.create {
+        modules(
+            module {
+                single { FakeQuakeRepository(dispatcher) }
+            }
+        )
+    }
 
     @Before
     fun setup() {
@@ -34,41 +49,42 @@ class QuakeViewModelTest {
     @Test
     fun `limit 3 should return quakeStatus with list size equal to 3`() = runTest {
 
-        with(QuakeViewModel(GetQuakesUseCase(FakeQuakeRepository(dispatcher), 3))) {
+        val userCase = GetQuakesUseCase(repository, 3)
+        val viewModel = QuakeViewModel(userCase)
 
-            getQuakes()
+        val job = launch(dispatcher) {
 
-            val job = launch(dispatcher) {
+            //Drop init state flow & loading resource state
+            val resultState = viewModel.quakeState.drop(2).first()
 
-                //Drop init state flow & loading resource state
-                val resultState: QuakeState = quakeState.drop(2).first()
-                assertThat(resultState.quakes.size).isEqualTo(3)
-            }
-            job.cancel()
+            assertThat(resultState.quakes.size).isEqualTo(3)
         }
+        job.cancel()
+
     }
 
     @Test
     fun `limit 0 should return quakeStatus with empty List`() = runTest {
-        with(QuakeViewModel(GetQuakesUseCase(FakeQuakeRepository(dispatcher), 0))) {
 
-            getQuakes()
+        val userCase = GetQuakesUseCase(repository, 0)
+        val viewModel = QuakeViewModel(userCase)
 
-            val job = launch(dispatcher) {
+        viewModel.getQuakes()
 
-                val result = quakeState.drop(2).first()
-                assertThat(result.quakes.size).isEqualTo(0)
-            }
-            job.cancel()
+        val job = launch(dispatcher) {
+
+            val result = viewModel.quakeState.drop(2).first()
+            assertThat(result.quakes.size).isEqualTo(0)
         }
+        job.cancel()
     }
 
     @Test
     fun `network error should activate errorStatus`() = runTest {
-        val fakeRepo = FakeQuakeRepository(dispatcher)
-        fakeRepo.shouldReturnNetworkError = true
 
-        val viewModel = QuakeViewModel(GetQuakesUseCase(fakeRepo, 3))
+        repository.shouldReturnNetworkError = true
+        val useCase = GetQuakesUseCase(repository, 3)
+        val viewModel = QuakeViewModel(useCase)
 
         viewModel.getQuakes()
 
