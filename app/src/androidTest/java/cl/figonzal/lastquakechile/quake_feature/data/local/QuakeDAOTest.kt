@@ -12,7 +12,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.koin.core.qualifier.named
 import org.koin.test.KoinTest
 import org.koin.test.inject
 
@@ -24,7 +23,7 @@ class QuakeDAOTest : KoinTest {
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    private val database: AppDatabase by inject(named("test_database"))
+    private val database: AppDatabase by inject()
     private lateinit var quakeDAO: QuakeDAO
 
     @Before
