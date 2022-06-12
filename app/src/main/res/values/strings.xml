@@ -30,6 +30,16 @@
     <string name="tab_list">Sismos</string>
     <string name="tab_reports">Reportes</string>
 
+    <!-- SHARE TEXT -->
+    <string name="SHARE_TITLE">Alerta sísmica</string>
+    <string name="SHARE_SUB_TITLE">Información sismológica</string>
+    <string name="SHARE_CITY">Ciudad</string>
+    <string name="SHARE_LOCAL_HOUR">Hora Local</string>
+    <string name="SHARE_MAGNITUDE">Magnitud</string>
+    <string name="SHARE_DEPTH">Profundidad</string>
+    <string name="SHARE_GEO_REF">Georeferencia</string>
+    <string name="SHARE_DOWNLOAD_MSG"><![CDATA[Descarga la app aquí ->]]></string>
+
     <!-- KEY DE JSON PARA PHP -->
     <!-- KEY PARA INTENT & NOTIFICACIONES -->
     <string name="INTENT_QUAKE" translatable="false">quake</string>

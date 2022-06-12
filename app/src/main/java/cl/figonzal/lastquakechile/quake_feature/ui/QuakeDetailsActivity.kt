@@ -211,7 +211,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
             tvGms.formatDMS(quake.coordinates)
 
-            tvHour.timeToText(quake)
+            tvHour.timeToText(quake, true)
 
             tvEscala.setScale(quake.scale)
 

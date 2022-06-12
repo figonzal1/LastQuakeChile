@@ -2,6 +2,8 @@ package cl.figonzal.lastquakechile.core.utils
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.content.pm.ResolveInfo
 import android.content.res.Configuration
 import android.net.Uri
 import cl.figonzal.lastquakechile.R
@@ -14,7 +16,7 @@ import com.google.maps.android.ktx.addCircle
 import com.google.maps.android.ktx.addMarker
 import timber.log.Timber
 import java.io.IOException
-import java.util.*
+
 
 fun GoogleMap.loadPins(quakeList: List<Quake>, context: Context) {
 
@@ -94,7 +96,7 @@ fun Context.makeSnapshot(googleMap: GoogleMap, quake: Quake) {
         try {
             Timber.d(getString(R.string.GOOGLE_MAP_SNAPSHOT))
             val bitMapUri = it?.let { it1 -> this.getLocalBitmapUri(it1) }
-            this.shareQuake(quake, bitMapUri)
+            shareQuake(quake, bitMapUri)
         } catch (e: IOException) {
             Timber.e(e, getString(R.string.GOOGLE_MAP_ERROR_SNAPSHOT), e.message)
         }
@@ -102,36 +104,50 @@ fun Context.makeSnapshot(googleMap: GoogleMap, quake: Quake) {
 
 }
 
-//TODO: Externalizar compartir sismo
 private fun Context.shareQuake(quake: Quake, bitMapUri: Uri?) {
+
+    val shareText = String.format(
+        """
+        [${getString(R.string.SHARE_TITLE)}]
+        
+        ${getString(R.string.SHARE_SUB_TITLE)}
+        ${getString(R.string.SHARE_CITY)}: %1${"$"}s
+        ${getString(R.string.SHARE_LOCAL_HOUR)}: %2${"$"}s
+        ${getString(R.string.SHARE_MAGNITUDE)}: %3$.1f %4${"$"}s
+        ${getString(R.string.SHARE_DEPTH)}: %5$.1f Km
+        ${getString(R.string.SHARE_GEO_REF)}: %6${"$"}s
+        
+        ${getString(R.string.SHARE_DOWNLOAD_MSG)} %7${"$"}s
+        
+    """.trimIndent(),
+        quake.city,
+        quake.localDate.localDateTimeToString(),
+        quake.magnitude,
+        quake.scale,
+        quake.depth,
+        quake.reference,
+        getString(R.string.DEEP_LINK)
+    )
+
     Intent().apply {
         action = Intent.ACTION_SEND
-        putExtra(
-            Intent.EXTRA_TEXT, String.format(
-                Locale.US,
-                """
-                [Alerta sísmica] #sismo #chile
-                
-                Información sismológica
-                Ciudad: %1${"$"}s
-                Hora Local: %2${"$"}s
-                Magnitud: %3$.1f %4${"$"}s
-                Profundidad: %5$.1f Km
-                Georeferencia: %6${"$"}s
-                
-                Descarga la app aquí -> %7${"$"}s
-                """.trimIndent(),
-                quake.city,
-                quake.localDate,
-                quake.magnitude,
-                quake.scale,
-                quake.depth,
-                quake.reference,
-                getString(R.string.DEEP_LINK)
-            )
-        )
+        putExtra(Intent.EXTRA_TEXT, shareText)
         putExtra(Intent.EXTRA_STREAM, bitMapUri)
         type = "image/*"
-        startActivity(Intent.createChooser(this, getString(R.string.intent_chooser)))
+
+        val chooser = Intent.createChooser(this, getString(R.string.intent_chooser))
+
+        val resInfoList: List<ResolveInfo> =
+            packageManager.queryIntentActivities(chooser, PackageManager.MATCH_DEFAULT_ONLY)
+
+        for (resolveInfo in resInfoList) {
+            val packageName = resolveInfo.activityInfo.packageName
+            grantUriPermission(
+                packageName,
+                bitMapUri,
+                Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION
+            )
+        }
+        startActivity(chooser)
     }
 }

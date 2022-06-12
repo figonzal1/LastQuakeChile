@@ -12,7 +12,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
+import androidx.core.content.FileProvider.getUriForFile
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Coordinates
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
@@ -180,7 +180,7 @@ fun Activity.toast(stringId: Int) {
 /**
  * Transform localDateTime to a string text in (days or hours or minutes)
  */
-fun TextView.timeToText(quake: Quake) {
+fun TextView.timeToText(quake: Quake, isShortVersion: Boolean = false) {
 
     val timeMap = quake.localDate.localDateToDHMS()
 
@@ -193,35 +193,85 @@ fun TextView.timeToText(quake: Quake) {
         days != null && days == 0L -> {
 
             when {
-                hour != null && hour >= 1 -> text =
-                    String.format(
-                        this.context.getString(R.string.quake_time_hour_info_windows),
-                        hour
-                    )
-                else -> {
-                    text = String.format(
-                        this.context.getString(R.string.quake_time_minute_info_windows),
-                        min
-                    )
+                hour != null && hour >= 1 -> {
 
-                    if (min != null && min < 1) text = String.format(
-                        this.context.getString(R.string.quake_time_second_info_windows), seg
-                    )
+                    text = if (isShortVersion) {
+                        String.format(
+                            this.context.getString(R.string.quake_time_hour),
+                            hour
+                        )
+                    } else {
+                        String.format(
+                            this.context.getString(R.string.quake_time_hour_info_windows),
+                            hour
+                        )
+                    }
+
+
+                }
+                else -> {
+
+                    text = if (isShortVersion) {
+                        String.format(
+                            this.context.getString(R.string.quake_time_minute),
+                            min
+                        )
+                    } else {
+                        String.format(
+                            this.context.getString(R.string.quake_time_minute_info_windows),
+                            min
+                        )
+                    }
+
+                    if (min != null && min < 1) {
+
+                        text = if (isShortVersion) {
+                            String.format(
+                                this.context.getString(R.string.quake_time_second), seg
+                            )
+                        } else {
+                            String.format(
+                                this.context.getString(R.string.quake_time_second_info_windows), seg
+                            )
+                        }
+                    }
                 }
             }
         }
         days != null && days > 0 -> {
             when {
-                hour != null && hour == 0L -> text =
-                    String.format(
-                        this.context.getString(R.string.quake_time_day_info_windows),
-                        days
-                    )
-                hour != null && hour >= 1 -> text = String.format(
-                    this.context.getString(R.string.quake_time_day_hour_info_windows),
-                    days,
-                    hour / 24
-                )
+                hour != null && hour == 0L -> {
+
+                    text = if (isShortVersion) {
+                        String.format(
+                            this.context.getString(R.string.quake_time_day),
+                            days
+                        )
+                    } else {
+                        String.format(
+                            this.context.getString(R.string.quake_time_day_info_windows),
+                            days
+                        )
+                    }
+
+                }
+                hour != null && hour >= 1 -> {
+
+                    text = if (isShortVersion) {
+                        String.format(
+                            this.context.getString(R.string.quake_time_day_hour),
+                            days,
+                            hour / 24
+                        )
+                    } else {
+
+                        String.format(
+                            this.context.getString(R.string.quake_time_day_hour_info_windows),
+                            days,
+                            hour / 24
+                        )
+                    }
+                }
             }
         }
     }
@@ -278,7 +328,7 @@ fun Context.getLocalBitmapUri(bitmap: Bitmap): Uri {
 
     val c = Calendar.getInstance()
     val date = c.timeInMillis.toInt()
-    val file = File(this.cacheDir, "share$date.jpeg")
+    val file = File(cacheDir, "share$date.jpeg")
 
     when {
         file.exists() -> Timber.d(getString(R.string.IMAGE_CACHE_EXISTS))
@@ -289,7 +339,7 @@ fun Context.getLocalBitmapUri(bitmap: Bitmap): Uri {
             out.close()
         }
     }
-    return FileProvider.getUriForFile(this, "cl.figonzal.lastquakechile.fileprovider", file)
+    return getUriForFile(this, "cl.figonzal.lastquakechile.fileprovider", file)
 }
 
 /**

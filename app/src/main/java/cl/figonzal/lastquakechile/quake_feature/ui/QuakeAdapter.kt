@@ -62,7 +62,7 @@ class QuakeAdapter(
                 val idColor = getMagnitudeColor(quake.magnitude, false)
                 ivMagColor.setColorFilter(activity.applicationContext.getColor(idColor))
 
-                tvHour.timeToText(quake)
+                tvHour.timeToText(quake, true)
 
                 ivSensitive.visibility = when {
                     quake.isSensitive -> View.VISIBLE

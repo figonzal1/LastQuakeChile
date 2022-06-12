@@ -100,4 +100,12 @@
     <string name="about">About</string>
     <string name="no_apagado">Wifi turn off</string>
     <string name="wifi_off_msg">Check your connection</string>
+    <string name="SHARE_TITLE">Seismic alert</string>
+    <string name="SHARE_SUB_TITLE">Seismological information</string>
+    <string name="SHARE_CITY">City</string>
+    <string name="SHARE_LOCAL_HOUR">Local Hour</string>
+    <string name="SHARE_MAGNITUDE">Magnitude</string>
+    <string name="SHARE_DEPTH">Depth</string>
+    <string name="SHARE_GEO_REF">Georeference</string>
+    <string name="SHARE_DOWNLOAD_MSG"><![CDATA[Download the app here ->]]></string>
 </resources>
