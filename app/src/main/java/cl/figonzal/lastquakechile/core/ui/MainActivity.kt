@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity() {
 
             //View pager for fragments
             viewPager.apply {
-                adapter = MainFragmentStateAdapter(this@MainActivity, applicationContext)
+                adapter = MainFragmentStateAdapter(this@MainActivity, context)
                 setTabs(tabs, appBar)
             }
         }

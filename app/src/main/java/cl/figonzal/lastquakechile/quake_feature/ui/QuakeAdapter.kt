@@ -1,12 +1,9 @@
 package cl.figonzal.lastquakechile.quake_feature.ui
 
-import android.app.Activity
-import android.app.ActivityOptions
 import android.content.Intent
-import android.util.Pair
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.startActivity
+import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cl.figonzal.lastquakechile.R
@@ -18,49 +15,56 @@ import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeAdapter.QuakeViewHolder
 import timber.log.Timber
 
+class QuakeAdapter : RecyclerView.Adapter<QuakeViewHolder>() {
 
-class QuakeAdapter(
-    private val quakeList: MutableList<Quake>,
-    private val activity: Activity,
-) : RecyclerView.Adapter<QuakeViewHolder>() {
+    private var asyncDiffer: AsyncListDiffer<Quake>
+    private val diffCallback = object : DiffUtil.ItemCallback<Quake>() {
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): QuakeViewHolder {
+        override fun areItemsTheSame(oldItem: Quake, newItem: Quake): Boolean {
+            return oldItem.quakeCode == newItem.quakeCode
+        }
 
-        val v = viewGroup.layoutInflater(R.layout.card_view_quake)
-        return QuakeViewHolder(v)
+        override fun areContentsTheSame(oldItem: Quake, newItem: Quake): Boolean {
+            return oldItem == newItem
+        }
     }
+
+    var quakes: List<Quake>
+        get() = asyncDiffer.currentList
+        set(value) = asyncDiffer.submitList(value)
+
+    init {
+        asyncDiffer = AsyncListDiffer(this, diffCallback)
+    }
+
+    override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int) =
+        QuakeViewHolder(viewGroup.layoutInflater(R.layout.card_view_quake))
 
     override fun onBindViewHolder(holder: QuakeViewHolder, position: Int) {
-        holder.bind(quakeList[position], activity)
+        holder.bind(asyncDiffer.currentList[position])
     }
 
-    override fun getItemCount(): Int = quakeList.size
-
-    fun updateList(newList: List<Quake>) {
-
-        val diffCallback = QuakeCallback(quakeList, newList)
-        val diffQuakes = DiffUtil.calculateDiff(diffCallback)
-        quakeList.clear()
-        quakeList.addAll(newList)
-        diffQuakes.dispatchUpdatesTo(this)
-    }
+    override fun getItemCount(): Int = asyncDiffer.currentList.size
 
     inner class QuakeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val binding = CardViewQuakeBinding.bind(itemView)
 
-        fun bind(quake: Quake, activity: Activity) {
+        fun bind(quake: Quake) {
 
             with(binding) {
+
                 tvCity.text = quake.city
                 tvReference.text = quake.reference
 
                 tvMagnitude.text = String.format(
-                    activity.applicationContext.getString(R.string.magnitud), quake.magnitude
+                    itemView.resources.getString(R.string.magnitud), quake.magnitude
                 )
 
                 val idColor = getMagnitudeColor(quake.magnitude, false)
-                ivMagColor.setColorFilter(activity.applicationContext.getColor(idColor))
+                ivMagColor.setColorFilter(
+                    itemView.resources.getColor(idColor, itemView.context.theme)
+                )
 
                 tvHour.timeToText(quake, true)
 
@@ -71,53 +75,15 @@ class QuakeAdapter(
 
                 root.setOnClickListener {
 
-                    Intent(activity.applicationContext, QuakeDetailsActivity::class.java).apply {
-                        putExtra(activity.getString(R.string.INTENT_QUAKE), quake)
-
+                    Intent(itemView.context, QuakeDetailsActivity::class.java).apply {
+                        putExtra(itemView.resources.getString(R.string.INTENT_QUAKE), quake)
                         //LOG
-                        Timber.d(activity.applicationContext.getString(R.string.TRY_INTENT_DETAIL))
+                        Timber.d(itemView.resources.getString(R.string.TRY_INTENT_DETAIL))
 
-                        val options = ActivityOptions.makeSceneTransitionAnimation(
-                            activity,
-                            Pair(
-                                binding.ivMagColor,
-                                activity.getString(R.string.INTENT_KEY_COLOR_MAGNITUDE)
-                            ),
-                            Pair(
-                                binding.tvMagnitude,
-                                activity.getString(R.string.INTENT_KEY_MAGNITUDE)
-                            ),
-                            Pair(binding.tvCity, activity.getString(R.string.INTENT_KEY_CITY)),
-                            Pair(
-                                binding.tvReference,
-                                activity.getString(R.string.INTENT_KEY_REFERENCE)
-                            ),
-                            Pair(binding.tvHour, activity.getString(R.string.INTENT_KEY_HOUR))
-                        )
-                        startActivity(activity, this, options.toBundle())
+                        itemView.context.startActivity(this)
                     }
                 }
-
             }
-        }
-    }
-
-    inner class QuakeCallback(private val oldList: List<Quake>, private val newList: List<Quake>) :
-        DiffUtil.Callback() {
-
-        override fun getOldListSize(): Int = oldList.size
-
-        override fun getNewListSize(): Int = newList.size
-
-        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            return oldList[oldItemPosition].quakeCode == newList[newItemPosition].quakeCode
-        }
-
-        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            return oldList[oldItemPosition].magnitude == newList[newItemPosition].magnitude &&
-                    oldList[oldItemPosition].city == newList[newItemPosition].city &&
-                    oldList[oldItemPosition].quakeCode == newList[newItemPosition].quakeCode
-
         }
     }
 }

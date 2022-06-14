@@ -21,14 +21,15 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
 
-class QuakeFragment : Fragment() {
+class QuakeFragment(
+    private val quakeAdapter: QuakeAdapter
+) : Fragment() {
 
     private val viewModel: QuakeViewModel by sharedViewModel()
     private var application: Application? = null
 
     private lateinit var sharedPrefUtil: SharedPrefUtil
     private lateinit var crashlytics: FirebaseCrashlytics
-    private lateinit var quakeAdapter: QuakeAdapter
 
     private lateinit var binding: FragmentQuakeBinding
 
@@ -63,9 +64,7 @@ class QuakeFragment : Fragment() {
             recycleViewQuakes.apply {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(context)
-
-                quakeAdapter = QuakeAdapter(ArrayList(), requireActivity())
-                this.adapter = quakeAdapter
+                adapter = quakeAdapter
             }
         }
     }
@@ -97,7 +96,7 @@ class QuakeFragment : Fragment() {
 
                                 binding.progressBarQuakes.visibility = View.GONE
 
-                                quakeAdapter.updateList(it.quakes)
+                                quakeAdapter.quakes = it.quakes
                                 Timber.d(getString(R.string.FRAGMENT_QUAKE) + ": " + getString(R.string.FRAGMENT_LOAD_LIST))
                             }
                         }
@@ -155,9 +154,4 @@ class QuakeFragment : Fragment() {
         }
         .setActionTextColor(resources.getColor(R.color.colorSecondary, requireContext().theme))
         .show()
-
-    companion object {
-        @JvmStatic
-        fun newInstance() = QuakeFragment()
-    }
 }

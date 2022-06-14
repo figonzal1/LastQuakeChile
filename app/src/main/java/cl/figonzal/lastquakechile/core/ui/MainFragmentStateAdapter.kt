@@ -8,21 +8,32 @@ import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.quake_feature.ui.MapsFragment
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeFragment
 import cl.figonzal.lastquakechile.reports_feature.ui.ReportsFragment
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-class MainFragmentStateAdapter(fa: FragmentActivity, context: Context) : FragmentStateAdapter(fa) {
+/**
+ * Koin component needed for use injects
+ */
+class MainFragmentStateAdapter(
+    fa: FragmentActivity,
+    context: Context
+) : FragmentStateAdapter(fa), KoinComponent {
+
+    private val quakeFragment: QuakeFragment by inject()
+    private val mapsFragment: MapsFragment by inject()
+    private val reportFragment: ReportsFragment by inject()
 
     override fun createFragment(position: Int): Fragment {
+
         return when (position) {
             0 -> AdMobFragment.newInstance()
-            1 -> QuakeFragment.newInstance()
-            2 -> MapsFragment.newInstance()
-            else -> ReportsFragment.newInstance()
+            1 -> quakeFragment
+            2 -> mapsFragment
+            else -> reportFragment
         }
     }
 
-    override fun getItemCount(): Int {
-        return tabs.size
-    }
+    override fun getItemCount() = tabs.size
 
     companion object {
         val tabs = arrayOfNulls<String>(4)

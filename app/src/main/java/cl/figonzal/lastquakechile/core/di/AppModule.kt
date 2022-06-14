@@ -1,6 +1,7 @@
 package cl.figonzal.lastquakechile.core.di
 
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.ui.MainFragmentStateAdapter
 import cl.figonzal.lastquakechile.core.utils.provideApiService
 import cl.figonzal.lastquakechile.core.utils.provideDatabase
 import cl.figonzal.lastquakechile.quake_feature.di.quakeModule
@@ -23,6 +24,9 @@ val appModule = module {
 
     //Retrofit
     single(named("apiService")) { provideApiService(androidContext().resources.getString(R.string.API_URL)) }
+
+    //StateAdapter
+    single { MainFragmentStateAdapter(get(), get()) }
 
     //Include child modules
     includes(quakeModule, reportModule)

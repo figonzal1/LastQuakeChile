@@ -76,14 +76,14 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener,
 
             googleMap = this
 
-            //Setear limites del mapa
+            //Set limits for map
             val mChile = LatLngBounds(LatLng(-60.15, -78.06), LatLng(-15.6, -66.5))
             setLatLngBoundsForCameraTarget(mChile)
 
             //NIght mode
             setNightMode(requireContext())
 
-            //configuraciones mapa
+            //Map configs
             mapType = MAP_TYPE_NORMAL
             setMinZoomPreference(4.0f)
 
@@ -111,11 +111,6 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener,
         Timber.d(getString(R.string.MAP_READY_RESPONSE))
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance() = MapsFragment()
-    }
-
     override fun onInfoWindowClick(p0: Marker) {
         val quake = p0.tag as Quake
         Intent(context, QuakeDetailsActivity::class.java).apply {
@@ -124,9 +119,7 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener,
         }
     }
 
-    override fun getInfoWindow(p0: Marker): View? {
-        return null
-    }
+    override fun getInfoWindow(p0: Marker) = null
 
     override fun getInfoContents(p0: Marker): View {
 

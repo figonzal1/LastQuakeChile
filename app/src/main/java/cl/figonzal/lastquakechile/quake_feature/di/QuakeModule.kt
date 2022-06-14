@@ -8,6 +8,9 @@ import cl.figonzal.lastquakechile.quake_feature.data.remote.QuakeRemoteDataSourc
 import cl.figonzal.lastquakechile.quake_feature.data.repository.QuakeRepositoryImpl
 import cl.figonzal.lastquakechile.quake_feature.domain.repository.QuakeRepository
 import cl.figonzal.lastquakechile.quake_feature.domain.uses_cases.GetQuakesUseCase
+import cl.figonzal.lastquakechile.quake_feature.ui.MapsFragment
+import cl.figonzal.lastquakechile.quake_feature.ui.QuakeAdapter
+import cl.figonzal.lastquakechile.quake_feature.ui.QuakeFragment
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
@@ -30,10 +33,17 @@ val quakeModule = module {
     single<QuakeRepository> { QuakeRepositoryImpl(get(), get(), get(named("ioDispatcher")), get()) }
 
     //getQuakeUseCase
-    factory {
-        GetQuakesUseCase(get(), provideLimitedList(get()))
-    }
+    factory { GetQuakesUseCase(get(), provideLimitedList(get())) }
 
     //viewModel
     viewModel { QuakeViewModel(get()) }
+
+    //Adapter
+    single { QuakeAdapter() }
+
+    //QuakeFragment
+    single { QuakeFragment(get()) }
+
+    //Map Fragment
+    single { MapsFragment() }
 }

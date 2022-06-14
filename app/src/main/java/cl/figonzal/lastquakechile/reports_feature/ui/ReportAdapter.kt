@@ -1,9 +1,10 @@
 package cl.figonzal.lastquakechile.reports_feature.ui
 
-import android.annotation.SuppressLint
-import android.content.Context
+import android.content.res.Resources
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.utils.layoutInflater
@@ -11,39 +12,40 @@ import cl.figonzal.lastquakechile.databinding.CardViewReportsBinding
 import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
 import cl.figonzal.lastquakechile.reports_feature.ui.ReportAdapter.ReportViewHolder
 
-class ReportAdapter(
-    private var reportList: MutableList<Report>,
-    private val context: Context
-) :
-    RecyclerView.Adapter<ReportViewHolder>() {
+class ReportAdapter : RecyclerView.Adapter<ReportViewHolder>() {
 
+    private var asyncDiffer: AsyncListDiffer<Report>
+    private val diffCallback = object : DiffUtil.ItemCallback<Report>() {
+        override fun areItemsTheSame(oldItem: Report, newItem: Report) = oldItem == newItem
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReportViewHolder {
-        val v = parent.layoutInflater(R.layout.card_view_reports)
-        return ReportViewHolder(v)
+        override fun areContentsTheSame(oldItem: Report, newItem: Report) = oldItem == newItem
     }
+
+    var reports: List<Report>
+        get() = asyncDiffer.currentList
+        set(value) = asyncDiffer.submitList(value)
+
+    init {
+        asyncDiffer = AsyncListDiffer(this, diffCallback)
+        setHasStableIds(true)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        ReportViewHolder(parent.layoutInflater(R.layout.card_view_reports))
 
     override fun onBindViewHolder(holder: ReportViewHolder, position: Int) {
-        holder.bind(reportList[position], context)
+        holder.bind(asyncDiffer.currentList[position])
     }
 
-
-    override fun getItemCount(): Int = reportList.size
+    override fun getItemCount(): Int = asyncDiffer.currentList.size
 
     override fun getItemId(position: Int): Long = position.toLong()
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun updateList(list: List<Report>) {
-        reportList.clear()
-        reportList.addAll(list)
-        notifyDataSetChanged()
-    }
 
     inner class ReportViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val binding = CardViewReportsBinding.bind(itemView)
 
-        fun bind(report: Report, context: Context) {
+        fun bind(report: Report) {
 
             val (reportMonth, nSensitive, nQuakes, promMagnitud, promDepth, maxMagnitude, minDepth, quakesCityList) = report
             val split = reportMonth.split("-".toRegex())
@@ -53,7 +55,11 @@ class ReportAdapter(
             with(binding) {
 
                 tvTitleReport.text =
-                    String.format(context.getString(R.string.REPORT_FORMAT), getMonth(nMonth), anno)
+                    String.format(
+                        itemView.resources.getString(R.string.REPORT_FORMAT),
+                        itemView.resources.getMonth(nMonth),
+                        anno
+                    )
 
                 tvNQuakesValue.text = nQuakes.toString()
                 tvNSensiblesValue.text = nSensitive.toString()
@@ -77,25 +83,18 @@ class ReportAdapter(
         }
     }
 
-    private fun getMonth(month: Int): String {
-        val monthNames = arrayOf(
-            context.getString(R.string.JAN),
-            context.getString(R.string.FEB),
-            context.getString(R.string.MAR),
-            context.getString(R.string.APR),
-            context.getString(R.string.MAY),
-            context.getString(R.string.JUN),
-            context.getString(R.string.JUL),
-            context.getString(R.string.AUG),
-            context.getString(R.string.SEP),
-            context.getString(R.string.OCT),
-            context.getString(R.string.NOV),
-            context.getString(R.string.DEC)
-        )
-        return monthNames[month - 1]
-    }
-
-    init {
-        setHasStableIds(true)
-    }
+    private fun Resources.getMonth(month: Int) = arrayOf(
+        getString(R.string.JAN),
+        getString(R.string.FEB),
+        getString(R.string.MAR),
+        getString(R.string.APR),
+        getString(R.string.MAY),
+        getString(R.string.JUN),
+        getString(R.string.JUL),
+        getString(R.string.AUG),
+        getString(R.string.SEP),
+        getString(R.string.OCT),
+        getString(R.string.NOV),
+        getString(R.string.DEC)
+    )[month - 1]
 }

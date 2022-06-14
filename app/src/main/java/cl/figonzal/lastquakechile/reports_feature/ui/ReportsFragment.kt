@@ -17,14 +17,15 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
-class ReportsFragment : Fragment() {
+class ReportsFragment(
+    private val reportAdapter: ReportAdapter
+) : Fragment() {
 
     private lateinit var crashlytics: FirebaseCrashlytics
+
     private val viewModel: ReportViewModel by viewModel()
-    private lateinit var reportAdapter: ReportAdapter
 
     private lateinit var binding: FragmentReportsBinding
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,9 +51,7 @@ class ReportsFragment : Fragment() {
             recycleViewReports.apply {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(context)
-
-                reportAdapter = ReportAdapter(ArrayList(), requireContext())
-                this.adapter = reportAdapter
+                adapter = reportAdapter
             }
         }
 
@@ -85,7 +84,7 @@ class ReportsFragment : Fragment() {
 
                                 binding.progressBarReportes.visibility = View.GONE
 
-                                reportAdapter.updateList(it.reports)
+                                reportAdapter.reports = it.reports
                                 Timber.d(getString(R.string.FRAGMENT_REPORTS) + ": " + getString(R.string.FRAGMENT_LOAD_LIST))
                             }
                         }
@@ -107,9 +106,4 @@ class ReportsFragment : Fragment() {
         .setActionTextColor(resources.getColor(R.color.colorSecondary, requireContext().theme))
         .show()
 
-
-    companion object {
-        @JvmStatic
-        fun newInstance() = ReportsFragment()
-    }
 }
