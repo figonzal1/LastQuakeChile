@@ -11,7 +11,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
-class ReportViewModel(private val getReportsUseCase: GetReportsUseCase) : ViewModel() {
+class ReportViewModel(
+    private val getReportsUseCase: GetReportsUseCase
+) : ViewModel() {
 
     private val _reportState = MutableStateFlow(ReportState())
     val reportState = _reportState.asStateFlow()

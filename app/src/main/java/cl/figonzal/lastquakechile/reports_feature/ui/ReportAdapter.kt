@@ -1,12 +1,12 @@
 package cl.figonzal.lastquakechile.reports_feature.ui
 
-import android.content.res.Resources
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.utils.getMonth
 import cl.figonzal.lastquakechile.core.utils.layoutInflater
 import cl.figonzal.lastquakechile.databinding.CardViewReportsBinding
 import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
@@ -57,7 +57,7 @@ class ReportAdapter : RecyclerView.Adapter<ReportViewHolder>() {
                 tvTitleReport.text =
                     String.format(
                         itemView.resources.getString(R.string.REPORT_FORMAT),
-                        itemView.resources.getMonth(nMonth),
+                        itemView.context.getMonth(nMonth),
                         anno
                     )
 
@@ -82,19 +82,4 @@ class ReportAdapter : RecyclerView.Adapter<ReportViewHolder>() {
             }
         }
     }
-
-    private fun Resources.getMonth(month: Int) = arrayOf(
-        getString(R.string.JAN),
-        getString(R.string.FEB),
-        getString(R.string.MAR),
-        getString(R.string.APR),
-        getString(R.string.MAY),
-        getString(R.string.JUN),
-        getString(R.string.JUL),
-        getString(R.string.AUG),
-        getString(R.string.SEP),
-        getString(R.string.OCT),
-        getString(R.string.NOV),
-        getString(R.string.DEC)
-    )[month - 1]
 }

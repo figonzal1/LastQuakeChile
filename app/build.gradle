@@ -73,6 +73,10 @@ android {
     buildFeatures {
         viewBinding true
     }
+    testOptions {
+        animationsDisabled = true
+        unitTests.includeAndroidResources true
+    }
 }
 
 ext {

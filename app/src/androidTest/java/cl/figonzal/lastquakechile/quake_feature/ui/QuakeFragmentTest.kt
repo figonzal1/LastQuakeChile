@@ -1,6 +1,5 @@
 package cl.figonzal.lastquakechile.quake_feature.ui
 
-import android.content.Context
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -11,12 +10,10 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
-import androidx.test.platform.app.InstrumentationRegistry
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.utils.TestFragmentFactory
 import cl.figonzal.lastquakechile.utils.checkRecyclerSubViews
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.test.KoinTest
@@ -28,13 +25,7 @@ import org.koin.test.inject
 @MediumTest
 class QuakeFragmentTest : KoinTest {
 
-    private lateinit var context: Context
     private val testFragmentFactory: TestFragmentFactory by inject()
-
-    @Before
-    fun setUp() {
-        context = InstrumentationRegistry.getInstrumentation().context
-    }
 
     @Test
     fun checkIfRecyclerView_isDisplayed() {
@@ -67,7 +58,7 @@ class QuakeFragmentTest : KoinTest {
             withText("14km al OS de La Serena"),
             R.id.tv_reference
         )
-        checkRecyclerSubViews(R.id.recycle_view_quakes, 0, withText("5.6"), R.id.tv_magnitude)
+        checkRecyclerSubViews(R.id.recycle_view_quakes, 0, withText("5,6"), R.id.tv_magnitude)
 
 
         //POSITION 1
@@ -78,8 +69,9 @@ class QuakeFragmentTest : KoinTest {
             withText("14km al OS de Concpeción"),
             R.id.tv_reference
         )
-        checkRecyclerSubViews(R.id.recycle_view_quakes, 1, withText("7.6"), R.id.tv_magnitude)
+        checkRecyclerSubViews(R.id.recycle_view_quakes, 1, withText("7,6"), R.id.tv_magnitude)
 
+        Thread.sleep(2000)
     }
 
     @Test

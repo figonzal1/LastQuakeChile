@@ -388,3 +388,18 @@ fun Context.loadImage(url: Int, imageView: ImageView) = Glide.with(this)
     )
     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
     .into(imageView)
+
+fun Context.getMonth(month: Int) = arrayOf(
+    getString(R.string.JAN),
+    getString(R.string.FEB),
+    getString(R.string.MAR),
+    getString(R.string.APR),
+    getString(R.string.MAY),
+    getString(R.string.JUN),
+    getString(R.string.JUL),
+    getString(R.string.AUG),
+    getString(R.string.SEP),
+    getString(R.string.OCT),
+    getString(R.string.NOV),
+    getString(R.string.DEC)
+)[month - 1]

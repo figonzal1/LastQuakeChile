@@ -8,21 +8,17 @@ import cl.figonzal.lastquakechile.quake_feature.domain.repository.QuakeRepositor
 import cl.figonzal.lastquakechile.quake_feature.domain.uses_cases.GetQuakesUseCase
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeAdapter
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeViewModel
+import cl.figonzal.lastquakechile.reports_feature.data.repository.FakeReportRepository
+import cl.figonzal.lastquakechile.reports_feature.domain.repository.ReportRepository
+import cl.figonzal.lastquakechile.reports_feature.domain.use_case.GetReportsUseCase
+import cl.figonzal.lastquakechile.reports_feature.ui.ReportAdapter
+import cl.figonzal.lastquakechile.reports_feature.ui.ReportViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
-/**
- * Dependencies for instrumented Test
- */
-val instrumentationTestModule = module {
 
-    //Test database
-    single { provideTestDatabase(get()) }
-
-    /**
-     * QUAKE DEPENDENCIES
-     */
+val testQuakeModule = module {
     //FakeQuakeRepository !!
     single<QuakeRepository> { FakeQuakeRepository(get(named("ioDispatcher"))) }
 
@@ -34,6 +30,32 @@ val instrumentationTestModule = module {
 
     //Adapter
     single { QuakeAdapter() }
+}
 
-    factory { TestFragmentFactory(get()) }
+val testReportModule = module {
+    //FakeQuakeRepository !!
+    single<ReportRepository> { FakeReportRepository(get(named("ioDispatcher"))) }
+
+    //getQuakeUseCase
+    factory { GetReportsUseCase(get()) }
+
+    //viewModel
+    viewModel { ReportViewModel(get()) }
+
+    //Adapter
+    single { ReportAdapter() }
+}
+
+/**
+ * Dependencies for instrumented Test
+ */
+val instrumentationTestModule = module {
+
+    //Test database
+    single { provideTestDatabase(get()) }
+
+    includes(testQuakeModule, testReportModule)
+
+    //Test factory depends on submodules above
+    factory { TestFragmentFactory(get(), get()) }
 }

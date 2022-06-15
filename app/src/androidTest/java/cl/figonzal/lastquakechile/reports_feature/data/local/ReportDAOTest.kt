@@ -1,10 +1,9 @@
-package cl.figonzal.lastquakechile.report_feature.data.local
+package cl.figonzal.lastquakechile.reports_feature.data.local
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import cl.figonzal.lastquakechile.core.AppDatabase
-import cl.figonzal.lastquakechile.reports_feature.data.local.ReportDAO
 import cl.figonzal.lastquakechile.reports_feature.data.local.entity.QuakeCityEntity
 import cl.figonzal.lastquakechile.reports_feature.data.local.entity.ReportEntity
 import cl.figonzal.lastquakechile.reports_feature.data.local.entity.ReportWithQuakeCityEntity
