@@ -96,6 +96,8 @@ class QuakeFragmentTest : KoinTest {
         //Check if activity has open
         Intents.intended(hasComponent(QuakeDetailsActivity::class.java.name))
 
+        Intents.release()
+
         Thread.sleep(2000)
     }
 }
