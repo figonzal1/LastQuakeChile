@@ -21,7 +21,9 @@ import timber.log.Timber
 class AdMobFragment : Fragment() {
 
     private var currentNativeAd: NativeAd? = null
-    private lateinit var binding: FragmentAdMobBinding
+
+    private var _binding: FragmentAdMobBinding? = null
+    private val binding get() = _binding!!
 
     @SuppressLint("MissingPermission")
     override fun onCreateView(
@@ -30,12 +32,11 @@ class AdMobFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        binding = FragmentAdMobBinding.inflate(inflater, container, false)
+        _binding = FragmentAdMobBinding.inflate(inflater, container, false)
 
         refreshAd(container)
 
         return binding.root
-
     }
 
     @SuppressLint("MissingPermission")
@@ -166,7 +167,11 @@ class AdMobFragment : Fragment() {
     override fun onDestroy() {
         currentNativeAd?.destroy()
         super.onDestroy()
+    }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
 

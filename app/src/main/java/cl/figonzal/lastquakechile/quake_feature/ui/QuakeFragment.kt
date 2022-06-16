@@ -31,7 +31,8 @@ class QuakeFragment(
     private lateinit var sharedPrefUtil: SharedPrefUtil
     private lateinit var crashlytics: FirebaseCrashlytics
 
-    private lateinit var binding: FragmentQuakeBinding
+    private var _binding: FragmentQuakeBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +49,7 @@ class QuakeFragment(
     ): View {
         setHasOptionsMenu(true)
 
-        binding = FragmentQuakeBinding.inflate(inflater, container, false)
+        _binding = FragmentQuakeBinding.inflate(inflater, container, false)
 
         bindingResources()
         initViewModel()
@@ -154,4 +155,9 @@ class QuakeFragment(
         }
         .setActionTextColor(resources.getColor(R.color.colorSecondary, requireContext().theme))
         .show()
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

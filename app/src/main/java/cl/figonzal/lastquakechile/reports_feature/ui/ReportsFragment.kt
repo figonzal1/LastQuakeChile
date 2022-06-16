@@ -25,7 +25,8 @@ class ReportsFragment(
 
     private val viewModel: ReportViewModel by viewModel()
 
-    private lateinit var binding: FragmentReportsBinding
+    private var _binding: FragmentReportsBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +37,7 @@ class ReportsFragment(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentReportsBinding.inflate(inflater, container, false)
+        _binding = FragmentReportsBinding.inflate(inflater, container, false)
 
         bindingResources()
         initViewModel()
@@ -106,4 +107,8 @@ class ReportsFragment(
         .setActionTextColor(resources.getColor(R.color.colorSecondary, requireContext().theme))
         .show()
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

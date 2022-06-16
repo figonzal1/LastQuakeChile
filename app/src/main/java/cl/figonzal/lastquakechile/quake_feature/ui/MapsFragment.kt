@@ -36,8 +36,9 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener,
     private lateinit var quakeList: List<Quake>
     private lateinit var mapView: MapView
     private lateinit var googleMap: GoogleMap
-    private lateinit var binding: FragmentMapsBinding
 
+    private var _binding: FragmentMapsBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,21 +46,10 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener,
         savedInstanceState: Bundle?
     ): View {
 
-        binding = FragmentMapsBinding.inflate(inflater, container, false)
+        _binding = FragmentMapsBinding.inflate(inflater, container, false)
 
         mapView = binding.mapView
         mapView.onCreate(savedInstanceState)
-
-        viewLifecycleOwner.lifecycleScope.launch {
-
-            viewModel.quakeState
-                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-                .collect {
-                    quakeList = it.quakes
-                    Timber.d(getString(R.string.FRAGMENT_LOAD_LIST))
-                }
-        }
-
         return binding.root
     }
 
@@ -72,43 +62,53 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener,
     @SuppressLint("PotentialBehaviorOverride")
     override fun onMapReady(p0: GoogleMap) {
 
-        p0.apply {
+        viewLifecycleOwner.lifecycleScope.launch {
 
-            googleMap = this
+            viewModel.quakeState
+                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collect {
+                    quakeList = it.quakes
+                    Timber.d(getString(R.string.FRAGMENT_LOAD_LIST))
 
-            //Set limits for map
-            val mChile = LatLngBounds(LatLng(-60.15, -78.06), LatLng(-15.6, -66.5))
-            setLatLngBoundsForCameraTarget(mChile)
+                    p0.apply {
 
-            //NIght mode
-            setNightMode(requireContext())
+                        googleMap = this
 
-            //Map configs
-            mapType = MAP_TYPE_NORMAL
-            setMinZoomPreference(4.0f)
+                        //Set limits for map
+                        val mChile = LatLngBounds(LatLng(-60.15, -78.06), LatLng(-15.6, -66.5))
+                        setLatLngBoundsForCameraTarget(mChile)
 
-            with(uiSettings) {
-                isZoomControlsEnabled = true
-                isTiltGesturesEnabled = true
-                isMapToolbarEnabled = true
-                isZoomGesturesEnabled = true
-                isRotateGesturesEnabled = false
-                isCompassEnabled = false
-            }
+                        //Night mode
+                        setNightMode(requireContext())
 
-            moveCamera(
-                CameraUpdateFactory.newLatLngZoom(calculateMeanCords(quakeList), 5.0f)
-            )
+                        //Map configs
+                        mapType = MAP_TYPE_NORMAL
+                        setMinZoomPreference(4.0f)
 
-            loadPins(quakeList, requireContext())
+                        with(uiSettings) {
+                            isZoomControlsEnabled = true
+                            isTiltGesturesEnabled = true
+                            isMapToolbarEnabled = true
+                            isZoomGesturesEnabled = true
+                            isRotateGesturesEnabled = false
+                            isCompassEnabled = false
+                        }
 
-            setInfoWindowAdapter(this@MapsFragment)
+                        moveCamera(
+                            CameraUpdateFactory.newLatLngZoom(calculateMeanCords(quakeList), 5.0f)
+                        )
 
-            setOnInfoWindowClickListener(this@MapsFragment)
+                        loadPins(quakeList, requireContext())
+
+                        setInfoWindowAdapter(this@MapsFragment)
+
+                        setOnInfoWindowClickListener(this@MapsFragment)
+                    }
+
+                    //Log zone
+                    Timber.d(getString(R.string.MAP_READY_RESPONSE))
+                }
         }
-
-        //Log zone
-        Timber.d(getString(R.string.MAP_READY_RESPONSE))
     }
 
     override fun onInfoWindowClick(p0: Marker) {
@@ -119,7 +119,7 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener,
         }
     }
 
-    override fun getInfoWindow(p0: Marker) = null
+    override fun getInfoWindow(p0: Marker): Nothing? = null
 
     override fun getInfoContents(p0: Marker): View {
 
@@ -190,6 +190,11 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener,
     override fun onDestroy() {
         mapView.onDestroy()
         super.onDestroy()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onLowMemory() {
