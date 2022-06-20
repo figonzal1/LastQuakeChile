@@ -31,7 +31,7 @@ val quakeModule = module {
     single { QuakeRemoteDataSource(get()) }
 
     //Repository
-    factory<QuakeRepository> {
+    single<QuakeRepository> {
         QuakeRepositoryImpl(
             get(),
             get(),

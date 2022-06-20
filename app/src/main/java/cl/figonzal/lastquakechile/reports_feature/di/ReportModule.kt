@@ -33,7 +33,7 @@ val reportModule = module {
     single { SharedPrefUtil(get()) }
 
     //Repository
-    factory<ReportRepository> {
+    single<ReportRepository> {
         ReportRepositoryImpl(get(), get(), get(named("ioDispatcher")), get(), get())
     }
 
