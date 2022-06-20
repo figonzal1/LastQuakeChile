@@ -11,6 +11,7 @@ import cl.figonzal.lastquakechile.reports_feature.domain.use_case.GetReportsUseC
 import cl.figonzal.lastquakechile.reports_feature.ui.ReportAdapter
 import cl.figonzal.lastquakechile.reports_feature.ui.ReportViewModel
 import cl.figonzal.lastquakechile.reports_feature.ui.ReportsFragment
+import org.koin.androidx.fragment.dsl.fragment
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -32,19 +33,19 @@ val reportModule = module {
     single { SharedPrefUtil(get()) }
 
     //Repository
-    single<ReportRepository> {
+    factory<ReportRepository> {
         ReportRepositoryImpl(get(), get(), get(named("ioDispatcher")), get(), get())
     }
 
     //getReportsUseCase
-    single { GetReportsUseCase(get()) }
+    factory { GetReportsUseCase(get()) }
 
     //viewModel
     viewModel { ReportViewModel(get()) }
 
     //ReportAdapter
-    single { ReportAdapter() }
+    factory { ReportAdapter() }
 
     //Report Fragment
-    single { ReportsFragment(get()) }
+    fragment { ReportsFragment(get()) }
 }

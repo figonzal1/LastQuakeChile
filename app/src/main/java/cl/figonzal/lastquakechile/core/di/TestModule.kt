@@ -20,7 +20,7 @@ import org.koin.dsl.module
 
 val testQuakeModule = module {
     //FakeQuakeRepository !!
-    single<QuakeRepository> { FakeQuakeRepository(get(named("ioDispatcher"))) }
+    factory<QuakeRepository> { FakeQuakeRepository(get(named("ioDispatcher"))) }
 
     //getQuakeUseCase
     factory { GetQuakesUseCase(get(), provideLimitedList(get())) }
@@ -29,12 +29,12 @@ val testQuakeModule = module {
     viewModel { QuakeViewModel(get()) }
 
     //Adapter
-    single { QuakeAdapter() }
+    factory { QuakeAdapter() }
 }
 
 val testReportModule = module {
     //FakeQuakeRepository !!
-    single<ReportRepository> { FakeReportRepository(get(named("ioDispatcher"))) }
+    factory<ReportRepository> { FakeReportRepository(get(named("ioDispatcher"))) }
 
     //getQuakeUseCase
     factory { GetReportsUseCase(get()) }
@@ -43,7 +43,7 @@ val testReportModule = module {
     viewModel { ReportViewModel(get()) }
 
     //Adapter
-    single { ReportAdapter() }
+    factory { ReportAdapter() }
 }
 
 /**
@@ -52,7 +52,7 @@ val testReportModule = module {
 val instrumentationTestModule = module {
 
     //Test database
-    single { provideTestDatabase(get()) }
+    factory { provideTestDatabase(get()) }
 
     includes(testQuakeModule, testReportModule)
 
