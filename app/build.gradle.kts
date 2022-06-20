@@ -1,69 +1,69 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'com.google.gms.google-services'
-apply plugin: 'com.google.firebase.crashlytics'
-apply plugin: 'com.google.firebase.firebase-perf'
-apply plugin: 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import java.io.FileInputStream
+import java.util.*
+
+plugins {
+    id("com.android.application")
+    id("kotlin-android")
+    id("kotlin-kapt")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
+    id("com.google.firebase.firebase-perf")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+}
 
 android {
-    def keystorePropertiesFile = rootProject.file("keystore.properties")
-    // Initialize a new Properties() object called keystoreProperties.
-    def keystoreProperties = new Properties()
-    // Load your keystore.properties file into the keystoreProperties object.
-    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+    val prop = Properties().apply {
+        load(FileInputStream(File(rootProject.rootDir, "keystore.properties")))
+    }
 
     signingConfigs {
-        lastquakechilesign {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile file(keystoreProperties['storeFile'])
-            storePassword keystoreProperties['storePassword']
+        create("lastquakechilesign") {
+            storeFile = file(prop.getProperty("storeFile"))
+            storePassword = prop.getProperty("storePassword").toString()
+            keyPassword = prop.getProperty("keyPassword").toString()
+            keyAlias = prop.getProperty("keyAlias").toString()
         }
     }
 
-    compileSdkVersion 31
-    buildToolsVersion "30.0.3"
+    compileSdk = 31
+    buildToolsVersion = "33.0.0"
 
     defaultConfig {
-        applicationId "cl.figonzal.lastquakechile"
-        minSdkVersion 23
-        targetSdkVersion 31
-        versionCode 32
-        versionName "1.6"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        applicationId = "cl.figonzal.lastquakechile"
+        minSdk = 23
+        targetSdk = 31
+        versionCode = 32
+        versionName = "1.6.1"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        Properties properties = new Properties()
-        if (rootProject.file("local.properties").exists()) {
-            properties.load(rootProject.file("local.properties").newDataInputStream())
+        with(gradleLocalProperties(rootDir)) {
+            buildConfigField("String", "MAPS_API_KEY", getProperty("MAPS_API_KEY"))
         }
 
     }
     buildTypes {
-        release {
-            minifyEnabled true
-            shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.lastquakechilesign
-            FirebasePerformance {
-                instrumentationEnabled true
-            }
+        getByName("debug") {
+            versionNameSuffix = "-debug"
+            signingConfig = signingConfigs.getByName("debug")
         }
-        debug {
-            FirebasePerformance {
-                instrumentationEnabled false
-            }
-            firebaseCrashlytics {
-                // If you don't need crash reporting for your debug build,
-                // you can speed up your build by disabling mapping file uploading.
-                mappingFileUploadEnabled false
-            }
+        getByName("release") {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+            signingConfig = signingConfigs.getByName("lastquakechilesign")
         }
+
     }
     compileOptions {
-        coreLibraryDesugaringEnabled true
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
+        // Flag to enable support for the new language APIs
+        isCoreLibraryDesugaringEnabled = true
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     kotlinOptions {
@@ -71,21 +71,13 @@ android {
     }
 
     buildFeatures {
-        viewBinding true
+        viewBinding = true
     }
-    testOptions {
-        animationsDisabled = true
-        unitTests.includeAndroidResources true
-    }
-}
-
-ext {
-    koin_version = "3.2.0"
 }
 
 dependencies {
 
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation(fileTree("libs") { include(listOf("*.jar")) })
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.7.0")
     implementation("androidx.core:core-ktx:1.8.0")
     implementation("androidx.appcompat:appcompat:1.4.2")
@@ -112,8 +104,8 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1")
 
     //Dependency injection KOIN
-    implementation("io.insert-koin:koin-core:$koin_version")
-    implementation("io.insert-koin:koin-android:$koin_version")
+    implementation("io.insert-koin:koin-core:3.2.0")
+    implementation("io.insert-koin:koin-android:3.2.0")
 
     //Google Play
     implementation("com.google.android.gms:play-services-ads:21.0.0")
@@ -136,7 +128,7 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
 
     //Firebase BOM
-    implementation platform("com.google.firebase:firebase-bom:30.1.0")
+    implementation(platform("com.google.firebase:firebase-bom:30.1.0"))
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-crashlytics-ktx")
     implementation("com.google.firebase:firebase-dynamic-links")
@@ -153,8 +145,8 @@ dependencies {
     //junit
     testImplementation("junit:junit:4.13.2")
     testImplementation("androidx.test:core-ktx:1.4.0")
-    testImplementation("io.insert-koin:koin-test:$koin_version")
-    testImplementation("io.insert-koin:koin-test-junit4:$koin_version")
+    testImplementation("io.insert-koin:koin-test:3.2.0")
+    testImplementation("io.insert-koin:koin-test-junit4:3.2.0")
     testImplementation("androidx.arch.core:core-testing:2.1.0")
     testImplementation("androidx.test.ext:truth:1.4.0")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1")
@@ -169,13 +161,13 @@ dependencies {
     androidTestImplementation("androidx.room:room-testing:2.4.2")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
     androidTestImplementation("androidx.test.espresso:espresso-contrib:3.4.0") {
-        exclude module: "protobuf-lite"
+        exclude("protobuf-lite")
     }
     androidTestImplementation("androidx.test.espresso:espresso-intents:3.4.0")
     androidTestImplementation("androidx.test.ext:truth:1.4.0")
     androidTestImplementation("androidx.test.uiautomator:uiautomator:2.2.0")
-    androidTestImplementation("io.insert-koin:koin-test:$koin_version")
-    androidTestImplementation("io.insert-koin:koin-test-junit4:$koin_version")
+    androidTestImplementation("io.insert-koin:koin-test:3.2.0")
+    androidTestImplementation("io.insert-koin:koin-test-junit4:3.2.0")
 
     //Debug dependencies
     debugImplementation("androidx.fragment:fragment-testing:1.4.1")

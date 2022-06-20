@@ -7,21 +7,21 @@ buildscript {
         mavenCentral()
     }
     dependencies {
+
         classpath("com.android.tools.build:gradle:7.2.1")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.0")
 
         //FIREBASE CRASH ANALYTICS
-        // Check for v3.1.2 or higher
         classpath("com.google.gms:google-services:4.3.10")
 
-        // Add the Crashlytics Gradle plugin
+        //Crashlytics Gradle plugin
         classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.0")
 
         // Performance Monitoring plugin
-        classpath 'com.google.firebase:perf-plugin:1.4.1'
+        classpath("com.google.firebase:perf-plugin:1.4.1")
 
         //Google maps secrets
-        classpath 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1'
+        classpath("com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1")
     }
 }
 
@@ -33,6 +33,6 @@ allprojects {
     }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+tasks.register("clean", Delete::class) {
+    delete(rootProject.buildDir)
 }

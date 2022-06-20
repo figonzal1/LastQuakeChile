@@ -2,7 +2,7 @@
     <string name="app_name" translatable="false">LastQuakeChile</string>
 
     //TODO: Cambiar por figonzal
-    <string name="API_URL" translatable="false">https://lastquakechile-server-prod.herokuapp.com</string>
+    <string name="API_URL" translatable="false">https://www.figonzal.cl</string>
 
     <string name="ADMOB_MASTER_KEY" translatable="false">ca-app-pub-6355378855577476~7414287525</string>
 
