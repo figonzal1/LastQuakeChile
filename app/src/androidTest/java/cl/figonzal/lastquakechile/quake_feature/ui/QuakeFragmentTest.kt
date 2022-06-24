@@ -18,6 +18,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.test.KoinTest
 import org.koin.test.inject
+import java.text.DecimalFormatSymbols
 
 
 @ExperimentalCoroutinesApi
@@ -43,6 +44,8 @@ class QuakeFragmentTest : KoinTest {
     @Test
     fun checkQuakeData_matchCorrectly() {
 
+        val separator: Char = DecimalFormatSymbols.getInstance().decimalSeparator
+
         Thread.sleep(2000)
 
         launchFragmentInContainer<QuakeFragment>(
@@ -58,7 +61,12 @@ class QuakeFragmentTest : KoinTest {
             withText("14km al OS de La Serena"),
             R.id.tv_reference
         )
-        checkRecyclerSubViews(R.id.recycle_view_quakes, 0, withText("5,6"), R.id.tv_magnitude)
+        checkRecyclerSubViews(
+            R.id.recycle_view_quakes,
+            0,
+            withText("5${separator}6"),
+            R.id.tv_magnitude
+        )
 
 
         //POSITION 1
@@ -69,7 +77,12 @@ class QuakeFragmentTest : KoinTest {
             withText("14km al OS de Concpeción"),
             R.id.tv_reference
         )
-        checkRecyclerSubViews(R.id.recycle_view_quakes, 1, withText("7,6"), R.id.tv_magnitude)
+        checkRecyclerSubViews(
+            R.id.recycle_view_quakes,
+            1,
+            withText("7${separator}6"),
+            R.id.tv_magnitude
+        )
 
         Thread.sleep(2000)
     }
