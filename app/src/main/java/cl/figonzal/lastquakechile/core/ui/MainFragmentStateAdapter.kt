@@ -29,7 +29,8 @@ class MainFragmentStateAdapter(
             0 -> AdMobFragment.newInstance()
             1 -> quakeFragment
             2 -> mapsFragment
-            else -> reportFragment
+            3 -> reportFragment
+            else -> quakeFragment
         }
     }
 

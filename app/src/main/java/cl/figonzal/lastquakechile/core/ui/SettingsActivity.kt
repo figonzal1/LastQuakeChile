@@ -1,9 +1,9 @@
 package cl.figonzal.lastquakechile.core.ui
 
 import android.content.Intent
+import android.content.Intent.*
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
@@ -136,14 +136,24 @@ class SettingsActivity : AppCompatActivity() {
 
             //VERSION
             findPreference<Preference>(getString(R.string.contact_key))?.setOnPreferenceClickListener {
-                Intent(Intent.ACTION_SENDTO).apply {
-                    data = Uri.parse(getString(R.string.mail_to_felipe))
 
-                    if (resolveActivity(requireActivity().packageManager) != null) {
-                        startActivity(this)
+                Intent(ACTION_SEND).apply {
+                    putExtra(EXTRA_EMAIL, arrayOf(getString(R.string.mail_to_felipe)))
+                    putExtra(EXTRA_SUBJECT, getString(R.string.email_subject))
+                    type = "text/plain"
+
+                    when {
+                        resolveActivity(requireActivity().packageManager) != null -> {
+                            requireActivity().startActivity(
+                                Intent.createChooser(
+                                    this,
+                                    getString(R.string.email_chooser_title)
+                                )
+                            )
+                        }
+                        else -> requireActivity().toast(R.string.email_intent_fail)
                     }
                 }
-
                 true
             }
         }

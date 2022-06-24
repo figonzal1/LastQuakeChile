@@ -28,7 +28,7 @@ android {
     }
 
     compileSdk = 31
-    buildToolsVersion = "33.0.0"
+    buildToolsVersion = "32.0.0"
 
     defaultConfig {
         applicationId = "cl.figonzal.lastquakechile"
@@ -161,7 +161,7 @@ dependencies {
     androidTestImplementation("androidx.room:room-testing:2.4.2")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
     androidTestImplementation("androidx.test.espresso:espresso-contrib:3.4.0") {
-        exclude("protobuf-lite")
+        exclude(module = "protobuf-lite")
     }
     androidTestImplementation("androidx.test.espresso:espresso-intents:3.4.0")
     androidTestImplementation("androidx.test.ext:truth:1.4.0")

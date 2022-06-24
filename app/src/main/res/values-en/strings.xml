@@ -108,4 +108,7 @@
     <string name="SHARE_DEPTH">Depth</string>
     <string name="SHARE_GEO_REF">Georeference</string>
     <string name="SHARE_DOWNLOAD_MSG"><![CDATA[Download the app here ->]]></string>
+    <string name="email_chooser_title">Send email with:</string>
+    <string name="email_intent_fail">You don\'t have any email app to contact us</string>
+    <string name="email_subject">LastQuakeChlle developer contact</string>
 </resources>

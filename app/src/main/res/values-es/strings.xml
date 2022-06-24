@@ -108,4 +108,7 @@
     <string name="SHARE_DEPTH">Profundidad</string>
     <string name="SHARE_GEO_REF">Georeferencia</string>
     <string name="SHARE_DOWNLOAD_MSG"><![CDATA[Descarga la app aquí ->]]></string>
+    <string name="email_chooser_title">Envia un email usando:</string>
+    <string name="email_subject">Contacto desarrollador LastQuakeChile</string>
+    <string name="email_intent_fail">No tienes ninguna app de email para contactarnos</string>
 </resources>
