@@ -1,6 +1,6 @@
 package cl.figonzal.lastquakechile.reports_feature.domain.repository
 
-import cl.figonzal.lastquakechile.core.utils.Resource
+import cl.figonzal.lastquakechile.core.utils.StatusAPI
 import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
 import kotlinx.coroutines.flow.Flow
 
@@ -9,5 +9,5 @@ import kotlinx.coroutines.flow.Flow
  */
 interface ReportRepository {
 
-    fun getReports(): Flow<Resource<List<Report>>>
+    fun getReports(): Flow<StatusAPI<List<Report>>>
 }

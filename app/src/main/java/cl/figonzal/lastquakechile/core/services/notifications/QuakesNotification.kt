@@ -189,17 +189,17 @@ class QuakesNotification(
             val description = getValue(context.getString(R.string.INTENT_DESCRIPCION))
 
             val quake = QuakeDTO(
-                fecha_utc = getValue(context.getString(R.string.INTENT_FECHA_UTC)),
-                ciudad = getValue(context.getString(R.string.INTENT_CIUDAD)),
-                referencia = getValue(context.getString(R.string.INTENT_REFERENCIA)),
-                latitud = getValue(context.getString(R.string.INTENT_LATITUD)).toDouble(),
-                longitud = getValue(context.getString(R.string.INTENT_LONGITUD)).toDouble(),
-                magnitud = getValue(context.getString(R.string.INTENT_MAGNITUD)).toDouble(),
-                escala = getValue(context.getString(R.string.INTENT_ESCALA)),
-                profundidad = getValue(context.getString(R.string.INTENT_PROFUNDIDAD)).toDouble(),
-                estado = getValue(context.getString(R.string.INTENT_ESTADO)),
+                utcDate = getValue(context.getString(R.string.INTENT_FECHA_UTC)),
+                city = getValue(context.getString(R.string.INTENT_CIUDAD)),
+                reference = getValue(context.getString(R.string.INTENT_REFERENCIA)),
+                latitude = getValue(context.getString(R.string.INTENT_LATITUD)).toDouble(),
+                longitude = getValue(context.getString(R.string.INTENT_LONGITUD)).toDouble(),
+                magnitude = getValue(context.getString(R.string.INTENT_MAGNITUD)).toDouble(),
+                scale = getValue(context.getString(R.string.INTENT_ESCALA)),
+                depth = getValue(context.getString(R.string.INTENT_PROFUNDIDAD)).toDouble(),
+                state = getValue(context.getString(R.string.INTENT_ESTADO)),
                 sensible = getValue(context.getString(R.string.INTENT_SENSIBLE)),
-                imagen_url = getValue(context.getString(R.string.INTENT_QUAKE_CODE)).toString(),
+                quakeCode = getValue(context.getString(R.string.INTENT_QUAKE_CODE)).toString(),
             ).toQuakeEntity().toDomainQuake()
 
             return arrayListOf(title, description, quake)

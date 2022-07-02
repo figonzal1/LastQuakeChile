@@ -2,8 +2,8 @@ package cl.figonzal.lastquakechile.reports_feature.data.repository
 
 import android.app.Application
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.utils.Resource
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
+import cl.figonzal.lastquakechile.core.utils.StatusAPI
 import cl.figonzal.lastquakechile.core.utils.localDateTimeToString
 import cl.figonzal.lastquakechile.core.utils.stringToLocalDateTime
 import cl.figonzal.lastquakechile.reports_feature.data.local.ReportLocalDataSource
@@ -30,9 +30,9 @@ class ReportRepositoryImpl(
     private val sharedPrefUtil: SharedPrefUtil
 ) : ReportRepository {
 
-    override fun getReports(): Flow<Resource<List<Report>>> = flow {
+    override fun getReports(): Flow<StatusAPI<List<Report>>> = flow {
 
-        emit(Resource.Loading())
+        emit(StatusAPI.Loading())
 
         var cacheList = localDataSource.getReports().map { it.toDomainReport() }
 
@@ -41,7 +41,7 @@ class ReportRepositoryImpl(
 
                 Timber.d(application.getString(R.string.EMIT_CACHE_LIST))
 
-                emit(Resource.Success(cacheList))
+                emit(StatusAPI.Success(cacheList))
             }
             else -> try {
 
@@ -68,19 +68,19 @@ class ReportRepositoryImpl(
 
                     //emit cached
                     cacheList = localDataSource.getReports().map { it.toDomainReport() }
-                    emit(Resource.Success(cacheList))
+                    emit(StatusAPI.Success(cacheList))
                 }
 
             } catch (e: HttpException) {
 
                 Timber.e(application.getString(R.string.EMIT_HTTP_ERROR))
 
-                emit(Resource.Error(message = application.getString(R.string.http_error)))
+                emit(StatusAPI.Error(message = application.getString(R.string.http_error)))
             } catch (e: IOException) {
 
                 Timber.e(application.getString(R.string.EMIT_IO_EXCEPTION))
 
-                emit(Resource.Error(message = application.getString(R.string.io_error)))
+                emit(StatusAPI.Error(message = application.getString(R.string.io_error)))
             }
         }
 

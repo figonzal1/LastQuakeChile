@@ -2,7 +2,7 @@ package cl.figonzal.lastquakechile.quake_feature.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cl.figonzal.lastquakechile.core.utils.Resource
+import cl.figonzal.lastquakechile.core.utils.StatusAPI
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import cl.figonzal.lastquakechile.quake_feature.domain.uses_cases.GetQuakesUseCase
 import kotlinx.coroutines.channels.Channel
@@ -29,18 +29,18 @@ class QuakeViewModel(
 
                 when (it) {
 
-                    is Resource.Loading -> {
+                    is StatusAPI.Loading -> {
                         _quakeState.value = quakeState.value.copy(isLoading = true)
                     }
 
-                    is Resource.Success -> {
+                    is StatusAPI.Success -> {
                         _quakeState.value = quakeState.value.copy(
                             quakes = it.data as List<Quake>,
                             isLoading = false
                         )
                     }
 
-                    is Resource.Error -> {
+                    is StatusAPI.Error -> {
                         _errorStatus.send(it.message as String)
 
                         _quakeState.value = quakeState.value.copy(
