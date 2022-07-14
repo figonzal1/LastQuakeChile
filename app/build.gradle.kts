@@ -85,8 +85,8 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.2.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
-    implementation("androidx.fragment:fragment-ktx:1.4.1")
-    implementation("androidx.activity:activity-ktx:1.4.0")
+    implementation("androidx.fragment:fragment-ktx:1.5.0")
+    implementation("androidx.activity:activity-ktx:1.5.0")
 
     implementation("com.google.android.material:material:1.6.1")//Material design
     implementation("androidx.core:core-splashscreen:1.0.0-rc01") //splash screen
@@ -95,8 +95,8 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.13.2")
 
     //Life cycle components
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.0")
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
 
     // Coroutines
@@ -125,7 +125,12 @@ dependencies {
     //Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
+
+    //MOSHI
+    implementation("com.squareup.moshi:moshi:1.13.0")
+    kapt("com.squareup.moshi:moshi-kotlin-codegen:1.13.0")
 
     //Firebase BOM
     implementation(platform("com.google.firebase:firebase-bom:30.1.0"))
@@ -170,7 +175,7 @@ dependencies {
     androidTestImplementation("io.insert-koin:koin-test-junit4:3.2.0")
 
     //Debug dependencies
-    debugImplementation("androidx.fragment:fragment-testing:1.4.1")
+    debugImplementation("androidx.fragment:fragment-testing:1.5.0")
     debugImplementation("com.squareup.leakcanary:leakcanary-android:2.9.1")
 
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")

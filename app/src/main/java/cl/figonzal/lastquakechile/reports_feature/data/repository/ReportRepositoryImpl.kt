@@ -2,10 +2,7 @@ package cl.figonzal.lastquakechile.reports_feature.data.repository
 
 import android.app.Application
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
-import cl.figonzal.lastquakechile.core.utils.StatusAPI
-import cl.figonzal.lastquakechile.core.utils.localDateTimeToString
-import cl.figonzal.lastquakechile.core.utils.stringToLocalDateTime
+import cl.figonzal.lastquakechile.core.utils.*
 import cl.figonzal.lastquakechile.reports_feature.data.local.ReportLocalDataSource
 import cl.figonzal.lastquakechile.reports_feature.data.remote.ReportRemoteDataSource
 import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
@@ -34,7 +31,7 @@ class ReportRepositoryImpl(
 
         emit(StatusAPI.Loading())
 
-        var cacheList = localDataSource.getReports().map { it.toDomainReport() }
+        var cacheList = localDataSource.getReports().toReportDomain()
 
         when {
             cacheList.isNotEmpty() && !isCacheExpired() -> {
@@ -52,22 +49,21 @@ class ReportRepositoryImpl(
 
                     localDataSource.deleteAll()
 
-                    reports.onEach {
-                        localDataSource.insert(it)
-                    }.map {
-                        it.toDomainReport()
-                    }.also {
-                        //Save timestamp
-                        sharedPrefUtil.saveData(
-                            application.getString(R.string.shared_report_cache),
-                            LocalDateTime.now().localDateTimeToString()
-                        )
-                    }
+                    reports
+                        .onEach { localDataSource.insert(it) }
+                        .toReportDomain()
+                        .also {
+                            //Save timestamp
+                            sharedPrefUtil.saveData(
+                                application.getString(R.string.shared_report_cache),
+                                LocalDateTime.now().localDateTimeToString()
+                            )
+                        }
 
                     Timber.d(application.getString(R.string.LIST_NETWORK_CALL))
 
                     //emit cached
-                    cacheList = localDataSource.getReports().map { it.toDomainReport() }
+                    cacheList = localDataSource.getReports().toReportDomain()
                     emit(StatusAPI.Success(cacheList))
                 }
 

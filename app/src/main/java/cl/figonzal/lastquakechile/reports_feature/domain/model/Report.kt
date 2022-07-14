@@ -8,5 +8,5 @@ data class Report(
     val promDepth: Double,
     val maxMagnitude: Double,
     val minDepth: Double,
-    val topCities: List<QuakeCity>
+    val topCities: List<CityQuakes>
 )

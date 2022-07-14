@@ -4,9 +4,9 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import cl.figonzal.lastquakechile.core.AppDatabase
-import cl.figonzal.lastquakechile.reports_feature.data.local.entity.QuakeCityEntity
+import cl.figonzal.lastquakechile.reports_feature.data.local.entity.CityQuakesEntity
 import cl.figonzal.lastquakechile.reports_feature.data.local.entity.ReportEntity
-import cl.figonzal.lastquakechile.reports_feature.data.local.entity.ReportWithQuakeCityEntity
+import cl.figonzal.lastquakechile.reports_feature.data.local.entity.ReportWithCityQuakesEntity
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -90,11 +90,11 @@ class ReportDAOTest : KoinTest {
     fun insertReportWithQuakeCity() = runTest {
 
         val topCities = listOf(
-            QuakeCityEntity(1, "La Serena", 4, 1),
-            QuakeCityEntity(2, "Santiago", 4, 1)
+            CityQuakesEntity(1, "La Serena", 4, 1),
+            CityQuakesEntity(2, "Santiago", 4, 1)
         )
 
-        val reportWithQuakeCityEntity = ReportWithQuakeCityEntity(
+        val reportWithCityQuakesEntity = ReportWithCityQuakesEntity(
             ReportEntity(
                 1,
                 "Diciembre",
@@ -107,12 +107,12 @@ class ReportDAOTest : KoinTest {
             ), topCities
         )
 
-        val id = reportDAO.insertReport(reportWithQuakeCityEntity.report)
-        reportWithQuakeCityEntity.topCities.forEach { it.idReport = id }
-        reportDAO.insertAll(reportWithQuakeCityEntity.topCities)
+        val id = reportDAO.insertReport(reportWithCityQuakesEntity.report)
+        reportWithCityQuakesEntity.topCities.forEach { it.idReport = id }
+        reportDAO.insertAll(reportWithCityQuakesEntity.topCities)
 
         val result = reportDAO.getReports()
 
-        assertThat(result).contains(reportWithQuakeCityEntity)
+        assertThat(result).contains(reportWithCityQuakesEntity)
     }
 }

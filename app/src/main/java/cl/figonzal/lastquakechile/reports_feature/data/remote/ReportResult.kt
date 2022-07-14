@@ -1,12 +1,15 @@
 package cl.figonzal.lastquakechile.reports_feature.data.remote
 
 import cl.figonzal.lastquakechile.reports_feature.data.remote.dto.ReportDTO
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 /**
  * Result object for retrofit call
  */
+@JsonClass(generateAdapter = true)
 data class ReportResult(
-    @SerializedName("reportes")
-    val reportes: List<ReportDTO>
+
+    @field:Json(name = "reportes")
+    val reports: List<ReportDTO>
 )

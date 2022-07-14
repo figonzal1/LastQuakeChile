@@ -5,9 +5,9 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 import androidx.room.Transaction
-import cl.figonzal.lastquakechile.reports_feature.data.local.entity.QuakeCityEntity
+import cl.figonzal.lastquakechile.reports_feature.data.local.entity.CityQuakesEntity
 import cl.figonzal.lastquakechile.reports_feature.data.local.entity.ReportEntity
-import cl.figonzal.lastquakechile.reports_feature.data.local.entity.ReportWithQuakeCityEntity
+import cl.figonzal.lastquakechile.reports_feature.data.local.entity.ReportWithCityQuakesEntity
 
 @Dao
 interface ReportDAO {
@@ -16,19 +16,19 @@ interface ReportDAO {
     fun insertReport(report: ReportEntity): Long
 
     @Insert(onConflict = REPLACE)
-    fun insertAll(topCities: List<QuakeCityEntity>)
+    fun insertAll(topCities: List<CityQuakesEntity>)
 
     @Query("Delete from reportentity")
     fun deleteAllReportEntity()
 
-    @Query("Delete from quakecityentity")
+    @Query("Delete from cityquakesentity")
     fun deleteAllQuakeCityEntity()
 
     @Transaction
     @Query("SELECT * FROM reportentity")
-    fun getReports(): List<ReportWithQuakeCityEntity>
+    fun getReports(): List<ReportWithCityQuakesEntity>
 
-    fun insert(reportWithQuakeCitiesEntity: ReportWithQuakeCityEntity) {
+    fun insert(reportWithQuakeCitiesEntity: ReportWithCityQuakesEntity) {
 
         val reportID = insertReport(reportWithQuakeCitiesEntity.report)
 

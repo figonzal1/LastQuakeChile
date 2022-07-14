@@ -1,32 +1,48 @@
 package cl.figonzal.lastquakechile.reports_feature.data.remote.dto
 
-import androidx.annotation.Keep
 import cl.figonzal.lastquakechile.reports_feature.data.local.entity.ReportEntity
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 /**
  * Here make changes if API for reports changes too
  */
-@Keep
+@JsonClass(generateAdapter = true)
 data class ReportDTO(
-    private val mes_reporte: String,
-    private val n_sensibles: Int,
-    private val n_sismos: Int,
-    private val prom_magnitud: Double,
-    private val prom_profundidad: Double,
-    private val max_magnitud: Double,
-    private val min_profundidad: Double,
-    val top_ciudades: List<QuakeCityDTO>
+
+    @field:Json(name = "mes_reporte")
+    val reportMonth: String,
+
+    @field:Json(name = "n_sensibles")
+    val nSensitives: Int,
+
+    @field:Json(name = "n_sismos")
+    val nQuakes: Int,
+
+    @field:Json(name = "prom_magnitud")
+    val meanMagnitude: Double,
+
+    @field:Json(name = "prom_profundidad")
+    val meanDepth: Double,
+
+    @field:Json(name = "max_magnitud")
+    val maxMagnitude: Double,
+
+    @field:Json(name = "min_profundidad")
+    val minDepth: Double,
+
+    @field:Json(name = "top_ciudades")
+    val topCities: List<CityQuakesDTO>
 
 ) {
 
-    //Remember: DTO -> Entity -> Model domain
-    fun toReportEntity() = ReportEntity(
-        reportMonth = mes_reporte,
-        nSensitive = n_sensibles,
-        nQuakes = n_sismos,
-        promMagnitude = prom_magnitud,
-        promDepth = prom_profundidad,
-        maxMagnitude = max_magnitud,
-        minDepth = min_profundidad
+    fun toEntity() = ReportEntity(
+        reportMonth = reportMonth,
+        nSensitive = nSensitives,
+        nQuakes = nQuakes,
+        promMagnitude = meanMagnitude,
+        promDepth = meanDepth,
+        maxMagnitude = maxMagnitude,
+        minDepth = minDepth
     )
 }

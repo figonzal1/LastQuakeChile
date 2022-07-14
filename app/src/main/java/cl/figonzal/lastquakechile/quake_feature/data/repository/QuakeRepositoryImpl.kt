@@ -3,6 +3,7 @@ package cl.figonzal.lastquakechile.quake_feature.data.repository
 import android.app.Application
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.utils.StatusAPI
+import cl.figonzal.lastquakechile.core.utils.toQuakeListDomain
 import cl.figonzal.lastquakechile.quake_feature.data.local.QuakeLocalDataSource
 import cl.figonzal.lastquakechile.quake_feature.data.remote.QuakeRemoteDataSource
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
@@ -27,7 +28,7 @@ class QuakeRepositoryImpl(
 
         emit(StatusAPI.Loading())
 
-        var cacheList = localDataSource.getQuakes().map { it.toDomainQuake() }
+        var cacheList = localDataSource.getQuakes().toQuakeListDomain()
         emit(StatusAPI.Success(cacheList))
 
         try {
@@ -35,10 +36,9 @@ class QuakeRepositoryImpl(
             remoteDataSource.getQuakes(limit)?.onEach {
                 //store remote result in cache
                 localDataSource.insert(it)
+            }?.toQuakeListDomain()
 
-            }?.map { it.toDomainQuake() }
-
-            cacheList = localDataSource.getQuakes().map { it.toDomainQuake() }
+            cacheList = localDataSource.getQuakes().toQuakeListDomain()
 
             Timber.d(application.getString(R.string.LIST_NETWORK_CALL))
 

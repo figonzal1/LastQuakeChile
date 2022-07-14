@@ -1,14 +1,14 @@
 package cl.figonzal.lastquakechile.quake_feature.data.remote
 
-import androidx.annotation.Keep
 import cl.figonzal.lastquakechile.quake_feature.data.remote.dto.QuakeDTO
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 /**
  * Result object for retrofit call
  */
-@Keep
+@JsonClass(generateAdapter = true)
 data class QuakeResult(
-    @SerializedName("sismos")
+    @field:Json(name = "sismos")
     val quakes: List<QuakeDTO>
 )

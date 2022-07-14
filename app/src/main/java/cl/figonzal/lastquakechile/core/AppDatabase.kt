@@ -8,11 +8,11 @@ import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.quake_feature.data.local.QuakeDAO
 import cl.figonzal.lastquakechile.quake_feature.data.local.entity.QuakeEntity
 import cl.figonzal.lastquakechile.reports_feature.data.local.ReportDAO
-import cl.figonzal.lastquakechile.reports_feature.data.local.entity.QuakeCityEntity
+import cl.figonzal.lastquakechile.reports_feature.data.local.entity.CityQuakesEntity
 import cl.figonzal.lastquakechile.reports_feature.data.local.entity.ReportEntity
 
 @Database(
-    entities = [QuakeEntity::class, ReportEntity::class, QuakeCityEntity::class],
+    entities = [QuakeEntity::class, ReportEntity::class, CityQuakesEntity::class],
     version = 2,
     exportSchema = false
 )

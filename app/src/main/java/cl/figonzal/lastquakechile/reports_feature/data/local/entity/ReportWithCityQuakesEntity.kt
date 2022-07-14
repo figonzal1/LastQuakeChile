@@ -3,19 +3,20 @@ package cl.figonzal.lastquakechile.reports_feature.data.local.entity
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Relation
+import cl.figonzal.lastquakechile.core.utils.toCityQuakesDomain
 import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
 
 @Entity
-data class ReportWithQuakeCityEntity(
+data class ReportWithCityQuakesEntity(
     @Embedded
     val report: ReportEntity,
 
     @Relation(
-        parentColumn = "id", entityColumn = "idReport", entity = QuakeCityEntity::class
+        parentColumn = "id", entityColumn = "idReport", entity = CityQuakesEntity::class
     )
-    val topCities: List<QuakeCityEntity>
+    val topCities: List<CityQuakesEntity>
 ) {
-    fun toDomainReport() = Report(
+    fun toDomain() = Report(
         reportMonth = report.reportMonth,
         nSensitive = report.nSensitive,
         nQuakes = report.nQuakes,
@@ -23,8 +24,6 @@ data class ReportWithQuakeCityEntity(
         promDepth = report.promDepth,
         maxMagnitude = report.maxMagnitude,
         minDepth = report.minDepth,
-        topCities = topCities.map {
-            it.toDomainQuakeCity()
-        }
+        topCities = topCities.toCityQuakesDomain()
     )
 }

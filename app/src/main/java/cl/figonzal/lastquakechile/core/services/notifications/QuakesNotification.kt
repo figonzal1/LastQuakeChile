@@ -200,7 +200,7 @@ class QuakesNotification(
                 state = getValue(context.getString(R.string.INTENT_ESTADO)),
                 sensible = getValue(context.getString(R.string.INTENT_SENSIBLE)),
                 quakeCode = getValue(context.getString(R.string.INTENT_QUAKE_CODE)).toString(),
-            ).toQuakeEntity().toDomainQuake()
+            ).toEntity().toDomain()
 
             return arrayListOf(title, description, quake)
         }

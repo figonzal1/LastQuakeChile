@@ -1,59 +1,60 @@
 package cl.figonzal.lastquakechile.quake_feature.data.remote.dto
 
-import androidx.annotation.Keep
 import cl.figonzal.lastquakechile.quake_feature.data.local.entity.QuakeEntity
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 /**
  * Here make changes if API for quakes changes too
  */
-@Keep
+
+@JsonClass(generateAdapter = true)
 data class QuakeDTO(
 
+    @field:Json(name = "fecha_utc")
+    val utcDate: String,
 
-    @SerializedName("fecha_utc")
-    private val utcDate: String,
+    @field:Json(name = "ciudad")
+    val city: String,
 
-    @SerializedName("ciudad")
-    private val city: String,
+    @field:Json(name = "referencia")
+    val reference: String,
 
-    @SerializedName("referencia")
-    private val reference: String,
+    @field:Json(name = "magnitud")
+    val magnitude: Double,
 
-    @SerializedName("magnitud")
-    private val magnitude: Double,
+    @field:Json(name = "escala")
+    val scale: String,
 
-    @SerializedName("escala")
-    private val scale: String,
+    @field:Json(name = "sensible")
+    val sensible: String,
 
-    @SerializedName("sensible")
-    private val sensible: String,
+    @field:Json(name = "latitud")
+    val latitude: Double,
 
-    @SerializedName("latitud")
-    private val latitude: Double,
+    @field:Json(name = "longitud")
+    val longitude: Double,
 
-    @SerializedName("longitud")
-    private val longitude: Double,
+    @field:Json(name = "profundidad")
+    val depth: Double,
 
-    @SerializedName("profundidad")
-    private val depth: Double,
+    @field:Json(name = "imagen_url")
+    val quakeCode: String,
 
-    @SerializedName("imagen_url")
-    private val quakeCode: String? = null,
-
-    @SerializedName("estado")
-    private val state: String,
+    @field:Json(name = "estado")
+    val state: String,
 
     //NOT USED
-    @SerializedName("fecha_local")
-    private val localDate: String? = null,
-    @SerializedName("agencia")
-    private val agency: String? = null
+    @field:Json(name = "fecha_local", ignore = true)
+    val localDate: String? = null,
+
+    @field:Json(name = "agencia", ignore = true)
+    val agency: String? = null
 ) {
 
     //DTO -> Entity -> Model domain
-    fun toQuakeEntity() = QuakeEntity(
-        quakeCode = quakeCode?.toInt(),
+    fun toEntity() = QuakeEntity(
+        quakeCode = quakeCode.toInt(),
         utcDate = utcDate,
         city = city,
         reference = reference,

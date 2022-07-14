@@ -1,7 +1,7 @@
 package cl.figonzal.lastquakechile.reports_feature.data.repository
 
 import cl.figonzal.lastquakechile.core.utils.StatusAPI
-import cl.figonzal.lastquakechile.reports_feature.domain.model.QuakeCity
+import cl.figonzal.lastquakechile.reports_feature.domain.model.CityQuakes
 import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
 import cl.figonzal.lastquakechile.reports_feature.domain.repository.ReportRepository
 import kotlinx.coroutines.CoroutineDispatcher
@@ -26,10 +26,10 @@ class FakeReportRepository(
             7.8,
             3.0,
             listOf(
-                QuakeCity("La Serena", 15),
-                QuakeCity("Santiago", 20),
-                QuakeCity("Valparaiso", 22),
-                QuakeCity("Melipilla", 6)
+                CityQuakes("La Serena", 15),
+                CityQuakes("Santiago", 20),
+                CityQuakes("Valparaiso", 22),
+                CityQuakes("Melipilla", 6)
             )
         ),
         Report(
@@ -41,10 +41,10 @@ class FakeReportRepository(
             7.8,
             3.0,
             listOf(
-                QuakeCity("La Serena", 15),
-                QuakeCity("Santiago", 20),
-                QuakeCity("Valparaiso", 22),
-                QuakeCity("Concepcion", 12)
+                CityQuakes("La Serena", 15),
+                CityQuakes("Santiago", 20),
+                CityQuakes("Valparaiso", 22),
+                CityQuakes("Concepcion", 12)
             )
         ),
     )

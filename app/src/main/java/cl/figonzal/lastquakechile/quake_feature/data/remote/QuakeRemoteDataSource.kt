@@ -1,6 +1,8 @@
 package cl.figonzal.lastquakechile.quake_feature.data.remote
 
+import cl.figonzal.lastquakechile.core.utils.toQuakeListEntity
 import cl.figonzal.lastquakechile.quake_feature.data.local.entity.QuakeEntity
+
 
 class QuakeRemoteDataSource(
     private val quakeAPI: QuakeAPI
@@ -10,6 +12,6 @@ class QuakeRemoteDataSource(
 
         val call = quakeAPI.listQuakes(limit)
 
-        return call.body()?.quakes?.map { it.toQuakeEntity() }
+        return call.body()?.quakes?.toQuakeListEntity()
     }
 }

@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter
 @Entity
 data class QuakeEntity(
     @PrimaryKey val id: Long? = null,
-    val quakeCode: Int? = null,
+    val quakeCode: Int,
     val utcDate: String,
     val city: String,
     val reference: String,
@@ -24,7 +24,7 @@ data class QuakeEntity(
     val isSensitive: Boolean = false,
     val isVerified: Boolean = false
 ) {
-    fun toDomainQuake(): Quake {
+    fun toDomain(): Quake {
 
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 
