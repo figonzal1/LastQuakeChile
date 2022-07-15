@@ -6,8 +6,6 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -161,25 +159,6 @@ class MainActivity : AppCompatActivity() {
         binding.adViewContainer.visibility = when (hide) {
             true -> View.GONE
             false -> View.VISIBLE
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
-        return when (item.itemId) {
-            R.id.settings_menu -> {
-
-                Intent(this@MainActivity, SettingsActivity::class.java).apply {
-                    startActivity(this)
-                }
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
         }
     }
 

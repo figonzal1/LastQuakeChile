@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.utils.configOptionsMenu
 import cl.figonzal.lastquakechile.databinding.FragmentReportsBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -41,6 +42,8 @@ class ReportsFragment(
 
         bindingResources()
         initViewModel()
+
+        configOptionsMenu()
 
         return binding.root
     }

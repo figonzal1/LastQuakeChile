@@ -14,6 +14,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
+import cl.figonzal.lastquakechile.core.utils.configOptionsMenu
 import cl.figonzal.lastquakechile.databinding.FragmentQuakeBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -47,7 +48,6 @@ class QuakeFragment(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        setHasOptionsMenu(true)
 
         _binding = FragmentQuakeBinding.inflate(inflater, container, false)
 
@@ -55,6 +55,8 @@ class QuakeFragment(
         initViewModel()
 
         showCvInfo()
+
+        configOptionsMenu()
 
         return binding.root
     }

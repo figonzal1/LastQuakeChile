@@ -3,13 +3,14 @@ package cl.figonzal.lastquakechile.quake_feature.ui
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.ui.dialog.MapTerrainDialogFragment
 import cl.figonzal.lastquakechile.core.utils.*
 import cl.figonzal.lastquakechile.databinding.FragmentMapsBinding
 import cl.figonzal.lastquakechile.databinding.InfoWindowsBinding
@@ -56,11 +57,14 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mapView.getMapAsync(this)
-        setHasOptionsMenu(true)
     }
 
     @SuppressLint("PotentialBehaviorOverride")
     override fun onMapReady(p0: GoogleMap) {
+
+        googleMap = p0
+
+        configOptionsMenu(R.menu.menu_map_fragment, googleMap)
 
         viewLifecycleOwner.lifecycleScope.launch {
 
@@ -71,8 +75,6 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener,
                     Timber.d(getString(R.string.FRAGMENT_LOAD_LIST))
 
                     p0.apply {
-
-                        googleMap = this
 
                         //Set limits for map
                         val mChile = LatLngBounds(LatLng(-60.15, -78.06), LatLng(-15.6, -66.5))
@@ -200,21 +202,5 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener,
     override fun onLowMemory() {
         super.onLowMemory()
         mapView.onLowMemory()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.fragment_map_menu, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
-        return when (item.itemId) {
-            R.id.layers_menu -> {
-
-                MapTerrainDialogFragment(googleMap).show(parentFragmentManager, "Dialogo mapType")
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
     }
 }

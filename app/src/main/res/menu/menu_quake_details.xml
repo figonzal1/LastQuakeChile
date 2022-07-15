@@ -11,5 +11,4 @@
         app:showAsAction="always|collapseActionView"
         tools:ignore="AlwaysShowAction" />
 
-
 </menu>

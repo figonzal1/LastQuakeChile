@@ -2,24 +2,31 @@ package cl.figonzal.lastquakechile.core.utils
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.LayoutRes
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider.getUriForFile
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.ui.SettingsActivity
+import cl.figonzal.lastquakechile.core.ui.dialog.MapTerrainDialogFragment
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Coordinates
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
+import com.google.android.gms.maps.GoogleMap
 import com.google.android.material.tabs.TabLayout
 import timber.log.Timber
 import java.io.File
@@ -27,6 +34,39 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
 import kotlin.math.floor
+
+fun Fragment.configOptionsMenu(
+    @LayoutRes menuId: Int = R.menu.menu_main,
+    googleMap: GoogleMap? = null
+) {
+    val menuHost: MenuHost = this.requireActivity()
+
+    menuHost.addMenuProvider(object : MenuProvider {
+        override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+            menuInflater.inflate(menuId, menu)
+        }
+
+        override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+
+            when (menuItem.itemId) {
+                R.id.settings_menu -> {
+                    Intent(requireActivity(), SettingsActivity::class.java).apply {
+                        startActivity(this)
+                    }
+                }
+                R.id.layers_menu -> {
+                    googleMap?.let {
+                        MapTerrainDialogFragment(it).show(
+                            parentFragmentManager,
+                            "Dialogo mapType"
+                        )
+                    }
+                }
+            }
+            return true
+        }
+    }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+}
 
 /**
  * Function that sets background colors depending on the magnitude of the earthquake

@@ -6,6 +6,7 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -15,6 +16,8 @@ import android.widget.RatingBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.MenuProvider
+import androidx.lifecycle.Lifecycle
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.ui.dialog.MapTerrainDialogFragment
 import cl.figonzal.lastquakechile.core.utils.*
@@ -33,6 +36,9 @@ import timber.log.Timber
 import java.time.format.DateTimeFormatter
 
 class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
+
+    private var circleAnimator2: ValueAnimator? = null
+    private var circleAnimator: ValueAnimator? = null
 
     //MAP
     private val mapViewKey = "MapViewBundleKey"
@@ -235,6 +241,8 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
             googleMap = p0
 
+            configOptionsMenu()
+
             setNightMode(this@QuakeDetailsActivity)
 
             mapType = GoogleMap.MAP_TYPE_NORMAL
@@ -269,7 +277,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                 strokeWidth(1f)
                 strokeColor(greyAlpha)
             }.animate {
-                ValueAnimator.ofInt(0, 90000).apply {
+                circleAnimator2 = ValueAnimator.ofInt(0, 90000).apply {
                     repeatMode = ValueAnimator.RESTART
                     repeatCount = ValueAnimator.INFINITE
                     duration = 4000
@@ -288,7 +296,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                 strokeWidth(1f)
                 strokeColor(greyAlpha)
             }.animate {
-                ValueAnimator.ofInt(0, 90000).apply {
+                circleAnimator = ValueAnimator.ofInt(0, 90000).apply {
                     repeatMode = ValueAnimator.RESTART
                     repeatCount = ValueAnimator.INFINITE
                     duration = 4000
@@ -350,6 +358,10 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onDestroy() {
         mapView.onDestroy()
         currentNativeAd?.destroy()
+
+        circleAnimator?.cancel()
+        circleAnimator2?.cancel()
+
         super.onDestroy()
     }
 
@@ -358,26 +370,29 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
         mapView.onLowMemory()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.quake_details_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
-        // Respond to the action bar's Up/Home button
-        return when (item.itemId) {
-            android.R.id.home -> {
-                Timber.d(getString(R.string.INTENT_DETAIL_HOME_UP))
-                finish()
-                true
+    private fun configOptionsMenu() {
+        addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menu_quake_details, menu)
             }
-            R.id.layers_menu -> {
 
-                MapTerrainDialogFragment(googleMap).show(supportFragmentManager, "Dialogo mapType")
-                true
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                when (menuItem.itemId) {
+                    android.R.id.home -> {
+                        Timber.d(getString(R.string.INTENT_DETAIL_HOME_UP))
+                        finish()
+                    }
+                    R.id.layers_menu -> {
+
+                        MapTerrainDialogFragment(googleMap).show(
+                            supportFragmentManager,
+                            "Dialogo mapType"
+                        )
+
+                    }
+                }
+                return true
             }
-            else -> super.onOptionsItemSelected(item)
-        }
+        }, this, Lifecycle.State.RESUMED)
     }
 }
