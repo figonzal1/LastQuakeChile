@@ -23,7 +23,7 @@ fun GoogleMap.loadPins(quakeList: List<Quake>, context: Context) {
     for (quake in quakeList) {
 
         //LatLong of quake
-        val epicentre = LatLng(quake.coordinates.latitude, quake.coordinates.longitude)
+        val epicentre = LatLng(quake.coordinate.latitude, quake.coordinate.longitude)
 
         //Search magnitude color
         val quakeColor = getMagnitudeColor(quake.magnitude, true)
@@ -69,8 +69,8 @@ fun calculateMeanCords(quakeList: List<Quake>): LatLng {
     var meanLong = 0.0
 
     quakeList.onEach {
-        meanLat += it.coordinates.latitude
-        meanLong += it.coordinates.longitude
+        meanLat += it.coordinate.latitude
+        meanLong += it.coordinate.longitude
     }
 
     meanLat /= quakeList.size.toDouble()

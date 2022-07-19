@@ -9,6 +9,12 @@ import com.squareup.moshi.JsonClass
  */
 @JsonClass(generateAdapter = true)
 data class QuakeResult(
-    @field:Json(name = "sismos")
+    @field:Json(name = "_embedded")
+    val embedded: Embedded
+)
+
+@JsonClass(generateAdapter = true)
+data class Embedded(
+    @field:Json(name = "quakes")
     val quakes: List<QuakeDTO>
 )

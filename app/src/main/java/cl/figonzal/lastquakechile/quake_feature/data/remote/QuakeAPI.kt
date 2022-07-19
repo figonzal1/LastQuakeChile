@@ -9,6 +9,8 @@ import retrofit2.http.Query
  */
 interface QuakeAPI {
 
-    @GET("/lastquakechile/api/v1/quakes/")
-    suspend fun listQuakes(@Query("limite") limite: Int): Response<QuakeResult>
+    @GET("/api/v1/quakes")
+    suspend fun listQuakes(
+        @Query(value = "sort") sort: String = "utcDate,desc",
+    ): Response<QuakeResult>
 }

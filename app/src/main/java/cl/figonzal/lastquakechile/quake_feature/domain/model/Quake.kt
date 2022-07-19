@@ -4,14 +4,14 @@ import java.io.Serializable
 import java.time.LocalDateTime
 
 data class Quake(
-    val quakeCode: Int? = null,
+    val quakeCode: Int,
     val localDate: LocalDateTime,
     val city: String,
     val reference: String,
     val magnitude: Double,
     val depth: Double,
     val scale: String,
-    val coordinates: Coordinates,
-    val isSensitive: Boolean = false,
-    val isVerified: Boolean = false,
+    val isSensitive: Boolean,
+    val isVerified: Boolean,
+    val coordinate: Coordinate
 ) : Serializable

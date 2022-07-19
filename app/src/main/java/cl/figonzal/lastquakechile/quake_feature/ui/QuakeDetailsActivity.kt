@@ -215,7 +215,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
             tvFecha.text =
                 quake.localDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
 
-            tvGms.formatDMS(quake.coordinates)
+            tvGms.formatDMS(quake.coordinate)
 
             tvHour.timeToText(quake, true)
 
@@ -235,7 +235,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
         val quakeMagColor = getColor(getMagnitudeColor(quake.magnitude, true))
         val greyAlpha = getColor(R.color.grey_dark_alpha)
 
-        val latLong = LatLng(quake.coordinates.latitude, quake.coordinates.longitude)
+        val latLong = LatLng(quake.coordinate.latitude, quake.coordinate.longitude)
 
         p0.apply {
 

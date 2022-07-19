@@ -3,7 +3,7 @@ package cl.figonzal.lastquakechile.quake_feature.data.repository
 import android.app.Application
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.utils.StatusAPI
-import cl.figonzal.lastquakechile.core.utils.toQuakeListDomain
+import cl.figonzal.lastquakechile.core.utils.toQuakeDomain
 import cl.figonzal.lastquakechile.quake_feature.data.local.QuakeLocalDataSource
 import cl.figonzal.lastquakechile.quake_feature.data.remote.QuakeRemoteDataSource
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
@@ -28,17 +28,19 @@ class QuakeRepositoryImpl(
 
         emit(StatusAPI.Loading())
 
-        var cacheList = localDataSource.getQuakes().toQuakeListDomain()
+        var cacheList = localDataSource.getQuakes().toQuakeDomain()
+
         emit(StatusAPI.Success(cacheList))
 
         try {
             localDataSource.deleteAll()
+
             remoteDataSource.getQuakes(limit)?.onEach {
                 //store remote result in cache
                 localDataSource.insert(it)
-            }?.toQuakeListDomain()
+            }?.toQuakeDomain()
 
-            cacheList = localDataSource.getQuakes().toQuakeListDomain()
+            cacheList = localDataSource.getQuakes().toQuakeDomain()
 
             Timber.d(application.getString(R.string.LIST_NETWORK_CALL))
 
@@ -48,20 +50,12 @@ class QuakeRepositoryImpl(
 
             Timber.e(application.getString(R.string.EMIT_HTTP_ERROR))
 
-            emit(
-                StatusAPI.Error(
-                    message = application.getString(R.string.http_error)
-                )
-            )
+            emit(StatusAPI.Error(application.getString(R.string.http_error)))
         } catch (e: IOException) {
 
             Timber.e(application.getString(R.string.EMIT_IO_EXCEPTION))
 
-            emit(
-                StatusAPI.Error(
-                    message = application.getString(R.string.io_error)
-                )
-            )
+            emit(StatusAPI.Error(application.getString(R.string.io_error)))
         }
 
     }.flowOn(dispatcher)

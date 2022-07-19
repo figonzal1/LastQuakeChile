@@ -1,7 +1,7 @@
 package cl.figonzal.lastquakechile.quake_feature.data.repository
 
 import cl.figonzal.lastquakechile.core.utils.StatusAPI
-import cl.figonzal.lastquakechile.quake_feature.domain.model.Coordinates
+import cl.figonzal.lastquakechile.quake_feature.domain.model.Coordinate
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import cl.figonzal.lastquakechile.quake_feature.domain.repository.QuakeRepository
 import kotlinx.coroutines.CoroutineDispatcher
@@ -26,7 +26,7 @@ class FakeQuakeRepository(
             5.6,
             34.8,
             "ml",
-            Coordinates(-24.23, 75.3),
+            Coordinate(-24.23, 75.3),
             isSensitive = false,
             isVerified = true
         ),
@@ -38,7 +38,7 @@ class FakeQuakeRepository(
             7.6,
             34.8,
             "ml",
-            Coordinates(-24.23, 75.3),
+            Coordinate(-24.23, 75.3),
             isSensitive = true,
             isVerified = true
         ),
@@ -50,7 +50,7 @@ class FakeQuakeRepository(
             6.2,
             55.2,
             "ml",
-            Coordinates(-30.34, 60.3),
+            Coordinate(-30.34, 60.3),
             isSensitive = false,
             isVerified = true
         )

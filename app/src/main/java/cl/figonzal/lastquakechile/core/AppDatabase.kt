@@ -6,14 +6,18 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.quake_feature.data.local.QuakeDAO
+import cl.figonzal.lastquakechile.quake_feature.data.local.entity.CoordinateEntity
 import cl.figonzal.lastquakechile.quake_feature.data.local.entity.QuakeEntity
 import cl.figonzal.lastquakechile.reports_feature.data.local.ReportDAO
 import cl.figonzal.lastquakechile.reports_feature.data.local.entity.CityQuakesEntity
 import cl.figonzal.lastquakechile.reports_feature.data.local.entity.ReportEntity
 
 @Database(
-    entities = [QuakeEntity::class, ReportEntity::class, CityQuakesEntity::class],
-    version = 2,
+    entities = [QuakeEntity::class,
+        CoordinateEntity::class,
+        ReportEntity::class,
+        CityQuakesEntity::class],
+    version = 1,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {

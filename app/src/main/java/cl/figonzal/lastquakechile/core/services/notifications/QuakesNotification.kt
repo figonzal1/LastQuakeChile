@@ -2,25 +2,18 @@ package cl.figonzal.lastquakechile.core.services.notifications
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
-import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat.BigTextStyle
 import androidx.core.app.NotificationCompat.Builder
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
-import cl.figonzal.lastquakechile.core.utils.notification
-import cl.figonzal.lastquakechile.quake_feature.data.remote.dto.QuakeDTO
-import cl.figonzal.lastquakechile.quake_feature.ui.QuakeDetailsActivity
 import com.google.android.gms.tasks.Task
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.RemoteMessage
 import timber.log.Timber
-import java.io.Serializable
 
 interface NotificationService {
     fun createChannel()
@@ -136,9 +129,9 @@ class QuakesNotification(
         //Get data from php file in lqch-server
         with(remoteMessage.data) {
 
-            val data = handleFcmData(this)
+            //val data = handleFcmData(this)
 
-            Intent(context, QuakeDetailsActivity::class.java).apply {
+            /*Intent(context, QuakeDetailsActivity::class.java).apply {
                 addFlags(FLAG_ACTIVITY_CLEAR_TOP)
                 putExtra(context.getString(R.string.INTENT_TITULO), data[0].toString())
                 putExtra(context.getString(R.string.INTENT_DESCRIPCION), data[1].toString())
@@ -152,7 +145,7 @@ class QuakesNotification(
 
                 Timber.d(context.getString(R.string.TRY_INTENT_NOTIFICATION_1))
                 crashlytics.setCustomKey(context.getString(R.string.try_intent_notification), true)
-            }
+            }*/
         }
     }
 
@@ -182,7 +175,7 @@ class QuakesNotification(
     /**
      * Fill data to objects with data from notification
      */
-    private fun handleFcmData(mutableMap: MutableMap<String, String>): ArrayList<Any> {
+    /*private fun handleFcmData(mutableMap: MutableMap<String, String>): ArrayList<Any> {
 
         with(mutableMap) {
             val title = getValue(context.getString(R.string.INTENT_TITULO))
@@ -192,17 +185,19 @@ class QuakesNotification(
                 utcDate = getValue(context.getString(R.string.INTENT_FECHA_UTC)),
                 city = getValue(context.getString(R.string.INTENT_CIUDAD)),
                 reference = getValue(context.getString(R.string.INTENT_REFERENCIA)),
-                latitude = getValue(context.getString(R.string.INTENT_LATITUD)).toDouble(),
-                longitude = getValue(context.getString(R.string.INTENT_LONGITUD)).toDouble(),
+                coordinate = CoordinateDTO(
+                    getValue(context.getString(R.string.INTENT_LATITUD)).toDouble(),
+                    getValue(context.getString(R.string.INTENT_LONGITUD)).toDouble()
+                ),
                 magnitude = getValue(context.getString(R.string.INTENT_MAGNITUD)).toDouble(),
                 scale = getValue(context.getString(R.string.INTENT_ESCALA)),
                 depth = getValue(context.getString(R.string.INTENT_PROFUNDIDAD)).toDouble(),
-                state = getValue(context.getString(R.string.INTENT_ESTADO)),
-                sensible = getValue(context.getString(R.string.INTENT_SENSIBLE)),
+                isVerified = getValue(context.getString(R.string.INTENT_ESTADO)).toBoolean(),
+                isSensitive = getValue(context.getString(R.string.INTENT_SENSIBLE)).toBoolean(),
                 quakeCode = getValue(context.getString(R.string.INTENT_QUAKE_CODE)).toString(),
             ).toEntity().toDomain()
 
             return arrayListOf(title, description, quake)
         }
-    }
+    }*/
 }

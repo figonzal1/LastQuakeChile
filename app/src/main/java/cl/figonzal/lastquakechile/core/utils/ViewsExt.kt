@@ -20,7 +20,7 @@ import androidx.lifecycle.Lifecycle
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.ui.SettingsActivity
 import cl.figonzal.lastquakechile.core.ui.dialog.MapTerrainDialogFragment
-import cl.figonzal.lastquakechile.quake_feature.domain.model.Coordinates
+import cl.figonzal.lastquakechile.quake_feature.domain.model.Coordinate
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -320,7 +320,7 @@ fun TextView.timeToText(quake: Quake, isShortVersion: Boolean = false) {
 /**
  * Coordinates to DMS
  */
-fun TextView.formatDMS(coordinates: Coordinates) {
+fun TextView.formatDMS(coordinates: Coordinate) {
 
     val latDMS = coordinates.latitude.latLongToDMS()
     val degreeLat = latDMS["grados"]

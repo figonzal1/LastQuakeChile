@@ -81,9 +81,6 @@ class QuakeFragment(
                 //Error Status
                 launch {
                     viewModel.errorStatus.collect {
-
-                        binding.includeNoWifi.root.visibility = View.VISIBLE
-                        binding.progressBarQuakes.visibility = View.GONE
                         showSnackBar(it)
                     }
                 }
@@ -91,13 +88,19 @@ class QuakeFragment(
                 launch {
                     viewModel.quakeState.collect {
 
+                        Timber.e(it.toString())
                         when {
                             it.isLoading -> {
                                 binding.progressBarQuakes.visibility = View.VISIBLE
+                                binding.includeNoWifi.root.visibility = View.GONE
+                            }
+                            !it.isLoading && it.quakes.isEmpty() -> {
+                                binding.progressBarQuakes.visibility = View.GONE
+                                binding.includeNoWifi.root.visibility = View.VISIBLE
                             }
                             !it.isLoading && it.quakes.isNotEmpty() -> {
-
                                 binding.progressBarQuakes.visibility = View.GONE
+                                binding.includeNoWifi.root.visibility = View.GONE
 
                                 quakeAdapter.quakes = it.quakes
                                 Timber.d(getString(R.string.FRAGMENT_QUAKE) + ": " + getString(R.string.FRAGMENT_LOAD_LIST))

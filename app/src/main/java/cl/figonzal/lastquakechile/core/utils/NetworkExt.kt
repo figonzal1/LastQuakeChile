@@ -15,10 +15,18 @@ private val okHttpClient = OkHttpClient().newBuilder()
     .addInterceptor(HttpLoggingInterceptor().apply {
 
         //HTTP LOGGER
-        level = HttpLoggingInterceptor.Level.NONE
+        level = HttpLoggingInterceptor.Level.BODY
     }).build()
 
 fun provideApiService(url: String): Retrofit =
+    Retrofit.Builder()
+        .baseUrl(url)
+        .client(okHttpClient)
+        .addConverterFactory(MoshiConverterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+fun provideNewApiService(url: String): Retrofit =
     Retrofit.Builder()
         .baseUrl(url)
         .client(okHttpClient)
