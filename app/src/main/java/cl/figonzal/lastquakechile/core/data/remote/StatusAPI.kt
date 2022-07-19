@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile.core.utils
+package cl.figonzal.lastquakechile.core.data.remote
 
 @Deprecated("Use new StatusAPI")
 sealed class StatusAPI<T>(
@@ -11,6 +11,9 @@ sealed class StatusAPI<T>(
     class Loading<T>(data: T? = null) : StatusAPI<T>(data)
 }
 
+/**
+ * Sealed class for api response status
+ */
 sealed class NewStatusAPI<T>(
     val data: T? = null,
     val apiError: ApiError? = null
@@ -19,6 +22,9 @@ sealed class NewStatusAPI<T>(
     class Error<T>(apiError: ApiError, data: T? = null) : NewStatusAPI<T>(data, apiError)
 }
 
+/**
+ * Sealed class for api error response
+ */
 sealed class ApiError {
     object IoError : ApiError()
     object HttpError : ApiError()

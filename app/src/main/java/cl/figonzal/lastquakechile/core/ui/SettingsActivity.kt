@@ -145,7 +145,7 @@ class SettingsActivity : AppCompatActivity() {
                     when {
                         resolveActivity(requireActivity().packageManager) != null -> {
                             requireActivity().startActivity(
-                                Intent.createChooser(
+                                createChooser(
                                     this,
                                     getString(R.string.email_chooser_title)
                                 )

@@ -1,6 +1,6 @@
 package cl.figonzal.lastquakechile.reports_feature.data.repository
 
-import cl.figonzal.lastquakechile.core.utils.StatusAPI
+import cl.figonzal.lastquakechile.core.data.remote.StatusAPI
 import cl.figonzal.lastquakechile.reports_feature.domain.model.CityQuakes
 import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
 import cl.figonzal.lastquakechile.reports_feature.domain.repository.ReportRepository
@@ -14,7 +14,7 @@ class FakeReportRepository(
     private val dispatcher: CoroutineDispatcher
 ) : ReportRepository {
 
-    var shouldReturnNetworkError = false
+    private var shouldReturnNetworkError = false
 
     private val reportList = listOf(
         Report(

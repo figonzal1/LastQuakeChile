@@ -2,8 +2,8 @@ package cl.figonzal.lastquakechile.quake_feature.data.repository
 
 import android.app.Application
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.utils.ApiError
-import cl.figonzal.lastquakechile.core.utils.NewStatusAPI
+import cl.figonzal.lastquakechile.core.data.remote.ApiError
+import cl.figonzal.lastquakechile.core.data.remote.NewStatusAPI
 import cl.figonzal.lastquakechile.core.utils.toQuakeDomain
 import cl.figonzal.lastquakechile.quake_feature.data.local.QuakeLocalDataSource
 import cl.figonzal.lastquakechile.quake_feature.data.local.entity.relation.QuakeAndCoordinate

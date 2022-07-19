@@ -7,13 +7,13 @@ class QuakeLocalDataSource(
     private val quakeDAO: QuakeDAO
 ) {
 
-    suspend fun getQuakes() = quakeDAO.getAll()
+    fun getQuakes() = quakeDAO.getAll()
 
-    suspend fun insert(quake: QuakeAndCoordinate) {
+    fun insert(quake: QuakeAndCoordinate) {
         quakeDAO.insertAll(quake)
     }
 
-    suspend fun deleteAll() {
+    fun deleteAll() {
         Timber.e("DELETE ALL")
         quakeDAO.deleteAll()
     }

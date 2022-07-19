@@ -26,7 +26,7 @@ fun checkRecyclerSubViews(
 
 private fun atPositionOnView(
     position: Int, itemMatcher: Matcher<View?>, targetViewId: Int
-): Matcher<View?>? {
+): Matcher<View?> {
     return object : BoundedMatcher<View?, RecyclerView>(RecyclerView::class.java) {
         override fun describeTo(description: Description) {
             description.appendText("has view id $itemMatcher at position $position")

@@ -13,7 +13,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.utils.ApiError
+import cl.figonzal.lastquakechile.core.data.remote.ApiError
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.configOptionsMenu
 import cl.figonzal.lastquakechile.databinding.FragmentQuakeBinding

@@ -252,7 +252,7 @@ class SettingsActivityTest {
         //Checkear display de Toast de shared pref TRUE
         onView(withText(context.getString(R.string.firebase_pref_key_alert_off)))
             .inRoot(ToastMatcher())
-            .check(matches(isDisplayed()));
+            .check(matches(isDisplayed()))
     }
 
     //NOT WORK IN API 31 & 32
@@ -271,7 +271,7 @@ class SettingsActivityTest {
         //Checkear display de Toast de shared pref TRUE
         onView(withText(context.getString(R.string.firebase_pref_key_alert_on)))
             .inRoot(ToastMatcher())
-            .check(matches(isDisplayed()));
+            .check(matches(isDisplayed()))
     }
 
     @Test
@@ -317,7 +317,7 @@ class SettingsActivityTest {
 
         intended(expectedIntent)
 
-        UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()).pressBack();
+        UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()).pressBack()
 
         Intents.release()
 

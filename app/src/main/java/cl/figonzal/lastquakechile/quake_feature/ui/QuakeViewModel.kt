@@ -2,8 +2,8 @@ package cl.figonzal.lastquakechile.quake_feature.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cl.figonzal.lastquakechile.core.utils.ApiError
-import cl.figonzal.lastquakechile.core.utils.NewStatusAPI
+import cl.figonzal.lastquakechile.core.data.remote.ApiError
+import cl.figonzal.lastquakechile.core.data.remote.NewStatusAPI
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import cl.figonzal.lastquakechile.quake_feature.domain.uses_cases.GetQuakesUseCase
 import kotlinx.coroutines.channels.Channel

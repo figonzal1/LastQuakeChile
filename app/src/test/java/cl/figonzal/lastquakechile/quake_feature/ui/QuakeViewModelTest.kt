@@ -1,6 +1,6 @@
 package cl.figonzal.lastquakechile.quake_feature.ui
 
-import cl.figonzal.lastquakechile.core.utils.ApiError
+import cl.figonzal.lastquakechile.core.data.remote.ApiError
 import cl.figonzal.lastquakechile.quake_feature.data.repository.FakeQuakeRepository
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import cl.figonzal.lastquakechile.quake_feature.domain.uses_cases.GetQuakesUseCase
