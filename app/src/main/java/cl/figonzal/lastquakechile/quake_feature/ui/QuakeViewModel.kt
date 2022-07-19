@@ -2,13 +2,15 @@ package cl.figonzal.lastquakechile.quake_feature.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cl.figonzal.lastquakechile.core.utils.StatusAPI
+import cl.figonzal.lastquakechile.core.utils.ApiError
+import cl.figonzal.lastquakechile.core.utils.NewStatusAPI
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import cl.figonzal.lastquakechile.quake_feature.domain.uses_cases.GetQuakesUseCase
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class QuakeViewModel(
@@ -18,39 +20,45 @@ class QuakeViewModel(
     private val _quakeState = MutableStateFlow(QuakeState())
     val quakeState = _quakeState.asStateFlow()
 
-    private val _errorStatus = Channel<String>()
+    private val _errorStatus = Channel<ApiError>()
     val errorStatus = _errorStatus.receiveAsFlow()
 
     fun getQuakes() {
 
         viewModelScope.launch {
 
-            getQuakesUseCase().collect {
+            _quakeState.update { it.copy(isLoading = true) }
 
-                when (it) {
+            getQuakesUseCase().collect { statusApi ->
 
-                    is StatusAPI.Loading -> {
-                        _quakeState.value = quakeState.value.copy(isLoading = true)
+                val data = statusApi.data
+                val apiError = statusApi.apiError
+
+                when (statusApi) {
+
+                    is NewStatusAPI.Error -> {
+                        _quakeState.update {
+                            it.copy(
+                                isLoading = false,
+                                apiError = apiError,
+                                quakes = data as List<Quake> //cached list
+                            )
+                        }
+
+                        apiError?.let { _errorStatus.send(it) }
                     }
+                    is NewStatusAPI.Success -> {
 
-                    is StatusAPI.Success -> {
-                        _quakeState.value = quakeState.value.copy(
-                            quakes = it.data as List<Quake>,
-                            isLoading = false
-                        )
-                    }
-
-                    is StatusAPI.Error -> {
-                        _errorStatus.send(it.message as String)
-
-                        _quakeState.value = quakeState.value.copy(
-                            isLoading = false,
-                            quakes = emptyList()
-                        )
+                        _quakeState.update {
+                            it.copy(
+                                quakes = data as List<Quake>,
+                                isLoading = false,
+                                apiError = null
+                            )
+                        }
                     }
                 }
             }
         }
     }
-
 }

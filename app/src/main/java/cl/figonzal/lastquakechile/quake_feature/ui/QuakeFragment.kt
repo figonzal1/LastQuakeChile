@@ -9,13 +9,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.utils.ApiError
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.configOptionsMenu
 import cl.figonzal.lastquakechile.databinding.FragmentQuakeBinding
+import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.coroutines.launch
@@ -52,10 +54,8 @@ class QuakeFragment(
         _binding = FragmentQuakeBinding.inflate(inflater, container, false)
 
         bindingResources()
-        initViewModel()
-
+        handleQuakeState()
         showCvInfo()
-
         configOptionsMenu()
 
         return binding.root
@@ -72,45 +72,77 @@ class QuakeFragment(
         }
     }
 
-    private fun initViewModel() {
+    private fun handleQuakeState() {
 
         viewLifecycleOwner.lifecycleScope.launch {
 
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewModel.quakeState
+                .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
+                .collect {
 
-                //Error Status
-                launch {
-                    viewModel.errorStatus.collect {
-                        showSnackBar(it)
+                    when {
+                        it.isLoading -> loadingUI()
+                        !it.isLoading && it.apiError != null -> errorUI(it)
+                        !it.isLoading && it.quakes.isNotEmpty() && it.apiError == null -> showListUI(
+                            it.quakes
+                        )
                     }
                 }
-
-                launch {
-                    viewModel.quakeState.collect {
-
-                        Timber.e(it.toString())
-                        when {
-                            it.isLoading -> {
-                                binding.progressBarQuakes.visibility = View.VISIBLE
-                                binding.includeNoWifi.root.visibility = View.GONE
-                            }
-                            !it.isLoading && it.quakes.isEmpty() -> {
-                                binding.progressBarQuakes.visibility = View.GONE
-                                binding.includeNoWifi.root.visibility = View.VISIBLE
-                            }
-                            !it.isLoading && it.quakes.isNotEmpty() -> {
-                                binding.progressBarQuakes.visibility = View.GONE
-                                binding.includeNoWifi.root.visibility = View.GONE
-
-                                quakeAdapter.quakes = it.quakes
-                                Timber.d(getString(R.string.FRAGMENT_QUAKE) + ": " + getString(R.string.FRAGMENT_LOAD_LIST))
-                            }
-                        }
-                    }
-                }
-            }
         }
         viewModel.getQuakes()
+    }
+
+    private fun loadingUI() {
+        with(binding) {
+            progressBarQuakes.visibility = View.VISIBLE
+            includeNoWifi.root.visibility = View.GONE
+        }
+    }
+
+    private fun showListUI(quakes: List<Quake>) {
+
+        with(binding) {
+            View.GONE.apply {
+                progressBarQuakes.visibility = this
+                includeNoWifi.root.visibility = this
+            }
+        }
+
+        //Load quakes
+        quakeAdapter.quakes = quakes
+
+        Timber.d(getString(R.string.FRAGMENT_LOAD_LIST))
+    }
+
+    private fun errorUI(state: QuakeState) {
+
+        if (state.apiError != null) {
+
+            with(binding) {
+                progressBarQuakes.visibility = View.GONE
+                includeNoWifi.root.visibility = when {
+                    state.quakes.isEmpty() -> View.VISIBLE
+                    else -> View.GONE
+                }
+            }
+
+            viewLifecycleOwner.lifecycleScope.launch {
+
+                viewModel.errorStatus
+                    .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
+                    .collect {
+                        when (state.apiError) {
+                            ApiError.HttpError -> showSnackBar(
+                                getString(R.string.http_error)
+                            )
+                            ApiError.IoError -> showSnackBar(
+                                getString(R.string.io_error),
+                                getString(R.string.refresh)
+                            )
+                        }
+                    }
+            }
+        }
     }
 
     private fun showCvInfo() {
@@ -150,16 +182,19 @@ class QuakeFragment(
 
     }
 
-    private fun showSnackBar(string: String) = Snackbar
-        .make(binding.root, string, Snackbar.LENGTH_INDEFINITE)
-        .setAction(getString(R.string.snackbar_retry)) {
+    private fun showSnackBar(string: String, action: String? = null) {
 
-            viewModel.getQuakes()
+        val snackbar = Snackbar.make(binding.root, string, Snackbar.LENGTH_INDEFINITE)
 
-            crashlytics.setCustomKey(getString(R.string.snackbar_error), true)
+        if (action != null) {
+            snackbar
+                .setAction(action) { viewModel.getQuakes() }
+                .setActionTextColor(
+                    resources.getColor(R.color.colorSecondary, requireContext().theme)
+                )
         }
-        .setActionTextColor(resources.getColor(R.color.colorSecondary, requireContext().theme))
-        .show()
+        snackbar.show()
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

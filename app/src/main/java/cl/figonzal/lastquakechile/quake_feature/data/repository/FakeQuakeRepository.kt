@@ -1,6 +1,7 @@
 package cl.figonzal.lastquakechile.quake_feature.data.repository
 
-import cl.figonzal.lastquakechile.core.utils.StatusAPI
+import cl.figonzal.lastquakechile.core.utils.ApiError
+import cl.figonzal.lastquakechile.core.utils.NewStatusAPI
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Coordinate
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import cl.figonzal.lastquakechile.quake_feature.domain.repository.QuakeRepository
@@ -56,17 +57,15 @@ class FakeQuakeRepository(
         )
     )
 
-    override fun getQuakes(limit: Int): Flow<StatusAPI<List<Quake>>> = flow {
+    override fun getQuakes(limit: Int): Flow<NewStatusAPI<List<Quake>>> = flow {
 
         //Should be omitted in test
-        emit(StatusAPI.Loading())
-
         when {
             shouldReturnNetworkError -> {
-                emit(StatusAPI.Error("Test network error"))
+                emit(NewStatusAPI.Error(apiError = ApiError.HttpError))
             }
             else -> {
-                emit(StatusAPI.Success(quakeList.take(limit)))
+                emit(NewStatusAPI.Success(quakeList.take(limit)))
             }
         }
     }.flowOn(dispatcher)
