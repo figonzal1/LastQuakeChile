@@ -61,12 +61,8 @@ class FakeQuakeRepository(
 
         //Should be omitted in test
         when {
-            shouldReturnNetworkError -> {
-                emit(NewStatusAPI.Error(apiError = ApiError.HttpError))
-            }
-            else -> {
-                emit(NewStatusAPI.Success(quakeList.take(limit)))
-            }
+            shouldReturnNetworkError -> emit(NewStatusAPI.Error(ApiError.HttpError))
+            else -> emit(NewStatusAPI.Success(quakeList.take(limit)))
         }
     }.flowOn(dispatcher)
 

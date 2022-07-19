@@ -4,7 +4,9 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import cl.figonzal.lastquakechile.core.AppDatabase
+import cl.figonzal.lastquakechile.quake_feature.data.local.entity.CoordinateEntity
 import cl.figonzal.lastquakechile.quake_feature.data.local.entity.QuakeEntity
+import cl.figonzal.lastquakechile.quake_feature.data.local.entity.relation.QuakeAndCoordinate
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -43,17 +45,19 @@ class QuakeDAOTest : KoinTest {
             4.5,
             45.2,
             "ml",
-            -74.23,
-            22.34,
             isSensitive = false,
             isVerified = true
         )
 
-        quakeDAO.insertQuake(quakeEntity)
+        val coordinateEntity = CoordinateEntity(1, latitude = 22.6, longitude = -22.5, 1)
 
-        val result = quakeDAO.getQuakes()
+        val quakeAndCoord = QuakeAndCoordinate(quakeEntity, coordinateEntity)
 
-        assertThat(result).contains(quakeEntity)
+        quakeDAO.insertAll(quakeAndCoord)
+
+        val result = quakeDAO.getAll().first()
+
+        assertThat(result).isEqualTo(quakeAndCoord)
     }
 
     @Test
@@ -67,8 +71,6 @@ class QuakeDAOTest : KoinTest {
             4.5,
             45.2,
             "ml",
-            -74.23,
-            22.34,
             isSensitive = false,
             isVerified = true
         )
@@ -81,8 +83,6 @@ class QuakeDAOTest : KoinTest {
             4.5,
             45.2,
             "ml",
-            -74.23,
-            22.34,
             isSensitive = false,
             isVerified = true
         )
@@ -91,7 +91,7 @@ class QuakeDAOTest : KoinTest {
         quakeDAO.insertQuake(quakeEntity2)
 
         quakeDAO.deleteAll()
-        val result = quakeDAO.getQuakes()
+        val result = quakeDAO.getAll()
 
         assertThat(result.size).isEqualTo(0)
     }

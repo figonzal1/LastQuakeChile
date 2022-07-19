@@ -1,6 +1,8 @@
 package cl.figonzal.lastquakechile.quake_feature.ui
 
+import cl.figonzal.lastquakechile.core.utils.ApiError
 import cl.figonzal.lastquakechile.quake_feature.data.repository.FakeQuakeRepository
+import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import cl.figonzal.lastquakechile.quake_feature.domain.uses_cases.GetQuakesUseCase
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.Dispatchers
@@ -80,7 +82,7 @@ class QuakeViewModelTest : KoinTest {
     }
 
     @Test
-    fun `network error should activate errorStatus`() = runTest {
+    fun `network error should activate errorState`() = runTest {
 
         repository.shouldReturnNetworkError = true
         val useCase = GetQuakesUseCase(repository, 3)
@@ -89,8 +91,25 @@ class QuakeViewModelTest : KoinTest {
         viewModel.getQuakes()
 
         val job = launch(dispatcher) {
-            val result = viewModel.errorStatus.first()
-            assertThat(result).isEqualTo("Test network error")
+            val result: ApiError = viewModel.errorState.first()
+            assertThat(result).isSameInstanceAs(ApiError.HttpError)
+        }
+
+        job.cancel()
+    }
+
+    @Test
+    fun `network error should return chachedList`() = runTest {
+
+        repository.shouldReturnNetworkError = true
+        val useCase = GetQuakesUseCase(repository, 3)
+        val viewModel = QuakeViewModel(useCase)
+
+        viewModel.getQuakes()
+
+        val job = launch(dispatcher) {
+            val result: List<Quake> = viewModel.quakeState.first().quakes
+            assertThat(result.size).isEqualTo(3)
         }
 
         job.cancel()

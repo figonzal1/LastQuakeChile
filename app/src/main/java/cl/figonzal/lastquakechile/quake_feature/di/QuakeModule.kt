@@ -27,7 +27,7 @@ val quakeModule = module {
     single { QuakeLocalDataSource(get()) }
 
     //Remote DataSources Dependency
-    single { provideQuakeAPI(get(named("newApiService"))) }
+    single { provideQuakeAPI(get(named("newApiService"))) } //TODO: volver a nombre original
     single { QuakeRemoteDataSource(get()) }
 
     //Repository

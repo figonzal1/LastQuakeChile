@@ -83,9 +83,9 @@ class QuakeFragment(
                     when {
                         it.isLoading -> loadingUI()
                         !it.isLoading && it.apiError != null -> errorUI(it)
-                        !it.isLoading && it.quakes.isNotEmpty() && it.apiError == null -> showListUI(
-                            it.quakes
-                        )
+                        !it.isLoading && it.quakes.isNotEmpty() && it.apiError == null -> {
+                            showListUI(it.quakes)
+                        }
                     }
                 }
         }
@@ -128,13 +128,11 @@ class QuakeFragment(
 
             viewLifecycleOwner.lifecycleScope.launch {
 
-                viewModel.errorStatus
+                viewModel.errorState
                     .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
                     .collect {
                         when (state.apiError) {
-                            ApiError.HttpError -> showSnackBar(
-                                getString(R.string.http_error)
-                            )
+                            ApiError.HttpError -> showSnackBar(getString(R.string.http_error))
                             ApiError.IoError -> showSnackBar(
                                 getString(R.string.io_error),
                                 getString(R.string.refresh)

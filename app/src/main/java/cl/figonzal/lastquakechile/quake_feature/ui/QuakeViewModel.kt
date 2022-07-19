@@ -20,8 +20,8 @@ class QuakeViewModel(
     private val _quakeState = MutableStateFlow(QuakeState())
     val quakeState = _quakeState.asStateFlow()
 
-    private val _errorStatus = Channel<ApiError>()
-    val errorStatus = _errorStatus.receiveAsFlow()
+    private val _errorState = Channel<ApiError>()
+    val errorState = _errorState.receiveAsFlow()
 
     fun getQuakes() {
 
@@ -45,7 +45,7 @@ class QuakeViewModel(
                             )
                         }
 
-                        apiError?.let { _errorStatus.send(it) }
+                        apiError?.let { _errorState.send(it) }
                     }
                     is NewStatusAPI.Success -> {
 

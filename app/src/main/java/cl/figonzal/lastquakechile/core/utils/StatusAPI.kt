@@ -1,5 +1,6 @@
 package cl.figonzal.lastquakechile.core.utils
 
+@Deprecated("Use new StatusAPI")
 sealed class StatusAPI<T>(
     val data: T? = null,
     val message: String? = null,
@@ -15,7 +16,7 @@ sealed class NewStatusAPI<T>(
     val apiError: ApiError? = null
 ) {
     class Success<T>(data: T) : NewStatusAPI<T>(data)
-    class Error<T>(data: T? = null, apiError: ApiError) : NewStatusAPI<T>(data, apiError)
+    class Error<T>(apiError: ApiError, data: T? = null) : NewStatusAPI<T>(data, apiError)
 }
 
 sealed class ApiError {

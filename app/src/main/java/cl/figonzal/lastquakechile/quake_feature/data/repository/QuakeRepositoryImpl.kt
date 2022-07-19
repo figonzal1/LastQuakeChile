@@ -50,11 +50,11 @@ class QuakeRepositoryImpl(
         } catch (e: HttpException) {
 
             Timber.e(application.getString(R.string.EMIT_HTTP_ERROR))
-            emit(NewStatusAPI.Error(cacheList, ApiError.HttpError))
+            emit(NewStatusAPI.Error(ApiError.HttpError, cacheList))
         } catch (e: IOException) {
 
             Timber.e(application.getString(R.string.EMIT_IO_EXCEPTION))
-            emit(NewStatusAPI.Error(cacheList, ApiError.IoError))
+            emit(NewStatusAPI.Error(ApiError.IoError, cacheList))
         }
 
     }.flowOn(dispatcher)
