@@ -10,11 +10,14 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class CityQuakesDTO(
 
-    @field:Json(name = "ciudad")
+    @Json(name = "city")
     val city: String,
 
-    @field:Json(name = "n_sismos")
-    val nQuakes: Int
+    @Json(name = "nquakes")
+    val nQuakes: Int,
+
+    @Json(name = "_links")
+    val links: Any? = null
 ) {
     fun toEntity() = CityQuakesEntity(
         city = city,

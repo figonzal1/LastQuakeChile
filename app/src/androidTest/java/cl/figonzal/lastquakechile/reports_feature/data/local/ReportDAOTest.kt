@@ -6,7 +6,7 @@ import androidx.test.filters.SmallTest
 import cl.figonzal.lastquakechile.core.AppDatabase
 import cl.figonzal.lastquakechile.reports_feature.data.local.entity.CityQuakesEntity
 import cl.figonzal.lastquakechile.reports_feature.data.local.entity.ReportEntity
-import cl.figonzal.lastquakechile.reports_feature.data.local.entity.ReportWithCityQuakesEntity
+import cl.figonzal.lastquakechile.reports_feature.data.local.entity.relation.ReportWithCityQuakes
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -34,17 +34,32 @@ class ReportDAOTest : KoinTest {
     }
 
     @Test
+    fun insertCityQuakes() = runTest {
+
+        val cityQuakesEntity = CityQuakesEntity(
+            city = "La Serena",
+            nQuakes = 4,
+        )
+
+        val id = reportDAO.insertCityQuakes(
+            listOf(cityQuakesEntity)
+        )
+
+        assertThat(id).isNotNull()
+    }
+
+    @Test
     fun insertReport() = runTest {
 
         val reportEntity = ReportEntity(
-            1,
-            "Diciembre",
-            12,
-            450,
-            4.23,
-            159.34,
-            6.8,
-            2.3
+            id = 1,
+            reportMonth = "Diciembre",
+            nSensitive = 12,
+            nQuakes = 450,
+            promMagnitude = 4.23,
+            promDepth = 159.34,
+            maxMagnitude = 6.8,
+            minDepth = 2.3
         )
 
         val id = reportDAO.insertReport(reportEntity)
@@ -53,66 +68,67 @@ class ReportDAOTest : KoinTest {
     }
 
     @Test
+    fun insertFullReport() = runTest {
+        val reportEntity = ReportEntity(
+            id = 1,
+            reportMonth = "Diciembre",
+            nSensitive = 12,
+            nQuakes = 450,
+            promMagnitude = 4.23,
+            promDepth = 159.34,
+            maxMagnitude = 6.8,
+            minDepth = 2.3
+        )
+
+        val cityQuakes = CityQuakesEntity(
+            1,
+            city = "La Serena",
+            nQuakes = 10,
+            1
+        )
+
+        val reportWithCityQuakes = ReportWithCityQuakes(
+            reportEntity, listOf(cityQuakes)
+        )
+
+        reportDAO.insertAll(reportWithCityQuakes)
+
+        val result = reportDAO.getAll().first()
+
+        assertThat(result).isEqualTo(reportWithCityQuakes)
+    }
+
+    @Test
     fun deleteAllReport() = runTest {
         val reportEntity = ReportEntity(
-            1,
-            "Diciembre",
-            12,
-            450,
-            4.23,
-            159.34,
-            6.8,
-            2.3
+            id = 1,
+            reportMonth = "Diciembre",
+            nSensitive = 12,
+            nQuakes = 450,
+            promMagnitude = 4.23,
+            promDepth = 159.34,
+            maxMagnitude = 6.8,
+            minDepth = 2.3
         )
 
         val reportEntity2 = ReportEntity(
-            2,
-            "Enero",
-            50,
-            680,
-            4.23,
-            159.34,
-            6.8,
-            2.3
+            id = 2,
+            reportMonth = "Enero",
+            nSensitive = 50,
+            nQuakes = 680,
+            promMagnitude = 4.23,
+            promDepth = 159.34,
+            maxMagnitude = 6.8,
+            minDepth = 2.3
         )
 
         reportDAO.insertReport(reportEntity)
         reportDAO.insertReport(reportEntity2)
 
-        reportDAO.deleteAllReportEntity()
+        reportDAO.deleteAllReports()
 
-        val result = reportDAO.getReports()
+        val result = reportDAO.getAll()
 
         assertThat(result.size).isEqualTo(0)
-    }
-
-    @Test
-    fun insertReportWithQuakeCity() = runTest {
-
-        val topCities = listOf(
-            CityQuakesEntity(1, "La Serena", 4, 1),
-            CityQuakesEntity(2, "Santiago", 4, 1)
-        )
-
-        val reportWithCityQuakesEntity = ReportWithCityQuakesEntity(
-            ReportEntity(
-                1,
-                "Diciembre",
-                12,
-                450,
-                4.23,
-                159.34,
-                6.8,
-                2.3
-            ), topCities
-        )
-
-        val id = reportDAO.insertReport(reportWithCityQuakesEntity.report)
-        reportWithCityQuakesEntity.topCities.forEach { it.idReport = id }
-        reportDAO.insertAll(reportWithCityQuakesEntity.topCities)
-
-        val result = reportDAO.getReports()
-
-        assertThat(result).contains(reportWithCityQuakesEntity)
     }
 }

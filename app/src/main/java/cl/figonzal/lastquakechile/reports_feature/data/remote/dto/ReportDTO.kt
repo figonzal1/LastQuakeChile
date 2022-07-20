@@ -10,30 +10,32 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class ReportDTO(
 
-    @field:Json(name = "mes_reporte")
+    @Json(name = "reportMonth")
     val reportMonth: String,
 
-    @field:Json(name = "n_sensibles")
-    val nSensitives: Int,
-
-    @field:Json(name = "n_sismos")
-    val nQuakes: Int,
-
-    @field:Json(name = "prom_magnitud")
+    @Json(name = "promMagnitude")
     val meanMagnitude: Double,
 
-    @field:Json(name = "prom_profundidad")
+    @Json(name = "promDepth")
     val meanDepth: Double,
 
-    @field:Json(name = "max_magnitud")
+    @Json(name = "maxMagnitude")
     val maxMagnitude: Double,
 
-    @field:Json(name = "min_profundidad")
+    @Json(name = "minDepth")
     val minDepth: Double,
 
-    @field:Json(name = "top_ciudades")
-    val topCities: List<CityQuakesDTO>
+    @Json(name = "nsensitive")
+    val nSensitives: Int,
 
+    @Json(name = "nquakes")
+    val nQuakes: Int,
+
+    @Json(name = "cityQuakes")
+    val cityQuakes: List<CityQuakesDTO>,
+
+    @Json(name = "_links", ignore = true)
+    val links: Any? = null
 ) {
 
     fun toEntity() = ReportEntity(

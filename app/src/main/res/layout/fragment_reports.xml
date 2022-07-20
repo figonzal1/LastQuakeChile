@@ -39,7 +39,7 @@
         tools:listitem="@layout/card_view_reports" />
 
     <ProgressBar
-        android:id="@+id/progress_bar_reportes"
+        android:id="@+id/progress_bar_reports"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"

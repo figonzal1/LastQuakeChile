@@ -1,6 +1,8 @@
 package cl.figonzal.lastquakechile.reports_feature.ui
 
+import cl.figonzal.lastquakechile.core.data.remote.ApiError
 import cl.figonzal.lastquakechile.reports_feature.data.repository.FakeReportRepository
+import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
 import cl.figonzal.lastquakechile.reports_feature.domain.use_case.GetReportsUseCase
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.Dispatchers
@@ -64,7 +66,7 @@ class ReportViewModelTest : KoinTest {
     }
 
     @Test
-    fun `get reports return network error & should activate errorStatus`() = runTest {
+    fun `network error should activate errorState`() = runTest {
 
         repository.shouldReturnNetworkError = true
         val useCase = GetReportsUseCase(repository)
@@ -74,9 +76,26 @@ class ReportViewModelTest : KoinTest {
 
         val job = launch(dispatcher) {
 
-            val result = viewModel.errorStatus.first()
-            assertThat(result).isEqualTo("Test network error")
+            val result = viewModel.errorState.first()
+            assertThat(result).isSameInstanceAs(ApiError.HttpError)
         }
+        job.cancel()
+    }
+
+    @Test
+    fun `network error should return chachedList`() = runTest {
+
+        repository.shouldReturnNetworkError = true
+        val useCase = GetReportsUseCase(repository)
+        val viewModel = ReportViewModel(useCase)
+
+        viewModel.getReports()
+
+        val job = launch(dispatcher) {
+            val result: List<Report> = viewModel.reportState.first().reports
+            assertThat(result.size).isEqualTo(2)
+        }
+
         job.cancel()
     }
 }

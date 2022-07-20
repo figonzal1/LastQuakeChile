@@ -2,7 +2,8 @@ package cl.figonzal.lastquakechile.reports_feature.data.repository
 
 import android.app.Application
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.data.remote.StatusAPI
+import cl.figonzal.lastquakechile.core.data.remote.ApiError
+import cl.figonzal.lastquakechile.core.data.remote.NewStatusAPI
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.localDateTimeToString
 import cl.figonzal.lastquakechile.core.utils.stringToLocalDateTime
@@ -31,9 +32,7 @@ class ReportRepositoryImpl(
     private val sharedPrefUtil: SharedPrefUtil
 ) : ReportRepository {
 
-    override fun getReports(): Flow<StatusAPI<List<Report>>> = flow {
-
-        emit(StatusAPI.Loading())
+    override fun getReports(): Flow<NewStatusAPI<List<Report>>> = flow {
 
         var cacheList = localDataSource.getReports().toReportDomain()
 
@@ -42,7 +41,7 @@ class ReportRepositoryImpl(
 
                 Timber.d(application.getString(R.string.EMIT_CACHE_LIST))
 
-                emit(StatusAPI.Success(cacheList))
+                emit(NewStatusAPI.Success(cacheList))
             }
             else -> try {
 
@@ -68,19 +67,19 @@ class ReportRepositoryImpl(
 
                     //emit cached
                     cacheList = localDataSource.getReports().toReportDomain()
-                    emit(StatusAPI.Success(cacheList))
+                    emit(NewStatusAPI.Success(cacheList))
                 }
 
             } catch (e: HttpException) {
 
                 Timber.e(application.getString(R.string.EMIT_HTTP_ERROR))
 
-                emit(StatusAPI.Error(message = application.getString(R.string.http_error)))
+                emit(NewStatusAPI.Error(ApiError.HttpError))
             } catch (e: IOException) {
 
                 Timber.e(application.getString(R.string.EMIT_IO_EXCEPTION))
 
-                emit(StatusAPI.Error(message = application.getString(R.string.io_error)))
+                emit(NewStatusAPI.Error(ApiError.IoError))
             }
         }
 

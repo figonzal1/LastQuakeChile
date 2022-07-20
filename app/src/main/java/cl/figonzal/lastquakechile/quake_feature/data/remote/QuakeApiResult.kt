@@ -26,6 +26,6 @@ data class QuakeResult(
 
 @JsonClass(generateAdapter = true)
 data class QuakePayload(
-    @field:Json(name = "quakes")
+    @Json(name = "quakes")
     val quakes: List<QuakeDTO>
 )

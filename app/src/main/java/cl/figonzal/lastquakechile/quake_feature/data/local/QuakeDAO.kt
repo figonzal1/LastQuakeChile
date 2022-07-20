@@ -16,7 +16,7 @@ interface QuakeDAO {
     fun insertCoordinate(coordinateEntity: CoordinateEntity): Long
 
     @Insert(onConflict = REPLACE)
-    fun insertQuake(quake: QuakeEntity): Long
+    fun insertQuake(quakeEntity: QuakeEntity): Long
 
     @Transaction
     @Query("SELECT * FROM quakeentity")

@@ -9,7 +9,7 @@ data class CityQuakesEntity(
     @PrimaryKey val id: Long? = null,
     val city: String,
     val nQuakes: Int,
-    var idReport: Long? = null
+    var reportId: Long? = null
 ) {
 
     fun toDomain() = CityQuakes(

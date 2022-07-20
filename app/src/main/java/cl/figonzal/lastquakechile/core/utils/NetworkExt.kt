@@ -8,7 +8,6 @@ import cl.figonzal.lastquakechile.reports_feature.data.remote.ReportAPI
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 private val okHttpClient = OkHttpClient().newBuilder()
@@ -23,15 +22,6 @@ fun provideApiService(url: String): Retrofit =
         .baseUrl(url)
         .client(okHttpClient)
         .addConverterFactory(MoshiConverterFactory.create())
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-fun provideNewApiService(url: String): Retrofit =
-    Retrofit.Builder()
-        .baseUrl(url)
-        .client(okHttpClient)
-        .addConverterFactory(MoshiConverterFactory.create())
-        .addConverterFactory(GsonConverterFactory.create())
         .build()
 
 fun provideQuakeAPI(apiService: Retrofit): QuakeAPI = apiService.create(QuakeAPI::class.java)

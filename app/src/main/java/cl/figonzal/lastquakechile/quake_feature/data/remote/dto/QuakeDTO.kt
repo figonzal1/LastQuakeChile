@@ -46,7 +46,7 @@ data class QuakeDTO(
     @field:Json(name = "lastModified", ignore = true)
     val lastModified: String? = null,
 
-    @field:Json(name = "_links")
+    @field:Json(name = "_links", ignore = true)
     val links: Any? = null
 
 ) {

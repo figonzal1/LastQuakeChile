@@ -16,9 +16,9 @@ import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.data.remote.ApiError
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.configOptionsMenu
+import cl.figonzal.lastquakechile.core.utils.showSnackBar
 import cl.figonzal.lastquakechile.databinding.FragmentQuakeBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -132,11 +132,19 @@ class QuakeFragment(
                     .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
                     .collect {
                         when (state.apiError) {
-                            ApiError.HttpError -> showSnackBar(getString(R.string.http_error))
-                            ApiError.IoError -> showSnackBar(
-                                getString(R.string.io_error),
-                                getString(R.string.refresh)
-                            )
+                            ApiError.HttpError -> {
+                                showSnackBar(
+                                    binding.root,
+                                    getString(R.string.http_error)
+                                ) { viewModel.getQuakes() }
+                            }
+                            ApiError.IoError -> {
+                                showSnackBar(
+                                    binding.root,
+                                    getString(R.string.io_error),
+                                    getString(R.string.refresh)
+                                ) { viewModel.getQuakes() }
+                            }
                         }
                     }
             }
@@ -178,20 +186,6 @@ class QuakeFragment(
             }
         }
 
-    }
-
-    private fun showSnackBar(string: String, action: String? = null) {
-
-        val snackbar = Snackbar.make(binding.root, string, Snackbar.LENGTH_INDEFINITE)
-
-        if (action != null) {
-            snackbar
-                .setAction(action) { viewModel.getQuakes() }
-                .setActionTextColor(
-                    resources.getColor(R.color.colorSecondary, requireContext().theme)
-                )
-        }
-        snackbar.show()
     }
 
     override fun onDestroyView() {

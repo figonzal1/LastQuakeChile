@@ -1,6 +1,7 @@
 package cl.figonzal.lastquakechile.reports_feature.data.repository
 
-import cl.figonzal.lastquakechile.core.data.remote.StatusAPI
+import cl.figonzal.lastquakechile.core.data.remote.ApiError
+import cl.figonzal.lastquakechile.core.data.remote.NewStatusAPI
 import cl.figonzal.lastquakechile.reports_feature.domain.model.CityQuakes
 import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
 import cl.figonzal.lastquakechile.reports_feature.domain.repository.ReportRepository
@@ -18,28 +19,28 @@ class FakeReportRepository(
 
     private val reportList = listOf(
         Report(
-            "Enero",
-            12,
-            450,
-            5.78,
-            23.4,
-            7.8,
-            3.0,
-            listOf(
+            reportMonth = "Enero",
+            nSensitive = 12,
+            nQuakes = 450,
+            promMagnitude = 5.78,
+            promDepth = 23.4,
+            maxMagnitude = 7.8,
+            minDepth = 3.0,
+            cityQuakes = listOf(
                 CityQuakes("La Serena", 15),
                 CityQuakes("Santiago", 20),
                 CityQuakes("Valparaiso", 22)
             )
         ),
         Report(
-            "Marzo",
-            12,
-            363,
-            4.23,
-            23.4,
-            7.8,
-            3.0,
-            listOf(
+            reportMonth = "Marzo",
+            nSensitive = 12,
+            nQuakes = 363,
+            promMagnitude = 4.23,
+            promDepth = 23.4,
+            maxMagnitude = 7.8,
+            minDepth = 3.0,
+            cityQuakes = listOf(
                 CityQuakes("La Serena", 15),
                 CityQuakes("Santiago", 20),
                 CityQuakes("Valparaiso", 22)
@@ -48,15 +49,11 @@ class FakeReportRepository(
     )
 
 
-    override fun getReports(): Flow<StatusAPI<List<Report>>> = flow {
-
-        emit(StatusAPI.Loading())
+    override fun getReports(): Flow<NewStatusAPI<List<Report>>> = flow {
 
         when {
-            shouldReturnNetworkError -> emit(StatusAPI.Error("Test network error"))
-            else -> {
-                emit(StatusAPI.Success(reportList))
-            }
+            shouldReturnNetworkError -> emit(NewStatusAPI.Error(ApiError.HttpError))
+            else -> emit(NewStatusAPI.Success(reportList))
         }
     }.flowOn(dispatcher)
 }

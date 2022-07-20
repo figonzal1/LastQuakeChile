@@ -2,13 +2,15 @@ package cl.figonzal.lastquakechile.reports_feature.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cl.figonzal.lastquakechile.core.data.remote.StatusAPI
+import cl.figonzal.lastquakechile.core.data.remote.ApiError
+import cl.figonzal.lastquakechile.core.data.remote.NewStatusAPI
 import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
 import cl.figonzal.lastquakechile.reports_feature.domain.use_case.GetReportsUseCase
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class ReportViewModel(
@@ -18,35 +20,44 @@ class ReportViewModel(
     private val _reportState = MutableStateFlow(ReportState())
     val reportState = _reportState.asStateFlow()
 
-    private val _errorStatus = Channel<String>()
-    val errorStatus = _errorStatus.receiveAsFlow()
+    private val _errorState = Channel<ApiError>()
+    val errorState = _errorState.receiveAsFlow()
 
     fun getReports() {
 
         viewModelScope.launch {
 
-            getReportsUseCase().collect {
+            _reportState.update { it.copy(isLoading = true) }
 
-                when (it) {
-                    is StatusAPI.Loading -> {
-                        _reportState.value = reportState.value.copy(isLoading = true)
+            getReportsUseCase().collect { statusApi ->
+
+                val data = statusApi.data
+                val apiError = statusApi.apiError
+
+                when (statusApi) {
+                    is NewStatusAPI.Error -> {
+                        _reportState.update {
+                            it.copy(
+                                isLoading = false,
+                                apiError = apiError,
+                                reports = data as List<Report>
+                            )
+                        }
+
+                        apiError?.let { _errorState.send(it) }
                     }
+                    is NewStatusAPI.Success -> {
 
-                    is StatusAPI.Success -> {
-
-                        _reportState.value = reportState.value.copy(
-                            isLoading = false,
-                            reports = it.data as List<Report>
-                        )
-                    }
-                    is StatusAPI.Error -> {
-                        _errorStatus.send(it.message as String)
-
-                        _reportState.value = reportState.value.copy(isLoading = false)
+                        _reportState.update {
+                            it.copy(
+                                reports = data as List<Report>,
+                                isLoading = false,
+                                apiError = null
+                            )
+                        }
                     }
                 }
             }
         }
     }
-
 }

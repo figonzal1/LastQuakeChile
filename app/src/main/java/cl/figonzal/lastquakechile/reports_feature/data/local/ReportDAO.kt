@@ -7,40 +7,41 @@ import androidx.room.Query
 import androidx.room.Transaction
 import cl.figonzal.lastquakechile.reports_feature.data.local.entity.CityQuakesEntity
 import cl.figonzal.lastquakechile.reports_feature.data.local.entity.ReportEntity
-import cl.figonzal.lastquakechile.reports_feature.data.local.entity.ReportWithCityQuakesEntity
+import cl.figonzal.lastquakechile.reports_feature.data.local.entity.relation.ReportWithCityQuakes
 
 @Dao
 interface ReportDAO {
 
     @Insert(onConflict = REPLACE)
-    fun insertReport(report: ReportEntity): Long
+    fun insertCityQuakes(cityQuakesEntity: List<CityQuakesEntity>)
 
     @Insert(onConflict = REPLACE)
-    fun insertAll(topCities: List<CityQuakesEntity>)
-
-    @Query("Delete from reportentity")
-    fun deleteAllReportEntity()
-
-    @Query("Delete from cityquakesentity")
-    fun deleteAllQuakeCityEntity()
+    fun insertReport(reportEntity: ReportEntity): Long
 
     @Transaction
     @Query("SELECT * FROM reportentity")
-    fun getReports(): List<ReportWithCityQuakesEntity>
+    fun getAll(): List<ReportWithCityQuakes>
 
-    fun insert(reportWithQuakeCitiesEntity: ReportWithCityQuakesEntity) {
+    @Query("Delete from reportentity")
+    fun deleteAllReports()
 
-        val reportID = insertReport(reportWithQuakeCitiesEntity.report)
+    @Query("Delete from cityquakesentity")
+    fun deleteAllCityQuakes()
 
-        reportWithQuakeCitiesEntity.topCities.forEach {
-            it.idReport = reportID
+    @Transaction
+    fun insertAll(fullReport: ReportWithCityQuakes) {
+
+        val reportId = insertReport(fullReport.report)
+
+        fullReport.cityQuakes.forEach {
+            it.reportId = reportId
         }
 
-        insertAll(reportWithQuakeCitiesEntity.topCities)
+        insertCityQuakes(fullReport.cityQuakes)
     }
 
     fun deleteAll() {
-        deleteAllQuakeCityEntity()
-        deleteAllReportEntity()
+        deleteAllReports()
+        deleteAllCityQuakes()
     }
 }

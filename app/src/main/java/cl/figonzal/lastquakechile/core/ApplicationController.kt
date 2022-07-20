@@ -3,6 +3,7 @@ package cl.figonzal.lastquakechile.core
 import android.app.Application
 import cl.figonzal.lastquakechile.BuildConfig
 import cl.figonzal.lastquakechile.core.di.appModule
+import cl.figonzal.lastquakechile.core.di.instrumentationTestModule
 import cl.figonzal.lastquakechile.core.services.AppOpenService
 import com.google.android.gms.ads.MobileAds
 import org.koin.android.ext.koin.androidContext
@@ -31,7 +32,7 @@ class ApplicationController : Application() {
 
             fragmentFactory()
 
-            modules(appModule)//, instrumentationTestModule)
+            modules(appModule, instrumentationTestModule)
         }
 
         when {

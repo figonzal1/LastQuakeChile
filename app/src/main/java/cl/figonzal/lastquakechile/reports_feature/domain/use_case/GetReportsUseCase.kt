@@ -5,7 +5,5 @@ import cl.figonzal.lastquakechile.reports_feature.domain.repository.ReportReposi
 class GetReportsUseCase(
     private val repository: ReportRepository
 ) {
-
     operator fun invoke() = repository.getReports()
-
 }

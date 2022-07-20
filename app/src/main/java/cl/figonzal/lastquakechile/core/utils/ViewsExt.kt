@@ -27,6 +27,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import timber.log.Timber
 import java.io.File
@@ -443,3 +444,22 @@ fun Context.getMonth(month: Int) = arrayOf(
     getString(R.string.NOV),
     getString(R.string.DEC)
 )[month - 1]
+
+fun Fragment.showSnackBar(
+    view: View,
+    description: String,
+    action: String? = null,
+    actionListener: () -> Unit
+) {
+
+    val snackbar = Snackbar.make(view, description, Snackbar.LENGTH_INDEFINITE)
+
+    if (action != null) {
+        snackbar
+            .setAction(action) { actionListener() }
+            .setActionTextColor(
+                resources.getColor(R.color.colorSecondary, this.requireContext().theme)
+            )
+    }
+    snackbar.show()
+}

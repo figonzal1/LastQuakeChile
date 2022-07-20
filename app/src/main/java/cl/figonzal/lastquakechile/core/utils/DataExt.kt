@@ -3,8 +3,7 @@ package cl.figonzal.lastquakechile.core.utils
 import cl.figonzal.lastquakechile.quake_feature.data.local.entity.relation.QuakeAndCoordinate
 import cl.figonzal.lastquakechile.quake_feature.data.remote.dto.QuakeDTO
 import cl.figonzal.lastquakechile.reports_feature.data.local.entity.CityQuakesEntity
-import cl.figonzal.lastquakechile.reports_feature.data.local.entity.ReportWithCityQuakesEntity
-import cl.figonzal.lastquakechile.reports_feature.data.remote.dto.CityQuakesDTO
+import cl.figonzal.lastquakechile.reports_feature.data.local.entity.relation.ReportWithCityQuakes
 import cl.figonzal.lastquakechile.reports_feature.data.remote.dto.ReportDTO
 
 /**
@@ -23,25 +22,27 @@ fun List<QuakeDTO>.toQuakeListEntity() = map {
 /**
  * Function that map full quake entity to domain model
  */
-fun List<QuakeAndCoordinate>.toQuakeDomain() = map {
-    it.toDomain()
-}
+fun List<QuakeAndCoordinate>.toQuakeDomain() = map { it.toDomain() }
 
 /**
- * REPORTS
+ * Function that map report dto to entity
  */
-fun List<CityQuakesDTO>.toCityQuakesEntity() = map { it.toEntity() }
-fun List<ReportDTO>.toReportEntity() = map {
-    val reportEntity = it.toEntity()
-    val topCities = it.topCities.toCityQuakesEntity()
+fun List<ReportDTO>.toReportEntity() = map { reportDTO ->
+    val reportEntity = reportDTO.toEntity()
+    val topCities = reportDTO.cityQuakes.map { it.toEntity() }
 
-    ReportWithCityQuakesEntity(
+    ReportWithCityQuakes(
         report = reportEntity,
-        topCities = topCities
+        cityQuakes = topCities
     )
 }
 
+/**
+ * Function that map cityQuakeEntity to domain
+ */
 fun List<CityQuakesEntity>.toCityQuakesDomain() = map { it.toDomain() }
-fun List<ReportWithCityQuakesEntity>.toReportDomain() = map {
-    it.toDomain()
-}
+
+/**
+ * Function that map reportWithCityQuakes to domain
+ */
+fun List<ReportWithCityQuakes>.toReportDomain() = map { it.toDomain() }

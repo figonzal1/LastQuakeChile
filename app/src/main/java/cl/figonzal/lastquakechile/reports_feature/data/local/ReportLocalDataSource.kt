@@ -1,15 +1,19 @@
 package cl.figonzal.lastquakechile.reports_feature.data.local
 
-import cl.figonzal.lastquakechile.reports_feature.data.local.entity.ReportWithCityQuakesEntity
+import cl.figonzal.lastquakechile.reports_feature.data.local.entity.relation.ReportWithCityQuakes
 
 
 class ReportLocalDataSource(
     private val reportDAO: ReportDAO
 ) {
 
-    fun getReports() = reportDAO.getReports()
+    fun getReports() = reportDAO.getAll()
 
-    fun insert(reportEntity: ReportWithCityQuakesEntity) = reportDAO.insert(reportEntity)
+    fun insert(report: ReportWithCityQuakes) {
+        reportDAO.insertAll(report)
+    }
 
-    fun deleteAll() = reportDAO.deleteAll()
+    fun deleteAll() {
+        reportDAO.deleteAll()
+    }
 }
