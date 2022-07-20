@@ -3,7 +3,7 @@ package cl.figonzal.lastquakechile.quake_feature.data.repository
 import android.app.Application
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.data.remote.ApiError
-import cl.figonzal.lastquakechile.core.data.remote.NewStatusAPI
+import cl.figonzal.lastquakechile.core.data.remote.StatusAPI
 import cl.figonzal.lastquakechile.core.utils.toQuakeDomain
 import cl.figonzal.lastquakechile.quake_feature.data.local.QuakeLocalDataSource
 import cl.figonzal.lastquakechile.quake_feature.data.local.entity.relation.QuakeAndCoordinate
@@ -26,11 +26,11 @@ class QuakeRepositoryImpl(
 ) : QuakeRepository {
 
 
-    override fun getQuakes(limit: Int): Flow<NewStatusAPI<List<Quake>>> = flow {
+    override fun getQuakes(limit: Int): Flow<StatusAPI<List<Quake>>> = flow {
 
         var cacheList = localDataSource.getQuakes().toQuakeDomain()
 
-        emit(NewStatusAPI.Success(cacheList))
+        emit(StatusAPI.Success(cacheList))
 
         try {
 
@@ -45,16 +45,16 @@ class QuakeRepositoryImpl(
 
             Timber.d(application.getString(R.string.LIST_NETWORK_CALL))
 
-            emit(NewStatusAPI.Success(cacheList))
+            emit(StatusAPI.Success(cacheList))
 
         } catch (e: HttpException) {
 
             Timber.e(application.getString(R.string.EMIT_HTTP_ERROR))
-            emit(NewStatusAPI.Error(ApiError.HttpError, cacheList))
+            emit(StatusAPI.Error(ApiError.HttpError, cacheList))
         } catch (e: IOException) {
 
             Timber.e(application.getString(R.string.EMIT_IO_EXCEPTION))
-            emit(NewStatusAPI.Error(ApiError.IoError, cacheList))
+            emit(StatusAPI.Error(ApiError.IoError, cacheList))
         }
 
     }.flowOn(dispatcher)

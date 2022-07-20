@@ -3,7 +3,7 @@ package cl.figonzal.lastquakechile.reports_feature.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cl.figonzal.lastquakechile.core.data.remote.ApiError
-import cl.figonzal.lastquakechile.core.data.remote.NewStatusAPI
+import cl.figonzal.lastquakechile.core.data.remote.StatusAPI
 import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
 import cl.figonzal.lastquakechile.reports_feature.domain.use_case.GetReportsUseCase
 import kotlinx.coroutines.channels.Channel
@@ -35,7 +35,7 @@ class ReportViewModel(
                 val apiError = statusApi.apiError
 
                 when (statusApi) {
-                    is NewStatusAPI.Error -> {
+                    is StatusAPI.Error -> {
                         _reportState.update {
                             it.copy(
                                 isLoading = false,
@@ -46,7 +46,7 @@ class ReportViewModel(
 
                         apiError?.let { _errorState.send(it) }
                     }
-                    is NewStatusAPI.Success -> {
+                    is StatusAPI.Success -> {
 
                         _reportState.update {
                             it.copy(

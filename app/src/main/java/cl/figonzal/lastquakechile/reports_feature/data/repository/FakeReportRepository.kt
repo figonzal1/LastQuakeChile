@@ -1,7 +1,7 @@
 package cl.figonzal.lastquakechile.reports_feature.data.repository
 
 import cl.figonzal.lastquakechile.core.data.remote.ApiError
-import cl.figonzal.lastquakechile.core.data.remote.NewStatusAPI
+import cl.figonzal.lastquakechile.core.data.remote.StatusAPI
 import cl.figonzal.lastquakechile.reports_feature.domain.model.CityQuakes
 import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
 import cl.figonzal.lastquakechile.reports_feature.domain.repository.ReportRepository
@@ -51,11 +51,11 @@ class FakeReportRepository(
     )
 
 
-    override fun getReports(): Flow<NewStatusAPI<List<Report>>> = flow {
+    override fun getReports(): Flow<StatusAPI<List<Report>>> = flow {
 
         when {
-            shouldReturnNetworkError -> emit(NewStatusAPI.Error(ApiError.HttpError))
-            else -> emit(NewStatusAPI.Success(reportList))
+            shouldReturnNetworkError -> emit(StatusAPI.Error(ApiError.HttpError))
+            else -> emit(StatusAPI.Success(reportList))
         }
     }.flowOn(dispatcher)
 }
