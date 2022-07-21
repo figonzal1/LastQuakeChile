@@ -19,12 +19,22 @@
         android:id="@+id/tv_msg_no_wifi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:text="@string/wifi_off_msg"
         android:textAppearance="?attr/textAppearanceCaption"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_wifi_off" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_retry"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/reintentar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tv_msg_no_wifi"
+        app:layout_constraintStart_toStartOf="@+id/tv_msg_no_wifi"
+        app:layout_constraintTop_toBottomOf="@+id/tv_msg_no_wifi" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

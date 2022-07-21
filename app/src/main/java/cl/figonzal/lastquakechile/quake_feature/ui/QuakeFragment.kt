@@ -16,10 +16,11 @@ import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.data.remote.ApiError
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.configOptionsMenu
-import cl.figonzal.lastquakechile.core.utils.showSnackBar
+import cl.figonzal.lastquakechile.core.utils.toast
 import cl.figonzal.lastquakechile.databinding.FragmentQuakeBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
@@ -56,6 +57,7 @@ class QuakeFragment(
         bindingResources()
         handleQuakeState()
         showCvInfo()
+
         configOptionsMenu()
 
         return binding.root
@@ -78,7 +80,7 @@ class QuakeFragment(
 
             viewModel.quakeState
                 .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
-                .collect {
+                .collectLatest {
 
                     when {
                         it.isLoading -> loadingUI()
@@ -124,30 +126,27 @@ class QuakeFragment(
                     state.quakes.isEmpty() -> View.VISIBLE
                     else -> View.GONE
                 }
+
+                includeNoWifi.btnRetry.setOnClickListener {
+                    viewModel.getQuakes()
+                }
             }
 
             viewLifecycleOwner.lifecycleScope.launch {
 
                 viewModel.errorState
                     .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
-                    .collect {
-                        when (state.apiError) {
-                            ApiError.HttpError -> {
-                                showSnackBar(
-                                    binding.root,
-                                    getString(R.string.http_error)
-                                ) { viewModel.getQuakes() }
+                    .collectLatest {
+                        requireActivity().toast(
+                            when (state.apiError) {
+                                ApiError.HttpError -> R.string.http_error
+                                ApiError.IoError -> R.string.io_error
                             }
-                            ApiError.IoError -> {
-                                showSnackBar(
-                                    binding.root,
-                                    getString(R.string.io_error),
-                                    getString(R.string.refresh)
-                                ) { viewModel.getQuakes() }
-                            }
-                        }
+                        )
                     }
             }
+
+
         }
     }
 

@@ -12,9 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.data.remote.ApiError
 import cl.figonzal.lastquakechile.core.utils.configOptionsMenu
-import cl.figonzal.lastquakechile.core.utils.showSnackBar
+import cl.figonzal.lastquakechile.core.utils.toast
 import cl.figonzal.lastquakechile.databinding.FragmentReportsBinding
 import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
@@ -59,10 +60,9 @@ class ReportsFragment(
 
         viewLifecycleOwner.lifecycleScope.launch {
 
-
             viewModel.reportState
                 .flowWithLifecycle(lifecycle, Lifecycle.State.CREATED)
-                .collect {
+                .collectLatest {
 
                     when {
                         it.isLoading -> loadingUI()
@@ -108,28 +108,24 @@ class ReportsFragment(
                     state.reports.isEmpty() -> View.VISIBLE
                     else -> View.GONE
                 }
+
+                includeNoWifi.btnRetry.setOnClickListener {
+                    viewModel.getReports()
+                }
             }
 
             viewLifecycleOwner.lifecycleScope.launch {
 
                 viewModel.errorState
                     .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
-                    .collect {
-                        when (state.apiError) {
-                            ApiError.HttpError -> {
-                                showSnackBar(
-                                    binding.root,
-                                    getString(R.string.http_error)
-                                ) { viewModel.getReports() }
+                    .collectLatest {
+
+                        requireActivity().toast(
+                            when (state.apiError) {
+                                ApiError.HttpError -> R.string.http_error
+                                ApiError.IoError -> R.string.io_error
                             }
-                            ApiError.IoError -> {
-                                showSnackBar(
-                                    binding.root,
-                                    getString(R.string.io_error),
-                                    getString(R.string.refresh)
-                                ) { viewModel.getReports() }
-                            }
-                        }
+                        )
                     }
             }
         }

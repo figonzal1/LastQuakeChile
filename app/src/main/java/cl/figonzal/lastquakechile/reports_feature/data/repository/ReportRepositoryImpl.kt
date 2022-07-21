@@ -74,12 +74,12 @@ class ReportRepositoryImpl(
 
                 Timber.e(application.getString(R.string.EMIT_HTTP_ERROR))
 
-                emit(StatusAPI.Error(ApiError.HttpError))
+                emit(StatusAPI.Error(ApiError.HttpError, cacheList))
             } catch (e: IOException) {
 
                 Timber.e(application.getString(R.string.EMIT_IO_EXCEPTION))
 
-                emit(StatusAPI.Error(ApiError.IoError))
+                emit(StatusAPI.Error(ApiError.IoError, cacheList))
             }
         }
 

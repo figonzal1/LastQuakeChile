@@ -255,5 +255,6 @@
     <string name="email_intent_fail">No tienes ninguna app de email para contactarnos</string>
     <string name="email_chooser_title">Envia un email usando:</string>
     <string name="email_subject">Contacto desarrollador LastQuakeChile</string>
+    <string name="reintentar">Reintentar</string>
 
 </resources>
