@@ -124,6 +124,9 @@ class ReportsFragment(
                             when (state.apiError) {
                                 ApiError.HttpError -> R.string.http_error
                                 ApiError.IoError -> R.string.io_error
+                                ApiError.ServerError -> R.string.http_error
+                                ApiError.UnknownError -> R.string.http_error
+                                ApiError.TimeoutError -> R.string.http_error
                             }
                         )
                     }
