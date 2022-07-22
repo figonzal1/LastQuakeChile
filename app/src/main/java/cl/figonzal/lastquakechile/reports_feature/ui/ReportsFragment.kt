@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.DrawableRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
@@ -120,18 +121,70 @@ class ReportsFragment(
                     .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
                     .collectLatest {
 
-                        requireActivity().toast(
-                            when (state.apiError) {
-                                ApiError.HttpError -> R.string.http_error
-                                ApiError.IoError -> R.string.io_error
-                                ApiError.ServerError -> R.string.http_error
-                                ApiError.UnknownError -> R.string.http_error
-                                ApiError.TimeoutError -> R.string.http_error
+                        when (state.apiError) {
+
+                            ApiError.HttpError -> {
+
+                                requireActivity().toast(R.string.http_error)
+
+                                configErrorStatusMsg(
+                                    icon = R.drawable.ic_round_report_24,
+                                    errorMsg = getString(R.string.http_error)
+                                )
                             }
-                        )
+                            ApiError.UnknownError -> {
+
+                                requireActivity().toast(R.string.http_error)
+
+                                configErrorStatusMsg(
+                                    icon = R.drawable.ic_round_report_24,
+                                    errorMsg = getString(R.string.http_error)
+                                )
+                            }
+                            ApiError.IoError -> {
+
+                                requireActivity().toast(R.string.io_error)
+
+                                configErrorStatusMsg(
+                                    icon = R.drawable.ic_round_wifi_off_24,
+                                    errorMsg = getString(R.string.io_error)
+                                )
+                            }
+                            ApiError.ServerError -> {
+
+                                requireActivity().toast(R.string.service_error)
+
+                                configErrorStatusMsg(
+                                    icon = R.drawable.ic_round_router_24,
+                                    errorMsg = getString(R.string.service_error)
+                                )
+                            }
+                            ApiError.TimeoutError -> {
+
+                                requireActivity().toast(R.string.service_error)
+
+                                configErrorStatusMsg(
+                                    icon = R.drawable.ic_round_router_24,
+                                    errorMsg = getString(R.string.service_error)
+                                )
+                            }
+                        }
                     }
             }
         }
+    }
+
+    private fun configErrorStatusMsg(
+        @DrawableRes icon: Int,
+        errorMsg: String
+    ) {
+        binding.includeNoWifi.ivWifiOff.setImageDrawable(
+            resources.getDrawable(
+                icon,
+                requireContext().theme
+            )
+        )
+        binding.includeNoWifi.tvMsgNoWifi.text = errorMsg
     }
 
     override fun onDestroyView() {

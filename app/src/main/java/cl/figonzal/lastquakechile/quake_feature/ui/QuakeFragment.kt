@@ -17,6 +17,7 @@ import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.data.remote.ApiError
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.configOptionsMenu
+import cl.figonzal.lastquakechile.core.utils.toast
 import cl.figonzal.lastquakechile.databinding.FragmentQuakeBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -153,30 +154,46 @@ class QuakeFragment(
 
                         when (state.apiError) {
                             ApiError.HttpError -> {
+
+                                requireActivity().toast(R.string.http_error)
+
                                 configErrorStatusMsg(
                                     icon = R.drawable.ic_round_report_24,
                                     errorMsg = getString(R.string.http_error)
                                 )
                             }
                             ApiError.UnknownError -> {
+
+                                requireActivity().toast(R.string.http_error)
+
+
                                 configErrorStatusMsg(
                                     icon = R.drawable.ic_round_report_24,
                                     errorMsg = getString(R.string.http_error)
                                 )
                             }
                             ApiError.IoError -> {
+
+                                requireActivity().toast(R.string.io_error)
+
                                 configErrorStatusMsg(
                                     icon = R.drawable.ic_round_wifi_off_24,
                                     errorMsg = getString(R.string.io_error)
                                 )
                             }
                             ApiError.ServerError -> {
+
+                                requireActivity().toast(R.string.service_error)
+
                                 configErrorStatusMsg(
                                     icon = R.drawable.ic_round_router_24,
                                     errorMsg = getString(R.string.service_error)
                                 )
                             }
                             ApiError.TimeoutError -> {
+
+                                requireActivity().toast(R.string.service_error)
+
                                 configErrorStatusMsg(
                                     icon = R.drawable.ic_round_router_24,
                                     errorMsg = getString(R.string.service_error)

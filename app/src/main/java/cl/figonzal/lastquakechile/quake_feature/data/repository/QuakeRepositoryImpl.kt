@@ -65,7 +65,10 @@ class QuakeRepositoryImpl(
             .suspendOnFailure {
                 Timber.e("Suspend failure: ${this.message()}")
                 when {
-                    message().contains("10000ms") || message().contains("failed to connect") -> {
+                    message().contains("10000ms") || message().contains(
+                        "failed to connect",
+                        true
+                    ) -> {
                         emit(StatusAPI.Error(ApiError.TimeoutError, cacheList))
                     }
                     else -> emit(StatusAPI.Error(ApiError.UnknownError, cacheList))

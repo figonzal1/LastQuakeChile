@@ -4,21 +4,17 @@ import android.app.Application
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.data.remote.ApiError
 import cl.figonzal.lastquakechile.core.data.remote.StatusAPI
-import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
-import cl.figonzal.lastquakechile.core.utils.localDateTimeToString
-import cl.figonzal.lastquakechile.core.utils.stringToLocalDateTime
-import cl.figonzal.lastquakechile.core.utils.toReportDomain
+import cl.figonzal.lastquakechile.core.utils.*
 import cl.figonzal.lastquakechile.reports_feature.data.local.ReportLocalDataSource
 import cl.figonzal.lastquakechile.reports_feature.data.remote.ReportRemoteDataSource
 import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
 import cl.figonzal.lastquakechile.reports_feature.domain.repository.ReportRepository
+import com.skydoves.sandwich.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import retrofit2.HttpException
 import timber.log.Timber
-import java.io.IOException
 import java.time.LocalDateTime
 
 /**
@@ -43,43 +39,59 @@ class ReportRepositoryImpl(
 
                 emit(StatusAPI.Success(cacheList))
             }
-            else -> try {
+            else -> {
 
                 //Network call
-                val reports = remoteDataSource.getReports()
+                remoteDataSource.getReports()
+                    .suspendOnSuccess {
 
-                if (!reports.isNullOrEmpty()) {
+                        val reports = data.embedded.reports.toReportEntity()
 
-                    localDataSource.deleteAll()
+                        localDataSource.deleteAll() //delete cached
 
-                    reports
-                        .onEach { localDataSource.insert(it) }
-                        .toReportDomain()
-                        .also {
-                            //Save timestamp
-                            sharedPrefUtil.saveData(
-                                application.getString(R.string.shared_report_cache),
-                                LocalDateTime.now().localDateTimeToString()
+                        reports
+                            .onEach { localDataSource.insert(it) }
+                            .toReportDomain()
+
+                        //Save timestamp
+                        sharedPrefUtil.saveData(
+                            application.getString(R.string.shared_report_cache),
+                            LocalDateTime.now().localDateTimeToString()
+                        )
+
+                        Timber.d(application.getString(R.string.LIST_NETWORK_CALL))
+
+                        //emit cached
+                        cacheList = localDataSource.getReports().toReportDomain()
+                        emit(StatusAPI.Success(cacheList))
+                    }
+                    .suspendOnError {
+                        Timber.e("Suspend error: ${this.message()}")
+
+                        emit(
+                            StatusAPI.Error(
+                                apiError = when (statusCode) {
+                                    StatusCode.NotFound -> ApiError.HttpError
+                                    StatusCode.RequestTimeout -> ApiError.ServerError
+                                    StatusCode.InternalServerError -> ApiError.ServerError
+                                    StatusCode.ServiceUnavailable -> ApiError.ServerError
+                                    else -> ApiError.UnknownError
+                                }, cacheList
                             )
+                        )
+                    }
+                    .suspendOnFailure {
+                        Timber.e("Suspend failure: ${this.message()}")
+                        when {
+                            message().contains("10000ms") || message().contains(
+                                "failed to connect",
+                                true
+                            ) -> {
+                                emit(StatusAPI.Error(ApiError.TimeoutError, cacheList))
+                            }
+                            else -> emit(StatusAPI.Error(ApiError.UnknownError, cacheList))
                         }
-
-                    Timber.d(application.getString(R.string.LIST_NETWORK_CALL))
-
-                    //emit cached
-                    cacheList = localDataSource.getReports().toReportDomain()
-                    emit(StatusAPI.Success(cacheList))
-                }
-
-            } catch (e: HttpException) {
-
-                Timber.e(application.getString(R.string.EMIT_HTTP_ERROR))
-
-                emit(StatusAPI.Error(ApiError.HttpError, cacheList))
-            } catch (e: IOException) {
-
-                Timber.e(application.getString(R.string.EMIT_IO_EXCEPTION))
-
-                emit(StatusAPI.Error(ApiError.IoError, cacheList))
+                    }
             }
         }
 
