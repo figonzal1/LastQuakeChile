@@ -1,9 +1,9 @@
 package cl.figonzal.lastquakechile.quake_feature.data.remote
 
 import cl.figonzal.lastquakechile.quake_feature.data.remote.dto.QuakeDTO
+import com.skydoves.sandwich.ApiResponse
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -14,8 +14,9 @@ interface QuakeAPI {
 
     @GET("/api/v1/quakes")
     suspend fun listQuakes(
+        @Query(value = "size") limit: Int = 15,
         @Query(value = "sort") sort: String = "utcDate,desc",
-    ): Response<QuakeResult>
+    ): ApiResponse<QuakeResult>
 }
 
 @JsonClass(generateAdapter = true)

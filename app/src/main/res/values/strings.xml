@@ -256,5 +256,7 @@
     <string name="email_chooser_title">Envia un email usando:</string>
     <string name="email_subject">Contacto desarrollador LastQuakeChile</string>
     <string name="reintentar">Reintentar</string>
+    <string name="service_error">Servidor de sismos no disponible</string>
+    <string name="error_404">404\nUps, ha ocurrido un error</string>
 
 </resources>

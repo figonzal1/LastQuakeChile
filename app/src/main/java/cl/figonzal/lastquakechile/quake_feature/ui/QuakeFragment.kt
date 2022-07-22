@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.DrawableRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
@@ -16,7 +17,6 @@ import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.data.remote.ApiError
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.configOptionsMenu
-import cl.figonzal.lastquakechile.core.utils.toast
 import cl.figonzal.lastquakechile.databinding.FragmentQuakeBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -61,6 +61,19 @@ class QuakeFragment(
         configOptionsMenu()
 
         return binding.root
+    }
+
+    private fun configErrorStatusMsg(
+        @DrawableRes icon: Int,
+        errorMsg: String
+    ) {
+        binding.includeNoWifi.ivWifiOff.setImageDrawable(
+            resources.getDrawable(
+                icon,
+                requireContext().theme
+            )
+        )
+        binding.includeNoWifi.tvMsgNoWifi.text = errorMsg
     }
 
     private fun bindingResources() {
@@ -137,12 +150,40 @@ class QuakeFragment(
                 viewModel.errorState
                     .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
                     .collectLatest {
-                        requireActivity().toast(
-                            when (state.apiError) {
-                                ApiError.HttpError -> R.string.http_error
-                                ApiError.IoError -> R.string.io_error
+
+                        when (state.apiError) {
+                            ApiError.HttpError -> {
+                                configErrorStatusMsg(
+                                    icon = R.drawable.ic_round_report_24,
+                                    errorMsg = getString(R.string.http_error)
+                                )
                             }
-                        )
+                            ApiError.UnknownError -> {
+                                configErrorStatusMsg(
+                                    icon = R.drawable.ic_round_report_24,
+                                    errorMsg = getString(R.string.http_error)
+                                )
+                            }
+                            ApiError.IoError -> {
+                                configErrorStatusMsg(
+                                    icon = R.drawable.ic_round_wifi_off_24,
+                                    errorMsg = getString(R.string.io_error)
+                                )
+                            }
+                            ApiError.ServerError -> {
+                                configErrorStatusMsg(
+                                    icon = R.drawable.ic_round_router_24,
+                                    errorMsg = getString(R.string.service_error)
+                                )
+                            }
+                            ApiError.TimeoutError -> {
+                                configErrorStatusMsg(
+                                    icon = R.drawable.ic_round_router_24,
+                                    errorMsg = getString(R.string.service_error)
+                                )
+                            }
+                        }
+
                     }
             }
 

@@ -3,15 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Felipe/Escritorio/GithubProjects/Apps/LastQuakeChile/app/src/main/res/drawable/ic_round_check_circle_24.xml" value="0.1355" />
+        <entry key="..\:/Felipe/Escritorio/GithubProjects/Apps/LastQuakeChile/app/src/main/res/drawable/ic_round_report_24.xml" value="0.19" />
+        <entry key="..\:/Felipe/Escritorio/GithubProjects/Apps/LastQuakeChile/app/src/main/res/drawable/ic_round_router_24.xml" value="0.112" />
+        <entry key="..\:/Felipe/Escritorio/GithubProjects/Apps/LastQuakeChile/app/src/main/res/drawable/ic_round_wifi_off_24.xml" value="0.253" />
         <entry key="..\:/Felipe/Escritorio/GithubProjects/Apps/LastQuakeChile/app/src/main/res/layout/activity_main.xml" value="0.3625" />
         <entry key="..\:/Felipe/Escritorio/GithubProjects/Apps/LastQuakeChile/app/src/main/res/layout/card_view_information.xml" value="0.3625" />
         <entry key="..\:/Felipe/Escritorio/GithubProjects/Apps/LastQuakeChile/app/src/main/res/layout/card_view_quake.xml" value="0.3625" />
         <entry key="..\:/Felipe/Escritorio/GithubProjects/Apps/LastQuakeChile/app/src/main/res/layout/card_view_reports.xml" value="0.5" />
         <entry key="..\:/Felipe/Escritorio/GithubProjects/Apps/LastQuakeChile/app/src/main/res/layout/content_loading.xml" value="0.3625" />
+        <entry key="..\:/Felipe/Escritorio/GithubProjects/Apps/LastQuakeChile/app/src/main/res/layout/error_404.xml" value="0.3625" />
         <entry key="..\:/Felipe/Escritorio/GithubProjects/Apps/LastQuakeChile/app/src/main/res/layout/fragment_maps.xml" value="0.3625" />
         <entry key="..\:/Felipe/Escritorio/GithubProjects/Apps/LastQuakeChile/app/src/main/res/layout/fragment_quake.xml" value="0.1" />
         <entry key="..\:/Felipe/Escritorio/GithubProjects/Apps/LastQuakeChile/app/src/main/res/layout/fragment_reports.xml" value="0.1" />
-        <entry key="..\:/Felipe/Escritorio/GithubProjects/Apps/LastQuakeChile/app/src/main/res/layout/no_wifi.xml" value="0.3625" />
+        <entry key="..\:/Felipe/Escritorio/GithubProjects/Apps/LastQuakeChile/app/src/main/res/layout/no_wifi.xml" value="0.1" />
         <entry key="..\:/Felipe/Escritorio/GithubProjects/Apps/LastQuakeChile/app/src/main/res/layout/settings_activity.xml" value="0.20364583333333333" />
         <entry key="..\:/Felipe/Escritorio/GithubProjects/Apps/LastQuakeChile/app/src/main/res/layout/toolbar_layout.xml" value="0.3625" />
         <entry key="..\:/Felipe/Escritorio/GithubProjects/Apps/LastQuakeChile/app/src/main/res/menu/fragment_map_menu.xml" value="0.3037037037037037" />
