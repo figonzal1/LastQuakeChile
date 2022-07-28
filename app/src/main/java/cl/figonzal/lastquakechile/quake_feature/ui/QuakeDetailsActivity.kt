@@ -28,27 +28,26 @@ import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.gms.ads.nativead.NativeAdView
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.ktx.addCircle
 import timber.log.Timber
 import java.time.format.DateTimeFormatter
 
+private const val mapViewKey = "MapViewBundleKey"
+
 class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private var circleAnimator2: ValueAnimator? = null
     private var circleAnimator: ValueAnimator? = null
 
-    //MAP
-    private val mapViewKey = "MapViewBundleKey"
-    private lateinit var mapView: MapView
-    private lateinit var googleMap: GoogleMap
-
     //NativeAd
     private var currentNativeAd: NativeAd? = null
 
-    private lateinit var quake: Quake
+    private var googleMap: GoogleMap? = null
+
+    private var quake: Quake? = null
+
     private lateinit var binding: ActivityQuakeDetailsBinding
 
     public override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,7 +57,6 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
         setContentView(binding.root)
 
         with(binding.includeMapview.mapView) {
-            mapView = this
             onCreate(savedInstanceState)
             getMapAsync(this@QuakeDetailsActivity)
         }
@@ -196,129 +194,135 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun setTextViews() {
 
-        supportActionBar?.title = quake.city
+        quake?.let {
 
-        with(binding.includeCvQuakeDetail) {
+            supportActionBar?.title = it.city
 
-            tvCity.text = quake.city
+            with(binding.includeCvQuakeDetail) {
 
-            tvReference.text = quake.reference
+                tvCity.text = it.city
 
-            tvMagnitude.text =
-                String.format(getString(R.string.magnitud), quake.magnitude)
+                tvReference.text = it.reference
 
-            ivMagColor.setColorFilter(getColor(getMagnitudeColor(quake.magnitude, false)))
+                tvMagnitude.text =
+                    String.format(getString(R.string.magnitud), it.magnitude)
 
-            tvEpicentro.text =
-                String.format(getString(R.string.quake_details_profundidad), quake.depth)
+                ivMagColor.setColorFilter(getColor(getMagnitudeColor(it.magnitude, false)))
 
-            tvFecha.text =
-                quake.localDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                tvEpicentro.text =
+                    String.format(getString(R.string.quake_details_profundidad), it.depth)
 
-            tvGms.formatDMS(quake.coordinate)
+                tvFecha.text =
+                    it.localDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
 
-            tvHour.timeToText(quake, true)
+                tvGms.formatDMS(it.coordinate)
 
-            tvEscala.setScale(quake.scale)
+                tvHour.timeToText(it, true)
 
-            ivSensitive.visibility = when {
-                quake.isSensitive -> View.VISIBLE
-                else -> View.GONE
+                tvEscala.setScale(it.scale)
+
+                ivSensitive.visibility = when {
+                    it.isSensitive -> View.VISIBLE
+                    else -> View.GONE
+                }
             }
-        }
 
-        binding.ivEstado.setStatusImage(quake.isVerified, binding.tvEstado)
+            binding.ivEstado.setStatusImage(it.isVerified, binding.tvEstado)
+        }
     }
 
     override fun onMapReady(p0: GoogleMap) {
 
-        val quakeMagColor = getColor(getMagnitudeColor(quake.magnitude, true))
-        val greyAlpha = getColor(R.color.grey_dark_alpha)
+        googleMap = p0
 
-        val latLong = LatLng(quake.coordinate.latitude, quake.coordinate.longitude)
+        quake?.let {
 
-        p0.apply {
+            val quakeMagColor = getColor(getMagnitudeColor(it.magnitude, true))
+            val greyAlpha = getColor(R.color.grey_dark_alpha)
 
-            googleMap = p0
+            val latLong = LatLng(it.coordinate.latitude, it.coordinate.longitude)
 
-            configOptionsMenu()
+            p0.apply {
 
-            setNightMode(this@QuakeDetailsActivity)
+                configOptionsMenu()
 
-            mapType = GoogleMap.MAP_TYPE_NORMAL
-            setMinZoomPreference(5.0f)
-            uiSettings.isZoomGesturesEnabled = false
-            uiSettings.isZoomControlsEnabled = true
+                setNightMode(this@QuakeDetailsActivity)
 
-            uiSettings.isTiltGesturesEnabled = false
-            uiSettings.isScrollGesturesEnabled = false
+                mapType = GoogleMap.MAP_TYPE_NORMAL
+                setMinZoomPreference(5.0f)
+                uiSettings.isZoomGesturesEnabled = false
+                uiSettings.isZoomControlsEnabled = true
 
-            uiSettings.isMapToolbarEnabled = false
-            uiSettings.isRotateGesturesEnabled = false
-            uiSettings.isCompassEnabled = false
+                uiSettings.isTiltGesturesEnabled = false
+                uiSettings.isScrollGesturesEnabled = false
 
-            addCircle {
-                center(latLong)
-                radius(90000.0)
-                fillColor(quakeMagColor)
-                strokeColor(greyAlpha)
-            }
+                uiSettings.isMapToolbarEnabled = false
+                uiSettings.isRotateGesturesEnabled = false
+                uiSettings.isCompassEnabled = false
 
-            addCircle {
-                center(latLong)
-                radius(3000.0)
-                fillColor(greyAlpha)
-                strokeColor(Color.TRANSPARENT)
-            }
-
-            addCircle {
-                center(latLong)
-                radius(90000.0)
-                strokeWidth(1f)
-                strokeColor(greyAlpha)
-            }.animate {
-                circleAnimator2 = ValueAnimator.ofInt(0, 90000).apply {
-                    repeatMode = ValueAnimator.RESTART
-                    repeatCount = ValueAnimator.INFINITE
-                    duration = 4000
-                    setEvaluator(IntEvaluator())
-                    interpolator = AccelerateDecelerateInterpolator()
-                    addUpdateListener {
-                        this@animate.radius = (it.animatedFraction * 140000).toDouble()
-                    }
-                    start()
+                addCircle {
+                    center(latLong)
+                    radius(90000.0)
+                    fillColor(quakeMagColor)
+                    strokeColor(greyAlpha)
                 }
-            }
 
-            addCircle {
-                center(latLong)
-                radius(90000.0)
-                strokeWidth(1f)
-                strokeColor(greyAlpha)
-            }.animate {
-                circleAnimator = ValueAnimator.ofInt(0, 90000).apply {
-                    repeatMode = ValueAnimator.RESTART
-                    repeatCount = ValueAnimator.INFINITE
-                    duration = 4000
-                    startDelay = 1000
-                    setEvaluator(IntEvaluator())
-                    interpolator = AccelerateDecelerateInterpolator()
-                    addUpdateListener {
-                        this@animate.radius = (it.animatedFraction * 140000).toDouble()
-                    }
-                    start()
+                addCircle {
+                    center(latLong)
+                    radius(3000.0)
+                    fillColor(greyAlpha)
+                    strokeColor(Color.TRANSPARENT)
                 }
-            }
 
-            moveCamera(CameraUpdateFactory.newLatLngZoom(latLong, 6.0f))
+                addCircle {
+                    center(latLong)
+                    radius(90000.0)
+                    strokeWidth(1f)
+                    strokeColor(greyAlpha)
+                }.animate {
+                    circleAnimator2 = ValueAnimator.ofInt(0, 90000).apply {
+                        repeatMode = ValueAnimator.RESTART
+                        repeatCount = ValueAnimator.INFINITE
+                        duration = 4000
+                        setEvaluator(IntEvaluator())
+                        interpolator = AccelerateDecelerateInterpolator()
+                        addUpdateListener {
+                            this@animate.radius = (it.animatedFraction * 140000).toDouble()
+                        }
+                        start()
+                    }
+                }
 
-            //Log zone
-            Timber.d(getString(R.string.MAP_READY_RESPONSE))
+                addCircle {
+                    center(latLong)
+                    radius(90000.0)
+                    strokeWidth(1f)
+                    strokeColor(greyAlpha)
+                }.animate {
+                    circleAnimator = ValueAnimator.ofInt(0, 90000).apply {
+                        repeatMode = ValueAnimator.RESTART
+                        repeatCount = ValueAnimator.INFINITE
+                        duration = 4000
+                        startDelay = 1000
+                        setEvaluator(IntEvaluator())
+                        interpolator = AccelerateDecelerateInterpolator()
+                        addUpdateListener {
+                            this@animate.radius = (it.animatedFraction * 140000).toDouble()
+                        }
+                        start()
+                    }
+                }
 
-            //Seteo de floating buttons
-            binding.fabShare.setOnClickListener {
-                Timber.d(getString(R.string.FAB_SHARE) + ": " + getString(R.string.CLICKED))
-                this@QuakeDetailsActivity.makeSnapshot(p0, quake)
+                moveCamera(CameraUpdateFactory.newLatLngZoom(latLong, 6.0f))
+
+                //Log zone
+                Timber.d(getString(R.string.MAP_READY_RESPONSE))
+
+                //Seteo de floating buttons
+                binding.fabShare.setOnClickListener { _ ->
+                    Timber.d(getString(R.string.FAB_SHARE) + ": " + getString(R.string.CLICKED))
+                    this@QuakeDetailsActivity.makeSnapshot(p0, it)
+                }
             }
         }
 
@@ -332,31 +336,31 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
             mMapViewBundle = Bundle()
             outState.putBundle(mapViewKey, mMapViewBundle)
         }
-        mapView.onSaveInstanceState(mMapViewBundle)
+        binding.includeMapview.mapView.onSaveInstanceState(mMapViewBundle)
     }
 
     override fun onResume() {
         super.onResume()
-        mapView.onResume()
+        binding.includeMapview.mapView.onResume()
     }
 
     override fun onStart() {
         super.onStart()
-        mapView.onStart()
+        binding.includeMapview.mapView.onStart()
     }
 
     override fun onStop() {
         super.onStop()
-        mapView.onStop()
+        binding.includeMapview.mapView.onStop()
     }
 
     override fun onPause() {
-        mapView.onPause()
+        binding.includeMapview.mapView.onPause()
         super.onPause()
     }
 
     override fun onDestroy() {
-        mapView.onDestroy()
+        binding.includeMapview.mapView.onDestroy()
         currentNativeAd?.destroy()
 
         circleAnimator?.cancel()
@@ -367,11 +371,13 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onLowMemory() {
         super.onLowMemory()
-        mapView.onLowMemory()
+        binding.includeMapview.mapView.onLowMemory()
     }
 
     private fun configOptionsMenu() {
+
         addMenuProvider(object : MenuProvider {
+
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.menu_quake_details, menu)
             }
@@ -384,10 +390,13 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                     }
                     R.id.layers_menu -> {
 
-                        MapTerrainDialogFragment(googleMap).show(
-                            supportFragmentManager,
-                            "Dialogo mapType"
-                        )
+                        googleMap?.let {
+
+                            MapTerrainDialogFragment(it).show(
+                                supportFragmentManager,
+                                "Dialogo mapType"
+                            )
+                        }
 
                     }
                 }

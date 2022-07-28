@@ -18,7 +18,6 @@ import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.*
-import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
@@ -27,19 +26,16 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
 
+private const val mapViewKey = "MapViewBundleKey"
 
-class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener,
-    OnMapReadyCallback {
+class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener, OnMapReadyCallback {
 
     private val viewModel: QuakeViewModel by sharedViewModel()
-    private val mapViewKey = "MapViewBundleKey"
-
-    private lateinit var quakeList: List<Quake>
-    private lateinit var mapView: MapView
-    private lateinit var googleMap: GoogleMap
 
     private var _binding: FragmentMapsBinding? = null
     private val binding get() = _binding!!
+
+    private var quakeList: List<Quake> = listOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,29 +45,29 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener,
 
         _binding = FragmentMapsBinding.inflate(inflater, container, false)
 
-        mapView = binding.mapView
-        mapView.onCreate(savedInstanceState)
+        binding.mapView.onCreate(savedInstanceState)
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mapView.getMapAsync(this)
+        binding.mapView.getMapAsync(this)
     }
 
     @SuppressLint("PotentialBehaviorOverride")
     override fun onMapReady(p0: GoogleMap) {
 
-        googleMap = p0
-
-        configOptionsMenu(R.menu.menu_map_fragment, googleMap)
+        configOptionsMenu(R.menu.menu_map_fragment, p0)
 
         viewLifecycleOwner.lifecycleScope.launch {
 
             viewModel.quakeState
                 .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collect {
+
                     quakeList = it.quakes
+
                     Timber.d(getString(R.string.FRAGMENT_LOAD_LIST))
 
                     p0.apply {
@@ -166,41 +162,41 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener,
             mMapViewBundle = Bundle()
             outState.putBundle(mapViewKey, mMapViewBundle)
         }
-        mapView.onSaveInstanceState(mMapViewBundle)
+        binding.mapView.onSaveInstanceState(mMapViewBundle)
     }
 
     override fun onResume() {
         super.onResume()
-        mapView.onResume()
+        binding.mapView.onResume()
     }
 
     override fun onStart() {
         super.onStart()
-        mapView.onStart()
+        binding.mapView.onStart()
     }
 
     override fun onStop() {
         super.onStop()
-        mapView.onStop()
+        binding.mapView.onStop()
     }
 
     override fun onPause() {
-        mapView.onPause()
+        binding.mapView.onPause()
         super.onPause()
     }
 
     override fun onDestroy() {
-        mapView.onDestroy()
+        binding.mapView.onDestroy()
         super.onDestroy()
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        binding.mapView.onLowMemory()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    override fun onLowMemory() {
-        super.onLowMemory()
-        mapView.onLowMemory()
     }
 }
