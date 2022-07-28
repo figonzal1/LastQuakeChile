@@ -75,7 +75,7 @@ class ReportRepositoryImpl(
                             else -> ApiError.UnknownError
                         }
 
-                        emit(StatusAPI.Error(apiError, cacheList))
+                        emit(StatusAPI.Error(cacheList, apiError))
                     }
                     .suspendOnFailure {
 
@@ -89,7 +89,7 @@ class ReportRepositoryImpl(
                             else -> ApiError.UnknownError
                         }
 
-                        emit(StatusAPI.Error(apiError, cacheList))
+                        emit(StatusAPI.Error(cacheList, apiError))
                     }
             }
         }

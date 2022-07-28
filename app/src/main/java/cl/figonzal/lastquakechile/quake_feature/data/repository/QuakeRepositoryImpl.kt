@@ -60,7 +60,7 @@ class QuakeRepositoryImpl(
                     else -> ApiError.UnknownError
                 }
 
-                emit(StatusAPI.Error(apiError, cacheList))
+                emit(StatusAPI.Error(cacheList, apiError))
             }
             .suspendOnFailure {
 
@@ -74,7 +74,7 @@ class QuakeRepositoryImpl(
                     else -> ApiError.UnknownError
                 }
 
-                emit(StatusAPI.Error(apiError, cacheList))
+                emit(StatusAPI.Error(cacheList, apiError))
             }
     }.flowOn(dispatcher)
 

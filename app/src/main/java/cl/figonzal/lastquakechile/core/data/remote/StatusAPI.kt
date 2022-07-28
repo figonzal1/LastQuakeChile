@@ -2,13 +2,15 @@ package cl.figonzal.lastquakechile.core.data.remote
 
 /**
  * Project Sealed class for api response status
+ *
+ * PD: Put parameters with null let us to provide custom parameters on extensions classes
  */
 sealed class StatusAPI<T>(
     val data: T? = null,
     val apiError: ApiError? = null
 ) {
     class Success<T>(data: T) : StatusAPI<T>(data)
-    class Error<T>(apiError: ApiError, data: T? = null) : StatusAPI<T>(data, apiError)
+    class Error<T>(data: T, apiError: ApiError) : StatusAPI<T>(data, apiError)
 }
 
 /**
