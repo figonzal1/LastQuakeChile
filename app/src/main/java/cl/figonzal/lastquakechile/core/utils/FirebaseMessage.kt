@@ -27,7 +27,7 @@ fun getFirebaseToken() {
         }
 }
 
-fun Context.notification(data: ArrayList<Any>, pendingIntent: PendingIntent) {
+fun Context.notification(data: List<Any>, pendingIntent: PendingIntent) {
 
     NotificationCompat.Builder(
         this,

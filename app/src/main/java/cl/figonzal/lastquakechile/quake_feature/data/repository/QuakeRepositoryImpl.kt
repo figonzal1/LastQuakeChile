@@ -29,16 +29,17 @@ class QuakeRepositoryImpl(
     override fun getQuakes(limit: Int): Flow<StatusAPI<List<Quake>>> = flow {
 
         var cacheList = localDataSource.getQuakes().toQuakeDomain()
+
         emit(StatusAPI.Success(cacheList)) //Cached list
 
         //GET REMOTE DATA
         remoteDataSource.getQuakes(limit)
             .suspendOnSuccess {
+
                 val quakes = data.embedded.quakes.toQuakeListEntity()
 
                 localDataSource.deleteAll() //Remove cache
 
-                //Save to localSource
                 savedLocalQuakes(quakes)
 
                 cacheList = localDataSource.getQuakes().toQuakeDomain()
@@ -48,36 +49,38 @@ class QuakeRepositoryImpl(
                 emit(StatusAPI.Success(cacheList))
             }
             .suspendOnError {
+
                 Timber.e("Suspend error: ${this.message()}")
 
-                emit(
-                    StatusAPI.Error(
-                        apiError = when (statusCode) {
-                            StatusCode.NotFound -> ApiError.HttpError
-                            StatusCode.RequestTimeout -> ApiError.ServerError
-                            StatusCode.InternalServerError -> ApiError.ServerError
-                            StatusCode.ServiceUnavailable -> ApiError.ServerError
-                            else -> ApiError.UnknownError
-                        }, cacheList
-                    )
-                )
+                val apiError = when (statusCode) {
+                    StatusCode.NotFound -> ApiError.HttpError
+                    StatusCode.RequestTimeout -> ApiError.ServerError
+                    StatusCode.InternalServerError -> ApiError.ServerError
+                    StatusCode.ServiceUnavailable -> ApiError.ServerError
+                    else -> ApiError.UnknownError
+                }
+
+                emit(StatusAPI.Error(apiError, cacheList))
             }
             .suspendOnFailure {
+
                 Timber.e("Suspend failure: ${this.message()}")
-                when {
+
+                val apiError = when {
                     message().contains("10000ms") || message().contains(
                         "failed to connect",
                         true
-                    ) -> {
-                        emit(StatusAPI.Error(ApiError.TimeoutError, cacheList))
-                    }
-                    else -> emit(StatusAPI.Error(ApiError.UnknownError, cacheList))
+                    ) -> ApiError.TimeoutError
+                    else -> ApiError.UnknownError
                 }
+
+                emit(StatusAPI.Error(apiError, cacheList))
             }
     }.flowOn(dispatcher)
 
-    private fun savedLocalQuakes(remoteData: List<QuakeAndCoordinate>?) {
-        remoteData?.forEach {
+    private fun savedLocalQuakes(remoteData: List<QuakeAndCoordinate>) {
+
+        remoteData.forEach {
             //store remote result in cache
             localDataSource.insert(it)
         }

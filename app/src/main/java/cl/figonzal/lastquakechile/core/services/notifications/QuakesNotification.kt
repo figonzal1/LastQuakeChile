@@ -184,9 +184,10 @@ class QuakesNotification(
     /**
      * Fill data to objects with data from notification
      */
-    private fun handleFcmData(mutableMap: MutableMap<String, String>): ArrayList<Any> {
+    private fun handleFcmData(map: Map<String, String>): List<Any> {
 
-        with(mutableMap) {
+        with(map) {
+
             val title = getValue(context.getString(R.string.INTENT_TITULO))
             val description = getValue(context.getString(R.string.INTENT_DESCRIPCION))
 
@@ -212,7 +213,7 @@ class QuakesNotification(
                 quake, coordinate
             ).toDomain()
 
-            return arrayListOf(title, description, quakeEntityAndCoordinate)
+            return listOf(title, description, quakeEntityAndCoordinate)
         }
     }
 }

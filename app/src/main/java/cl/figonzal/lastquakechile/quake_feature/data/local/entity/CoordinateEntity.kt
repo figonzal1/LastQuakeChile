@@ -6,8 +6,8 @@ import androidx.room.PrimaryKey
 @Entity
 data class CoordinateEntity(
 
-    @PrimaryKey
-    val id: Long? = null,
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0L,
     val latitude: Double,
     val longitude: Double,
     var quakeId: Long? = null

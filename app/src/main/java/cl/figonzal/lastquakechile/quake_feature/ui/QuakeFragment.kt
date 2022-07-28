@@ -2,7 +2,6 @@ package cl.figonzal.lastquakechile.quake_feature.ui
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
-import android.app.Application
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,7 +19,6 @@ import cl.figonzal.lastquakechile.core.utils.configOptionsMenu
 import cl.figonzal.lastquakechile.core.utils.toast
 import cl.figonzal.lastquakechile.databinding.FragmentQuakeBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
-import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -31,21 +29,11 @@ class QuakeFragment(
 ) : Fragment() {
 
     private val viewModel: QuakeViewModel by sharedViewModel()
-    private var application: Application? = null
 
     private lateinit var sharedPrefUtil: SharedPrefUtil
-    private lateinit var crashlytics: FirebaseCrashlytics
 
     private var _binding: FragmentQuakeBinding? = null
     private val binding get() = _binding!!
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        application = requireActivity().application
-        crashlytics = FirebaseCrashlytics.getInstance()
-        sharedPrefUtil = SharedPrefUtil(requireContext())
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,6 +42,8 @@ class QuakeFragment(
     ): View {
 
         _binding = FragmentQuakeBinding.inflate(inflater, container, false)
+
+        sharedPrefUtil = SharedPrefUtil(requireContext())
 
         bindingResources()
         handleQuakeState()
@@ -68,13 +58,13 @@ class QuakeFragment(
         @DrawableRes icon: Int,
         errorMsg: String
     ) {
-        binding.includeNoWifi.ivWifiOff.setImageDrawable(
-            resources.getDrawable(
-                icon,
-                requireContext().theme
+        with(binding.includeNoWifi) {
+
+            ivWifiOff.setImageDrawable(
+                resources.getDrawable(icon, requireContext().theme)
             )
-        )
-        binding.includeNoWifi.tvMsgNoWifi.text = errorMsg
+            tvMsgNoWifi.text = errorMsg
+        }
     }
 
     private fun bindingResources() {
@@ -155,7 +145,7 @@ class QuakeFragment(
                         when (state.apiError) {
                             ApiError.HttpError -> {
 
-                                requireActivity().toast(R.string.http_error)
+                                toast(R.string.http_error)
 
                                 configErrorStatusMsg(
                                     icon = R.drawable.ic_round_report_24,
@@ -164,8 +154,7 @@ class QuakeFragment(
                             }
                             ApiError.UnknownError -> {
 
-                                requireActivity().toast(R.string.http_error)
-
+                                toast(R.string.http_error)
 
                                 configErrorStatusMsg(
                                     icon = R.drawable.ic_round_report_24,
@@ -174,7 +163,7 @@ class QuakeFragment(
                             }
                             ApiError.IoError -> {
 
-                                requireActivity().toast(R.string.io_error)
+                                toast(R.string.io_error)
 
                                 configErrorStatusMsg(
                                     icon = R.drawable.ic_round_wifi_off_24,
@@ -183,7 +172,7 @@ class QuakeFragment(
                             }
                             ApiError.ServerError -> {
 
-                                requireActivity().toast(R.string.service_error)
+                                toast(R.string.service_error)
 
                                 configErrorStatusMsg(
                                     icon = R.drawable.ic_round_router_24,
@@ -192,7 +181,7 @@ class QuakeFragment(
                             }
                             ApiError.TimeoutError -> {
 
-                                requireActivity().toast(R.string.service_error)
+                                toast(R.string.service_error)
 
                                 configErrorStatusMsg(
                                     icon = R.drawable.ic_round_router_24,
@@ -203,8 +192,6 @@ class QuakeFragment(
 
                     }
             }
-
-
         }
     }
 
@@ -216,7 +203,8 @@ class QuakeFragment(
         ) as Boolean
 
         with(binding.include.cvInfo) {
-            visibility = when {
+
+        visibility = when {
                 isCvShowed -> View.VISIBLE
                 else -> View.GONE
             }

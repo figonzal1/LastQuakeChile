@@ -5,7 +5,8 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class QuakeEntity(
-    @PrimaryKey val id: Long? = null,
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0L,
     val quakeCode: Int,
     val utcDate: String,
     val city: String,

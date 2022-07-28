@@ -6,6 +6,5 @@ class GetQuakesUseCase(
     private val repository: QuakeRepository,
     private val limit: Int
 ) {
-
     operator fun invoke() = repository.getQuakes(limit)
 }
