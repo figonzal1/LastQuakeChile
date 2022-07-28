@@ -104,6 +104,7 @@ class ReportsFragment(
         if (state.apiError != null) {
 
             with(binding) {
+
                 progressBarReports.visibility = View.GONE
                 includeNoWifi.root.visibility = when {
                     state.reports.isEmpty() -> View.VISIBLE
@@ -125,7 +126,7 @@ class ReportsFragment(
 
                             ApiError.HttpError -> {
 
-                                requireActivity().toast(R.string.http_error)
+                                toast(R.string.http_error)
 
                                 configErrorStatusMsg(
                                     icon = R.drawable.ic_round_report_24,
@@ -134,7 +135,7 @@ class ReportsFragment(
                             }
                             ApiError.UnknownError -> {
 
-                                requireActivity().toast(R.string.http_error)
+                                toast(R.string.http_error)
 
                                 configErrorStatusMsg(
                                     icon = R.drawable.ic_round_report_24,
@@ -143,7 +144,7 @@ class ReportsFragment(
                             }
                             ApiError.IoError -> {
 
-                                requireActivity().toast(R.string.io_error)
+                                toast(R.string.io_error)
 
                                 configErrorStatusMsg(
                                     icon = R.drawable.ic_round_wifi_off_24,
@@ -152,7 +153,7 @@ class ReportsFragment(
                             }
                             ApiError.ServerError -> {
 
-                                requireActivity().toast(R.string.service_error)
+                                toast(R.string.service_error)
 
                                 configErrorStatusMsg(
                                     icon = R.drawable.ic_round_router_24,
@@ -161,7 +162,7 @@ class ReportsFragment(
                             }
                             ApiError.TimeoutError -> {
 
-                                requireActivity().toast(R.string.service_error)
+                                toast(R.string.service_error)
 
                                 configErrorStatusMsg(
                                     icon = R.drawable.ic_round_router_24,
@@ -178,13 +179,13 @@ class ReportsFragment(
         @DrawableRes icon: Int,
         errorMsg: String
     ) {
-        binding.includeNoWifi.ivWifiOff.setImageDrawable(
-            resources.getDrawable(
-                icon,
-                requireContext().theme
+        with(binding.includeNoWifi) {
+
+            ivWifiOff.setImageDrawable(
+                resources.getDrawable(icon, requireContext().theme)
             )
-        )
-        binding.includeNoWifi.tvMsgNoWifi.text = errorMsg
+            tvMsgNoWifi.text = errorMsg
+        }
     }
 
     override fun onDestroyView() {

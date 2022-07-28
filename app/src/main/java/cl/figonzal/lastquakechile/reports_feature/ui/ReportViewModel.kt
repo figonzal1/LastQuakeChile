@@ -35,16 +35,19 @@ class ReportViewModel(
                 val apiError = statusApi.apiError
 
                 when (statusApi) {
-                    is StatusAPI.Error -> {
-                        _reportState.update {
-                            it.copy(
-                                isLoading = false,
-                                apiError = apiError,
-                                reports = data as List<Report>
-                            )
-                        }
 
-                        apiError?.let { _errorState.send(it) }
+                    is StatusAPI.Error -> {
+
+                        apiError?.let {
+                            _reportState.update { state ->
+                                state.copy(
+                                    isLoading = false,
+                                    apiError = it,
+                                    reports = data as List<Report>
+                                )
+                            }
+                            _errorState.send(it)
+                        }
                     }
                     is StatusAPI.Success -> {
 

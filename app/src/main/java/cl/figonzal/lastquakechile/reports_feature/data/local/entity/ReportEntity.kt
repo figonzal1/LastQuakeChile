@@ -5,7 +5,8 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class ReportEntity(
-    @PrimaryKey val id: Long? = null,
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0L,
     val reportMonth: String,
     val nSensitive: Int,
     val nQuakes: Int,

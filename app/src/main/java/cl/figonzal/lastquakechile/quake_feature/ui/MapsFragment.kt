@@ -22,6 +22,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
@@ -64,7 +65,7 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener, O
 
             viewModel.quakeState
                 .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-                .collect {
+                .collectLatest {
 
                     quakeList = it.quakes
 

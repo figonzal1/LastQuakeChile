@@ -37,15 +37,17 @@ class QuakeViewModel(
                 when (statusApi) {
 
                     is StatusAPI.Error -> {
-                        _quakeState.update {
-                            it.copy(
-                                isLoading = false,
-                                apiError = apiError,
-                                quakes = data as List<Quake> //cached list
-                            )
-                        }
 
-                        apiError?.let { _errorState.send(it) }
+                        apiError?.let {
+                            _quakeState.update { state ->
+                                state.copy(
+                                    isLoading = false,
+                                    apiError = it,
+                                    quakes = data as List<Quake> //cached list
+                                )
+                            }
+                            _errorState.send(it)
+                        }
                     }
                     is StatusAPI.Success -> {
 

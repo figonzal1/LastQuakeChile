@@ -54,20 +54,8 @@ class QuakeFragment(
         return binding.root
     }
 
-    private fun configErrorStatusMsg(
-        @DrawableRes icon: Int,
-        errorMsg: String
-    ) {
-        with(binding.includeNoWifi) {
-
-            ivWifiOff.setImageDrawable(
-                resources.getDrawable(icon, requireContext().theme)
-            )
-            tvMsgNoWifi.text = errorMsg
-        }
-    }
-
     private fun bindingResources() {
+
         with(binding) {
 
             recycleViewQuakes.apply {
@@ -125,6 +113,7 @@ class QuakeFragment(
         if (state.apiError != null) {
 
             with(binding) {
+
                 progressBarQuakes.visibility = View.GONE
                 includeNoWifi.root.visibility = when {
                     state.quakes.isEmpty() -> View.VISIBLE
@@ -204,7 +193,7 @@ class QuakeFragment(
 
         with(binding.include.cvInfo) {
 
-        visibility = when {
+            visibility = when {
                 isCvShowed -> View.VISIBLE
                 else -> View.GONE
             }
@@ -231,6 +220,19 @@ class QuakeFragment(
             }
         }
 
+    }
+
+    private fun configErrorStatusMsg(
+        @DrawableRes icon: Int,
+        errorMsg: String
+    ) {
+        with(binding.includeNoWifi) {
+
+            ivWifiOff.setImageDrawable(
+                resources.getDrawable(icon, requireContext().theme)
+            )
+            tvMsgNoWifi.text = errorMsg
+        }
     }
 
     override fun onDestroyView() {

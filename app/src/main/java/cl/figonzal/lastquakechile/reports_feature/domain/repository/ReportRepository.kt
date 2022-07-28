@@ -8,6 +8,5 @@ import kotlinx.coroutines.flow.Flow
  * Interface for repository
  */
 interface ReportRepository {
-
     fun getReports(): Flow<StatusAPI<List<Report>>>
 }

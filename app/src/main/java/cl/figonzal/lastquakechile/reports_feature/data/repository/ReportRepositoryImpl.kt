@@ -49,9 +49,7 @@ class ReportRepositoryImpl(
 
                         localDataSource.deleteAll() //delete cached
 
-                        reports
-                            .onEach { localDataSource.insert(it) }
-                            .toReportDomain()
+                        reports.onEach { localDataSource.insert(it) }.toReportDomain()
 
                         //Save timestamp
                         sharedPrefUtil.saveData(
@@ -66,31 +64,32 @@ class ReportRepositoryImpl(
                         emit(StatusAPI.Success(cacheList))
                     }
                     .suspendOnError {
+
                         Timber.e("Suspend error: ${this.message()}")
 
-                        emit(
-                            StatusAPI.Error(
-                                apiError = when (statusCode) {
-                                    StatusCode.NotFound -> ApiError.HttpError
-                                    StatusCode.RequestTimeout -> ApiError.ServerError
-                                    StatusCode.InternalServerError -> ApiError.ServerError
-                                    StatusCode.ServiceUnavailable -> ApiError.ServerError
-                                    else -> ApiError.UnknownError
-                                }, cacheList
-                            )
-                        )
+                        val apiError = when (statusCode) {
+                            StatusCode.NotFound -> ApiError.HttpError
+                            StatusCode.RequestTimeout -> ApiError.ServerError
+                            StatusCode.InternalServerError -> ApiError.ServerError
+                            StatusCode.ServiceUnavailable -> ApiError.ServerError
+                            else -> ApiError.UnknownError
+                        }
+
+                        emit(StatusAPI.Error(apiError, cacheList))
                     }
                     .suspendOnFailure {
+
                         Timber.e("Suspend failure: ${this.message()}")
-                        when {
+
+                        val apiError = when {
                             message().contains("10000ms") || message().contains(
                                 "failed to connect",
                                 true
-                            ) -> {
-                                emit(StatusAPI.Error(ApiError.TimeoutError, cacheList))
-                            }
-                            else -> emit(StatusAPI.Error(ApiError.UnknownError, cacheList))
+                            ) -> ApiError.TimeoutError
+                            else -> ApiError.UnknownError
                         }
+
+                        emit(StatusAPI.Error(apiError, cacheList))
                     }
             }
         }
