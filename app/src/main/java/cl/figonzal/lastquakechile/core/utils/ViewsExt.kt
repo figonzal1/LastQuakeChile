@@ -10,7 +10,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.LayoutRes
+import androidx.annotation.MenuRes
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider.getUriForFile
 import androidx.core.view.MenuHost
@@ -36,7 +36,7 @@ import java.util.*
 import kotlin.math.floor
 
 fun Fragment.configOptionsMenu(
-    @LayoutRes menuId: Int = R.menu.menu_main,
+    @MenuRes menuId: Int = R.menu.menu_main,
     googleMap: GoogleMap? = null
 ) {
     val menuHost: MenuHost = this.requireActivity()

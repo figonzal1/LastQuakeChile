@@ -12,10 +12,10 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.0")
 
         //FIREBASE CRASH ANALYTICS
-        classpath("com.google.gms:google-services:4.3.10")
+        classpath("com.google.gms:google-services:4.3.13")
 
         //Crashlytics Gradle plugin
-        classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.0")
+        classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.1")
 
         // Performance Monitoring plugin
         classpath("com.google.firebase:perf-plugin:1.4.1")

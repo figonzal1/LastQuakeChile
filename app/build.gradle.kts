@@ -78,25 +78,25 @@ android {
 dependencies {
 
     implementation(fileTree("libs") { include(listOf("*.jar")) })
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.7.0")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.7.10")
     implementation("androidx.core:core-ktx:1.8.0")
     implementation("androidx.appcompat:appcompat:1.4.2")
 
     implementation("androidx.recyclerview:recyclerview:1.2.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
-    implementation("androidx.fragment:fragment-ktx:1.5.0")
-    implementation("androidx.activity:activity-ktx:1.5.0")
+    implementation("androidx.fragment:fragment-ktx:1.5.1")
+    implementation("androidx.activity:activity-ktx:1.5.1")
 
     implementation("com.google.android.material:material:1.6.1")//Material design
-    implementation("androidx.core:core-splashscreen:1.0.0-rc01") //splash screen
+    implementation("androidx.core:core-splashscreen:1.0.0") //splash screen
 
     //GLIDE
     implementation("com.github.bumptech.glide:glide:4.13.2")
 
     //Life cycle components
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
 
     // Coroutines
@@ -108,20 +108,20 @@ dependencies {
     implementation("io.insert-koin:koin-android:3.2.0")
 
     //Google Play
-    implementation("com.google.android.gms:play-services-ads:21.0.0")
+    implementation("com.google.android.gms:play-services-ads:21.1.0")
     implementation("com.google.android.play:app-update-ktx:2.0.0")
 
     //Google Maps
     // KTX for the Maps SDK for Android
     implementation("com.google.maps.android:maps-ktx:3.2.1")
-    implementation("com.google.android.gms:play-services-maps:18.0.2")
+    implementation("com.google.android.gms:play-services-maps:18.1.0")
 
     implementation("androidx.preference:preference-ktx:1.2.0") //preference
 
     //Room components
-    implementation("androidx.room:room-ktx:2.4.2")
-    implementation("androidx.room:room-runtime:2.4.2")
-    kapt("androidx.room:room-compiler:2.4.2")
+    implementation("androidx.room:room-ktx:2.4.3")
+    implementation("androidx.room:room-runtime:2.4.3")
+    kapt("androidx.room:room-compiler:2.4.3")
 
     //Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
@@ -137,16 +137,12 @@ dependencies {
     kapt("com.squareup.moshi:moshi-kotlin-codegen:1.13.0")
 
     //Firebase BOM
-    implementation(platform("com.google.firebase:firebase-bom:30.1.0"))
+    implementation(platform("com.google.firebase:firebase-bom:30.3.0"))
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-crashlytics-ktx")
     implementation("com.google.firebase:firebase-dynamic-links")
     implementation("com.google.firebase:firebase-messaging-ktx")
     implementation("com.google.firebase:firebase-perf-ktx")
-
-    //ViewBinnding delegation
-    //implementation("com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.6")
-    //implementation 'com.github.kirich1409:viewbindingpropertydelegate:1.5.6'
 
     //TIMBER
     implementation("com.jakewharton.timber:timber:5.0.1")
@@ -167,7 +163,7 @@ dependencies {
     androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1")
     androidTestImplementation("androidx.arch.core:core-testing:2.1.0")
     androidTestImplementation("androidx.test.ext:junit-ktx:1.1.3")
-    androidTestImplementation("androidx.room:room-testing:2.4.2")
+    androidTestImplementation("androidx.room:room-testing:2.4.3")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
     androidTestImplementation("androidx.test.espresso:espresso-contrib:3.4.0") {
         exclude(module = "protobuf-lite")
@@ -179,7 +175,7 @@ dependencies {
     androidTestImplementation("io.insert-koin:koin-test-junit4:3.2.0")
 
     //Debug dependencies
-    debugImplementation("androidx.fragment:fragment-testing:1.5.0")
+    debugImplementation("androidx.fragment:fragment-testing:1.5.1")
     debugImplementation("com.squareup.leakcanary:leakcanary-android:2.9.1")
 
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")

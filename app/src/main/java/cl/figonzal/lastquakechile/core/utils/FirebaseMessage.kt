@@ -45,7 +45,7 @@ fun Context.notification(data: List<Any>, pendingIntent: PendingIntent) {
 
             //Notify
             (this@notification.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(
-                quake.quakeCode.toInt(),
+                quake.quakeCode,
                 build()
             )
         }

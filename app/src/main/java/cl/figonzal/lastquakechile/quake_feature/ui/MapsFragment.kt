@@ -48,12 +48,24 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener, O
 
         binding.mapView.onCreate(savedInstanceState)
 
-        return binding.root
-    }
+        viewLifecycleOwner.lifecycleScope.launch {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.mapView.getMapAsync(this)
+            viewModel.quakeState
+                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collectLatest {
+
+                    when {
+                        !it.isLoading && it.quakes.isNotEmpty() -> {
+                            quakeList = it.quakes
+                            Timber.d(getString(R.string.FRAGMENT_LOAD_LIST))
+
+                            binding.mapView.getMapAsync(this@MapsFragment)
+                        }
+                    }
+                }
+        }
+
+        return binding.root
     }
 
     @SuppressLint("PotentialBehaviorOverride")
@@ -61,53 +73,41 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener, O
 
         configOptionsMenu(R.menu.menu_map_fragment, p0)
 
-        viewLifecycleOwner.lifecycleScope.launch {
+        p0.apply {
 
-            viewModel.quakeState
-                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-                .collectLatest {
+            //Set limits for map
+            val mChile = LatLngBounds(LatLng(-60.15, -78.06), LatLng(-15.6, -66.5))
+            setLatLngBoundsForCameraTarget(mChile)
 
-                    quakeList = it.quakes
+            //Night mode
+            setNightMode(requireContext())
 
-                    Timber.d(getString(R.string.FRAGMENT_LOAD_LIST))
+            //Map configs
+            mapType = MAP_TYPE_NORMAL
+            setMinZoomPreference(4.0f)
 
-                    p0.apply {
+            with(uiSettings) {
+                isZoomControlsEnabled = true
+                isTiltGesturesEnabled = true
+                isMapToolbarEnabled = true
+                isZoomGesturesEnabled = true
+                isRotateGesturesEnabled = false
+                isCompassEnabled = false
+            }
 
-                        //Set limits for map
-                        val mChile = LatLngBounds(LatLng(-60.15, -78.06), LatLng(-15.6, -66.5))
-                        setLatLngBoundsForCameraTarget(mChile)
+            moveCamera(
+                CameraUpdateFactory.newLatLngZoom(calculateMeanCords(quakeList), 5.0f)
+            )
 
-                        //Night mode
-                        setNightMode(requireContext())
+            loadPins(quakeList, requireContext())
 
-                        //Map configs
-                        mapType = MAP_TYPE_NORMAL
-                        setMinZoomPreference(4.0f)
+            setInfoWindowAdapter(this@MapsFragment)
 
-                        with(uiSettings) {
-                            isZoomControlsEnabled = true
-                            isTiltGesturesEnabled = true
-                            isMapToolbarEnabled = true
-                            isZoomGesturesEnabled = true
-                            isRotateGesturesEnabled = false
-                            isCompassEnabled = false
-                        }
-
-                        moveCamera(
-                            CameraUpdateFactory.newLatLngZoom(calculateMeanCords(quakeList), 5.0f)
-                        )
-
-                        loadPins(quakeList, requireContext())
-
-                        setInfoWindowAdapter(this@MapsFragment)
-
-                        setOnInfoWindowClickListener(this@MapsFragment)
-                    }
-
-                    //Log zone
-                    Timber.d(getString(R.string.MAP_READY_RESPONSE))
-                }
+            setOnInfoWindowClickListener(this@MapsFragment)
         }
+
+        //Log zone
+        Timber.d(getString(R.string.MAP_READY_RESPONSE))
     }
 
     override fun onInfoWindowClick(p0: Marker) {

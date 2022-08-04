@@ -80,7 +80,11 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                 currentNativeAd = nativeAd
 
                 val adView =
-                    layoutInflater.inflate(R.layout.ad_mob_small_template, null) as NativeAdView
+                    layoutInflater.inflate(
+                        R.layout.ad_mob_small_template,
+                        binding.root,
+                        false
+                    ) as NativeAdView
 
                 populateNativeAdView(nativeAd, adView)
 
@@ -286,8 +290,8 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                         duration = 4000
                         setEvaluator(IntEvaluator())
                         interpolator = AccelerateDecelerateInterpolator()
-                        addUpdateListener {
-                            this@animate.radius = (it.animatedFraction * 140000).toDouble()
+                        addUpdateListener { animator ->
+                            this@animate.radius = (animator.animatedFraction * 140000).toDouble()
                         }
                         start()
                     }
@@ -306,8 +310,8 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                         startDelay = 1000
                         setEvaluator(IntEvaluator())
                         interpolator = AccelerateDecelerateInterpolator()
-                        addUpdateListener {
-                            this@animate.radius = (it.animatedFraction * 140000).toDouble()
+                        addUpdateListener { animator ->
+                            this@animate.radius = (animator.animatedFraction * 140000).toDouble()
                         }
                         start()
                     }

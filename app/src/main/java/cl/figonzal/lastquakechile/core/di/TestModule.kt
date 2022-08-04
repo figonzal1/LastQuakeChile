@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package cl.figonzal.lastquakechile.core.di
 
 import cl.figonzal.lastquakechile.core.utils.TestFragmentFactory
