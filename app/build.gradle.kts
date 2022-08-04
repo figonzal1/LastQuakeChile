@@ -100,8 +100,8 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
 
     // Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 
     //Dependency injection KOIN
     implementation("io.insert-koin:koin-core:3.2.0")
@@ -130,7 +130,7 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
 
     //SANDWICH
-    implementation("com.github.skydoves:sandwich:1.2.6")
+    implementation("com.github.skydoves:sandwich:1.2.7")
 
     //MOSHI
     implementation("com.squareup.moshi:moshi:1.13.0")
@@ -154,13 +154,13 @@ dependencies {
     testImplementation("io.insert-koin:koin-test-junit4:3.2.0")
     testImplementation("androidx.arch.core:core-testing:2.1.0")
     testImplementation("androidx.test.ext:truth:1.4.0")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
 
     // Instrumented Unit Tests
     androidTestImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test:runner:1.4.0")
     androidTestImplementation("androidx.test:rules:1.4.0")
-    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1")
+    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
     androidTestImplementation("androidx.arch.core:core-testing:2.1.0")
     androidTestImplementation("androidx.test.ext:junit-ktx:1.1.3")
     androidTestImplementation("androidx.room:room-testing:2.4.3")

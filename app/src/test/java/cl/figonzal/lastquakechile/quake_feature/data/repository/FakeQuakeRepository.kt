@@ -62,8 +62,8 @@ class FakeQuakeRepository(
         when {
             shouldReturnNetworkError -> emit(
                 StatusAPI.Error(
-                    ApiError.HttpError,
-                    quakeList //Error with cached List
+                    quakeList, //Error with cached List
+                    ApiError.HttpError
                 )
             )
             else -> emit(StatusAPI.Success(quakeList.take(limit)))

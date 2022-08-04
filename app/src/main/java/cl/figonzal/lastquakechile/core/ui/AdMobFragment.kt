@@ -11,6 +11,7 @@ import android.widget.RatingBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.utils.configOptionsMenu
 import cl.figonzal.lastquakechile.databinding.FragmentAdMobBinding
 import com.google.android.gms.ads.*
 import com.google.android.gms.ads.nativead.NativeAd
@@ -35,6 +36,8 @@ class AdMobFragment : Fragment() {
         _binding = FragmentAdMobBinding.inflate(inflater, container, false)
 
         refreshAd(container)
+
+        configOptionsMenu()
 
         return binding.root
     }
