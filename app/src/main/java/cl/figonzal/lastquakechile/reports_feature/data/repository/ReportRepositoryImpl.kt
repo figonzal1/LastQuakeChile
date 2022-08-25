@@ -28,7 +28,7 @@ class ReportRepositoryImpl(
     private val sharedPrefUtil: SharedPrefUtil
 ) : ReportRepository {
 
-    override fun getReports(): Flow<StatusAPI<List<Report>>> = flow {
+    override fun getReports(pageIndex: Int): Flow<StatusAPI<List<Report>>> = flow {
 
         var cacheList = localDataSource.getReports().toReportDomain()
 
@@ -42,10 +42,10 @@ class ReportRepositoryImpl(
             else -> {
 
                 //Network call
-                remoteDataSource.getReports()
+                remoteDataSource.getReports(pageIndex)
                     .suspendOnSuccess {
 
-                        val reports = data.embedded.reports.toReportEntity()
+                        val reports = data.embedded!!.reports.toReportEntity()
 
                         localDataSource.deleteAll() //delete cached
 

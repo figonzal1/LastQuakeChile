@@ -3,7 +3,6 @@
 package cl.figonzal.lastquakechile.core.di
 
 import cl.figonzal.lastquakechile.core.utils.TestFragmentFactory
-import cl.figonzal.lastquakechile.core.utils.provideLimitedList
 import cl.figonzal.lastquakechile.core.utils.provideTestDatabase
 import cl.figonzal.lastquakechile.quake_feature.data.repository.FakeQuakeRepository
 import cl.figonzal.lastquakechile.quake_feature.domain.repository.QuakeRepository
@@ -25,7 +24,7 @@ val testQuakeModule = module {
     factory<QuakeRepository> { FakeQuakeRepository(get(named("ioDispatcher"))) }
 
     //getQuakeUseCase
-    factory { GetQuakesUseCase(get(), provideLimitedList(get())) }
+    factory { GetQuakesUseCase(get()) }
 
     //viewModel
     viewModel { QuakeViewModel(get()) }

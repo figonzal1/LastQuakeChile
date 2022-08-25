@@ -29,7 +29,7 @@ class ReportViewModel(
 
             _reportState.update { it.copy(isLoading = true) }
 
-            getReportsUseCase().collect { statusApi ->
+            getReportsUseCase(0).collect { statusApi ->
 
                 val data = statusApi.data
                 val apiError = statusApi.apiError

@@ -51,7 +51,7 @@ class FakeReportRepository(
     )
 
 
-    override fun getReports(): Flow<StatusAPI<List<Report>>> = flow {
+    override fun getReports(pageIndex: Int): Flow<StatusAPI<List<Report>>> = flow {
 
         when {
             shouldReturnNetworkError -> emit(StatusAPI.Error(emptyList(), ApiError.HttpError))

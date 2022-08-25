@@ -1,11 +1,13 @@
 package cl.figonzal.lastquakechile.core.di
 
+import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.ui.MainFragmentStateAdapter
 import cl.figonzal.lastquakechile.core.utils.provideApiService
 import cl.figonzal.lastquakechile.core.utils.provideDatabase
 import cl.figonzal.lastquakechile.quake_feature.di.quakeModule
 import cl.figonzal.lastquakechile.reports_feature.di.reportModule
 import kotlinx.coroutines.Dispatchers
+import org.koin.android.ext.koin.androidContext
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
@@ -21,7 +23,7 @@ val appModule = module {
     single(named("database")) { provideDatabase(get()) }
 
     //Retrofit
-    single(named("apiService")) { provideApiService("http://192.168.1.101:8080/") }
+    single(named("apiService")) { provideApiService(androidContext().resources.getString(R.string.API_URL)) }
 
     //StateAdapter
     single { MainFragmentStateAdapter(get(), get()) }

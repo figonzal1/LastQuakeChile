@@ -57,12 +57,12 @@ class FakeQuakeRepository(
         )
     )
 
-    override fun getQuakes(limit: Int): Flow<StatusAPI<List<Quake>>> = flow {
+    override fun getQuakes(pageIndex: Int): Flow<StatusAPI<List<Quake>>> = flow {
 
         //Should be omitted in test
         when {
             shouldReturnNetworkError -> emit(StatusAPI.Error(emptyList(), ApiError.HttpError))
-            else -> emit(StatusAPI.Success(quakeList.take(limit)))
+            else -> emit(StatusAPI.Success(quakeList.take(pageIndex)))
         }
     }.flowOn(dispatcher)
 

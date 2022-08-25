@@ -34,22 +34,13 @@ data class QuakeDTO(
     @Json(name = "coordinate")
     val coordinate: CoordinateDTO,
 
-    @Json(name = "isSensitive")
+    @Json(name = "sensitive")
     val isSensitive: Boolean,
 
-    @Json(name = "isVerified")
+    @Json(name = "verified")
     val isVerified: Boolean,
 
-    @Json(name = "createdDate", ignore = true)
-    val createdDate: String? = null,
-
-    @Json(name = "lastModified", ignore = true)
-    val lastModified: String? = null,
-
-    @Json(name = "_links", ignore = true)
-    val links: Any? = null
-
-) {
+    ) {
     fun toEntity() = QuakeEntity(
         quakeCode = quakeCode,
         utcDate = utcDate,

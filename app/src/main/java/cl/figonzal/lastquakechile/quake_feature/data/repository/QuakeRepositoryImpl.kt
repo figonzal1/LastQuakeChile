@@ -26,17 +26,17 @@ class QuakeRepositoryImpl(
 ) : QuakeRepository {
 
 
-    override fun getQuakes(limit: Int): Flow<StatusAPI<List<Quake>>> = flow {
+    override fun getQuakes(pageIndex: Int): Flow<StatusAPI<List<Quake>>> = flow {
 
         var cacheList = localDataSource.getQuakes().toQuakeDomain()
 
         emit(StatusAPI.Success(cacheList)) //Cached list
 
         //GET REMOTE DATA
-        remoteDataSource.getQuakes(limit)
+        remoteDataSource.getQuakes(pageIndex)
             .suspendOnSuccess {
 
-                val quakes = data.embedded.quakes.toQuakeListEntity()
+                val quakes = data.embedded!!.quakes.toQuakeListEntity()
 
                 localDataSource.deleteAll() //Remove cache
 

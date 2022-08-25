@@ -12,7 +12,6 @@ interface QuakeAPI {
 
     @GET("/api/v1/quakes")
     suspend fun listQuakes(
-        @Query(value = "size") limit: Int = 15,
-        @Query(value = "sort") sort: String = "utcDate,desc",
+        @Query(value = "page") page: Int
     ): ApiResponse<Embedded<QuakePayload>>
 }

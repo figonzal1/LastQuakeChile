@@ -37,7 +37,7 @@ interface QuakeDAO {
     }
 
     fun deleteAll() {
-        deleteAllQuakes()
         deleteAllCoordinates()
+        deleteAllQuakes()
     }
 }

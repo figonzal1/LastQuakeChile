@@ -1,6 +1,5 @@
 package cl.figonzal.lastquakechile.quake_feature.di
 
-import cl.figonzal.lastquakechile.core.utils.provideLimitedList
 import cl.figonzal.lastquakechile.core.utils.provideQuakeAPI
 import cl.figonzal.lastquakechile.core.utils.provideQuakeDao
 import cl.figonzal.lastquakechile.quake_feature.data.local.QuakeLocalDataSource
@@ -41,7 +40,7 @@ val quakeModule = module {
     }
 
     //getQuakeUseCase
-    factory { GetQuakesUseCase(get(), provideLimitedList(get())) }
+    factory { GetQuakesUseCase(get()) }
 
     //viewModel
     viewModel { QuakeViewModel(get()) }

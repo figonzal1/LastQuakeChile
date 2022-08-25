@@ -12,6 +12,6 @@ interface ReportAPI {
 
     @GET("/api/v1/reports")
     suspend fun listReports(
-        @Query(value = "sort") sort: String = "reportMonth,desc"
+        @Query(value = "page") page: Int
     ): ApiResponse<Embedded<ReportPayload>>
 }

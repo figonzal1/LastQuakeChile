@@ -29,7 +29,7 @@ class QuakeViewModel(
 
             _quakeState.update { it.copy(isLoading = true) }
 
-            getQuakesUseCase().collect { statusApi ->
+            getQuakesUseCase(0).collect { statusApi ->
 
                 val data = statusApi.data
                 val apiError = statusApi.apiError
