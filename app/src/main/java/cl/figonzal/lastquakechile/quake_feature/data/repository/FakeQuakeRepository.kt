@@ -57,7 +57,11 @@ class FakeQuakeRepository(
         )
     )
 
-    override fun getQuakes(pageIndex: Int): Flow<StatusAPI<List<Quake>>> = flow {
+    override fun getQuakes(pageIndex: Int): Flow<StatusAPI<List<Quake>>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getFirstPage(pageIndex: Int): Flow<StatusAPI<List<Quake>>> = flow {
 
         //Should be omitted in test
         when {
@@ -65,5 +69,9 @@ class FakeQuakeRepository(
             else -> emit(StatusAPI.Success(quakeList.take(pageIndex)))
         }
     }.flowOn(dispatcher)
+
+    override fun getNextPages(pageIndex: Int): Flow<StatusAPI<List<Quake>>> {
+        TODO("Not yet implemented")
+    }
 
 }

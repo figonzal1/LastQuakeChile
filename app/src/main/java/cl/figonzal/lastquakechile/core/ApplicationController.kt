@@ -3,8 +3,6 @@ package cl.figonzal.lastquakechile.core
 import android.app.Application
 import cl.figonzal.lastquakechile.BuildConfig
 import cl.figonzal.lastquakechile.core.di.appModule
-import cl.figonzal.lastquakechile.core.services.AppOpenService
-import com.google.android.gms.ads.MobileAds
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.fragment.koin.fragmentFactory
@@ -38,9 +36,5 @@ class ApplicationController : Application() {
             BuildConfig.DEBUG -> Timber.plant(DebugTree())
             else -> Timber.plant(CrashlyticsTree())
         }
-
-        MobileAds.initialize(this) { }
-
-        AppOpenService(this)
     }
 }

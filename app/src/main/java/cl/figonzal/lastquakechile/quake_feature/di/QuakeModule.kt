@@ -7,10 +7,10 @@ import cl.figonzal.lastquakechile.quake_feature.data.remote.QuakeRemoteDataSourc
 import cl.figonzal.lastquakechile.quake_feature.data.repository.QuakeRepositoryImpl
 import cl.figonzal.lastquakechile.quake_feature.domain.repository.QuakeRepository
 import cl.figonzal.lastquakechile.quake_feature.domain.uses_cases.GetQuakesUseCase
-import cl.figonzal.lastquakechile.quake_feature.ui.MapsFragment
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeAdapter
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeFragment
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeViewModel
+import cl.figonzal.lastquakechile.quake_feature.ui.map.MapsFragment
 import org.koin.androidx.fragment.dsl.fragment
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named

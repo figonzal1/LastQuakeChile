@@ -57,7 +57,7 @@ class FakeQuakeRepository(
         )
     )
 
-    override fun getQuakes(pageIndex: Int): Flow<StatusAPI<List<Quake>>> = flow {
+    override fun getFirstPage(pageIndex: Int): Flow<StatusAPI<List<Quake>>> = flow {
 
         when {
             shouldReturnNetworkError -> emit(

@@ -25,8 +25,12 @@ class QuakeRepositoryImpl(
     private val application: Application
 ) : QuakeRepository {
 
+    override fun getQuakes(pageIndex: Int) = when (pageIndex) {
+        0 -> getFirstPage(pageIndex)
+        else -> getNextPages(pageIndex)
+    }
 
-    override fun getQuakes(pageIndex: Int): Flow<StatusAPI<List<Quake>>> = flow {
+    override fun getFirstPage(pageIndex: Int): Flow<StatusAPI<List<Quake>>> = flow {
 
         var cacheList = localDataSource.getQuakes().toQuakeDomain()
 
@@ -75,6 +79,56 @@ class QuakeRepositoryImpl(
                 }
 
                 emit(StatusAPI.Error(cacheList, apiError))
+            }
+    }.flowOn(dispatcher)
+
+    override fun getNextPages(pageIndex: Int): Flow<StatusAPI<List<Quake>>> = flow {
+
+        //GET REMOTE DATA
+        remoteDataSource.getQuakes(pageIndex)
+            .suspendOnSuccess {
+
+                when {
+                    data.embedded != null -> {
+                        val quakes = data.embedded!!.quakes.toQuakeListEntity().toQuakeDomain()
+
+                        emit(StatusAPI.Success(quakes))
+
+                        Timber.d(application.getString(R.string.LIST_NETWORK_CALL))
+                    }
+                    else -> {
+                        val apiError = ApiError.ResourceNotFound
+                        emit(StatusAPI.Error(emptyList<Quake>(), apiError))
+                    }
+                }
+            }
+            .suspendOnError {
+
+                Timber.e("Suspend error: ${this.message()}")
+
+                val apiError = when (statusCode) {
+                    StatusCode.NotFound -> ApiError.HttpError
+                    StatusCode.RequestTimeout -> ApiError.ServerError
+                    StatusCode.InternalServerError -> ApiError.ServerError
+                    StatusCode.ServiceUnavailable -> ApiError.ServerError
+                    else -> ApiError.UnknownError
+                }
+
+                emit(StatusAPI.Error(listOf<Quake>(), apiError))
+            }
+            .suspendOnFailure {
+
+                Timber.e("Suspend failure: ${this.message()}")
+
+                val apiError = when {
+                    message().contains("10000ms") || message().contains(
+                        "failed to connect",
+                        true
+                    ) -> ApiError.TimeoutError
+                    else -> ApiError.UnknownError
+                }
+
+                emit(StatusAPI.Error(listOf<Quake>(), apiError))
             }
     }.flowOn(dispatcher)
 

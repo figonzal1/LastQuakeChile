@@ -6,4 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface QuakeRepository {
     fun getQuakes(pageIndex: Int): Flow<StatusAPI<List<Quake>>>
+    fun getFirstPage(pageIndex: Int): Flow<StatusAPI<List<Quake>>>
+    fun getNextPages(pageIndex: Int): Flow<StatusAPI<List<Quake>>>
 }

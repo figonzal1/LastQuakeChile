@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile.quake_feature.ui
+package cl.figonzal.lastquakechile.quake_feature.ui.map
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -15,6 +15,8 @@ import cl.figonzal.lastquakechile.core.utils.*
 import cl.figonzal.lastquakechile.databinding.FragmentMapsBinding
 import cl.figonzal.lastquakechile.databinding.InfoWindowsBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
+import cl.figonzal.lastquakechile.quake_feature.ui.QuakeDetailsActivity
+import cl.figonzal.lastquakechile.quake_feature.ui.QuakeViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.*
@@ -50,7 +52,7 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener, O
 
         viewLifecycleOwner.lifecycleScope.launch {
 
-            viewModel.quakeState
+            viewModel.firstPage
                 .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collectLatest {
 
@@ -186,11 +188,6 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener, O
         super.onPause()
     }
 
-    override fun onDestroy() {
-        binding.mapView.onDestroy()
-        super.onDestroy()
-    }
-
     override fun onLowMemory() {
         super.onLowMemory()
         binding.mapView.onLowMemory()
@@ -198,6 +195,7 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener, O
 
     override fun onDestroyView() {
         super.onDestroyView()
+        binding.mapView.onDestroy()
         _binding = null
     }
 }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -167,6 +168,18 @@ class ReportsFragment(
                                 configErrorStatusMsg(
                                     icon = R.drawable.ic_round_router_24,
                                     errorMsg = getString(R.string.service_error)
+                                )
+                            }
+                            ApiError.ResourceNotFound -> {
+                                Toast.makeText(requireContext(), "No hay mas", Toast.LENGTH_LONG)
+                                    .show()
+                            }
+                            else -> {
+                                toast(R.string.http_error)
+
+                                configErrorStatusMsg(
+                                    icon = R.drawable.ic_round_report_24,
+                                    errorMsg = getString(R.string.http_error)
                                 )
                             }
                         }
