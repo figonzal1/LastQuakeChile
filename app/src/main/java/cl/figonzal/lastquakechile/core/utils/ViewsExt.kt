@@ -7,7 +7,6 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.view.*
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.MenuRes
@@ -27,7 +26,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.material.tabs.TabLayout
 import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
@@ -404,17 +402,6 @@ fun List<String>.printChangeLogList(): CharSequence {
         }
     }
     return changes
-}
-
-/**
- * Set width for icons in tabs
- */
-fun TabLayout.setTabWidthAsWrapContent(tabPosition: Int) {
-    val layout = (this.getChildAt(0) as LinearLayout).getChildAt(tabPosition) as LinearLayout
-    val layoutParams = layout.layoutParams as LinearLayout.LayoutParams
-    layoutParams.weight = 0f
-    layoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT
-    layout.layoutParams = layoutParams
 }
 
 /**

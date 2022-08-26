@@ -7,6 +7,8 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.preference.PreferenceManager
@@ -16,7 +18,10 @@ import cl.figonzal.lastquakechile.core.services.GooglePlayService
 import cl.figonzal.lastquakechile.core.services.NightModeService
 import cl.figonzal.lastquakechile.core.services.UpdaterService
 import cl.figonzal.lastquakechile.core.services.notifications.QuakesNotification
-import cl.figonzal.lastquakechile.core.utils.*
+import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
+import cl.figonzal.lastquakechile.core.utils.getFirebaseToken
+import cl.figonzal.lastquakechile.core.utils.loadImage
+import cl.figonzal.lastquakechile.core.utils.startAds
 import cl.figonzal.lastquakechile.databinding.ActivityMainBinding
 import com.google.android.gms.ads.AdView
 import com.google.android.material.appbar.AppBarLayout
@@ -131,8 +136,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }.attach()
 
-
-            tabLayout.setTabWidthAsWrapContent(0)
+            wrapFirstTab(tabLayout)
 
             tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab) {
@@ -152,6 +156,21 @@ class MainActivity : AppCompatActivity() {
                 override fun onTabReselected(tab: TabLayout.Tab) {}
             })
 
+        }
+    }
+
+    private fun wrapFirstTab(tabLayout: TabLayout) {
+        val tabStrip = tabLayout.getChildAt(0)
+        if (tabStrip is ViewGroup) {
+            val tabView = tabStrip.getChildAt(0) // 0th position tab i.e 1st tab
+            tabView.minimumWidth = 0
+            tabView.setPadding(16, tabView.paddingTop, 16, tabView.paddingBottom)
+            tabView.layoutParams =
+                LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT
+                )
+            tabLayout.requestLayout()
         }
     }
 
