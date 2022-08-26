@@ -1,7 +1,5 @@
 package cl.figonzal.lastquakechile.quake_feature.ui
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -53,7 +51,6 @@ class QuakeFragment(
 
         bindingResources()
         handleQuakeState()
-        showCvInfo()
 
         configOptionsMenu()
 
@@ -218,44 +215,6 @@ class QuakeFragment(
                     }
             }
         }
-    }
-
-    private fun showCvInfo() {
-
-        val isCvShowed = sharedPrefUtil.getData(
-            getString(R.string.shared_pref_status_card_view_info),
-            true
-        ) as Boolean
-
-        with(binding.include.cvInfo) {
-
-            visibility = when {
-                isCvShowed -> View.VISIBLE
-                else -> View.GONE
-            }
-
-            binding.include.btnInfoAccept.setOnClickListener {
-
-                sharedPrefUtil.saveData(
-                    getString(R.string.shared_pref_status_card_view_info),
-                    false
-                )
-
-                this.animate()
-                    .translationY(-this.height.toFloat())
-                    .alpha(1.0f)
-                    .setDuration(500)
-                    .setListener(object : AnimatorListenerAdapter() {
-                        override fun onAnimationEnd(animation: Animator) {
-                            this@with.visibility = View.GONE
-                        }
-                    })
-
-                //LOGS
-                Timber.d(getString(R.string.CV_INFO) + ": Ok")
-            }
-        }
-
     }
 
     var isLoading = false

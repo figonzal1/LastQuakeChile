@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="refresh">Recargar</string>
-    <string name="search">Buscar</string>
     <string name="circulo_pintado">Color magnitud sismo</string>
     <string name="imagen_toolbar">Imagen toolbar</string>
     <string name="icono_tiempo">Icono tiempo</string>
@@ -17,8 +15,6 @@
     <string name="icono_sensible">Icono sensible</string>
     <string name="firebase_channel_name_quakes">Alerta sismos</string>
     <string name="firebase_channel_description_quakes">Recibe alertas de sismos sobre 5 grados</string>
-    <string name="last_quakes_info_card_view_tittle">Últimos sismos</string>
-    <string name="last_quakes_info_card_view_button">Entendido</string>
     <string name="coordenadas_oeste">O</string>
     <string name="coordenadas_este">E</string>
     <string name="seccion_listado_de_sismos">Sección listado de sismos</string>
@@ -55,7 +51,6 @@
     </plurals>
     <string name="quake_list_number_pref_title">Datos sismos</string>
     <string name="quake_list_number_pref_summary">Número de sismos que quieres ver en lista</string>
-    <string name="last_quakes_info_card_view_description">En este listado se muestran los últimos 15 sismos ocurridos en Chile, puedes modificar la cantidad en la sección &#8942; -> Configuración</string>
     <string name="tab_reports">Reportes</string>
     <string name="icono_reporte_mensual">Icono reporte mensual</string>
     <string name="n_sismos_reportados">N° sismos reportados</string>
@@ -92,7 +87,6 @@
     <string name="http_error">Ups, algo funcionó mal!</string>
     <string name="io_error">Revisa tu conexión a Internet</string>
     <string name="icon_ad_app">Icono publicidad</string>
-    <string name="snackbar_retry">Recargar</string>
     <string name="version_key">versión</string>
     <string name="about_msg">LastQuakeChile, te permite visualizar rápidamente los últimos sismos ocurridos en Chile</string>
     <string name="contact_developer">Contacto desarrollador</string>

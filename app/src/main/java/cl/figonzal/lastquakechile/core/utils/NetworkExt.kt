@@ -1,8 +1,5 @@
 package cl.figonzal.lastquakechile.core.utils
 
-import android.content.Context
-import androidx.preference.PreferenceManager
-import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.quake_feature.data.remote.QuakeAPI
 import cl.figonzal.lastquakechile.reports_feature.data.remote.ReportAPI
 import com.skydoves.sandwich.adapters.ApiResponseCallAdapterFactory
@@ -35,8 +32,3 @@ fun provideQuakeAPI(apiService: Retrofit): QuakeAPI = apiService.create(QuakeAPI
 
 fun provideReportAPI(apiService: Retrofit): ReportAPI = apiService.create(ReportAPI::class.java)
 
-fun provideLimitedList(context: Context): Int =
-    PreferenceManager.getDefaultSharedPreferences(context).getInt(
-        context.getString(R.string.shared_pref_list_quake_limit),
-        15
-    )

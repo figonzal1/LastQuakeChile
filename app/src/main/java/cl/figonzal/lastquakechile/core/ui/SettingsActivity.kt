@@ -13,7 +13,6 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.SeekBarPreference
 import cl.figonzal.lastquakechile.BuildConfig
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.services.notifications.QuakesNotification
@@ -50,8 +49,6 @@ class SettingsActivity : AppCompatActivity() {
     class SettingsFragment : PreferenceFragmentCompat(),
         OnSharedPreferenceChangeListener {
 
-        private var seekBarPreference: SeekBarPreference? = null
-
         private val sharedPrefUtil: SharedPrefUtil by lazy {
             SharedPrefUtil(requireContext())
         }
@@ -64,8 +61,6 @@ class SettingsActivity : AppCompatActivity() {
 
             configVersionPreferences()
 
-            configQuakeLimits()
-
             configNightMode()
         }
 
@@ -74,8 +69,6 @@ class SettingsActivity : AppCompatActivity() {
             handleChangesNightMode(preferences, key)
 
             handleChangesNotificationSubscription(preferences, key)
-
-            handleChangesQuakeLimits(key)
         }
 
         private fun nightModeAndRecreate(mode: Int) {
@@ -98,35 +91,6 @@ class SettingsActivity : AppCompatActivity() {
             preferenceScreen.sharedPreferences?.unregisterOnSharedPreferenceChangeListener(this)
         }
 
-
-        private fun configQuakeLimits() {
-            //QUAKE LIMIT PREFERENCE
-            seekBarPreference =
-                findPreference(resources.getString(R.string.shared_pref_list_quake_limit))
-
-            seekBarPreference?.apply {
-
-                min = 10
-                max = 30
-
-                val limite = sharedPrefUtil.getData(
-                    resources.getString(R.string.shared_pref_list_quake_limit), 0
-                ) as Int
-
-                //Setear resumen por defecto
-                value = when (limite) {
-                    0 -> 15
-                    else -> limite
-                }
-
-                summary =
-                    resources.getQuantityString(
-                        R.plurals.list_quake_number_summary,
-                        value,
-                        value
-                    )
-            }
-        }
 
         private fun configVersionPreferences() {
             //VERSION
@@ -234,31 +198,6 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
-        private fun handleChangesQuakeLimits(key: String?) {
-
-            if (key == resources.getString(R.string.shared_pref_list_quake_limit)) {
-
-                seekBarPreference?.apply {
-
-                    summary =
-                        resources.getQuantityString(
-                            R.plurals.list_quake_number_summary,
-                            value,
-                            value
-                        )
-
-                    sharedPrefUtil.saveData(
-                        resources.getString(R.string.shared_pref_list_quake_limit),
-                        value
-                    )
-                    Timber.d(
-                        resources.getString(R.string.FRAGMENT_SETTINGS_QUAKE_LIST_LIMIT),
-                        value
-                    )
-                }
-
-            }
-        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

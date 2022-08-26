@@ -22,8 +22,6 @@
     <string name="ADMOB_ID_APPOPEN" translatable="false">ca-app-pub-3940256099942544/3419835294</string>
 
     <!-- TOOLBAR Menu STRINGS -->
-    <string name="refresh">Recargar</string>
-    <string name="search">Buscar</string>
     <string name="settings">Configuración</string>
 
     <!--TABS -->
@@ -71,7 +69,6 @@
     <string name="firebase_topic_name" translatable="false">Quakes</string>
     <string name="firebase_pref_key_alert_on">Alertas activadas</string>
     <string name="firebase_pref_key_alert_off">Alertas desactivadas</string>
-    <string name="snackbar_error" translatable="false">snackbar_error</string>
 
     <!-- Strings para calculo de tiempo -->
     <string name="utils_time_day" translatable="false">days</string>
@@ -81,18 +78,12 @@
 
     <!-- SHARE PREFERENCES KEYS (Variables) -->
     <string name="shared_pref_master_key" translatable="false">lastquakechile</string>
-    <string name="shared_pref_status_card_view_info" translatable="false">is_show_cv_info</string>
     <string name="shared_pref_list_quake_limit" translatable="false">quake_limit</string>
     <string name="shared_pref_actual_version_code" translatable="false">actual_v_code</string>
     <string name="night_mode_category_key" translatable="false">nigh_mode_pref_category</string>
     <string name="shared_report_cache" translatable="false">reports_cache_entry</string>
 
     <!-- KEY INTENT -->
-    <string name="INTENT_KEY_COLOR_MAGNITUDE" translatable="false">color_magnitud</string>
-    <string name="INTENT_KEY_MAGNITUDE" translatable="false">magnitud</string>
-    <string name="INTENT_KEY_CITY" translatable="false">ciudad</string>
-    <string name="INTENT_KEY_REFERENCE" translatable="false">referencia</string>
-    <string name="INTENT_KEY_HOUR" translatable="false">hora</string>
 
 
     <!-- STRINGS DE LAYOUTS-->
@@ -129,9 +120,6 @@
     <string name="coordenadas_este">E</string>
     <string name="format_coordenadas" translatable="false">%s \n%s</string>
     <string name="seccion_listado_de_sismos">Sección listado de sismos</string>
-    <string name="last_quakes_info_card_view_tittle">Últimos sismos</string>
-    <string name="last_quakes_info_card_view_button">Entendido</string>
-    <string name="last_quakes_info_card_view_description">En este listado se muestran los últimos 15 sismos ocurridos en Chile, puedes modificar la cantidad en la sección &#8942; -> Configuración</string>
     <string name="boton_compartir_sismo">Botón compartir sismo</string>
     <string name="imagen_estado_sismo">Imagen estado sismo</string>
     <string name="quakes_details_estado_sismo">Sismo %s</string>
@@ -152,7 +140,6 @@
     <string name="alert_pref_title_switch">Alertas de sismos</string>
     <string name="alert_pref_summary_on">Activadas</string>
     <string name="alert_pref_summary_off">Desactivadas</string>
-    <string name="snackbar_retry">Recargar</string>
     <plurals name="list_quake_number_summary">
         <item quantity="one">Último %d sismo</item>
         <item quantity="other">Últimos %d sismos</item>
@@ -214,7 +201,6 @@
     <string name="UPDATE_OK" translatable="false">Update succesfull</string>
     <string name="SHOW_NIGH_MODE" translatable="false">Show night mode preference</string>
     <string name="HIDE_NIGHT_MODE" translatable="false">Dont show night mode preference</string>
-    <string name="FRAGMENT_SETTINGS_QUAKE_LIST_LIMIT" translatable="false">Quake Limit: %1$d</string>
     <string name="ADMOB_AD_FAILED" translatable="false">Failed to load</string>
     <string name="ADMOB_AD_LOADED" translatable="false">Add loaded</string>
     <string name="ADMOB_AD_OPEN" translatable="false">Add open</string>
@@ -223,8 +209,6 @@
     <string name="IMAGE_CACHE_EXISTS" translatable="false">Share image exist</string>
     <string name="IMAGE_CACHE_NOT_EXISTS" translatable="false">Share image not exist</string>
     <string name="LIST_NETWORK_CALL" translatable="false">List updated with network call</string>
-    <string name="EMIT_HTTP_ERROR" translatable="false">Emit http error</string>
-    <string name="EMIT_IO_EXCEPTION" translatable="false">Emit ioexception</string>
     <string name="INFO_WINDOWS_RESPONSE" translatable="false">Info windows open</string>
     <string name="FRAGMENT_LOAD_LIST" translatable="false">List loaded in fragment</string>
     <string name="MAP_READY_RESPONSE" translatable="false">Map ready</string>
@@ -232,10 +216,7 @@
     <string name="FAB_SHARE" translatable="false">FAB SHARE</string>
     <string name="CLICKED" translatable="false">CLICKED</string>
     <string name="INTENT_DETAIL_HOME_UP" translatable="false">Home up clicked</string>
-    <string name="FRAGMENT_QUAKE" translatable="false">FRAGMENT_QUAKE</string>
-    <string name="CV_INFO" translatable="false">CV_INFO</string>
     <string name="EMIT_CACHE_LIST" translatable="false">Emit cached reportList</string>
-    <string name="FRAGMENT_REPORTS" translatable="false">FRAGMENT_REPORTS</string>
     <string name="UPDATE_INTENT_FAILED" translatable="false">Update intent failed</string>
     <string name="UPDATE_FAILED" translatable="false">Update flow failed! Result code: %s</string>
     <string name="INTENT_BROWSER" translatable="false">Opening browser</string>
@@ -257,6 +238,5 @@
     <string name="email_subject">Contacto desarrollador LastQuakeChile</string>
     <string name="reintentar">Reintentar</string>
     <string name="service_error">Servidor de sismos no disponible</string>
-    <string name="error_404">404\nUps, ha ocurrido un error</string>
 
 </resources>

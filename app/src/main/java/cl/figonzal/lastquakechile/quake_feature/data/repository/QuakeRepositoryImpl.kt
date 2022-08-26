@@ -84,6 +84,8 @@ class QuakeRepositoryImpl(
 
     override fun getNextPages(pageIndex: Int): Flow<StatusAPI<List<Quake>>> = flow {
 
+        val dumbType = listOf<Quake>()
+
         //GET REMOTE DATA
         remoteDataSource.getQuakes(pageIndex)
             .suspendOnSuccess {
@@ -98,7 +100,7 @@ class QuakeRepositoryImpl(
                     }
                     else -> {
                         val apiError = ApiError.ResourceNotFound
-                        emit(StatusAPI.Error(emptyList<Quake>(), apiError))
+                        emit(StatusAPI.Error(dumbType, apiError))
                     }
                 }
             }
@@ -114,7 +116,7 @@ class QuakeRepositoryImpl(
                     else -> ApiError.UnknownError
                 }
 
-                emit(StatusAPI.Error(listOf<Quake>(), apiError))
+                emit(StatusAPI.Error(dumbType, apiError))
             }
             .suspendOnFailure {
 
@@ -128,7 +130,7 @@ class QuakeRepositoryImpl(
                     else -> ApiError.UnknownError
                 }
 
-                emit(StatusAPI.Error(listOf<Quake>(), apiError))
+                emit(StatusAPI.Error(dumbType, apiError))
             }
     }.flowOn(dispatcher)
 
