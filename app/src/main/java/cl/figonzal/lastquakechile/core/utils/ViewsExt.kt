@@ -18,14 +18,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.ui.SettingsActivity
-import cl.figonzal.lastquakechile.core.ui.dialog.MapTerrainDialogFragment
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Coordinate
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
-import com.google.android.gms.maps.GoogleMap
 import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
@@ -33,10 +31,12 @@ import java.io.IOException
 import java.util.*
 import kotlin.math.floor
 
+typealias menuHostCallback = (MenuItem) -> Unit
+
 fun Fragment.configOptionsMenu(
     @MenuRes menuId: Int = R.menu.menu_main,
-    googleMap: GoogleMap? = null,
-    fragmentIndex: Int = 0
+    fragmentIndex: Int = 0,
+    callback: (MenuItem) -> Unit
 ) {
     val menuHost: MenuHost = this.requireActivity()
 
@@ -69,21 +69,16 @@ fun Fragment.configOptionsMenu(
 
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
 
+            //Settings called in all fragments
             when (menuItem.itemId) {
                 R.id.settings_menu -> {
                     Intent(requireActivity(), SettingsActivity::class.java).apply {
                         startActivity(this)
                     }
                 }
-                R.id.layers_menu -> {
-                    googleMap?.let {
-                        MapTerrainDialogFragment(it).show(
-                            parentFragmentManager,
-                            "Dialogo mapType"
-                        )
-                    }
-                }
             }
+
+            callback(menuItem)
             return true
         }
     }, viewLifecycleOwner, Lifecycle.State.RESUMED)

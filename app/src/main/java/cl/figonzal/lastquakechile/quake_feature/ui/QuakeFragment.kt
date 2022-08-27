@@ -52,7 +52,11 @@ class QuakeFragment(
         bindingResources()
         handleQuakeState()
 
-        configOptionsMenu(fragmentIndex = 1)
+        configOptionsMenu(fragmentIndex = 1) {
+            when (it.itemId) {
+                R.id.refresh_menu -> viewModel.getFirstPageQuakes()
+            }
+        }
 
         return binding.root
     }
@@ -199,7 +203,11 @@ class QuakeFragment(
                                 )
                             }
                             ApiError.ResourceNotFound -> {
-                                Toast.makeText(requireContext(), "No hay mas", Toast.LENGTH_LONG)
+                                Toast.makeText(
+                                    requireContext(),
+                                    "No hay mas",
+                                    Toast.LENGTH_LONG
+                                )
                                     .show()
                             }
                             else -> {
@@ -234,8 +242,9 @@ class QuakeFragment(
             val isAtLastItem = firstVisibleItemPosition + visibleItemCount >= totalItemCount
             val isNotAtBeginning = firstVisibleItemPosition >= 0
             val isTotalMoreThanVisible = totalItemCount >= QUERY_PAGE_SIZE
-            val shouldPaginate = isNotLoadingAndNotLastPage && isAtLastItem && isNotAtBeginning &&
-                    isTotalMoreThanVisible && isScrolling
+            val shouldPaginate =
+                isNotLoadingAndNotLastPage && isAtLastItem && isNotAtBeginning &&
+                        isTotalMoreThanVisible && isScrolling
 
             if (shouldPaginate) {
                 viewModel.getQuakes()

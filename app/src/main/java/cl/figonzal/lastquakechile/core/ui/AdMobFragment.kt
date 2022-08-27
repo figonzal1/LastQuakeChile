@@ -37,7 +37,7 @@ class AdMobFragment : Fragment() {
 
         refreshAd(container)
 
-        configOptionsMenu()
+        configOptionsMenu() {}
 
         return binding.root
     }

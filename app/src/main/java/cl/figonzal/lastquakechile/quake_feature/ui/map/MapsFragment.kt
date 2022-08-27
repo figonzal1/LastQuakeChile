@@ -11,6 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.ui.dialog.MapTerrainDialogFragment
 import cl.figonzal.lastquakechile.core.utils.*
 import cl.figonzal.lastquakechile.databinding.FragmentMapsBinding
 import cl.figonzal.lastquakechile.databinding.InfoWindowsBinding
@@ -76,7 +77,13 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener, O
     override fun onMapReady(p0: GoogleMap) {
 
         if (isFirstInit) {
-            configOptionsMenu(googleMap = p0, fragmentIndex = 2)
+            configOptionsMenu(fragmentIndex = 2) {
+                when (it.itemId) {
+                    R.id.layers_menu -> {
+                        MapTerrainDialogFragment(p0).show(parentFragmentManager, "Dialogo mapType")
+                    }
+                }
+            }
             isFirstInit = false
         }
         p0.apply {

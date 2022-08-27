@@ -40,7 +40,7 @@ class ReportsFragment(
         bindingResources()
         handleReportState()
 
-        configOptionsMenu()
+        configOptionsMenu() {}
 
         return binding.root
     }
