@@ -35,13 +35,36 @@ import kotlin.math.floor
 
 fun Fragment.configOptionsMenu(
     @MenuRes menuId: Int = R.menu.menu_main,
-    googleMap: GoogleMap? = null
+    googleMap: GoogleMap? = null,
+    fragmentIndex: Int = 0
 ) {
     val menuHost: MenuHost = this.requireActivity()
 
     menuHost.addMenuProvider(object : MenuProvider {
         override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
             menuInflater.inflate(menuId, menu)
+
+            val refreshItem = menu.findItem(R.id.refresh_menu)
+            val layerItem = menu.findItem(R.id.layers_menu)
+
+            when (fragmentIndex) {
+
+                //QuakeList
+                1 -> {
+                    refreshItem.isVisible = true
+                    layerItem.isVisible = false
+                }
+
+                //Map List
+                2 -> {
+                    refreshItem.isVisible = false
+                    layerItem.isVisible = true
+                }
+                else -> {
+                    refreshItem.isVisible = false
+                    layerItem.isVisible = false
+                }
+            }
         }
 
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean {

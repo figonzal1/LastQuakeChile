@@ -2,9 +2,24 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
+    <item
+        android:id="@+id/refresh_menu"
+        android:icon="@drawable/ic_round_refresh_24"
+        android:orderInCategory="1"
+        android:title="@string/recargar"
+        app:showAsAction="ifRoom|collapseActionView" />
+
+    <item
+        android:id="@+id/layers_menu"
+        android:icon="@drawable/ic_round_layers_24"
+        android:orderInCategory="2"
+        android:title="@string/estilo_mapa"
+        app:showAsAction="ifRoom|collapseActionView" />
+
     <item
         android:id="@+id/settings_menu"
-        android:orderInCategory="1"
+        android:orderInCategory="3"
         android:title="@string/settings"
         app:showAsAction="never" />
 

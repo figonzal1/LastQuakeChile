@@ -52,7 +52,7 @@ class QuakeFragment(
         bindingResources()
         handleQuakeState()
 
-        configOptionsMenu()
+        configOptionsMenu(fragmentIndex = 1)
 
         return binding.root
     }

@@ -238,5 +238,6 @@
     <string name="email_subject">Contacto desarrollador LastQuakeChile</string>
     <string name="reintentar">Reintentar</string>
     <string name="service_error">Servidor de sismos no disponible</string>
+    <string name="recargar">Recargar</string>
 
 </resources>

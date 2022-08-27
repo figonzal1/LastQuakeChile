@@ -40,6 +40,8 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener, O
 
     private var quakeList: List<Quake> = listOf()
 
+    private var isFirstInit = true
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -73,8 +75,10 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener, O
     @SuppressLint("PotentialBehaviorOverride")
     override fun onMapReady(p0: GoogleMap) {
 
-        configOptionsMenu(R.menu.menu_map_fragment, p0)
-
+        if (isFirstInit) {
+            configOptionsMenu(googleMap = p0, fragmentIndex = 2)
+            isFirstInit = false
+        }
         p0.apply {
 
             //Set limits for map
