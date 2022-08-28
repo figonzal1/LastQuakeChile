@@ -39,7 +39,11 @@ class ReportsFragment(
         bindingResources()
         handleReportState()
 
-        configOptionsMenu() {}
+        configOptionsMenu(fragmentIndex = 3) {
+            when (it.itemId) {
+                R.id.refresh_menu -> viewModel.getReports()
+            }
+        }
 
         return binding.root
     }
@@ -67,7 +71,9 @@ class ReportsFragment(
 
                     when {
                         it.isLoading -> loadingUI()
-                        !it.isLoading && it.apiError != null -> errorUI(it)
+                        !it.isLoading && it.reports.isNotEmpty() && it.apiError != null -> {
+                            handleErrors(it.reports.toList())
+                        }
                         !it.isLoading && it.reports.isNotEmpty() && it.apiError == null -> {
                             showListUI(it.reports)
                         }
@@ -86,6 +92,9 @@ class ReportsFragment(
 
     private fun showListUI(reports: List<Report>) {
 
+        //Load reports
+        reportAdapter.reports = reports
+
         with(binding) {
             View.GONE.apply {
                 progressBarReports.visibility = this
@@ -93,39 +102,43 @@ class ReportsFragment(
             }
         }
 
-        //Load reports
-        reportAdapter.reports = reports
-
         Timber.d(getString(R.string.FRAGMENT_LOAD_LIST))
     }
 
-    private fun errorUI(state: ReportState) {
+    private fun handleErrors(report: List<Report>) {
 
-        if (state.apiError != null) {
+        reportAdapter.reports = report
 
-            with(binding) {
+        viewLifecycleOwner.lifecycleScope.launch {
 
-                progressBarReports.visibility = View.GONE
-                includeNoWifi.root.visibility = when {
-                    state.reports.isEmpty() -> View.VISIBLE
-                    else -> View.GONE
-                }
+            viewModel.errorState
+                .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
+                .collectLatest {
 
-                includeNoWifi.btnRetry.setOnClickListener {
-                    viewModel.getReports()
-                }
-            }
+                    Timber.d("COLLECT ERROR STATE: $it")
 
-            viewLifecycleOwner.lifecycleScope.launch {
+                    with(binding) {
 
-                viewModel.errorState
-                    .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
-                    .collectLatest {
-                        showServerApiError(it) { iconId, message ->
-                            configErrorStatusMsg(iconId, message)
+                        progressBarReports.visibility = View.GONE
+
+                        when {
+                            reportAdapter.reports.isEmpty() -> {
+                                includeNoWifi.root.visibility = View.VISIBLE
+
+                                includeNoWifi.btnRetry.setOnClickListener {
+                                    viewModel.getReports()
+                                }
+                            }
+                            else -> {
+                                includeNoWifi.root.visibility = View.GONE
+                            }
                         }
                     }
-            }
+
+                    showServerApiError(it) { iconId, message ->
+                        configErrorStatusMsg(iconId, message)
+                    }
+                }
         }
     }
 

@@ -59,6 +59,10 @@ fun Fragment.configOptionsMenu(
                     refreshItem.isVisible = false
                     layerItem.isVisible = true
                 }
+                3 -> {
+                    refreshItem.isVisible = true
+                    layerItem.isVisible = false
+                }
                 else -> {
                     refreshItem.isVisible = false
                     layerItem.isVisible = false

@@ -9,12 +9,12 @@ import androidx.annotation.DrawableRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.configOptionsMenu
 import cl.figonzal.lastquakechile.core.utils.showServerApiError
 import cl.figonzal.lastquakechile.databinding.FragmentQuakeBinding
@@ -32,8 +32,6 @@ class QuakeFragment(
 
     private val viewModel: QuakeViewModel by sharedViewModel()
 
-    private lateinit var sharedPrefUtil: SharedPrefUtil
-
     private var _binding: FragmentQuakeBinding? = null
     private val binding get() = _binding!!
 
@@ -44,8 +42,6 @@ class QuakeFragment(
     ): View {
 
         _binding = FragmentQuakeBinding.inflate(inflater, container, false)
-
-        sharedPrefUtil = SharedPrefUtil(requireContext())
 
         bindingResources()
         handleQuakeState()
@@ -126,6 +122,7 @@ class QuakeFragment(
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.errorState
+                .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
                 .collectLatest {
 
                     Timber.d("COLLECT ERROR STATE: $it")
