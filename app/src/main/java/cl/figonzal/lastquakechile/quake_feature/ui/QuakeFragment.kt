@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
-import android.widget.Toast
 import androidx.annotation.DrawableRes
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
@@ -15,10 +15,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.data.remote.ApiError
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.configOptionsMenu
-import cl.figonzal.lastquakechile.core.utils.toast
+import cl.figonzal.lastquakechile.core.utils.showServerApiError
 import cl.figonzal.lastquakechile.databinding.FragmentQuakeBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import kotlinx.coroutines.flow.collectLatest
@@ -51,6 +50,7 @@ class QuakeFragment(
 
         bindingResources()
         handleQuakeState()
+        handleErrors()
 
         configOptionsMenu(fragmentIndex = 1) {
             when (it.itemId) {
@@ -85,7 +85,6 @@ class QuakeFragment(
 
                         when {
                             it.isLoading -> loadingUI()
-                            !it.isLoading && it.apiError != null -> errorUI(it)
                             !it.isLoading && it.quakes.isNotEmpty() && it.apiError == null -> {
                                 showListUI(it.quakes.toList())
                             }
@@ -98,7 +97,6 @@ class QuakeFragment(
 
                         when {
                             it.isLoading -> loadingUI()
-                            !it.isLoading && it.apiError != null -> errorUI(it)
                             !it.isLoading && it.quakes.isNotEmpty() && it.apiError == null -> {
 
                                 showListUI(it.quakes.toList())
@@ -116,6 +114,32 @@ class QuakeFragment(
             }
         }
         viewModel.getFirstPageQuakes()
+    }
+
+    private fun handleErrors() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.errorState
+                .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
+                .collectLatest {
+
+                    with(binding) {
+
+                        progressBarQuakes.visibility = View.GONE
+                        includeNoWifi.root.visibility = when {
+                            quakeAdapter.quakes.isEmpty() -> View.VISIBLE
+                            else -> View.GONE
+                        }
+
+                        includeNoWifi.btnRetry.setOnClickListener {
+                            viewModel.getFirstPageQuakes()
+                        }
+                    }
+
+                    showServerApiError(it) { iconId, message ->
+                        configErrorStatusMsg(iconId, message)
+                    }
+                }
+        }
     }
 
     private fun loadingUI() {
@@ -140,89 +164,6 @@ class QuakeFragment(
         quakeAdapter.quakes = quakes
 
         Timber.d(getString(R.string.FRAGMENT_LOAD_LIST))
-    }
-
-    private fun errorUI(state: QuakeState) {
-
-        if (state.apiError != null) {
-
-            with(binding) {
-
-                progressBarQuakes.visibility = View.GONE
-                includeNoWifi.root.visibility = when {
-                    state.quakes.isEmpty() -> View.VISIBLE
-                    else -> View.GONE
-                }
-
-                includeNoWifi.btnRetry.setOnClickListener {
-                    viewModel.getFirstPageQuakes()
-                }
-            }
-
-            viewLifecycleOwner.lifecycleScope.launch {
-
-                viewModel.errorState
-                    .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
-                    .collectLatest {
-
-                        when (state.apiError) {
-                            ApiError.HttpError -> {
-
-                                toast(R.string.http_error)
-
-                                configErrorStatusMsg(
-                                    icon = R.drawable.ic_round_report_24,
-                                    errorMsg = getString(R.string.http_error)
-                                )
-                            }
-                            ApiError.IoError -> {
-
-                                toast(R.string.io_error)
-
-                                configErrorStatusMsg(
-                                    icon = R.drawable.ic_round_wifi_off_24,
-                                    errorMsg = getString(R.string.io_error)
-                                )
-                            }
-                            ApiError.ServerError -> {
-
-                                toast(R.string.service_error)
-
-                                configErrorStatusMsg(
-                                    icon = R.drawable.ic_round_router_24,
-                                    errorMsg = getString(R.string.service_error)
-                                )
-                            }
-                            ApiError.TimeoutError -> {
-
-                                toast(R.string.service_error)
-
-                                configErrorStatusMsg(
-                                    icon = R.drawable.ic_round_router_24,
-                                    errorMsg = getString(R.string.service_error)
-                                )
-                            }
-                            ApiError.ResourceNotFound -> {
-                                Toast.makeText(
-                                    requireContext(),
-                                    "No hay mas",
-                                    Toast.LENGTH_LONG
-                                )
-                                    .show()
-                            }
-                            else -> {
-                                toast(R.string.http_error)
-
-                                configErrorStatusMsg(
-                                    icon = R.drawable.ic_round_report_24,
-                                    errorMsg = getString(R.string.http_error)
-                                )
-                            }
-                        }
-
-                    }
-            }
-        }
     }
 
     var isLoading = false
@@ -269,7 +210,7 @@ class QuakeFragment(
         with(binding.includeNoWifi) {
 
             ivWifiOff.setImageDrawable(
-                resources.getDrawable(icon, requireContext().theme)
+                ResourcesCompat.getDrawable(resources, icon, requireContext().theme)
             )
             tvMsgNoWifi.text = errorMsg
         }

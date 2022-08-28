@@ -39,7 +39,7 @@ class QuakeViewModel(
 
             getQuakesUseCase(actualIndexPage).collect { statusApi ->
 
-                Timber.e("NEXT PAGE STATE ${statusApi.data}")
+                Timber.d("NEXT PAGE STATE ${statusApi.toString()}")
 
                 val data = statusApi.data
                 val apiError = statusApi.apiError
@@ -93,7 +93,7 @@ class QuakeViewModel(
 
             getQuakesUseCase(0).collect { statusApi ->
 
-                Timber.e("FIRST PAGE STATE ${statusApi.data}")
+                Timber.d("FIRST PAGE STATE $statusApi")
 
                 val data = statusApi.data
                 val apiError = statusApi.apiError

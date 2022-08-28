@@ -239,5 +239,7 @@
     <string name="reintentar">Reintentar</string>
     <string name="service_error">Servidor de sismos no disponible</string>
     <string name="recargar">Recargar</string>
+    <string name="no_mas_sismos">No hay más items</string>
+    <string name="desliza_izq">Desliza a la izquierda para ver sismos</string>
 
 </resources>

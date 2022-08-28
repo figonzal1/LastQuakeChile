@@ -7,6 +7,28 @@
     android:paddingBottom="24dp"
     tools:context=".core.ui.AdMobFragment">
 
+    <TextView
+        android:id="@+id/tv_swipe_to_quakes_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/desliza_izq"
+        android:textSize="12sp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_swipe_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="Icono swipe left"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_swipe_to_quakes_1"
+        app:layout_constraintStart_toEndOf="@+id/tv_swipe_to_quakes_1"
+        app:layout_constraintTop_toTopOf="@+id/tv_swipe_to_quakes_1"
+        app:srcCompat="@drawable/ic_round_keyboard_arrow_right_24" />
+
     <FrameLayout
         android:id="@+id/admob_container"
         android:layout_width="0dp"

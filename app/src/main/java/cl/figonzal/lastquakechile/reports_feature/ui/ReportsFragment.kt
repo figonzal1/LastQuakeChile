@@ -4,17 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.annotation.DrawableRes
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.data.remote.ApiError
 import cl.figonzal.lastquakechile.core.utils.configOptionsMenu
-import cl.figonzal.lastquakechile.core.utils.toast
+import cl.figonzal.lastquakechile.core.utils.showServerApiError
 import cl.figonzal.lastquakechile.databinding.FragmentReportsBinding
 import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
 import kotlinx.coroutines.flow.collectLatest
@@ -122,66 +121,8 @@ class ReportsFragment(
                 viewModel.errorState
                     .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
                     .collectLatest {
-
-                        when (state.apiError) {
-
-                            ApiError.HttpError -> {
-
-                                toast(R.string.http_error)
-
-                                configErrorStatusMsg(
-                                    icon = R.drawable.ic_round_report_24,
-                                    errorMsg = getString(R.string.http_error)
-                                )
-                            }
-                            ApiError.UnknownError -> {
-
-                                toast(R.string.http_error)
-
-                                configErrorStatusMsg(
-                                    icon = R.drawable.ic_round_report_24,
-                                    errorMsg = getString(R.string.http_error)
-                                )
-                            }
-                            ApiError.IoError -> {
-
-                                toast(R.string.io_error)
-
-                                configErrorStatusMsg(
-                                    icon = R.drawable.ic_round_wifi_off_24,
-                                    errorMsg = getString(R.string.io_error)
-                                )
-                            }
-                            ApiError.ServerError -> {
-
-                                toast(R.string.service_error)
-
-                                configErrorStatusMsg(
-                                    icon = R.drawable.ic_round_router_24,
-                                    errorMsg = getString(R.string.service_error)
-                                )
-                            }
-                            ApiError.TimeoutError -> {
-
-                                toast(R.string.service_error)
-
-                                configErrorStatusMsg(
-                                    icon = R.drawable.ic_round_router_24,
-                                    errorMsg = getString(R.string.service_error)
-                                )
-                            }
-                            ApiError.ResourceNotFound -> {
-                                Toast.makeText(requireContext(), "No hay mas", Toast.LENGTH_LONG)
-                                    .show()
-                            }
-                            else -> {
-                                toast(R.string.http_error)
-
-                                configErrorStatusMsg(
-                                    icon = R.drawable.ic_round_report_24,
-                                    errorMsg = getString(R.string.http_error)
-                                )
-                            }
+                        showServerApiError(it) { iconId, message ->
+                            configErrorStatusMsg(iconId, message)
                         }
                     }
             }
@@ -195,7 +136,11 @@ class ReportsFragment(
         with(binding.includeNoWifi) {
 
             ivWifiOff.setImageDrawable(
-                resources.getDrawable(icon, requireContext().theme)
+                ResourcesCompat.getDrawable(
+                    resources,
+                    icon,
+                    requireContext().theme
+                )
             )
             tvMsgNoWifi.text = errorMsg
         }

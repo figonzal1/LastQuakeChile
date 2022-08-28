@@ -17,6 +17,7 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.data.remote.ApiError
 import cl.figonzal.lastquakechile.core.ui.SettingsActivity
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Coordinate
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
@@ -30,8 +31,6 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
 import kotlin.math.floor
-
-typealias menuHostCallback = (MenuItem) -> Unit
 
 fun Fragment.configOptionsMenu(
     @MenuRes menuId: Int = R.menu.menu_main,
@@ -456,4 +455,32 @@ fun Context.getMonth(month: Int) = arrayOf(
     getString(R.string.NOV),
     getString(R.string.DEC)
 )[month - 1]
+
+fun Fragment.showServerApiError(apiError: ApiError, callback: (Int, String) -> Unit) {
+    return when (apiError) {
+        ApiError.HttpError -> {
+            toast(R.string.http_error)
+            callback(R.drawable.ic_round_report_24, getString(R.string.http_error))
+        }
+        ApiError.IoError -> {
+            toast(R.string.io_error)
+            callback(R.drawable.ic_round_wifi_off_24, getString(R.string.io_error))
+        }
+        ApiError.ServerError -> {
+            toast(R.string.service_error)
+            callback(R.drawable.ic_round_router_24, getString(R.string.service_error))
+        }
+        ApiError.TimeoutError -> {
+            toast(R.string.service_error)
+            callback(R.drawable.ic_round_router_24, getString(R.string.service_error))
+        }
+        ApiError.ResourceNotFound -> {
+            toast(R.string.no_mas_sismos)
+        }
+        else -> {
+            toast(R.string.http_error)
+            callback(R.drawable.ic_round_report_24, getString(R.string.http_error))
+        }
+    }
+}
 
