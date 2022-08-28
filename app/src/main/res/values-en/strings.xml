@@ -105,4 +105,11 @@
     <string name="email_chooser_title">Send email with:</string>
     <string name="email_intent_fail">You don\'t have any email app to contact us</string>
     <string name="email_subject">LastQuakeChlle developer contact</string>
+    <string name="reintentar">Retry</string>
+    <string name="service_error">Quake server not available</string>
+    <string name="recargar">Reload</string>
+    <string name="no_mas_sismos">No more items</string>
+    <string name="swipe_left">Swipe left to see earthquakes</string>
+    <string name="local_copy">Showing local copy</string>
+    <string name="swipe_left_icon">Swipe left icon</string>
 </resources>
