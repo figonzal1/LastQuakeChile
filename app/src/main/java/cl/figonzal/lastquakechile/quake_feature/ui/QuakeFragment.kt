@@ -9,7 +9,6 @@ import androidx.annotation.DrawableRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -50,7 +49,6 @@ class QuakeFragment(
 
         bindingResources()
         handleQuakeState()
-        handleErrors()
 
         configOptionsMenu(fragmentIndex = 1) {
             when (it.itemId) {
@@ -81,10 +79,13 @@ class QuakeFragment(
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
 
                 launch {
-                    viewModel.firstPage.collectLatest {
+                    viewModel.firstPageState.collectLatest {
 
                         when {
                             it.isLoading -> loadingUI()
+                            !it.isLoading && it.quakes.isNotEmpty() && it.apiError != null -> {
+                                handleErrors(it.quakes.toList())
+                            }
                             !it.isLoading && it.quakes.isNotEmpty() && it.apiError == null -> {
                                 showListUI(it.quakes.toList())
                             }
@@ -93,10 +94,13 @@ class QuakeFragment(
                 }
 
                 launch {
-                    viewModel.quakeState.collectLatest {
+                    viewModel.nextPagesState.collectLatest {
 
                         when {
                             it.isLoading -> loadingUI()
+                            !it.isLoading && it.quakes.isNotEmpty() && it.apiError != null -> {
+                                handleErrors(it.quakes.toList())
+                            }
                             !it.isLoading && it.quakes.isNotEmpty() && it.apiError == null -> {
 
                                 showListUI(it.quakes.toList())
@@ -116,22 +120,33 @@ class QuakeFragment(
         viewModel.getFirstPageQuakes()
     }
 
-    private fun handleErrors() {
+    private fun handleErrors(quakes: List<Quake>) {
+
+        quakeAdapter.quakes = quakes
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.errorState
-                .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
                 .collectLatest {
+
+                    Timber.d("COLLECT ERROR STATE: $it")
 
                     with(binding) {
 
                         progressBarQuakes.visibility = View.GONE
-                        includeNoWifi.root.visibility = when {
-                            quakeAdapter.quakes.isEmpty() -> View.VISIBLE
-                            else -> View.GONE
-                        }
 
-                        includeNoWifi.btnRetry.setOnClickListener {
-                            viewModel.getFirstPageQuakes()
+                        when {
+                            quakeAdapter.quakes.isEmpty() -> {
+                                includeNoWifi.root.visibility = View.VISIBLE
+                                tvCopiaLocal.visibility = View.GONE
+
+                                includeNoWifi.btnRetry.setOnClickListener {
+                                    viewModel.getFirstPageQuakes()
+                                }
+                            }
+                            else -> {
+                                includeNoWifi.root.visibility = View.GONE
+                                tvCopiaLocal.visibility = View.VISIBLE
+                            }
                         }
                     }
 
@@ -152,16 +167,17 @@ class QuakeFragment(
 
     private fun showListUI(quakes: List<Quake>) {
 
+        //Load quakes
+        quakeAdapter.quakes = quakes
+
         with(binding) {
             View.GONE.apply {
                 isLoading = false
                 progressBarQuakes.visibility = this
                 includeNoWifi.root.visibility = this
+                tvCopiaLocal.visibility = this
             }
         }
-
-        //Load quakes
-        quakeAdapter.quakes = quakes
 
         Timber.d(getString(R.string.FRAGMENT_LOAD_LIST))
     }

@@ -4,7 +4,7 @@
     <!-- Night Color-->
     <color name="colorPrimary">#253561</color>
     <color name="colorPrimaryVariant">#1C2746</color>
-    <color name="colorOnPrimary">#8CFFFFFF</color>
+    <color name="colorOnPrimary">#CCFFFFFF</color>
 
     <color name="colorSecondary">#006994</color>
     <color name="colorOnSecondary">#FFFFFF</color>

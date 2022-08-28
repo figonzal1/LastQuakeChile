@@ -34,8 +34,6 @@ class QuakeRepositoryImpl(
 
         var cacheList = localDataSource.getQuakes().toQuakeDomain()
 
-        emit(StatusAPI.Success(cacheList)) //Cached list
-
         //GET REMOTE DATA
         remoteDataSource.getQuakes(pageIndex)
             .suspendOnSuccess {
@@ -64,7 +62,7 @@ class QuakeRepositoryImpl(
                     else -> ApiError.UnknownError
                 }
 
-                emit(StatusAPI.Error(cacheList, apiError))
+                emit(StatusAPI.Error(data = cacheList, apiError = apiError))
             }
             .suspendOnFailure {
 
@@ -78,7 +76,7 @@ class QuakeRepositoryImpl(
                     else -> ApiError.UnknownError
                 }
 
-                emit(StatusAPI.Error(cacheList, apiError))
+                emit(StatusAPI.Error(data = cacheList, apiError = apiError))
             }
     }.flowOn(dispatcher)
 

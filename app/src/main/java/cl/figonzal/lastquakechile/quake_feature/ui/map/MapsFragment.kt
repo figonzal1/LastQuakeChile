@@ -55,7 +55,7 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener, O
 
         viewLifecycleOwner.lifecycleScope.launch {
 
-            viewModel.firstPage
+            viewModel.firstPageState
                 .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collectLatest {
 

@@ -21,25 +21,24 @@ class QuakeViewModel(
     var actualIndexPage = 1
     private var oldList: MutableList<Quake>? = null
 
-    private val _quakeState = MutableStateFlow(QuakeState())
-    val quakeState = _quakeState.asStateFlow()
+    private val _nextPageState = MutableStateFlow(QuakeState())
+    val nextPagesState = _nextPageState.asStateFlow()
 
-    private val _firstPage = MutableStateFlow(QuakeState())
-    val firstPage = _firstPage.asStateFlow()
+    private val _firstPageState = MutableStateFlow(QuakeState())
+    val firstPageState = _firstPageState.asStateFlow()
 
     private val _errorState = Channel<ApiError>()
     val errorState = _errorState.receiveAsFlow()
 
-
-    fun getQuakes() {
+    fun getFirstPageQuakes() {
 
         viewModelScope.launch {
 
-            _quakeState.update { it.copy(isLoading = true) }
+            _firstPageState.update { it.copy(isLoading = true) }
 
-            getQuakesUseCase(actualIndexPage).collect { statusApi ->
+            getQuakesUseCase(0).collect { statusApi ->
 
-                Timber.d("NEXT PAGE STATE ${statusApi.toString()}")
+                Timber.d("FIRST PAGE STATE $statusApi")
 
                 val data = statusApi.data
                 val apiError = statusApi.apiError
@@ -49,7 +48,52 @@ class QuakeViewModel(
                     is StatusAPI.Error -> {
 
                         apiError?.let {
-                            _quakeState.update { state ->
+                            _firstPageState.update { state ->
+                                state.copy(
+                                    isLoading = false,
+                                    apiError = it,
+                                    quakes = data as List<Quake> //cached list
+                                )
+                            }
+                            _errorState.send(it)
+                        }
+                    }
+                    is StatusAPI.Success -> {
+
+                        oldList = data?.toMutableList()
+
+                        _firstPageState.update {
+                            it.copy(
+                                quakes = data as List<Quake>,
+                                isLoading = false,
+                                apiError = null
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun getQuakes() {
+
+        viewModelScope.launch {
+
+            _nextPageState.update { it.copy(isLoading = true) }
+
+            getQuakesUseCase(actualIndexPage).collect { statusApi ->
+
+                Timber.d("NEXT PAGE STATE $statusApi")
+
+                val data = statusApi.data
+                val apiError = statusApi.apiError
+
+                when (statusApi) {
+
+                    is StatusAPI.Error -> {
+
+                        apiError?.let {
+                            _nextPageState.update { state ->
                                 state.copy(
                                     isLoading = false,
                                     apiError = it,
@@ -72,54 +116,9 @@ class QuakeViewModel(
                         }
 
 
-                        _quakeState.update {
+                        _nextPageState.update {
                             it.copy(
                                 quakes = oldList ?: data,
-                                isLoading = false,
-                                apiError = null
-                            )
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    fun getFirstPageQuakes() {
-
-        viewModelScope.launch {
-
-            _firstPage.update { it.copy(isLoading = true) }
-
-            getQuakesUseCase(0).collect { statusApi ->
-
-                Timber.d("FIRST PAGE STATE $statusApi")
-
-                val data = statusApi.data
-                val apiError = statusApi.apiError
-
-                when (statusApi) {
-
-                    is StatusAPI.Error -> {
-
-                        apiError?.let {
-                            _firstPage.update { state ->
-                                state.copy(
-                                    isLoading = false,
-                                    apiError = it,
-                                    quakes = data as List<Quake> //cached list
-                                )
-                            }
-                            _errorState.send(it)
-                        }
-                    }
-                    is StatusAPI.Success -> {
-
-                        oldList = data?.toMutableList()
-
-                        _firstPage.update {
-                            it.copy(
-                                quakes = data as List<Quake>,
                                 isLoading = false,
                                 apiError = null
                             )
