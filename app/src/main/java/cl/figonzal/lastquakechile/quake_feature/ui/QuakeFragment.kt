@@ -79,9 +79,11 @@ class QuakeFragment(
 
                         when {
                             it.isLoading -> loadingUI()
-                            !it.isLoading && it.quakes.isNotEmpty() && it.apiError != null -> {
-                                handleErrors(it.quakes.toList())
-                            }
+
+                            //Check if apiError exists
+                            !it.isLoading && it.apiError != null -> handleErrors(it.quakes.toList())
+
+                            //If api error is null, show updated list from network
                             !it.isLoading && it.quakes.isNotEmpty() && it.apiError == null -> {
                                 showListUI(it.quakes.toList())
                             }
@@ -94,9 +96,11 @@ class QuakeFragment(
 
                         when {
                             it.isLoading -> loadingUI()
-                            !it.isLoading && it.quakes.isNotEmpty() && it.apiError != null -> {
-                                handleErrors(it.quakes.toList())
-                            }
+
+                            //Check if apiError exists
+                            !it.isLoading && it.apiError != null -> handleErrors(it.quakes.toList())
+
+                            //If api error is null, show updated list from network
                             !it.isLoading && it.quakes.isNotEmpty() && it.apiError == null -> {
 
                                 showListUI(it.quakes.toList())
@@ -116,6 +120,12 @@ class QuakeFragment(
         viewModel.getFirstPageQuakes()
     }
 
+    /**
+     * Handle api error and show cached results
+     *
+     * If the list is empty show includeErrorMessage
+     * Otherwise show toast with error and cached list
+     */
     private fun handleErrors(quakes: List<Quake>) {
 
         quakeAdapter.quakes = quakes
@@ -133,16 +143,16 @@ class QuakeFragment(
 
                         when {
                             quakeAdapter.quakes.isEmpty() -> {
-                                includeNoWifi.root.visibility = View.VISIBLE
-                                tvCopiaLocal.visibility = View.GONE
+                                includeErrorMessage.root.visibility = View.VISIBLE
+                                tvCacheCopy.visibility = View.GONE
 
-                                includeNoWifi.btnRetry.setOnClickListener {
+                                includeErrorMessage.btnRetry.setOnClickListener {
                                     viewModel.getFirstPageQuakes()
                                 }
                             }
                             else -> {
-                                includeNoWifi.root.visibility = View.GONE
-                                tvCopiaLocal.visibility = View.VISIBLE
+                                includeErrorMessage.root.visibility = View.GONE
+                                tvCacheCopy.visibility = View.VISIBLE
                             }
                         }
                     }
@@ -158,7 +168,7 @@ class QuakeFragment(
         with(binding) {
             isLoading = true
             progressBarQuakes.visibility = View.VISIBLE
-            includeNoWifi.root.visibility = View.GONE
+            includeErrorMessage.root.visibility = View.GONE
         }
     }
 
@@ -171,8 +181,8 @@ class QuakeFragment(
             View.GONE.apply {
                 isLoading = false
                 progressBarQuakes.visibility = this
-                includeNoWifi.root.visibility = this
-                tvCopiaLocal.visibility = this
+                includeErrorMessage.root.visibility = this
+                tvCacheCopy.visibility = this
             }
         }
 
@@ -220,7 +230,7 @@ class QuakeFragment(
         @DrawableRes icon: Int,
         errorMsg: String
     ) {
-        with(binding.includeNoWifi) {
+        with(binding.includeErrorMessage) {
 
             ivWifiOff.setImageDrawable(
                 ResourcesCompat.getDrawable(resources, icon, requireContext().theme)

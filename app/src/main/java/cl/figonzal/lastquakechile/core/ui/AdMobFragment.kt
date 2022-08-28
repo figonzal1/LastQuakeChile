@@ -77,8 +77,8 @@ class AdMobFragment : Fragment() {
 
                 override fun onAdFailedToLoad(p0: LoadAdError) {
                     binding.progressBar.visibility = View.GONE
-                    binding.includeNoWifi.root.visibility = View.VISIBLE
-                    binding.includeNoWifi.btnRetry.visibility = View.GONE
+                    binding.includeErrorMessage.root.visibility = View.VISIBLE
+                    binding.includeErrorMessage.btnRetry.visibility = View.GONE
                     Timber.e("Failed to load native ad with error $p0")
                 }
 

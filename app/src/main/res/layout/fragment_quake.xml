@@ -12,7 +12,7 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/tv_copia_local"
+            android:id="@+id/tv_cache_copy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
@@ -49,15 +49,15 @@
             android:layout_height="0dp"
             android:contentDescription="@string/seccion_listado_de_sismos"
             ads:layout_constraintBottom_toBottomOf="parent"
-            ads:layout_constraintTop_toBottomOf="@+id/tv_copia_local"
+            ads:layout_constraintTop_toBottomOf="@+id/tv_cache_copy"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             tools:listitem="@layout/card_view_quake" />
 
         <include
-            android:id="@+id/include_no_wifi"
-            layout="@layout/no_wifi"
+            android:id="@+id/include_error_message"
+            layout="@layout/error_message"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:visibility="gone"

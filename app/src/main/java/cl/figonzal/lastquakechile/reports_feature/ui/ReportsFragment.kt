@@ -71,9 +71,11 @@ class ReportsFragment(
 
                     when {
                         it.isLoading -> loadingUI()
-                        !it.isLoading && it.reports.isNotEmpty() && it.apiError != null -> {
-                            handleErrors(it.reports.toList())
-                        }
+
+                        //Check if apiError exists
+                        !it.isLoading && it.apiError != null -> handleErrors(it.reports.toList())
+
+                        //If api error is null, show updated list from network
                         !it.isLoading && it.reports.isNotEmpty() && it.apiError == null -> {
                             showListUI(it.reports)
                         }
@@ -86,7 +88,7 @@ class ReportsFragment(
     private fun loadingUI() {
         with(binding) {
             progressBarReports.visibility = View.VISIBLE
-            includeNoWifi.root.visibility = View.GONE
+            includeErrorMessage.root.visibility = View.GONE
         }
     }
 
@@ -98,13 +100,19 @@ class ReportsFragment(
         with(binding) {
             View.GONE.apply {
                 progressBarReports.visibility = this
-                includeNoWifi.root.visibility = this
+                includeErrorMessage.root.visibility = this
             }
         }
 
         Timber.d(getString(R.string.FRAGMENT_LOAD_LIST))
     }
 
+    /**
+     * Handle api error and show cached results
+     *
+     * If the list is empty show includeErrorMessage
+     * Otherwise show toast with error and cached list
+     */
     private fun handleErrors(report: List<Report>) {
 
         reportAdapter.reports = report
@@ -123,14 +131,14 @@ class ReportsFragment(
 
                         when {
                             reportAdapter.reports.isEmpty() -> {
-                                includeNoWifi.root.visibility = View.VISIBLE
+                                includeErrorMessage.root.visibility = View.VISIBLE
 
-                                includeNoWifi.btnRetry.setOnClickListener {
+                                includeErrorMessage.btnRetry.setOnClickListener {
                                     viewModel.getReports()
                                 }
                             }
                             else -> {
-                                includeNoWifi.root.visibility = View.GONE
+                                includeErrorMessage.root.visibility = View.GONE
                             }
                         }
                     }
@@ -146,7 +154,7 @@ class ReportsFragment(
         @DrawableRes icon: Int,
         errorMsg: String
     ) {
-        with(binding.includeNoWifi) {
+        with(binding.includeErrorMessage) {
 
             ivWifiOff.setImageDrawable(
                 ResourcesCompat.getDrawable(

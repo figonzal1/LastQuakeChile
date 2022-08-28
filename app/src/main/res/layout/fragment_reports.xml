@@ -60,8 +60,8 @@
             tools:visibility="visible" />
 
         <include
-            android:id="@+id/include_no_wifi"
-            layout="@layout/no_wifi"
+            android:id="@+id/include_error_message"
+            layout="@layout/error_message"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:visibility="gone"
