@@ -23,7 +23,7 @@
         android:id="@+id/iv_swipe_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="Icono swipe left"
+        android:contentDescription="@string/icono_desliza_izquierda"
         app:layout_constraintBottom_toBottomOf="@+id/tv_swipe_to_quakes_1"
         app:layout_constraintStart_toEndOf="@+id/tv_swipe_to_quakes_1"
         app:layout_constraintTop_toTopOf="@+id/tv_swipe_to_quakes_1"

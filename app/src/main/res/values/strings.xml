@@ -242,5 +242,6 @@
     <string name="no_mas_sismos">No hay más items</string>
     <string name="desliza_izq">Desliza a la izquierda para ver sismos</string>
     <string name="copia_local">Mostrando copia local</string>
+    <string name="icono_desliza_izquierda">Icono desliza izquierda</string>
 
 </resources>
