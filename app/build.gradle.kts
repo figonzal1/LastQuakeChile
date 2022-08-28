@@ -40,6 +40,7 @@ android {
 
         with(gradleLocalProperties(rootDir)) {
             buildConfigField("String", "MAPS_API_KEY", getProperty("MAPS_API_KEY"))
+            buildConfigField("String", "APPO_DEAL_KEY", getProperty("APPO_DEAL_KEY"))
         }
 
     }
@@ -106,6 +107,9 @@ dependencies {
     //Dependency injection KOIN
     implementation("io.insert-koin:koin-core:3.2.0")
     implementation("io.insert-koin:koin-android:3.2.0")
+
+    //Appodeal
+    implementation("com.appodeal.ads:sdk:3.0.0.+")
 
     //Google Play
     implementation("com.google.android.gms:play-services-ads:21.1.0")

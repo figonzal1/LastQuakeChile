@@ -5,6 +5,7 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        maven(url = "https://artifactory.appodeal.com/appodeal")
     }
     dependencies {
 
@@ -29,7 +30,7 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-
+        maven(url = "https://artifactory.appodeal.com/appodeal")
     }
 }
 
