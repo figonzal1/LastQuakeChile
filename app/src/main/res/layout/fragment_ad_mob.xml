@@ -29,10 +29,12 @@
         app:layout_constraintTop_toTopOf="@+id/tv_swipe_to_quakes_1"
         app:srcCompat="@drawable/ic_round_keyboard_arrow_right_24" />
 
-    <FrameLayout
-        android:id="@+id/admob_container"
+    <include
+        android:id="@+id/ad_include"
+        layout="@layout/ad_mob_fragment_template"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.gms.ads.nativead.NativeAdView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.appodeal.ads.NativeAdView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -23,15 +23,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
+        <com.appodeal.ads.NativeIconView
             android:id="@+id/ad_app_icon"
             android:layout_width="70dp"
             android:layout_height="70dp"
+            android:contentDescription="@string/icon_ad_app"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="@string/icon_ad_app"
             app:layout_constraintVertical_bias="0.1" />
 
         <TextView
@@ -58,7 +58,7 @@
             app:layout_constraintTop_toBottomOf="@+id/ad_title" />
 
 
-        <com.google.android.gms.ads.nativead.MediaView
+        <com.appodeal.ads.NativeMediaView
             android:id="@+id/ad_media"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -119,4 +119,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</com.google.android.gms.ads.nativead.NativeAdView>
+</com.appodeal.ads.NativeAdView>

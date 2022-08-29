@@ -29,7 +29,6 @@ import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
 
-    private var appodeal: AppoDealService? = null
     private var updaterService: UpdaterService? = null
     private lateinit var binding: ActivityMainBinding
 
@@ -67,9 +66,7 @@ class MainActivity : AppCompatActivity() {
         getFirebaseToken()
 
         //Appodeal ads
-        appodeal = AppoDealService(this).apply {
-            setUpSdk()
-        }
+        AppoDealService.setUpSdk(this)
 
         //Updater service
         updaterService = UpdaterService(this, AppUpdateManagerFactory.create(this))
@@ -124,7 +121,7 @@ class MainActivity : AppCompatActivity() {
                 when (position) {
                     0 -> {
                         tab.setIcon(R.drawable.ic_round_campaign_24)
-                        appodeal?.hideBanner()
+                        AppoDealService.hideBanner(this@MainActivity)
                     }
                     1 -> tab.setIcon(R.drawable.ic_quakes_24dp)
                     2 -> tab.setIcon(R.drawable.ic_round_place_24)
@@ -138,8 +135,8 @@ class MainActivity : AppCompatActivity() {
                 override fun onTabSelected(tab: TabLayout.Tab) {
 
                     when (tab.position) {
-                        0 -> appodeal?.hideBanner()
-                        else -> appodeal?.showBanner(R.id.appodeal_banner)
+                        0 -> AppoDealService.hideBanner(this@MainActivity)
+                        else -> AppoDealService.showBanner(this@MainActivity, R.id.appodeal_banner)
                     }
 
                     when {
