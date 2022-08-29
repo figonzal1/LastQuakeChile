@@ -2,7 +2,6 @@ package cl.figonzal.lastquakechile.quake_feature.ui
 
 import android.animation.IntEvaluator
 import android.animation.ValueAnimator
-import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
@@ -11,21 +10,18 @@ import android.view.MenuItem
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.Button
-import android.widget.ImageView
-import android.widget.RatingBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatRatingBar
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.services.AppoDealService
 import cl.figonzal.lastquakechile.core.ui.dialog.MapTerrainDialogFragment
 import cl.figonzal.lastquakechile.core.utils.*
 import cl.figonzal.lastquakechile.databinding.ActivityQuakeDetailsBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
-import com.google.android.gms.ads.*
-import com.google.android.gms.ads.nativead.NativeAd
-import com.google.android.gms.ads.nativead.NativeAdView
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -41,8 +37,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
     private var circleAnimator2: ValueAnimator? = null
     private var circleAnimator: ValueAnimator? = null
 
-    //NativeAd
-    private var currentNativeAd: NativeAd? = null
+    private var nativeAdView: com.appodeal.ads.NativeAdView? = null
 
     private var googleMap: GoogleMap? = null
 
@@ -61,125 +56,59 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
             getMapAsync(this@QuakeDetailsActivity)
         }
 
-        refreshAd()
+        AppoDealService.showNativeAds(this, { nativeAd ->
+
+            nativeAdView = binding.admobTemplate.root
+
+            //Setters
+            nativeAdView?.setNativeIconView(binding.admobTemplate.adAppIcon)
+            nativeAdView?.titleView = binding.admobTemplate.adTitle
+            nativeAdView?.providerView = binding.admobTemplate.adStore
+            nativeAdView?.ratingView = binding.admobTemplate.adRatingBar
+            nativeAdView?.descriptionView = binding.admobTemplate.adBody
+            nativeAdView?.callToActionView = binding.admobTemplate.adCallToAction
+
+            //Complete with data
+            (nativeAdView?.titleView as TextView).text = nativeAd.title
+
+            nativeAdView?.providerView?.visibility = when (nativeAd.adProvider) {
+                null -> View.INVISIBLE
+                else -> {
+                    (nativeAdView?.providerView as TextView).text = nativeAd.adProvider
+                    View.VISIBLE
+                }
+            }
+
+            nativeAdView?.ratingView?.visibility = when (nativeAd.rating) {
+                0f -> View.INVISIBLE
+                else -> {
+                    (nativeAdView?.ratingView as AppCompatRatingBar).rating = nativeAd.rating
+                    View.VISIBLE
+                }
+            }
+
+            nativeAdView?.descriptionView?.visibility = when (nativeAd.description) {
+                null -> View.INVISIBLE
+                else -> {
+                    (nativeAdView?.descriptionView as TextView).text = nativeAd.description
+                    View.VISIBLE
+                }
+            }
+
+            nativeAdView?.callToActionView?.visibility = when (nativeAd.callToAction) {
+                null -> View.INVISIBLE
+                else -> {
+                    (nativeAdView?.callToActionView as Button).text = nativeAd.callToAction
+                    View.VISIBLE
+                }
+            }
+
+            nativeAdView?.registerView(nativeAd)
+            nativeAdView?.visibility = View.VISIBLE
+
+        }, {})
 
         bindingResources()
-    }
-
-    @SuppressLint("MissingPermission")
-    private fun refreshAd() {
-        AdLoader.Builder(this, getString(R.string.ADMOB_ID_NATIVE_DETAILS))
-            .forNativeAd { nativeAd ->
-
-                if (isDestroyed || isFinishing || isChangingConfigurations) {
-                    nativeAd.destroy()
-                    return@forNativeAd
-                }
-
-                currentNativeAd?.destroy()
-                currentNativeAd = nativeAd
-
-                val adView =
-                    layoutInflater.inflate(
-                        R.layout.ad_mob_small_template,
-                        binding.root,
-                        false
-                    ) as NativeAdView
-
-                populateNativeAdView(nativeAd, adView)
-
-                binding.includeCvAdmob.admobContainer.apply {
-                    removeAllViews()
-                    addView(adView)
-                }
-            }
-            .withAdListener(object : AdListener() {
-
-                override fun onAdFailedToLoad(p0: LoadAdError) {
-                    Timber.e("Failed to load native ad with error $p0")
-                }
-
-            })
-            .build().loadAd(AdRequest.Builder().build())
-    }
-
-    private fun populateNativeAdView(nativeAd: NativeAd, adView: NativeAdView) {
-
-        with(adView) {
-
-            iconView = findViewById<ImageView>(R.id.ad_app_icon)
-            headlineView = findViewById<TextView>(R.id.ad_title)
-            storeView = findViewById<TextView>(R.id.ad_store)
-            starRatingView = findViewById<RatingBar>(R.id.ad_rating_bar)
-            bodyView = findViewById<TextView>(R.id.ad_body)
-            callToActionView = findViewById(R.id.ad_call_to_action)
-
-            //Asset guaranteed
-            (headlineView as TextView).text = nativeAd.headline
-
-            //app icon
-            adView.iconView?.visibility = when (nativeAd.icon) {
-                null -> View.INVISIBLE
-                else -> {
-                    (adView.iconView as ImageView).setImageDrawable(nativeAd.icon?.drawable)
-                    View.VISIBLE
-                }
-            }
-
-            //body text
-            adView.bodyView?.visibility = when (nativeAd.body) {
-                null -> View.INVISIBLE
-                else -> {
-                    (adView.bodyView as TextView).text = nativeAd.body
-                    View.VISIBLE
-                }
-            }
-
-            //start rating
-            adView.starRatingView?.visibility = when (nativeAd.starRating) {
-                null -> {
-                    View.INVISIBLE
-                }
-                else -> {
-                    nativeAd.starRating?.let {
-                        (adView.starRatingView as RatingBar).rating = it.toFloat()
-                    }
-                    View.VISIBLE
-                }
-            }
-
-            adView.callToActionView?.visibility = when (nativeAd.callToAction) {
-                null -> View.INVISIBLE
-                else -> {
-                    (adView.callToActionView as Button).text = nativeAd.callToAction
-                    View.VISIBLE
-                }
-            }
-
-            //store text
-            adView.storeView?.visibility = when (nativeAd.store) {
-                null -> View.INVISIBLE
-                else -> {
-                    (adView.storeView as TextView).text = nativeAd.store
-                    View.VISIBLE
-                }
-            }
-
-            //End population ad
-            adView.setNativeAd(nativeAd)
-        }
-
-
-        val vc = nativeAd.mediaContent?.videoController
-
-        when {
-            vc?.hasVideoContent() == true -> vc.videoLifecycleCallbacks =
-                object : VideoController.VideoLifecycleCallbacks() {
-                }
-            else -> {
-                //refreshAd()
-            }
-        }
     }
 
     private fun bindingResources() {
@@ -365,7 +294,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onDestroy() {
         binding.includeMapview.mapView.onDestroy()
-        currentNativeAd?.destroy()
+        nativeAdView?.destroy()
 
         circleAnimator?.cancel()
         circleAnimator2?.cancel()

@@ -33,13 +33,14 @@
         <entry key="..\:/figon/Documentos/GithubProjects/Apps/LastQuakeChile/app/src/main/res/drawable/ic_round_near_me_24.xml" value="0.1895" />
         <entry key="..\:/figon/Documentos/GithubProjects/Apps/LastQuakeChile/app/src/main/res/drawable/ic_round_refresh_24.xml" value="0.208" />
         <entry key="..\:/figon/Documentos/GithubProjects/Apps/LastQuakeChile/app/src/main/res/layout/activity_main.xml" value="0.3625" />
-        <entry key="..\:/figon/Documentos/GithubProjects/Apps/LastQuakeChile/app/src/main/res/layout/activity_quake_details.xml" value="0.3625" />
-        <entry key="..\:/figon/Documentos/GithubProjects/Apps/LastQuakeChile/app/src/main/res/layout/ad_mob_fragment_template.xml" value="0.264" />
+        <entry key="..\:/figon/Documentos/GithubProjects/Apps/LastQuakeChile/app/src/main/res/layout/activity_quake_details.xml" value="0.264" />
+        <entry key="..\:/figon/Documentos/GithubProjects/Apps/LastQuakeChile/app/src/main/res/layout/ad_mob_fragment_template.xml" value="0.1" />
         <entry key="..\:/figon/Documentos/GithubProjects/Apps/LastQuakeChile/app/src/main/res/layout/ad_mob_small_template.xml" value="0.1203125" />
+        <entry key="..\:/figon/Documentos/GithubProjects/Apps/LastQuakeChile/app/src/main/res/layout/card_view_admob_details.xml" value="0.25" />
         <entry key="..\:/figon/Documentos/GithubProjects/Apps/LastQuakeChile/app/src/main/res/layout/card_view_information.xml" value="0.3625" />
         <entry key="..\:/figon/Documentos/GithubProjects/Apps/LastQuakeChile/app/src/main/res/layout/card_view_quake.xml" value="0.75" />
         <entry key="..\:/figon/Documentos/GithubProjects/Apps/LastQuakeChile/app/src/main/res/layout/changelog_dialog.xml" value="0.3625" />
-        <entry key="..\:/figon/Documentos/GithubProjects/Apps/LastQuakeChile/app/src/main/res/layout/fragment_ad_mob.xml" value="0.1" />
+        <entry key="..\:/figon/Documentos/GithubProjects/Apps/LastQuakeChile/app/src/main/res/layout/fragment_ad_mob.xml" value="0.24166666666666667" />
         <entry key="..\:/figon/Documentos/GithubProjects/Apps/LastQuakeChile/app/src/main/res/layout/fragment_maps.xml" value="0.18541666666666667" />
         <entry key="..\:/figon/Documentos/GithubProjects/Apps/LastQuakeChile/app/src/main/res/layout/fragment_quake.xml" value="0.25" />
         <entry key="..\:/figon/Documentos/GithubProjects/Apps/LastQuakeChile/app/src/main/res/layout/fragment_reports.xml" value="0.1" />

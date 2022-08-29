@@ -92,16 +92,22 @@
                 app:layout_constraintStart_toStartOf="@+id/left_guide"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <include
-                android:id="@+id/include_cv_admob"
-                layout="@layout/card_view_admob_details"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_native_ad"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 app:layout_constraintEnd_toStartOf="@+id/right_guide"
                 app:layout_constraintStart_toStartOf="@+id/left_guide"
-                app:layout_constraintTop_toTopOf="@+id/horizontal_guide" />
+                app:layout_constraintTop_toTopOf="@+id/horizontal_guide">
 
+                <include
+                    android:id="@+id/admob_template"
+                    layout="@layout/ad_mob_small_template"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </com.google.android.material.card.MaterialCardView>
 
             <include
                 android:id="@+id/include_cv_quake_detail"
@@ -111,7 +117,7 @@
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toStartOf="@+id/right_guide"
                 app:layout_constraintStart_toStartOf="@+id/left_guide"
-                app:layout_constraintTop_toBottomOf="@+id/include_cv_admob" />
+                app:layout_constraintTop_toBottomOf="@+id/cv_native_ad" />
 
 
             <androidx.constraintlayout.widget.Guideline

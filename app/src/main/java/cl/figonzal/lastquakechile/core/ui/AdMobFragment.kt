@@ -57,7 +57,14 @@ class AdMobFragment : Fragment() {
                 }
             }
 
-            (nativeAdView?.descriptionView as TextView).text = nativeAd.description
+            nativeAdView?.descriptionView?.visibility = when (nativeAd.description) {
+                null -> View.INVISIBLE
+                else -> {
+                    (nativeAdView?.descriptionView as TextView).text = nativeAd.description
+                    View.VISIBLE
+                }
+            }
+
             (nativeAdView?.callToActionView as Button).text = nativeAd.callToAction
 
             nativeAdView?.registerView(nativeAd)
