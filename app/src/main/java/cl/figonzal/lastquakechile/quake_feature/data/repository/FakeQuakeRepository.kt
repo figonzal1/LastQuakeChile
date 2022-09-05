@@ -2,6 +2,7 @@ package cl.figonzal.lastquakechile.quake_feature.data.repository
 
 import cl.figonzal.lastquakechile.core.data.remote.ApiError
 import cl.figonzal.lastquakechile.core.data.remote.StatusAPI
+import cl.figonzal.lastquakechile.core.utils.localDateTimeToString
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Coordinate
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import cl.figonzal.lastquakechile.quake_feature.domain.repository.QuakeRepository
@@ -21,7 +22,7 @@ class FakeQuakeRepository(
     private val quakeList = listOf(
         Quake(
             quakeCode = 123,
-            localDate = LocalDateTime.now(),
+            localDate = LocalDateTime.now().localDateTimeToString(),
             city = "La Serena",
             reference = "14km al OS de La Serena",
             magnitude = 5.6,
@@ -33,7 +34,7 @@ class FakeQuakeRepository(
         ),
         Quake(
             quakeCode = 435,
-            localDate = LocalDateTime.now(),
+            localDate = LocalDateTime.now().localDateTimeToString(),
             city = "Concepción",
             reference = "14km al OS de Concpeción",
             magnitude = 7.6,
@@ -45,7 +46,7 @@ class FakeQuakeRepository(
         ),
         Quake(
             quakeCode = 123,
-            localDate = LocalDateTime.now(),
+            localDate = LocalDateTime.now().localDateTimeToString(),
             city = "Santiago",
             reference = "14km al OS de Santiago",
             magnitude = 6.2,

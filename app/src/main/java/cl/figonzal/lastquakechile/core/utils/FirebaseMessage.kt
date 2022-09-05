@@ -27,24 +27,27 @@ fun getFirebaseToken() {
         }
 }
 
-fun Context.notification(data: List<Any>, pendingIntent: PendingIntent) {
+fun Context.showNotification(
+    title: String,
+    description: String,
+    quake: Quake,
+    pendingIntent: PendingIntent
+) {
 
     NotificationCompat.Builder(
         this,
         this.getString(R.string.firebase_channel_id_quakes)
     ).setSmallIcon(R.drawable.ic_lastquakechile_400)
-        .setContentTitle(data[0].toString())
-        .setContentText(data[1].toString())
-        .setStyle(NotificationCompat.BigTextStyle().bigText(data[1].toString()))
+        .setContentTitle(title)
+        .setContentText(description)
+        .setStyle(NotificationCompat.BigTextStyle().bigText(description))
         .setPriority(NotificationCompat.PRIORITY_MAX)
         .setAutoCancel(true)
         .setContentIntent(pendingIntent)
         .run {
 
-            val quake = data[2] as Quake
-
             //Notify
-            (this@notification.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(
+            (this@showNotification.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(
                 quake.quakeCode,
                 build()
             )

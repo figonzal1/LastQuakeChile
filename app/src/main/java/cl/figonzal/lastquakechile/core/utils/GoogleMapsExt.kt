@@ -121,7 +121,7 @@ private fun Context.shareQuake(quake: Quake, bitMapUri: Uri?) {
         
     """.trimIndent(),
         quake.city,
-        quake.localDate.localDateTimeToString(),
+        quake.localDate,
         quake.magnitude,
         quake.scale,
         quake.depth,

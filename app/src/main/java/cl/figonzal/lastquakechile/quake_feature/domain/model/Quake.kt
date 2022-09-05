@@ -1,11 +1,12 @@
 package cl.figonzal.lastquakechile.quake_feature.domain.model
 
-import java.io.Serializable
-import java.time.LocalDateTime
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Quake(
     val quakeCode: Int,
-    val localDate: LocalDateTime,
+    val localDate: String,
     val city: String,
     val reference: String,
     val magnitude: Double,
@@ -14,4 +15,4 @@ data class Quake(
     val isSensitive: Boolean,
     val isVerified: Boolean,
     val coordinate: Coordinate
-) : Serializable
+) : Parcelable

@@ -31,7 +31,7 @@ class FirebaseQuakeNotificationService : FirebaseMessagingService() {
             Timber.d("Message data payload: %s", remoteMessage.data)
             crashlytics.setCustomKey(getString(R.string.firebase_msg_data_status), true)
 
-            quakesNotification?.showNotification(remoteMessage)
+            quakesNotification?.handleQuakeNotification(remoteMessage)
         }
 
         //Notification from FCM
@@ -44,7 +44,7 @@ class FirebaseQuakeNotificationService : FirebaseMessagingService() {
                 getString(R.string.firebase_msg_notification_status),
                 true
             )
-            quakesNotification?.showNotificationGeneric(remoteMessage)
+            quakesNotification?.handleNotificationGeneric(remoteMessage)
         }
     }
 

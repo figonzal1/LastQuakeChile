@@ -265,7 +265,7 @@ fun Activity.toast(msg: String) {
  */
 fun TextView.timeToText(quake: Quake, isShortVersion: Boolean = false) {
 
-    val timeMap = quake.localDate.localDateToDHMS()
+    val timeMap = quake.localDate.stringToLocalDateTime().localDateToDHMS()
 
     val days = timeMap[this.context.getString(R.string.utils_time_day)]
     val hour = timeMap[this.context.getString(R.string.utils_time_hour)]

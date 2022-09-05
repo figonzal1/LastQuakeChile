@@ -9,15 +9,6 @@
     <string name="ROOM_DB_NAME" translatable="false">lqch_database</string>
     <string name="DEEP_LINK" translatable="false">https://lastquakechile.page.link/lqch</string>
 
-    <!-- PROD AD-->
-    <!--
-    <string name="ADMOB_ID_NATIVE_FRAGMENT" translatable="false">ca-app-pub-6355378855577476/2611250693</string>
-    <string name="ADMOB_ID_NATIVE_DETAILS" translatable="false">ca-app-pub-6355378855577476/2723765487</string>
--->
-    <!--TEST AD-->
-    <string name="ADMOB_ID_NATIVE_FRAGMENT" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
-    <string name="ADMOB_ID_NATIVE_DETAILS" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
-
     <!-- TOOLBAR Menu STRINGS -->
     <string name="settings">Configuración</string>
 
@@ -63,7 +54,7 @@
     <string name="try_intent_notification" translatable="false">TRY_INTENT_NOTIFICATION</string>
     <string name="firebase_pref_key" translatable="false">pref_suscrito_quake</string>
     <string name="subsqribed_quake" translatable="false">subscribed_quake</string>
-    <string name="firebase_topic_name" translatable="false">Quakes</string>
+    <string name="firebase_topic_name" translatable="false">testnewapi</string>
     <string name="firebase_pref_key_alert_on">Alertas activadas</string>
     <string name="firebase_pref_key_alert_off">Alertas desactivadas</string>
 

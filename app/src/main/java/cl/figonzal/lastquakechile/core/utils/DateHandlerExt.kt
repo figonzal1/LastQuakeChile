@@ -2,6 +2,8 @@ package cl.figonzal.lastquakechile.core.utils
 
 import java.time.Duration
 import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import kotlin.math.abs
 import kotlin.math.floor
@@ -56,3 +58,9 @@ fun String.stringToLocalDateTime(): LocalDateTime {
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
     return LocalDateTime.parse(this, formatter)
 }
+
+/**
+ * Convert utcLocalDateTime to device localDateTime
+ */
+fun LocalDateTime.utcToLocalDate(): LocalDateTime =
+    this.atZone(ZoneOffset.UTC).withZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime()
