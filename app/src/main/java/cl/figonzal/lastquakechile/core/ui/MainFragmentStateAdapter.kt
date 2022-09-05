@@ -22,12 +22,12 @@ class MainFragmentStateAdapter(
     private val quakeFragment: QuakeFragment by inject()
     private val mapsFragment: MapsFragment by inject()
     private val reportFragment: ReportsFragment by inject()
-    private val adMobFragment: AdMobFragment = AdMobFragment.newInstance()
+    private val adFragment: AdFragment = AdFragment.newInstance()
 
     override fun createFragment(position: Int): Fragment {
 
         return when (position) {
-            0 -> adMobFragment
+            0 -> adFragment
             1 -> quakeFragment
             2 -> mapsFragment
             3 -> reportFragment

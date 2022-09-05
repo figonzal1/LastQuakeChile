@@ -2,7 +2,6 @@ package cl.figonzal.lastquakechile.quake_feature.ui
 
 import cl.figonzal.lastquakechile.core.data.remote.ApiError
 import cl.figonzal.lastquakechile.quake_feature.data.repository.FakeQuakeRepository
-import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import cl.figonzal.lastquakechile.quake_feature.domain.uses_cases.GetQuakesUseCase
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.Dispatchers
@@ -49,15 +48,15 @@ class QuakeViewModelTest : KoinTest {
     }
 
     @Test
-    fun `limit 3 should return quakeStatus with list size equal to 3`() = runTest {
+    fun `check firstPageState with Status Api Success then return quakes`() = runTest {
 
-        val userCase = GetQuakesUseCase(repository, 3)
+        val userCase = GetQuakesUseCase(repository)
         val viewModel = QuakeViewModel(userCase)
 
         val job = launch(dispatcher) {
 
             //Drop init state flow & loading resource state
-            val resultState = viewModel.quakeState.drop(2).first()
+            val resultState: QuakeState = viewModel.firstPageState.drop(2).first()
 
             assertThat(resultState.quakes.size).isEqualTo(3)
         }
@@ -66,52 +65,51 @@ class QuakeViewModelTest : KoinTest {
     }
 
     @Test
-    fun `limit 0 should return quakeStatus with empty List`() = runTest {
+    fun `check firstPageState with Status Api Error then return error`() = runTest {
 
-        val userCase = GetQuakesUseCase(repository, 0)
+        repository.shouldReturnNetworkError = true
+        val userCase = GetQuakesUseCase(repository)
         val viewModel = QuakeViewModel(userCase)
 
-        viewModel.getQuakes()
-
         val job = launch(dispatcher) {
 
-            val result = viewModel.quakeState.drop(2).first()
-            assertThat(result.quakes.size).isEqualTo(0)
+            val resultState: QuakeState = viewModel.firstPageState.drop(2).first()
+
+            assertThat(resultState.quakes.size).isEqualTo(3)
+            assertThat(resultState.apiError).isSameInstanceAs(ApiError.HttpError)
         }
         job.cancel()
     }
 
     @Test
-    fun `network error should activate errorState`() = runTest {
+    fun `check geNextPages with Status Api Success then return quakes`() = runTest {
 
-        repository.shouldReturnNetworkError = true
-        val useCase = GetQuakesUseCase(repository, 3)
+        val useCase = GetQuakesUseCase(repository)
         val viewModel = QuakeViewModel(useCase)
 
-        viewModel.getQuakes()
-
         val job = launch(dispatcher) {
-            val result: ApiError = viewModel.errorState.first()
-            assertThat(result).isSameInstanceAs(ApiError.HttpError)
-        }
 
+            val resultState = viewModel.nextPagesState.drop(2).first()
+
+            assertThat(resultState.quakes.size).isEqualTo(3)
+        }
         job.cancel()
     }
 
     @Test
-    fun `network error should return chachedList`() = runTest {
+    fun `check geNextPages with Status Api Error then return error`() = runTest {
 
         repository.shouldReturnNetworkError = true
-        val useCase = GetQuakesUseCase(repository, 3)
-        val viewModel = QuakeViewModel(useCase)
-
-        viewModel.getQuakes()
+        val userCase = GetQuakesUseCase(repository)
+        val viewModel = QuakeViewModel(userCase)
 
         val job = launch(dispatcher) {
-            val result: List<Quake> = viewModel.quakeState.first().quakes
-            assertThat(result.size).isEqualTo(3)
-        }
 
+            val resultState: QuakeState = viewModel.nextPagesState.drop(2).first()
+
+            assertThat(resultState.quakes.size).isEqualTo(3)
+            assertThat(resultState.apiError).isSameInstanceAs(ApiError.HttpError)
+        }
         job.cancel()
     }
 }

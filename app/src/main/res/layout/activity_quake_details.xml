@@ -97,9 +97,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toStartOf="@+id/right_guide"
                 app:layout_constraintStart_toStartOf="@+id/left_guide"
-                app:layout_constraintTop_toTopOf="@+id/horizontal_guide">
+                app:layout_constraintTop_toTopOf="@+id/horizontal_guide"
+                tools:visibility="visible">
 
                 <include
                     android:id="@+id/admob_template"

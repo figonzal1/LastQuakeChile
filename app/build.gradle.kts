@@ -40,8 +40,16 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         with(gradleLocalProperties(rootDir)) {
+
+            //GOOGLE MAPS API KEY
             buildConfigField("String", "MAPS_API_KEY", getProperty("MAPS_API_KEY"))
+
+            //APPO DEAL KEY
             buildConfigField("String", "APPO_DEAL_KEY", getProperty("APPO_DEAL_KEY"))
+
+            //META API KEYS
+            buildConfigField("String", "FB_APP_ID", getProperty("FB_APP_ID"))
+            buildConfigField("String", "FB_CLIENT_ID", getProperty("FB_CLIENT_ID"))
         }
 
     }

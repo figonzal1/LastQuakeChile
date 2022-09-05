@@ -33,6 +33,13 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="${FB_APP_ID}" />
+        <meta-data
+            android:name="com.facebook.sdk.ClientToken"
+            android:value="${FB_CLIENT_ID}" />
+
         <activity
             android:name=".core.ui.MainActivity"
             android:exported="true">

@@ -14,7 +14,7 @@ import cl.figonzal.lastquakechile.core.utils.configOptionsMenu
 import cl.figonzal.lastquakechile.databinding.FragmentAdMobBinding
 import com.appodeal.ads.NativeAdView
 
-class AdMobFragment : Fragment() {
+class AdFragment : Fragment() {
 
     private var nativeAdView: NativeAdView? = null
 
@@ -30,7 +30,14 @@ class AdMobFragment : Fragment() {
 
         _binding = FragmentAdMobBinding.inflate(inflater, container, false)
 
+        setUpNativeAds()
 
+        configOptionsMenu {}
+
+        return binding.root
+    }
+
+    private fun setUpNativeAds() {
         AppoDealService.showNativeAds(requireActivity(), { nativeAd ->
 
             binding.progressBar.visibility = View.GONE
@@ -67,6 +74,7 @@ class AdMobFragment : Fragment() {
 
             (nativeAdView?.callToActionView as Button).text = nativeAd.callToAction
 
+            nativeAdView?.unregisterViewForInteraction()
             nativeAdView?.registerView(nativeAd)
             nativeAdView?.visibility = View.VISIBLE
 
@@ -77,24 +85,21 @@ class AdMobFragment : Fragment() {
                 includeErrorMessage.btnRetry.visibility = View.GONE
             }
         }
-
-        configOptionsMenu {}
-
-        return binding.root
     }
 
     companion object {
-        fun newInstance() = AdMobFragment()
+        fun newInstance() = AdFragment()
     }
 
     override fun onDestroy() {
-        nativeAdView?.destroy()
         super.onDestroy()
+        nativeAdView?.destroy()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        nativeAdView?.destroy()
     }
 }
 

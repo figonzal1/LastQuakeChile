@@ -76,7 +76,7 @@ object AppoDealService {
     ) {
 
         Appodeal.setRequiredNativeMediaAssetType(Native.MediaAssetType.ALL)
-        Appodeal.setNativeAdType(Native.NativeAdType.Auto)
+        Appodeal.setNativeAdType(Native.NativeAdType.NoVideo)
         Appodeal.cache(activity, Appodeal.NATIVE, 3)
         Appodeal.setNativeCallbacks(object : NativeCallbacks {
             override fun onNativeLoaded() {

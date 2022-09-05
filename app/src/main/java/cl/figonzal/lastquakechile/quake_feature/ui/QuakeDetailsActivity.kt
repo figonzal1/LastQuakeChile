@@ -22,6 +22,7 @@ import cl.figonzal.lastquakechile.core.ui.dialog.MapTerrainDialogFragment
 import cl.figonzal.lastquakechile.core.utils.*
 import cl.figonzal.lastquakechile.databinding.ActivityQuakeDetailsBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
+import com.appodeal.ads.NativeAdView
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -37,7 +38,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
     private var circleAnimator2: ValueAnimator? = null
     private var circleAnimator: ValueAnimator? = null
 
-    private var nativeAdView: com.appodeal.ads.NativeAdView? = null
+    private var nativeAdView: NativeAdView? = null
 
     private var googleMap: GoogleMap? = null
 
@@ -56,6 +57,12 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
             getMapAsync(this@QuakeDetailsActivity)
         }
 
+        setUpNativeAds()
+
+        bindingResources()
+    }
+
+    private fun setUpNativeAds() {
         AppoDealService.showNativeAds(this, { nativeAd ->
 
             nativeAdView = binding.admobTemplate.root
@@ -103,12 +110,11 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                 }
             }
 
+            nativeAdView?.unregisterViewForInteraction()
             nativeAdView?.registerView(nativeAd)
             nativeAdView?.visibility = View.VISIBLE
 
         }, {})
-
-        bindingResources()
     }
 
     private fun bindingResources() {
@@ -298,6 +304,8 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         circleAnimator?.cancel()
         circleAnimator2?.cancel()
+
+        nativeAdView?.destroy()
 
         super.onDestroy()
     }
