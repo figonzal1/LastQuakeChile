@@ -9,7 +9,6 @@ import cl.figonzal.lastquakechile.quake_feature.data.local.entity.CoordinateEnti
 import cl.figonzal.lastquakechile.quake_feature.data.local.entity.QuakeEntity
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Coordinate
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
-import java.time.format.DateTimeFormatter
 
 data class QuakeAndCoordinate(
 
@@ -24,23 +23,18 @@ data class QuakeAndCoordinate(
     val coordinateEntity: CoordinateEntity
 
 ) {
-    fun toDomain(): Quake {
-
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-
-        return Quake(
-            quakeCode = quakeEntity.quakeCode,
-            localDate = quakeEntity.utcDate.stringToLocalDateTime()
-                .utcToLocalDate()
-                .localDateTimeToString(),
-            city = quakeEntity.city,
-            reference = quakeEntity.reference,
-            magnitude = quakeEntity.magnitude,
-            depth = quakeEntity.depth,
-            scale = quakeEntity.scale,
-            isSensitive = quakeEntity.isSensitive,
-            isVerified = quakeEntity.isVerified,
-            coordinate = Coordinate(coordinateEntity.latitude, coordinateEntity.longitude)
-        )
-    }
+    fun toDomain() = Quake(
+        quakeCode = quakeEntity.quakeCode,
+        localDate = quakeEntity.utcDate.stringToLocalDateTime()
+            .utcToLocalDate()
+            .localDateTimeToString(),
+        city = quakeEntity.city,
+        reference = quakeEntity.reference,
+        magnitude = quakeEntity.magnitude,
+        depth = quakeEntity.depth,
+        scale = quakeEntity.scale,
+        isSensitive = quakeEntity.isSensitive,
+        isVerified = quakeEntity.isVerified,
+        coordinate = Coordinate(coordinateEntity.latitude, coordinateEntity.longitude)
+    )
 }

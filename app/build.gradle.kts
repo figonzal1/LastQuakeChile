@@ -56,7 +56,11 @@ android {
     buildTypes {
         getByName("debug") {
             versionNameSuffix = "-debug"
+            applicationIdSuffix = ".debug"
+            isDebuggable = true
+            isMinifyEnabled = false
             signingConfig = signingConfigs.getByName("debug")
+            resValue("string", "app_name", "LastQuakeChile-debug")
         }
         getByName("release") {
             isMinifyEnabled = true
@@ -66,6 +70,7 @@ android {
                 "proguard-rules.pro"
             )
             signingConfig = signingConfigs.getByName("lastquakechilesign")
+            resValue("string", "app_name", "LastQuakeChile")
         }
 
     }
@@ -82,6 +87,20 @@ android {
 
     buildFeatures {
         viewBinding = true
+    }
+    flavorDimensions += listOf("version")
+    productFlavors {
+        create("beta") {
+            dimension = "version"
+            versionNameSuffix = "-beta"
+        }
+        create("dev") {
+            dimension = "version"
+            versionNameSuffix = "-dev"
+        }
+        create("prod") {
+            dimension = "version"
+        }
     }
 }
 
@@ -118,7 +137,7 @@ dependencies {
     implementation("io.insert-koin:koin-android:3.2.0")
 
     //Appodeal
-    implementation("com.appodeal.ads:sdk:3.0.0.+")
+    implementation("com.appodeal.ads:sdk:3.0.0.4")
 
     //Google Play
     implementation("com.google.android.play:app-update-ktx:2.0.0")

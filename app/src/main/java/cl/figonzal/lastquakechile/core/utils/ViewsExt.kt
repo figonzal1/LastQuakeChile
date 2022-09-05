@@ -244,22 +244,6 @@ fun Fragment.toast(stringId: Int) {
     ).show()
 }
 
-fun Fragment.toast(msg: String) {
-    Toast.makeText(
-        requireContext(),
-        msg,
-        Toast.LENGTH_LONG
-    ).show()
-}
-
-fun Activity.toast(msg: String) {
-    Toast.makeText(
-        this,
-        msg,
-        Toast.LENGTH_LONG
-    ).show()
-}
-
 /**
  * Transform localDateTime to a string text in (days or hours or minutes)
  */
