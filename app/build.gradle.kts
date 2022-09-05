@@ -121,7 +121,6 @@ dependencies {
     implementation("com.appodeal.ads:sdk:3.0.0.+")
 
     //Google Play
-    implementation("com.google.android.gms:play-services-ads:21.1.0")
     implementation("com.google.android.play:app-update-ktx:2.0.0")
 
     //Google Maps
