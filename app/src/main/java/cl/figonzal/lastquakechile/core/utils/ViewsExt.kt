@@ -49,7 +49,7 @@ fun Fragment.configOptionsMenu(
             when (fragmentIndex) {
 
                 //QuakeList
-                1 -> {
+                1, 3 -> {
                     refreshItem.isVisible = true
                     layerItem.isVisible = false
                 }
@@ -58,10 +58,6 @@ fun Fragment.configOptionsMenu(
                 2 -> {
                     refreshItem.isVisible = false
                     layerItem.isVisible = true
-                }
-                3 -> {
-                    refreshItem.isVisible = true
-                    layerItem.isVisible = false
                 }
                 else -> {
                     refreshItem.isVisible = false
@@ -93,66 +89,33 @@ fun Fragment.configOptionsMenu(
  * @param magnitude Quake magnitude
  * @return id color resource
  */
-fun getMagnitudeColor(magnitude: Double, forMapa: Boolean): Int {
-    return getColorResource(forMapa, floor(magnitude).toInt())
+fun getMagnitudeColor(magnitude: Double, forMapa: Boolean) = when {
+    forMapa -> getColorResourceMap(floor(magnitude).toInt())
+    else -> getColorResource(floor(magnitude).toInt())
 }
 
-private fun getColorResource(forMapa: Boolean, mMagFloor: Int): Int {
+private fun getColorResource(mMagFloor: Int) = when {
+    mMagFloor == 1 -> R.color.magnitude1
+    mMagFloor == 2 -> R.color.magnitude2
+    mMagFloor == 3 -> R.color.magnitude3
+    mMagFloor == 4 -> R.color.magnitude4
+    mMagFloor == 5 -> R.color.magnitude5
+    mMagFloor == 6 -> R.color.magnitude6
+    mMagFloor == 7 -> R.color.magnitude7
+    mMagFloor >= 8 -> R.color.magnitude8
+    else -> R.color.colorPrimary
+}
 
-    return when {
-        mMagFloor == 1 -> {
-            when {
-                forMapa -> R.color.magnitude1_alpha
-                else -> R.color.magnitude1
-            }
-
-        }
-        mMagFloor == 2 -> {
-            when {
-                forMapa -> R.color.magnitude2_alpha
-                else -> R.color.magnitude2
-            }
-        }
-        mMagFloor == 3 -> {
-            when {
-                forMapa -> R.color.magnitude3_alpha
-                else -> R.color.magnitude3
-            }
-        }
-        mMagFloor == 4 -> {
-            when {
-                forMapa -> R.color.magnitude4_alpha
-                else -> R.color.magnitude4
-            }
-        }
-        mMagFloor == 5 -> {
-            when {
-                forMapa -> R.color.magnitude5_alpha
-                else -> R.color.magnitude5
-            }
-        }
-        mMagFloor == 6 -> {
-            when {
-                forMapa -> R.color.magnitude6_alpha
-                else -> R.color.magnitude6
-            }
-        }
-        mMagFloor == 7 -> {
-            when {
-                forMapa -> R.color.magnitude7_alpha
-                else -> R.color.magnitude7
-            }
-        }
-        mMagFloor >= 8 -> {
-            when {
-                forMapa -> R.color.magnitude8_alpha
-                else -> R.color.magnitude8
-            }
-        }
-        else -> {
-            R.color.colorPrimary
-        }
-    }
+private fun getColorResourceMap(mMagFloor: Int) = when {
+    mMagFloor == 1 -> R.color.magnitude1_alpha
+    mMagFloor == 2 -> R.color.magnitude2_alpha
+    mMagFloor == 3 -> R.color.magnitude3_alpha
+    mMagFloor == 4 -> R.color.magnitude4_alpha
+    mMagFloor == 5 -> R.color.magnitude5_alpha
+    mMagFloor == 6 -> R.color.magnitude6_alpha
+    mMagFloor == 7 -> R.color.magnitude7_alpha
+    mMagFloor >= 8 -> R.color.magnitude8_alpha
+    else -> R.color.colorPrimary
 }
 
 /**
@@ -210,18 +173,14 @@ fun ImageView.setStatusImage(
  */
 fun TextView.setScale(scale: String) {
     text = when {
-        scale.contains("Mw") -> {
-            String.format(
-                context.getString(R.string.quake_details_escala),
-                context.getString(R.string.quake_details_magnitud_momento)
-            )
-        }
-        else -> {
-            String.format(
-                context.getString(R.string.quake_details_escala),
-                context.getString(R.string.quake_details_magnitud_local)
-            )
-        }
+        scale.contains("Mw") -> String.format(
+            context.getString(R.string.quake_details_escala),
+            context.getString(R.string.quake_details_magnitud_momento)
+        )
+        else -> String.format(
+            context.getString(R.string.quake_details_escala),
+            context.getString(R.string.quake_details_magnitud_local)
+        )
     }
 }
 
@@ -250,95 +209,88 @@ fun Fragment.toast(stringId: Int) {
 fun TextView.timeToText(quake: Quake, isShortVersion: Boolean = false) {
 
     val timeMap = quake.localDate.stringToLocalDateTime().localDateToDHMS()
-
     val days = timeMap[this.context.getString(R.string.utils_time_day)]
-    val hour = timeMap[this.context.getString(R.string.utils_time_hour)]
-    val min = timeMap[this.context.getString(R.string.utils_time_min)]
-    val seg = timeMap[this.context.getString(R.string.utils_time_seg)]
 
-    when {
+    text = when {
         days != null && days == 0L -> {
-
-            when {
-                hour != null && hour >= 1 -> {
-
-                    text = if (isShortVersion) {
-                        String.format(
-                            this.context.getString(R.string.quake_time_hour),
-                            hour
-                        )
-                    } else {
-                        String.format(
-                            this.context.getString(R.string.quake_time_hour_info_windows),
-                            hour
-                        )
-                    }
-
-
-                }
-                else -> {
-
-                    text = if (isShortVersion) {
-                        String.format(
-                            this.context.getString(R.string.quake_time_minute),
-                            min
-                        )
-                    } else {
-                        String.format(
-                            this.context.getString(R.string.quake_time_minute_info_windows),
-                            min
-                        )
-                    }
-
-                    if (min != null && min < 1) {
-
-                        text = if (isShortVersion) {
-                            String.format(
-                                this.context.getString(R.string.quake_time_second), seg
-                            )
-                        } else {
-                            String.format(
-                                this.context.getString(R.string.quake_time_second_info_windows), seg
-                            )
-                        }
-                    }
-                }
-            }
+            calculateTextViewBelowDay(this.context, timeMap, isShortVersion)
         }
         days != null && days > 0 -> {
-            when {
-                hour != null && hour == 0L -> {
+            calculateTextViewAboveDay(this.context, timeMap, isShortVersion)
+        }
+        else -> ""
+    }
+}
 
-                    text = if (isShortVersion) {
-                        String.format(
-                            this.context.getString(R.string.quake_time_day),
-                            days
-                        )
-                    } else {
-                        String.format(
-                            this.context.getString(R.string.quake_time_day_info_windows),
-                            days
-                        )
-                    }
+private fun calculateTextViewAboveDay(
+    context: Context,
+    timeMap: Map<String, Long>,
+    isShortVersion: Boolean
+): String {
 
-                }
-                hour != null && hour >= 1 -> {
+    val days = timeMap[context.getString(R.string.utils_time_day)]
+    val hour = timeMap[context.getString(R.string.utils_time_hour)]
 
-                    text = if (isShortVersion) {
-                        String.format(
-                            this.context.getString(R.string.quake_time_day_hour),
-                            days,
-                            hour / 24
-                        )
-                    } else {
+    return when {
+        hour != null && hour == 0L -> when {
+            isShortVersion -> String.format(
+                context.getString(R.string.quake_time_day),
+                days
+            )
+            else -> String.format(
+                context.getString(R.string.quake_time_day_info_windows),
+                days
+            )
+        }
+        hour != null && hour >= 1 -> when {
+            isShortVersion -> String.format(
+                context.getString(R.string.quake_time_day_hour),
+                days,
+                hour / 24
+            )
+            else -> String.format(
+                context.getString(R.string.quake_time_day_hour_info_windows),
+                days,
+                hour / 24
+            )
+        }
+        else -> ""
+    }
+}
 
-                        String.format(
-                            this.context.getString(R.string.quake_time_day_hour_info_windows),
-                            days,
-                            hour / 24
-                        )
-                    }
-                }
+private fun calculateTextViewBelowDay(
+    context: Context,
+    timeMap: Map<String, Long>,
+    isShortVersion: Boolean
+): String {
+
+    val hour = timeMap[context.getString(R.string.utils_time_hour)]
+    val min = timeMap[context.getString(R.string.utils_time_min)]
+    val seg = timeMap[context.getString(R.string.utils_time_seg)]
+
+    return when {
+        hour != null && hour >= 1 -> when {
+            isShortVersion -> String.format(context.getString(R.string.quake_time_hour), hour)
+            else -> String.format(context.getString(R.string.quake_time_hour_info_windows), hour)
+        }
+        else -> when {
+            min != null && min < 1 -> when {
+                isShortVersion -> String.format(
+                    context.getString(R.string.quake_time_second), seg
+                )
+                else -> String.format(
+                    context.getString(R.string.quake_time_second_info_windows), seg
+                )
+            }
+            else -> when {
+                isShortVersion -> String.format(
+                    context.getString(R.string.quake_time_minute),
+                    min
+                )
+                else -> String.format(
+                    context.getString(R.string.quake_time_minute_info_windows),
+                    min
+                )
             }
         }
     }
@@ -462,19 +414,11 @@ fun Context.getMonth(month: Int) = arrayOf(
 
 fun Fragment.showServerApiError(apiError: ApiError, callback: (Int, String) -> Unit) {
     return when (apiError) {
-        ApiError.HttpError -> {
-            toast(R.string.http_error)
-            callback(R.drawable.ic_round_report_24, getString(R.string.http_error))
-        }
         ApiError.IoError -> {
             toast(R.string.io_error)
             callback(R.drawable.ic_round_wifi_off_24, getString(R.string.io_error))
         }
-        ApiError.ServerError -> {
-            toast(R.string.service_error)
-            callback(R.drawable.ic_round_router_24, getString(R.string.service_error))
-        }
-        ApiError.TimeoutError -> {
+        ApiError.ServerError, ApiError.TimeoutError -> {
             toast(R.string.service_error)
             callback(R.drawable.ic_round_router_24, getString(R.string.service_error))
         }

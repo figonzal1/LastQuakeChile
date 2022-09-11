@@ -11,6 +11,8 @@ plugins {
     id("com.google.firebase.crashlytics")
     id("com.google.firebase.firebase-perf")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+
+    id("org.sonarqube") version "3.4.0.2513"
 }
 
 android {
@@ -28,13 +30,13 @@ android {
         }
     }
 
-    compileSdk = 31
+    compileSdk = 32
     buildToolsVersion = "32.0.0"
 
     defaultConfig {
         applicationId = "cl.figonzal.lastquakechile"
         minSdk = 23
-        targetSdk = 31
+        targetSdk = 32
         versionCode = 33
         versionName = "1.6.1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -209,4 +211,14 @@ dependencies {
     debugImplementation("com.squareup.leakcanary:leakcanary-android:2.9.1")
 
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+}
+
+sonarqube {
+    properties {
+        property("sonar.projectName", "LastQuakeChile")
+        property("sonar.projectKey", "LastQuakeChile")
+        property("sonar.test.inclusions", "**/*Test*/**")
+        property("sonar.sourceEncoding", "UTF-8")
+        property("sonar.sources", "src/main/java")
+    }
 }
