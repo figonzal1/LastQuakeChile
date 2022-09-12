@@ -74,50 +74,55 @@ class QuakeFragment(
 
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
 
-                launch {
-                    viewModel.firstPageState.collectLatest {
+                launch { processFirstPage() }
 
-                        when {
-                            it.isLoading -> loadingUI()
+                launch { processNextPage() }
+            }
+        }
+        viewModel.getFirstPageQuakes()
+    }
 
-                            //Check if apiError exists
-                            !it.isLoading && it.apiError != null -> handleErrors(it.quakes.toList())
+    private suspend fun processNextPage() {
+        viewModel.nextPagesState.collectLatest {
 
-                            //If api error is null, show updated list from network
-                            !it.isLoading && it.quakes.isNotEmpty() && it.apiError == null -> {
-                                showListUI(it.quakes.toList())
-                            }
-                        }
-                    }
-                }
+            when {
+                it.isLoading -> loadingUI()
 
-                launch {
-                    viewModel.nextPagesState.collectLatest {
+                //Check if apiError exists
+                !it.isLoading && it.apiError != null -> handleErrors(it.quakes.toList())
 
-                        when {
-                            it.isLoading -> loadingUI()
+                //If api error is null, show updated list from network
+                !it.isLoading && it.quakes.isNotEmpty() && it.apiError == null -> {
 
-                            //Check if apiError exists
-                            !it.isLoading && it.apiError != null -> handleErrors(it.quakes.toList())
+                    showListUI(it.quakes.toList())
 
-                            //If api error is null, show updated list from network
-                            !it.isLoading && it.quakes.isNotEmpty() && it.apiError == null -> {
+                    val totalPages = it.quakes.size / QUERY_PAGE_SIZE + 2
+                    isLastPage = viewModel.actualIndexPage == totalPages
 
-                                showListUI(it.quakes.toList())
-
-                                val totalPages = it.quakes.size / QUERY_PAGE_SIZE + 2
-                                isLastPage = viewModel.actualIndexPage == totalPages
-
-                                if (isLastPage) {
-                                    binding.recycleViewQuakes.setPadding(0, 0, 0, 0)
-                                }
-                            }
-                        }
+                    if (isLastPage) {
+                        binding.recycleViewQuakes.setPadding(0, 0, 0, 0)
                     }
                 }
             }
         }
-        viewModel.getFirstPageQuakes()
+    }
+
+    private suspend fun processFirstPage() {
+        viewModel.firstPageState.collectLatest {
+
+            when {
+                it.isLoading -> loadingUI()
+
+                //Check if apiError exists
+                !it.isLoading && it.apiError != null -> handleErrors(it.quakes.toList())
+
+                //If api error is null, show updated list from network
+                !it.isLoading && it.quakes.isNotEmpty() && it.apiError == null -> {
+                    showListUI(it.quakes.toList())
+                }
+            }
+        }
+
     }
 
     /**
@@ -131,6 +136,7 @@ class QuakeFragment(
         quakeAdapter.quakes = quakes
 
         viewLifecycleOwner.lifecycleScope.launch {
+
             viewModel.errorState
                 .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
                 .collectLatest {
@@ -163,6 +169,15 @@ class QuakeFragment(
                 }
         }
     }
+
+    private fun configErrorStatusMsg(@DrawableRes icon: Int, errorMsg: String) =
+        with(binding.includeErrorMessage) {
+
+            ivWifiOff.setImageDrawable(
+                ResourcesCompat.getDrawable(resources, icon, requireContext().theme)
+            )
+            tvMsgNoWifi.text = errorMsg
+        }
 
     private fun loadingUI() {
         with(binding) {
@@ -223,19 +238,6 @@ class QuakeFragment(
             if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
                 isScrolling = true
             }
-        }
-    }
-
-    private fun configErrorStatusMsg(
-        @DrawableRes icon: Int,
-        errorMsg: String
-    ) {
-        with(binding.includeErrorMessage) {
-
-            ivWifiOff.setImageDrawable(
-                ResourcesCompat.getDrawable(resources, icon, requireContext().theme)
-            )
-            tvMsgNoWifi.text = errorMsg
         }
     }
 

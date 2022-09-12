@@ -1,3 +1,5 @@
+@file:Suppress("OldIssuesGlobalInspectionTool")
+
 package cl.figonzal.lastquakechile.quake_feature.data.repository
 
 import cl.figonzal.lastquakechile.core.data.remote.ApiError
@@ -63,18 +65,17 @@ class FakeQuakeRepository(
         else -> getNextPages(pageIndex)
     }
 
+    //NOSONAR
     override fun getFirstPage(pageIndex: Int): Flow<StatusAPI<List<Quake>>> = flow {
-
         when {
-            shouldReturnNetworkError -> emit(StatusAPI.Error(quakeList, ApiError.HttpError))
             shouldReturnNetworkError -> emit(StatusAPI.Error(quakeList, ApiError.HttpError))
             else -> emit(StatusAPI.Success(quakeList.take(20)))
         }
     }.flowOn(dispatcher)
 
+    //NOSONAR
     override fun getNextPages(pageIndex: Int): Flow<StatusAPI<List<Quake>>> = flow {
         when {
-            shouldReturnNetworkError -> emit(StatusAPI.Error(quakeList, ApiError.HttpError))
             shouldReturnNetworkError -> emit(StatusAPI.Error(quakeList, ApiError.HttpError))
             else -> emit(StatusAPI.Success(quakeList.take(20)))
         }
