@@ -9,6 +9,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat.BigTextStyle
 import androidx.core.app.NotificationCompat.Builder
+import androidx.core.app.TaskStackBuilder
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.utils.*
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Coordinate
@@ -139,22 +140,27 @@ class QuakesNotification(
 
             val quake: Quake = handleFcmData(this)
 
-            Intent(context, QuakeDetailsActivity::class.java).apply {
+            val intent = Intent(context, QuakeDetailsActivity::class.java).apply {
                 putExtra(context.getString(R.string.INTENT_TITULO), title)
                 putExtra(context.getString(R.string.INTENT_DESCRIPCION), description)
                 putExtra(context.getString(R.string.INTENT_QUAKE), quake)
-
-            }.also { intent ->
-
-                PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE).run {
-                    context.showNotification(title, description, quake, this)
-                }
-
-                Timber.d(context.getString(R.string.TRY_INTENT_NOTIFICATION_1))
-                crashlytics.setCustomKey(context.getString(R.string.try_intent_notification), true)
             }
+
+            TaskStackBuilder.create(context).run {
+                addNextIntentWithParentStack(intent)
+                getPendingIntent(
+                    0,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                )
+            }?.also {
+                context.showNotification(title, description, quake, it)
+            }
+
+            Timber.d(context.getString(R.string.TRY_INTENT_NOTIFICATION_1))
+            crashlytics.setCustomKey(context.getString(R.string.try_intent_notification), true)
         }
     }
+
 
     /**
      * Show notification function from FCM (Generic)
