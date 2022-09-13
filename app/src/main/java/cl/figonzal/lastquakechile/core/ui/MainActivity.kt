@@ -16,6 +16,7 @@ import cl.figonzal.lastquakechile.core.services.*
 import cl.figonzal.lastquakechile.core.services.notifications.QuakesNotification
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.getFirebaseToken
+import cl.figonzal.lastquakechile.core.utils.handleShortcuts
 import cl.figonzal.lastquakechile.core.utils.loadImage
 import cl.figonzal.lastquakechile.databinding.ActivityMainBinding
 import com.google.android.material.appbar.AppBarLayout
@@ -105,6 +106,8 @@ class MainActivity : AppCompatActivity() {
             viewPager.apply {
                 adapter = MainFragmentStateAdapter(this@MainActivity, context)
                 setTabs(tabs, appBar)
+
+                handleShortcuts(intent.action)
             }
         }
 

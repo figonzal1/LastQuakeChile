@@ -231,5 +231,14 @@
     <string name="local_copy">Mostrando copia local</string>
     <string name="swipe_left_icon">Icono desliza izquierda</string>
     <string name="view_quake_notification_button">Ver sismo</string>
+    <string name="shortcut_short_map_label">Mapa sismos</string>
+    <string name="shortcut_long_map_label">Mapa últimos sismos</string>
+    <string name="shortcut_map_disabled">Mapa deshabilitado</string>
+    <string name="shortcut_short_list_label">Lista sismos</string>
+    <string name="shortcut_long_list_label">Lista últimos sismos</string>
+    <string name="shortcut_list_disabled">Lista deshabilitada</string>
+    <string name="shortcut_short_report_label">Reportes mensuales</string>
+    <string name="shortcut_long_report_label">Reportes sísmicos mensuales</string>
+    <string name="shortcut_report_disabled">Reporte deshabilitado</string>
 
 </resources>

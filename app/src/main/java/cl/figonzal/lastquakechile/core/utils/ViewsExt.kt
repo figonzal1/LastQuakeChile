@@ -16,6 +16,7 @@ import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import androidx.viewpager2.widget.ViewPager2
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.data.remote.ApiError
 import cl.figonzal.lastquakechile.core.ui.SettingsActivity
@@ -429,6 +430,14 @@ fun Fragment.showServerApiError(apiError: ApiError, callback: (Int, String) -> U
             toast(R.string.http_error)
             callback(R.drawable.ic_round_report_24, getString(R.string.http_error))
         }
+    }
+}
+
+fun ViewPager2.handleShortcuts(action: String?) {
+    when {
+        action.equals("cl.figonzal.lastquakechile.LIST") -> setCurrentItem(1, true)
+        action.equals("cl.figonzal.lastquakechile.MAP") -> setCurrentItem(2, true)
+        action.equals("cl.figonzal.lastquakechile.REPORT") -> setCurrentItem(3, true)
     }
 }
 

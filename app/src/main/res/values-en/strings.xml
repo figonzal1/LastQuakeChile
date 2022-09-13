@@ -113,4 +113,13 @@
     <string name="local_copy">Showing local copy</string>
     <string name="swipe_left_icon">Swipe left icon</string>
     <string name="view_quake_notification_button">See earthquake</string>
+    <string name="shortcut_short_map_label">Quakes map</string>
+    <string name="shortcut_long_map_label">Last quakes map</string>
+    <string name="shortcut_map_disabled">Map disabled</string>
+    <string name="shortcut_short_list_label">Quakes list</string>
+    <string name="shortcut_long_list_label">Last quakes list</string>
+    <string name="shortcut_list_disabled">List disabled</string>
+    <string name="shortcut_short_report_label">Monthly reports</string>
+    <string name="shortcut_long_report_label">Monthly reports</string>
+    <string name="shortcut_report_disabled">Report disabled</string>
 </resources>

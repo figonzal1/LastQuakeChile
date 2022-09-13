@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_round_analytics_shortcut"
+        android:shortcutDisabledMessage="@string/shortcut_report_disabled"
+        android:shortcutId="report"
+        android:shortcutLongLabel="@string/shortcut_long_report_label"
+        android:shortcutShortLabel="@string/shortcut_short_report_label">
+        <intent
+            android:action="cl.figonzal.lastquakechile.REPORT"
+            android:targetClass="cl.figonzal.lastquakechile.core.ui.MainActivity"
+            android:targetPackage="cl.figonzal.lastquakechile" />
+    </shortcut>
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_round_place_24"
+        android:shortcutDisabledMessage="@string/shortcut_map_disabled"
+        android:shortcutId="map"
+        android:shortcutLongLabel="@string/shortcut_long_map_label"
+        android:shortcutShortLabel="@string/shortcut_short_map_label">
+        <intent
+            android:action="cl.figonzal.lastquakechile.MAP"
+            android:targetClass="cl.figonzal.lastquakechile.core.ui.MainActivity"
+            android:targetPackage="cl.figonzal.lastquakechile" />
+    </shortcut>
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_quakes_24dp"
+        android:shortcutDisabledMessage="@string/shortcut_list_disabled"
+        android:shortcutId="list"
+        android:shortcutLongLabel="@string/shortcut_long_list_label"
+        android:shortcutShortLabel="@string/shortcut_short_list_label">
+        <intent
+            android:action="cl.figonzal.lastquakechile.LIST"
+            android:targetClass="cl.figonzal.lastquakechile.core.ui.MainActivity"
+            android:targetPackage="cl.figonzal.lastquakechile" />
+    </shortcut>
+</shortcuts>
