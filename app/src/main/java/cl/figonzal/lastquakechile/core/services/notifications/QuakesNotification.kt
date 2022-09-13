@@ -7,8 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.core.app.NotificationCompat.BigTextStyle
-import androidx.core.app.NotificationCompat.Builder
+import androidx.core.app.NotificationCompat.*
 import androidx.core.app.TaskStackBuilder
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.utils.*
@@ -177,6 +176,7 @@ class QuakesNotification(
             .setStyle(BigTextStyle().bigText(remoteMessage.notification?.body))
             .setSmallIcon(R.drawable.ic_lastquakechile_400)
             .setAutoCancel(true)
+            .setVisibility(VISIBILITY_PUBLIC)
             .also {
                 (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(
                     context.getString(R.string.firebase_channel_id_quakes).toInt(),

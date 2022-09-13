@@ -112,4 +112,5 @@
     <string name="swipe_left">Swipe left to see earthquakes</string>
     <string name="local_copy">Showing local copy</string>
     <string name="swipe_left_icon">Swipe left icon</string>
+    <string name="view_quake_notification_button">See earthquake</string>
 </resources>

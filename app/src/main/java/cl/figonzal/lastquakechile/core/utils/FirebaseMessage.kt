@@ -43,7 +43,13 @@ fun Context.showNotification(
         .setStyle(NotificationCompat.BigTextStyle().bigText(description))
         .setPriority(NotificationCompat.PRIORITY_MAX)
         .setAutoCancel(true)
+        .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
         .setContentIntent(pendingIntent)
+        .addAction(
+            R.drawable.ic_quakes_24dp,
+            getString(R.string.view_quake_notification_button),
+            pendingIntent
+        )
         .run {
 
             //Notify
