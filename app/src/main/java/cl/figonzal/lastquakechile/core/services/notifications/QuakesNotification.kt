@@ -134,14 +134,53 @@ class QuakesNotification(
         //Get data from php file in lqch-server
         with(remoteMessage.data) {
 
-            val title = getValue(context.getString(R.string.INTENT_TITULO))
-            val description = getValue(context.getString(R.string.INTENT_DESCRIPCION))
+            var title: String?
+            val description: String?
 
             val quake: Quake = handleFcmData(this)
 
+            when {
+                quake.magnitude >= 5.0 -> {
+
+                    title = context.getString(R.string.alert_title_notification)
+                    description = String.format(
+                        context.getString(R.string.alert_description_notification),
+                        quake.magnitude,
+                        quake.reference
+                    )
+
+                    title = when {
+                        !quake.isVerified -> String.format(
+                            context.getString(R.string.preliminary_format_notification),
+                            title
+                        )
+                        else -> String.format(
+                            context.getString(R.string.verified_format_notification),
+                            title
+                        )
+                    }
+                }
+                else -> {
+                    title = String.format(
+                        context.getString(R.string.no_alert_title_notification),
+                        quake.magnitude
+                    )
+                    description = String.format(
+                        context.getString(R.string.no_alert_description_notification),
+                        quake.reference
+                    )
+
+                    when {
+                        !quake.isVerified -> title = String.format(
+                            context.getString(R.string.preliminary_format_notification),
+                            title
+                        )
+                    }
+                }
+            }
+
+
             val intent = Intent(context, QuakeDetailsActivity::class.java).apply {
-                putExtra(context.getString(R.string.INTENT_TITULO), title)
-                putExtra(context.getString(R.string.INTENT_DESCRIPCION), description)
                 putExtra(context.getString(R.string.INTENT_QUAKE), quake)
             }
 

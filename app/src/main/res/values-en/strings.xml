@@ -122,4 +122,10 @@
     <string name="shortcut_short_report_label">Monthly reports</string>
     <string name="shortcut_long_report_label">Monthly reports</string>
     <string name="shortcut_report_disabled">Report disabled</string>
+    <string name="alert_title_notification">Earthquake alert!</string>
+    <string name="preliminary_format_notification">[Preliminary] %s</string>
+    <string name="verified_format_notification">[Correction] %s</string>
+    <string name="no_alert_title_notification">Quake of %d</string>
+    <string name="no_alert_description_notification">Registered at %s</string>
+    <string name="alert_description_notification">Quake of %d registered at %s</string>
 </resources>
