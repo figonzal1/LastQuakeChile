@@ -23,12 +23,12 @@ class FirebaseQuakeNotificationService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
 
-        Timber.d("From: %s", remoteMessage.from)
+        Timber.d("From: ${remoteMessage.from}")
 
         //Notification with quake data
         if (remoteMessage.data.isNotEmpty()) {
 
-            Timber.d("Message data payload: %s", remoteMessage.data)
+            Timber.d("Message data payload: ${remoteMessage.data}")
             crashlytics.setCustomKey(getString(R.string.firebase_msg_data_status), true)
 
             quakesNotification?.handleQuakeNotification(remoteMessage)
@@ -36,14 +36,8 @@ class FirebaseQuakeNotificationService : FirebaseMessagingService() {
 
         //Notification from FCM
         if (remoteMessage.notification != null) {
-            Timber.d(
-                "Message notification: " + remoteMessage.notification!!
-                    .title + " - " + remoteMessage.notification!!.body
-            )
-            crashlytics.setCustomKey(
-                getString(R.string.firebase_msg_notification_status),
-                true
-            )
+            Timber.d("Message notification: ${remoteMessage.notification!!.title} - ${remoteMessage.notification!!.body}")
+            crashlytics.setCustomKey(getString(R.string.firebase_msg_notification_status), true)
             quakesNotification?.handleNotificationGeneric(remoteMessage)
         }
     }
