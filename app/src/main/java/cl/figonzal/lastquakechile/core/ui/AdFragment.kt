@@ -9,7 +9,6 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatRatingBar
 import androidx.fragment.app.Fragment
-import cl.figonzal.lastquakechile.core.services.AppoDealService
 import cl.figonzal.lastquakechile.core.utils.configOptionsMenu
 import cl.figonzal.lastquakechile.databinding.FragmentAdMobBinding
 import com.appodeal.ads.*

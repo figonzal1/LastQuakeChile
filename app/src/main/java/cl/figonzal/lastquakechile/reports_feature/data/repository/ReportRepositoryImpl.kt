@@ -2,7 +2,6 @@ package cl.figonzal.lastquakechile.reports_feature.data.repository
 
 import android.app.Application
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.data.remote.ApiError
 import cl.figonzal.lastquakechile.core.data.remote.StatusAPI
 import cl.figonzal.lastquakechile.core.utils.*
 import cl.figonzal.lastquakechile.reports_feature.data.local.ReportLocalDataSource
@@ -67,39 +66,14 @@ class ReportRepositoryImpl(
 
                         Timber.e("Suspend error: ${this.message()}")
 
-                        var apiError = when (statusCode) {
-                            StatusCode.NotFound -> ApiError.HttpError
-                            StatusCode.RequestTimeout -> ApiError.ServerError
-                            StatusCode.InternalServerError -> ApiError.ServerError
-                            StatusCode.ServiceUnavailable -> ApiError.ServerError
-                            StatusCode.Unknown -> ApiError.ServerError
-                            else -> ApiError.UnknownError
-                        }
-
-                        if (!isWifiConnected(application)) {
-                            apiError = ApiError.NoWifiError
-                        }
-
+                        val apiError = application.processApiError(message(), null)
                         emit(StatusAPI.Error(cacheList, apiError))
                     }
                     .suspendOnFailure {
 
                         Timber.e("Suspend failure: ${this.message()}")
 
-                        var apiError = when {
-                            message().contains("10000ms") -> ApiError.TimeoutError
-                            message().contains("failed to connect", true) -> ApiError.TimeoutError
-                            message().contains(
-                                "unable to resolve host",
-                                true
-                            ) -> ApiError.TimeoutError
-                            else -> ApiError.UnknownError
-                        }
-
-                        if (!isWifiConnected(application)) {
-                            apiError = ApiError.NoWifiError
-                        }
-
+                        val apiError = application.processApiError(message(), null)
                         emit(StatusAPI.Error(cacheList, apiError))
                     }
             }

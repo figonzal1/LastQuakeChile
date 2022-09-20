@@ -4,7 +4,7 @@ import android.app.Application
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.data.remote.ApiError
 import cl.figonzal.lastquakechile.core.data.remote.StatusAPI
-import cl.figonzal.lastquakechile.core.utils.isWifiConnected
+import cl.figonzal.lastquakechile.core.utils.processApiError
 import cl.figonzal.lastquakechile.core.utils.toQuakeDomain
 import cl.figonzal.lastquakechile.core.utils.toQuakeListEntity
 import cl.figonzal.lastquakechile.quake_feature.data.local.QuakeLocalDataSource
@@ -55,36 +55,14 @@ class QuakeRepositoryImpl(
 
                 Timber.e("Suspend error: ${this.message()}")
 
-                var apiError = when (statusCode) {
-                    StatusCode.NotFound -> ApiError.HttpError
-                    StatusCode.RequestTimeout -> ApiError.ServerError
-                    StatusCode.InternalServerError -> ApiError.ServerError
-                    StatusCode.ServiceUnavailable -> ApiError.ServerError
-                    StatusCode.Unknown -> ApiError.ServerError
-                    else -> ApiError.UnknownError
-                }
-
-                if (!isWifiConnected(application)) {
-                    apiError = ApiError.NoWifiError
-                }
-
+                val apiError = application.processApiError("", statusCode)
                 emit(StatusAPI.Error(data = cacheList, apiError = apiError))
             }
             .suspendOnFailure {
 
                 Timber.e("Suspend failure: ${this.message()}")
 
-                var apiError = when {
-                    message().contains("10000ms") -> ApiError.TimeoutError
-                    message().contains("failed to connect", true) -> ApiError.TimeoutError
-                    message().contains("unable to resolve host", true) -> ApiError.TimeoutError
-                    else -> ApiError.UnknownError
-                }
-
-                if (!isWifiConnected(application)) {
-                    apiError = ApiError.NoWifiError
-                }
-
+                val apiError = application.processApiError(message(), null)
                 emit(StatusAPI.Error(data = cacheList, apiError = apiError))
             }
     }.flowOn(dispatcher)

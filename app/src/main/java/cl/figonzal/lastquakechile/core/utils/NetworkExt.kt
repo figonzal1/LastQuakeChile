@@ -4,10 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.net.NetworkInfo
-import android.os.Build
+import cl.figonzal.lastquakechile.core.data.remote.ApiError
 import cl.figonzal.lastquakechile.quake_feature.data.remote.QuakeAPI
 import cl.figonzal.lastquakechile.reports_feature.data.remote.ReportAPI
+import com.skydoves.sandwich.StatusCode
 import com.skydoves.sandwich.adapters.ApiResponseCallAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -43,5 +43,24 @@ fun isWifiConnected(context: Context): Boolean {
     val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
     return capabilities?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) == true
+}
+
+fun Context.processApiError(message: String, statusCode: StatusCode?): ApiError {
+
+    var apiError = when {
+        statusCode == StatusCode.NotFound -> ApiError.HttpError
+        statusCode == StatusCode.RequestTimeout || statusCode == StatusCode.InternalServerError || statusCode == StatusCode.ServiceUnavailable || statusCode == StatusCode.Unknown -> ApiError.ServerError
+        message.contains("10000ms") || message.contains(
+            "failed to connect",
+            true
+        ) || message.contains("unable to resolve host", true) -> ApiError.TimeoutError
+        else -> ApiError.UnknownError
+    }
+
+    if (!isWifiConnected(this)) {
+        apiError = ApiError.NoWifiError
+    }
+
+    return apiError
 }
 
