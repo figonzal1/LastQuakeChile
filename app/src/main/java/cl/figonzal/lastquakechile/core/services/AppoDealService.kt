@@ -69,43 +69,4 @@ object AppoDealService {
 
     fun hideBanner(activity: Activity) = Appodeal.hide(activity, Appodeal.BANNER_VIEW)
 
-    fun showNativeAds(
-        activity: Activity,
-        onAdLoaded: (NativeAd) -> Unit,
-        onAdFailedToLoad: () -> Unit
-    ) {
-
-        Appodeal.setRequiredNativeMediaAssetType(Native.MediaAssetType.ALL)
-        Appodeal.setNativeAdType(Native.NativeAdType.NoVideo)
-        Appodeal.cache(activity, Appodeal.NATIVE, 3)
-        Appodeal.setNativeCallbacks(object : NativeCallbacks {
-            override fun onNativeLoaded() {
-                Timber.d("Native was loaded")
-
-                val nativeAds = Appodeal.getNativeAds(1)[0]
-                onAdLoaded(nativeAds)
-            }
-
-            override fun onNativeFailedToLoad() {
-                Timber.d("Native failed to load")
-                onAdFailedToLoad()
-            }
-
-            override fun onNativeClicked(nativeAd: NativeAd?) {
-                Timber.d("Native was clicked")
-            }
-
-            override fun onNativeShowFailed(nativeAd: NativeAd?) {
-                Timber.d("Native failed to show")
-            }
-
-            override fun onNativeShown(nativeAd: NativeAd?) {
-                Timber.d("Native was shown")
-            }
-
-            override fun onNativeExpired() {
-                Timber.d("Native was expired")
-            }
-        })
-    }
 }
