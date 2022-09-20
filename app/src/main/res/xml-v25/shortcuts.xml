@@ -16,7 +16,7 @@
 
     <shortcut
         android:enabled="true"
-        android:icon="@drawable/ic_round_place_24"
+        android:icon="@drawable/ic_round_place_shortcut"
         android:shortcutDisabledMessage="@string/shortcut_map_disabled"
         android:shortcutId="map"
         android:shortcutLongLabel="@string/shortcut_long_map_label"
@@ -29,7 +29,7 @@
 
     <shortcut
         android:enabled="true"
-        android:icon="@drawable/ic_quakes_24dp"
+        android:icon="@drawable/ic_quakes_shortcut"
         android:shortcutDisabledMessage="@string/shortcut_list_disabled"
         android:shortcutId="list"
         android:shortcutLongLabel="@string/shortcut_long_list_label"
