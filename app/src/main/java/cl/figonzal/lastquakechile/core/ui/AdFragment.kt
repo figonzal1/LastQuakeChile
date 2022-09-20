@@ -80,44 +80,46 @@ class AdFragment : Fragment() {
 
         val nativeAd: NativeAd = Appodeal.getNativeAds(1).first()
 
-        binding.progressBar.visibility = View.GONE
-        binding.adIncludeOffline.root.visibility = View.GONE
+        if (isAdded) {
+            binding.progressBar.visibility = View.GONE
+            binding.adIncludeOffline.root.visibility = View.GONE
 
-        nativeAdView = binding.adInclude.root
+            nativeAdView = binding.adInclude.root
 
-        //Setters
-        nativeAdView?.setNativeIconView(binding.adInclude.adAppIcon)
-        nativeAdView?.titleView = binding.adInclude.adTitle
-        nativeAdView?.ratingView = binding.adInclude.adRatingBar
-        nativeAdView?.descriptionView = binding.adInclude.adBody
-        nativeAdView?.callToActionView = binding.adInclude.adCallToAction
-        nativeAdView?.nativeMediaView = binding.adInclude.adMedia
+            //Setters
+            nativeAdView?.setNativeIconView(binding.adInclude.adAppIcon)
+            nativeAdView?.titleView = binding.adInclude.adTitle
+            nativeAdView?.ratingView = binding.adInclude.adRatingBar
+            nativeAdView?.descriptionView = binding.adInclude.adBody
+            nativeAdView?.callToActionView = binding.adInclude.adCallToAction
+            nativeAdView?.nativeMediaView = binding.adInclude.adMedia
 
 
-        //Complete with data
-        (nativeAdView?.titleView as TextView).text = nativeAd.title
+            //Complete with data
+            (nativeAdView?.titleView as TextView).text = nativeAd.title
 
-        nativeAdView?.ratingView?.visibility = when (nativeAd.rating) {
-            0f -> View.INVISIBLE
-            else -> {
-                (nativeAdView?.ratingView as AppCompatRatingBar).rating = nativeAd.rating
-                View.VISIBLE
+            nativeAdView?.ratingView?.visibility = when (nativeAd.rating) {
+                0f -> View.INVISIBLE
+                else -> {
+                    (nativeAdView?.ratingView as AppCompatRatingBar).rating = nativeAd.rating
+                    View.VISIBLE
+                }
             }
-        }
 
-        nativeAdView?.descriptionView?.visibility = when (nativeAd.description) {
-            null -> View.INVISIBLE
-            else -> {
-                (nativeAdView?.descriptionView as TextView).text = nativeAd.description
-                View.VISIBLE
+            nativeAdView?.descriptionView?.visibility = when (nativeAd.description) {
+                null -> View.INVISIBLE
+                else -> {
+                    (nativeAdView?.descriptionView as TextView).text = nativeAd.description
+                    View.VISIBLE
+                }
             }
+
+            (nativeAdView?.callToActionView as Button).text = nativeAd.callToAction
+
+            nativeAdView?.unregisterViewForInteraction()
+            nativeAdView?.registerView(nativeAd)
+            nativeAdView?.visibility = View.VISIBLE
         }
-
-        (nativeAdView?.callToActionView as Button).text = nativeAd.callToAction
-
-        nativeAdView?.unregisterViewForInteraction()
-        nativeAdView?.registerView(nativeAd)
-        nativeAdView?.visibility = View.VISIBLE
     }
 
     companion object {
