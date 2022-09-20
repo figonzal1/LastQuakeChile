@@ -1,5 +1,11 @@
 package cl.figonzal.lastquakechile.core.utils
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.net.NetworkInfo
+import android.os.Build
 import cl.figonzal.lastquakechile.quake_feature.data.remote.QuakeAPI
 import cl.figonzal.lastquakechile.reports_feature.data.remote.ReportAPI
 import com.skydoves.sandwich.adapters.ApiResponseCallAdapterFactory
@@ -31,4 +37,11 @@ fun provideApiService(url: String): Retrofit =
 fun provideQuakeAPI(apiService: Retrofit): QuakeAPI = apiService.create(QuakeAPI::class.java)
 
 fun provideReportAPI(apiService: Retrofit): ReportAPI = apiService.create(ReportAPI::class.java)
+
+@SuppressLint("MissingPermission")
+fun isWifiConnected(context: Context): Boolean {
+    val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
+    return capabilities?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) == true
+}
 

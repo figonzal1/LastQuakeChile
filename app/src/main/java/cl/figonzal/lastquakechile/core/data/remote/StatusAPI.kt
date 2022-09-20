@@ -17,6 +17,7 @@ sealed class StatusAPI<T>(
  * Sealed class for api error response
  */
 sealed class ApiError {
+    object NoWifiError : ApiError()
     object IoError : ApiError()
     object HttpError : ApiError()
     object ServerError : ApiError()

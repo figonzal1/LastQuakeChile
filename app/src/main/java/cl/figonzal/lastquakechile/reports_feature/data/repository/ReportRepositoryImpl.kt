@@ -67,12 +67,17 @@ class ReportRepositoryImpl(
 
                         Timber.e("Suspend error: ${this.message()}")
 
-                        val apiError = when (statusCode) {
+                        var apiError = when (statusCode) {
                             StatusCode.NotFound -> ApiError.HttpError
                             StatusCode.RequestTimeout -> ApiError.ServerError
                             StatusCode.InternalServerError -> ApiError.ServerError
                             StatusCode.ServiceUnavailable -> ApiError.ServerError
+                            StatusCode.Unknown -> ApiError.ServerError
                             else -> ApiError.UnknownError
+                        }
+
+                        if (!isWifiConnected(application)) {
+                            apiError = ApiError.NoWifiError
                         }
 
                         emit(StatusAPI.Error(cacheList, apiError))
@@ -81,12 +86,18 @@ class ReportRepositoryImpl(
 
                         Timber.e("Suspend failure: ${this.message()}")
 
-                        val apiError = when {
-                            message().contains("10000ms") || message().contains(
-                                "failed to connect",
+                        var apiError = when {
+                            message().contains("10000ms") -> ApiError.TimeoutError
+                            message().contains("failed to connect", true) -> ApiError.TimeoutError
+                            message().contains(
+                                "unable to resolve host",
                                 true
                             ) -> ApiError.TimeoutError
                             else -> ApiError.UnknownError
+                        }
+
+                        if (!isWifiConnected(application)) {
+                            apiError = ApiError.NoWifiError
                         }
 
                         emit(StatusAPI.Error(cacheList, apiError))

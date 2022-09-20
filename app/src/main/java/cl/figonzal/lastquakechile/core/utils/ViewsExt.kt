@@ -415,7 +415,7 @@ fun Context.getMonth(month: Int) = arrayOf(
 
 fun Fragment.showServerApiError(apiError: ApiError, callback: (Int, String) -> Unit) {
     return when (apiError) {
-        ApiError.IoError -> {
+        ApiError.IoError, ApiError.NoWifiError -> {
             toast(R.string.io_error)
             callback(R.drawable.ic_round_wifi_off_24, getString(R.string.io_error))
         }
