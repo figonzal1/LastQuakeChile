@@ -105,7 +105,7 @@
 
                 <include
                     android:id="@+id/admob_template"
-                    layout="@layout/ad_mob_small_template"
+                    layout="@layout/ad_small_template"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 

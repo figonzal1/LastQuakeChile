@@ -128,4 +128,7 @@
     <string name="no_alert_title_notification">Quake of %.1f</string>
     <string name="no_alert_description_notification">Registered at %s</string>
     <string name="alert_description_notification">Quake of %.1f registered at %s</string>
+    <string name="sismos_chile">Earthquakes in Chile</string>
+    <string name="revisa_los_ltimos_sismos_en_chile">Check last earthquakes in Chile</string>
+    <string name="desliza_a_la_izquierda">Swipe left</string>
 </resources>

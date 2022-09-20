@@ -54,8 +54,7 @@ class AdFragment : Fragment() {
                 if (isAdded) {
                     with(binding) {
                         progressBar.visibility = View.GONE
-                        includeErrorMessage.root.visibility = View.VISIBLE
-                        includeErrorMessage.btnRetry.visibility = View.GONE
+                        adIncludeOffline.root.visibility = View.VISIBLE
                     }
                 }
             }
@@ -70,12 +69,6 @@ class AdFragment : Fragment() {
 
             override fun onNativeShown(nativeAd: NativeAd?) {
                 Timber.d("Native was shown")
-
-                with(binding) {
-                    progressBar.visibility = View.GONE
-                    includeErrorMessage.root.visibility = View.GONE
-                    includeErrorMessage.btnRetry.visibility = View.GONE
-                }
             }
 
             override fun onNativeExpired() {
@@ -89,6 +82,7 @@ class AdFragment : Fragment() {
         val nativeAd: NativeAd = Appodeal.getNativeAds(1).first()
 
         binding.progressBar.visibility = View.GONE
+        binding.adIncludeOffline.root.visibility = View.GONE
 
         nativeAdView = binding.adInclude.root
 

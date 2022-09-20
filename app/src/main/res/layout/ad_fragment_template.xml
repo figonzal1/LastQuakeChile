@@ -28,6 +28,7 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:contentDescription="@string/icon_ad_app"
+            android:src="@drawable/ic_quakes_shortcut"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

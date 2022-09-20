@@ -128,4 +128,7 @@
     <string name="verified_format_notification">[Corrección] %s</string>
     <string name="no_alert_title_notification">Sismo de %.1f</string>
     <string name="no_alert_description_notification">Registrado a %s</string>
+    <string name="sismos_chile">Sismos en chile</string>
+    <string name="revisa_los_ltimos_sismos_en_chile">Revisa los últimos sismos en Chile</string>
+    <string name="desliza_a_la_izquierda">Desliza a la izquierda</string>
 </resources>

@@ -31,7 +31,18 @@
 
     <include
         android:id="@+id/ad_include"
-        layout="@layout/ad_mob_fragment_template"
+        layout="@layout/ad_fragment_template"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/ad_include_offline"
+        layout="@layout/ad_fragment_offline"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="gone"
@@ -50,17 +61,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <include
-        android:id="@+id/include_error_message"
-        layout="@layout/error_message"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
