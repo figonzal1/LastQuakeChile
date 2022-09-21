@@ -52,6 +52,9 @@ android {
             //META API KEYS
             buildConfigField("String", "FB_APP_ID", getProperty("FB_APP_ID"))
             buildConfigField("String", "FB_CLIENT_ID", getProperty("FB_CLIENT_ID"))
+
+            //ADMOB MASTER KEY
+            buildConfigField("String", "ADMOB_MASTER_KEY", getProperty("ADMOB_MASTER_KEY"))
         }
 
     }

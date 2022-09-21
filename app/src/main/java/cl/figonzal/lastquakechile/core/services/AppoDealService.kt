@@ -12,7 +12,7 @@ object AppoDealService {
 
     fun setUpSdk(activity: Activity) {
         Appodeal.setLogLevel(Log.LogLevel.verbose)
-        Appodeal.setTesting(true)
+        Appodeal.setTesting(false)
         Appodeal.initialize(
             activity,
             BuildConfig.APPO_DEAL_KEY,
