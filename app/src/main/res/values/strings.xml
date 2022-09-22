@@ -71,7 +71,7 @@
 
     <!-- STRINGS DE LAYOUTS-->
     <string name="circulo_pintado">Color magnitud sismo</string>
-    <string name="imagen_toolbar">Imagen toolbar</string>
+    <string name="imagen_toolbar">Fondo de barra de herramientas</string>
     <string name="quake_time_day" translatable="false">%1$d d</string>
     <string name="quake_time_day_hour" translatable="false">%1$d d %2$d h</string>
     <string name="quake_time_hour" translatable="false">%1$d h</string>
@@ -82,9 +82,9 @@
     <string name="quake_time_hour_info_windows">Hace: %1$d h</string>
     <string name="quake_time_minute_info_windows">Hace: %1$d m</string>
     <string name="quake_time_second_info_windows">Hace: %1$d s</string>
-    <string name="icono_tiempo">Icono tiempo</string>
+    <string name="icono_tiempo">Icono fecha sismos</string>
     <string name="tiempo">Fecha/Hora</string>
-    <string name="icono_distancia">Icono distancia</string>
+    <string name="icono_distancia">Icono posición sismo</string>
     <string name="distancia">Posición GMS</string>
     <string name="icono_epicentro">Icono epicentro</string>
     <string name="icono_escala">Icono escala</string>
@@ -96,7 +96,7 @@
     <string name="magnitud" translatable="false">%.1f</string>
     <string name="quake_details_magnitud_local">Magnitud Local (Ml)</string>
     <string name="quake_details_magnitud_momento" tools:ignore="Typos">Magnitud Momento (Mw)</string>
-    <string name="icono_sensible">Icono sensible</string>
+    <string name="icono_sensible">Icono sismo sensible</string>
     <string name="coordenadas_sur" translatable="false">S</string>
     <string name="coordenadas_norte" translatable="false">N</string>
     <string name="coordenadas_oeste">O</string>
@@ -152,7 +152,7 @@
     <string name="intent_chooser">Compartir sismos</string>
     <string name="version">Versión</string>
     <string name="qu_hay_de_nuevo_en_la_app">¿Qué hay de nuevo en la app?</string>
-    <string name="solucionamos_el_problema">Solucionamos el problema</string>
+    <string name="novedades">Novedades</string>
     <string name="entendido">Entendido</string>
     <string name="map_type">Tipo de mapa</string>
     <string name="new_version_icon">Icono nueva version</string>
@@ -162,7 +162,7 @@
     <string name="http_error">Ups, algo funcionó mal!</string>
     <string name="io_error">Revisa tu conexión a Internet</string>
     <string name="ad" translatable="false">Ad</string>
-    <string name="icon_ad_app">Icono publicidad</string>
+    <string name="icon_ad_app">Icono publicidad aplicación</string>
 
     <!-- FOR TIMBER -->
     <string name="AD_OPEN_ON_START" translatable="false">onStart - checking adIfAvailable</string>
@@ -225,7 +225,7 @@
     <string name="no_mas_sismos">No hay más items</string>
     <string name="swipe_left">Desliza a la izquierda para ver sismos</string>
     <string name="local_copy">Mostrando copia local</string>
-    <string name="swipe_left_icon">Icono desliza izquierda</string>
+    <string name="swipe_left_icon">Icono izquierda</string>
     <string name="view_quake_notification_button">Ver sismo</string>
     <string name="shortcut_short_map_label">Mapa sismos</string>
     <string name="shortcut_long_map_label">Mapa últimos sismos</string>
@@ -245,5 +245,11 @@
     <string name="sismos_chile">Sismos en chile</string>
     <string name="revisa_los_ltimos_sismos_en_chile">Revisa los últimos sismos en Chile</string>
     <string name="desliza_a_la_izquierda">Desliza a la izquierda</string>
+    <string name="contenido_multimedia_de_publicidad">Contenido multimedia de publicidad</string>
+    <string name="puntaje_estrellas_aplicaci_n_publicidad">Puntaje estrellas aplicación publicidad</string>
+    <string name="ad_pager_content_description">Pestaña publicidad</string>
+    <string name="quakes_pager_content_description">Pestaña sismos</string>
+    <string name="map_pager_content_description">Pestaña mapa</string>
+    <string name="reports_pager_content_description">Pestaña reportes</string>
 
 </resources>

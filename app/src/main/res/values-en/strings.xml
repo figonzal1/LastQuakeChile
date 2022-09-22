@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="circulo_pintado">Quake magnitude color</string>
-    <string name="imagen_toolbar">Toolbar image</string>
-    <string name="icono_tiempo">Time icon</string>
+    <string name="imagen_toolbar">Toolbar background image</string>
+    <string name="icono_tiempo">DateTime quake icon</string>
     <string name="tiempo">Date/Hour</string>
-    <string name="icono_distancia">Distance icon</string>
+    <string name="icono_distancia">Georeference position quake icon</string>
     <string name="distancia">Position DMS</string>
     <string name="icono_epicentro">Epicenter icon</string>
     <string name="icono_escala">Scale icon</string>
@@ -12,7 +12,7 @@
     <string name="escala">Scale</string>
     <string name="quake_details_magnitud_local">Magnitude local (Ml)</string>
     <string name="quake_details_magnitud_momento">Moment magnitude (Mw)</string>
-    <string name="icono_sensible">Sensitive icon</string>
+    <string name="icono_sensible">Sensitive quake icon</string>
     <string name="firebase_channel_name_quakes">Quake alerts</string>
     <string name="firebase_channel_description_quakes">Receives quake alerts above 5 degrees</string>
     <string name="coordenadas_oeste">W</string>
@@ -76,7 +76,7 @@
     <string name="intent_chooser">Share quakes</string>
     <string name="night_mode_key_toast_off">Night mode off</string>
     <string name="version">"Version "</string>
-    <string name="solucionamos_el_problema">Solved things</string>
+    <string name="novedades">New things</string>
     <string name="entendido">OK</string>
     <string name="qu_hay_de_nuevo_en_la_app">What\'s new in the app?</string>
     <string name="map_type">Map type</string>
@@ -111,7 +111,7 @@
     <string name="no_mas_sismos">No more items</string>
     <string name="swipe_left">Swipe left to see earthquakes</string>
     <string name="local_copy">Showing local copy</string>
-    <string name="swipe_left_icon">Swipe left icon</string>
+    <string name="swipe_left_icon">Left icon</string>
     <string name="view_quake_notification_button">See earthquake</string>
     <string name="shortcut_short_map_label">Quakes map</string>
     <string name="shortcut_long_map_label">Last quakes map</string>
@@ -131,4 +131,10 @@
     <string name="sismos_chile">Earthquakes in Chile</string>
     <string name="revisa_los_ltimos_sismos_en_chile">Check last earthquakes in Chile</string>
     <string name="desliza_a_la_izquierda">Swipe left</string>
+    <string name="contenido_multimedia_de_publicidad">Ad media content</string>
+    <string name="puntaje_estrellas_aplicaci_n_publicidad">Star points ad app</string>
+    <string name="ad_pager_content_description">Ad section</string>
+    <string name="quakes_pager_content_description">Quakes section</string>
+    <string name="map_pager_content_description">Map section</string>
+    <string name="reports_pager_content_description">Reports section</string>
 </resources>
