@@ -37,8 +37,8 @@ android {
         applicationId = "cl.figonzal.lastquakechile"
         minSdk = 23
         targetSdk = 32
-        versionCode = 35
-        versionName = "1.6.3"
+        versionCode = 36
+        versionName = "1.6.4"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         with(gradleLocalProperties(rootDir)) {
@@ -61,7 +61,7 @@ android {
     buildTypes {
         getByName("debug") {
             versionNameSuffix = "-debug"
-            //applicationIdSuffix = ".debug"
+            applicationIdSuffix = ".debug"
             isDebuggable = true
             isMinifyEnabled = false
             signingConfig = signingConfigs.getByName("debug")

@@ -78,9 +78,12 @@ class AdFragment : Fragment() {
 
     private fun showNativeAd() {
 
-        val nativeAd: NativeAd = Appodeal.getNativeAds(1).first()
+        val adNativeAdList: MutableList<NativeAd> = Appodeal.getNativeAds(1)
 
-        if (isAdded) {
+        if (isAdded && adNativeAdList.isNotEmpty()) {
+
+            val nativeAd = adNativeAdList.first()
+
             binding.progressBar.visibility = View.GONE
             binding.adIncludeOffline.root.visibility = View.GONE
 
