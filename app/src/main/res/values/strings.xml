@@ -61,7 +61,6 @@
 
     <!-- SHARE PREFERENCES KEYS (Variables) -->
     <string name="shared_pref_master_key" translatable="false">lastquakechile</string>
-    <string name="shared_pref_list_quake_limit" translatable="false">quake_limit</string>
     <string name="shared_pref_actual_version_code" translatable="false">actual_v_code</string>
     <string name="night_mode_category_key" translatable="false">nigh_mode_pref_category</string>
     <string name="shared_report_cache" translatable="false">reports_cache_entry</string>
@@ -165,9 +164,6 @@
     <string name="icon_ad_app">Icono publicidad aplicación</string>
 
     <!-- FOR TIMBER -->
-    <string name="AD_OPEN_ON_START" translatable="false">onStart - checking adIfAvailable</string>
-    <string name="APP_OPEN_SHOW_AD" translatable="false">Will show ad</string>
-    <string name="APP_OPEN_AD_NOT_SHOW" translatable="false">Can not show ad</string>
     <string name="SHARED_VERSION_CODE_APP" translatable="false">Store version code: </string>
     <string name="VERSION_CODE_APP" translatable="false">Installed version code: </string>
     <string name="NEW_VERSION_DETECTED" translatable="false">New version detected</string>
@@ -184,9 +180,6 @@
     <string name="UPDATE_OK" translatable="false">Update succesfull</string>
     <string name="SHOW_NIGH_MODE" translatable="false">Show night mode preference</string>
     <string name="HIDE_NIGHT_MODE" translatable="false">Dont show night mode preference</string>
-    <string name="ADMOB_AD_FAILED" translatable="false">Failed to load</string>
-    <string name="ADMOB_AD_LOADED" translatable="false">Add loaded</string>
-    <string name="ADMOB_AD_OPEN" translatable="false">Add open</string>
     <string name="GOOGLE_MAP_SNAPSHOT" translatable="false">Snapshot google play</string>
     <string name="INTENT_GOOGLEPLAY" translatable="false">Opening google play</string>
     <string name="IMAGE_CACHE_EXISTS" translatable="false">Share image exist</string>

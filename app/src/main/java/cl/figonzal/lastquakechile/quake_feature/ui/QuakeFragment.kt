@@ -89,10 +89,10 @@ class QuakeFragment(
                 it.isLoading -> loadingUI()
 
                 //Check if apiError exists
-                !it.isLoading && it.apiError != null -> handleErrors(it.quakes.toList())
+                it.apiError != null -> handleErrors(it.quakes.toList())
 
                 //If api error is null, show updated list from network
-                !it.isLoading && it.quakes.isNotEmpty() && it.apiError == null -> {
+                it.quakes.isNotEmpty() -> {
 
                     showListUI(it.quakes.toList())
 
@@ -114,10 +114,10 @@ class QuakeFragment(
                 it.isLoading -> loadingUI()
 
                 //Check if apiError exists
-                !it.isLoading && it.apiError != null -> handleErrors(it.quakes.toList())
+                it.apiError != null -> handleErrors(it.quakes.toList())
 
                 //If api error is null, show updated list from network
-                !it.isLoading && it.quakes.isNotEmpty() && it.apiError == null -> {
+                it.quakes.isNotEmpty() -> {
                     showListUI(it.quakes.toList())
                 }
             }

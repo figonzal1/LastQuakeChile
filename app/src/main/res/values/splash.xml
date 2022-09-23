@@ -7,7 +7,7 @@
         <item name="postSplashScreenTheme">@style/AppTheme</item>
 
         <!-- Status bar and Nav bar configs -->
-        <item name="android:statusBarColor" tools:targetApi="l">@color/colorPrimary</item>
+        <item name="android:statusBarColor" >@color/colorPrimary</item>
         <item name="android:navigationBarColor">@color/colorPrimary</item>
         <item name="android:windowLightStatusBar">false</item>
     </style>

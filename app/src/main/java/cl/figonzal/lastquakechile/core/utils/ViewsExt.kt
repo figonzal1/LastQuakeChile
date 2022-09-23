@@ -150,7 +150,7 @@ fun ImageView.setStatusImage(
                 )
             )
         }
-        state -> {
+        else -> {
 
             tvState.text = String.format(
                 Locale.US,
@@ -158,10 +158,7 @@ fun ImageView.setStatusImage(
                 context.getString(R.string.quakes_details_estado_sismo_verificado)
             )
             setImageDrawable(
-                ContextCompat.getDrawable(
-                    context,
-                    R.drawable.ic_round_check_circle_24
-                )
+                ContextCompat.getDrawable(context, R.drawable.ic_round_check_circle_24)
             )
         }
     }

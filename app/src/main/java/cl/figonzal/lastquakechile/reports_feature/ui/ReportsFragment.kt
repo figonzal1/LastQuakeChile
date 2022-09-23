@@ -73,10 +73,10 @@ class ReportsFragment(
                         it.isLoading -> loadingUI()
 
                         //Check if apiError exists
-                        !it.isLoading && it.apiError != null -> handleErrors(it.reports.toList())
+                        it.apiError != null -> handleErrors(it.reports.toList())
 
                         //If api error is null, show updated list from network
-                        !it.isLoading && it.reports.isNotEmpty() && it.apiError == null -> {
+                        it.reports.isNotEmpty() -> {
                             showListUI(it.reports)
                         }
                     }
