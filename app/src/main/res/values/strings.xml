@@ -49,7 +49,7 @@
     <string name="try_intent_notification" translatable="false">TRY_INTENT_NOTIFICATION</string>
     <string name="firebase_pref_key" translatable="false">pref_suscrito_quake</string>
     <string name="subsqribed_quake" translatable="false">subscribed_quake</string>
-    <string name="firebase_topic_name" translatable="false">testnewapi</string>
+    <string name="firebase_topic_name" translatable="false">Quakes</string>
     <string name="firebase_pref_key_alert_on">Alertas activadas</string>
     <string name="firebase_pref_key_alert_off">Alertas desactivadas</string>
 

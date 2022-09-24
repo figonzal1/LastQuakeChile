@@ -20,9 +20,11 @@ class ChangeLogService(
     private var versionCode: Int = BuildConfig.VERSION_CODE
     private val version = context.getString(R.string.version) + BuildConfig.VERSION_NAME
     private val listImprovements = listOf(
-        "- Nueva interfaz, mucho más moderna",
-        "- Soporte para Android 12",
-        "- Mejoras y correcciones de bugs"
+        "- App funcionando con nuevos servicios de sismos",
+        "- Lista de sismos sin límites (infinita)",
+        "- Indicador de pestaña para facilitar navegación",
+        "- Mensajes de errores mejorados",
+        "- Mejoras de rendimiento"
     )
 
     override fun onCreate(owner: LifecycleOwner) {
@@ -42,12 +44,19 @@ class ChangeLogService(
         Timber.d("${context.getString(R.string.VERSION_CODE_APP)}$versionCode")
 
         when {
-            sharedVersionCode < versionCode && sharedVersionCode != 0 -> {
+            //sharedVersionCode < versionCode && sharedVersionCode != 0 TODO: PROXIMO RELEASE
+            sharedVersionCode < versionCode -> {
 
                 showBottomDialog()
                 Timber.d(context.getString(R.string.NEW_VERSION_DETECTED))
             }
-            else -> Timber.d(context.getString(R.string.NO_NEW_VERSION_DETECTED))
+            else -> {
+                sharedPrefUtil.saveData(
+                    context.getString(R.string.shared_pref_actual_version_code),
+                    versionCode
+                )
+                Timber.d(context.getString(R.string.NO_NEW_VERSION_DETECTED))
+            }
         }
     }
 
