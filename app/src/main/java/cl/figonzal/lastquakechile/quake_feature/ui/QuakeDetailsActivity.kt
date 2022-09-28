@@ -9,7 +9,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatRatingBar
@@ -96,57 +95,44 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun showNativeAd() {
 
-        val nativeAd: NativeAd = Appodeal.getNativeAds(1).first()
+        val adNativeAdList = Appodeal.getNativeAds(1)
 
-        nativeAdView = binding.admobTemplate.root
+        if (adNativeAdList.isNotEmpty()) {
 
-        //Setters
-        nativeAdView?.setNativeIconView(binding.admobTemplate.adAppIcon)
-        nativeAdView?.titleView = binding.admobTemplate.adTitle
-        nativeAdView?.providerView = binding.admobTemplate.adStore
-        nativeAdView?.ratingView = binding.admobTemplate.adRatingBar
-        nativeAdView?.descriptionView = binding.admobTemplate.adBody
-        nativeAdView?.callToActionView = binding.admobTemplate.adCallToAction
+            val nativeAd = adNativeAdList.first()
 
-        //Complete with data
-        (nativeAdView?.titleView as TextView).text = nativeAd.title
+            nativeAdView = binding.admobTemplate.root
 
-        nativeAdView?.providerView?.visibility = when (nativeAd.adProvider) {
-            null -> View.INVISIBLE
-            else -> {
-                (nativeAdView?.providerView as TextView).text = nativeAd.adProvider
-                View.VISIBLE
+            //Setters
+            nativeAdView?.setNativeIconView(binding.admobTemplate.adAppIcon)
+            nativeAdView?.titleView = binding.admobTemplate.adTitle
+            nativeAdView?.ratingView = binding.admobTemplate.adRatingBar
+            nativeAdView?.descriptionView = binding.admobTemplate.adBody
+
+            //Complete with data
+            (nativeAdView?.titleView as TextView).text = nativeAd.title
+
+            nativeAdView?.ratingView?.visibility = when (nativeAd.rating) {
+                0f -> View.INVISIBLE
+                else -> {
+                    (nativeAdView?.ratingView as AppCompatRatingBar).rating = nativeAd.rating
+                    View.VISIBLE
+                }
             }
-        }
 
-        nativeAdView?.ratingView?.visibility = when (nativeAd.rating) {
-            0f -> View.INVISIBLE
-            else -> {
-                (nativeAdView?.ratingView as AppCompatRatingBar).rating = nativeAd.rating
-                View.VISIBLE
+            nativeAdView?.descriptionView?.visibility = when (nativeAd.description) {
+                null -> View.INVISIBLE
+                else -> {
+                    (nativeAdView?.descriptionView as TextView).text = nativeAd.description
+                    View.VISIBLE
+                }
             }
-        }
 
-        nativeAdView?.descriptionView?.visibility = when (nativeAd.description) {
-            null -> View.INVISIBLE
-            else -> {
-                (nativeAdView?.descriptionView as TextView).text = nativeAd.description
-                View.VISIBLE
-            }
+            nativeAdView?.unregisterViewForInteraction()
+            nativeAdView?.registerView(nativeAd)
+            nativeAdView?.visibility = View.VISIBLE
+            binding.cvNativeAd.visibility = View.VISIBLE
         }
-
-        nativeAdView?.callToActionView?.visibility = when (nativeAd.callToAction) {
-            null -> View.INVISIBLE
-            else -> {
-                (nativeAdView?.callToActionView as Button).text = nativeAd.callToAction
-                View.VISIBLE
-            }
-        }
-
-        nativeAdView?.unregisterViewForInteraction()
-        nativeAdView?.registerView(nativeAd)
-        nativeAdView?.visibility = View.VISIBLE
-        binding.cvNativeAd.visibility = View.VISIBLE
 
     }
 

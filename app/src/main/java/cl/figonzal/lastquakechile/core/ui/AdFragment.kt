@@ -78,7 +78,7 @@ class AdFragment : Fragment() {
 
     private fun showNativeAd() {
 
-        val adNativeAdList: MutableList<NativeAd> = Appodeal.getNativeAds(1)
+        val adNativeAdList = Appodeal.getNativeAds(1)
 
         if (isAdded && adNativeAdList.isNotEmpty()) {
 
