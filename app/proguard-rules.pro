@@ -23,6 +23,7 @@
 # JSR 305 annotations are for embedding nullability information.
 -dontwarn javax.annotation.**
 
+# MOSHI
 -keepclasseswithmembers class * {
     @com.squareup.moshi.* <methods>;
 }
@@ -46,4 +47,17 @@
 -keepclassmembers class * {
   @com.squareup.moshi.FromJson <methods>;
   @com.squareup.moshi.ToJson <methods>;
+}
+
+# GLIDE
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep class * extends com.bumptech.glide.module.AppGlideModule {
+ <init>(...);
+}
+-keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}
+-keep class com.bumptech.glide.load.data.ParcelFileDescriptorRewinder$InternalRewinder {
+  *** rewind();
 }
