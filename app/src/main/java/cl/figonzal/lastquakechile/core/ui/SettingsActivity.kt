@@ -35,7 +35,7 @@ class SettingsActivity : AppCompatActivity() {
 
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.settings_menu, SettingsFragment())
+            .replace(R.id.settings_container, SettingsFragment())
             .commit()
 
         supportActionBar?.apply {
@@ -46,29 +46,32 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     //Settings Fragment
-    class SettingsFragment : PreferenceFragmentCompat(),
-        OnSharedPreferenceChangeListener {
+    class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeListener {
 
         private val sharedPrefUtil: SharedPrefUtil by lazy {
-            SharedPrefUtil(requireContext())
+            SharedPrefUtil(requireActivity())
         }
         private val quakesNotification by lazy {
-            QuakesNotification(requireContext(), sharedPrefUtil)
+            QuakesNotification(requireActivity(), sharedPrefUtil)
         }
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
 
-            configVersionPreferences()
+            if (isAdded) {
+                configVersionPreferences()
 
-            configNightMode()
+                configNightMode()
+            }
         }
 
         override fun onSharedPreferenceChanged(preferences: SharedPreferences?, key: String?) {
 
-            handleChangesNightMode(preferences, key)
+            if (isAdded) {
+                handleChangesNightMode(preferences, key)
 
-            handleChangesNotificationSubscription(preferences, key)
+                handleChangesNotificationSubscription(preferences, key)
+            }
         }
 
         private fun nightModeAndRecreate(mode: Int) {
@@ -139,35 +142,36 @@ class SettingsActivity : AppCompatActivity() {
 
         private fun handleChangesNightMode(preferences: SharedPreferences?, key: String?) {
 
-            if (key.equals(resources.getString(R.string.night_mode_key))) {
+            if (key.equals(getString(R.string.night_mode_key))) {
 
                 when (preferences?.getBoolean(
-                    resources.getString(R.string.night_mode_key),
+                    getString(R.string.night_mode_key),
                     false
                 )) {
                     true -> {
 
                         sharedPrefUtil.saveData(
-                            resources.getString(R.string.night_mode_key),
+                            getString(R.string.night_mode_key),
                             true
                         )
 
                         nightModeAndRecreate(MODE_NIGHT_YES)
 
-                        requireActivity().toast(R.string.night_mode_key_toast_on)
+                        toast(R.string.night_mode_key_toast_on)
 
                     }
                     else -> {
 
                         sharedPrefUtil.saveData(
-                            resources.getString(R.string.night_mode_key),
+                            getString(R.string.night_mode_key),
                             false
                         )
                         nightModeAndRecreate(MODE_NIGHT_NO)
 
-                        requireActivity().toast(R.string.night_mode_key_toast_off)
+                        toast(R.string.night_mode_key_toast_off)
                     }
                 }
+
             }
         }
 
@@ -176,10 +180,10 @@ class SettingsActivity : AppCompatActivity() {
             key: String?
         ) {
 
-            if (key == resources.getString(R.string.firebase_pref_key)) {
+            if (key == getString(R.string.firebase_pref_key)) {
 
                 preferences?.getBoolean(
-                    resources.getString(R.string.firebase_pref_key),
+                    getString(R.string.firebase_pref_key),
                     true
                 ).also {
 
@@ -187,11 +191,11 @@ class SettingsActivity : AppCompatActivity() {
                     when (it) {
                         true -> {
                             quakesNotification.subscribedToQuakes(true)
-                            requireActivity().toast(R.string.firebase_pref_key_alert_on)
+                            toast(R.string.firebase_pref_key_alert_on)
                         }
                         else -> {
                             quakesNotification.subscribedToQuakes(false)
-                            requireActivity().toast(R.string.firebase_pref_key_alert_off)
+                            toast(R.string.firebase_pref_key_alert_off)
                         }
                     }
                 }
