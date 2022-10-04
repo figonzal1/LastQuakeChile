@@ -14,10 +14,7 @@ import androidx.preference.PreferenceManager
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.services.*
 import cl.figonzal.lastquakechile.core.services.notifications.QuakesNotification
-import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
-import cl.figonzal.lastquakechile.core.utils.getFirebaseToken
-import cl.figonzal.lastquakechile.core.utils.handleShortcuts
-import cl.figonzal.lastquakechile.core.utils.loadImage
+import cl.figonzal.lastquakechile.core.utils.*
 import cl.figonzal.lastquakechile.databinding.ActivityMainBinding
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayout
@@ -82,13 +79,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpNotificationService(sharedPrefUtil: SharedPrefUtil) {
 
-        QuakesNotification(this, sharedPrefUtil).apply {
-            when {
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> createChannel()
-            }
-
-            subscribedToQuakes(true)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            QuakesNotification(this, sharedPrefUtil).createChannel()
         }
+
+        //Automatic subscribe
+        this@MainActivity.subscribedToQuakes(true, sharedPrefUtil)
     }
 
     private fun setToolbarViewPagerTabs() {

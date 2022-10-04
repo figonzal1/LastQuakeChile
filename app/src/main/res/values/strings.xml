@@ -40,7 +40,6 @@
     <string name="INTENT_ESTADO" translatable="false">estado</string>
 
     <!-- FIREBASE strings -->
-    <string name="firebase_channel_id_quakes" translatable="false">1</string>
     <string name="firebase_channel_name_quakes">Alerta sismos</string>
     <string name="firebase_channel_description_quakes">Recibe alertas de sismos sobre 5 grados</string>
     <string name="firebase_channel_status" translatable="false">channel_created</string>
@@ -134,6 +133,7 @@
     <string name="night_mode_pref_title_switch">Modo noche</string>
     <string name="night_mode_manual_pref_summary_on">Activado</string>
     <string name="night_mode_manual_pref_summary_off">Desactivado</string>
+    <string name="random_channel_key" translatable="false">random_channel_id</string>
 
     <string name="JAN">Enero</string>
     <string name="FEB">Febrero</string>
@@ -172,7 +172,8 @@
     <string name="NIGHT_MODE" translatable="false">NightMode</string>
     <string name="UPDATE_AVAILABLE" translatable="false">Update available</string>
     <string name="UPDATE_NOT_AVAILABLE" translatable="false">Update not available</string>
-    <string name="FIREBASE_CHANNEL_CREATED_MESSAGE" translatable="false">Notification channel created</string>
+    <string name="FIREBASE_CHANNEL_CREATED" translatable="false">Notification channel created</string>
+    <string name="FIREBASE_CHANNEL_DELETED" translatable="false">Notification channel deleted</string>
     <string name="TRY_INTENT_NOTIFICATION_1" translatable="false">Trying intent notification</string>
     <string name="FIREBASE_SUB_OK" translatable="false">Subscribed</string>
     <string name="FIREBASE_SUB_DELETE" translatable="false">Subscription deleted</string>
@@ -244,5 +245,8 @@
     <string name="quakes_pager_content_description">Pestaña sismos</string>
     <string name="map_pager_content_description">Pestaña mapa</string>
     <string name="reports_pager_content_description">Pestaña reportes</string>
+    <string name="high_priority_pref_key" translatable="false">high_priority_notifications</string>
+    <string name="high_priority_summary">Mostrar vista previa de notificaciones en la parte superior de la pantalla</string>
+    <string name="high_priority_title">Notificaciones de alta prioridad</string>
 
 </resources>

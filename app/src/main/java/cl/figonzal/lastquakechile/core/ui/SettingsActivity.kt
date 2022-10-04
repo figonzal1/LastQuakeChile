@@ -17,6 +17,7 @@ import cl.figonzal.lastquakechile.BuildConfig
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.services.notifications.QuakesNotification
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
+import cl.figonzal.lastquakechile.core.utils.subscribedToQuakes
 import cl.figonzal.lastquakechile.core.utils.toast
 import cl.figonzal.lastquakechile.databinding.SettingsActivityBinding
 import timber.log.Timber
@@ -70,7 +71,9 @@ class SettingsActivity : AppCompatActivity() {
             if (isAdded) {
                 handleChangesNightMode(preferences, key)
 
-                handleChangesNotificationSubscription(preferences, key)
+                handleChangesNotificationSub(preferences, key)
+
+                handleNotificationsPriority(preferences, key)
             }
         }
 
@@ -94,7 +97,6 @@ class SettingsActivity : AppCompatActivity() {
             preferenceScreen.sharedPreferences?.unregisterOnSharedPreferenceChangeListener(this)
         }
 
-
         private fun configVersionPreferences() {
             //VERSION
             findPreference<Preference>(getString(R.string.version_key)).apply {
@@ -112,10 +114,7 @@ class SettingsActivity : AppCompatActivity() {
                     when {
                         resolveActivity(requireActivity().packageManager) != null -> {
                             requireActivity().startActivity(
-                                createChooser(
-                                    this,
-                                    getString(R.string.email_chooser_title)
-                                )
+                                createChooser(this, getString(R.string.email_chooser_title))
                             )
                         }
                         else -> requireActivity().toast(R.string.email_intent_fail)
@@ -142,18 +141,12 @@ class SettingsActivity : AppCompatActivity() {
 
         private fun handleChangesNightMode(preferences: SharedPreferences?, key: String?) {
 
-            if (key.equals(getString(R.string.night_mode_key))) {
+            if (key == getString(R.string.night_mode_key)) {
 
-                when (preferences?.getBoolean(
-                    getString(R.string.night_mode_key),
-                    false
-                )) {
+                when (preferences?.getBoolean(getString(R.string.night_mode_key), false)) {
                     true -> {
 
-                        sharedPrefUtil.saveData(
-                            getString(R.string.night_mode_key),
-                            true
-                        )
+                        sharedPrefUtil.saveData(getString(R.string.night_mode_key), true)
 
                         nightModeAndRecreate(MODE_NIGHT_YES)
 
@@ -161,11 +154,8 @@ class SettingsActivity : AppCompatActivity() {
 
                     }
                     else -> {
+                        sharedPrefUtil.saveData(getString(R.string.night_mode_key), false)
 
-                        sharedPrefUtil.saveData(
-                            getString(R.string.night_mode_key),
-                            false
-                        )
                         nightModeAndRecreate(MODE_NIGHT_NO)
 
                         toast(R.string.night_mode_key_toast_off)
@@ -175,26 +165,20 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
-        private fun handleChangesNotificationSubscription(
-            preferences: SharedPreferences?,
-            key: String?
-        ) {
+        private fun handleChangesNotificationSub(preferences: SharedPreferences?, key: String?) {
 
             if (key == getString(R.string.firebase_pref_key)) {
 
-                preferences?.getBoolean(
-                    getString(R.string.firebase_pref_key),
-                    true
-                ).also {
+                preferences?.getBoolean(getString(R.string.firebase_pref_key), true).also {
 
                     //Si el switch esta ON, lanzar toast con SUSCRITO
                     when (it) {
                         true -> {
-                            quakesNotification.subscribedToQuakes(true)
+                            requireContext().subscribedToQuakes(true, sharedPrefUtil)
                             toast(R.string.firebase_pref_key_alert_on)
                         }
                         else -> {
-                            quakesNotification.subscribedToQuakes(false)
+                            requireContext().subscribedToQuakes(false, sharedPrefUtil)
                             toast(R.string.firebase_pref_key_alert_off)
                         }
                     }
@@ -202,6 +186,21 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
+        private fun handleNotificationsPriority(preferences: SharedPreferences?, key: String?) {
+
+            if (key == getString(R.string.high_priority_pref_key)) {
+
+                preferences?.getBoolean(getString(R.string.high_priority_pref_key), true)?.also {
+
+                    //Si el switch esta ON, lanzar toast con SUSCRITO
+                    sharedPrefUtil.saveData(getString(R.string.high_priority_pref_key), it)
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        quakesNotification.recreateChannel()
+                    }
+                }
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

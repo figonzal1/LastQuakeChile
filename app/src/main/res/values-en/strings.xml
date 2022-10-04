@@ -137,4 +137,6 @@
     <string name="quakes_pager_content_description">Quakes section</string>
     <string name="map_pager_content_description">Map section</string>
     <string name="reports_pager_content_description">Reports section</string>
+    <string name="high_priority_title">Use high priority notifications</string>
+    <string name="high_priority_summary">Show previews of notifications at the top of the screen</string>
 </resources>

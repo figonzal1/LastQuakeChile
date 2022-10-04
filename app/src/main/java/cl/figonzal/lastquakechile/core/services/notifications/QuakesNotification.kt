@@ -14,14 +14,14 @@ import cl.figonzal.lastquakechile.core.utils.*
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Coordinate
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeDetailsActivity
-import com.google.android.gms.tasks.Task
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.RemoteMessage
 import timber.log.Timber
 
 interface NotificationService {
     fun createChannel()
+    fun deleteChannel()
+    fun recreateChannel()
     fun handleQuakeNotification(remoteMessage: RemoteMessage)
 }
 
@@ -38,90 +38,60 @@ class QuakesNotification(
     @RequiresApi(api = Build.VERSION_CODES.O)
     override fun createChannel() {
 
+        val randomChannel = context.generateRandomChannelId(sharedPrefUtil)
+
         val name = context.getString(R.string.firebase_channel_name_quakes)
         val description = context.getString(R.string.firebase_channel_description_quakes)
 
-        val importance = NotificationManager.IMPORTANCE_HIGH
+        val highPriority = sharedPrefUtil.getData(
+            context.getString(R.string.high_priority_pref_key),
+            true
+        ) as Boolean
+
+        val importance = when {
+            highPriority -> NotificationManager.IMPORTANCE_HIGH
+            else -> NotificationManager.IMPORTANCE_DEFAULT
+        }
 
         context.getSystemService(NotificationManager::class.java).apply {
 
             createNotificationChannel(
                 NotificationChannel(
-                    context.getString(R.string.firebase_channel_id_quakes),
+                    randomChannel.toString(),
                     name,
                     importance
                 ).apply {
                     this.description = description
-                    this.importance = NotificationManager.IMPORTANCE_HIGH
+                    this.importance = importance
                     this.enableLights(true)
                     this.lightColor = R.color.colorSecondary
                 }
             )
         }
 
-
-        Timber.d(context.getString(R.string.FIREBASE_CHANNEL_CREATED_MESSAGE))
+        Timber.d(context.getString(R.string.FIREBASE_CHANNEL_CREATED))
         crashlytics.setCustomKey(context.getString(R.string.firebase_channel_status), true)
     }
 
-    /**
-     * Function that checks subscriptions to quake channels alerts
-     *
-     * @param isSubscribed
-     */
-    fun subscribedToQuakes(isSubscribed: Boolean) {
 
-        with(FirebaseMessaging.getInstance()) {
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun deleteChannel() {
 
-            when {
-                isSubscribed -> this.subscribeToTopic(context.getString(R.string.firebase_topic_name))
-                    .addOnCompleteListener { task: Task<Void?> ->
-                        when {
-                            task.isSuccessful -> {
+        val randomChannel =
+            sharedPrefUtil.getData(context.getString(R.string.random_channel_key), 1)
 
-                                with(true) {
-                                    sharedPrefUtil.saveData(
-                                        context.getString(R.string.firebase_pref_key),
-                                        this
-                                    )
-
-                                    Timber.d(context.getString(R.string.FIREBASE_SUB_OK))
-                                    crashlytics.setCustomKey(
-                                        context.getString(R.string.subsqribed_quake),
-                                        this
-                                    )
-                                }
-                            }
-                        }
-                    }
-                else -> this.unsubscribeFromTopic(context.getString(R.string.firebase_topic_name))
-                    .addOnCompleteListener { task: Task<Void> ->
-
-                        when {
-                            task.isSuccessful -> {
-
-                                with(false) {
-                                    sharedPrefUtil.saveData(
-                                        context.getString(R.string.firebase_pref_key),
-                                        this
-                                    )
-
-                                    Timber.d(context.getString(R.string.FIREBASE_SUB_DELETE))
-                                    crashlytics.setCustomKey(
-                                        context.getString(R.string.subsqribed_quake),
-                                        this
-                                    )
-                                }
-                            }
-                        }
-                    }
-                    .addOnFailureListener {
-                        Timber.d(
-                            context.getString(R.string.FIREBASE_SUB_ALREADY)
-                        )
-                    }
-            }
+        context.getSystemService(NotificationManager::class.java).apply {
+            deleteNotificationChannel(randomChannel.toString())
         }
+
+        Timber.d(context.getString(R.string.FIREBASE_CHANNEL_DELETED))
+        crashlytics.setCustomKey(context.getString(R.string.firebase_channel_status), false)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun recreateChannel() {
+        deleteChannel()
+        createChannel()
     }
 
     /**
@@ -191,7 +161,7 @@ class QuakesNotification(
                     PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                 )
             }?.also {
-                context.showNotification(title, description, quake, it)
+                showNotification(title, description, quake, it)
             }
 
             Timber.d(context.getString(R.string.TRY_INTENT_NOTIFICATION_1))
@@ -199,6 +169,54 @@ class QuakesNotification(
         }
     }
 
+    private fun showNotification(
+        title: String,
+        description: String,
+        quake: Quake,
+        pendingIntent: PendingIntent
+    ) {
+
+        val highPriority = sharedPrefUtil.getData(
+            context.getString(R.string.high_priority_pref_key),
+            true
+        ) as Boolean
+
+        val randomChannel =
+            sharedPrefUtil.getData(context.getString(R.string.random_channel_key), 1) as Int
+
+        Timber.d("high_priority_notifications: $highPriority")
+        crashlytics.setCustomKey(context.getString(R.string.high_priority_pref_key), highPriority)
+
+        Builder(
+            context,
+            randomChannel.toString()
+        ).setSmallIcon(R.drawable.ic_lastquakechile_400)
+            .setContentTitle(title)
+            .setContentText(description)
+            .setStyle(BigTextStyle().bigText(description))
+            .setPriority(
+                when (highPriority) {
+                    true -> PRIORITY_MAX
+                    else -> PRIORITY_DEFAULT
+                }
+            )
+            .setAutoCancel(true)
+            .setVisibility(VISIBILITY_PUBLIC)
+            .setContentIntent(pendingIntent)
+            .addAction(
+                R.drawable.ic_quakes_24dp,
+                context.getString(R.string.view_quake_notification_button),
+                pendingIntent
+            )
+            .run {
+
+                //Notify
+                (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(
+                    quake.quakeCode,
+                    build()
+                )
+            }
+    }
 
     /**
      * Show notification function from FCM (Generic)
@@ -207,9 +225,12 @@ class QuakesNotification(
      */
     fun handleNotificationGeneric(remoteMessage: RemoteMessage) {
 
+        val randomChannel =
+            sharedPrefUtil.getData(context.getString(R.string.random_channel_key), 1) as Int
+
         Builder(
             context,
-            context.getString(R.string.firebase_channel_id_quakes)
+            randomChannel.toString()
         ).setContentTitle(remoteMessage.notification?.title)
             .setContentText(remoteMessage.notification?.body)
             .setStyle(BigTextStyle().bigText(remoteMessage.notification?.body))
@@ -218,7 +239,7 @@ class QuakesNotification(
             .setVisibility(VISIBILITY_PUBLIC)
             .also {
                 (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(
-                    context.getString(R.string.firebase_channel_id_quakes).toInt(),
+                    randomChannel,
                     it.build()
                 )
             }
