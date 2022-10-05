@@ -139,4 +139,5 @@
     <string name="reports_pager_content_description">Reports section</string>
     <string name="high_priority_title">Use high priority notifications</string>
     <string name="high_priority_summary">Show previews of notifications at the top of the screen</string>
+    <string name="preliminary_pref_title">Preliminary quakes alerts</string>
 </resources>

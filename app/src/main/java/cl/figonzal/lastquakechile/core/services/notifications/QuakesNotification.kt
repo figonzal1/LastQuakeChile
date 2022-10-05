@@ -187,6 +187,12 @@ class QuakesNotification(
         Timber.d("high_priority_notifications: $highPriority")
         crashlytics.setCustomKey(context.getString(R.string.high_priority_pref_key), highPriority)
 
+        val preliminaryNotifications: Boolean =
+            sharedPrefUtil.getData(
+                context.getString(R.string.quake_preliminary_pref),
+                true
+            ) as Boolean
+
         Builder(
             context,
             randomChannel.toString()
@@ -210,11 +216,13 @@ class QuakesNotification(
             )
             .run {
 
-                //Notify
-                (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(
-                    quake.quakeCode,
-                    build()
-                )
+                if (quake.isVerified || preliminaryNotifications) {
+                    //Notify
+                    (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(
+                        quake.quakeCode,
+                        build()
+                    )
+                }
             }
     }
 

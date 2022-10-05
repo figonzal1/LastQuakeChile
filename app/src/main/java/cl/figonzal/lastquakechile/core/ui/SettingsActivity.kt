@@ -74,6 +74,8 @@ class SettingsActivity : AppCompatActivity() {
                 handleChangesNotificationSub(preferences, key)
 
                 handleNotificationsPriority(preferences, key)
+
+                handlePreliminaryNotifications(preferences, key)
             }
         }
 
@@ -198,6 +200,17 @@ class SettingsActivity : AppCompatActivity() {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         quakesNotification.recreateChannel()
                     }
+                }
+            }
+        }
+
+        private fun handlePreliminaryNotifications(preferences: SharedPreferences?, key: String?) {
+
+            if (key == getString(R.string.quake_preliminary_pref)) {
+
+                preferences?.getBoolean(getString(R.string.quake_preliminary_pref), true)?.also {
+                    //Si el switch esta ON, lanzar toast con SUSCRITO
+                    sharedPrefUtil.saveData(getString(R.string.quake_preliminary_pref), it)
                 }
             }
         }

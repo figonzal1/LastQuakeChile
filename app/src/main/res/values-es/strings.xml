@@ -139,4 +139,5 @@
     <string name="reports_pager_content_description">Pestaña reportes</string>
     <string name="high_priority_summary">Mostrar vista previa de notificaciones en la parte superior de la pantalla</string>
     <string name="high_priority_title">Notificaciones de alta prioridad</string>
+    <string name="preliminary_pref_title">Alertas sismos preliminares</string>
 </resources>

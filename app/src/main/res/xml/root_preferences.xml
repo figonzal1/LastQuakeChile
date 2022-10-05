@@ -1,4 +1,5 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     app:key="preferenceScreen">
 
@@ -15,6 +16,15 @@
             app:summaryOff="@string/alert_pref_summary_off"
             app:summaryOn="@string/alert_pref_summary_on"
             app:title="@string/alert_pref_title_switch"
+            app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreferenceCompat
+            android:key="@string/quake_preliminary_pref"
+            app:defaultValue="true"
+            app:iconSpaceReserved="true"
+            app:summaryOff="@string/alert_pref_summary_off"
+            app:summaryOn="@string/alert_pref_summary_on"
+            app:title="@string/preliminary_pref_title"
             app:useSimpleSummaryProvider="true" />
 
         <SwitchPreferenceCompat
