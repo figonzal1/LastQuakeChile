@@ -137,7 +137,7 @@
     <string name="quakes_pager_content_description">Pestaña sismos</string>
     <string name="map_pager_content_description">Pestaña mapa</string>
     <string name="reports_pager_content_description">Pestaña reportes</string>
-    <string name="high_priority_summary">Mostrar vista previa de notificaciones en la parte superior de la pantalla</string>
-    <string name="high_priority_title">Notificaciones de alta prioridad</string>
-    <string name="preliminary_pref_title">Alertas sismos preliminares</string>
+    <string name="high_priority_summary">Mostrar vista previa de alertas en la parte superior de la pantalla</string>
+    <string name="high_priority_title">Alertas de alta prioridad</string>
+    <string name="preliminary_pref_title">Alertas de sismos preliminares</string>
 </resources>
