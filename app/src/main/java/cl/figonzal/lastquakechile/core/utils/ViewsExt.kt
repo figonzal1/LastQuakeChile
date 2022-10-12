@@ -33,6 +33,7 @@ import java.io.IOException
 import java.util.*
 import kotlin.math.floor
 
+
 fun Fragment.configOptionsMenu(
     @MenuRes menuId: Int = R.menu.menu_main,
     fragmentIndex: Int = 0,
@@ -71,6 +72,13 @@ fun Fragment.configOptionsMenu(
 
             //Settings called in all fragments
             when (menuItem.itemId) {
+                R.id.status_menu -> {
+                    startActivity(
+                        Intent(
+                            Intent.ACTION_VIEW, Uri.parse(getString(R.string.CRONITOR_STATUS))
+                        )
+                    )
+                }
                 R.id.settings_menu -> {
                     Intent(requireActivity(), SettingsActivity::class.java).apply {
                         startActivity(this)

@@ -5,6 +5,7 @@
 
     <string name="ROOM_DB_NAME" translatable="false">lqch_database</string>
     <string name="DEEP_LINK" translatable="false">https://lastquakechile.page.link/lqch</string>
+    <string name="CRONITOR_STATUS" translatable="false">https://lqch.cronitorstatus.com/</string>
 
     <!-- TOOLBAR Menu STRINGS -->
     <string name="settings">Configuración</string>
@@ -250,5 +251,6 @@
     <string name="high_priority_title">Alertas de alta prioridad</string>
     <string name="quake_preliminary_pref" translatable="false">quake_preliminary_pref</string>
     <string name="preliminary_pref_title">Alertas de sismos preliminares</string>
+    <string name="service_status">Estado del servicio</string>
 
 </resources>
