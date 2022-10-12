@@ -73,11 +73,13 @@ fun Fragment.configOptionsMenu(
             //Settings called in all fragments
             when (menuItem.itemId) {
                 R.id.status_menu -> {
-                    startActivity(
-                        Intent(
-                            Intent.ACTION_VIEW, Uri.parse(getString(R.string.CRONITOR_STATUS))
-                        )
-                    )
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse(getString(R.string.CRONITOR_STATUS))
+                    ).apply {
+                        startActivity(this)
+                    }
+
                 }
                 R.id.settings_menu -> {
                     Intent(requireActivity(), SettingsActivity::class.java).apply {
