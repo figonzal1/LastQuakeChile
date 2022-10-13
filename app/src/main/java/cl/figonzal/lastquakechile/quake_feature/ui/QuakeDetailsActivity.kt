@@ -2,6 +2,7 @@ package cl.figonzal.lastquakechile.quake_feature.ui
 
 import android.animation.IntEvaluator
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
@@ -9,9 +10,10 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.ImageView
+import android.widget.RatingBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatRatingBar
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
@@ -20,7 +22,9 @@ import cl.figonzal.lastquakechile.core.ui.dialog.MapTerrainDialogFragment
 import cl.figonzal.lastquakechile.core.utils.*
 import cl.figonzal.lastquakechile.databinding.ActivityQuakeDetailsBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
-import com.appodeal.ads.*
+import com.google.android.gms.ads.*
+import com.google.android.gms.ads.nativead.NativeAd
+import com.google.android.gms.ads.nativead.NativeAdView
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -36,7 +40,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
     private var circleAnimator2: ValueAnimator? = null
     private var circleAnimator: ValueAnimator? = null
 
-    private var nativeAdView: NativeAdView? = null
+    private var currentNativeAd: NativeAd? = null
 
     private var googleMap: GoogleMap? = null
 
@@ -55,85 +59,9 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
             getMapAsync(this@QuakeDetailsActivity)
         }
 
-        loadNativeAd()
+        refreshAd()
 
         bindingResources()
-    }
-
-    private fun loadNativeAd() {
-
-        Appodeal.setRequiredNativeMediaAssetType(Native.MediaAssetType.ALL)
-        Appodeal.setNativeAdType(Native.NativeAdType.NoVideo)
-        Appodeal.cache(this, Appodeal.NATIVE, 3)
-        Appodeal.setNativeCallbacks(object : NativeCallbacks {
-            override fun onNativeLoaded() {
-                Timber.d("Native was loaded")
-                showNativeAd()
-            }
-
-            override fun onNativeFailedToLoad() {
-                Timber.d("Native failed to load")
-            }
-
-            override fun onNativeClicked(nativeAd: NativeAd?) {
-                Timber.d("Native was clicked")
-            }
-
-            override fun onNativeShowFailed(nativeAd: NativeAd?) {
-                Timber.d("Native failed to show")
-            }
-
-            override fun onNativeShown(nativeAd: NativeAd?) {
-                Timber.d("Native was shown")
-            }
-
-            override fun onNativeExpired() {
-                Timber.d("Native was expired")
-            }
-        })
-    }
-
-    private fun showNativeAd() {
-
-        val adNativeAdList = Appodeal.getNativeAds(1)
-
-        if (adNativeAdList.isNotEmpty()) {
-
-            val nativeAd = adNativeAdList.first()
-
-            nativeAdView = binding.admobTemplate.root
-
-            //Setters
-            nativeAdView?.setNativeIconView(binding.admobTemplate.adAppIcon)
-            nativeAdView?.titleView = binding.admobTemplate.adTitle
-            nativeAdView?.ratingView = binding.admobTemplate.adRatingBar
-            nativeAdView?.descriptionView = binding.admobTemplate.adBody
-
-            //Complete with data
-            (nativeAdView?.titleView as TextView).text = nativeAd.title
-
-            nativeAdView?.ratingView?.visibility = when (nativeAd.rating) {
-                0f -> View.INVISIBLE
-                else -> {
-                    (nativeAdView?.ratingView as AppCompatRatingBar).rating = nativeAd.rating
-                    View.VISIBLE
-                }
-            }
-
-            nativeAdView?.descriptionView?.visibility = when (nativeAd.description) {
-                null -> View.INVISIBLE
-                else -> {
-                    (nativeAdView?.descriptionView as TextView).text = nativeAd.description
-                    View.VISIBLE
-                }
-            }
-
-            nativeAdView?.unregisterViewForInteraction()
-            nativeAdView?.registerView(nativeAd)
-            nativeAdView?.visibility = View.VISIBLE
-            binding.cvNativeAd.visibility = View.VISIBLE
-        }
-
     }
 
     private fun bindingResources() {
@@ -148,6 +76,109 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
         quake = intent.extras?.get(getString(R.string.INTENT_QUAKE)) as Quake
 
         setTextViews()
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun refreshAd() {
+        AdLoader.Builder(this, getString(R.string.ADMOB_ID_NATIVE_DETAILS))
+            .forNativeAd { nativeAd ->
+
+                if (isDestroyed || isFinishing || isChangingConfigurations) {
+                    nativeAd.destroy()
+                    return@forNativeAd
+                }
+
+                currentNativeAd?.destroy()
+                currentNativeAd = nativeAd
+
+                val adView =
+                    layoutInflater.inflate(
+                        R.layout.ad_small_template,
+                        binding.root,
+                        false
+                    ) as NativeAdView
+
+                populateNativeAdView(nativeAd, adView)
+
+                binding.admobTemplate.root.apply {
+                    removeAllViews()
+                    addView(adView)
+                }
+            }
+            .withAdListener(object : AdListener() {
+
+                override fun onAdLoaded() {
+                    hideAdBanner(false)
+                    Timber.d("Native loaded successfully")
+                }
+
+                override fun onAdFailedToLoad(p0: LoadAdError) {
+                    hideAdBanner(true)
+                    Timber.e("Native failed to load $p0")
+                }
+
+            })
+            .build().loadAd(AdRequest.Builder().build())
+    }
+
+    private fun populateNativeAdView(nativeAd: NativeAd, adView: NativeAdView) {
+
+        with(adView) {
+
+            iconView = findViewById<ImageView>(R.id.ad_app_icon)
+            headlineView = findViewById<TextView>(R.id.ad_title)
+            starRatingView = findViewById<RatingBar>(R.id.ad_rating_bar)
+            bodyView = findViewById<TextView>(R.id.ad_body)
+
+            //Asset guaranteed
+            (headlineView as TextView).text = nativeAd.headline
+
+            //app icon
+            iconView?.visibility = when (nativeAd.icon) {
+                null -> View.INVISIBLE
+                else -> {
+                    (iconView as ImageView).setImageDrawable(nativeAd.icon?.drawable)
+                    View.VISIBLE
+                }
+            }
+
+            //body text
+            bodyView?.visibility = when (nativeAd.body) {
+                null -> View.INVISIBLE
+                else -> {
+                    (bodyView as TextView).text = nativeAd.body
+                    View.VISIBLE
+                }
+            }
+
+            //start rating
+            starRatingView?.visibility = when (nativeAd.starRating) {
+                null -> {
+                    View.INVISIBLE
+                }
+                else -> {
+                    nativeAd.starRating?.let {
+                        (starRatingView as RatingBar).rating = it.toFloat()
+                    }
+                    View.VISIBLE
+                }
+            }
+
+            //End population ad
+            setNativeAd(nativeAd)
+        }
+
+
+        val vc = nativeAd.mediaContent?.videoController
+
+        when {
+            vc?.hasVideoContent() == true -> vc.videoLifecycleCallbacks =
+                object : VideoController.VideoLifecycleCallbacks() {
+                }
+            else -> {
+                //refreshAd()
+            }
+        }
     }
 
     private fun setTextViews() {
@@ -286,6 +317,18 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
+    private fun hideAdBanner(hide: Boolean) {
+        binding.cvNativeAd.visibility = when (hide) {
+            true -> View.GONE
+            false -> View.VISIBLE
+        }
+
+        binding.admobTemplate.root.visibility = when (hide) {
+            true -> View.GONE
+            false -> View.VISIBLE
+        }
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
@@ -320,11 +363,10 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onDestroy() {
         super.onDestroy()
         binding.includeMapview.mapView.onDestroy()
+        currentNativeAd?.destroy()
 
         circleAnimator?.cancel()
         circleAnimator2?.cancel()
-
-        nativeAdView?.destroy()
     }
 
     override fun onLowMemory() {

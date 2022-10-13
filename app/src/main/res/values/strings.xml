@@ -7,6 +7,16 @@
     <string name="DEEP_LINK" translatable="false">https://lastquakechile.page.link/lqch</string>
     <string name="CRONITOR_STATUS" translatable="false">https://lqch.cronitorstatus.com/</string>
 
+    <!-- PROD AD-->
+    <!--<string name="ADMOB_ID_BANNER" translatable="false">ca-app-pub-6355378855577476/5493893896</string>
+    <string name="ADMOB_ID_NATIVE_FRAGMENT" translatable="false">ca-app-pub-6355378855577476/2611250693</string>
+    <string name="ADMOB_ID_NATIVE_DETAILS" translatable="false">ca-app-pub-6355378855577476/2723765487</string>
+-->
+    <!--TEST AD-->
+    <string name="ADMOB_ID_BANNER" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="ADMOB_ID_NATIVE_FRAGMENT" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="ADMOB_ID_NATIVE_DETAILS" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
+
     <!-- TOOLBAR Menu STRINGS -->
     <string name="settings">Configuración</string>
 

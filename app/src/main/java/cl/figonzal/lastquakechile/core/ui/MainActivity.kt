@@ -6,16 +6,21 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.preference.PreferenceManager
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.services.*
+import cl.figonzal.lastquakechile.core.services.ChangeLogService
+import cl.figonzal.lastquakechile.core.services.GooglePlayService
+import cl.figonzal.lastquakechile.core.services.NightModeService
+import cl.figonzal.lastquakechile.core.services.UpdaterService
 import cl.figonzal.lastquakechile.core.services.notifications.QuakesNotification
 import cl.figonzal.lastquakechile.core.utils.*
 import cl.figonzal.lastquakechile.databinding.ActivityMainBinding
+import com.google.android.gms.ads.AdView
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
@@ -27,6 +32,7 @@ import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
 
+    private var adView: AdView? = null
     private var updaterService: UpdaterService? = null
     private lateinit var binding: ActivityMainBinding
 
@@ -63,8 +69,8 @@ class MainActivity : AppCompatActivity() {
         //Firebase services
         getFirebaseToken()
 
-        //Appodeal ads
-        AppoDealService.setUpSdk(this)
+        //Ads
+        adView = startAds(binding.adViewContainer)
 
         //Updater service
         updaterService = UpdaterService(this, AppUpdateManagerFactory.create(this))
@@ -120,7 +126,7 @@ class MainActivity : AppCompatActivity() {
                 when (position) {
                     0 -> {
                         tab.setIcon(R.drawable.ic_round_campaign_24)
-                        AppoDealService.hideBanner(this@MainActivity)
+                        hideAdBanner(true)
                         tab.contentDescription = getString(R.string.ad_pager_content_description)
                     }
                     1 -> {
@@ -146,8 +152,8 @@ class MainActivity : AppCompatActivity() {
                 override fun onTabSelected(tab: TabLayout.Tab) {
 
                     when (tab.position) {
-                        0 -> AppoDealService.hideBanner(this@MainActivity)
-                        else -> AppoDealService.showBanner(this@MainActivity, R.id.appodeal_banner)
+                        0 -> hideAdBanner(true)
+                        else -> hideAdBanner(false)
                     }
 
                     when {
@@ -178,6 +184,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun hideAdBanner(hide: Boolean) {
+        binding.adViewContainer.visibility = when (hide) {
+            true -> View.GONE
+            false -> View.VISIBLE
+        }
+    }
+
     @Deprecated("Deprecated in Java")
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         @Suppress("DEPRECATION")
@@ -194,6 +207,19 @@ class MainActivity : AppCompatActivity() {
     /** Called when returning to the activity  */
     public override fun onResume() {
         super.onResume()
+        adView?.resume()
         updaterService?.resumeUpdater()
+    }
+
+    /** Called when leaving the activity  */
+    public override fun onPause() {
+        super.onPause()
+        adView?.pause()
+    }
+
+    /** Called before the activity is destroyed  */
+    public override fun onDestroy() {
+        super.onDestroy()
+        adView?.destroy()
     }
 }
