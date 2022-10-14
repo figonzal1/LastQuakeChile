@@ -37,7 +37,7 @@
     <string name="alert_pref_title">Notifications</string>
     <string name="alert_pref_title_switch">Quake alerts</string>
     <string name="alert_pref_summary_on">Enabled</string>
-    <string name="alert_pref_summary">Receive quakes notifications of +5.0 degrees</string>
+    <string name="alert_pref_summary">Receive quakes notifications</string>
     <string name="night_mode_manual_pref_summary_off">Disabled</string>
     <string name="night_mode_manual_pref_summary_on">Enabled</string>
     <string name="night_mode_pref_title_switch">Night mode</string>
@@ -87,7 +87,6 @@
     <string name="http_error">Oops, something went wrong!</string>
     <string name="io_error">Check your internet connection</string>
     <string name="icon_ad_app">Icon ad app</string>
-    <string name="version_key">version</string>
     <string name="about_msg">LastQuakeChile, allows you to quickly view the latest earthquakes in Chile</string>
     <string name="contact_developer">Contact developer</string>
     <string name="contact_summary">Suggestions? Problems?</string>
@@ -137,4 +136,13 @@
     <string name="quakes_pager_content_description">Quakes section</string>
     <string name="map_pager_content_description">Map section</string>
     <string name="reports_pager_content_description">Reports section</string>
+    <string name="high_priority_title">Use high priority notifications</string>
+    <string name="high_priority_summary">Show previews of notifications at the top of the screen</string>
+    <string name="preliminary_pref_title">Preliminary quakes alerts</string>
+    <string name="service_status">Service status</string>
+    <string name="minimum_magnitude_title">Minimum magnitude alert</string>
+    <string name="min_magnitude_dialog_title">Minimum magnitude</string>
+    <string name="min_magnitude_dialog_message">Earthquakes greater than ...   Example: 5.6, 3.5, 2.9, etc</string>
+    <string name="improvement_1">- New notification system: preliminary earthquake alerts, alerts with customizable magnitudes and high priority alerts (See configs section)</string>
+    <string name="improvement_2">- Stability improvements</string>
 </resources>

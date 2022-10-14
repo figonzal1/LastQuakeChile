@@ -1,4 +1,5 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     app:key="preferenceScreen">
 
@@ -16,6 +17,30 @@
             app:summaryOn="@string/alert_pref_summary_on"
             app:title="@string/alert_pref_title_switch"
             app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreferenceCompat
+            android:key="@string/quake_preliminary_key"
+            app:defaultValue="true"
+            app:iconSpaceReserved="true"
+            app:summaryOff="@string/alert_pref_summary_off"
+            app:summaryOn="@string/alert_pref_summary_on"
+            app:title="@string/preliminary_pref_title"
+            app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:iconSpaceReserved="true"
+            app:key="@string/high_priority_key"
+            app:summary="@string/high_priority_summary"
+            app:title="@string/high_priority_title" />
+
+        <EditTextPreference
+            app:defaultValue="5.0"
+            app:dialogMessage="@string/min_magnitude_dialog_message"
+            app:dialogTitle="@string/min_magnitude_dialog_title"
+            app:iconSpaceReserved="true"
+            app:key="@string/minimum_magnitude_key"
+            app:title="@string/minimum_magnitude_title" />
 
     </PreferenceCategory>
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.appodeal.ads.NativeAdView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.gms.ads.nativead.NativeAdView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -23,12 +23,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.appodeal.ads.NativeIconView
+        <ImageView
             android:id="@+id/ad_app_icon"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:contentDescription="@string/icon_ad_app"
-            android:src="@drawable/ic_quakes_shortcut"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -62,7 +61,7 @@
             app:layout_constraintTop_toBottomOf="@+id/ad_title" />
 
 
-        <com.appodeal.ads.NativeMediaView
+        <com.google.android.gms.ads.nativead.MediaView
             android:id="@+id/ad_media"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -126,4 +125,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</com.appodeal.ads.NativeAdView>
+</com.google.android.gms.ads.nativead.NativeAdView>

@@ -5,6 +5,17 @@
 
     <string name="ROOM_DB_NAME" translatable="false">lqch_database</string>
     <string name="DEEP_LINK" translatable="false">https://lastquakechile.page.link/lqch</string>
+    <string name="CRONITOR_STATUS" translatable="false">https://lqch.cronitorstatus.com/</string>
+
+    <!-- PROD AD-->
+    <string name="ADMOB_ID_BANNER" translatable="false">ca-app-pub-6355378855577476/5493893896</string>
+    <string name="ADMOB_ID_NATIVE_FRAGMENT" translatable="false">ca-app-pub-6355378855577476/2611250693</string>
+    <string name="ADMOB_ID_NATIVE_DETAILS" translatable="false">ca-app-pub-6355378855577476/2723765487</string>
+
+    <!--TEST AD-->
+    <!--<string name="ADMOB_ID_BANNER" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="ADMOB_ID_NATIVE_FRAGMENT" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="ADMOB_ID_NATIVE_DETAILS" translatable="false">ca-app-pub-3940256099942544/2247696110</string>-->
 
     <!-- TOOLBAR Menu STRINGS -->
     <string name="settings">Configuración</string>
@@ -40,7 +51,6 @@
     <string name="INTENT_ESTADO" translatable="false">estado</string>
 
     <!-- FIREBASE strings -->
-    <string name="firebase_channel_id_quakes" translatable="false">1</string>
     <string name="firebase_channel_name_quakes">Alerta sismos</string>
     <string name="firebase_channel_description_quakes">Recibe alertas de sismos sobre 5 grados</string>
     <string name="firebase_channel_status" translatable="false">channel_created</string>
@@ -49,9 +59,10 @@
     <string name="try_intent_notification" translatable="false">TRY_INTENT_NOTIFICATION</string>
     <string name="firebase_pref_key" translatable="false">pref_suscrito_quake</string>
     <string name="subsqribed_quake" translatable="false">subscribed_quake</string>
-    <string name="firebase_topic_name" translatable="false">Quakes</string>
+    <string name="firebase_topic_name" translatable="false">quakes_v2</string>
     <string name="firebase_pref_key_alert_on">Alertas activadas</string>
     <string name="firebase_pref_key_alert_off">Alertas desactivadas</string>
+
 
     <!-- Strings para calculo de tiempo -->
     <string name="utils_time_day" translatable="false">days</string>
@@ -64,6 +75,11 @@
     <string name="shared_pref_actual_version_code" translatable="false">actual_v_code</string>
     <string name="night_mode_category_key" translatable="false">nigh_mode_pref_category</string>
     <string name="shared_report_cache" translatable="false">reports_cache_entry</string>
+    <string name="high_priority_key" translatable="false">high_priority_notifications</string>
+    <string name="quake_preliminary_key" translatable="false">quake_preliminary</string>
+    <string name="version_key" translatable="false">version</string>
+    <string name="contact_key" translatable="false">contact_email</string>
+    <string name="minimum_magnitude_key" translatable="false">minimum_magnitude</string>
 
     <!-- KEY INTENT -->
 
@@ -117,7 +133,7 @@
     <string name="m_xima_magnitud">Máxima magnitud</string>
     <string name="m_nima_profundidad">Mínima profundidad</string>
     <string name="top_ciudades_con_m_s_sismos">Top ciudades con más sismos</string>
-    <string name="alert_pref_summary">Recibe notificaciones de sismos de +5.0 grados</string>
+    <string name="alert_pref_summary">Recibe notificaciones de sismos</string>
     <string name="alert_pref_title">Notificaciones</string>
     <string name="alert_pref_title_switch">Alertas de sismos</string>
     <string name="alert_pref_summary_on">Activadas</string>
@@ -134,6 +150,7 @@
     <string name="night_mode_pref_title_switch">Modo noche</string>
     <string name="night_mode_manual_pref_summary_on">Activado</string>
     <string name="night_mode_manual_pref_summary_off">Desactivado</string>
+    <string name="random_channel_key" translatable="false">random_channel_id</string>
 
     <string name="JAN">Enero</string>
     <string name="FEB">Febrero</string>
@@ -172,7 +189,8 @@
     <string name="NIGHT_MODE" translatable="false">NightMode</string>
     <string name="UPDATE_AVAILABLE" translatable="false">Update available</string>
     <string name="UPDATE_NOT_AVAILABLE" translatable="false">Update not available</string>
-    <string name="FIREBASE_CHANNEL_CREATED_MESSAGE" translatable="false">Notification channel created</string>
+    <string name="FIREBASE_CHANNEL_CREATED" translatable="false">Notification channel created</string>
+    <string name="FIREBASE_CHANNEL_DELETED" translatable="false">Notification channel deleted</string>
     <string name="TRY_INTENT_NOTIFICATION_1" translatable="false">Trying intent notification</string>
     <string name="FIREBASE_SUB_OK" translatable="false">Subscribed</string>
     <string name="FIREBASE_SUB_DELETE" translatable="false">Subscription deleted</string>
@@ -201,8 +219,6 @@
     <string name="UPDATE_MANAGER_FAILED" translatable="false">onResume updater manager failed</string>
     <string name="GOOGLE_MAP_ERROR_SNAPSHOT" translatable="false">Error screenshot map: %s</string>
     <string name="about_msg">LastQuakeChile, te permite visualizar rápidamente los últimos sismos ocurridos en Chile</string>
-    <string name="version_key">versión</string>
-    <string name="contact_key" translatable="false">contact_email</string>
     <string name="contact_developer">Contacto desarrollador</string>
     <string name="contact_summary">¿Sugerencias? ¿Problemas?</string>
     <string name="about">Acerca</string>
@@ -244,5 +260,14 @@
     <string name="quakes_pager_content_description">Pestaña sismos</string>
     <string name="map_pager_content_description">Pestaña mapa</string>
     <string name="reports_pager_content_description">Pestaña reportes</string>
+    <string name="high_priority_summary">Mostrar vista previa de alertas en la parte superior de la pantalla</string>
+    <string name="high_priority_title">Alertas de alta prioridad</string>
+    <string name="preliminary_pref_title">Alertas de sismos preliminares</string>
+    <string name="service_status">Estado del servicio</string>
+    <string name="minimum_magnitude_title">Magnitud mínima alerta</string>
+    <string name="min_magnitude_dialog_title">Magnitud minima</string>
+    <string name="min_magnitude_dialog_message">Sismos mayores que … \nEjemplo: 5.6, 3.5, 2.9, etc.</string>
+    <string name="improvement_1">- Nuevo sistema de notificaciones: alertas de sismos preliminares, alertas con magnitudes personalizables y alertas de alta prioridad. (Véase sección configuraciones)</string>
+    <string name="improvement_2">- Mejoras de estabilidad de sistema</string>
 
 </resources>

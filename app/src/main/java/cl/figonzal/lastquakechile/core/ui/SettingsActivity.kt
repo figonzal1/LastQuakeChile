@@ -6,10 +6,12 @@ import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.os.Build
 import android.os.Bundle
+import android.text.InputType
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate.*
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
@@ -17,6 +19,7 @@ import cl.figonzal.lastquakechile.BuildConfig
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.services.notifications.QuakesNotification
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
+import cl.figonzal.lastquakechile.core.utils.subscribedToQuakes
 import cl.figonzal.lastquakechile.core.utils.toast
 import cl.figonzal.lastquakechile.databinding.SettingsActivityBinding
 import timber.log.Timber
@@ -35,7 +38,7 @@ class SettingsActivity : AppCompatActivity() {
 
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.settings_menu, SettingsFragment())
+            .replace(R.id.settings_container, SettingsFragment())
             .commit()
 
         supportActionBar?.apply {
@@ -46,29 +49,40 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     //Settings Fragment
-    class SettingsFragment : PreferenceFragmentCompat(),
-        OnSharedPreferenceChangeListener {
+    class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeListener {
 
         private val sharedPrefUtil: SharedPrefUtil by lazy {
-            SharedPrefUtil(requireContext())
+            SharedPrefUtil(requireActivity())
         }
         private val quakesNotification by lazy {
-            QuakesNotification(requireContext(), sharedPrefUtil)
+            QuakesNotification(requireActivity(), sharedPrefUtil)
         }
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
 
-            configVersionPreferences()
+            if (isAdded) {
+                configVersionPreferences()
 
-            configNightMode()
+                configNightMode()
+
+                configMinimumMagnitude()
+            }
         }
 
         override fun onSharedPreferenceChanged(preferences: SharedPreferences?, key: String?) {
 
-            handleChangesNightMode(preferences, key)
+            if (isAdded) {
+                handleChangesNightMode(preferences, key)
 
-            handleChangesNotificationSubscription(preferences, key)
+                handleChangesNotificationSub(preferences, key)
+
+                handleNotificationsPriority(preferences, key)
+
+                handlePreliminaryNotifications(preferences, key)
+
+                handleMinimumMagnitude(preferences, key)
+            }
         }
 
         private fun nightModeAndRecreate(mode: Int) {
@@ -91,7 +105,6 @@ class SettingsActivity : AppCompatActivity() {
             preferenceScreen.sharedPreferences?.unregisterOnSharedPreferenceChangeListener(this)
         }
 
-
         private fun configVersionPreferences() {
             //VERSION
             findPreference<Preference>(getString(R.string.version_key)).apply {
@@ -109,10 +122,7 @@ class SettingsActivity : AppCompatActivity() {
                     when {
                         resolveActivity(requireActivity().packageManager) != null -> {
                             requireActivity().startActivity(
-                                createChooser(
-                                    this,
-                                    getString(R.string.email_chooser_title)
-                                )
+                                createChooser(this, getString(R.string.email_chooser_title))
                             )
                         }
                         else -> requireActivity().toast(R.string.email_intent_fail)
@@ -137,67 +147,111 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
-        private fun handleChangesNightMode(preferences: SharedPreferences?, key: String?) {
+        private fun configMinimumMagnitude() {
 
-            if (key.equals(resources.getString(R.string.night_mode_key))) {
+            findPreference<EditTextPreference>(getString(R.string.minimum_magnitude_key))?.apply {
+                val value =
+                    sharedPrefUtil.getData(getString(R.string.minimum_magnitude_key), "5.0")
+                summary = String.format(">=%s", value)
 
-                when (preferences?.getBoolean(
-                    resources.getString(R.string.night_mode_key),
-                    false
-                )) {
-                    true -> {
-
-                        sharedPrefUtil.saveData(
-                            resources.getString(R.string.night_mode_key),
-                            true
-                        )
-
-                        nightModeAndRecreate(MODE_NIGHT_YES)
-
-                        requireActivity().toast(R.string.night_mode_key_toast_on)
-
-                    }
-                    else -> {
-
-                        sharedPrefUtil.saveData(
-                            resources.getString(R.string.night_mode_key),
-                            false
-                        )
-                        nightModeAndRecreate(MODE_NIGHT_NO)
-
-                        requireActivity().toast(R.string.night_mode_key_toast_off)
-                    }
+                setOnBindEditTextListener {
+                    it.inputType =
+                        InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
                 }
             }
         }
 
-        private fun handleChangesNotificationSubscription(
-            preferences: SharedPreferences?,
-            key: String?
-        ) {
+        private fun handleChangesNightMode(preferences: SharedPreferences?, key: String?) {
 
-            if (key == resources.getString(R.string.firebase_pref_key)) {
+            if (key == getString(R.string.night_mode_key)) {
 
-                preferences?.getBoolean(
-                    resources.getString(R.string.firebase_pref_key),
-                    true
-                ).also {
+                when (preferences?.getBoolean(getString(R.string.night_mode_key), false)) {
+                    true -> {
+
+                        sharedPrefUtil.saveData(getString(R.string.night_mode_key), true)
+
+                        nightModeAndRecreate(MODE_NIGHT_YES)
+
+                        toast(R.string.night_mode_key_toast_on)
+
+                    }
+                    else -> {
+                        sharedPrefUtil.saveData(getString(R.string.night_mode_key), false)
+
+                        nightModeAndRecreate(MODE_NIGHT_NO)
+
+                        toast(R.string.night_mode_key_toast_off)
+                    }
+                }
+
+            }
+        }
+
+        private fun handleChangesNotificationSub(preferences: SharedPreferences?, key: String?) {
+
+            if (key == getString(R.string.firebase_pref_key)) {
+
+                preferences?.getBoolean(getString(R.string.firebase_pref_key), true).also {
 
                     //Si el switch esta ON, lanzar toast con SUSCRITO
                     when (it) {
                         true -> {
-                            quakesNotification.subscribedToQuakes(true)
-                            requireActivity().toast(R.string.firebase_pref_key_alert_on)
+                            requireContext().subscribedToQuakes(true, sharedPrefUtil)
+                            toast(R.string.firebase_pref_key_alert_on)
                         }
                         else -> {
-                            quakesNotification.subscribedToQuakes(false)
-                            requireActivity().toast(R.string.firebase_pref_key_alert_off)
+                            requireContext().subscribedToQuakes(false, sharedPrefUtil)
+                            toast(R.string.firebase_pref_key_alert_off)
                         }
                     }
                 }
             }
         }
 
+        private fun handleNotificationsPriority(preferences: SharedPreferences?, key: String?) {
+
+            if (key == getString(R.string.high_priority_key)) {
+
+                preferences?.getBoolean(getString(R.string.high_priority_key), true)?.also {
+
+                    //Si el switch esta ON, lanzar toast con SUSCRITO
+                    sharedPrefUtil.saveData(getString(R.string.high_priority_key), it)
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        quakesNotification.recreateChannel()
+                    }
+                }
+            }
+        }
+
+        private fun handlePreliminaryNotifications(preferences: SharedPreferences?, key: String?) {
+
+            if (key == getString(R.string.quake_preliminary_key)) {
+
+                preferences?.getBoolean(getString(R.string.quake_preliminary_key), true)?.also {
+                    //Si el switch esta ON, lanzar toast con SUSCRITO
+                    sharedPrefUtil.saveData(getString(R.string.quake_preliminary_key), it)
+                }
+            }
+        }
+
+        private fun handleMinimumMagnitude(preferences: SharedPreferences?, key: String?) {
+
+            if (key == getString(R.string.minimum_magnitude_key)) {
+                val commandPreference = findPreference<Preference>(key)
+
+                val minimumValueSaved = preferences?.getString(
+                    getString(R.string.minimum_magnitude_key), "5.0"
+                )
+
+                commandPreference?.summary =
+                    String.format(">=%s", minimumValueSaved)
+
+                minimumValueSaved?.let {
+                    sharedPrefUtil.saveData(getString(R.string.minimum_magnitude_key), it)
+                }
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -37,7 +37,7 @@
     <string name="alert_pref_summary_on">Activadas</string>
     <string name="alert_pref_title">Notificaciones</string>
     <string name="alert_pref_title_switch">Alertas de sismos</string>
-    <string name="alert_pref_summary">Recibe notificaciones de sismos de +5.0 grados</string>
+    <string name="alert_pref_summary">Recibe notificaciones de sismos</string>
     <string name="night_mode_manual_pref_summary_off">Desactivado</string>
     <string name="night_mode_manual_pref_summary_on">Activado</string>
     <string name="night_mode_pref_title_switch">Modo noche</string>
@@ -87,7 +87,6 @@
     <string name="http_error">Ups, algo funcionó mal!</string>
     <string name="io_error">Revisa tu conexión a Internet</string>
     <string name="icon_ad_app">Icono publicidad aplicación</string>
-    <string name="version_key">versión</string>
     <string name="about_msg">LastQuakeChile, te permite visualizar rápidamente los últimos sismos ocurridos en Chile</string>
     <string name="contact_developer">Contacto desarrollador</string>
     <string name="contact_summary">¿Sugerencias? ¿Problemas?</string>
@@ -137,4 +136,13 @@
     <string name="quakes_pager_content_description">Pestaña sismos</string>
     <string name="map_pager_content_description">Pestaña mapa</string>
     <string name="reports_pager_content_description">Pestaña reportes</string>
+    <string name="high_priority_summary">Mostrar vista previa de alertas en la parte superior de la pantalla</string>
+    <string name="high_priority_title">Alertas de alta prioridad</string>
+    <string name="preliminary_pref_title">Alertas de sismos preliminares</string>
+    <string name="service_status">Estado del servicio</string>
+    <string name="minimum_magnitude_title">Magnitud mínima alerta</string>
+    <string name="min_magnitude_dialog_title">Magnitud mínima</string>
+    <string name="min_magnitude_dialog_message">Sismos mayores que … \nEjemplo: 5.6, 3.5, 2.9, etc.</string>
+    <string name="improvement_1">- Nuevo sistema de notificaciones: alertas de sismos preliminares, alertas con magnitudes personalizables y alertas de alta prioridad. (Véase sección configuraciones)</string>
+    <string name="improvement_2">- Mejoras de estabilidad de sistema</string>
 </resources>

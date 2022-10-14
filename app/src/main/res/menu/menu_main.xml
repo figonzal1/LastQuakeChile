@@ -18,8 +18,14 @@
         app:showAsAction="ifRoom|collapseActionView" />
 
     <item
-        android:id="@+id/settings_menu"
+        android:id="@+id/status_menu"
         android:orderInCategory="3"
+        android:title="@string/service_status"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/settings_menu"
+        android:orderInCategory="4"
         android:title="@string/settings"
         app:showAsAction="never" />
 

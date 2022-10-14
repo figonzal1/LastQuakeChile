@@ -37,8 +37,8 @@ android {
         applicationId = "cl.figonzal.lastquakechile"
         minSdk = 23
         targetSdk = 32
-        versionCode = 38
-        versionName = "1.7.1"
+        versionCode = 40
+        versionName = "1.7.2"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         with(gradleLocalProperties(rootDir)) {
@@ -47,11 +47,11 @@ android {
             buildConfigField("String", "MAPS_API_KEY", getProperty("MAPS_API_KEY"))
 
             //APPO DEAL KEY
-            buildConfigField("String", "APPO_DEAL_KEY", getProperty("APPO_DEAL_KEY"))
+            //buildConfigField("String", "APPO_DEAL_KEY", getProperty("APPO_DEAL_KEY"))
 
             //META API KEYS
-            buildConfigField("String", "FB_APP_ID", getProperty("FB_APP_ID"))
-            buildConfigField("String", "FB_CLIENT_ID", getProperty("FB_CLIENT_ID"))
+            //buildConfigField("String", "FB_APP_ID", getProperty("FB_APP_ID"))
+            //buildConfigField("String", "FB_CLIENT_ID", getProperty("FB_CLIENT_ID"))
 
             //ADMOB MASTER KEY
             buildConfigField("String", "ADMOB_MASTER_KEY", getProperty("ADMOB_MASTER_KEY"))
@@ -142,10 +142,11 @@ dependencies {
     implementation("io.insert-koin:koin-android:3.2.0")
 
     //Appodeal
-    implementation("com.appodeal.ads:sdk:3.0.0.4")
+    //implementation("com.appodeal.ads:sdk:3.0.0.4")
 
     //Google Play
     implementation("com.google.android.play:app-update-ktx:2.0.0")
+    implementation("com.google.android.gms:play-services-ads:21.3.0")
 
     //Google Maps
     // KTX for the Maps SDK for Android

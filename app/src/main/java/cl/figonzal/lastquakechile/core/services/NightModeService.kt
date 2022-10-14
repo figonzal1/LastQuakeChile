@@ -32,17 +32,13 @@ class NightModeService(
 
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 
-                Timber.d(
-                    activity.getString(R.string.NIGHT_MODE) + ": ON"
-                )
+                Timber.d(activity.getString(R.string.NIGHT_MODE) + ": ON")
             }
 
             else -> {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
-                Timber.d(
-                    activity.getString(R.string.NIGHT_MODE) + ": OFF"
-                )
+                Timber.d(activity.getString(R.string.NIGHT_MODE) + ": OFF")
             }
         }
     }

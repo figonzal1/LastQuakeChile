@@ -11,16 +11,15 @@
         layout="@layout/toolbar_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        ads:layout_constraintBottom_toTopOf="@+id/appodeal_banner"
+        ads:layout_constraintBottom_toTopOf="@+id/ad_view_container"
         ads:layout_constraintEnd_toEndOf="parent"
         ads:layout_constraintStart_toStartOf="parent"
         ads:layout_constraintTop_toTopOf="parent" />
 
-    <com.appodeal.ads.BannerView
-        android:id="@+id/appodeal_banner"
+    <FrameLayout
+        android:id="@+id/ad_view_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         ads:layout_constraintBottom_toBottomOf="parent"
         ads:layout_constraintEnd_toEndOf="parent"
         ads:layout_constraintStart_toStartOf="parent" />
