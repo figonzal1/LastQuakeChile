@@ -70,23 +70,6 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
-        private fun configMinimumMagnitude() {
-
-            if (isAdded) {
-
-                findPreference<EditTextPreference>(getString(R.string.minimum_magnitude_key))?.apply {
-                    val value =
-                        sharedPrefUtil.getData(getString(R.string.minimum_magnitude_key), "5.0")
-                    summary = String.format(">=%s", value)
-
-                    setOnBindEditTextListener {
-                        it.inputType =
-                            InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
-                    }
-                }
-            }
-        }
-
         override fun onSharedPreferenceChanged(preferences: SharedPreferences?, key: String?) {
 
             if (isAdded) {
@@ -99,24 +82,6 @@ class SettingsActivity : AppCompatActivity() {
                 handlePreliminaryNotifications(preferences, key)
 
                 handleMinimumMagnitude(preferences, key)
-            }
-        }
-
-        private fun handleMinimumMagnitude(preferences: SharedPreferences?, key: String?) {
-
-            if (key == getString(R.string.minimum_magnitude_key)) {
-                val commandPreference = findPreference<Preference>(key)
-
-                val minimumValueSaved = preferences?.getString(
-                    getString(R.string.minimum_magnitude_key), "5.0"
-                )
-
-                commandPreference?.summary =
-                    String.format(">=%s", minimumValueSaved)
-
-                minimumValueSaved?.let {
-                    sharedPrefUtil.saveData(getString(R.string.minimum_magnitude_key), it)
-                }
             }
         }
 
@@ -179,6 +144,20 @@ class SettingsActivity : AppCompatActivity() {
                     nightModePrefCategory?.isVisible = true
                 }
                 else -> Timber.d(getString(R.string.HIDE_NIGHT_MODE))
+            }
+        }
+
+        private fun configMinimumMagnitude() {
+
+            findPreference<EditTextPreference>(getString(R.string.minimum_magnitude_key))?.apply {
+                val value =
+                    sharedPrefUtil.getData(getString(R.string.minimum_magnitude_key), "5.0")
+                summary = String.format(">=%s", value)
+
+                setOnBindEditTextListener {
+                    it.inputType =
+                        InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
+                }
             }
         }
 
@@ -252,6 +231,24 @@ class SettingsActivity : AppCompatActivity() {
                 preferences?.getBoolean(getString(R.string.quake_preliminary_key), true)?.also {
                     //Si el switch esta ON, lanzar toast con SUSCRITO
                     sharedPrefUtil.saveData(getString(R.string.quake_preliminary_key), it)
+                }
+            }
+        }
+
+        private fun handleMinimumMagnitude(preferences: SharedPreferences?, key: String?) {
+
+            if (key == getString(R.string.minimum_magnitude_key)) {
+                val commandPreference = findPreference<Preference>(key)
+
+                val minimumValueSaved = preferences?.getString(
+                    getString(R.string.minimum_magnitude_key), "5.0"
+                )
+
+                commandPreference?.summary =
+                    String.format(">=%s", minimumValueSaved)
+
+                minimumValueSaved?.let {
+                    sharedPrefUtil.saveData(getString(R.string.minimum_magnitude_key), it)
                 }
             }
         }

@@ -37,7 +37,7 @@
     <string name="alert_pref_title">Notifications</string>
     <string name="alert_pref_title_switch">Quake alerts</string>
     <string name="alert_pref_summary_on">Enabled</string>
-    <string name="alert_pref_summary">Receive quakes notifications of +5.0 degrees</string>
+    <string name="alert_pref_summary">Receive quakes notifications</string>
     <string name="night_mode_manual_pref_summary_off">Disabled</string>
     <string name="night_mode_manual_pref_summary_on">Enabled</string>
     <string name="night_mode_pref_title_switch">Night mode</string>

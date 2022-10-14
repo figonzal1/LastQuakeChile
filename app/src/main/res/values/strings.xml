@@ -8,14 +8,14 @@
     <string name="CRONITOR_STATUS" translatable="false">https://lqch.cronitorstatus.com/</string>
 
     <!-- PROD AD-->
-    <!--<string name="ADMOB_ID_BANNER" translatable="false">ca-app-pub-6355378855577476/5493893896</string>
+    <string name="ADMOB_ID_BANNER" translatable="false">ca-app-pub-6355378855577476/5493893896</string>
     <string name="ADMOB_ID_NATIVE_FRAGMENT" translatable="false">ca-app-pub-6355378855577476/2611250693</string>
     <string name="ADMOB_ID_NATIVE_DETAILS" translatable="false">ca-app-pub-6355378855577476/2723765487</string>
--->
+
     <!--TEST AD-->
-    <string name="ADMOB_ID_BANNER" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <!--<string name="ADMOB_ID_BANNER" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
     <string name="ADMOB_ID_NATIVE_FRAGMENT" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
-    <string name="ADMOB_ID_NATIVE_DETAILS" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="ADMOB_ID_NATIVE_DETAILS" translatable="false">ca-app-pub-3940256099942544/2247696110</string>-->
 
     <!-- TOOLBAR Menu STRINGS -->
     <string name="settings">Configuración</string>
@@ -59,7 +59,7 @@
     <string name="try_intent_notification" translatable="false">TRY_INTENT_NOTIFICATION</string>
     <string name="firebase_pref_key" translatable="false">pref_suscrito_quake</string>
     <string name="subsqribed_quake" translatable="false">subscribed_quake</string>
-    <string name="firebase_topic_name" translatable="false">Quakes</string>
+    <string name="firebase_topic_name" translatable="false">quakes_v2</string>
     <string name="firebase_pref_key_alert_on">Alertas activadas</string>
     <string name="firebase_pref_key_alert_off">Alertas desactivadas</string>
 
@@ -133,7 +133,7 @@
     <string name="m_xima_magnitud">Máxima magnitud</string>
     <string name="m_nima_profundidad">Mínima profundidad</string>
     <string name="top_ciudades_con_m_s_sismos">Top ciudades con más sismos</string>
-    <string name="alert_pref_summary">Recibe notificaciones de sismos de +5.0 grados</string>
+    <string name="alert_pref_summary">Recibe notificaciones de sismos</string>
     <string name="alert_pref_title">Notificaciones</string>
     <string name="alert_pref_title_switch">Alertas de sismos</string>
     <string name="alert_pref_summary_on">Activadas</string>

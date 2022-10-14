@@ -37,8 +37,8 @@ android {
         applicationId = "cl.figonzal.lastquakechile"
         minSdk = 23
         targetSdk = 32
-        versionCode = 38
-        versionName = "1.7.1"
+        versionCode = 39
+        versionName = "1.7.2"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         with(gradleLocalProperties(rootDir)) {

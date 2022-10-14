@@ -37,7 +37,7 @@
     <string name="alert_pref_summary_on">Activadas</string>
     <string name="alert_pref_title">Notificaciones</string>
     <string name="alert_pref_title_switch">Alertas de sismos</string>
-    <string name="alert_pref_summary">Recibe notificaciones de sismos de +5.0 grados</string>
+    <string name="alert_pref_summary">Recibe notificaciones de sismos</string>
     <string name="night_mode_manual_pref_summary_off">Desactivado</string>
     <string name="night_mode_manual_pref_summary_on">Activado</string>
     <string name="night_mode_pref_title_switch">Modo noche</string>
