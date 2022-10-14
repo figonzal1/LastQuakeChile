@@ -143,4 +143,6 @@
     <string name="minimum_magnitude_title">Minimum magnitude alert</string>
     <string name="min_magnitude_dialog_title">Minimum magnitude</string>
     <string name="min_magnitude_dialog_message">Earthquakes greater than ...   Example: 5.6, 3.5, 2.9, etc</string>
+    <string name="improvement_1">- New notification system: preliminary earthquake alerts, alerts with customizable magnitudes and high priority alerts (See configs section)</string>
+    <string name="improvement_2">- Stability improvements</string>
 </resources>

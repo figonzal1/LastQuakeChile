@@ -20,8 +20,8 @@ class ChangeLogService(
     private var versionCode: Int = BuildConfig.VERSION_CODE
     private val version = context.getString(R.string.version) + BuildConfig.VERSION_NAME
     private val listImprovements = listOf(
-        "- Nuevo sistema de notificaciones: alertas de sismos preliminares, alertas con magnitudes personalizables y alertas de alta prioridad",
-        "- Mejoras de estabilidad de sistema"
+        context.getString(R.string.improvement_1),
+        context.getString(R.string.improvement_2)
     )
 
     override fun onCreate(owner: LifecycleOwner) {

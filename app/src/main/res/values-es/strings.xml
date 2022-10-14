@@ -143,4 +143,6 @@
     <string name="minimum_magnitude_title">Magnitud mínima alerta</string>
     <string name="min_magnitude_dialog_title">Magnitud mínima</string>
     <string name="min_magnitude_dialog_message">Sismos mayores que … \nEjemplo: 5.6, 3.5, 2.9, etc.</string>
+    <string name="improvement_1">- Nuevo sistema de notificaciones: alertas de sismos preliminares, alertas con magnitudes personalizables y alertas de alta prioridad. (Véase sección configuraciones)</string>
+    <string name="improvement_2">- Mejoras de estabilidad de sistema</string>
 </resources>
