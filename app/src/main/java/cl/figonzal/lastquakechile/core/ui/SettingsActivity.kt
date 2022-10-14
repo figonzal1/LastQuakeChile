@@ -6,10 +6,12 @@ import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.os.Build
 import android.os.Bundle
+import android.text.InputType
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate.*
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
@@ -63,6 +65,25 @@ class SettingsActivity : AppCompatActivity() {
                 configVersionPreferences()
 
                 configNightMode()
+
+                configMinimumMagnitude()
+            }
+        }
+
+        private fun configMinimumMagnitude() {
+
+            if (isAdded) {
+
+                findPreference<EditTextPreference>(getString(R.string.minimum_magnitude_key))?.apply {
+                    val value =
+                        sharedPrefUtil.getData(getString(R.string.minimum_magnitude_key), "5.0")
+                    summary = String.format(">=%s", value)
+
+                    setOnBindEditTextListener {
+                        it.inputType =
+                            InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
+                    }
+                }
             }
         }
 
@@ -76,6 +97,26 @@ class SettingsActivity : AppCompatActivity() {
                 handleNotificationsPriority(preferences, key)
 
                 handlePreliminaryNotifications(preferences, key)
+
+                handleMinimumMagnitude(preferences, key)
+            }
+        }
+
+        private fun handleMinimumMagnitude(preferences: SharedPreferences?, key: String?) {
+
+            if (key == getString(R.string.minimum_magnitude_key)) {
+                val commandPreference = findPreference<Preference>(key)
+
+                val minimumValueSaved = preferences?.getString(
+                    getString(R.string.minimum_magnitude_key), "5.0"
+                )
+
+                commandPreference?.summary =
+                    String.format(">=%s", minimumValueSaved)
+
+                minimumValueSaved?.let {
+                    sharedPrefUtil.saveData(getString(R.string.minimum_magnitude_key), it)
+                }
             }
         }
 
@@ -190,12 +231,12 @@ class SettingsActivity : AppCompatActivity() {
 
         private fun handleNotificationsPriority(preferences: SharedPreferences?, key: String?) {
 
-            if (key == getString(R.string.high_priority_pref_key)) {
+            if (key == getString(R.string.high_priority_key)) {
 
-                preferences?.getBoolean(getString(R.string.high_priority_pref_key), true)?.also {
+                preferences?.getBoolean(getString(R.string.high_priority_key), true)?.also {
 
                     //Si el switch esta ON, lanzar toast con SUSCRITO
-                    sharedPrefUtil.saveData(getString(R.string.high_priority_pref_key), it)
+                    sharedPrefUtil.saveData(getString(R.string.high_priority_key), it)
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         quakesNotification.recreateChannel()
@@ -206,11 +247,11 @@ class SettingsActivity : AppCompatActivity() {
 
         private fun handlePreliminaryNotifications(preferences: SharedPreferences?, key: String?) {
 
-            if (key == getString(R.string.quake_preliminary_pref)) {
+            if (key == getString(R.string.quake_preliminary_key)) {
 
-                preferences?.getBoolean(getString(R.string.quake_preliminary_pref), true)?.also {
+                preferences?.getBoolean(getString(R.string.quake_preliminary_key), true)?.also {
                     //Si el switch esta ON, lanzar toast con SUSCRITO
-                    sharedPrefUtil.saveData(getString(R.string.quake_preliminary_pref), it)
+                    sharedPrefUtil.saveData(getString(R.string.quake_preliminary_key), it)
                 }
             }
         }

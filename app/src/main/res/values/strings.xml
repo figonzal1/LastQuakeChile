@@ -63,6 +63,7 @@
     <string name="firebase_pref_key_alert_on">Alertas activadas</string>
     <string name="firebase_pref_key_alert_off">Alertas desactivadas</string>
 
+
     <!-- Strings para calculo de tiempo -->
     <string name="utils_time_day" translatable="false">days</string>
     <string name="utils_time_hour" translatable="false">hours</string>
@@ -74,6 +75,11 @@
     <string name="shared_pref_actual_version_code" translatable="false">actual_v_code</string>
     <string name="night_mode_category_key" translatable="false">nigh_mode_pref_category</string>
     <string name="shared_report_cache" translatable="false">reports_cache_entry</string>
+    <string name="high_priority_key" translatable="false">high_priority_notifications</string>
+    <string name="quake_preliminary_key" translatable="false">quake_preliminary</string>
+    <string name="version_key" translatable="false">version</string>
+    <string name="contact_key" translatable="false">contact_email</string>
+    <string name="minimum_magnitude_key" translatable="false">minimum_magnitude</string>
 
     <!-- KEY INTENT -->
 
@@ -213,8 +219,6 @@
     <string name="UPDATE_MANAGER_FAILED" translatable="false">onResume updater manager failed</string>
     <string name="GOOGLE_MAP_ERROR_SNAPSHOT" translatable="false">Error screenshot map: %s</string>
     <string name="about_msg">LastQuakeChile, te permite visualizar rápidamente los últimos sismos ocurridos en Chile</string>
-    <string name="version_key">versión</string>
-    <string name="contact_key" translatable="false">contact_email</string>
     <string name="contact_developer">Contacto desarrollador</string>
     <string name="contact_summary">¿Sugerencias? ¿Problemas?</string>
     <string name="about">Acerca</string>
@@ -256,11 +260,12 @@
     <string name="quakes_pager_content_description">Pestaña sismos</string>
     <string name="map_pager_content_description">Pestaña mapa</string>
     <string name="reports_pager_content_description">Pestaña reportes</string>
-    <string name="high_priority_pref_key" translatable="false">high_priority_notifications</string>
     <string name="high_priority_summary">Mostrar vista previa de alertas en la parte superior de la pantalla</string>
     <string name="high_priority_title">Alertas de alta prioridad</string>
-    <string name="quake_preliminary_pref" translatable="false">quake_preliminary_pref</string>
     <string name="preliminary_pref_title">Alertas de sismos preliminares</string>
     <string name="service_status">Estado del servicio</string>
+    <string name="minimum_magnitude_title">Magnitud mínima alerta</string>
+    <string name="min_magnitude_dialog_title">Magnitud minima</string>
+    <string name="min_magnitude_dialog_message">Sismos mayores que … \nEjemplo: 5.6, 3.5, 2.9, etc.</string>
 
 </resources>

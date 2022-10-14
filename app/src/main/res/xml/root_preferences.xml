@@ -19,7 +19,7 @@
             app:useSimpleSummaryProvider="true" />
 
         <SwitchPreferenceCompat
-            android:key="@string/quake_preliminary_pref"
+            android:key="@string/quake_preliminary_key"
             app:defaultValue="true"
             app:iconSpaceReserved="true"
             app:summaryOff="@string/alert_pref_summary_off"
@@ -30,9 +30,17 @@
         <SwitchPreferenceCompat
             app:defaultValue="true"
             app:iconSpaceReserved="true"
-            app:key="@string/high_priority_pref_key"
+            app:key="@string/high_priority_key"
             app:summary="@string/high_priority_summary"
             app:title="@string/high_priority_title" />
+
+        <EditTextPreference
+            app:defaultValue="5.0"
+            app:dialogMessage="@string/min_magnitude_dialog_message"
+            app:dialogTitle="@string/min_magnitude_dialog_title"
+            app:iconSpaceReserved="true"
+            app:key="@string/minimum_magnitude_key"
+            app:title="@string/minimum_magnitude_title" />
 
     </PreferenceCategory>
 

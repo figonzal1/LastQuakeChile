@@ -87,7 +87,6 @@
     <string name="http_error">Ups, algo funcionó mal!</string>
     <string name="io_error">Revisa tu conexión a Internet</string>
     <string name="icon_ad_app">Icono publicidad aplicación</string>
-    <string name="version_key">versión</string>
     <string name="about_msg">LastQuakeChile, te permite visualizar rápidamente los últimos sismos ocurridos en Chile</string>
     <string name="contact_developer">Contacto desarrollador</string>
     <string name="contact_summary">¿Sugerencias? ¿Problemas?</string>
@@ -141,4 +140,7 @@
     <string name="high_priority_title">Alertas de alta prioridad</string>
     <string name="preliminary_pref_title">Alertas de sismos preliminares</string>
     <string name="service_status">Estado del servicio</string>
+    <string name="minimum_magnitude_title">Magnitud mínima alerta</string>
+    <string name="min_magnitude_dialog_title">Magnitud mínima</string>
+    <string name="min_magnitude_dialog_message">Sismos mayores que … \nEjemplo: 5.6, 3.5, 2.9, etc.</string>
 </resources>

@@ -44,7 +44,7 @@ class QuakesNotification(
         val description = context.getString(R.string.firebase_channel_description_quakes)
 
         val highPriority = sharedPrefUtil.getData(
-            context.getString(R.string.high_priority_pref_key),
+            context.getString(R.string.high_priority_key),
             true
         ) as Boolean
 
@@ -177,7 +177,7 @@ class QuakesNotification(
     ) {
 
         val highPriority = sharedPrefUtil.getData(
-            context.getString(R.string.high_priority_pref_key),
+            context.getString(R.string.high_priority_key),
             true
         ) as Boolean
 
@@ -185,13 +185,28 @@ class QuakesNotification(
             sharedPrefUtil.getData(context.getString(R.string.random_channel_key), 1) as Int
 
         Timber.d("high_priority_notifications: $highPriority")
-        crashlytics.setCustomKey(context.getString(R.string.high_priority_pref_key), highPriority)
+        crashlytics.setCustomKey(context.getString(R.string.high_priority_key), highPriority)
 
         val preliminaryNotifications: Boolean =
             sharedPrefUtil.getData(
-                context.getString(R.string.quake_preliminary_pref),
+                context.getString(R.string.quake_preliminary_key),
                 true
             ) as Boolean
+
+        Timber.d("preliminary_notifications: $preliminaryNotifications")
+        crashlytics.setCustomKey(
+            context.getString(R.string.quake_preliminary_key),
+            preliminaryNotifications
+        )
+
+        val magnitude: String =
+            sharedPrefUtil.getData(
+                context.getString(R.string.minimum_magnitude_key),
+                "5.0"
+            ).toString()
+
+        Timber.d("minimum_magnitude: $magnitude")
+        crashlytics.setCustomKey(context.getString(R.string.minimum_magnitude_key), magnitude)
 
         Builder(
             context,
@@ -217,11 +232,13 @@ class QuakesNotification(
             .run {
 
                 if (quake.isVerified || preliminaryNotifications) {
+
+                    if (quake.magnitude >= magnitude.toDouble())
                     //Notify
-                    (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(
-                        quake.quakeCode,
-                        build()
-                    )
+                        (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(
+                            quake.quakeCode,
+                            build()
+                        )
                 }
             }
     }
