@@ -199,14 +199,14 @@ class QuakesNotification(
             preliminaryNotifications
         )
 
-        val magnitude: String =
+        val minMagnitude: String =
             sharedPrefUtil.getData(
                 context.getString(R.string.minimum_magnitude_key),
                 "5.0"
             ).toString()
 
-        Timber.d("minimum_magnitude: $magnitude")
-        crashlytics.setCustomKey(context.getString(R.string.minimum_magnitude_key), magnitude)
+        Timber.d("minimum_magnitude: ${minMagnitude.toDouble()}")
+        crashlytics.setCustomKey(context.getString(R.string.minimum_magnitude_key), minMagnitude)
 
         Builder(
             context,
@@ -231,14 +231,11 @@ class QuakesNotification(
             )
             .run {
 
-                if (quake.isVerified || preliminaryNotifications) {
-
-                    if (quake.magnitude >= magnitude.toDouble())
-                    //Notify
-                        (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(
-                            quake.quakeCode,
-                            build()
-                        )
+                if (quake.greatherThan(minMagnitude) && (quake.isVerified || preliminaryNotifications)) {
+                    (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(
+                        quake.quakeCode,
+                        build()
+                    )
                 }
             }
     }
@@ -302,4 +299,6 @@ class QuakesNotification(
             )
         }
     }
+
+    private fun Quake.greatherThan(minMagnitude: String) = magnitude >= minMagnitude.toDouble()
 }

@@ -29,7 +29,6 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        maven(url = "https://artifactory.appodeal.com/appodeal")
     }
 }
 
