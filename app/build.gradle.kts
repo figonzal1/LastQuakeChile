@@ -107,19 +107,20 @@ android {
             dimension = "version"
         }
     }
+    namespace = "cl.figonzal.lastquakechile"
 }
 
 dependencies {
 
     implementation(fileTree("libs") { include(listOf("*.jar")) })
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.7.10")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.7.20")
     implementation("androidx.core:core-ktx:1.8.0")
-    implementation("androidx.appcompat:appcompat:1.4.2")
+    implementation("androidx.appcompat:appcompat:1.5.1")
 
     implementation("androidx.recyclerview:recyclerview:1.2.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
-    implementation("androidx.fragment:fragment-ktx:1.5.1")
+    implementation("androidx.fragment:fragment-ktx:1.5.3")
     implementation("androidx.activity:activity-ktx:1.5.1")
 
     implementation("com.google.android.material:material:1.6.1")//Material design
@@ -150,7 +151,7 @@ dependencies {
 
     //Google Maps
     // KTX for the Maps SDK for Android
-    implementation("com.google.maps.android:maps-ktx:3.2.1")
+    implementation("com.google.maps.android:maps-ktx:3.3.0")
     implementation("com.google.android.gms:play-services-maps:18.1.0")
 
     implementation("androidx.preference:preference-ktx:1.2.0") //preference
@@ -173,10 +174,9 @@ dependencies {
     kapt("com.squareup.moshi:moshi-kotlin-codegen:1.13.0")
 
     //Firebase BOM
-    implementation(platform("com.google.firebase:firebase-bom:30.3.0"))
+    implementation(platform("com.google.firebase:firebase-bom:31.0.0"))
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-crashlytics-ktx")
-    implementation("com.google.firebase:firebase-dynamic-links")
     implementation("com.google.firebase:firebase-messaging-ktx")
     implementation("com.google.firebase:firebase-perf-ktx")
 
@@ -211,7 +211,7 @@ dependencies {
     androidTestImplementation("io.insert-koin:koin-test-junit4:3.2.0")
 
     //Debug dependencies
-    debugImplementation("androidx.fragment:fragment-testing:1.5.1")
+    debugImplementation("androidx.fragment:fragment-testing:1.5.3")
     debugImplementation("com.squareup.leakcanary:leakcanary-android:2.9.1")
 
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
