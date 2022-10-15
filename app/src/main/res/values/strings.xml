@@ -49,10 +49,11 @@
     <string name="INTENT_SENSIBLE" translatable="false">sensible</string>
     <string name="INTENT_QUAKE_CODE" translatable="false">imagen_url</string>
     <string name="INTENT_ESTADO" translatable="false">estado</string>
+    <string name="INTENT_IS_UPDATE" translatable="false">is_update</string>
 
     <!-- FIREBASE strings -->
     <string name="firebase_channel_name_quakes">Alerta sismos</string>
-    <string name="firebase_channel_description_quakes">Recibe alertas de sismos sobre 5 grados</string>
+    <string name="firebase_channel_description_quakes">Recibe alertas de sismos</string>
     <string name="firebase_channel_status" translatable="false">channel_created</string>
     <string name="firebase_msg_data_status" translatable="false">data_message_received</string>
     <string name="firebase_msg_notification_status" translatable="false">notification_message_received</string>

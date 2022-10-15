@@ -14,7 +14,7 @@
     <string name="quake_details_magnitud_momento">Magnitud Momento (Mw)</string>
     <string name="icono_sensible">Icono sismo sensible</string>
     <string name="firebase_channel_name_quakes">Alerta sismos</string>
-    <string name="firebase_channel_description_quakes">Recibe alertas de sismos sobre 5 grados</string>
+    <string name="firebase_channel_description_quakes">Recibe alertas de sismos</string>
     <string name="coordenadas_oeste">O</string>
     <string name="coordenadas_este">E</string>
     <string name="seccion_listado_de_sismos">Sección listado de sismos</string>

@@ -14,7 +14,7 @@
     <string name="quake_details_magnitud_momento">Moment magnitude (Mw)</string>
     <string name="icono_sensible">Sensitive quake icon</string>
     <string name="firebase_channel_name_quakes">Quake alerts</string>
-    <string name="firebase_channel_description_quakes">Receives quake alerts above 5 degrees</string>
+    <string name="firebase_channel_description_quakes">Receives quake alerts</string>
     <string name="coordenadas_oeste">W</string>
     <string name="coordenadas_este">E</string>
     <string name="seccion_listado_de_sismos">List of quakes section</string>
@@ -142,7 +142,7 @@
     <string name="service_status">Service status</string>
     <string name="minimum_magnitude_title">Minimum magnitude alert</string>
     <string name="min_magnitude_dialog_title">Minimum magnitude</string>
-    <string name="min_magnitude_dialog_message">Earthquakes greater than ...   Example: 5.6, 3.5, 2.9, etc</string>
+    <string name="min_magnitude_dialog_message">Earthquakes greater than … \nExample: 5.6, 3.5, 2.9, etc</string>
     <string name="improvement_1">- New notification system: preliminary earthquake alerts, alerts with customizable magnitudes and high priority alerts (See configs section)</string>
     <string name="improvement_2">- Stability improvements</string>
 </resources>

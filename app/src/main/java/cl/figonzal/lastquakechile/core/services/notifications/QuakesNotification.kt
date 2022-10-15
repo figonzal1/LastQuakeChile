@@ -107,6 +107,8 @@ class QuakesNotification(
             var title: String?
             val description: String?
 
+            val isUpdate = this.getValue(context.getString(R.string.INTENT_IS_UPDATE)).toBoolean()
+
             val quake: Quake = handleFcmData(this)
 
             when {
@@ -118,17 +120,6 @@ class QuakesNotification(
                         quake.magnitude,
                         quake.reference
                     )
-
-                    title = when {
-                        !quake.isVerified -> String.format(
-                            context.getString(R.string.preliminary_format_notification),
-                            title
-                        )
-                        else -> String.format(
-                            context.getString(R.string.verified_format_notification),
-                            title
-                        )
-                    }
                 }
                 else -> {
                     title = String.format(
@@ -139,14 +130,19 @@ class QuakesNotification(
                         context.getString(R.string.no_alert_description_notification),
                         quake.reference
                     )
-
-                    when {
-                        !quake.isVerified -> title = String.format(
-                            context.getString(R.string.preliminary_format_notification),
-                            title
-                        )
-                    }
                 }
+            }
+
+            title = when {
+                !quake.isVerified -> String.format(
+                    context.getString(R.string.preliminary_format_notification),
+                    title
+                )
+                isUpdate -> String.format(
+                    context.getString(R.string.verified_format_notification),
+                    title
+                )
+                else -> title
             }
 
 
