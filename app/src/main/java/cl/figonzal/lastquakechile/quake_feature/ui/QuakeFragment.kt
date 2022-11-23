@@ -21,7 +21,7 @@ import cl.figonzal.lastquakechile.databinding.FragmentQuakeBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import timber.log.Timber
 
 private const val QUERY_PAGE_SIZE: Int = 20
@@ -30,7 +30,7 @@ class QuakeFragment(
     private val quakeAdapter: QuakeAdapter
 ) : Fragment() {
 
-    private val viewModel: QuakeViewModel by sharedViewModel()
+    private val viewModel: QuakeViewModel by activityViewModel()
 
     private var _binding: FragmentQuakeBinding? = null
     private val binding get() = _binding!!

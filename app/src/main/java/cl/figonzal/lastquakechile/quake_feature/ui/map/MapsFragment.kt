@@ -27,14 +27,14 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import timber.log.Timber
 
 private const val mapViewKey = "MapViewBundleKey"
 
 class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener, OnMapReadyCallback {
 
-    private val viewModel: QuakeViewModel by sharedViewModel()
+    private val viewModel: QuakeViewModel by activityViewModel()
 
     private var _binding: FragmentMapsBinding? = null
     private val binding get() = _binding!!
