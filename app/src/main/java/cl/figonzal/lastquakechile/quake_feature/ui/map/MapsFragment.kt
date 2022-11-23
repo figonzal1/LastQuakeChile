@@ -96,7 +96,7 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener, O
             setNightMode(requireContext())
 
             //Map configs
-            mapType = MAP_TYPE_NORMAL
+            mapType = requireContext().configMapType()
             setMinZoomPreference(4.0f)
 
             with(uiSettings) {

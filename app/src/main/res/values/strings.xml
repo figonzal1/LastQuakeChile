@@ -81,6 +81,7 @@
     <string name="version_key" translatable="false">version</string>
     <string name="contact_key" translatable="false">contact_email</string>
     <string name="minimum_magnitude_key" translatable="false">minimum_magnitude</string>
+    <string name="shared_pref_map_type" translatable="false">map_type</string>
 
     <!-- KEY INTENT -->
 

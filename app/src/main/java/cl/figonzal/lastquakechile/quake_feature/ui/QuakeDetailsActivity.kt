@@ -4,6 +4,7 @@ import android.animation.IntEvaluator
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -237,7 +238,8 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                 setNightMode(this@QuakeDetailsActivity)
 
-                mapType = GoogleMap.MAP_TYPE_NORMAL
+                mapType = configMapType()
+
                 setMinZoomPreference(5.0f)
                 uiSettings.isZoomGesturesEnabled = false
                 uiSettings.isZoomControlsEnabled = true

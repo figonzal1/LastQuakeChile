@@ -151,3 +151,8 @@ private fun Context.shareQuake(quake: Quake, bitMapUri: Uri?) {
         startActivity(chooser)
     }
 }
+
+fun Context.configMapType() = SharedPrefUtil(this).getData(
+    getString(R.string.shared_pref_map_type),
+    GoogleMap.MAP_TYPE_NORMAL
+) as Int
