@@ -8,14 +8,14 @@
     <string name="CRONITOR_STATUS" translatable="false">https://lqch.cronitorstatus.com/</string>
 
     <!-- PROD AD-->
-    <string name="ADMOB_ID_BANNER" translatable="false">ca-app-pub-6355378855577476/5493893896</string>
+    <!--<string name="ADMOB_ID_BANNER" translatable="false">ca-app-pub-6355378855577476/5493893896</string>
     <string name="ADMOB_ID_NATIVE_FRAGMENT" translatable="false">ca-app-pub-6355378855577476/2611250693</string>
-    <string name="ADMOB_ID_NATIVE_DETAILS" translatable="false">ca-app-pub-6355378855577476/2723765487</string>
+    <string name="ADMOB_ID_NATIVE_DETAILS" translatable="false">ca-app-pub-6355378855577476/2723765487</string>-->
 
     <!--TEST AD-->
-    <!--<string name="ADMOB_ID_BANNER" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="ADMOB_ID_BANNER" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
     <string name="ADMOB_ID_NATIVE_FRAGMENT" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
-    <string name="ADMOB_ID_NATIVE_DETAILS" translatable="false">ca-app-pub-3940256099942544/2247696110</string>-->
+    <string name="ADMOB_ID_NATIVE_DETAILS" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
 
     <!-- TOOLBAR Menu STRINGS -->
     <string name="settings">Configuración</string>
@@ -133,7 +133,7 @@
     <string name="promedio_profundidad_epicentro">Promedio profundidad epicentro</string>
     <string name="m_xima_magnitud">Máxima magnitud</string>
     <string name="m_nima_profundidad">Mínima profundidad</string>
-    <string name="top_ciudades_con_m_s_sismos">Top ciudades con más sismos</string>
+    <string name="top_ciudades">Top ciudades con más sismos</string>
     <string name="alert_pref_summary">Recibe notificaciones de sismos</string>
     <string name="alert_pref_title">Notificaciones</string>
     <string name="alert_pref_title_switch">Alertas de sismos</string>
@@ -247,7 +247,7 @@
     <string name="shortcut_long_report_label">Reportes sísmicos mensuales</string>
     <string name="shortcut_report_disabled">Reporte deshabilitado</string>
     <string name="alert_title_notification">¡Alerta sísmica!</string>
-    <string name="alert_description_notification">Sismo de %.1f registrado a %s</string>
+    <string name="alert_description_notification">Sismo de %1$.1f registrado a %2$s</string>
     <string name="preliminary_format_notification">[Preliminar] %s</string>
     <string name="verified_format_notification">[Corrección] %s</string>
     <string name="no_alert_title_notification">Sismo de %.1f</string>

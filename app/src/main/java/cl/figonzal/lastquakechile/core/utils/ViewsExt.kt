@@ -366,7 +366,7 @@ fun Context.getLocalBitmapUri(bitmap: Bitmap): Uri {
             out.close()
         }
     }
-    return getUriForFile(this, "cl.figonzal.lastquakechile.fileprovider", file)
+    return getUriForFile(this, "${applicationContext.packageName}.fileprovider", file)
 }
 
 /**
@@ -440,11 +440,11 @@ fun Fragment.showServerApiError(apiError: ApiError, callback: (Int, String) -> U
     }
 }
 
-fun ViewPager2.handleShortcuts(action: String?) {
+fun ViewPager2.handleShortcuts(action: String?, packageName: String) {
     when {
-        action.equals("cl.figonzal.lastquakechile.LIST") -> setCurrentItem(1, true)
-        action.equals("cl.figonzal.lastquakechile.MAP") -> setCurrentItem(2, true)
-        action.equals("cl.figonzal.lastquakechile.REPORT") -> setCurrentItem(3, true)
+        action.equals("${packageName}.LIST") -> setCurrentItem(1, true)
+        action.equals("${packageName}.MAP") -> setCurrentItem(2, true)
+        action.equals("${packageName}.REPORT") -> setCurrentItem(3, true)
     }
 }
 

@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity() {
                 adapter = MainFragmentStateAdapter(this@MainActivity, context)
                 setTabs(tabs, appBar)
 
-                handleShortcuts(intent.action)
+                handleShortcuts(intent.action, applicationContext.packageName)
             }
         }
 

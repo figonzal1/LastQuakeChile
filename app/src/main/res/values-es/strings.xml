@@ -59,7 +59,7 @@
     <string name="promedio_profundidad_epicentro">Promedio profundidad epicentro</string>
     <string name="m_xima_magnitud">Máxima magnitud</string>
     <string name="m_nima_profundidad">Mínima profundidad</string>
-    <string name="top_ciudades_con_m_s_sismos">Top ciudades con más sismos</string>
+    <string name="top_ciudades">Top ciudades con más sismos</string>
     <string name="JAN">Enero</string>
     <string name="FEB">Febrero</string>
     <string name="MAR">Marzo</string>
@@ -122,7 +122,7 @@
     <string name="shortcut_report_disabled">Reporte deshabilitado</string>
     <string name="shortcut_long_report_label">Reportes sísmicos mensuales</string>
     <string name="alert_title_notification">¡Alerta sísmica!</string>
-    <string name="alert_description_notification">Sismo de %.1f registrado a %s</string>
+    <string name="alert_description_notification">Sismo de %1$.1f registrado a %2$s</string>
     <string name="preliminary_format_notification">[Preliminar] %s</string>
     <string name="verified_format_notification">[Corrección] %s</string>
     <string name="no_alert_title_notification">Sismo de %.1f</string>
