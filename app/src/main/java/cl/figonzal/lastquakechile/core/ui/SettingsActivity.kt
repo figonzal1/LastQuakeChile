@@ -11,10 +11,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate.*
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.preference.EditTextPreference
-import androidx.preference.Preference
-import androidx.preference.PreferenceCategory
-import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.*
 import cl.figonzal.lastquakechile.BuildConfig
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.services.notifications.QuakesNotification
@@ -92,17 +89,6 @@ class SettingsActivity : AppCompatActivity() {
                 setTheme(R.style.AppTheme)
                 recreate()
             }
-
-        }
-
-        override fun onResume() {
-            super.onResume()
-            preferenceScreen.sharedPreferences?.registerOnSharedPreferenceChangeListener(this)
-        }
-
-        override fun onPause() {
-            super.onPause()
-            preferenceScreen.sharedPreferences?.unregisterOnSharedPreferenceChangeListener(this)
         }
 
         private fun configVersionPreferences() {
@@ -198,10 +184,12 @@ class SettingsActivity : AppCompatActivity() {
                         true -> {
                             requireContext().subscribedToQuakes(true, sharedPrefUtil)
                             toast(R.string.firebase_pref_key_alert_on)
+                            alertDependencies(true)
                         }
                         else -> {
                             requireContext().subscribedToQuakes(false, sharedPrefUtil)
                             toast(R.string.firebase_pref_key_alert_off)
+                            alertDependencies(false)
                         }
                     }
                 }
@@ -251,6 +239,32 @@ class SettingsActivity : AppCompatActivity() {
                     sharedPrefUtil.saveData(getString(R.string.minimum_magnitude_key), it)
                 }
             }
+        }
+
+        /**
+         * Function to disable alert preferences dependencies
+         */
+        private fun alertDependencies(isEnabled: Boolean) {
+
+            findPreference<SwitchPreferenceCompat>(getString(R.string.quake_preliminary_key))?.also {
+                it.isEnabled = isEnabled
+            }
+            findPreference<SwitchPreferenceCompat>(getString(R.string.high_priority_key))?.also {
+                it.isEnabled = isEnabled
+            }
+            findPreference<Preference>(getString(R.string.minimum_magnitude_key))?.also {
+                it.isEnabled = isEnabled
+            }
+        }
+
+        override fun onResume() {
+            super.onResume()
+            preferenceScreen.sharedPreferences?.registerOnSharedPreferenceChangeListener(this)
+        }
+
+        override fun onPause() {
+            super.onPause()
+            preferenceScreen.sharedPreferences?.unregisterOnSharedPreferenceChangeListener(this)
         }
     }
 
