@@ -3,7 +3,6 @@ package cl.figonzal.lastquakechile.core.services
 import android.content.Context
 import android.widget.TextView
 import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleOwner
 import cl.figonzal.lastquakechile.BuildConfig
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
@@ -24,8 +23,7 @@ class ChangeLogService(
         context.getString(R.string.improvement_2)
     )
 
-    override fun onCreate(owner: LifecycleOwner) {
-        super.onCreate(owner)
+    init {
         configChangeLog()
     }
 
