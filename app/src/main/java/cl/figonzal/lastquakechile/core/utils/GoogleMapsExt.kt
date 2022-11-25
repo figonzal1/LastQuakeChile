@@ -2,10 +2,11 @@ package cl.figonzal.lastquakechile.core.utils
 
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.content.pm.ResolveInfo
+import android.content.pm.PackageManager.MATCH_DEFAULT_ONLY
+import android.content.pm.PackageManager.ResolveInfoFlags
 import android.content.res.Configuration
 import android.net.Uri
+import android.os.Build
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import com.google.android.gms.maps.GoogleMap
@@ -137,8 +138,14 @@ private fun Context.shareQuake(quake: Quake, bitMapUri: Uri?) {
 
         val chooser = Intent.createChooser(this, getString(R.string.intent_chooser))
 
-        val resInfoList: List<ResolveInfo> =
-            packageManager.queryIntentActivities(chooser, PackageManager.MATCH_DEFAULT_ONLY)
+        @Suppress("DEPRECATION")
+        val resInfoList = when {
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> packageManager.queryIntentActivities(
+                chooser,
+                ResolveInfoFlags.of(MATCH_DEFAULT_ONLY.toLong())
+            )
+            else -> packageManager.queryIntentActivities(chooser, MATCH_DEFAULT_ONLY)
+        }
 
         for (resolveInfo in resInfoList) {
             val packageName = resolveInfo.activityInfo.packageName

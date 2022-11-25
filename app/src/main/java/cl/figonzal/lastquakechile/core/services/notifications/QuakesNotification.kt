@@ -213,7 +213,7 @@ class QuakesNotification(
             .setStyle(BigTextStyle().bigText(description))
             .setPriority(
                 when (highPriority) {
-                    true -> PRIORITY_MAX
+                    true -> PRIORITY_HIGH
                     else -> PRIORITY_DEFAULT
                 }
             )

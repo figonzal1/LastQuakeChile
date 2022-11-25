@@ -1,11 +1,14 @@
 package cl.figonzal.lastquakechile.quake_feature.ui
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.DrawableRes
+import androidx.annotation.RequiresApi
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -15,6 +18,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
+import cl.figonzal.lastquakechile.core.utils.checkAlertsPermissions
 import cl.figonzal.lastquakechile.core.utils.configOptionsMenu
 import cl.figonzal.lastquakechile.core.utils.showServerApiError
 import cl.figonzal.lastquakechile.databinding.FragmentQuakeBinding
@@ -64,6 +69,10 @@ class QuakeFragment(
                 layoutManager = LinearLayoutManager(context)
                 adapter = quakeAdapter
                 addOnScrollListener(this@QuakeFragment.scrollListener)
+            }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                handleCvAlertPermission()
             }
         }
     }
@@ -237,6 +246,34 @@ class QuakeFragment(
             super.onScrollStateChanged(recyclerView, newState)
             if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
                 isScrolling = true
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun FragmentQuakeBinding.handleCvAlertPermission() {
+        val sharedPrefUtil = SharedPrefUtil(requireContext())
+
+        val requestPermission = registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted: Boolean ->
+            when {
+                isGranted -> Timber.d("Alert permission granted")
+                else -> Timber.d("Alert permission not granted")
+            }
+            sharedPrefUtil.saveData(getString(R.string.shared_pref_cv_permission), false)
+            cvAlertPermission.root.visibility = View.GONE
+        }
+
+        val showCv = sharedPrefUtil.getData(
+            getString(R.string.shared_pref_cv_permission),
+            true
+        ) as Boolean
+
+        if (showCv) {
+            cvAlertPermission.root.visibility = View.VISIBLE
+            cvAlertPermission.btnRequestPermission.setOnClickListener {
+                requireActivity().checkAlertsPermissions(requestPermission)
             }
         }
     }

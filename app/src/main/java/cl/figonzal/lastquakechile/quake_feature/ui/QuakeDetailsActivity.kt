@@ -74,7 +74,13 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
             setHomeAsUpIndicator(R.drawable.ic_round_arrow_back_24)
         }
 
-        quake = intent.extras?.get(getString(R.string.INTENT_QUAKE)) as Quake
+        @Suppress("DEPRECATION")
+        quake = when {
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> {
+                intent.extras?.getParcelable(getString(R.string.INTENT_QUAKE), Quake::class.java)
+            }
+            else -> intent.extras?.get(getString(R.string.INTENT_QUAKE)) as Quake
+        }
 
         setTextViews()
     }
