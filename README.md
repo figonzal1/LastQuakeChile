@@ -25,7 +25,7 @@
         <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/figonzal1/LastQuakeChile?color=yellow">
    </a>
   <a href="https://play.google.com/store/apps/details?id=cl.figonzal.lastquakechile">
-        <img alt="Google Play Badge" src="https://img.shields.io/endpoint?color=green&logo=google-play&logoColor=green&url=https%3A%2F%2Fplayshields.herokuapp.com%2Fplay%3Fi%3Dcl.figonzal.lastquakechile%26l%3DGooglePlay%26m%3DVersion%253A%2520%24version%2520%257C%2520Downloads%253A%2520%2524installs%2520%257C%2520Updated%253A%2520%2524updated">
+        <img alt="Google Play Badge" src="https://img.shields.io/endpoint?color=green&logo=google-play&logoColor=green&url=https%3A%2F%2Fplay.cuzi.workers.dev%2Fplay%3Fi%3Dcl.figonzal.lastquakechile%26l%3DGoogle%2520Play%26m%3DVersion%253A%2520%24version%2520%257C%2520Downloads%2520%2524shortinstalls%2520%257C%2520Updated%253A%2520%2524updated">
   </a>
 </p>
 
