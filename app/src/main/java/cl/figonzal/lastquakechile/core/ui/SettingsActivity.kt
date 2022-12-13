@@ -14,11 +14,14 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.preference.*
 import cl.figonzal.lastquakechile.BuildConfig
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.services.notifications.QuakesNotification
+import cl.figonzal.lastquakechile.core.services.notifications.QuakeNotificationImpl
+import cl.figonzal.lastquakechile.core.services.notifications.utils.subscribedToQuakes
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
-import cl.figonzal.lastquakechile.core.utils.subscribedToQuakes
 import cl.figonzal.lastquakechile.core.utils.toast
 import cl.figonzal.lastquakechile.databinding.SettingsActivityBinding
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
 import timber.log.Timber
 
 class SettingsActivity : AppCompatActivity() {
@@ -48,9 +51,12 @@ class SettingsActivity : AppCompatActivity() {
     //Settings Fragment
     class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeListener {
 
+        private val fcm = Firebase.messaging
+        private val crashlytics = Firebase.crashlytics
+
         private val sharedPrefUtil: SharedPrefUtil by lazy { SharedPrefUtil(requireActivity()) }
-        private val quakesNotification by lazy {
-            QuakesNotification(requireActivity(), sharedPrefUtil)
+        private val notificationServiceImpl by lazy {
+            QuakeNotificationImpl(requireActivity(), sharedPrefUtil)
         }
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -180,12 +186,12 @@ class SettingsActivity : AppCompatActivity() {
                     //Si el switch esta ON, lanzar toast con SUSCRITO
                     when (it) {
                         true -> {
-                            requireContext().subscribedToQuakes(true, sharedPrefUtil)
+                            subscribedToQuakes(true, sharedPrefUtil, fcm, crashlytics)
                             toast(R.string.firebase_pref_key_alert_on)
                             alertDependencies(true)
                         }
                         else -> {
-                            requireContext().subscribedToQuakes(false, sharedPrefUtil)
+                            subscribedToQuakes(false, sharedPrefUtil, fcm, crashlytics)
                             toast(R.string.firebase_pref_key_alert_off)
                             alertDependencies(false)
                         }
@@ -204,7 +210,7 @@ class SettingsActivity : AppCompatActivity() {
                     sharedPrefUtil.saveData(getString(R.string.high_priority_key), it)
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        quakesNotification.recreateChannel()
+                        notificationServiceImpl.recreateChannel()
                     }
                 }
             }

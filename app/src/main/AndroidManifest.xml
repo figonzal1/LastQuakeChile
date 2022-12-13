@@ -76,7 +76,7 @@
             android:resource="@drawable/ic_lastquakechile_400" />
 
         <service
-            android:name=".core.services.notifications.FirebaseQuakeNotificationService"
+            android:name=".core.services.notifications.FCMService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

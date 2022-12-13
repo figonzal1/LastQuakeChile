@@ -19,6 +19,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.services.notifications.utils.QUAKE
 import cl.figonzal.lastquakechile.core.ui.dialog.MapTerrainDialogFragment
 import cl.figonzal.lastquakechile.core.utils.*
 import cl.figonzal.lastquakechile.databinding.ActivityQuakeDetailsBinding
@@ -77,9 +78,9 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
         @Suppress("DEPRECATION")
         quake = when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> {
-                intent.extras?.getParcelable(getString(R.string.INTENT_QUAKE), Quake::class.java)
+                intent.extras?.getParcelable(QUAKE, Quake::class.java)
             }
-            else -> intent.extras?.get(getString(R.string.INTENT_QUAKE)) as Quake
+            else -> intent.extras?.get(QUAKE) as Quake
         }
 
         setTextViews()

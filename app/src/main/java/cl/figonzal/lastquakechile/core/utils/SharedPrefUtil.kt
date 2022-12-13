@@ -2,12 +2,13 @@ package cl.figonzal.lastquakechile.core.utils
 
 import android.content.Context
 import androidx.core.content.edit
-import cl.figonzal.lastquakechile.R
+
+private const val SHARED_PREF_MASTER_KEY = "lastquakechile"
 
 class SharedPrefUtil(context: Context) {
 
     private val sharedPreferences = context.getSharedPreferences(
-        context.getString(R.string.shared_pref_master_key),
+        SHARED_PREF_MASTER_KEY,
         Context.MODE_PRIVATE
     )
 

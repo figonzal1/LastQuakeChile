@@ -10,6 +10,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat.*
 import androidx.core.app.TaskStackBuilder
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.services.notifications.utils.*
 import cl.figonzal.lastquakechile.core.utils.*
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Coordinate
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
@@ -18,27 +19,13 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.messaging.RemoteMessage
 import timber.log.Timber
 
-private const val ROOT_PREF_HIGH_PRIORITY_NOTIFICATION = "high_priority_notifications"
-private const val ROOT_PREF_QUAKE_PRELIMINARY = "quake_preliminary"
-private const val ROOT_PREF_MIN_MAGNITUDE = "minimum_magnitude"
-
-private const val FIREBASE_CHANNEL_STATUS = "channel_status"
-private const val RANDOM_CHANNEL_ID = "random_channel_id"
-
-interface NotificationService {
-    fun createChannel()
-    fun deleteChannel()
-    fun recreateChannel()
-    fun handleQuakeNotification(remoteMessage: RemoteMessage)
-}
-
 /**
  * NotificationService implementation
  */
-class QuakesNotification(
+class QuakeNotificationImpl(
     private val context: Context,
     private val sharedPrefUtil: SharedPrefUtil
-) : NotificationService {
+) : QuakeNotification {
 
     private val crashlytics = FirebaseCrashlytics.getInstance()
 
@@ -105,7 +92,7 @@ class QuakesNotification(
             var title: String?
             val description: String?
 
-            val isUpdate = this.getValue(context.getString(R.string.INTENT_IS_UPDATE)).toBoolean()
+            val isUpdate = this.getValue(IS_UPDATE).toBoolean()
 
             val quake: Quake = handleFcmData(this)
 
@@ -144,7 +131,7 @@ class QuakesNotification(
             }
 
             val intent = Intent(context, QuakeDetailsActivity::class.java).apply {
-                putExtra(context.getString(R.string.INTENT_QUAKE), quake)
+                putExtra(QUAKE, quake)
             }
 
             //Create fake backStack
@@ -244,26 +231,26 @@ class QuakesNotification(
         with(map) {
 
             val coordinate = Coordinate(
-                latitude = getValue(context.getString(R.string.INTENT_LATITUD)).toDouble(),
-                longitude = getValue(context.getString(R.string.INTENT_LONGITUD)).toDouble()
+                latitude = getValue(LATITUDE).toDouble(),
+                longitude = getValue(LONGITUDE).toDouble()
             )
 
-            val localDate = getValue(context.getString(R.string.INTENT_FECHA_UTC))
+            val localDate = getValue(UTC_DATE)
                 .stringToLocalDateTime()
                 .utcToLocalDate()
                 .localDateTimeToString()
 
 
             return Quake(
-                quakeCode = getValue(context.getString(R.string.INTENT_QUAKE_CODE)).toInt(),
+                quakeCode = getValue(QUAKE_CODE).toInt(),
                 localDate = localDate,
-                city = getValue(context.getString(R.string.INTENT_CIUDAD)),
-                reference = getValue(context.getString(R.string.INTENT_REFERENCIA)),
-                magnitude = getValue(context.getString(R.string.INTENT_MAGNITUD)).toDouble(),
-                scale = getValue(context.getString(R.string.INTENT_ESCALA)),
-                depth = getValue(context.getString(R.string.INTENT_PROFUNDIDAD)).toDouble(),
-                isVerified = getValue(context.getString(R.string.INTENT_ESTADO)).toBoolean(),
-                isSensitive = getValue(context.getString(R.string.INTENT_SENSIBLE)).toBoolean(),
+                city = getValue(CITY),
+                reference = getValue(REFERENCE),
+                magnitude = getValue(MAGNITUDE).toDouble(),
+                scale = getValue(SCALE),
+                depth = getValue(DEPTH).toDouble(),
+                isVerified = getValue(STATE).toBoolean(),
+                isSensitive = getValue(IS_SENSIBLE).toBoolean(),
                 coordinate = coordinate
             )
         }

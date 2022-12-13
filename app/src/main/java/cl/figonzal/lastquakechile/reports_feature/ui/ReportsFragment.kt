@@ -104,7 +104,7 @@ class ReportsFragment(
             }
         }
 
-        Timber.d(getString(R.string.FRAGMENT_LOAD_LIST))
+        Timber.d("List loaded in fragment")
     }
 
     /**

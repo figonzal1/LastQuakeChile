@@ -35,34 +35,14 @@
     <string name="SHARE_GEO_REF">Georeferencia</string>
     <string name="SHARE_DOWNLOAD_MSG"><![CDATA[Descarga la app aquí ->]]></string>
 
-    <!-- KEY DE JSON PARA PHP -->
-    <!-- KEY PARA INTENT & NOTIFICACIONES -->
-    <string name="INTENT_QUAKE" translatable="false">quake</string>
-    <string name="INTENT_CIUDAD" translatable="false">ciudad</string>
-    <string name="INTENT_REFERENCIA" translatable="false">referencia</string>
-    <string name="INTENT_LATITUD" translatable="false">latitud</string>
-    <string name="INTENT_LONGITUD" translatable="false">longitud</string>
-    <string name="INTENT_FECHA_UTC" translatable="false">fecha_utc</string>
-    <string name="INTENT_MAGNITUD" translatable="false">magnitud</string>
-    <string name="INTENT_PROFUNDIDAD" translatable="false">profundidad</string>
-    <string name="INTENT_ESCALA" translatable="false">escala</string>
-    <string name="INTENT_SENSIBLE" translatable="false">sensible</string>
-    <string name="INTENT_QUAKE_CODE" translatable="false">imagen_url</string>
-    <string name="INTENT_ESTADO" translatable="false">estado</string>
-    <string name="INTENT_IS_UPDATE" translatable="false">is_update</string>
-
     <!-- FIREBASE strings -->
     <string name="firebase_channel_name_quakes">Alerta sismos</string>
     <string name="firebase_channel_description_quakes">Recibe alertas de sismos</string>
     <string name="firebase_channel_status" translatable="false">channel_created</string>
     <string name="firebase_msg_notification_status" translatable="false">notification_message_received</string>
     <string name="try_intent_notification" translatable="false">TRY_INTENT_NOTIFICATION</string>
-    <string name="firebase_pref_key" translatable="false">pref_suscrito_quake</string>
-    <string name="subsqribed_quake" translatable="false">subscribed_quake</string>
-    <string name="firebase_topic_name" translatable="false">quakes_v2</string>
     <string name="firebase_pref_key_alert_on">Alertas activadas</string>
     <string name="firebase_pref_key_alert_off">Alertas desactivadas</string>
-
 
     <!-- Strings para calculo de tiempo -->
     <string name="utils_time_day" translatable="false">days</string>
@@ -70,21 +50,15 @@
     <string name="utils_time_min" translatable="false">minutes</string>
     <string name="utils_time_seg" translatable="false">seconds</string>
 
-    <!-- SHARE PREFERENCES KEYS (Variables) -->
-    <string name="shared_pref_master_key" translatable="false">lastquakechile</string>
-    <string name="shared_report_cache" translatable="false">reports_cache_entry</string>
-    <string name="version_key" translatable="false">version</string>
-    <string name="contact_key" translatable="false">contact_email</string>
-    <string name="shared_pref_map_type" translatable="false">map_type</string>
-    <string name="shared_pref_cv_permission" translatable="false">cv_alert_permission</string>
-
     <!-- ROOT PREFERENCES -->
     <string name="night_mode_key" translatable="false">pref_night_mode</string>
     <string name="high_priority_key" translatable="false">high_priority_notifications</string>
     <string name="quake_preliminary_key" translatable="false">quake_preliminary</string>
     <string name="minimum_magnitude_key" translatable="false">minimum_magnitude</string>
     <string name="night_mode_category_key" translatable="false">nigh_mode_pref_category</string>
-
+    <string name="firebase_pref_key" translatable="false">pref_suscrito_quake</string>
+    <string name="version_key" translatable="false">version</string>
+    <string name="contact_key" translatable="false">contact_email</string>
 
     <!-- STRINGS DE LAYOUTS-->
     <string name="circulo_pintado">Color magnitud sismo</string>
@@ -181,23 +155,12 @@
     <string name="icon_ad_app">Icono publicidad aplicación</string>
 
     <!-- FOR TIMBER -->
-    <string name="NIGHT_MODE" translatable="false">NightMode</string>
-    <string name="FIREBASE_SUB_OK" translatable="false">Subscribed</string>
-    <string name="FIREBASE_SUB_DELETE" translatable="false">Subscription deleted</string>
-    <string name="FIREBASE_SUB_ALREADY" translatable="false">Already subscribed</string>
-    <string name="UPDATE_OK" translatable="false">Update succesfull</string>
-    <string name="LIST_NETWORK_CALL" translatable="false">List updated with network call</string>
     <string name="INFO_WINDOWS_RESPONSE" translatable="false">Info windows open</string>
-    <string name="FRAGMENT_LOAD_LIST" translatable="false">List loaded in fragment</string>
     <string name="MAP_READY_RESPONSE" translatable="false">Map ready</string>
     <string name="TRY_INTENT_DETAIL" translatable="false">QuakeDetail intent</string>
     <string name="FAB_SHARE" translatable="false">FAB SHARE</string>
     <string name="CLICKED" translatable="false">CLICKED</string>
     <string name="INTENT_DETAIL_HOME_UP" translatable="false">Home up clicked</string>
-    <string name="EMIT_CACHE_LIST" translatable="false">Emit cached reportList</string>
-    <string name="UPDATE_INTENT_FAILED" translatable="false">Update intent failed</string>
-    <string name="UPDATE_FAILED" translatable="false">Update flow failed! Result code: %s</string>
-    <string name="UPDATE_MANAGER_FAILED" translatable="false">onResume updater manager failed</string>
     <string name="about_msg">LastQuakeChile, te permite visualizar rápidamente los últimos sismos ocurridos en Chile</string>
     <string name="contact_developer">Contacto desarrollador</string>
     <string name="contact_summary">¿Sugerencias? ¿Problemas?</string>

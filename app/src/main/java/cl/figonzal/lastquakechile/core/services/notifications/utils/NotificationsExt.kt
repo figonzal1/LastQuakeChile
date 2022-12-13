@@ -1,9 +1,8 @@
-package cl.figonzal.lastquakechile.core.utils
+package cl.figonzal.lastquakechile.core.services.notifications.utils
 
 import android.Manifest
 import android.app.Activity
 import android.app.NotificationManager
-import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.activity.result.ActivityResultLauncher
@@ -11,7 +10,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat.PRIORITY_DEFAULT
 import androidx.core.app.NotificationCompat.PRIORITY_HIGH
 import androidx.core.content.ContextCompat
-import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import com.google.android.gms.tasks.Task
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -60,53 +59,47 @@ fun getFirebaseToken() {
  *
  * @param isSubscribed
  */
-fun Context.subscribedToQuakes(isSubscribed: Boolean, sharedPrefUtil: SharedPrefUtil) {
-
-    val firebase = FirebaseMessaging.getInstance()
-    val crashlytics = FirebaseCrashlytics.getInstance()
+fun subscribedToQuakes(
+    isSubscribed: Boolean,
+    sharedPrefUtil: SharedPrefUtil,
+    messaging: FirebaseMessaging,
+    crashlytics: FirebaseCrashlytics
+) {
 
     when {
         isSubscribed -> {
 
-            firebase.subscribeToTopic(getString(R.string.firebase_topic_name))
+            messaging.subscribeToTopic(FIREBASE_TOPIC_CHANNEL)
                 .addOnCompleteListener { task: Task<Void?> ->
                     when {
                         task.isSuccessful -> {
 
                             with(true) {
-                                sharedPrefUtil.saveData(getString(R.string.firebase_pref_key), this)
+                                sharedPrefUtil.saveData(ROOT_PREF_SUBSCRIPTION, this)
 
-                                Timber.d(getString(R.string.FIREBASE_SUB_OK))
-                                crashlytics.setCustomKey(getString(R.string.subsqribed_quake), this)
+                                Timber.d("Subscribed to topic")
+                                crashlytics.setCustomKey(FIREBASE_SUB_QUAKE, this)
                             }
                         }
                     }
                 }
         }
         else -> {
-            firebase.unsubscribeFromTopic(getString(R.string.firebase_topic_name))
+            messaging.unsubscribeFromTopic(FIREBASE_TOPIC_CHANNEL)
                 .addOnCompleteListener {
                     when {
                         it.isSuccessful -> {
 
                             with(false) {
-                                sharedPrefUtil.saveData(
-                                    getString(R.string.firebase_pref_key),
-                                    this
-                                )
+                                sharedPrefUtil.saveData(ROOT_PREF_SUBSCRIPTION, this)
 
-                                Timber.d(getString(R.string.FIREBASE_SUB_DELETE))
-                                crashlytics.setCustomKey(
-                                    getString(R.string.subsqribed_quake),
-                                    this
-                                )
+                                Timber.d("Subscription deleted")
+                                crashlytics.setCustomKey(FIREBASE_SUB_QUAKE, this)
                             }
                         }
                     }
                 }
-                .addOnFailureListener {
-                    Timber.d(getString(R.string.FIREBASE_SUB_ALREADY))
-                }
+                .addOnFailureListener { Timber.d("Already subscribed") }
         }
     }
 }

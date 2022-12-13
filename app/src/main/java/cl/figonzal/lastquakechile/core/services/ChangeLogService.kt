@@ -13,7 +13,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import timber.log.Timber
 
-private const val SHARED_PERF_VERSION_CODE_SAVED = "actual_v_code"
+private const val SHARED_PREF_VERSION_CODE_SAVED = "actual_v_code"
 private const val FIREBASE_CHANGE_LOG_STATUS = "change_log_status"
 
 class ChangeLogService(
@@ -38,7 +38,7 @@ class ChangeLogService(
     private fun configChangeLog() {
 
         //GET STORED VERSION CODE
-        val sharedVersionCode = sharedPrefUtil.getData(SHARED_PERF_VERSION_CODE_SAVED, 0) as Int
+        val sharedVersionCode = sharedPrefUtil.getData(SHARED_PREF_VERSION_CODE_SAVED, 0) as Int
 
         Timber.d("Saved version code: $sharedVersionCode")
         Timber.d("Installed version code: $versionCode")
@@ -80,6 +80,6 @@ class ChangeLogService(
     }
 
     private fun saveVersionCode() {
-        sharedPrefUtil.saveData(SHARED_PERF_VERSION_CODE_SAVED, versionCode)
+        sharedPrefUtil.saveData(SHARED_PREF_VERSION_CODE_SAVED, versionCode)
     }
 }

@@ -158,7 +158,8 @@ private fun Context.shareQuake(quake: Quake, bitMapUri: Uri?) {
     }
 }
 
+const val SHARED_PREF_MAP_TYPE = "map_type"
 fun Context.configMapType() = SharedPrefUtil(this).getData(
-    getString(R.string.shared_pref_map_type),
+    SHARED_PREF_MAP_TYPE,
     GoogleMap.MAP_TYPE_NORMAL
 ) as Int

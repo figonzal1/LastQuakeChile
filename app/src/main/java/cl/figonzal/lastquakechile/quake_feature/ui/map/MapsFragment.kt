@@ -11,6 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.services.notifications.utils.QUAKE
 import cl.figonzal.lastquakechile.core.ui.dialog.MapTerrainDialogFragment
 import cl.figonzal.lastquakechile.core.utils.*
 import cl.figonzal.lastquakechile.databinding.FragmentMapsBinding
@@ -62,7 +63,7 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener, O
                     when {
                         !it.isLoading && it.quakes.isNotEmpty() -> {
                             quakeList = it.quakes
-                            Timber.d(getString(R.string.FRAGMENT_LOAD_LIST))
+                            Timber.d("List loaded in fragment")
 
                             binding.mapView.getMapAsync(this@MapsFragment)
                         }
@@ -126,7 +127,7 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener, O
     override fun onInfoWindowClick(p0: Marker) {
         val quake = p0.tag as Quake
         Intent(context, QuakeDetailsActivity::class.java).apply {
-            putExtra(getString(R.string.INTENT_QUAKE), quake)
+            putExtra(QUAKE, quake)
             startActivity(this)
         }
     }

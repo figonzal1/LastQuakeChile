@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.services.notifications.utils.QUAKE
 import cl.figonzal.lastquakechile.core.utils.getMagnitudeColor
 import cl.figonzal.lastquakechile.core.utils.layoutInflater
 import cl.figonzal.lastquakechile.core.utils.timeToText
@@ -76,7 +77,7 @@ class QuakeAdapter : RecyclerView.Adapter<QuakeViewHolder>() {
                 root.setOnClickListener {
 
                     Intent(itemView.context, QuakeDetailsActivity::class.java).apply {
-                        putExtra(itemView.resources.getString(R.string.INTENT_QUAKE), quake)
+                        putExtra(QUAKE, quake)
                         //LOG
                         Timber.d(itemView.resources.getString(R.string.TRY_INTENT_DETAIL))
 
