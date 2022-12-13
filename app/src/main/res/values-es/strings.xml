@@ -72,7 +72,6 @@
     <string name="OCT">Octubre</string>
     <string name="NOV">Noviembre</string>
     <string name="DEC">Diciembre</string>
-    <string name="REPORT_FORMAT" formatted="false">%s %s</string>
     <string name="intent_chooser">Compartir sismos</string>
     <string name="night_mode_key_toast_off">Modo noche desactivado</string>
     <string name="version">"Versión "</string>

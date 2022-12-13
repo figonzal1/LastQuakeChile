@@ -22,6 +22,8 @@ import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.services.notifications.utils.QUAKE
 import cl.figonzal.lastquakechile.core.ui.dialog.MapTerrainDialogFragment
 import cl.figonzal.lastquakechile.core.utils.*
+import cl.figonzal.lastquakechile.core.utils.views.QUAKE_DETAILS_DEPTH_FORMAT
+import cl.figonzal.lastquakechile.core.utils.views.QUAKE_DETAILS_MAGNITUDE_FORMAT
 import cl.figonzal.lastquakechile.databinding.ActivityQuakeDetailsBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import com.google.android.gms.ads.*
@@ -202,12 +204,12 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                 tvReference.text = it.reference
 
                 tvMagnitude.text =
-                    String.format(getString(R.string.magnitud), it.magnitude)
+                    String.format(QUAKE_DETAILS_MAGNITUDE_FORMAT, it.magnitude)
 
                 ivMagColor.setColorFilter(getColor(getMagnitudeColor(it.magnitude, false)))
 
                 tvEpicentro.text =
-                    String.format(getString(R.string.quake_details_profundidad), it.depth)
+                    String.format(QUAKE_DETAILS_DEPTH_FORMAT, it.depth)
 
                 tvFecha.text =
                     it.localDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
@@ -314,11 +316,11 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                 moveCamera(CameraUpdateFactory.newLatLngZoom(latLong, 6.0f))
 
                 //Log zone
-                Timber.d(getString(R.string.MAP_READY_RESPONSE))
+                Timber.d("Map ready")
 
                 //Seteo de floating buttons
                 binding.fabShare.setOnClickListener { _ ->
-                    Timber.d(getString(R.string.FAB_SHARE) + ": " + getString(R.string.CLICKED))
+                    Timber.d("FAB SHARE CLICKED")
                     this@QuakeDetailsActivity.makeSnapshot(p0, it)
                 }
             }
@@ -394,7 +396,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 when (menuItem.itemId) {
                     android.R.id.home -> {
-                        Timber.d(getString(R.string.INTENT_DETAIL_HOME_UP))
+                        Timber.d("Home up clicked")
                         finish()
                     }
                     R.id.layers_menu -> {

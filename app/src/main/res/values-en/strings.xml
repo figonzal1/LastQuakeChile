@@ -60,7 +60,6 @@
     <string name="m_xima_magnitud">Maximum magnitude</string>
     <string name="m_nima_profundidad">Minimum depth</string>
     <string name="top_ciudades">Top cities with the most earthquakes</string>
-    <string name="REPORT_FORMAT" formatted="false">%s %s</string>
     <string name="JAN">January</string>
     <string name="FEB">February</string>
     <string name="MAR">March</string>

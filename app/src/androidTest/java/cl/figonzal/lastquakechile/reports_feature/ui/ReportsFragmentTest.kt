@@ -11,6 +11,7 @@ import androidx.test.filters.MediumTest
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.utils.TestFragmentFactory
 import cl.figonzal.lastquakechile.core.utils.getMonth
+import cl.figonzal.lastquakechile.core.utils.views.REPORT_FORMAT
 import cl.figonzal.lastquakechile.utils.checkRecyclerSubViews
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
@@ -61,7 +62,7 @@ class ReportsFragmentTest : KoinTest {
         checkRecyclerSubViews(
             R.id.recycle_view_reports, 0, withText(
                 String.format(
-                    context.getString(R.string.REPORT_FORMAT),
+                    REPORT_FORMAT,
                     context.getMonth(1),
                     "2021"
                 )
@@ -72,7 +73,7 @@ class ReportsFragmentTest : KoinTest {
         checkRecyclerSubViews(
             R.id.recycle_view_reports, 1, withText(
                 String.format(
-                    context.getString(R.string.REPORT_FORMAT),
+                    REPORT_FORMAT,
                     context.getMonth(12),
                     "2020"
                 )

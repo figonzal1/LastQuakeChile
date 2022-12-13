@@ -66,6 +66,10 @@ android {
             isMinifyEnabled = false
             signingConfig = signingConfigs.getByName("debug")
             resValue("string", "app_name", "LastQuakeChile-debug")
+
+            resValue("string", "ADMOB_ID_BANNER", "ca-app-pub-3940256099942544/6300978111")
+            resValue("string", "ADMOB_ID_NATIVE_FRAGMENT", "ca-app-pub-3940256099942544/2247696110")
+            resValue("string", "ADMOB_ID_NATIVE_DETAILS", "ca-app-pub-3940256099942544/2247696110")
         }
         getByName("release") {
             isMinifyEnabled = true
@@ -76,6 +80,10 @@ android {
             )
             signingConfig = signingConfigs.getByName("lastquakechilesign")
             resValue("string", "app_name", "LastQuakeChile")
+
+            resValue("string", "ADMOB_ID_BANNER", "ca-app-pub-3940256099942544/6300978111")
+            resValue("string", "ADMOB_ID_NATIVE_FRAGMENT", "ca-app-pub-3940256099942544/2247696110")
+            resValue("string", "ADMOB_ID_NATIVE_DETAILS", "ca-app-pub-3940256099942544/2247696110")
         }
 
     }

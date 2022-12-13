@@ -20,6 +20,7 @@ import androidx.viewpager2.widget.ViewPager2
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.data.remote.ApiError
 import cl.figonzal.lastquakechile.core.ui.SettingsActivity
+import cl.figonzal.lastquakechile.core.utils.views.*
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Coordinate
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import com.bumptech.glide.Glide
@@ -182,11 +183,11 @@ fun ImageView.setStatusImage(
 fun TextView.setScale(scale: String) {
     text = when {
         scale.contains("Mw") -> String.format(
-            context.getString(R.string.quake_details_escala),
+            QUAKE_DETAILS_SCALE_FORMAT,
             context.getString(R.string.quake_details_magnitud_momento)
         )
         else -> String.format(
-            context.getString(R.string.quake_details_escala),
+            QUAKE_DETAILS_SCALE_FORMAT,
             context.getString(R.string.quake_details_magnitud_local)
         )
     }
@@ -211,13 +212,14 @@ fun Fragment.toast(stringId: Int) {
     ).show()
 }
 
+
 /**
  * Transform localDateTime to a string text in (days or hours or minutes)
  */
 fun TextView.timeToText(quake: Quake, isShortVersion: Boolean = false) {
 
     val timeMap = quake.localDate.stringToLocalDateTime().localDateToDHMS()
-    val days = timeMap[this.context.getString(R.string.utils_time_day)]
+    val days = timeMap[DAYS]
 
     text = when {
         days != null && days == 0L -> {
@@ -236,13 +238,13 @@ private fun calculateTextViewAboveDay(
     isShortVersion: Boolean
 ): String {
 
-    val days = timeMap[context.getString(R.string.utils_time_day)]
-    val hour = timeMap[context.getString(R.string.utils_time_hour)]
+    val days = timeMap[DAYS]
+    val hour = timeMap[HOURS]
 
     return when {
         hour != null && hour == 0L -> when {
             isShortVersion -> String.format(
-                context.getString(R.string.quake_time_day),
+                QUAKETIME_D_FORMAT,
                 days
             )
             else -> String.format(
@@ -252,7 +254,7 @@ private fun calculateTextViewAboveDay(
         }
         hour != null && hour >= 1 -> when {
             isShortVersion -> String.format(
-                context.getString(R.string.quake_time_day_hour),
+                QUAKETIME_DH_FORMAT,
                 days,
                 hour / 24
             )
@@ -272,19 +274,19 @@ private fun calculateTextViewBelowDay(
     isShortVersion: Boolean
 ): String {
 
-    val hour = timeMap[context.getString(R.string.utils_time_hour)]
-    val min = timeMap[context.getString(R.string.utils_time_min)]
-    val seg = timeMap[context.getString(R.string.utils_time_seg)]
+    val hour = timeMap[HOURS]
+    val min = timeMap[MINUTES]
+    val seg = timeMap[SECONDS]
 
     return when {
         hour != null && hour >= 1 -> when {
-            isShortVersion -> String.format(context.getString(R.string.quake_time_hour), hour)
+            isShortVersion -> String.format(QUAKETIME_H_FORMAT, hour)
             else -> String.format(context.getString(R.string.quake_time_hour_info_windows), hour)
         }
         else -> when {
             min != null && min < 1 -> when {
                 isShortVersion -> String.format(
-                    context.getString(R.string.quake_time_second), seg
+                    QUAKETIME_S_FORMAT, seg
                 )
                 else -> String.format(
                     context.getString(R.string.quake_time_second_info_windows), seg
@@ -292,7 +294,7 @@ private fun calculateTextViewBelowDay(
             }
             else -> when {
                 isShortVersion -> String.format(
-                    context.getString(R.string.quake_time_minute),
+                    QUAKETIME_M_FORMAT,
                     min
                 )
                 else -> String.format(
@@ -343,8 +345,7 @@ fun TextView.formatDMS(coordinates: Coordinate) {
         }
     )
 
-    text =
-        String.format(this.context.getString(R.string.format_coordenadas), dmsLat, dmsLong)
+    text = String.format(QUAKE_CORDS_FORMAT, dmsLat, dmsLong)
 }
 
 /**

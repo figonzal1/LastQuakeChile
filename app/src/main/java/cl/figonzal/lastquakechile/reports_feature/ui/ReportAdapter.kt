@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.utils.getMonth
 import cl.figonzal.lastquakechile.core.utils.layoutInflater
+import cl.figonzal.lastquakechile.core.utils.views.REPORT_FORMAT
 import cl.figonzal.lastquakechile.databinding.CardViewReportsBinding
 import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
 import cl.figonzal.lastquakechile.reports_feature.ui.ReportAdapter.ReportViewHolder
@@ -56,7 +57,7 @@ class ReportAdapter : RecyclerView.Adapter<ReportViewHolder>() {
 
                 tvTitleReport.text =
                     String.format(
-                        itemView.resources.getString(R.string.REPORT_FORMAT),
+                        REPORT_FORMAT,
                         itemView.context.getMonth(nMonth),
                         anno
                     )

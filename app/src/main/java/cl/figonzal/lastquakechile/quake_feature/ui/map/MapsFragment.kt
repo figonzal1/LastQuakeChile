@@ -14,6 +14,7 @@ import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.services.notifications.utils.QUAKE
 import cl.figonzal.lastquakechile.core.ui.dialog.MapTerrainDialogFragment
 import cl.figonzal.lastquakechile.core.utils.*
+import cl.figonzal.lastquakechile.core.utils.views.QUAKE_DETAILS_MAGNITUDE_FORMAT
 import cl.figonzal.lastquakechile.databinding.FragmentMapsBinding
 import cl.figonzal.lastquakechile.databinding.InfoWindowsBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
@@ -121,7 +122,7 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener, O
         }
 
         //Log zone
-        Timber.d(getString(R.string.MAP_READY_RESPONSE))
+        Timber.d("Map ready")
     }
 
     override fun onInfoWindowClick(p0: Marker) {
@@ -145,7 +146,7 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener, O
             tvIwReference.text = quake.reference
 
             tvIwMagnitude.text = String.format(
-                requireContext().getString(R.string.magnitud),
+                QUAKE_DETAILS_MAGNITUDE_FORMAT,
                 quake.magnitude
             )
 
@@ -164,7 +165,7 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener, O
         }
 
         //Log zone
-        Timber.d(getString(R.string.INFO_WINDOWS_RESPONSE))
+        Timber.d("Info windows open")
 
         return infoBinding.root
     }
