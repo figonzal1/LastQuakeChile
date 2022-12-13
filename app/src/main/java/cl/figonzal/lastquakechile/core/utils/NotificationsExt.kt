@@ -2,13 +2,17 @@ package cl.figonzal.lastquakechile.core.utils
 
 import android.Manifest
 import android.app.Activity
+import android.app.NotificationManager
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
+import androidx.core.app.NotificationCompat.PRIORITY_DEFAULT
+import androidx.core.app.NotificationCompat.PRIORITY_HIGH
 import androidx.core.content.ContextCompat
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import com.google.android.gms.tasks.Task
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.messaging.FirebaseMessaging
@@ -107,17 +111,95 @@ fun Context.subscribedToQuakes(isSubscribed: Boolean, sharedPrefUtil: SharedPref
     }
 }
 
-fun Context.generateRandomChannelId(sharedPrefUtil: SharedPrefUtil): Int {
+fun generateRandomChannelId(
+    sharedPrefUtil: SharedPrefUtil,
+    randomChannelIdKey: String
+): Int {
 
-    val savedRandomChannel =
-        sharedPrefUtil.getData(getString(R.string.random_channel_key), 1) as Int
+    val savedRandomChannel = sharedPrefUtil.getData(randomChannelIdKey, 1) as Int
 
     var newRandomChannel = 1
     while (savedRandomChannel == newRandomChannel) {
         newRandomChannel = SecureRandom().asKotlinRandom().nextInt()
     }
-
-    sharedPrefUtil.saveData(getString(R.string.random_channel_key), newRandomChannel)
-
+    sharedPrefUtil.saveData(randomChannelIdKey, newRandomChannel)
     return newRandomChannel
 }
+
+fun getPreliminaryAlertsStatus(
+    sharedPrefUtil: SharedPrefUtil,
+    prefQuakePreliminaryKey: String,
+    crashlytics: FirebaseCrashlytics
+): Boolean {
+
+    val isPreliminaryAlerts = sharedPrefUtil.getData(
+        key = prefQuakePreliminaryKey,
+        defaultValue = true
+    ) as Boolean
+
+    Timber.d("$prefQuakePreliminaryKey: $isPreliminaryAlerts")
+    crashlytics.setCustomKey(prefQuakePreliminaryKey, isPreliminaryAlerts)
+
+    return isPreliminaryAlerts
+}
+
+fun getRandomChannel(sharedPrefUtil: SharedPrefUtil, randomChannelId: String) =
+    sharedPrefUtil.getData(randomChannelId, 1) as Int
+
+/**
+ * Return importance level for channel creation
+ */
+@RequiresApi(Build.VERSION_CODES.N)
+fun getChannelImportance(
+    sharedPrefUtil: SharedPrefUtil,
+    prefHighPriorityKey: String,
+    crashlytics: FirebaseCrashlytics
+): Int {
+
+    val highPriority = sharedPrefUtil.getData(prefHighPriorityKey, true) as Boolean
+
+    Timber.d("$prefHighPriorityKey: $highPriority")
+    crashlytics.setCustomKey(prefHighPriorityKey, highPriority)
+
+    return when {
+        highPriority -> NotificationManager.IMPORTANCE_HIGH
+        else -> NotificationManager.IMPORTANCE_DEFAULT
+    }
+}
+
+/**
+ * Return priority level for notification
+ */
+fun getNotificationPriority(
+    sharedPrefUtil: SharedPrefUtil,
+    prefHighPriorityKey: String,
+    crashlytics: FirebaseCrashlytics
+): Int {
+    val highPriority = sharedPrefUtil.getData(prefHighPriorityKey, true) as Boolean
+
+    Timber.d("$prefHighPriorityKey: $highPriority")
+    crashlytics.setCustomKey(prefHighPriorityKey, highPriority)
+
+    return when {
+        highPriority -> PRIORITY_HIGH
+        else -> PRIORITY_DEFAULT
+    }
+}
+
+fun getMinMagnitude(
+    sharedPrefUtil: SharedPrefUtil,
+    minMagnitudeKey: String,
+    crashlytics: FirebaseCrashlytics
+): String {
+
+    val savedMinMag = sharedPrefUtil.getData(
+        minMagnitudeKey,
+        "5.0"
+    ).toString()
+
+    Timber.d("$minMagnitudeKey: ${savedMinMag.toDouble()}")
+    crashlytics.setCustomKey(minMagnitudeKey, savedMinMag)
+    return savedMinMag
+}
+
+fun Quake.greatherThan(minMagnitude: String) = magnitude >= minMagnitude.toDouble()

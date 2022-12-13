@@ -3,13 +3,17 @@ package cl.figonzal.lastquakechile.core.services
 import android.app.Activity
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import cl.figonzal.lastquakechile.R
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import timber.log.Timber
 
+private const val FIREBASE_GOOGLE_PLAY_SERVICE_STATE = "google_play_service_state"
+private const val PLAY_SERVICES_RESOLUTION_REQUEST = 9000
+
 class GooglePlayService(
-    private val activity: Activity
+    private val activity: Activity,
+    private val crashlytics: FirebaseCrashlytics
 ) : DefaultLifecycleObserver {
 
     private val googlePlay = GoogleApiAvailability.getInstance()
@@ -24,12 +28,15 @@ class GooglePlayService(
 
         val resultCode = googlePlay.isGooglePlayServicesAvailable(activity)
 
-        when {
-            //If some problem occurred
-            resultCode != ConnectionResult.SUCCESS -> when {
+        //If some problem occurred
+        if (resultCode != ConnectionResult.SUCCESS) {
+
+
+            when {
                 googlePlay.isUserResolvableError(resultCode) -> {
 
-                    Timber.e(activity.getString(R.string.GP_REQUEST))
+                    Timber.e("Request update")
+                    crashlytics.setCustomKey(FIREBASE_GOOGLE_PLAY_SERVICE_STATE, "Request update")
 
                     //Tell user that need to update Google play
                     googlePlay.getErrorDialog(
@@ -43,15 +50,15 @@ class GooglePlayService(
                 }
                 else -> {
                     //The problem cannot be handle & the app close
-                    Timber.e(activity.getString(R.string.GP_NOT_SUPPORTED))
+                    Timber.e("Not supported")
+                    crashlytics.setCustomKey(FIREBASE_GOOGLE_PLAY_SERVICE_STATE, "Not supported")
                     activity.finish()
                 }
             }
-            else -> Timber.d(activity.getString(R.string.GP_UPDATED))
-        }
-    }
 
-    companion object {
-        private const val PLAY_SERVICES_RESOLUTION_REQUEST = 9000
+        } else {
+            Timber.d("Updated")
+            crashlytics.setCustomKey(FIREBASE_GOOGLE_PLAY_SERVICE_STATE, "Updated")
+        }
     }
 }

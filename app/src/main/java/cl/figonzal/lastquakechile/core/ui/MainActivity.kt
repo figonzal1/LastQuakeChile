@@ -26,6 +26,9 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.ktx.Firebase
 import org.koin.androidx.fragment.android.setupKoinFragmentFactory
 import timber.log.Timber
 
@@ -35,6 +38,8 @@ class MainActivity : AppCompatActivity() {
     private var adView: AdView? = null
     private var updaterService: UpdaterService? = null
     private lateinit var binding: ActivityMainBinding
+
+    private val crashlytics: FirebaseCrashlytics = Firebase.crashlytics
 
     @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         when {
             Build.VERSION.SDK_INT < Build.VERSION_CODES.Q -> {
                 Timber.d("ANDROID_VERSION < Q: ${Build.VERSION.SDK_INT}")
-                lifecycle.addObserver(NightModeService(this))
+                lifecycle.addObserver(NightModeService(this, crashlytics))
             }
             else -> {
                 Timber.d("ANDROID_VERSION > Q: ${Build.VERSION.SDK_INT}")
@@ -61,10 +66,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         //GP services
-        lifecycle.addObserver(GooglePlayService(this))
+        lifecycle.addObserver(GooglePlayService(this, crashlytics))
 
         //ChangeLog Service
-        lifecycle.addObserver(ChangeLogService(this, SharedPrefUtil(this)))
+        lifecycle.addObserver(ChangeLogService(this, SharedPrefUtil(this), crashlytics))
 
         //Firebase services
         getFirebaseToken()
@@ -73,8 +78,8 @@ class MainActivity : AppCompatActivity() {
         adView = startAds(binding.adViewContainer)
 
         //Updater service
-        updaterService = UpdaterService(this, AppUpdateManagerFactory.create(this))
-        updaterService!!.checkAvailability()
+        updaterService = UpdaterService(this, AppUpdateManagerFactory.create(this), crashlytics)
+        updaterService?.checkAvailability()
 
         setUpNotificationService(sharedPrefUtil)
 

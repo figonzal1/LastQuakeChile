@@ -18,6 +18,13 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.messaging.RemoteMessage
 import timber.log.Timber
 
+private const val ROOT_PREF_HIGH_PRIORITY_NOTIFICATION = "high_priority_notifications"
+private const val ROOT_PREF_QUAKE_PRELIMINARY = "quake_preliminary"
+private const val ROOT_PREF_MIN_MAGNITUDE = "minimum_magnitude"
+
+private const val FIREBASE_CHANNEL_STATUS = "channel_status"
+private const val RANDOM_CHANNEL_ID = "random_channel_id"
+
 interface NotificationService {
     fun createChannel()
     fun deleteChannel()
@@ -38,20 +45,13 @@ class QuakesNotification(
     @RequiresApi(api = Build.VERSION_CODES.O)
     override fun createChannel() {
 
-        val randomChannel = context.generateRandomChannelId(sharedPrefUtil)
+        val randomChannel = generateRandomChannelId(sharedPrefUtil, RANDOM_CHANNEL_ID)
 
         val name = context.getString(R.string.firebase_channel_name_quakes)
         val description = context.getString(R.string.firebase_channel_description_quakes)
 
-        val highPriority = sharedPrefUtil.getData(
-            context.getString(R.string.high_priority_key),
-            true
-        ) as Boolean
-
-        val importance = when {
-            highPriority -> NotificationManager.IMPORTANCE_HIGH
-            else -> NotificationManager.IMPORTANCE_DEFAULT
-        }
+        val importance =
+            getChannelImportance(sharedPrefUtil, ROOT_PREF_HIGH_PRIORITY_NOTIFICATION, crashlytics)
 
         context.getSystemService(NotificationManager::class.java).apply {
 
@@ -65,27 +65,25 @@ class QuakesNotification(
                     this.importance = importance
                     this.enableLights(true)
                     this.lightColor = R.color.colorSecondary
+
+                    Timber.d("Notification channel created")
+                    crashlytics.setCustomKey(FIREBASE_CHANNEL_STATUS, "Created")
                 }
             )
         }
-
-        Timber.d(context.getString(R.string.FIREBASE_CHANNEL_CREATED))
-        crashlytics.setCustomKey(context.getString(R.string.firebase_channel_status), true)
     }
-
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun deleteChannel() {
 
-        val randomChannel =
-            sharedPrefUtil.getData(context.getString(R.string.random_channel_key), 1)
+        val randomChannel = getRandomChannel(sharedPrefUtil, RANDOM_CHANNEL_ID)
 
         context.getSystemService(NotificationManager::class.java).apply {
             deleteNotificationChannel(randomChannel.toString())
-        }
 
-        Timber.d(context.getString(R.string.FIREBASE_CHANNEL_DELETED))
-        crashlytics.setCustomKey(context.getString(R.string.firebase_channel_status), false)
+            Timber.d("Notification channel deleted")
+            crashlytics.setCustomKey(FIREBASE_CHANNEL_STATUS, "Deleted")
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -145,11 +143,11 @@ class QuakesNotification(
                 else -> title
             }
 
-
             val intent = Intent(context, QuakeDetailsActivity::class.java).apply {
                 putExtra(context.getString(R.string.INTENT_QUAKE), quake)
             }
 
+            //Create fake backStack
             TaskStackBuilder.create(context).run {
                 addNextIntentWithParentStack(intent)
                 getPendingIntent(
@@ -157,52 +155,33 @@ class QuakesNotification(
                     PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                 )
             }?.also {
-                showNotification(title, description, quake, it)
+                showQuakeNotification(title, description, quake, it)
             }
-
-            Timber.d(context.getString(R.string.TRY_INTENT_NOTIFICATION_1))
-            crashlytics.setCustomKey(context.getString(R.string.try_intent_notification), true)
         }
     }
 
-    private fun showNotification(
+    private fun showQuakeNotification(
         title: String,
         description: String,
         quake: Quake,
         pendingIntent: PendingIntent
     ) {
 
-        val highPriority = sharedPrefUtil.getData(
-            context.getString(R.string.high_priority_key),
-            true
-        ) as Boolean
+        val randomChannel = getRandomChannel(sharedPrefUtil, RANDOM_CHANNEL_ID)
 
-        val randomChannel =
-            sharedPrefUtil.getData(context.getString(R.string.random_channel_key), 1) as Int
-
-        Timber.d("high_priority_notifications: $highPriority")
-        crashlytics.setCustomKey(context.getString(R.string.high_priority_key), highPriority)
-
-        val preliminaryNotifications: Boolean =
-            sharedPrefUtil.getData(
-                context.getString(R.string.quake_preliminary_key),
-                true
-            ) as Boolean
-
-        Timber.d("preliminary_notifications: $preliminaryNotifications")
-        crashlytics.setCustomKey(
-            context.getString(R.string.quake_preliminary_key),
-            preliminaryNotifications
+        val preliminaryNotifications = getPreliminaryAlertsStatus(
+            sharedPrefUtil, ROOT_PREF_QUAKE_PRELIMINARY, crashlytics
         )
 
-        val minMagnitude: String =
-            sharedPrefUtil.getData(
-                context.getString(R.string.minimum_magnitude_key),
-                "5.0"
-            ).toString()
+        val priority =
+            getNotificationPriority(
+                sharedPrefUtil,
+                ROOT_PREF_HIGH_PRIORITY_NOTIFICATION,
+                crashlytics
+            )
 
-        Timber.d("minimum_magnitude: ${minMagnitude.toDouble()}")
-        crashlytics.setCustomKey(context.getString(R.string.minimum_magnitude_key), minMagnitude)
+        val minMagnitude: String =
+            getMinMagnitude(sharedPrefUtil, ROOT_PREF_MIN_MAGNITUDE, crashlytics)
 
         Builder(
             context,
@@ -211,12 +190,7 @@ class QuakesNotification(
             .setContentTitle(title)
             .setContentText(description)
             .setStyle(BigTextStyle().bigText(description))
-            .setPriority(
-                when (highPriority) {
-                    true -> PRIORITY_HIGH
-                    else -> PRIORITY_DEFAULT
-                }
-            )
+            .setPriority(priority)
             .setAutoCancel(true)
             .setVisibility(VISIBILITY_PUBLIC)
             .setContentIntent(pendingIntent)
@@ -243,8 +217,7 @@ class QuakesNotification(
      */
     fun handleNotificationGeneric(remoteMessage: RemoteMessage) {
 
-        val randomChannel =
-            sharedPrefUtil.getData(context.getString(R.string.random_channel_key), 1) as Int
+        val randomChannel = getRandomChannel(sharedPrefUtil, RANDOM_CHANNEL_ID)
 
         Builder(
             context,
@@ -295,6 +268,4 @@ class QuakesNotification(
             )
         }
     }
-
-    private fun Quake.greatherThan(minMagnitude: String) = magnitude >= minMagnitude.toDouble()
 }

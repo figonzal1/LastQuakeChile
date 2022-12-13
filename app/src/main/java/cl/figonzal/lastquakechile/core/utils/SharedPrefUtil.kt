@@ -37,7 +37,7 @@ class SharedPrefUtil(context: Context) {
      * @param defaultValue If the store value is inaccessible
      * @return Any
      */
-    fun getData(key: String, defaultValue: Any): Any {
+    fun getData(key: String, defaultValue: Any): Any? {
 
         with(sharedPreferences) {
             return when (defaultValue) {
@@ -45,8 +45,7 @@ class SharedPrefUtil(context: Context) {
                 is Boolean -> getBoolean(key, defaultValue)
                 is Float -> getFloat(key, defaultValue)
                 is Long -> getLong(key, defaultValue)
-                else -> getString(key, defaultValue as String)!!
-
+                else -> getString(key, defaultValue as String)
             }
         }
     }
