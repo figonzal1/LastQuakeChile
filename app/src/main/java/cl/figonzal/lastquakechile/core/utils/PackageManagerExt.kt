@@ -6,7 +6,6 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import cl.figonzal.lastquakechile.R
 import timber.log.Timber
 
 
@@ -15,7 +14,7 @@ fun Context.doInstallation(packageName: String) {
     try {
 
         //LOG
-        Timber.d(getString(R.string.INTENT_GOOGLEPLAY))
+        Timber.d("Opening google play")
 
         //Intenta abrir google play
         startActivity(Intent(Intent.ACTION_VIEW).apply {
@@ -26,7 +25,7 @@ fun Context.doInstallation(packageName: String) {
     } catch (anfe: ActivityNotFoundException) {
 
         //Si google play no esta abre webview
-        Timber.w(anfe, getString(R.string.INTENT_BROWSER))
+        Timber.w(anfe, "Opening browser")
 
         startActivity(
             Intent(

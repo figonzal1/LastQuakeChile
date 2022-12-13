@@ -72,7 +72,6 @@
 
     <!-- SHARE PREFERENCES KEYS (Variables) -->
     <string name="shared_pref_master_key" translatable="false">lastquakechile</string>
-    <string name="night_mode_category_key" translatable="false">nigh_mode_pref_category</string>
     <string name="shared_report_cache" translatable="false">reports_cache_entry</string>
     <string name="version_key" translatable="false">version</string>
     <string name="contact_key" translatable="false">contact_email</string>
@@ -84,6 +83,8 @@
     <string name="high_priority_key" translatable="false">high_priority_notifications</string>
     <string name="quake_preliminary_key" translatable="false">quake_preliminary</string>
     <string name="minimum_magnitude_key" translatable="false">minimum_magnitude</string>
+    <string name="night_mode_category_key" translatable="false">nigh_mode_pref_category</string>
+
 
     <!-- STRINGS DE LAYOUTS-->
     <string name="circulo_pintado">Color magnitud sismo</string>
@@ -185,12 +186,6 @@
     <string name="FIREBASE_SUB_DELETE" translatable="false">Subscription deleted</string>
     <string name="FIREBASE_SUB_ALREADY" translatable="false">Already subscribed</string>
     <string name="UPDATE_OK" translatable="false">Update succesfull</string>
-    <string name="SHOW_NIGH_MODE" translatable="false">Show night mode preference</string>
-    <string name="HIDE_NIGHT_MODE" translatable="false">Dont show night mode preference</string>
-    <string name="GOOGLE_MAP_SNAPSHOT" translatable="false">Snapshot google play</string>
-    <string name="INTENT_GOOGLEPLAY" translatable="false">Opening google play</string>
-    <string name="IMAGE_CACHE_EXISTS" translatable="false">Share image exist</string>
-    <string name="IMAGE_CACHE_NOT_EXISTS" translatable="false">Share image not exist</string>
     <string name="LIST_NETWORK_CALL" translatable="false">List updated with network call</string>
     <string name="INFO_WINDOWS_RESPONSE" translatable="false">Info windows open</string>
     <string name="FRAGMENT_LOAD_LIST" translatable="false">List loaded in fragment</string>
@@ -202,10 +197,7 @@
     <string name="EMIT_CACHE_LIST" translatable="false">Emit cached reportList</string>
     <string name="UPDATE_INTENT_FAILED" translatable="false">Update intent failed</string>
     <string name="UPDATE_FAILED" translatable="false">Update flow failed! Result code: %s</string>
-    <string name="INTENT_BROWSER" translatable="false">Opening browser</string>
-    <string name="GP_NOT_SUPPORTED" translatable="false"></string>
     <string name="UPDATE_MANAGER_FAILED" translatable="false">onResume updater manager failed</string>
-    <string name="GOOGLE_MAP_ERROR_SNAPSHOT" translatable="false">Error screenshot map: %s</string>
     <string name="about_msg">LastQuakeChile, te permite visualizar rápidamente los últimos sismos ocurridos en Chile</string>
     <string name="contact_developer">Contacto desarrollador</string>
     <string name="contact_summary">¿Sugerencias? ¿Problemas?</string>

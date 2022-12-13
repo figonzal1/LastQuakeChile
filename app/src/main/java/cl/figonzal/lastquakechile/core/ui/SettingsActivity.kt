@@ -48,9 +48,7 @@ class SettingsActivity : AppCompatActivity() {
     //Settings Fragment
     class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeListener {
 
-        private val sharedPrefUtil: SharedPrefUtil by lazy {
-            SharedPrefUtil(requireActivity())
-        }
+        private val sharedPrefUtil: SharedPrefUtil by lazy { SharedPrefUtil(requireActivity()) }
         private val quakesNotification by lazy {
             QuakesNotification(requireActivity(), sharedPrefUtil)
         }
@@ -123,13 +121,13 @@ class SettingsActivity : AppCompatActivity() {
             when {
                 Build.VERSION.SDK_INT < Build.VERSION_CODES.Q -> {
 
-                    Timber.d(getString(R.string.SHOW_NIGH_MODE))
+                    Timber.d("Show night mode preference")
                     val nightModePrefCategory: PreferenceCategory? =
                         findPreference(getString(R.string.night_mode_category_key))
 
                     nightModePrefCategory?.isVisible = true
                 }
-                else -> Timber.d(getString(R.string.HIDE_NIGHT_MODE))
+                else -> Timber.d("Don't show night mode preference")
             }
         }
 

@@ -1,7 +1,6 @@
 package cl.figonzal.lastquakechile.core.ui
 
 import android.content.Context
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import cl.figonzal.lastquakechile.R
@@ -24,15 +23,12 @@ class MainFragmentStateAdapter(
     private val reportFragment: ReportsFragment by inject()
     private val adFragment: AdFragment = AdFragment.newInstance()
 
-    override fun createFragment(position: Int): Fragment {
-
-        return when (position) {
-            0 -> adFragment
-            1 -> quakeFragment
-            2 -> mapsFragment
-            3 -> reportFragment
-            else -> quakeFragment
-        }
+    override fun createFragment(position: Int) = when (position) {
+        0 -> adFragment
+        1 -> quakeFragment
+        2 -> mapsFragment
+        3 -> reportFragment
+        else -> quakeFragment
     }
 
     override fun getItemCount() = tabs.size
@@ -42,7 +38,7 @@ class MainFragmentStateAdapter(
     }
 
     init {
-        tabs[0] = ""
+        tabs[0] = "" //Ad section
         tabs[1] = context.getString(R.string.tab_list)
         tabs[2] = context.getString(R.string.tab_map)
         tabs[3] = context.getString(R.string.tab_reports)

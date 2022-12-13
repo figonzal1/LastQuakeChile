@@ -24,8 +24,7 @@ fun provideReportDao(database: AppDatabase): ReportDAO = database.reportDao()
 /**
  * Provide in memory database for injection test
  */
-fun provideTestDatabase(application: Application): AppDatabase =
-    Room.inMemoryDatabaseBuilder(
-        application,
-        AppDatabase::class.java
-    ).allowMainThreadQueries().build()
+fun provideTestDatabase(application: Application): AppDatabase = Room.inMemoryDatabaseBuilder(
+    application,
+    AppDatabase::class.java
+).allowMainThreadQueries().build()
