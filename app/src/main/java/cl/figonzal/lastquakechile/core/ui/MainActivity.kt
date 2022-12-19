@@ -17,7 +17,9 @@ import cl.figonzal.lastquakechile.core.services.ChangeLogService
 import cl.figonzal.lastquakechile.core.services.GooglePlayService
 import cl.figonzal.lastquakechile.core.services.NightModeService
 import cl.figonzal.lastquakechile.core.services.UpdaterService
-import cl.figonzal.lastquakechile.core.services.notifications.QuakesNotification
+import cl.figonzal.lastquakechile.core.services.notifications.QuakeNotificationImpl
+import cl.figonzal.lastquakechile.core.services.notifications.utils.getFirebaseToken
+import cl.figonzal.lastquakechile.core.services.notifications.utils.subscribedToQuakes
 import cl.figonzal.lastquakechile.core.utils.*
 import cl.figonzal.lastquakechile.databinding.ActivityMainBinding
 import com.google.android.gms.ads.AdView
@@ -26,6 +28,9 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
 import org.koin.androidx.fragment.android.setupKoinFragmentFactory
 import timber.log.Timber
 
@@ -35,6 +40,9 @@ class MainActivity : AppCompatActivity() {
     private var adView: AdView? = null
     private var updaterService: UpdaterService? = null
     private lateinit var binding: ActivityMainBinding
+
+    private val crashlytics = Firebase.crashlytics
+    private val fcm = Firebase.messaging
 
     @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +61,7 @@ class MainActivity : AppCompatActivity() {
         when {
             Build.VERSION.SDK_INT < Build.VERSION_CODES.Q -> {
                 Timber.d("ANDROID_VERSION < Q: ${Build.VERSION.SDK_INT}")
-                lifecycle.addObserver(NightModeService(this))
+                lifecycle.addObserver(NightModeService(this, crashlytics))
             }
             else -> {
                 Timber.d("ANDROID_VERSION > Q: ${Build.VERSION.SDK_INT}")
@@ -61,10 +69,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         //GP services
-        lifecycle.addObserver(GooglePlayService(this))
+        lifecycle.addObserver(GooglePlayService(this, crashlytics))
 
         //ChangeLog Service
-        lifecycle.addObserver(ChangeLogService(this, SharedPrefUtil(this)))
+        lifecycle.addObserver(ChangeLogService(this, SharedPrefUtil(this), crashlytics))
 
         //Firebase services
         getFirebaseToken()
@@ -73,8 +81,8 @@ class MainActivity : AppCompatActivity() {
         adView = startAds(binding.adViewContainer)
 
         //Updater service
-        updaterService = UpdaterService(this, AppUpdateManagerFactory.create(this))
-        updaterService!!.checkAvailability()
+        updaterService = UpdaterService(this, AppUpdateManagerFactory.create(this), crashlytics)
+        updaterService?.checkAvailability()
 
         setUpNotificationService(sharedPrefUtil)
 
@@ -86,11 +94,11 @@ class MainActivity : AppCompatActivity() {
     private fun setUpNotificationService(sharedPrefUtil: SharedPrefUtil) {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            QuakesNotification(this, sharedPrefUtil).createChannel()
+            QuakeNotificationImpl(this, sharedPrefUtil).createChannel()
         }
 
         //Automatic subscribe
-        this@MainActivity.subscribedToQuakes(true, sharedPrefUtil)
+        subscribedToQuakes(true, sharedPrefUtil, fcm, crashlytics)
     }
 
     private fun setToolbarViewPagerTabs() {
@@ -198,8 +206,8 @@ class MainActivity : AppCompatActivity() {
 
         if (requestCode == UpdaterService.UPDATE_CODE) {
             when (resultCode) {
-                RESULT_OK -> Timber.d(getString(R.string.UPDATE_OK))
-                else -> Timber.e(getString(R.string.UPDATE_FAILED), resultCode)
+                RESULT_OK -> Timber.d("Lqch-apk updated successfully")
+                else -> Timber.e("Lqch-apk update flow failed! Result code: %s", resultCode)
             }
         }
     }

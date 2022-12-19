@@ -72,7 +72,6 @@
     <string name="OCT">Octubre</string>
     <string name="NOV">Noviembre</string>
     <string name="DEC">Diciembre</string>
-    <string name="REPORT_FORMAT" formatted="false">%s %s</string>
     <string name="intent_chooser">Compartir sismos</string>
     <string name="night_mode_key_toast_off">Modo noche desactivado</string>
     <string name="version">"Versión "</string>
@@ -148,4 +147,5 @@
     <string name="activar">Activar</string>
     <string name="alert_permission_description">Este dispositivo cuenta con Android 13. Para recibir alertas de sismos se requiere activar el permiso para notificaciones</string>
     <string name="alert_permission_title">Permiso para alertas sísmicas</string>
+    <string name="privacy_policy">Política de privacidad</string>
 </resources>

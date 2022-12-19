@@ -1,7 +1,6 @@
 package cl.figonzal.lastquakechile.quake_feature.data.repository
 
 import android.app.Application
-import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.data.remote.ApiError
 import cl.figonzal.lastquakechile.core.data.remote.StatusAPI
 import cl.figonzal.lastquakechile.core.utils.processApiError
@@ -47,7 +46,7 @@ class QuakeRepositoryImpl(
 
                 cacheList = localDataSource.getQuakes().toQuakeDomain()
 
-                Timber.d(application.getString(R.string.LIST_NETWORK_CALL))
+                Timber.d("List updated with network call")
 
                 emit(StatusAPI.Success(cacheList))
             }
@@ -81,7 +80,7 @@ class QuakeRepositoryImpl(
 
                         emit(StatusAPI.Success(quakes))
 
-                        Timber.d(application.getString(R.string.LIST_NETWORK_CALL))
+                        Timber.d("List updated with network call")
                     }
                     else -> {
                         val apiError = ApiError.ResourceNotFound

@@ -11,8 +11,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.services.notifications.utils.QUAKE
 import cl.figonzal.lastquakechile.core.ui.dialog.MapTerrainDialogFragment
 import cl.figonzal.lastquakechile.core.utils.*
+import cl.figonzal.lastquakechile.core.utils.views.QUAKE_DETAILS_MAGNITUDE_FORMAT
 import cl.figonzal.lastquakechile.databinding.FragmentMapsBinding
 import cl.figonzal.lastquakechile.databinding.InfoWindowsBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
@@ -62,7 +64,7 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener, O
                     when {
                         !it.isLoading && it.quakes.isNotEmpty() -> {
                             quakeList = it.quakes
-                            Timber.d(getString(R.string.FRAGMENT_LOAD_LIST))
+                            Timber.d("List loaded in fragment")
 
                             binding.mapView.getMapAsync(this@MapsFragment)
                         }
@@ -120,13 +122,13 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener, O
         }
 
         //Log zone
-        Timber.d(getString(R.string.MAP_READY_RESPONSE))
+        Timber.d("Map ready")
     }
 
     override fun onInfoWindowClick(p0: Marker) {
         val quake = p0.tag as Quake
         Intent(context, QuakeDetailsActivity::class.java).apply {
-            putExtra(getString(R.string.INTENT_QUAKE), quake)
+            putExtra(QUAKE, quake)
             startActivity(this)
         }
     }
@@ -144,7 +146,7 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener, O
             tvIwReference.text = quake.reference
 
             tvIwMagnitude.text = String.format(
-                requireContext().getString(R.string.magnitud),
+                QUAKE_DETAILS_MAGNITUDE_FORMAT,
                 quake.magnitude
             )
 
@@ -163,7 +165,7 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener, O
         }
 
         //Log zone
-        Timber.d(getString(R.string.INFO_WINDOWS_RESPONSE))
+        Timber.d("Info windows open")
 
         return infoBinding.root
     }

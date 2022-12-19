@@ -56,9 +56,7 @@ fun GoogleMap.setNightMode(context: Context) {
         context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
 
     if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
-        setMapStyle(
-            MapStyleOptions.loadRawResourceStyle(context, R.raw.map_night_mode)
-        )
+        setMapStyle(MapStyleOptions.loadRawResourceStyle(context, R.raw.map_night_mode))
     }
 }
 
@@ -95,11 +93,12 @@ fun Context.makeSnapshot(googleMap: GoogleMap, quake: Quake) {
 
     googleMap.snapshot {
         try {
-            Timber.d(getString(R.string.GOOGLE_MAP_SNAPSHOT))
+            Timber.d("Snapshot google map")
+
             val bitMapUri = it?.let { it1 -> this.getLocalBitmapUri(it1) }
             shareQuake(quake, bitMapUri)
         } catch (e: IOException) {
-            Timber.e(e, getString(R.string.GOOGLE_MAP_ERROR_SNAPSHOT), e.message)
+            Timber.e(e, "Error screenshot map: %s", e.message)
         }
     }
 
@@ -159,7 +158,8 @@ private fun Context.shareQuake(quake: Quake, bitMapUri: Uri?) {
     }
 }
 
+const val SHARED_PREF_MAP_TYPE = "map_type"
 fun Context.configMapType() = SharedPrefUtil(this).getData(
-    getString(R.string.shared_pref_map_type),
+    SHARED_PREF_MAP_TYPE,
     GoogleMap.MAP_TYPE_NORMAL
 ) as Int

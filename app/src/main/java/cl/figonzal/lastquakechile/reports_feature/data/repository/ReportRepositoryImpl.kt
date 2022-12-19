@@ -1,20 +1,24 @@
 package cl.figonzal.lastquakechile.reports_feature.data.repository
 
 import android.app.Application
-import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.data.remote.StatusAPI
 import cl.figonzal.lastquakechile.core.utils.*
 import cl.figonzal.lastquakechile.reports_feature.data.local.ReportLocalDataSource
 import cl.figonzal.lastquakechile.reports_feature.data.remote.ReportRemoteDataSource
 import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
 import cl.figonzal.lastquakechile.reports_feature.domain.repository.ReportRepository
-import com.skydoves.sandwich.*
+import com.skydoves.sandwich.message
+import com.skydoves.sandwich.suspendOnError
+import com.skydoves.sandwich.suspendOnFailure
+import com.skydoves.sandwich.suspendOnSuccess
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import timber.log.Timber
 import java.time.LocalDateTime
+
+private const val SHARED_PREF_REPORT_CACHE = "reports_cache_entry"
 
 /**
  * Single source of truth for reports
@@ -34,7 +38,7 @@ class ReportRepositoryImpl(
         when {
             cacheList.isNotEmpty() && !isCacheExpired() -> {
 
-                Timber.d(application.getString(R.string.EMIT_CACHE_LIST))
+                Timber.d("Emitting cached reportList")
 
                 emit(StatusAPI.Success(cacheList))
             }
@@ -52,11 +56,11 @@ class ReportRepositoryImpl(
 
                         //Save timestamp
                         sharedPrefUtil.saveData(
-                            application.getString(R.string.shared_report_cache),
-                            LocalDateTime.now().localDateTimeToString()
+                            key = SHARED_PREF_REPORT_CACHE,
+                            value = LocalDateTime.now().localDateTimeToString()
                         )
 
-                        Timber.d(application.getString(R.string.LIST_NETWORK_CALL))
+                        Timber.d("List updated with network call")
 
                         //emit cached
                         cacheList = localDataSource.getReports().toReportDomain()
@@ -84,11 +88,10 @@ class ReportRepositoryImpl(
     private fun isCacheExpired(): Boolean {
 
         val sharedTimeCached = sharedPrefUtil.getData(
-            application.getString(R.string.shared_report_cache),
-            LocalDateTime.now().minusDays(2).localDateTimeToString()
+            key = SHARED_PREF_REPORT_CACHE,
+            defaultValue = LocalDateTime.now().minusDays(2).localDateTimeToString()
             //Return now()-2 days if timeCached not exist, to force expiration
         ) as String
-
 
         val timeNow = LocalDateTime.now()
         val timeCached = sharedTimeCached.stringToLocalDateTime().plusDays(1)

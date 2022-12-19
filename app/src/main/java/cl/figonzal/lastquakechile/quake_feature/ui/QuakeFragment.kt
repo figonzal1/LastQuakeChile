@@ -18,8 +18,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.services.notifications.utils.checkAlertsPermissions
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
-import cl.figonzal.lastquakechile.core.utils.checkAlertsPermissions
 import cl.figonzal.lastquakechile.core.utils.configOptionsMenu
 import cl.figonzal.lastquakechile.core.utils.showServerApiError
 import cl.figonzal.lastquakechile.databinding.FragmentQuakeBinding
@@ -29,6 +29,7 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import timber.log.Timber
 
+private const val SHARED_PREF_PERMISSION_ALERT_ANDROID_13 = "alert_permission"
 private const val QUERY_PAGE_SIZE: Int = 20
 
 class QuakeFragment(
@@ -208,9 +209,8 @@ class QuakeFragment(
                 includeErrorMessage.root.visibility = this
                 tvCacheCopy.visibility = this
             }
+            Timber.d("Showing quake list in fragment")
         }
-
-        Timber.d(getString(R.string.FRAGMENT_LOAD_LIST))
     }
 
     var isLoading = false
@@ -261,12 +261,12 @@ class QuakeFragment(
                 isGranted -> Timber.d("Alert permission granted")
                 else -> Timber.d("Alert permission not granted")
             }
-            sharedPrefUtil.saveData(getString(R.string.shared_pref_cv_permission), false)
+            sharedPrefUtil.saveData(SHARED_PREF_PERMISSION_ALERT_ANDROID_13, false)
             cvAlertPermission.root.visibility = View.GONE
         }
 
         val showCv = sharedPrefUtil.getData(
-            getString(R.string.shared_pref_cv_permission),
+            SHARED_PREF_PERMISSION_ALERT_ANDROID_13,
             true
         ) as Boolean
 

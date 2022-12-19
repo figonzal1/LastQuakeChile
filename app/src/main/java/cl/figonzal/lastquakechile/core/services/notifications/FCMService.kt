@@ -1,21 +1,23 @@
 package cl.figonzal.lastquakechile.core.services.notifications
 
-import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.services.notifications.utils.FIREBASE_MSG_GENERIC
+import cl.figonzal.lastquakechile.core.services.notifications.utils.FIREBASE_MSG_QUAKE_DATA
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import timber.log.Timber
 
-class FirebaseQuakeNotificationService : FirebaseMessagingService() {
+
+class FCMService : FirebaseMessagingService() {
 
     private lateinit var crashlytics: FirebaseCrashlytics
-    private var quakesNotification: QuakesNotification? = null
+    private var notificationServiceImpl: QuakeNotificationImpl? = null
 
     override fun onCreate() {
         super.onCreate()
         crashlytics = FirebaseCrashlytics.getInstance()
-        quakesNotification = QuakesNotification(
+        notificationServiceImpl = QuakeNotificationImpl(
             applicationContext, SharedPrefUtil(applicationContext)
         )
     }
@@ -28,17 +30,18 @@ class FirebaseQuakeNotificationService : FirebaseMessagingService() {
         //Notification with quake data
         if (remoteMessage.data.isNotEmpty()) {
 
-            Timber.d("Message data payload: ${remoteMessage.data}")
-            crashlytics.setCustomKey(getString(R.string.firebase_msg_data_status), true)
+            Timber.d("Message quake data payload: ${remoteMessage.data}")
+            crashlytics.setCustomKey(FIREBASE_MSG_QUAKE_DATA, "Received")
 
-            quakesNotification?.handleQuakeNotification(remoteMessage)
+            notificationServiceImpl?.handleQuakeNotification(remoteMessage)
         }
 
         //Notification from FCM
         if (remoteMessage.notification != null) {
-            Timber.d("Message notification: ${remoteMessage.notification!!.title} - ${remoteMessage.notification!!.body}")
-            crashlytics.setCustomKey(getString(R.string.firebase_msg_notification_status), true)
-            quakesNotification?.handleNotificationGeneric(remoteMessage)
+            Timber.d("Message notification: ${remoteMessage.notification?.title} - ${remoteMessage.notification?.body}")
+            crashlytics.setCustomKey(FIREBASE_MSG_GENERIC, "Received")
+
+            notificationServiceImpl?.handleNotificationGeneric(remoteMessage)
         }
     }
 

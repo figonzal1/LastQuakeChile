@@ -6,16 +6,11 @@
     <string name="ROOM_DB_NAME" translatable="false">lqch_database</string>
     <string name="DEEP_LINK" translatable="false">https://lastquakechile.page.link/lqch</string>
     <string name="CRONITOR_STATUS" translatable="false">https://lqch.cronitorstatus.com/</string>
+    <string name="PRIVACY_POLICY_URL_EN" translatable="false">https://github.com/figonzal1/LastQuakeChile/blob/main/privacy_policy_en.md</string>
+    <string name="PRIVACY_POLICY_URL_ES" translatable="false">https://github.com/figonzal1/LastQuakeChile/blob/main/privacy_policy_es.md</string>
 
-    <!-- PROD AD-->
-    <!--<string name="ADMOB_ID_BANNER" translatable="false">ca-app-pub-6355378855577476/5493893896</string>
-    <string name="ADMOB_ID_NATIVE_FRAGMENT" translatable="false">ca-app-pub-6355378855577476/2611250693</string>
-    <string name="ADMOB_ID_NATIVE_DETAILS" translatable="false">ca-app-pub-6355378855577476/2723765487</string>-->
 
-    <!--TEST AD-->
-    <string name="ADMOB_ID_BANNER" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="ADMOB_ID_NATIVE_FRAGMENT" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
-    <string name="ADMOB_ID_NATIVE_DETAILS" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="mail_to_felipe" translatable="false">felipe.gonzalezalarcon94@gmail.com</string>
 
     <!-- TOOLBAR Menu STRINGS -->
     <string name="settings">Configuración</string>
@@ -35,66 +30,27 @@
     <string name="SHARE_GEO_REF">Georeferencia</string>
     <string name="SHARE_DOWNLOAD_MSG"><![CDATA[Descarga la app aquí ->]]></string>
 
-    <!-- KEY DE JSON PARA PHP -->
-    <!-- KEY PARA INTENT & NOTIFICACIONES -->
-    <string name="INTENT_QUAKE" translatable="false">quake</string>
-    <string name="INTENT_CIUDAD" translatable="false">ciudad</string>
-    <string name="INTENT_REFERENCIA" translatable="false">referencia</string>
-    <string name="INTENT_LATITUD" translatable="false">latitud</string>
-    <string name="INTENT_LONGITUD" translatable="false">longitud</string>
-    <string name="INTENT_FECHA_UTC" translatable="false">fecha_utc</string>
-    <string name="INTENT_MAGNITUD" translatable="false">magnitud</string>
-    <string name="INTENT_PROFUNDIDAD" translatable="false">profundidad</string>
-    <string name="INTENT_ESCALA" translatable="false">escala</string>
-    <string name="INTENT_SENSIBLE" translatable="false">sensible</string>
-    <string name="INTENT_QUAKE_CODE" translatable="false">imagen_url</string>
-    <string name="INTENT_ESTADO" translatable="false">estado</string>
-    <string name="INTENT_IS_UPDATE" translatable="false">is_update</string>
-
     <!-- FIREBASE strings -->
     <string name="firebase_channel_name_quakes">Alerta sismos</string>
     <string name="firebase_channel_description_quakes">Recibe alertas de sismos</string>
-    <string name="firebase_channel_status" translatable="false">channel_created</string>
-    <string name="firebase_msg_data_status" translatable="false">data_message_received</string>
-    <string name="firebase_msg_notification_status" translatable="false">notification_message_received</string>
-    <string name="try_intent_notification" translatable="false">TRY_INTENT_NOTIFICATION</string>
-    <string name="firebase_pref_key" translatable="false">pref_suscrito_quake</string>
-    <string name="subsqribed_quake" translatable="false">subscribed_quake</string>
-    <string name="firebase_topic_name" translatable="false">quakes_v2</string>
     <string name="firebase_pref_key_alert_on">Alertas activadas</string>
     <string name="firebase_pref_key_alert_off">Alertas desactivadas</string>
 
-
-    <!-- Strings para calculo de tiempo -->
-    <string name="utils_time_day" translatable="false">days</string>
-    <string name="utils_time_hour" translatable="false">hours</string>
-    <string name="utils_time_min" translatable="false">minutes</string>
-    <string name="utils_time_seg" translatable="false">seconds</string>
-
-    <!-- SHARE PREFERENCES KEYS (Variables) -->
-    <string name="shared_pref_master_key" translatable="false">lastquakechile</string>
-    <string name="shared_pref_actual_version_code" translatable="false">actual_v_code</string>
-    <string name="night_mode_category_key" translatable="false">nigh_mode_pref_category</string>
-    <string name="shared_report_cache" translatable="false">reports_cache_entry</string>
+    <!-- ROOT PREFERENCES -->
+    <string name="night_mode_key" translatable="false">pref_night_mode</string>
     <string name="high_priority_key" translatable="false">high_priority_notifications</string>
     <string name="quake_preliminary_key" translatable="false">quake_preliminary</string>
+    <string name="minimum_magnitude_key" translatable="false">minimum_magnitude</string>
+    <string name="night_mode_category_key" translatable="false">nigh_mode_pref_category</string>
+    <string name="firebase_pref_key" translatable="false">pref_suscrito_quake</string>
     <string name="version_key" translatable="false">version</string>
     <string name="contact_key" translatable="false">contact_email</string>
-    <string name="minimum_magnitude_key" translatable="false">minimum_magnitude</string>
-    <string name="shared_pref_map_type" translatable="false">map_type</string>
-    <string name="shared_pref_cv_permission" translatable="false">cv_alert_permission</string>
-
-    <!-- KEY INTENT -->
+    <string name="privacy_policy_key" translatable="false">privacy_policy</string>
 
 
     <!-- STRINGS DE LAYOUTS-->
     <string name="circulo_pintado">Color magnitud sismo</string>
     <string name="imagen_toolbar">Fondo de barra de herramientas</string>
-    <string name="quake_time_day" translatable="false">%1$d d</string>
-    <string name="quake_time_day_hour" translatable="false">%1$d d %2$d h</string>
-    <string name="quake_time_hour" translatable="false">%1$d h</string>
-    <string name="quake_time_minute" translatable="false">%1$d m</string>
-    <string name="quake_time_second" translatable="false">%1$d s</string>
     <string name="quake_time_day_info_windows">Hace: %1$d d</string>
     <string name="quake_time_day_hour_info_windows">Hace: %1$d d %2$d h</string>
     <string name="quake_time_hour_info_windows">Hace: %1$d h</string>
@@ -108,10 +64,7 @@
     <string name="icono_escala">Icono escala</string>
     <string name="profundidad">Profundidad</string>
     <string name="escala">Escala</string>
-    <string name="quake_details_escala" translatable="false">%1$s</string>
-    <string name="quake_details_profundidad" translatable="false">%.1f Km</string>
     <string name="profundidad_info_windows">Profundidad: %.1f Km</string>
-    <string name="magnitud" translatable="false">%.1f</string>
     <string name="quake_details_magnitud_local">Magnitud Local (Ml)</string>
     <string name="quake_details_magnitud_momento" tools:ignore="Typos">Magnitud Momento (Mw)</string>
     <string name="icono_sensible">Icono sismo sensible</string>
@@ -119,7 +72,6 @@
     <string name="coordenadas_norte" translatable="false">N</string>
     <string name="coordenadas_oeste">O</string>
     <string name="coordenadas_este">E</string>
-    <string name="format_coordenadas" translatable="false">%s \n%s</string>
     <string name="seccion_listado_de_sismos">Sección listado de sismos</string>
     <string name="boton_compartir_sismo">Botón compartir sismo</string>
     <string name="imagen_estado_sismo">Imagen estado sismo</string>
@@ -145,7 +97,6 @@
         <item quantity="one">Último %d sismo</item>
         <item quantity="other">Últimos %d sismos</item>
     </plurals>
-    <string name="night_mode_key" translatable="false">pref_night_mode</string>
     <string name="night_mode_key_toast_on">Modo noche activado</string>
     <string name="night_mode_key_toast_off">Modo noche desactivado</string>
     <string name="night_mode_pref_summary">Ahorra batería y evita tu cansancio ocular</string>
@@ -153,7 +104,6 @@
     <string name="night_mode_pref_title_switch">Modo noche</string>
     <string name="night_mode_manual_pref_summary_on">Activado</string>
     <string name="night_mode_manual_pref_summary_off">Desactivado</string>
-    <string name="random_channel_key" translatable="false">random_channel_id</string>
 
     <string name="JAN">Enero</string>
     <string name="FEB">Febrero</string>
@@ -167,7 +117,6 @@
     <string name="OCT">Octubre</string>
     <string name="NOV">Noviembre</string>
     <string name="DEC">Diciembre</string>
-    <string name="REPORT_FORMAT" formatted="false">%s %s</string>
     <string name="intent_chooser">Compartir sismos</string>
     <string name="version">Versión</string>
     <string name="qu_hay_de_nuevo_en_la_app">¿Qué hay de nuevo en la app?</string>
@@ -182,50 +131,10 @@
     <string name="io_error">Revisa tu conexión a Internet</string>
     <string name="ad" translatable="false">Ad</string>
     <string name="icon_ad_app">Icono publicidad aplicación</string>
-
-    <!-- FOR TIMBER -->
-    <string name="SHARED_VERSION_CODE_APP" translatable="false">Store version code: </string>
-    <string name="VERSION_CODE_APP" translatable="false">Installed version code: </string>
-    <string name="NEW_VERSION_DETECTED" translatable="false">New version detected</string>
-    <string name="NO_NEW_VERSION_DETECTED" translatable="false">New version NOT detected</string>
-    <string name="GP_UPDATED" translatable="false">Updated</string>
-    <string name="NIGHT_MODE" translatable="false">NightMode</string>
-    <string name="UPDATE_AVAILABLE" translatable="false">Update available</string>
-    <string name="UPDATE_NOT_AVAILABLE" translatable="false">Update not available</string>
-    <string name="FIREBASE_CHANNEL_CREATED" translatable="false">Notification channel created</string>
-    <string name="FIREBASE_CHANNEL_DELETED" translatable="false">Notification channel deleted</string>
-    <string name="TRY_INTENT_NOTIFICATION_1" translatable="false">Trying intent notification</string>
-    <string name="FIREBASE_SUB_OK" translatable="false">Subscribed</string>
-    <string name="FIREBASE_SUB_DELETE" translatable="false">Subscription deleted</string>
-    <string name="FIREBASE_SUB_ALREADY" translatable="false">Already subscribed</string>
-    <string name="UPDATE_OK" translatable="false">Update succesfull</string>
-    <string name="SHOW_NIGH_MODE" translatable="false">Show night mode preference</string>
-    <string name="HIDE_NIGHT_MODE" translatable="false">Dont show night mode preference</string>
-    <string name="GOOGLE_MAP_SNAPSHOT" translatable="false">Snapshot google play</string>
-    <string name="INTENT_GOOGLEPLAY" translatable="false">Opening google play</string>
-    <string name="IMAGE_CACHE_EXISTS" translatable="false">Share image exist</string>
-    <string name="IMAGE_CACHE_NOT_EXISTS" translatable="false">Share image not exist</string>
-    <string name="LIST_NETWORK_CALL" translatable="false">List updated with network call</string>
-    <string name="INFO_WINDOWS_RESPONSE" translatable="false">Info windows open</string>
-    <string name="FRAGMENT_LOAD_LIST" translatable="false">List loaded in fragment</string>
-    <string name="MAP_READY_RESPONSE" translatable="false">Map ready</string>
-    <string name="TRY_INTENT_DETAIL" translatable="false">QuakeDetail intent</string>
-    <string name="FAB_SHARE" translatable="false">FAB SHARE</string>
-    <string name="CLICKED" translatable="false">CLICKED</string>
-    <string name="INTENT_DETAIL_HOME_UP" translatable="false">Home up clicked</string>
-    <string name="EMIT_CACHE_LIST" translatable="false">Emit cached reportList</string>
-    <string name="UPDATE_INTENT_FAILED" translatable="false">Update intent failed</string>
-    <string name="UPDATE_FAILED" translatable="false">Update flow failed! Result code: %s</string>
-    <string name="INTENT_BROWSER" translatable="false">Opening browser</string>
-    <string name="GP_REQUEST" translatable="false">Request update</string>
-    <string name="GP_NOT_SUPPORTED" translatable="false">Not supported</string>
-    <string name="UPDATE_MANAGER_FAILED" translatable="false">onResume updater manager failed</string>
-    <string name="GOOGLE_MAP_ERROR_SNAPSHOT" translatable="false">Error screenshot map: %s</string>
     <string name="about_msg">LastQuakeChile, te permite visualizar rápidamente los últimos sismos ocurridos en Chile</string>
     <string name="contact_developer">Contacto desarrollador</string>
     <string name="contact_summary">¿Sugerencias? ¿Problemas?</string>
     <string name="about">Acerca</string>
-    <string name="mail_to_felipe" translatable="false">felipe.gonzalezalarcon94@gmail.com</string>
     <string name="no_apagado">Wifi apagado</string>
     <string name="wifi_off_msg">Por favor, revisa tu conexión</string>
     <string name="email_intent_fail">No tienes ninguna app de email para contactarnos</string>
@@ -275,6 +184,6 @@
     <string name="activar">Activar</string>
     <string name="alert_permission_description">Este dispositivo cuenta con Android 13. Para recibir alertas de sismos se requiere activar el permiso para notificaciones</string>
     <string name="alert_permission_title">Permiso para alertas sísmicas</string>
-
+    <string name="privacy_policy">Política de privacidad</string>
 
 </resources>

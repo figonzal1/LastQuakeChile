@@ -2,12 +2,13 @@ package cl.figonzal.lastquakechile.core.utils
 
 import android.content.Context
 import androidx.core.content.edit
-import cl.figonzal.lastquakechile.R
+
+private const val SHARED_PREF_MASTER_KEY = "lastquakechile"
 
 class SharedPrefUtil(context: Context) {
 
     private val sharedPreferences = context.getSharedPreferences(
-        context.getString(R.string.shared_pref_master_key),
+        SHARED_PREF_MASTER_KEY,
         Context.MODE_PRIVATE
     )
 
@@ -37,7 +38,7 @@ class SharedPrefUtil(context: Context) {
      * @param defaultValue If the store value is inaccessible
      * @return Any
      */
-    fun getData(key: String, defaultValue: Any): Any {
+    fun getData(key: String, defaultValue: Any): Any? {
 
         with(sharedPreferences) {
             return when (defaultValue) {
@@ -45,8 +46,7 @@ class SharedPrefUtil(context: Context) {
                 is Boolean -> getBoolean(key, defaultValue)
                 is Float -> getFloat(key, defaultValue)
                 is Long -> getLong(key, defaultValue)
-                else -> getString(key, defaultValue as String)!!
-
+                else -> getString(key, defaultValue as String)
             }
         }
     }

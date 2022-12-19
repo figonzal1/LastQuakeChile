@@ -5,11 +5,15 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.preference.PreferenceManager
-import cl.figonzal.lastquakechile.R
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import timber.log.Timber
 
+private const val ROOT_PREF_NIGHT_MODE = "pref_night_mode"
+private const val FIREBASE_NIGHT_MODE_STATUS = "night_mode_status"
+
 class NightModeService(
-    private val activity: Activity
+    private val activity: Activity,
+    private val crashlytics: FirebaseCrashlytics
 ) : DefaultLifecycleObserver {
 
 
@@ -22,23 +26,24 @@ class NightModeService(
     private fun checkNightMode() {
 
         //Leer preference settings
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity)
-
-        val isNightModeActivated =
-            sharedPreferences.getBoolean(activity.getString(R.string.night_mode_key), false)
+        val isNightModeActivated = PreferenceManager
+            .getDefaultSharedPreferences(activity)
+            .getBoolean(ROOT_PREF_NIGHT_MODE, false)
 
         when {
             isNightModeActivated -> {
 
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 
-                Timber.d(activity.getString(R.string.NIGHT_MODE) + ": ON")
+                Timber.d("Night mode: ON")
+                crashlytics.setCustomKey(FIREBASE_NIGHT_MODE_STATUS, "ON")
             }
 
             else -> {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
-                Timber.d(activity.getString(R.string.NIGHT_MODE) + ": OFF")
+                Timber.d("Night mode: OFF")
+                crashlytics.setCustomKey(FIREBASE_NIGHT_MODE_STATUS, "OFF")
             }
         }
     }
