@@ -72,12 +72,14 @@ Los Usuarios pueden encontrar información específica los Datos personales util
 Los Datos Personales se recogen para las siguientes finalidades y utilizando los siguientes servicios:
 
 * Servicios de plataforma y hosting:
+
     Estos servicios tienen el propósito de alojar y ejecutar componentes clave de esta Aplicación,
     por lo tanto, permite la provisión de esta Aplicación desde dentro de una plataforma unificada. Semejante
     Las plataformas proporcionan una amplia gama de herramientas al Propietario, p. analítica, registro de usuarios,
     comentarios, gestión de bases de datos, comercio electrónico, procesamiento de pagos, que implican la recopilación y
     manejo de Datos Personales. Algunos de estos servicios funcionan a través de servidores distribuidos geográficamente,
     lo que dificulta determinar la ubicación real donde se almacenan los Datos personales.
+    
     * __Google Play Store__: Esta Aplicación se distribuye en Google Play Store, una plataforma
         para la distribución de aplicaciones móviles, proporcionadas por Google LLC o por Google Ireland Limited,
         dependiendo de la ubicación desde la que se acceda a esta Aplicación. En virtud de ser distribuido
