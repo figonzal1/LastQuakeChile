@@ -142,12 +142,14 @@ section “Detailed information on the processing of Personal Data”.
 Personal Data is collected for the following purposes and using the following services:
 
 * Platform services and hosting:
+
   These services have the purpose of hosting and running key components of this Application,
   therefore allowing the provision of this Application from within a unified platform. Such
   platforms provide a wide range of tools to the Owner – e.g. analytics, user registration,
   commenting, database management, e-commerce, payment processing – that imply the collection and
   handling of Personal Data. Some of these services work through geographically distributed servers,
   making it difficult to determine the actual location where the Personal Data are stored.
+  
     * __Google Play Store__: This Application is distributed on the Google Play Store, a platform
       for the distribution of mobile apps, provided by Google LLC or by Google Ireland Limited,
       depending on the location this Application is accessed from. By virtue of being distributed
@@ -162,6 +164,7 @@ Personal Data is collected for the following purposes and using the following se
 
   The services contained in this section enable the Owner to monitor and analyze web traffic and can
   be used to keep track of User behavior.
+  
     * __Google Analytics for Firebase__: Google Analytics for Firebase or Firebase Analytics is an
       analytics service provided by Google LLC or by Google Ireland Limited, depending on the
       location this Application is accessed from.
