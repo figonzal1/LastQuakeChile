@@ -82,6 +82,12 @@
         <Preference
             app:allowDividerAbove="true"
             app:iconSpaceReserved="true"
+            app:key="@string/privacy_policy_key"
+            app:title="@string/privacy_policy" />
+
+        <Preference
+            app:allowDividerAbove="true"
+            app:iconSpaceReserved="true"
             app:key="@string/contact_key"
             app:summary="@string/contact_summary"
             app:title="@string/contact_developer" />

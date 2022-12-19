@@ -6,6 +6,9 @@
     <string name="ROOM_DB_NAME" translatable="false">lqch_database</string>
     <string name="DEEP_LINK" translatable="false">https://lastquakechile.page.link/lqch</string>
     <string name="CRONITOR_STATUS" translatable="false">https://lqch.cronitorstatus.com/</string>
+    <string name="PRIVACY_POLICY_URL_EN" translatable="false">https://github.com/figonzal1/LastQuakeChile/blob/dev/privacy_policy_en.md</string>
+    <string name="PRIVACY_POLICY_URL_ES" translatable="false">https://github.com/figonzal1/LastQuakeChile/blob/dev/privacy_policy_es.md</string>
+
 
     <string name="mail_to_felipe" translatable="false">felipe.gonzalezalarcon94@gmail.com</string>
 
@@ -42,6 +45,8 @@
     <string name="firebase_pref_key" translatable="false">pref_suscrito_quake</string>
     <string name="version_key" translatable="false">version</string>
     <string name="contact_key" translatable="false">contact_email</string>
+    <string name="privacy_policy_key" translatable="false">privacy_policy</string>
+
 
     <!-- STRINGS DE LAYOUTS-->
     <string name="circulo_pintado">Color magnitud sismo</string>
@@ -179,5 +184,6 @@
     <string name="activar">Activar</string>
     <string name="alert_permission_description">Este dispositivo cuenta con Android 13. Para recibir alertas de sismos se requiere activar el permiso para notificaciones</string>
     <string name="alert_permission_title">Permiso para alertas sísmicas</string>
+    <string name="privacy_policy">Política de privacidad</string>
 
 </resources>

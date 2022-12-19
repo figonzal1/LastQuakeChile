@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.Intent.*
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.text.InputType
@@ -23,6 +24,7 @@ import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
 import timber.log.Timber
+import java.util.*
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -68,6 +70,8 @@ class SettingsActivity : AppCompatActivity() {
                 configNightMode()
 
                 configMinimumMagnitude()
+
+                configPrivacyPolicy()
             }
         }
 
@@ -92,6 +96,21 @@ class SettingsActivity : AppCompatActivity() {
             with(requireActivity()) {
                 setTheme(R.style.AppTheme)
                 recreate()
+            }
+        }
+
+        private fun configPrivacyPolicy() {
+            findPreference<Preference>(getString(R.string.privacy_policy_key))?.setOnPreferenceClickListener {
+
+                Intent(ACTION_VIEW).apply {
+
+                    data = when (Locale.getDefault().language) {
+                        "es" -> Uri.parse(getString(R.string.PRIVACY_POLICY_URL_ES))
+                        else -> Uri.parse(getString(R.string.PRIVACY_POLICY_URL_EN))
+                    }
+                    startActivity(this)
+                }
+                true
             }
         }
 
