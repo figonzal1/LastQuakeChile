@@ -6,8 +6,8 @@
     <string name="ROOM_DB_NAME" translatable="false">lqch_database</string>
     <string name="DEEP_LINK" translatable="false">https://lastquakechile.page.link/lqch</string>
     <string name="CRONITOR_STATUS" translatable="false">https://lqch.cronitorstatus.com/</string>
-    <string name="PRIVACY_POLICY_URL_EN" translatable="false">https://github.com/figonzal1/LastQuakeChile/blob/dev/privacy_policy_en.md</string>
-    <string name="PRIVACY_POLICY_URL_ES" translatable="false">https://github.com/figonzal1/LastQuakeChile/blob/dev/privacy_policy_es.md</string>
+    <string name="PRIVACY_POLICY_URL_EN" translatable="false">https://github.com/figonzal1/LastQuakeChile/blob/main/privacy_policy_en.md</string>
+    <string name="PRIVACY_POLICY_URL_ES" translatable="false">https://github.com/figonzal1/LastQuakeChile/blob/main/privacy_policy_es.md</string>
 
 
     <string name="mail_to_felipe" translatable="false">felipe.gonzalezalarcon94@gmail.com</string>
