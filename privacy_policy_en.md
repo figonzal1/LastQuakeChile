@@ -16,6 +16,8 @@ Personal Data processed for the following purposes and using the following servi
       geography/region; In-app purchases; launches; number of sessions; number of Users ; operating
       systems; session duration; unique device identifiers for advertising (Google Advertiser ID or
       IDFA, for example); Usage Data
+* Contact management and sending messages
+    * __Firebase Cloud Messaging__: various kinds of Data, as specified in the service's Privacy Policy.
 * Infrastructure monitoring
     * __Firebase Performance Monitoring__: Personal Data: various types of Data as specified in the
       privacy policy of the service
@@ -182,6 +184,12 @@ Personal Data is collected for the following purposes and using the following se
       example); Usage Data. Place of processing: United States
       – [Privacy Policy](https://policies.google.com/privacy); Ireland
       – [Privacy Policy](https://policies.google.com/privacy).
+
+* Contact management and sending messages
+
+   These types of services allow you to manage a database of email addresses, telephone numbers or other contact information to communicate with the User. It is also      possible that these services collect data related to the date and time in which the User viewed the message, as well as the User's interactions with said message,      such as clicking on links inserted in the message.
+   
+   * __Firebase Cloud Messaging (Google LLC)__: Firebase Cloud Messaging is a messaging service provided by Google LLC. Firebase Cloud Messaging allows the Owner to send messages and notifications to Users through various platforms, such as Android, iOS and the Internet. Messages can be sent to individual devices, groups of devices, or specific segments based on themes or Users. Personal Data processed: *different types of Data, as specified in the Privacy Policy of the service.* Place of treatment: USA – Privacy Policy.
 
 * Infrastructure monitoring
 
