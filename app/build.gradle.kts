@@ -156,6 +156,7 @@ dependencies {
     //Google Play
     implementation("com.google.android.play:app-update-ktx:2.0.0")
     implementation("com.google.android.gms:play-services-ads:21.3.0")
+    implementation("com.google.android.play:review-ktx:2.0.1")
 
     //Google Maps
     // KTX for the Maps SDK for Android
