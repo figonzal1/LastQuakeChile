@@ -19,7 +19,6 @@ class InAppReviewService(
 
     override fun onStart(owner: LifecycleOwner) {
         super.onStart(owner)
-
         checkRequirements()
     }
 
@@ -33,16 +32,14 @@ class InAppReviewService(
                 Timber.d("Request inAppReview")
                 callBackRequest()
             }
-            else -> {
-                Timber.d("Ignore inAppReview")
-            }
+            else -> Timber.d("Ignore inAppReview")
         }
     }
 
     private fun handleTimeCounter(): Boolean {
 
         val savedDate = getSavedInstallDate()
-        //val hoursDiff = ChronoUnit.HOURS.between(savedDate, LocalDateTime.now())
+        //val dayDiff = ChronoUnit.DAYS.between(savedDate, LocalDateTime.now())
         val hoursDiff = ChronoUnit.MINUTES.between(savedDate, LocalDateTime.now())
 
         return when {
