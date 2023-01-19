@@ -1,0 +1,80 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    android:clickable="true"
+    android:elevation="0dp"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground">
+
+    <ImageView
+        android:id="@+id/iv_mag_color"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:contentDescription="@string/circulo_pintado"
+        card_view:layout_constraintStart_toStartOf="parent"
+        card_view:layout_constraintTop_toTopOf="parent"
+        card_view:srcCompat="@drawable/circle_shape" />
+
+    <TextView
+        android:id="@+id/tv_magnitude"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:maxLength="4"
+        android:textAppearance="?attr/textAppearanceHeadline5"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        card_view:layout_constraintBottom_toBottomOf="@+id/iv_mag_color"
+        card_view:layout_constraintEnd_toEndOf="@+id/iv_mag_color"
+        card_view:layout_constraintStart_toStartOf="@+id/iv_mag_color"
+        card_view:layout_constraintTop_toTopOf="@+id/iv_mag_color"
+        tools:text="9.5" />
+
+    <TextView
+        android:id="@+id/tv_city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:maxLines="1"
+        android:textAppearance="?attr/textAppearanceSubtitle1"
+        android:textSize="14sp"
+        card_view:layout_constraintStart_toEndOf="@id/iv_mag_color"
+        card_view:layout_constraintTop_toTopOf="@+id/iv_mag_color"
+        tools:text="Nombre Ciudad" />
+
+    <TextView
+        android:id="@+id/tv_reference"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:ellipsize="end"
+        android:lines="1"
+        android:maxLines="1"
+        android:textAppearance="?attr/textAppearanceCaption"
+        android:textSize="11sp"
+        card_view:layout_constraintBottom_toBottomOf="@+id/iv_mag_color"
+        card_view:layout_constraintEnd_toEndOf="parent"
+        card_view:layout_constraintStart_toStartOf="@+id/tv_city"
+        card_view:layout_constraintTop_toBottomOf="@+id/tv_city"
+        card_view:layout_constraintVertical_bias="0.0"
+        tools:text="Referencia de la ciudad" />
+
+
+    <ImageView
+        android:id="@+id/iv_sensitive"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:contentDescription="@string/icono_sensible"
+        android:visibility="invisible"
+        card_view:layout_constraintBottom_toBottomOf="@+id/tv_city"
+        card_view:layout_constraintStart_toEndOf="@+id/tv_city"
+        card_view:layout_constraintTop_toTopOf="@+id/tv_city"
+        card_view:srcCompat="@drawable/ic_round_warning_24"
+        tools:visibility="visible" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -487,7 +487,7 @@ fun BottomSheetBehavior<MaterialCardView>.configBottomSheetCallback(
 
 private fun GoogleMap.adjustMapPadding(binding: FragmentMapsBinding) {
     val bottomSheetContainerHeight = binding.include.root.height
-    val currentBottomSheetTop = binding.include.bottomSheet.top
+    val currentBottomSheetTop = binding.include.cvBottomSheet.top
 
     this.setPadding(
         0, // left
