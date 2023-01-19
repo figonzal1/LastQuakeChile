@@ -27,6 +27,8 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.card.MaterialCardView
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
@@ -37,11 +39,12 @@ private const val mapViewKey = "MapViewBundleKey"
 class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener, OnMapReadyCallback {
 
     private val viewModel: QuakeViewModel by activityViewModel()
-
     private var _binding: FragmentMapsBinding? = null
     private val binding get() = _binding!!
 
     private var quakeList: List<Quake> = listOf()
+
+    private var sheetBehavior: BottomSheetBehavior<MaterialCardView>? = null
 
     private var isFirstInit = true
 
@@ -72,6 +75,12 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener, O
                 }
         }
 
+        //Initialization of bottomSheetBehavior
+        sheetBehavior = BottomSheetBehavior.from(binding.include.bottomSheet).also {
+            it.isHideable = true
+            it.state = BottomSheetBehavior.STATE_HIDDEN
+        }
+
         return binding.root
     }
 
@@ -82,13 +91,20 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener, O
             configOptionsMenu(fragmentIndex = 2) {
                 when (it.itemId) {
                     R.id.layers_menu -> {
-                        MapTerrainDialogFragment(p0).show(parentFragmentManager, "Dialogo mapType")
+                        MapTerrainDialogFragment(p0).show(
+                            parentFragmentManager,
+                            "Dialogo mapType"
+                        )
                     }
                 }
             }
             isFirstInit = false
         }
         p0.apply {
+
+            sheetBehavior?.apply {
+                addBottomSheetCallback(configBottomSheetCallback(p0, binding))
+            }
 
             //Set limits for map
             val mChile = LatLngBounds(LatLng(-60.15, -78.06), LatLng(-15.6, -66.5))
@@ -137,6 +153,8 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener, O
 
     override fun getInfoContents(p0: Marker): View {
 
+        sheetBehavior?.handleBottomSheetBehaviorState()
+
         val quake = p0.tag as Quake
 
         val infoBinding = InfoWindowsBinding.inflate(layoutInflater)
@@ -169,6 +187,7 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener, O
 
         return infoBinding.root
     }
+
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)

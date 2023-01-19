@@ -21,12 +21,16 @@ import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.data.remote.ApiError
 import cl.figonzal.lastquakechile.core.ui.SettingsActivity
 import cl.figonzal.lastquakechile.core.utils.views.*
+import cl.figonzal.lastquakechile.databinding.FragmentMapsBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Coordinate
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.card.MaterialCardView
 import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
@@ -447,5 +451,49 @@ fun ViewPager2.handleShortcuts(action: String?, packageName: String) {
         action.equals("${packageName}.MAP") -> setCurrentItem(2, true)
         action.equals("${packageName}.REPORT") -> setCurrentItem(3, true)
     }
+}
+
+fun BottomSheetBehavior<MaterialCardView>.handleBottomSheetBehaviorState() {
+    state = when (state) {
+        BottomSheetBehavior.STATE_EXPANDED -> BottomSheetBehavior.STATE_EXPANDED
+        else -> BottomSheetBehavior.STATE_COLLAPSED
+    }
+}
+
+fun BottomSheetBehavior<MaterialCardView>.configBottomSheetCallback(
+    p0: GoogleMap,
+    binding: FragmentMapsBinding
+) = object : BottomSheetBehavior.BottomSheetCallback() {
+
+    override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
+        if (state == BottomSheetBehavior.STATE_DRAGGING ||
+            state == BottomSheetBehavior.STATE_SETTLING
+        ) {
+            p0.adjustMapPadding(binding)
+        }
+    }
+
+    override fun onStateChanged(bottomSheet: View, newState: Int) {
+        // Needed only in case you manually change the bottomsheet's state in code somewhere.
+        when (newState) {
+            BottomSheetBehavior.STATE_EXPANDED -> {
+                // Nothing to do here
+            }
+            else -> p0.adjustMapPadding(binding)
+        }
+    }
+}
+
+private fun GoogleMap.adjustMapPadding(binding: FragmentMapsBinding) {
+    val bottomSheetContainerHeight = binding.include.root.height
+    val currentBottomSheetTop = binding.include.bottomSheet.top
+
+    this.setPadding(
+        0, // left
+        0, // top
+        0, // right
+        bottomSheetContainerHeight - currentBottomSheetTop // bottom
+    )
 }
 
