@@ -169,6 +169,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                     getMagnitudeColor(quake.magnitude, false), requireActivity().theme
                 )
             )
+
+            tvDate.timeToText(quake, true)
         }
     }
 

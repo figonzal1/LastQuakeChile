@@ -4,12 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- TODO: Check de correct layout_height -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv_bottom_sheet"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        app:behavior_peekHeight="90dp"
+        android:layout_height="wrap_content"
+        app:behavior_peekHeight="100dp"
         app:cardBackgroundColor="@color/colorSurface"
         app:cardElevation="16dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
@@ -35,13 +34,28 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/swipe_line"
                 app:layout_constraintVertical_bias="0.0" />
+
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/sheet_content"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/sheet_content"
+                app:layout_constraintTop_toBottomOf="@+id/sheet_content"
+                app:layout_constraintVertical_bias="0.0"
+                app:srcCompat="@drawable/round_open_in_new_24" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
