@@ -49,25 +49,25 @@
 
 
     <!-- STRINGS DE LAYOUTS-->
-    <string name="circulo_pintado">Color magnitud sismo</string>
+    <string name="painted_circle">Color magnitud sismo</string>
     <string name="imagen_toolbar">Fondo de barra de herramientas</string>
     <string name="quake_time_day_info_windows">Hace: %1$d d</string>
     <string name="quake_time_day_hour_info_windows">Hace: %1$d d %2$d h</string>
     <string name="quake_time_hour_info_windows">Hace: %1$d h</string>
     <string name="quake_time_minute_info_windows">Hace: %1$d m</string>
     <string name="quake_time_second_info_windows">Hace: %1$d s</string>
-    <string name="icono_tiempo">Icono fecha sismos</string>
+    <string name="datetime_icon">Icono fecha sismos</string>
     <string name="tiempo">Fecha/Hora</string>
-    <string name="icono_distancia">Icono posición sismo</string>
+    <string name="gms_icon">Icono posición sismo</string>
     <string name="distancia">Posición GMS</string>
-    <string name="icono_epicentro">Icono epicentro</string>
-    <string name="icono_escala">Icono escala</string>
-    <string name="profundidad">Profundidad</string>
-    <string name="escala">Escala</string>
+    <string name="depth_icon">Icono epicentro</string>
+    <string name="scale_icon">Icono escala</string>
+    <string name="depth">Profundidad</string>
+    <string name="scale">Escala</string>
     <string name="profundidad_info_windows">Profundidad: %.1f Km</string>
     <string name="quake_details_magnitud_local">Magnitud Local (Ml)</string>
     <string name="quake_details_magnitud_momento" tools:ignore="Typos">Magnitud Momento (Mw)</string>
-    <string name="icono_sensible">Icono sismo sensible</string>
+    <string name="sensitive_icon">Icono sismo sensible</string>
     <string name="coordenadas_sur" translatable="false">S</string>
     <string name="coordenadas_norte" translatable="false">N</string>
     <string name="coordenadas_oeste">O</string>

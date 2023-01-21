@@ -425,18 +425,18 @@ fun Fragment.showServerApiError(apiError: ApiError, callback: (Int, String) -> U
     return when (apiError) {
         ApiError.IoError, ApiError.NoWifiError -> {
             toast(R.string.io_error)
-            callback(R.drawable.ic_round_wifi_off_24, getString(R.string.io_error))
+            callback(R.drawable.round_wifi_off_24, getString(R.string.io_error))
         }
         ApiError.ServerError, ApiError.TimeoutError -> {
             toast(R.string.service_error)
-            callback(R.drawable.ic_round_router_24, getString(R.string.service_error))
+            callback(R.drawable.round_router_24, getString(R.string.service_error))
         }
         ApiError.ResourceNotFound -> {
             toast(R.string.no_mas_sismos)
         }
         else -> {
             toast(R.string.http_error)
-            callback(R.drawable.ic_round_report_24, getString(R.string.http_error))
+            callback(R.drawable.round_report_24, getString(R.string.http_error))
         }
     }
 }

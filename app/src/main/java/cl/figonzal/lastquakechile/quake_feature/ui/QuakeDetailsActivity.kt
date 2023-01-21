@@ -74,7 +74,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
-            setHomeAsUpIndicator(R.drawable.ic_round_arrow_back_24)
+            setHomeAsUpIndicator(R.drawable.round_arrow_back_24)
         }
 
         @Suppress("DEPRECATION")
@@ -208,17 +208,17 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                 ivMagColor.setColorFilter(getColor(getMagnitudeColor(it.magnitude, false)))
 
-                tvEpicentro.text =
+                tvDepthValue.text =
                     String.format(QUAKE_DETAILS_DEPTH_FORMAT, it.depth)
 
-                tvFecha.text =
+                tvDatetimeValue.text =
                     it.localDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
 
-                tvGms.formatDMS(it.coordinate)
+                tvGmsValue.formatDMS(it.coordinate)
 
                 tvHour.timeToText(it, true)
 
-                tvEscala.setScale(it.scale)
+                tvScaleValue.setScale(it.scale)
 
                 ivSensitive.visibility = when {
                     it.isSensitive -> View.VISIBLE

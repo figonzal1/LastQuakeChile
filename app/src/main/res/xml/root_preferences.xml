@@ -4,7 +4,7 @@
     app:key="preferenceScreen">
 
     <PreferenceCategory
-        app:icon="@drawable/ic_round_notifications_24"
+        app:icon="@drawable/round_notifications_24"
         app:iconSpaceReserved="false"
         app:summary="@string/alert_pref_summary"
         app:title="@string/alert_pref_title">
@@ -45,7 +45,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        app:icon="@drawable/ic_round_mode_night_24"
+        app:icon="@drawable/round_night_mode_24"
         app:iconSpaceReserved="true"
         app:isPreferenceVisible="false"
         app:key="@string/night_mode_category_key"
@@ -64,7 +64,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        app:icon="@drawable/ic_round_contact_support_24"
+        app:icon="@drawable/round_contact_support_24"
         app:iconSpaceReserved="true"
         app:title="@string/about">
 

@@ -16,10 +16,10 @@
             android:layout_height="50dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:contentDescription="@string/circulo_pintado"
+            android:contentDescription="@string/painted_circle"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toTopOf="parent"
-            card_view:srcCompat="@drawable/circle_shape" />
+            card_view:srcCompat="@drawable/background_magnitude_circle_shape" />
 
         <TextView
             android:id="@+id/tv_city"
@@ -68,7 +68,7 @@
             android:gravity="center"
             android:maxLength="4"
             android:textAppearance="?attr/textAppearanceHeadline5"
-            android:textColor="@android:color/white"
+            android:textColor="@color/white"
             android:textStyle="normal"
             card_view:layout_constraintBottom_toBottomOf="@+id/iv_mag_color"
             card_view:layout_constraintEnd_toEndOf="@+id/iv_mag_color"
@@ -82,24 +82,24 @@
             android:layout_height="0dp"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="8dp"
-            android:contentDescription="@string/icono_sensible"
+            android:contentDescription="@string/sensitive_icon"
             android:visibility="invisible"
             card_view:layout_constraintBottom_toBottomOf="@+id/tv_city"
             card_view:layout_constraintEnd_toStartOf="@+id/tv_hour"
             card_view:layout_constraintHorizontal_bias="0.0"
             card_view:layout_constraintStart_toEndOf="@+id/tv_city"
             card_view:layout_constraintTop_toTopOf="@+id/tv_city"
-            card_view:srcCompat="@drawable/ic_round_warning_24"
+            card_view:srcCompat="@drawable/round_warning_24"
             tools:visibility="visible" />
 
         <ImageView
-            android:id="@+id/iv_reloj"
+            android:id="@+id/iv_datetime"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:contentDescription="@string/icono_tiempo"
-            android:src="@drawable/ic_round_date_range_24"
+            android:contentDescription="@string/datetime_icon"
+            android:src="@drawable/round_date_range_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/divider" />
 
@@ -119,11 +119,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
-            app:constraint_referenced_ids="tv_fecha,tv_epicentro"
+            app:constraint_referenced_ids="tv_datetime_value,tv_depth_value"
             tools:layout_editor_absoluteY="349dp" />
 
         <TextView
-            android:id="@+id/tv_titulo_fecha"
+            android:id="@+id/tv_title_datetime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -131,39 +131,39 @@
             android:gravity="center"
             android:text="@string/tiempo"
             android:textAppearance="?attr/textAppearanceBody2"
-            app:layout_constraintEnd_toStartOf="@+id/guia_vertical"
+            app:layout_constraintEnd_toStartOf="@+id/center_guide"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/iv_reloj"
-            app:layout_constraintTop_toTopOf="@+id/iv_reloj" />
+            app:layout_constraintStart_toEndOf="@+id/iv_datetime"
+            app:layout_constraintTop_toTopOf="@+id/iv_datetime" />
 
         <TextView
-            android:id="@+id/tv_fecha"
+            android:id="@+id/tv_datetime_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:textAppearance="?attr/textAppearanceCaption"
             app:layout_constraintBottom_toTopOf="@+id/barrier"
-            app:layout_constraintEnd_toStartOf="@+id/guia_vertical"
+            app:layout_constraintEnd_toStartOf="@+id/center_guide"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/tv_titulo_fecha"
-            app:layout_constraintTop_toBottomOf="@+id/tv_titulo_fecha"
+            app:layout_constraintStart_toStartOf="@+id/tv_title_datetime"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title_datetime"
             tools:text="2018-08-06 23:45:23" />
 
         <ImageView
-            android:id="@+id/iv_posicion_gms"
+            android:id="@+id/iv_gms"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:contentDescription="@string/icono_distancia"
+            android:contentDescription="@string/gms_icon"
             android:visibility="visible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/barrier"
-            app:srcCompat="@drawable/ic_round_near_me_24" />
+            app:srcCompat="@drawable/round_near_me_24" />
 
         <TextView
-            android:id="@+id/tv_titulo_gms"
+            android:id="@+id/tv_title_gms"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -171,13 +171,13 @@
             android:text="@string/distancia"
             android:textAppearance="?attr/textAppearanceBody2"
             android:visibility="visible"
-            app:layout_constraintEnd_toStartOf="@+id/guia_vertical"
+            app:layout_constraintEnd_toStartOf="@+id/center_guide"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/iv_posicion_gms"
-            app:layout_constraintTop_toTopOf="@+id/iv_posicion_gms" />
+            app:layout_constraintStart_toEndOf="@+id/iv_gms"
+            app:layout_constraintTop_toTopOf="@+id/iv_gms" />
 
         <TextView
-            android:id="@+id/tv_gms"
+            android:id="@+id/tv_gms_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -185,15 +185,15 @@
             android:textAppearance="?attr/textAppearanceCaption"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/guia_vertical"
+            app:layout_constraintEnd_toStartOf="@+id/center_guide"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/tv_titulo_gms"
-            app:layout_constraintTop_toBottomOf="@+id/tv_titulo_gms"
+            app:layout_constraintStart_toStartOf="@+id/tv_title_gms"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title_gms"
             app:layout_constraintVertical_bias="0.0"
             tools:text="28° 28' 33'' S \n72° 83' 72'' W" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guia_vertical"
+            android:id="@+id/center_guide"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:orientation="vertical"
@@ -203,31 +203,31 @@
             card_view:layout_constraintGuide_begin="194dp" />
 
         <ImageView
-            android:id="@+id/iv_epicentro"
+            android:id="@+id/iv_depth"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
-            android:contentDescription="@string/icono_epicentro"
-            app:layout_constraintStart_toStartOf="@+id/guia_vertical"
+            android:contentDescription="@string/depth_icon"
+            app:layout_constraintStart_toStartOf="@+id/center_guide"
             app:layout_constraintTop_toBottomOf="@+id/divider"
-            card_view:srcCompat="@drawable/ic_round_adjust_24" />
+            card_view:srcCompat="@drawable/round_height_24" />
 
         <TextView
-            android:id="@+id/tv_titulo_epicentro"
+            android:id="@+id/tv_title_depth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:text="@string/profundidad"
+            android:text="@string/depth"
             android:textAppearance="?attr/textAppearanceBody2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/iv_epicentro"
-            app:layout_constraintTop_toTopOf="@+id/iv_epicentro" />
+            app:layout_constraintStart_toEndOf="@+id/iv_depth"
+            app:layout_constraintTop_toTopOf="@+id/iv_depth" />
 
         <TextView
-            android:id="@+id/tv_epicentro"
+            android:id="@+id/tv_depth_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
@@ -236,37 +236,37 @@
             app:layout_constraintBottom_toTopOf="@+id/barrier"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/tv_titulo_epicentro"
-            app:layout_constraintTop_toBottomOf="@+id/tv_titulo_epicentro"
+            app:layout_constraintStart_toStartOf="@+id/tv_title_depth"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title_depth"
             app:layout_constraintVertical_bias="0.0"
             tools:text="83 km" />
 
         <ImageView
-            android:id="@+id/iv_escala"
+            android:id="@+id/iv_scale"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:contentDescription="@string/icono_escala"
-            app:layout_constraintStart_toStartOf="@+id/guia_vertical"
+            android:contentDescription="@string/scale_icon"
+            app:layout_constraintStart_toStartOf="@+id/center_guide"
             app:layout_constraintTop_toTopOf="@+id/barrier"
-            card_view:srcCompat="@drawable/ic_round_scale_24" />
+            card_view:srcCompat="@drawable/round_ruler_24" />
 
         <TextView
-            android:id="@+id/tv_titulo_escala"
+            android:id="@+id/tv_title_scale"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:text="@string/escala"
+            android:text="@string/scale"
             android:textAppearance="?attr/textAppearanceBody2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/iv_escala"
-            app:layout_constraintTop_toTopOf="@+id/iv_escala" />
+            app:layout_constraintStart_toEndOf="@+id/iv_scale"
+            app:layout_constraintTop_toTopOf="@+id/iv_scale" />
 
         <TextView
-            android:id="@+id/tv_escala"
+            android:id="@+id/tv_scale_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
@@ -274,10 +274,22 @@
             android:textAppearance="?attr/textAppearanceCaption"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tv_titulo_escala"
-            app:layout_constraintTop_toBottomOf="@+id/tv_titulo_escala"
+            app:layout_constraintStart_toStartOf="@+id/tv_title_scale"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title_scale"
             app:layout_constraintVertical_bias="0.0"
             tools:text="Nombre Escala" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:translationX="-5dp"
+            android:translationY="-5dp"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_mag_color"
+            app:layout_constraintEnd_toEndOf="@+id/iv_mag_color"
+            app:layout_constraintStart_toEndOf="@+id/iv_mag_color"
+            app:layout_constraintTop_toBottomOf="@+id/iv_mag_color"
+            card_view:srcCompat="@drawable/background_verified_quake" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -12,11 +12,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:contentDescription="@string/circulo_pintado"
         card_view:layout_constraintBottom_toBottomOf="@+id/tv_iw_hour"
         card_view:layout_constraintStart_toStartOf="parent"
-        card_view:layout_constraintTop_toTopOf="@+id/tv_iw_reference"
-        card_view:srcCompat="@drawable/circle_shape" />
+        card_view:layout_constraintTop_toTopOf="@+id/tv_iw_reference" />
 
     <TextView
         android:id="@+id/tv_iw_reference"

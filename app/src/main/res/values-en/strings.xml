@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="circulo_pintado">Quake magnitude color</string>
+    <string name="painted_circle">Quake magnitude color</string>
     <string name="imagen_toolbar">Toolbar background image</string>
-    <string name="icono_tiempo">DateTime quake icon</string>
+    <string name="datetime_icon">DateTime quake icon</string>
     <string name="tiempo">Date/Hour</string>
-    <string name="icono_distancia">Georeference position quake icon</string>
+    <string name="gms_icon">Georeference position quake icon</string>
     <string name="distancia">Position DMS</string>
-    <string name="icono_epicentro">Epicenter icon</string>
-    <string name="icono_escala">Scale icon</string>
-    <string name="profundidad">Depth</string>
-    <string name="escala">Scale</string>
+    <string name="depth_icon">Epicenter icon</string>
+    <string name="scale_icon">Scale icon</string>
+    <string name="depth">Depth</string>
+    <string name="scale">Scale</string>
     <string name="quake_details_magnitud_local">Magnitude local (Ml)</string>
     <string name="quake_details_magnitud_momento">Moment magnitude (Mw)</string>
-    <string name="icono_sensible">Sensitive quake icon</string>
+    <string name="sensitive_icon">Sensitive quake icon</string>
     <string name="firebase_channel_name_quakes">Quake alerts</string>
     <string name="firebase_channel_description_quakes">Receives quake alerts</string>
     <string name="coordenadas_oeste">W</string>

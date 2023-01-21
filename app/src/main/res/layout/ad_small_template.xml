@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/ad_attribution"
+            android:background="@drawable/background_ads"
             android:paddingStart="4dp"
             android:paddingEnd="4dp"
             android:text="@string/ad"

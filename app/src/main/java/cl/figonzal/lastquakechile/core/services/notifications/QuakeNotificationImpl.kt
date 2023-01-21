@@ -182,7 +182,7 @@ class QuakeNotificationImpl(
             .setVisibility(VISIBILITY_PUBLIC)
             .setContentIntent(pendingIntent)
             .addAction(
-                R.drawable.ic_quakes_24dp,
+                R.drawable.quakes_24dp,
                 context.getString(R.string.view_quake_notification_button),
                 pendingIntent
             )

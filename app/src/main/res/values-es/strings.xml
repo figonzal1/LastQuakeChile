@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="circulo_pintado">Color magnitud sismo</string>
+    <string name="painted_circle">Color magnitud sismo</string>
     <string name="imagen_toolbar">Fondo de barra de herramientas</string>
-    <string name="icono_tiempo">Icono fecha sismos</string>
+    <string name="datetime_icon">Icono fecha sismos</string>
     <string name="tiempo">Fecha/Hora</string>
-    <string name="icono_distancia">Icono posición sismo</string>
+    <string name="gms_icon">Icono posición sismo</string>
     <string name="distancia">Posición GMS</string>
-    <string name="icono_epicentro">Icono epicentro</string>
-    <string name="icono_escala">Icono escala</string>
-    <string name="profundidad">Profundidad</string>
-    <string name="escala">Escala</string>
+    <string name="depth_icon">Icono epicentro</string>
+    <string name="scale_icon">Icono escala</string>
+    <string name="depth">Profundidad</string>
+    <string name="scale">Escala</string>
     <string name="quake_details_magnitud_local">Magnitud local (Ml)</string>
     <string name="quake_details_magnitud_momento">Magnitud Momento (Mw)</string>
-    <string name="icono_sensible">Icono sismo sensible</string>
+    <string name="sensitive_icon">Icono sismo sensible</string>
     <string name="firebase_channel_name_quakes">Alerta sismos</string>
     <string name="firebase_channel_description_quakes">Recibe alertas de sismos</string>
     <string name="coordenadas_oeste">O</string>

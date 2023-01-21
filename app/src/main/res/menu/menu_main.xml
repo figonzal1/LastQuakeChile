@@ -5,14 +5,14 @@
 
     <item
         android:id="@+id/refresh_menu"
-        android:icon="@drawable/ic_round_refresh_24"
+        android:icon="@drawable/round_refresh_24"
         android:orderInCategory="1"
         android:title="@string/recargar"
         app:showAsAction="ifRoom|collapseActionView" />
 
     <item
         android:id="@+id/layers_menu"
-        android:icon="@drawable/ic_round_layers_24"
+        android:icon="@drawable/round_layers_24"
         android:orderInCategory="2"
         android:title="@string/estilo_mapa"
         app:showAsAction="ifRoom|collapseActionView" />

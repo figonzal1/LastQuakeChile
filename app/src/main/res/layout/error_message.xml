@@ -13,7 +13,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_round_wifi_off_24" />
+        app:srcCompat="@drawable/round_wifi_off_24" />
 
     <TextView
         android:id="@+id/tv_msg_no_wifi"
