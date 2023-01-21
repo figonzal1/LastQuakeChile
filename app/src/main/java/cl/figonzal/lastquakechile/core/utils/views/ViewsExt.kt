@@ -3,8 +3,10 @@ package cl.figonzal.lastquakechile.core.utils
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.net.Uri
+import android.util.TypedValue
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
@@ -495,5 +497,24 @@ private fun GoogleMap.adjustMapPadding(binding: FragmentMapsBinding) {
         0, // right
         bottomSheetContainerHeight - currentBottomSheetTop // bottom
     )
+}
+
+fun Float.toDips(resources: Resources) =
+    TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this, resources.displayMetrics)
+
+fun ViewGroup.getViewBottomHeight(
+    targetViewId: Int,
+    behavior: BottomSheetBehavior<MaterialCardView>?
+) {
+    apply {
+        viewTreeObserver.addOnGlobalLayoutListener(
+            object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    behavior?.peekHeight =
+                        findViewById<View>(targetViewId).bottom + 32f.toDips(resources).toInt()
+                }
+            })
+    }
 }
 

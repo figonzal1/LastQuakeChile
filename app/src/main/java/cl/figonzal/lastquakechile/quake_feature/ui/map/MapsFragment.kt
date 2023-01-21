@@ -76,6 +76,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         sheetBehavior = BottomSheetBehavior.from(binding.include.cvBottomSheet).also {
             it.isHideable = true
             it.state = BottomSheetBehavior.STATE_HIDDEN
+
+            binding.include.cvBottomSheet.getViewBottomHeight(R.id.sheet_content, it)
         }
 
         return binding.root
@@ -171,6 +173,15 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             )
 
             tvDate.timeToText(quake, true)
+
+            root.setOnClickListener {
+                requireContext().openQuakeDetails(quake)
+            }
+        }
+
+        //Handle details button
+        binding.include.btnOpenDetails.setOnClickListener {
+            requireContext().openQuakeDetails(quake)
         }
     }
 
