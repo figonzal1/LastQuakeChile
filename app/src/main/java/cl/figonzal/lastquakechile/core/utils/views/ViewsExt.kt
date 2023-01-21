@@ -512,7 +512,7 @@ fun ViewGroup.getViewBottomHeight(
                 override fun onGlobalLayout() {
                     viewTreeObserver.removeOnGlobalLayoutListener(this)
                     behavior?.peekHeight =
-                        findViewById<View>(targetViewId).bottom + 32f.toDips(resources).toInt()
+                        findViewById<View>(targetViewId).bottom + 20f.toDips(resources).toInt()
                 }
             })
     }

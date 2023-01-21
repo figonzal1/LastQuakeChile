@@ -28,10 +28,8 @@
         android:layout_height="0dp"
         android:gravity="center"
         android:maxLength="4"
-        android:textAppearance="?attr/textAppearanceHeadline5"
-        android:textColor="@android:color/white"
-        android:textSize="16sp"
-        android:textStyle="normal"
+        android:textAppearance="?attr/textAppearanceHeadline6"
+        android:textColor="@color/white"
         card_view:layout_constraintBottom_toBottomOf="@+id/iv_mag_color"
         card_view:layout_constraintEnd_toEndOf="@+id/iv_mag_color"
         card_view:layout_constraintStart_toStartOf="@+id/iv_mag_color"
@@ -44,10 +42,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:maxLines="1"
-        android:textAppearance="?attr/textAppearanceSubtitle1"
-        android:textSize="14sp"
+        android:textAppearance="?attr/textAppearanceBody1"
+        card_view:layout_constraintBottom_toTopOf="@+id/iv_date"
         card_view:layout_constraintStart_toEndOf="@id/iv_mag_color"
-        card_view:layout_constraintTop_toTopOf="@+id/iv_mag_color"
+        card_view:layout_constraintTop_toTopOf="parent"
+        card_view:layout_constraintVertical_chainStyle="packed"
         tools:text="Nombre Ciudad" />
 
     <TextView
@@ -58,7 +57,7 @@
         android:ellipsize="end"
         android:lines="1"
         android:maxLines="1"
-        android:textSize="11sp"
+        android:textSize="12sp"
         card_view:layout_constraintBottom_toBottomOf="@+id/iv_reference"
         card_view:layout_constraintEnd_toEndOf="parent"
         card_view:layout_constraintStart_toEndOf="@+id/iv_reference"
@@ -71,7 +70,7 @@
         android:layout_height="0dp"
         android:layout_marginStart="2dp"
         android:gravity="center_vertical"
-        android:textSize="11sp"
+        android:textSize="12sp"
         card_view:layout_constraintBottom_toBottomOf="@+id/iv_date"
         card_view:layout_constraintStart_toEndOf="@+id/iv_date"
         card_view:layout_constraintTop_toTopOf="@+id/iv_date"
@@ -98,8 +97,9 @@
         android:layout_height="15dp"
         android:layout_marginStart="4dp"
         android:contentDescription="Reference icon"
+        card_view:layout_constraintBottom_toBottomOf="@+id/iv_date"
         card_view:layout_constraintStart_toEndOf="@+id/tv_date"
-        card_view:layout_constraintTop_toBottomOf="@+id/tv_city"
+        card_view:layout_constraintTop_toTopOf="@+id/iv_date"
         card_view:srcCompat="@drawable/round_adjust_24" />
 
     <ImageView
@@ -107,6 +107,7 @@
         android:layout_width="15dp"
         android:layout_height="15dp"
         android:contentDescription="Hour icon"
+        card_view:layout_constraintBottom_toBottomOf="parent"
         card_view:layout_constraintStart_toStartOf="@+id/tv_city"
         card_view:layout_constraintTop_toBottomOf="@+id/tv_city"
         card_view:srcCompat="@drawable/round_access_time_24" />
