@@ -11,7 +11,7 @@ import android.widget.RatingBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.utils.configOptionsMenu
+import cl.figonzal.lastquakechile.core.utils.views.configOptionsMenu
 import cl.figonzal.lastquakechile.databinding.FragmentAdMobBinding
 import com.google.android.gms.ads.*
 import com.google.android.gms.ads.nativead.NativeAd

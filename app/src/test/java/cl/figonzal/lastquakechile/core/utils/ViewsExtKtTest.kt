@@ -1,6 +1,7 @@
 package cl.figonzal.lastquakechile.core.utils
 
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.utils.views.getMagnitudeColor
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 

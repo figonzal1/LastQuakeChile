@@ -21,6 +21,8 @@ import cl.figonzal.lastquakechile.core.services.notifications.QuakeNotificationI
 import cl.figonzal.lastquakechile.core.services.notifications.utils.getFirebaseToken
 import cl.figonzal.lastquakechile.core.services.notifications.utils.subscribedToQuakes
 import cl.figonzal.lastquakechile.core.utils.*
+import cl.figonzal.lastquakechile.core.utils.views.handleShortcuts
+import cl.figonzal.lastquakechile.core.utils.views.loadImage
 import cl.figonzal.lastquakechile.databinding.ActivityMainBinding
 import com.google.android.gms.ads.AdView
 import com.google.android.material.appbar.AppBarLayout

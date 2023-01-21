@@ -148,5 +148,6 @@
     <string name="alert_permission_description">This device is running Android 13. To receive earthquake alerts it is required to activate the permission for notifications.</string>
     <string name="alert_permission_title">Permission for earthquake alerts</string>
     <string name="privacy_policy">Privacy policy</string>
-    <string name="verified_quake_icon">Verified quake</string>
+    <string name="verified_quake_icon">Verified earthquake icon</string>
+    <string name="quake_verified_toast">Verified earthquake</string>
 </resources>

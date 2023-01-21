@@ -22,8 +22,7 @@ import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.services.notifications.utils.QUAKE
 import cl.figonzal.lastquakechile.core.ui.dialog.MapTerrainDialogFragment
 import cl.figonzal.lastquakechile.core.utils.*
-import cl.figonzal.lastquakechile.core.utils.views.QUAKE_DETAILS_DEPTH_FORMAT
-import cl.figonzal.lastquakechile.core.utils.views.QUAKE_DETAILS_MAGNITUDE_FORMAT
+import cl.figonzal.lastquakechile.core.utils.views.*
 import cl.figonzal.lastquakechile.databinding.ActivityQuakeDetailsBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import com.google.android.gms.ads.*
@@ -223,6 +222,16 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                 ivSensitive.visibility = when {
                     it.isSensitive -> View.VISIBLE
                     else -> View.GONE
+                }
+
+                //Verified status
+                ivVerified.visibility = when {
+                    it.isVerified -> View.VISIBLE
+                    else -> View.GONE
+                }
+
+                ivVerified.setOnClickListener {
+                    toast(R.string.quake_verified_toast)
                 }
             }
         }

@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.utils.getMonth
-import cl.figonzal.lastquakechile.core.utils.layoutInflater
 import cl.figonzal.lastquakechile.core.utils.views.REPORT_FORMAT
+import cl.figonzal.lastquakechile.core.utils.views.getMonth
+import cl.figonzal.lastquakechile.core.utils.views.layoutInflater
 import cl.figonzal.lastquakechile.databinding.CardViewReportsBinding
 import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
 import cl.figonzal.lastquakechile.reports_feature.ui.ReportAdapter.ReportViewHolder

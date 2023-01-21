@@ -7,7 +7,7 @@ import androidx.lifecycle.LifecycleOwner
 import cl.figonzal.lastquakechile.BuildConfig
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
-import cl.figonzal.lastquakechile.core.utils.printChangeLogList
+import cl.figonzal.lastquakechile.core.utils.views.printChangeLogList
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.crashlytics.FirebaseCrashlytics

@@ -12,8 +12,8 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.utils.configOptionsMenu
-import cl.figonzal.lastquakechile.core.utils.showServerApiError
+import cl.figonzal.lastquakechile.core.utils.views.configOptionsMenu
+import cl.figonzal.lastquakechile.core.utils.views.showServerApiError
 import cl.figonzal.lastquakechile.databinding.FragmentReportsBinding
 import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
 import kotlinx.coroutines.flow.collectLatest

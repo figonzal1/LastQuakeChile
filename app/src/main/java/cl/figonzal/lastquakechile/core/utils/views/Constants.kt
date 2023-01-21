@@ -15,6 +15,6 @@ internal const val QUAKE_DETAILS_SCALE_FORMAT = "%1\$s"
 internal const val QUAKE_DETAILS_DEPTH_FORMAT = "%.1f Km"
 internal const val QUAKE_DETAILS_MAGNITUDE_FORMAT = "%.1f"
 
-internal const val QUAKE_CORDS_FORMAT = "%s \\n%s"
+internal const val QUAKE_CORDS_FORMAT = "%s \n%s"
 
 internal const val REPORT_FORMAT = "%s %s"

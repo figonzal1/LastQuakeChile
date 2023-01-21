@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile.core.utils
+package cl.figonzal.lastquakechile.core.utils.views
 
 import android.app.Activity
 import android.content.Context
@@ -19,6 +19,9 @@ import androidx.viewpager2.widget.ViewPager2
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.data.remote.ApiError
 import cl.figonzal.lastquakechile.core.ui.SettingsActivity
+import cl.figonzal.lastquakechile.core.utils.latLongToDMS
+import cl.figonzal.lastquakechile.core.utils.localDateToDHMS
+import cl.figonzal.lastquakechile.core.utils.stringToLocalDateTime
 import cl.figonzal.lastquakechile.core.utils.views.*
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Coordinate
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
@@ -167,6 +170,14 @@ fun Activity.toast(stringId: Int) {
 fun Fragment.toast(stringId: Int) {
     Toast.makeText(
         requireContext(),
+        getString(stringId),
+        Toast.LENGTH_LONG
+    ).show()
+}
+
+fun Context.toast(stringId: Int) {
+    Toast.makeText(
+        this,
         getString(stringId),
         Toast.LENGTH_LONG
     ).show()
