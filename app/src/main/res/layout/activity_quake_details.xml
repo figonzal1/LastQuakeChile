@@ -117,6 +117,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="64dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/right_guide"
                 app:layout_constraintStart_toStartOf="@+id/left_guide"
                 app:layout_constraintTop_toBottomOf="@+id/cv_native_ad" />
@@ -136,38 +138,6 @@
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.69" />
 
-            <ImageView
-                android:id="@+id/iv_estado"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="32dp"
-                android:contentDescription="@string/imagen_estado_sismo"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/tv_estado"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="@+id/left_status_guide"
-                app:layout_constraintTop_toBottomOf="@+id/include_cv_quake_detail"
-                app:layout_constraintVertical_bias="0.20"
-                app:srcCompat="@drawable/ic_round_check_circle_24" />
-
-            <TextView
-                android:id="@+id/tv_estado"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginEnd="8dp"
-                android:gravity="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="@+id/iv_estado"
-                app:layout_constraintEnd_toStartOf="@+id/right_status_guide"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/iv_estado"
-                app:layout_constraintTop_toTopOf="@+id/iv_estado"
-                app:layout_constraintVertical_bias="1.0"
-                tools:text="Sismo preliminar" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

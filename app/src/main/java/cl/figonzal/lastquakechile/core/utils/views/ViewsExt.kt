@@ -10,7 +10,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.MenuRes
-import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider.getUriForFile
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -135,45 +134,6 @@ private fun getColorResourceMap(mMagFloor: Int) = when {
  */
 fun ViewGroup.layoutInflater(layout: Int): View =
     LayoutInflater.from(context).inflate(layout, this, false)
-
-/**
- * Function that lets set quake status image (Preliminary or Verified)
- *
- * @param state    Quake state
- * @param tvState TextView that hold the value
- */
-fun ImageView.setStatusImage(
-    state: Boolean,
-    tvState: TextView
-) {
-
-    when {
-        !state -> {
-            tvState.text = String.format(
-                Locale.US,
-                context.getString(R.string.quakes_details_estado_sismo),
-                context.getString(R.string.quakes_details_estado_sismo_preliminar)
-            )
-            setImageDrawable(
-                ContextCompat.getDrawable(
-                    context,
-                    R.drawable.ic_round_check_circle_outline_24
-                )
-            )
-        }
-        else -> {
-
-            tvState.text = String.format(
-                Locale.US,
-                context.getString(R.string.quakes_details_estado_sismo),
-                context.getString(R.string.quakes_details_estado_sismo_verificado)
-            )
-            setImageDrawable(
-                ContextCompat.getDrawable(context, R.drawable.ic_round_check_circle_24)
-            )
-        }
-    }
-}
 
 /**
  * Setting scale textview depending on the value of string

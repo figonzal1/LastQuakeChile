@@ -160,8 +160,6 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener, O
             )
 
             tvIwHour.timeToText(quake)
-
-            ivIwIsVerified.setStatusImage(quake.isVerified, tvIwIsVerified)
         }
 
         //Log zone

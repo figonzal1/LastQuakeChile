@@ -181,7 +181,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
             android:textAppearance="?attr/textAppearanceCaption"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -270,7 +270,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
             android:textAppearance="?attr/textAppearanceCaption"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -280,16 +280,17 @@
             tools:text="Nombre Escala" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/iv_verified"
             android:layout_width="20dp"
             android:layout_height="20dp"
+            android:contentDescription="@string/verified_quake_icon"
             android:translationX="-5dp"
-            android:translationY="-5dp"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_mag_color"
+            android:translationY="5dp"
+            app:layout_constraintBottom_toTopOf="@+id/iv_mag_color"
             app:layout_constraintEnd_toEndOf="@+id/iv_mag_color"
             app:layout_constraintStart_toEndOf="@+id/iv_mag_color"
-            app:layout_constraintTop_toBottomOf="@+id/iv_mag_color"
-            card_view:srcCompat="@drawable/background_verified_quake" />
+            app:layout_constraintTop_toTopOf="@+id/iv_mag_color"
+            app:srcCompat="@drawable/background_verified_quake" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

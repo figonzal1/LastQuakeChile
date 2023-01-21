@@ -225,8 +225,6 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                     else -> View.GONE
                 }
             }
-
-            binding.ivEstado.setStatusImage(it.isVerified, binding.tvEstado)
         }
     }
 
