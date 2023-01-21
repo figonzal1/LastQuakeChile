@@ -121,7 +121,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/right_guide"
                 app:layout_constraintStart_toStartOf="@+id/left_guide"
-                app:layout_constraintTop_toBottomOf="@+id/cv_native_ad" />
+                app:layout_constraintTop_toBottomOf="@+id/cv_native_ad"
+                app:layout_constraintVertical_bias="0.0" />
 
 
             <androidx.constraintlayout.widget.Guideline
