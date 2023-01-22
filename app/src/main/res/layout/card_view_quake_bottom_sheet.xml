@@ -112,4 +112,17 @@
         card_view:layout_constraintTop_toBottomOf="@+id/tv_city"
         card_view:srcCompat="@drawable/round_access_time_24" />
 
+    <ImageView
+        android:id="@+id/iv_verified"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:contentDescription="@string/cd_verified_quake_icon"
+        android:translationX="-3dp"
+        android:translationY="6dp"
+        card_view:layout_constraintBottom_toTopOf="@+id/iv_mag_color"
+        card_view:layout_constraintEnd_toEndOf="@+id/iv_mag_color"
+        card_view:layout_constraintStart_toEndOf="@+id/iv_mag_color"
+        card_view:layout_constraintTop_toTopOf="@+id/iv_mag_color"
+        card_view:srcCompat="@drawable/background_verified_quake" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

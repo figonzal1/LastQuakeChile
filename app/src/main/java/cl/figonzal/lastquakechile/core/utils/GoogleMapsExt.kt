@@ -7,11 +7,9 @@ import android.content.pm.PackageManager.ResolveInfoFlags
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
+import android.view.View
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.utils.views.QUAKE_DETAILS_MAGNITUDE_FORMAT
-import cl.figonzal.lastquakechile.core.utils.views.getLocalBitmapUri
-import cl.figonzal.lastquakechile.core.utils.views.getMagnitudeColor
-import cl.figonzal.lastquakechile.core.utils.views.timeToText
+import cl.figonzal.lastquakechile.core.utils.views.*
 import cl.figonzal.lastquakechile.databinding.QuakeBottomSheetBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import com.google.android.gms.maps.GoogleMap
@@ -189,6 +187,16 @@ fun Context.setBottomSheetQuakeData(
         )
 
         tvDate.timeToText(quake, true)
+
+        //Verified status
+        ivVerified.visibility = when {
+            quake.isVerified -> View.VISIBLE
+            else -> View.GONE
+        }
+
+        ivVerified.setOnClickListener {
+            toast(R.string.quake_verified_toast)
+        }
 
         root.setOnClickListener {
             openQuakeDetails(quake)
