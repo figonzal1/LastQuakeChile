@@ -325,7 +325,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                 //Seteo de floating buttons
                 binding.fabShare.setOnClickListener { _ ->
-                    Timber.d("FAB SHARE CLICKED")
+                    Timber.d("Share button clicked")
                     this@QuakeDetailsActivity.makeSnapshot(p0, it)
                 }
 
