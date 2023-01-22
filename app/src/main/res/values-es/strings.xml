@@ -148,6 +148,9 @@
     <string name="alert_permission_description">Este dispositivo cuenta con Android 13. Para recibir alertas de sismos se requiere activar el permiso para notificaciones</string>
     <string name="alert_permission_title">Permiso para alertas sísmicas</string>
     <string name="privacy_policy">Política de privacidad</string>
+    <string name="cd_details_icon">Icono abrir detalles</string>
+    <string name="details">Detalles</string>
+    <string name="share">Compartir</string>
     <string name="verified_quake_icon">Icono sismo verificado</string>
     <string name="quake_verified_toast">Sismo verificado</string>
 </resources>

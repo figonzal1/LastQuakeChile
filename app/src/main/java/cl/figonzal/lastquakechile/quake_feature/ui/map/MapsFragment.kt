@@ -1,7 +1,6 @@
 package cl.figonzal.lastquakechile.quake_feature.ui.map
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,25 +10,21 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.services.notifications.utils.QUAKE
 import cl.figonzal.lastquakechile.core.ui.dialog.MapTerrainDialogFragment
 import cl.figonzal.lastquakechile.core.utils.*
-import cl.figonzal.lastquakechile.core.utils.views.QUAKE_DETAILS_MAGNITUDE_FORMAT
-import cl.figonzal.lastquakechile.core.utils.views.configOptionsMenu
-import cl.figonzal.lastquakechile.core.utils.views.getMagnitudeColor
-import cl.figonzal.lastquakechile.core.utils.views.timeToText
 import cl.figonzal.lastquakechile.databinding.FragmentMapsBinding
-import cl.figonzal.lastquakechile.databinding.InfoWindowsBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
-import cl.figonzal.lastquakechile.quake_feature.ui.QuakeDetailsActivity
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.*
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.card.MaterialCardView
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
@@ -37,7 +32,7 @@ import timber.log.Timber
 
 private const val mapViewKey = "MapViewBundleKey"
 
-class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener, OnMapReadyCallback {
+class MapsFragment : Fragment(), OnMapReadyCallback {
 
     private val viewModel: QuakeViewModel by activityViewModel()
 
@@ -45,7 +40,9 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener, O
     private val binding get() = _binding!!
 
     private var quakeList: List<Quake> = listOf()
+    private var sheetBehavior: BottomSheetBehavior<MaterialCardView>? = null
 
+    private var lastMarker: Marker? = null
     private var isFirstInit = true
 
     override fun onCreateView(
@@ -75,6 +72,17 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener, O
                 }
         }
 
+        //Initialization of bottomSheetBehavior
+        with(binding.include.cvBottomSheet) {
+            sheetBehavior = BottomSheetBehavior.from(this).also {
+                it.isHideable = true
+                it.state = BottomSheetBehavior.STATE_HIDDEN
+
+                getViewBottomHeight(R.id.sheet_content, it)
+            }
+        }
+
+
         return binding.root
     }
 
@@ -92,6 +100,10 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener, O
             isFirstInit = false
         }
         p0.apply {
+
+            sheetBehavior?.apply {
+                addBottomSheetCallback(configBottomSheetCallback(p0, binding))
+            }
 
             //Set limits for map
             val mChile = LatLngBounds(LatLng(-60.15, -78.06), LatLng(-15.6, -66.5))
@@ -119,56 +131,32 @@ class MapsFragment : Fragment(), InfoWindowAdapter, OnInfoWindowClickListener, O
 
             loadPins(quakeList, requireContext())
 
-            setInfoWindowAdapter(this@MapsFragment)
+            setOnMarkerClickListener { marker ->
 
-            setOnInfoWindowClickListener(this@MapsFragment)
+                //Restore color for previus marker
+                lastMarker?.setIcon(BitmapDescriptorFactory.defaultMarker())
+
+                //Change color to actual marker
+                marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+                lastMarker = marker
+
+                val quake = marker.tag as Quake
+
+                sheetBehavior?.handleBottomSheetState()
+
+                //Set quake data in bottomSheetDialog
+                requireContext().setBottomSheetQuakeData(quake, binding.include)
+
+                false
+            }
+
+            setOnMapClickListener {
+                sheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
+            }
         }
 
         //Log zone
         Timber.d("Map ready")
-    }
-
-    override fun onInfoWindowClick(p0: Marker) {
-        val quake = p0.tag as Quake
-        Intent(context, QuakeDetailsActivity::class.java).apply {
-            putExtra(QUAKE, quake)
-            startActivity(this)
-        }
-    }
-
-    override fun getInfoWindow(p0: Marker): Nothing? = null
-
-    override fun getInfoContents(p0: Marker): View {
-
-        val quake = p0.tag as Quake
-
-        val infoBinding = InfoWindowsBinding.inflate(layoutInflater)
-
-        with(infoBinding) {
-
-            tvIwReference.text = quake.reference
-
-            tvIwMagnitude.text = String.format(
-                QUAKE_DETAILS_MAGNITUDE_FORMAT,
-                quake.magnitude
-            )
-
-            tvIwDepth.text =
-                String.format(getString(R.string.profundidad_info_windows), quake.depth)
-
-            ivIwMagColor.setColorFilter(
-                resources.getColor(
-                    getMagnitudeColor(quake.magnitude, false), requireActivity().theme
-                )
-            )
-
-            tvIwHour.timeToText(quake)
-        }
-
-        //Log zone
-        Timber.d("Info windows open")
-
-        return infoBinding.root
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

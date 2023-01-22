@@ -8,8 +8,8 @@ import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.utils.views.getLocalBitmapUri
-import cl.figonzal.lastquakechile.core.utils.views.getMagnitudeColor
+import cl.figonzal.lastquakechile.core.utils.views.QUAKE_DETAILS_MAGNITUDE_FORMAT
+import cl.figonzal.lastquakechile.databinding.QuakeBottomSheetBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Circle
@@ -165,3 +165,39 @@ fun Context.configMapType() = SharedPrefUtil(this).getData(
     SHARED_PREF_MAP_TYPE,
     GoogleMap.MAP_TYPE_NORMAL
 ) as Int
+
+fun Context.setBottomSheetQuakeData(
+    quake: Quake,
+    binding: QuakeBottomSheetBinding
+) {
+
+    with(binding.sheetContent) {
+        tvCity.text = quake.city
+        tvReference.text = quake.reference
+
+        tvMagnitude.text = String.format(
+            QUAKE_DETAILS_MAGNITUDE_FORMAT,
+            quake.magnitude
+        )
+        ivMagColor.setColorFilter(
+            resources.getColor(
+                getMagnitudeColor(quake.magnitude, false), theme
+            )
+        )
+
+        tvDate.timeToText(quake, true)
+
+        root.setOnClickListener {
+            openQuakeDetails(quake)
+        }
+    }
+
+    with(binding) {
+
+        //Handle details button
+        btnOpenDetails.setOnClickListener { openQuakeDetails(quake) }
+
+        //Handle share button
+        btnShareQuake.setOnClickListener { openQuakeDetails(quake, true) }
+    }
+}

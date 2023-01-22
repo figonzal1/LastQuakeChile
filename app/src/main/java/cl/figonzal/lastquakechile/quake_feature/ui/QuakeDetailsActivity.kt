@@ -18,7 +18,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.services.notifications.utils.IS_SNAPSHOT_REQUEST_FROM_BOTTOM_SHEET
 import cl.figonzal.lastquakechile.core.services.notifications.utils.QUAKE
 import cl.figonzal.lastquakechile.core.ui.dialog.MapTerrainDialogFragment
 import cl.figonzal.lastquakechile.core.utils.*
@@ -33,6 +35,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.ktx.addCircle
+import kotlinx.coroutines.*
 import timber.log.Timber
 import java.time.format.DateTimeFormatter
 
@@ -42,12 +45,12 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private var circleAnimator2: ValueAnimator? = null
     private var circleAnimator: ValueAnimator? = null
-
     private var currentNativeAd: NativeAd? = null
 
     private var googleMap: GoogleMap? = null
 
     private var quake: Quake? = null
+    private var isSnapshotRequest: Boolean? = null
 
     private lateinit var binding: ActivityQuakeDetailsBinding
 
@@ -83,6 +86,8 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
             }
             else -> intent.extras?.get(QUAKE) as Quake
         }
+        isSnapshotRequest =
+            intent.extras?.getBoolean(IS_SNAPSHOT_REQUEST_FROM_BOTTOM_SHEET) as Boolean
 
         setTextViews()
     }
@@ -327,8 +332,17 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                 //Seteo de floating buttons
                 binding.fabShare.setOnClickListener { _ ->
-                    Timber.d("FAB SHARE CLICKED")
+                    Timber.d("Share button clicked")
                     this@QuakeDetailsActivity.makeSnapshot(p0, it)
+                }
+
+                if (isSnapshotRequest == true) {
+                    Timber.d("Snapshot request from bottomSheetDialog")
+
+                    lifecycleScope.launch {
+                        delay(1000)
+                        this@QuakeDetailsActivity.makeSnapshot(p0, it)
+                    }
                 }
             }
         }

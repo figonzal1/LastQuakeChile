@@ -146,6 +146,7 @@ class MainActivity : AppCompatActivity() {
                     }
                     2 -> {
                         tab.setIcon(R.drawable.round_place_24)
+                        hideAdBanner(true)
                         tab.contentDescription = getString(R.string.map_pager_content_description)
                     }
                     3 -> {
@@ -162,7 +163,7 @@ class MainActivity : AppCompatActivity() {
                 override fun onTabSelected(tab: TabLayout.Tab) {
 
                     when (tab.position) {
-                        0 -> hideAdBanner(true)
+                        0, 2 -> hideAdBanner(true)
                         else -> hideAdBanner(false)
                     }
 
