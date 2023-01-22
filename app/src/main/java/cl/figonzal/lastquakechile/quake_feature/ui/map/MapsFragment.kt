@@ -12,6 +12,10 @@ import androidx.lifecycle.lifecycleScope
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.ui.dialog.MapTerrainDialogFragment
 import cl.figonzal.lastquakechile.core.utils.*
+import cl.figonzal.lastquakechile.core.utils.views.configBottomSheetCallback
+import cl.figonzal.lastquakechile.core.utils.views.configOptionsMenu
+import cl.figonzal.lastquakechile.core.utils.views.getViewBottomHeight
+import cl.figonzal.lastquakechile.core.utils.views.handleBottomSheetState
 import cl.figonzal.lastquakechile.databinding.FragmentMapsBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeViewModel

@@ -9,6 +9,9 @@ import android.net.Uri
 import android.os.Build
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.utils.views.QUAKE_DETAILS_MAGNITUDE_FORMAT
+import cl.figonzal.lastquakechile.core.utils.views.getLocalBitmapUri
+import cl.figonzal.lastquakechile.core.utils.views.getMagnitudeColor
+import cl.figonzal.lastquakechile.core.utils.views.timeToText
 import cl.figonzal.lastquakechile.databinding.QuakeBottomSheetBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import com.google.android.gms.maps.GoogleMap

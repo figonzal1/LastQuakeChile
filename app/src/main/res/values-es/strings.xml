@@ -153,4 +153,6 @@
     <string name="share">Compartir</string>
     <string name="verified_quake_icon">Icono sismo verificado</string>
     <string name="quake_verified_toast">Sismo verificado</string>
+    <string name="reference_icon">Icono referencia geográfica</string>
+    <string name="hour_icon">Icono tiempo</string>
 </resources>
