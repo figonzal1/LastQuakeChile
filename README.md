@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/figonzal1/LastQuakeChile/blob/main/app/src/main/ic_launcher_chile-web.png" width="200" height="200">
+  <img src="https://raw.githubusercontent.com/figonzal1/LastQuakeChile/0d85bc5cfd0705e8255ca4c3b7cd008415b740e4/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" width="200" height="200">
 </p>
 <h1 align="center"><a href="https://play.google.com/store/apps/details?id=cl.figonzal.lastquakechile">LastQuakeChile</a></h1>
 
