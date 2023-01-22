@@ -31,7 +31,7 @@
             android:textAppearance="?attr/textAppearanceSubtitle1"
             card_view:layout_constraintStart_toEndOf="@id/iv_mag_color"
             card_view:layout_constraintTop_toTopOf="@+id/iv_mag_color"
-            tools:text="Nombre Ciudad" />
+            tools:text="@string/tools_city_name" />
 
         <TextView
             android:id="@+id/tv_hour"
@@ -42,7 +42,7 @@
             card_view:layout_constraintBottom_toBottomOf="@+id/tv_city"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintTop_toTopOf="@+id/tv_city"
-            tools:text="XX D X h" />
+            tools:text="@string/tools_datetime" />
 
         <TextView
             android:id="@+id/tv_reference"
@@ -58,7 +58,7 @@
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="@+id/tv_city"
             card_view:layout_constraintTop_toBottomOf="@+id/tv_city"
-            tools:text="Referencia de la ciudad" />
+            tools:text="@string/tools_geo_reference" />
 
 
         <TextView
@@ -74,7 +74,7 @@
             card_view:layout_constraintEnd_toEndOf="@+id/iv_mag_color"
             card_view:layout_constraintStart_toStartOf="@+id/iv_mag_color"
             card_view:layout_constraintTop_toTopOf="@+id/iv_mag_color"
-            tools:text="9.5" />
+            tools:text="@string/tools_magnitude" />
 
         <ImageView
             android:id="@+id/iv_sensitive"
@@ -148,7 +148,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/tv_title_datetime"
             app:layout_constraintTop_toBottomOf="@+id/tv_title_datetime"
-            tools:text="2018-08-06 23:45:23" />
+            tools:text="@string/tools_full_datetime" />
 
         <ImageView
             android:id="@+id/iv_gms"
@@ -190,7 +190,7 @@
             app:layout_constraintStart_toStartOf="@+id/tv_title_gms"
             app:layout_constraintTop_toBottomOf="@+id/tv_title_gms"
             app:layout_constraintVertical_bias="0.0"
-            tools:text="28° 28' 33'' S \n72° 83' 72'' W" />
+            tools:text="@string/tools_gms" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/center_guide"
@@ -239,7 +239,7 @@
             app:layout_constraintStart_toStartOf="@+id/tv_title_depth"
             app:layout_constraintTop_toBottomOf="@+id/tv_title_depth"
             app:layout_constraintVertical_bias="0.0"
-            tools:text="83 km" />
+            tools:text="@string/tools_epicentre" />
 
         <ImageView
             android:id="@+id/iv_scale"
@@ -277,7 +277,7 @@
             app:layout_constraintStart_toStartOf="@+id/tv_title_scale"
             app:layout_constraintTop_toBottomOf="@+id/tv_title_scale"
             app:layout_constraintVertical_bias="0.0"
-            tools:text="Nombre Escala" />
+            tools:text="@string/tools_scale" />
 
         <ImageView
             android:id="@+id/iv_verified"

@@ -45,7 +45,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ad_app_icon"
             app:layout_constraintTop_toTopOf="@+id/ad_app_icon"
-            tools:text="Test Ad: Google Ads" />
+            tools:text="@string/tools_ad_title" />
 
         <TextView
             android:id="@+id/ad_body"
@@ -59,7 +59,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ad_app_icon"
             app:layout_constraintTop_toBottomOf="@+id/ad_title"
-            tools:text="Adding this text to probe that Maximun flow rate: 2250GPH, this is the description of the ad publicity, you don't have to be dumb" />
+            tools:text="@string/tools_ad_description" />
 
 
         <androidx.appcompat.widget.AppCompatRatingBar

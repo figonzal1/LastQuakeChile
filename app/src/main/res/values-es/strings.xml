@@ -39,7 +39,6 @@
     <string name="alert_pref_summary">Recibe notificaciones de sismos</string>
     <string name="night_mode_manual_pref_summary_off">Desactivado</string>
     <string name="night_mode_manual_pref_summary_on">Activado</string>
-    <string name="night_mode_pref_title_switch">Modo noche</string>
     <string name="night_mode_pref_summary">Ahorra batería y evita tu cansancio ocular</string>
     <string name="night_mode_pref_title">Modo noche</string>
     <string name="tab_map">Mapa</string>

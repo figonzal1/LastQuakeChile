@@ -31,7 +31,7 @@
         android:textAppearance="?attr/textAppearanceSubtitle1"
         card_view:layout_constraintStart_toEndOf="@id/iv_mag_color"
         card_view:layout_constraintTop_toTopOf="@+id/iv_mag_color"
-        tools:text="Nombre Ciudad" />
+        tools:text="@string/tools_city_name" />
 
     <TextView
         android:id="@+id/tv_hour"
@@ -42,7 +42,7 @@
         card_view:layout_constraintBottom_toBottomOf="@+id/tv_city"
         card_view:layout_constraintEnd_toEndOf="parent"
         card_view:layout_constraintTop_toTopOf="@+id/tv_city"
-        tools:text="XX D X h" />
+        tools:text="@string/tools_datetime" />
 
     <TextView
         android:id="@+id/tv_reference"
@@ -58,7 +58,7 @@
         card_view:layout_constraintEnd_toEndOf="parent"
         card_view:layout_constraintStart_toStartOf="@+id/tv_city"
         card_view:layout_constraintTop_toBottomOf="@+id/tv_city"
-        tools:text="Referencia de la ciudad" />
+        tools:text="@string/tools_geo_reference" />
 
 
     <TextView
@@ -74,7 +74,7 @@
         card_view:layout_constraintEnd_toEndOf="@+id/iv_mag_color"
         card_view:layout_constraintStart_toStartOf="@+id/iv_mag_color"
         card_view:layout_constraintTop_toTopOf="@+id/iv_mag_color"
-        tools:text="9.5" />
+        tools:text="@string/tools_magnitude" />
 
     <ImageView
         android:id="@+id/iv_sensitive"

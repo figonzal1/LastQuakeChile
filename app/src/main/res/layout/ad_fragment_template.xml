@@ -44,7 +44,7 @@
             app:layout_constraintEnd_toStartOf="@+id/right_guide"
             app:layout_constraintStart_toStartOf="@+id/left_guide"
             app:layout_constraintTop_toBottomOf="@+id/ad_app_icon"
-            tools:text="Test Ad: Google Ads" />
+            tools:text="@string/tools_ad_title" />
 
         <androidx.appcompat.widget.AppCompatRatingBar
             android:id="@+id/ad_rating_bar"
@@ -107,7 +107,7 @@
             app:layout_constraintEnd_toStartOf="@+id/right_guide"
             app:layout_constraintStart_toStartOf="@+id/left_guide"
             app:layout_constraintTop_toTopOf="@+id/horizontal_guide"
-            tools:text="Stay up to date with your Ads Check how your ads are performing" />
+            tools:text="@string/tools_ad_description" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/ad_call_to_action"

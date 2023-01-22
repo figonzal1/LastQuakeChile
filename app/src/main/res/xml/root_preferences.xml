@@ -58,7 +58,7 @@
             app:key="@string/night_mode_key"
             app:summaryOff="@string/night_mode_manual_pref_summary_off"
             app:summaryOn="@string/night_mode_manual_pref_summary_on"
-            app:title="@string/night_mode_pref_title_switch"
+            app:title="@string/night_mode_pref_title"
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>

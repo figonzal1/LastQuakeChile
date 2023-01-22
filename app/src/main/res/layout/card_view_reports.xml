@@ -34,7 +34,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_report"
             app:layout_constraintTop_toTopOf="@+id/iv_report"
-            tools:text="Reporte Enero 2020" />
+            tools:text="@string/tools_report_title" />
 
         <View
             android:id="@+id/divider"
@@ -150,7 +150,7 @@
             app:layout_constraintEnd_toStartOf="@+id/tv_n_sismos_c1"
             app:layout_constraintStart_toStartOf="@+id/tv_min_prof"
             app:layout_constraintTop_toBottomOf="@+id/tv_top_ciudades"
-            tools:text="Nombre ciudad" />
+            tools:text="@string/tools_city_name" />
 
         <TextView
             android:id="@+id/tv_nombre_c2"
@@ -160,7 +160,7 @@
             app:layout_constraintEnd_toStartOf="@+id/tv_n_sismos_c2"
             app:layout_constraintStart_toStartOf="@+id/tv_nombre_c1"
             app:layout_constraintTop_toBottomOf="@+id/tv_nombre_c1"
-            tools:text="Nombre ciudad" />
+            tools:text="@string/tools_city_name" />
 
         <TextView
             android:id="@+id/tv_nombre_c3"
@@ -170,7 +170,7 @@
             app:layout_constraintEnd_toStartOf="@+id/tv_n_sismos_c3"
             app:layout_constraintStart_toStartOf="@+id/tv_nombre_c2"
             app:layout_constraintTop_toBottomOf="@+id/tv_nombre_c2"
-            tools:text="Nombre ciudad" />
+            tools:text="@string/tools_city_name" />
 
         <TextView
             android:id="@+id/tv_n_quakes_value"
@@ -181,7 +181,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/tv_n_quakes"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_n_quakes"
-            tools:text="XX" />
+            tools:text="@string/tools_value" />
 
         <TextView
             android:id="@+id/tv_n_sensibles_value"
@@ -192,7 +192,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/tv_n_sensibles"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_n_sensibles"
-            tools:text="XX" />
+            tools:text="@string/tools_value" />
 
         <TextView
             android:id="@+id/tv_prom_magnitud_value"
@@ -203,7 +203,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/tv_prom_magnitud"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_prom_magnitud"
-            tools:text="XX" />
+            tools:text="@string/tools_value" />
 
         <TextView
             android:id="@+id/tv_prom_prof_value"
@@ -214,7 +214,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/tv_prom_prof"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_prom_prof"
-            tools:text="XX" />
+            tools:text="@string/tools_value" />
 
         <TextView
             android:id="@+id/tv_max_mag_value"
@@ -225,7 +225,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/tv_max_mag"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_max_mag"
-            tools:text="XX" />
+            tools:text="@string/tools_value" />
 
         <TextView
             android:id="@+id/tv_min_prof_value"
@@ -236,7 +236,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/tv_min_prof"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_max_mag"
-            tools:text="XX" />
+            tools:text="@string/tools_value" />
 
         <TextView
             android:id="@+id/tv_n_sismos_c1"
@@ -247,7 +247,7 @@
             app:layout_constraintBottom_toTopOf="@+id/tv_nombre_c2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_nombre_c1"
-            tools:text="XX" />
+            tools:text="@string/tools_value" />
 
         <TextView
             android:id="@+id/tv_n_sismos_c2"
@@ -258,7 +258,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/tv_nombre_c2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_nombre_c1"
-            tools:text="XX" />
+            tools:text="@string/tools_value" />
 
         <TextView
             android:id="@+id/tv_n_sismos_c3"
@@ -269,7 +269,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/tv_nombre_c3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_nombre_c3"
-            tools:text="XX" />
+            tools:text="@string/tools_value" />
 
         <TextView
             android:id="@+id/tv_nombre_c4"
@@ -281,7 +281,7 @@
             app:layout_constraintEnd_toStartOf="@+id/tv_n_sismos_c4"
             app:layout_constraintStart_toStartOf="@+id/tv_nombre_c3"
             app:layout_constraintTop_toBottomOf="@+id/tv_nombre_c3"
-            tools:text="Nombre ciudad" />
+            tools:text="@string/tools_city_name" />
 
         <TextView
             android:id="@+id/tv_n_sismos_c4"
@@ -292,7 +292,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/tv_nombre_c4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_nombre_c3"
-            tools:text="XX" />
+            tools:text="@string/tools_value" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

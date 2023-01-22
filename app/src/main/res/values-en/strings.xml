@@ -39,7 +39,6 @@
     <string name="alert_pref_summary">Receive quakes notifications</string>
     <string name="night_mode_manual_pref_summary_off">Disabled</string>
     <string name="night_mode_manual_pref_summary_on">Enabled</string>
-    <string name="night_mode_pref_title_switch">Night mode</string>
     <string name="night_mode_pref_summary">Save battery and avoid your eyestrain</string>
     <string name="night_mode_pref_title">Night mode</string>
     <string name="tab_map">Map</string>

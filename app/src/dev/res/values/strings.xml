@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tools_city_name" translatable="false">City name</string>
+    <string name="tools_datetime" translatable="false">15D 2h</string>
+    <string name="tools_geo_reference" translatable="false">Georeference</string>
+    <string name="tools_magnitude" translatable="false">9.5</string>
+    <string name="tools_ad_title" translatable="false">Test Ad: Google Ads</string>
+    <string name="tools_ad_description" translatable="false">Stay up to date with your Ads Check how your ads are performing</string>
+    <string name="tools_full_datetime" translatable="false">2018-08-06 23:45:23</string>
+    <string name="tools_gms" translatable="false">28° 28\' 33\'\' S \n72° 83\' 72\'\' W</string>
+    <string name="tools_epicentre" translatable="false">83 km</string>
+    <string name="tools_scale" translatable="false">Scale name</string>
+    <string name="tools_report_title" translatable="false">Report January 2020</string>
+    <string name="tools_value" translatable="false">XX</string>
+    <string name="tools_changelog_version" translatable="false">Version: XX.XX.X</string>
+    <string name="tools_changelog_items" translatable="false">- Change log items</string>
+
+</resources>
