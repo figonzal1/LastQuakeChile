@@ -7,7 +7,7 @@
         android:id="@+id/layers_menu"
         android:icon="@drawable/round_layers_24"
         android:orderInCategory="1"
-        android:title="@string/estilo_mapa"
+        android:title="@string/menu_map_style_title"
         app:showAsAction="always|collapseActionView"
         tools:ignore="AlwaysShowAction" />
 

@@ -61,7 +61,7 @@
             android:id="@+id/recycle_view_quakes"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:contentDescription="@string/seccion_listado_de_sismos"
+            android:contentDescription="@string/cd_quake_list_section"
             ads:layout_constraintBottom_toBottomOf="parent"
             ads:layout_constraintTop_toBottomOf="@+id/cv_alert_permission"
             app:layout_constraintEnd_toEndOf="parent"

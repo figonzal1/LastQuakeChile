@@ -73,7 +73,7 @@
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_lastquakechile_400" />
+            android:resource="@drawable/lastquakechile_400" />
 
         <service
             android:name=".core.services.notifications.FCMService"

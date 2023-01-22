@@ -69,16 +69,16 @@ class SettingsActivityTest {
         //TOOLBAR TITLE
         onView(
             allOf(
-                withText(context.getString(R.string.settings)),
+                withText(context.getString(R.string.menu_settings)),
                 withParent(
                     allOf(
-                        withId(R.id.materialToolbar),
+                        withId(R.id.material_toolbar),
                         withParent(instanceOf(LinearLayout::class.java))
                     )
                 ),
                 isDisplayed()
             )
-        ).check(matches(withText(context.getString(R.string.settings))))
+        ).check(matches(withText(context.getString(R.string.menu_settings))))
 
         //Quake Data
         onView(

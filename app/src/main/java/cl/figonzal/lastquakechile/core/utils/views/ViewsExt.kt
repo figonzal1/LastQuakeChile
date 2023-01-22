@@ -153,11 +153,11 @@ fun TextView.setScale(scale: String) {
     text = when {
         scale.contains("Mw") -> String.format(
             QUAKE_DETAILS_SCALE_FORMAT,
-            context.getString(R.string.quake_details_magnitud_momento)
+            context.getString(R.string.moment_magnitude)
         )
         else -> String.format(
             QUAKE_DETAILS_SCALE_FORMAT,
-            context.getString(R.string.quake_details_magnitud_local)
+            context.getString(R.string.local_magnitude)
         )
     }
 }
@@ -300,8 +300,8 @@ fun TextView.formatDMS(coordinates: Coordinate) {
         minLat,
         segLat,
         when {
-            coordinates.latitude < 0 -> this.context.getString(R.string.coordenadas_sur)
-            else -> this.context.getString(R.string.coordenadas_norte)
+            coordinates.latitude < 0 -> this.context.getString(R.string.south_cords)
+            else -> this.context.getString(R.string.north_cords)
         }
     )
 
@@ -317,8 +317,8 @@ fun TextView.formatDMS(coordinates: Coordinate) {
         minLong,
         segLong,
         when {
-            coordinates.longitude < 0 -> this.context.getString(R.string.coordenadas_oeste)
-            else -> this.context.getString(R.string.coordenadas_este)
+            coordinates.longitude < 0 -> this.context.getString(R.string.west_cords)
+            else -> this.context.getString(R.string.east_cords)
         }
     )
 

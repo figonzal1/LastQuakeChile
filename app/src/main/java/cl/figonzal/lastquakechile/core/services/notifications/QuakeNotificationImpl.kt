@@ -173,7 +173,7 @@ class QuakeNotificationImpl(
         Builder(
             context,
             randomChannel.toString()
-        ).setSmallIcon(R.drawable.ic_lastquakechile_400)
+        ).setSmallIcon(R.drawable.lastquakechile_400)
             .setContentTitle(title)
             .setContentText(description)
             .setStyle(BigTextStyle().bigText(description))
@@ -212,7 +212,7 @@ class QuakeNotificationImpl(
         ).setContentTitle(remoteMessage.notification?.title)
             .setContentText(remoteMessage.notification?.body)
             .setStyle(BigTextStyle().bigText(remoteMessage.notification?.body))
-            .setSmallIcon(R.drawable.ic_lastquakechile_400)
+            .setSmallIcon(R.drawable.lastquakechile_400)
             .setAutoCancel(true)
             .setVisibility(VISIBILITY_PUBLIC)
             .also {

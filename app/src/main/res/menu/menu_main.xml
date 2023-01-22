@@ -7,26 +7,26 @@
         android:id="@+id/refresh_menu"
         android:icon="@drawable/round_refresh_24"
         android:orderInCategory="1"
-        android:title="@string/recargar"
+        android:title="@string/menu_reload_title"
         app:showAsAction="ifRoom|collapseActionView" />
 
     <item
         android:id="@+id/layers_menu"
         android:icon="@drawable/round_layers_24"
         android:orderInCategory="2"
-        android:title="@string/estilo_mapa"
+        android:title="@string/menu_map_style_title"
         app:showAsAction="ifRoom|collapseActionView" />
 
     <item
         android:id="@+id/status_menu"
         android:orderInCategory="3"
-        android:title="@string/service_status"
+        android:title="@string/menu_service_status_title"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/settings_menu"
         android:orderInCategory="4"
-        android:title="@string/settings"
+        android:title="@string/menu_settings"
         app:showAsAction="never" />
 
 </menu>

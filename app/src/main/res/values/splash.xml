@@ -3,7 +3,7 @@
 
     <style name="AppTheme.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/colorPrimary</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_lastquakechile_400</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/lastquakechile_400</item>
         <item name="postSplashScreenTheme">@style/AppTheme</item>
 
         <!-- Status bar and Nav bar configs -->

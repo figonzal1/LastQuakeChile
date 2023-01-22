@@ -28,7 +28,7 @@
                 android:id="@+id/toolbar_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:contentDescription="@string/imagen_toolbar"
+                android:contentDescription="@string/cd_toolbar_image"
                 android:fitsSystemWindows="true"
                 android:foreground="#4D000000"
                 android:scaleType="centerCrop"

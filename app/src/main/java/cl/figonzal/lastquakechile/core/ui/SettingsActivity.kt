@@ -45,7 +45,7 @@ class SettingsActivity : AppCompatActivity() {
 
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
-            title = getString(R.string.settings)
+            title = getString(R.string.menu_settings)
             setHomeAsUpIndicator(R.drawable.round_arrow_back_24)
         }
     }

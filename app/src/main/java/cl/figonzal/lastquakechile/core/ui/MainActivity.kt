@@ -137,22 +137,22 @@ class MainActivity : AppCompatActivity() {
                     0 -> {
                         tab.setIcon(R.drawable.round_campaign_24)
                         hideAdBanner(true)
-                        tab.contentDescription = getString(R.string.ad_pager_content_description)
+                        tab.contentDescription = getString(R.string.cd_ad_pager)
                     }
                     1 -> {
                         tab.setIcon(R.drawable.quakes_24dp)
                         tab.contentDescription =
-                            getString(R.string.quakes_pager_content_description)
+                            getString(R.string.cd_quakes_pager)
                     }
                     2 -> {
                         tab.setIcon(R.drawable.round_place_24)
                         hideAdBanner(true)
-                        tab.contentDescription = getString(R.string.map_pager_content_description)
+                        tab.contentDescription = getString(R.string.cd_map_pager)
                     }
                     3 -> {
                         tab.setIcon(R.drawable.round_analytics_24)
                         tab.contentDescription =
-                            getString(R.string.reports_pager_content_description)
+                            getString(R.string.cd_reports_pager)
                     }
                 }
             }.attach()

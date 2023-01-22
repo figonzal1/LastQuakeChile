@@ -18,7 +18,7 @@
             android:layout_height="40dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:contentDescription="@string/icono_reporte_mensual"
+            android:contentDescription="@string/cd_monthly_report_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/round_sticky_note_24" />
@@ -57,7 +57,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:text="@string/n_sismos_reportados"
+            android:text="@string/n_report_quakes"
             app:layout_constraintEnd_toStartOf="@+id/tv_n_quakes_value"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/iv_report"
@@ -68,7 +68,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="@string/n_sismos_sensibles"
+            android:text="@string/n_quakes_sensitives"
             app:layout_constraintEnd_toStartOf="@+id/tv_n_sensibles_value"
             app:layout_constraintStart_toStartOf="@+id/tv_n_quakes"
             app:layout_constraintTop_toBottomOf="@+id/tv_n_quakes" />
@@ -78,7 +78,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="@string/promedio_magnitud"
+            android:text="@string/magnitude_mean"
             app:layout_constraintEnd_toStartOf="@+id/tv_prom_magnitud_value"
             app:layout_constraintStart_toStartOf="@+id/tv_n_sensibles"
             app:layout_constraintTop_toBottomOf="@+id/tv_n_sensibles" />
@@ -88,7 +88,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="@string/promedio_profundidad_epicentro"
+            android:text="@string/mean_depth_epicentre"
             app:layout_constraintEnd_toStartOf="@+id/tv_prom_prof_value"
             app:layout_constraintStart_toStartOf="@+id/tv_prom_magnitud"
             app:layout_constraintTop_toBottomOf="@+id/tv_prom_magnitud" />
@@ -98,7 +98,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="@string/m_xima_magnitud"
+            android:text="@string/max_magnitude"
             app:layout_constraintEnd_toStartOf="@+id/tv_max_mag_value"
             app:layout_constraintStart_toStartOf="@+id/tv_prom_prof"
             app:layout_constraintTop_toBottomOf="@+id/tv_prom_prof" />
@@ -108,7 +108,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="@string/m_nima_profundidad"
+            android:text="@string/min_depth"
             app:layout_constraintEnd_toStartOf="@+id/tv_min_prof_value"
             app:layout_constraintStart_toStartOf="@+id/tv_max_mag"
             app:layout_constraintTop_toBottomOf="@+id/tv_max_mag" />
@@ -134,7 +134,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="32dp"
-            android:text="@string/top_ciudades"
+            android:text="@string/top_cities"
             android:textAppearance="?attr/textAppearanceBody2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

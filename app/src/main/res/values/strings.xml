@@ -13,7 +13,7 @@
     <string name="mail_to_felipe" translatable="false">felipe.gonzalezalarcon94@gmail.com</string>
 
     <!-- TOOLBAR Menu STRINGS -->
-    <string name="settings">Configuración</string>
+    <string name="menu_settings">Configuración</string>
 
     <!--TABS -->
     <string name="tab_map">Mapa</string>
@@ -49,45 +49,44 @@
 
 
     <!-- STRINGS DE LAYOUTS-->
-    <string name="painted_circle">Color magnitud sismo</string>
-    <string name="imagen_toolbar">Fondo de barra de herramientas</string>
+    <string name="cd_paint_circle">Color magnitud sismo</string>
+    <string name="cd_toolbar_image">Fondo de barra de herramientas</string>
     <string name="quake_time_day_info_windows">Hace: %1$d d</string>
     <string name="quake_time_day_hour_info_windows">Hace: %1$d d %2$d h</string>
     <string name="quake_time_hour_info_windows">Hace: %1$d h</string>
     <string name="quake_time_minute_info_windows">Hace: %1$d m</string>
     <string name="quake_time_second_info_windows">Hace: %1$d s</string>
-    <string name="datetime_icon">Icono fecha sismos</string>
-    <string name="tiempo">Fecha/Hora</string>
+    <string name="cd_datetime_icon">Icono fecha sismos</string>
+    <string name="date_time_title">Fecha/Hora</string>
     <string name="gms_icon">Icono posición sismo</string>
-    <string name="distancia">Posición GMS</string>
-    <string name="depth_icon">Icono epicentro</string>
-    <string name="scale_icon">Icono escala</string>
-    <string name="depth">Profundidad</string>
-    <string name="scale">Escala</string>
-    <string name="profundidad_info_windows">Profundidad: %.1f Km</string>
-    <string name="quake_details_magnitud_local">Magnitud Local (Ml)</string>
-    <string name="quake_details_magnitud_momento" tools:ignore="Typos">Magnitud Momento (Mw)</string>
-    <string name="sensitive_icon">Icono sismo sensible</string>
-    <string name="coordenadas_sur" translatable="false">S</string>
-    <string name="coordenadas_norte" translatable="false">N</string>
-    <string name="coordenadas_oeste">O</string>
-    <string name="coordenadas_este">E</string>
-    <string name="seccion_listado_de_sismos">Sección listado de sismos</string>
-    <string name="boton_compartir_sismo">Botón compartir sismo</string>
-    <string name="imagen_estado_sismo">Imagen estado sismo</string>
+    <string name="gms_title">Posición GMS</string>
+    <string name="cd_depth_icon">Icono epicentro</string>
+    <string name="cd_scale_icon">Icono escala</string>
+    <string name="depth_title">Profundidad</string>
+    <string name="scale_title">Escala</string>
+    <string name="local_magnitude">Magnitud Local (Ml)</string>
+    <string name="moment_magnitude" tools:ignore="Typos">Magnitud Momento (Mw)</string>
+    <string name="cd_sensitive_icon">Icono sismo sensible</string>
+    <string name="south_cords" translatable="false">S</string>
+    <string name="north_cords" translatable="false">N</string>
+    <string name="west_cords">O</string>
+    <string name="east_cords">E</string>
+    <string name="cd_quake_list_section">Sección listado de sismos</string>
+    <string name="cd_share_quake_button">Botón compartir sismo</string>
+    <string name="cd_quake_state_icon">Imagen estado sismo</string>
     <string name="quakes_details_estado_sismo">Sismo %s</string>
     <string name="quakes_details_estado_sismo_preliminar">preliminar</string>
     <string name="quakes_details_estado_sismo_verificado">verificado</string>
     <string name="quake_list_number_pref_summary">Número de sismos que quieres ver en lista</string>
     <string name="quake_list_number_pref_title">Datos sismos</string>
-    <string name="icono_reporte_mensual">Icono reporte mensual</string>
-    <string name="n_sismos_reportados">N° sismos reportados</string>
-    <string name="n_sismos_sensibles">N° sismos sensibles</string>
-    <string name="promedio_magnitud">Promedio magnitud</string>
-    <string name="promedio_profundidad_epicentro">Promedio profundidad epicentro</string>
-    <string name="m_xima_magnitud">Máxima magnitud</string>
-    <string name="m_nima_profundidad">Mínima profundidad</string>
-    <string name="top_ciudades">Top ciudades con más sismos</string>
+    <string name="cd_monthly_report_icon">Icono reporte mensual</string>
+    <string name="n_report_quakes">N° sismos reportados</string>
+    <string name="n_quakes_sensitives">N° sismos sensibles</string>
+    <string name="magnitude_mean">Promedio magnitud</string>
+    <string name="mean_depth_epicentre">Promedio profundidad epicentro</string>
+    <string name="max_magnitude">Máxima magnitud</string>
+    <string name="min_depth">Mínima profundidad</string>
+    <string name="top_cities">Top ciudades con más sismos</string>
     <string name="alert_pref_summary">Recibe notificaciones de sismos</string>
     <string name="alert_pref_title">Notificaciones</string>
     <string name="alert_pref_title_switch">Alertas de sismos</string>
@@ -119,34 +118,33 @@
     <string name="DEC">Diciembre</string>
     <string name="intent_chooser">Compartir sismos</string>
     <string name="version">Versión</string>
-    <string name="qu_hay_de_nuevo_en_la_app">¿Qué hay de nuevo en la app?</string>
+    <string name="change_log_title">¿Qué hay de nuevo en la app?</string>
     <string name="novedades">Novedades</string>
-    <string name="entendido">Entendido</string>
+    <string name="ok">Entendido</string>
     <string name="map_type">Tipo de mapa</string>
-    <string name="new_version_icon">Icono nueva version</string>
-    <string name="estilo_mapa">Estilo Mapa</string>
-    <string name="icono_aplicacion_publicidad">Icono aplicacion publicidad</string>
-    <string name="ver_m_s">Ver más</string>
+    <string name="cd_new_version_icon">Icono nueva version</string>
+    <string name="menu_map_style_title">Estilo Mapa</string>
+    <string name="see_more">Ver más</string>
     <string name="http_error">Ups, algo funcionó mal!</string>
     <string name="io_error">Revisa tu conexión a Internet</string>
     <string name="ad" translatable="false">Ad</string>
-    <string name="icon_ad_app">Icono publicidad aplicación</string>
+    <string name="cd_ad_app_icon">Icono publicidad aplicación</string>
     <string name="about_msg">LastQuakeChile, te permite visualizar rápidamente los últimos sismos ocurridos en Chile</string>
     <string name="contact_developer">Contacto desarrollador</string>
     <string name="contact_summary">¿Sugerencias? ¿Problemas?</string>
     <string name="about">Acerca</string>
-    <string name="no_apagado">Wifi apagado</string>
+    <string name="cd_wifi_off">Wifi apagado</string>
     <string name="wifi_off_msg">Por favor, revisa tu conexión</string>
     <string name="email_intent_fail">No tienes ninguna app de email para contactarnos</string>
     <string name="email_chooser_title">Envia un email usando:</string>
     <string name="email_subject">Contacto desarrollador LastQuakeChile</string>
-    <string name="reintentar">Reintentar</string>
+    <string name="retry">Reintentar</string>
     <string name="service_error">Servidor de sismos no disponible</string>
-    <string name="recargar">Recargar</string>
+    <string name="menu_reload_title">Recargar</string>
     <string name="no_mas_sismos">No hay más items</string>
     <string name="swipe_left">Desliza a la izquierda para ver sismos</string>
     <string name="local_copy">Mostrando copia local</string>
-    <string name="swipe_left_icon">Icono izquierda</string>
+    <string name="cd_swipe_left_icon">Icono izquierda</string>
     <string name="view_quake_notification_button">Ver sismo</string>
     <string name="shortcut_short_map_label">Mapa sismos</string>
     <string name="shortcut_long_map_label">Mapa últimos sismos</string>
@@ -163,34 +161,34 @@
     <string name="verified_format_notification">[Corrección] %s</string>
     <string name="no_alert_title_notification">Sismo de %.1f</string>
     <string name="no_alert_description_notification">Registrado a %s</string>
-    <string name="sismos_chile">Sismos en chile</string>
-    <string name="revisa_los_ltimos_sismos_en_chile">Revisa los últimos sismos en Chile</string>
-    <string name="desliza_a_la_izquierda">Desliza a la izquierda</string>
-    <string name="contenido_multimedia_de_publicidad">Contenido multimedia de publicidad</string>
-    <string name="puntaje_estrellas_aplicaci_n_publicidad">Puntaje estrellas aplicación publicidad</string>
-    <string name="ad_pager_content_description">Pestaña publicidad</string>
-    <string name="quakes_pager_content_description">Pestaña sismos</string>
-    <string name="map_pager_content_description">Pestaña mapa</string>
-    <string name="reports_pager_content_description">Pestaña reportes</string>
+    <string name="ad_title_offline">Sismos en chile</string>
+    <string name="ad_description_offline">Revisa los últimos sismos en Chile</string>
+    <string name="swipe_to_left">Desliza a la izquierda</string>
+    <string name="cd_multimedia_content">Contenido multimedia de publicidad</string>
+    <string name="cd_stars">Puntaje estrellas aplicación publicidad</string>
+    <string name="cd_ad_pager">Pestaña publicidad</string>
+    <string name="cd_quakes_pager">Pestaña sismos</string>
+    <string name="cd_map_pager">Pestaña mapa</string>
+    <string name="cd_reports_pager">Pestaña reportes</string>
     <string name="high_priority_summary">Mostrar vista previa de alertas en la parte superior de la pantalla</string>
     <string name="high_priority_title">Alertas de alta prioridad</string>
     <string name="preliminary_pref_title">Alertas de sismos preliminares</string>
-    <string name="service_status">Estado del servicio</string>
+    <string name="menu_service_status_title">Estado del servicio</string>
     <string name="minimum_magnitude_title">Magnitud mínima alerta</string>
     <string name="min_magnitude_dialog_title">Magnitud minima</string>
     <string name="min_magnitude_dialog_message">Sismos mayores que … \nEjemplo: 5.6, 3.5, 2.9, etc.</string>
     <string name="improvement_1">- Nuevo sistema de notificaciones: alertas de sismos preliminares, alertas con magnitudes personalizables y alertas de alta prioridad. (Véase sección configuraciones)</string>
     <string name="improvement_2">- Mejoras de estabilidad de sistema</string>
-    <string name="activar">Activar</string>
+    <string name="activate_button">Activar</string>
     <string name="alert_permission_description">Este dispositivo cuenta con Android 13. Para recibir alertas de sismos se requiere activar el permiso para notificaciones</string>
     <string name="alert_permission_title">Permiso para alertas sísmicas</string>
     <string name="privacy_policy">Política de privacidad</string>
     <string name="cd_details_icon">Open details icon</string>
     <string name="details">Details</string>
     <string name="share">Share</string>
-    <string name="verified_quake_icon">Verified earthquake icon</string>
+    <string name="cd_verified_quake_icon">Verified earthquake icon</string>
     <string name="quake_verified_toast">Verified earthquake</string>
-    <string name="reference_icon">Reference icon</string>
-    <string name="hour_icon">Time icon</string>
+    <string name="cd_reference_icon">Reference icon</string>
+    <string name="cd_hour_icon">Time icon</string>
 
 </resources>

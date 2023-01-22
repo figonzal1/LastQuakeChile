@@ -34,7 +34,7 @@
             android:name="cl.figonzal.lastquakechile.QuakesFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:contentDescription="@string/seccion_listado_de_sismos"
+            android:contentDescription="@string/cd_quake_list_section"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

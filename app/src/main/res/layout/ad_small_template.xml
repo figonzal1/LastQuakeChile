@@ -19,7 +19,7 @@
             android:paddingStart="4dp"
             android:paddingEnd="4dp"
             android:text="@string/ad"
-            android:textColor="@android:color/white"
+            android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,7 +30,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"
-            android:contentDescription="@string/icono_aplicacion_publicidad"
+            android:contentDescription="@string/cd_ad_app_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ad_attribution" />

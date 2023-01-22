@@ -18,9 +18,9 @@
     <color name="grey_dark">#ADADAD</color>
     <color name="green_dark">#008e4d</color>
 
-    <color name="changeLogIconRelease">#CD03A9F4</color>
+    <color name="changelog_icon_release">#CD03A9F4</color>
     <color name="verified">#03A9F4</color>
-    <color name="badgeGreen">#9A8BC34A</color>
+    <color name="badge_green">#9A8BC34A</color>
     <color name="ad_color">#FFCC66</color>
 
     <!-- Colores para cada magnitud-->
