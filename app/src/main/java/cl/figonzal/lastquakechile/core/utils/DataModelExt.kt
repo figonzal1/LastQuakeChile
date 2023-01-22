@@ -2,6 +2,7 @@ package cl.figonzal.lastquakechile.core.utils
 
 import android.content.Context
 import android.content.Intent
+import cl.figonzal.lastquakechile.core.services.notifications.utils.IS_SNAPSHOT_REQUEST_FROM_BOTTOM_SHEET
 import cl.figonzal.lastquakechile.core.services.notifications.utils.QUAKE
 import cl.figonzal.lastquakechile.quake_feature.data.local.entity.relation.QuakeAndCoordinate
 import cl.figonzal.lastquakechile.quake_feature.data.remote.dto.QuakeDTO
@@ -53,9 +54,13 @@ fun List<CityQuakesEntity>.toCityQuakesDomain() = map { it.toDomain() }
  */
 fun List<ReportWithCityQuakes>.toReportDomain() = map { it.toDomain() }
 
-fun Context.openQuakeDetails(quake: Quake) {
+fun Context.openQuakeDetails(quake: Quake, isSnapshotRequestInBottomSheet: Boolean = false) {
     Intent(this, QuakeDetailsActivity::class.java).apply {
         putExtra(QUAKE, quake)
+
+        if (isSnapshotRequestInBottomSheet) {
+            putExtra(IS_SNAPSHOT_REQUEST_FROM_BOTTOM_SHEET, true)
+        }
 
         Timber.d("QuakeDetail intent")
         startActivity(this)

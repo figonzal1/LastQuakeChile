@@ -31,3 +31,5 @@ internal const val IS_SENSIBLE = "sensible"
 internal const val QUAKE_CODE = "imagen_url"
 internal const val STATE = "estado"
 internal const val IS_UPDATE = "is_update"
+
+const val IS_SNAPSHOT_REQUEST_FROM_BOTTOM_SHEET = "isSnapshotRequestFromBottomSheet"

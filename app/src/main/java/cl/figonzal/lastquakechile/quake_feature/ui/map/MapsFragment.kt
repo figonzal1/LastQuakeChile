@@ -12,7 +12,6 @@ import androidx.lifecycle.lifecycleScope
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.ui.dialog.MapTerrainDialogFragment
 import cl.figonzal.lastquakechile.core.utils.*
-import cl.figonzal.lastquakechile.core.utils.views.QUAKE_DETAILS_MAGNITUDE_FORMAT
 import cl.figonzal.lastquakechile.databinding.FragmentMapsBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeViewModel
@@ -36,10 +35,11 @@ private const val mapViewKey = "MapViewBundleKey"
 class MapsFragment : Fragment(), OnMapReadyCallback {
 
     private val viewModel: QuakeViewModel by activityViewModel()
+
     private var _binding: FragmentMapsBinding? = null
     private val binding get() = _binding!!
-    private var quakeList: List<Quake> = listOf()
 
+    private var quakeList: List<Quake> = listOf()
     private var sheetBehavior: BottomSheetBehavior<MaterialCardView>? = null
 
     private var lastMarker: Marker? = null
@@ -73,12 +73,15 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         }
 
         //Initialization of bottomSheetBehavior
-        sheetBehavior = BottomSheetBehavior.from(binding.include.cvBottomSheet).also {
-            it.isHideable = true
-            it.state = BottomSheetBehavior.STATE_HIDDEN
+        with(binding.include.cvBottomSheet) {
+            sheetBehavior = BottomSheetBehavior.from(this).also {
+                it.isHideable = true
+                it.state = BottomSheetBehavior.STATE_HIDDEN
 
-            binding.include.cvBottomSheet.getViewBottomHeight(R.id.sheet_content, it)
+                getViewBottomHeight(R.id.sheet_content, it)
+            }
         }
+
 
         return binding.root
     }
@@ -90,10 +93,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             configOptionsMenu(fragmentIndex = 2) {
                 when (it.itemId) {
                     R.id.layers_menu -> {
-                        MapTerrainDialogFragment(p0).show(
-                            parentFragmentManager,
-                            "Dialogo mapType"
-                        )
+                        MapTerrainDialogFragment(p0).show(parentFragmentManager, "Dialogo mapType")
                     }
                 }
             }
@@ -141,8 +141,11 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                 lastMarker = marker
 
                 val quake = marker.tag as Quake
-                sheetBehavior?.handleBottomSheetBehaviorState()
-                setBottomSheetQuakeData(quake)
+
+                sheetBehavior?.handleBottomSheetState()
+
+                //Set quake data in bottomSheetDialog
+                requireContext().setBottomSheetQuakeData(quake, binding.include)
 
                 false
             }
@@ -155,36 +158,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         //Log zone
         Timber.d("Map ready")
     }
-
-    private fun setBottomSheetQuakeData(quake: Quake) {
-
-        with(binding.include.sheetContent) {
-            tvCity.text = quake.city
-            tvReference.text = quake.reference
-
-            tvMagnitude.text = String.format(
-                QUAKE_DETAILS_MAGNITUDE_FORMAT,
-                quake.magnitude
-            )
-            ivMagColor.setColorFilter(
-                resources.getColor(
-                    getMagnitudeColor(quake.magnitude, false), requireActivity().theme
-                )
-            )
-
-            tvDate.timeToText(quake, true)
-
-            root.setOnClickListener {
-                requireContext().openQuakeDetails(quake)
-            }
-        }
-
-        //Handle details button
-        binding.include.btnOpenDetails.setOnClickListener {
-            requireContext().openQuakeDetails(quake)
-        }
-    }
-
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
