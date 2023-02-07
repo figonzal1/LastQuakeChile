@@ -7,10 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.utils.openQuakeDetails
-import cl.figonzal.lastquakechile.core.utils.views.QUAKE_DETAILS_MAGNITUDE_FORMAT
-import cl.figonzal.lastquakechile.core.utils.views.getMagnitudeColor
-import cl.figonzal.lastquakechile.core.utils.views.layoutInflater
-import cl.figonzal.lastquakechile.core.utils.views.timeToText
+import cl.figonzal.lastquakechile.core.utils.views.*
 import cl.figonzal.lastquakechile.databinding.CardViewQuakeBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeAdapter.QuakeViewHolder
@@ -71,6 +68,16 @@ class QuakeAdapter : RecyclerView.Adapter<QuakeViewHolder>() {
                 ivSensitive.visibility = when {
                     quake.isSensitive -> View.VISIBLE
                     else -> View.GONE
+                }
+
+                //Verified status
+                ivVerified.visibility = when {
+                    quake.isVerified -> View.VISIBLE
+                    else -> View.GONE
+                }
+
+                ivVerified.setOnClickListener {
+                    itemView.context.toast(R.string.quake_verified_toast)
                 }
 
                 root.setOnClickListener { itemView.context.openQuakeDetails(quake) }

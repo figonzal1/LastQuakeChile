@@ -80,14 +80,16 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         @Suppress("DEPRECATION")
-        quake = when {
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> {
-                intent.extras?.getParcelable(QUAKE, Quake::class.java)
+        with(intent.extras) {
+
+            quake = when {
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> {
+                    this?.getParcelable(QUAKE, Quake::class.java)
+                }
+                else -> this?.get(QUAKE) as Quake
             }
-            else -> intent.extras?.get(QUAKE) as Quake
+            isSnapshotRequest = this?.getBoolean(IS_SNAPSHOT_REQUEST_FROM_BOTTOM_SHEET) as Boolean
         }
-        isSnapshotRequest =
-            intent.extras?.getBoolean(IS_SNAPSHOT_REQUEST_FROM_BOTTOM_SHEET) as Boolean
 
         setTextViews()
     }
