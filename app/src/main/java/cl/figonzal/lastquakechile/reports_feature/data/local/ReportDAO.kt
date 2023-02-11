@@ -2,7 +2,7 @@ package cl.figonzal.lastquakechile.reports_feature.data.local
 
 import androidx.room.Dao
 import androidx.room.Insert
-import androidx.room.OnConflictStrategy.REPLACE
+import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
 import androidx.room.Transaction
 import cl.figonzal.lastquakechile.reports_feature.data.local.entity.CityQuakesEntity

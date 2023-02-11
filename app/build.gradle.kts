@@ -123,15 +123,15 @@ dependencies {
     implementation(fileTree("libs") { include(listOf("*.jar")) })
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.7.20")
     implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.appcompat:appcompat:1.5.1")
+    implementation("androidx.appcompat:appcompat:1.6.1")
 
     implementation("androidx.recyclerview:recyclerview:1.2.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
-    implementation("androidx.fragment:fragment-ktx:1.5.4")
+    implementation("androidx.fragment:fragment-ktx:1.5.5")
     implementation("androidx.activity:activity-ktx:1.6.1")
 
-    implementation("com.google.android.material:material:1.7.0")//Material design
+    implementation("com.google.android.material:material:1.8.0")//Material design
     implementation("androidx.core:core-splashscreen:1.0.0") //splash screen
 
     //GLIDE
@@ -154,8 +154,8 @@ dependencies {
     //implementation("com.appodeal.ads:sdk:3.0.0.4")
 
     //Google Play
-    implementation("com.google.android.play:app-update-ktx:2.0.0")
-    implementation("com.google.android.gms:play-services-ads:21.3.0")
+    implementation("com.google.android.play:app-update-ktx:2.0.1")
+    implementation("com.google.android.gms:play-services-ads:21.5.0")
 
     //Google Maps
     // KTX for the Maps SDK for Android
@@ -165,9 +165,9 @@ dependencies {
     implementation("androidx.preference:preference-ktx:1.2.0") //preference
 
     //Room components
-    implementation("androidx.room:room-ktx:2.4.3")
-    implementation("androidx.room:room-runtime:2.4.3")
-    kapt("androidx.room:room-compiler:2.4.3")
+    implementation("androidx.room:room-ktx:2.5.0")
+    implementation("androidx.room:room-runtime:2.5.0")
+    kapt("androidx.room:room-compiler:2.5.0")
 
     //Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
@@ -202,24 +202,24 @@ dependencies {
 
     // Instrumented Unit Tests
     androidTestImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test:runner:1.5.1")
+    androidTestImplementation("androidx.test:runner:1.5.2")
     androidTestImplementation("androidx.test:rules:1.5.0")
     androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
     androidTestImplementation("androidx.arch.core:core-testing:2.1.0")
-    androidTestImplementation("androidx.test.ext:junit-ktx:1.1.4")
-    androidTestImplementation("androidx.room:room-testing:2.4.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.0")
+    androidTestImplementation("androidx.test.ext:junit-ktx:1.1.5")
+    androidTestImplementation("androidx.room:room-testing:2.5.0")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation("androidx.test.espresso:espresso-contrib:3.4.0") {
         exclude(module = "protobuf-lite")
     }
-    androidTestImplementation("androidx.test.espresso:espresso-intents:3.5.0")
+    androidTestImplementation("androidx.test.espresso:espresso-intents:3.5.1")
     androidTestImplementation("androidx.test.ext:truth:1.5.0")
     androidTestImplementation("androidx.test.uiautomator:uiautomator:2.2.0")
     androidTestImplementation("io.insert-koin:koin-test:3.2.0")
     androidTestImplementation("io.insert-koin:koin-test-junit4:3.2.0")
 
     //Debug dependencies
-    debugImplementation("androidx.fragment:fragment-testing:1.5.4")
+    debugImplementation("androidx.fragment:fragment-testing:1.5.5")
     debugImplementation("com.squareup.leakcanary:leakcanary-android:2.9.1")
 
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
