@@ -4,7 +4,7 @@ import android.app.Application
 import cl.figonzal.lastquakechile.core.data.remote.ApiError
 import cl.figonzal.lastquakechile.core.data.remote.StatusAPI
 import cl.figonzal.lastquakechile.core.utils.processApiError
-import cl.figonzal.lastquakechile.core.utils.toQuakeDomain
+import cl.figonzal.lastquakechile.core.utils.toQuakeListDomain
 import cl.figonzal.lastquakechile.core.utils.toQuakeListEntity
 import cl.figonzal.lastquakechile.quake_feature.data.local.QuakeLocalDataSource
 import cl.figonzal.lastquakechile.quake_feature.data.local.entity.relation.QuakeAndCoordinate
@@ -35,7 +35,7 @@ class QuakeRepositoryImpl(
 
     override fun getFirstPage(pageIndex: Int): Flow<StatusAPI<List<Quake>>> = flow {
 
-        var cacheList = localDataSource.getQuakes().toQuakeDomain()
+        var cacheList = localDataSource.getQuakes().toQuakeListDomain()
 
         //GET REMOTE DATA
         remoteDataSource.getQuakes(pageIndex)
@@ -46,7 +46,7 @@ class QuakeRepositoryImpl(
                         val quakes = data.embedded!!.quakes.toQuakeListEntity()
                         saveToLocalQuakes(quakes)
 
-                        cacheList = localDataSource.getQuakes().toQuakeDomain()
+                        cacheList = localDataSource.getQuakes().toQuakeListDomain()
 
                         emit(StatusAPI.Success(cacheList))
 
@@ -77,7 +77,7 @@ class QuakeRepositoryImpl(
 
     override fun getNextPages(pageIndex: Int): Flow<StatusAPI<List<Quake>>> = flow {
 
-        var cacheList = localDataSource.getQuakes().toQuakeDomain()
+        var cacheList = localDataSource.getQuakes().toQuakeListDomain()
 
         //GET REMOTE DATA
         remoteDataSource.getQuakes(pageIndex)
@@ -88,7 +88,7 @@ class QuakeRepositoryImpl(
                         val quakes = data.embedded!!.quakes.toQuakeListEntity()
                         saveToLocalQuakes(quakes)
 
-                        cacheList = localDataSource.getQuakes().toQuakeDomain()
+                        cacheList = localDataSource.getQuakes().toQuakeListDomain()
 
                         emit(StatusAPI.Success(cacheList))
 

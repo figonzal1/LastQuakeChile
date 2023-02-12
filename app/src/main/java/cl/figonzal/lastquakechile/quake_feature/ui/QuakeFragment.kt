@@ -194,7 +194,7 @@ class QuakeFragment(
             ivWifiOff.setImageDrawable(
                 ResourcesCompat.getDrawable(resources, icon, requireContext().theme)
             )
-            tvMsgNoWifi.text = errorMsg
+            tvMsgApiError.text = errorMsg
         }
 
     private fun loadingUI() {

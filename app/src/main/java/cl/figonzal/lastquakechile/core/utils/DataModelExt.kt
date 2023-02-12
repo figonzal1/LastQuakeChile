@@ -29,7 +29,7 @@ fun List<QuakeDTO>.toQuakeListEntity() = map {
 /**
  * Function that map full quake entity to domain model
  */
-fun List<QuakeAndCoordinate>.toQuakeDomain() = map { it.toDomain() }
+fun List<QuakeAndCoordinate>.toQuakeListDomain() = map { it.toDomain() }
 
 /**
  * Function that map report dto to entity
