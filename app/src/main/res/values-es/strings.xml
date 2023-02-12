@@ -19,10 +19,6 @@
     <string name="east_cords">E</string>
     <string name="cd_quake_list_section">Sección listado de sismos</string>
     <string name="cd_share_quake_button">Botón compartir sismo</string>
-    <string name="cd_quake_state_icon">Imagen estado sismo</string>
-    <string name="quakes_details_estado_sismo">Sismo %s</string>
-    <string name="quakes_details_estado_sismo_preliminar">preliminar</string>
-    <string name="quakes_details_estado_sismo_verificado">verificado</string>
     <string name="quake_time_day_info_windows">Hace: %1$d d</string>
     <string name="quake_time_day_hour_info_windows">"Hace: %1$d d %2$d "</string>
     <string name="quake_time_hour_info_windows">Hace: %1$d h</string>
@@ -145,7 +141,6 @@
     <string name="alert_permission_description">Este dispositivo cuenta con Android 13. Para recibir alertas de sismos se requiere activar el permiso para notificaciones</string>
     <string name="alert_permission_title">Permiso para alertas sísmicas</string>
     <string name="privacy_policy">Política de privacidad</string>
-    <string name="cd_details_icon">Icono abrir detalles</string>
     <string name="details">Detalles</string>
     <string name="share">Compartir</string>
     <string name="cd_verified_quake_icon">Icono sismo verificado</string>

@@ -19,10 +19,6 @@
     <string name="east_cords">E</string>
     <string name="cd_quake_list_section">List of quakes section</string>
     <string name="cd_share_quake_button">Button to share quake</string>
-    <string name="cd_quake_state_icon">Quake status image</string>
-    <string name="quakes_details_estado_sismo">Quake %s</string>
-    <string name="quakes_details_estado_sismo_preliminar">preliminary</string>
-    <string name="quakes_details_estado_sismo_verificado">verified</string>
     <string name="quake_time_second_info_windows">%1$d s ago</string>
     <string name="quake_time_minute_info_windows">%1$d m ago</string>
     <string name="quake_time_hour_info_windows">%1$d h ago</string>
@@ -145,7 +141,6 @@
     <string name="alert_permission_description">This device is running Android 13. To receive earthquake alerts it is required to activate the permission for notifications.</string>
     <string name="alert_permission_title">Permission for earthquake alerts</string>
     <string name="privacy_policy">Privacy policy</string>
-    <string name="cd_details_icon">Open details icon</string>
     <string name="details">Details</string>
     <string name="share">Share</string>
     <string name="cd_verified_quake_icon">Verified earthquake icon</string>

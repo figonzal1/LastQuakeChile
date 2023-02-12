@@ -44,6 +44,8 @@ class QuakeRepositoryImpl(
                 when {
                     data.embedded != null -> {
                         val quakes = data.embedded!!.quakes.toQuakeListEntity()
+
+                        localDataSource.deleteAll()
                         saveToLocalQuakes(quakes)
 
                         cacheList = localDataSource.getQuakes().toQuakeListDomain()

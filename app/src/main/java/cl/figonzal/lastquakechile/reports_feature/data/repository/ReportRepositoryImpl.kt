@@ -46,6 +46,8 @@ class ReportRepositoryImpl(
                 when {
                     data.embedded != null -> {
                         val quakes = data.embedded!!.reports.toReportListEntity()
+
+                        localDataSource.deleteAll()
                         saveToLocalReports(quakes)
 
                         cacheList = localDataSource.getReports().toReportListDomain()

@@ -31,7 +31,7 @@ android {
     }
 
     compileSdk = 33
-    buildToolsVersion = "33.0.1"
+    buildToolsVersion = "33.0.2"
 
     defaultConfig {
         applicationId = "cl.figonzal.lastquakechile"
@@ -182,7 +182,7 @@ dependencies {
     kapt("com.squareup.moshi:moshi-kotlin-codegen:1.14.0")
 
     //Firebase BOM
-    implementation(platform("com.google.firebase:firebase-bom:31.1.0"))
+    implementation(platform("com.google.firebase:firebase-bom:31.2.1"))
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-crashlytics-ktx")
     implementation("com.google.firebase:firebase-messaging-ktx")
