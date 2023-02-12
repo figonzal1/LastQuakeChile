@@ -49,11 +49,12 @@ fun Context.processApiError(message: String, statusCode: StatusCode?): ApiError 
 
     var apiError = when {
         statusCode == StatusCode.NotFound -> ApiError.HttpError
-        statusCode == StatusCode.RequestTimeout || statusCode == StatusCode.InternalServerError || statusCode == StatusCode.ServiceUnavailable || statusCode == StatusCode.Unknown -> ApiError.ServerError
-        message.contains("10000ms") || message.contains(
-            "failed to connect",
-            true
-        ) || message.contains("unable to resolve host", true) -> ApiError.TimeoutError
+        statusCode == StatusCode.RequestTimeout ||
+                statusCode == StatusCode.InternalServerError ||
+                statusCode == StatusCode.ServiceUnavailable ||
+                statusCode == StatusCode.Unknown -> ApiError.ServerError
+        message.contains("10000ms") || message.contains("failed to connect", true) ||
+                message.contains("unable to resolve host", true) -> ApiError.TimeoutError
         else -> ApiError.UnknownError
     }
 
@@ -63,4 +64,3 @@ fun Context.processApiError(message: String, statusCode: StatusCode?): ApiError 
 
     return apiError
 }
-

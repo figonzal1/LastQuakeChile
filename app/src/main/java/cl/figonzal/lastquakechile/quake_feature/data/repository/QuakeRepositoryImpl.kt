@@ -11,7 +11,10 @@ import cl.figonzal.lastquakechile.quake_feature.data.local.entity.relation.Quake
 import cl.figonzal.lastquakechile.quake_feature.data.remote.QuakeRemoteDataSource
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import cl.figonzal.lastquakechile.quake_feature.domain.repository.QuakeRepository
-import com.skydoves.sandwich.*
+import com.skydoves.sandwich.message
+import com.skydoves.sandwich.suspendOnError
+import com.skydoves.sandwich.suspendOnFailure
+import com.skydoves.sandwich.suspendOnSuccess
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -42,7 +45,7 @@ class QuakeRepositoryImpl(
 
                 localDataSource.deleteAll() //Remove cache
 
-                savedLocalQuakes(quakes)
+                saveToLocalQuakes(quakes)
 
                 cacheList = localDataSource.getQuakes().toQuakeDomain()
 
@@ -68,7 +71,7 @@ class QuakeRepositoryImpl(
 
     override fun getNextPages(pageIndex: Int): Flow<StatusAPI<List<Quake>>> = flow {
 
-        val dumbType = listOf<Quake>()
+        var cacheList = localDataSource.getQuakes().toQuakeDomain()
 
         //GET REMOTE DATA
         remoteDataSource.getQuakes(pageIndex)
@@ -76,15 +79,18 @@ class QuakeRepositoryImpl(
 
                 when {
                     data.embedded != null -> {
-                        val quakes = data.embedded!!.quakes.toQuakeListEntity().toQuakeDomain()
+                        val quakes = data.embedded!!.quakes.toQuakeListEntity()
+                        saveToLocalQuakes(quakes)
 
-                        emit(StatusAPI.Success(quakes))
+                        cacheList = localDataSource.getQuakes().toQuakeDomain()
+
+                        emit(StatusAPI.Success(cacheList))
 
                         Timber.d("List updated with network call")
                     }
                     else -> {
                         val apiError = ApiError.ResourceNotFound
-                        emit(StatusAPI.Error(dumbType, apiError))
+                        emit(StatusAPI.Error(cacheList, apiError))
                     }
                 }
             }
@@ -92,33 +98,19 @@ class QuakeRepositoryImpl(
 
                 Timber.e("Suspend error: ${this.message()}")
 
-                val apiError = when (statusCode) {
-                    StatusCode.NotFound -> ApiError.HttpError
-                    StatusCode.RequestTimeout -> ApiError.ServerError
-                    StatusCode.InternalServerError -> ApiError.ServerError
-                    StatusCode.ServiceUnavailable -> ApiError.ServerError
-                    else -> ApiError.UnknownError
-                }
-
-                emit(StatusAPI.Error(dumbType, apiError))
+                val apiError = application.processApiError("", null)
+                emit(StatusAPI.Error(cacheList, apiError))
             }
             .suspendOnFailure {
 
                 Timber.e("Suspend failure: ${this.message()}")
 
-                val apiError = when {
-                    message().contains("10000ms") || message().contains(
-                        "failed to connect",
-                        true
-                    ) -> ApiError.TimeoutError
-                    else -> ApiError.UnknownError
-                }
-
-                emit(StatusAPI.Error(dumbType, apiError))
+                val apiError = application.processApiError(message(), null)
+                emit(StatusAPI.Error(cacheList, apiError))
             }
     }.flowOn(dispatcher)
 
-    private fun savedLocalQuakes(remoteData: List<QuakeAndCoordinate>) {
+    private fun saveToLocalQuakes(remoteData: List<QuakeAndCoordinate>) {
 
         remoteData.forEach {
             //store remote result in cache

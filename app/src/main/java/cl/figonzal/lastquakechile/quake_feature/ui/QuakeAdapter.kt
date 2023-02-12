@@ -17,13 +17,10 @@ class QuakeAdapter : RecyclerView.Adapter<QuakeViewHolder>() {
     private var asyncDiffer: AsyncListDiffer<Quake>
     private val diffCallback = object : DiffUtil.ItemCallback<Quake>() {
 
-        override fun areItemsTheSame(oldItem: Quake, newItem: Quake): Boolean {
-            return oldItem.quakeCode == newItem.quakeCode
-        }
+        override fun areItemsTheSame(oldItem: Quake, newItem: Quake) =
+            oldItem.quakeCode == newItem.quakeCode
 
-        override fun areContentsTheSame(oldItem: Quake, newItem: Quake): Boolean {
-            return oldItem == newItem
-        }
+        override fun areContentsTheSame(oldItem: Quake, newItem: Quake) = oldItem == newItem
     }
 
     var quakes: List<Quake>

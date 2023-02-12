@@ -18,6 +18,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.data.remote.ApiError
 import cl.figonzal.lastquakechile.core.services.notifications.utils.checkAlertsPermissions
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.views.configOptionsMenu
@@ -92,6 +93,24 @@ class QuakeFragment(
         viewModel.getFirstPageQuakes()
     }
 
+    private suspend fun processFirstPage() {
+        viewModel.firstPageState.collectLatest {
+
+            when {
+                it.isLoading -> loadingUI()
+
+                //Check if apiError exists
+                it.apiError != null -> handleErrors(it.quakes.toList())
+
+                //If api error is null, show updated list from network
+                it.quakes.isNotEmpty() -> {
+                    showListUI(it.quakes.toList())
+                }
+            }
+        }
+
+    }
+
     private suspend fun processNextPage() {
         viewModel.nextPagesState.collectLatest {
 
@@ -115,24 +134,6 @@ class QuakeFragment(
                 }
             }
         }
-    }
-
-    private suspend fun processFirstPage() {
-        viewModel.firstPageState.collectLatest {
-
-            when {
-                it.isLoading -> loadingUI()
-
-                //Check if apiError exists
-                it.apiError != null -> handleErrors(it.quakes.toList())
-
-                //If api error is null, show updated list from network
-                it.quakes.isNotEmpty() -> {
-                    showListUI(it.quakes.toList())
-                }
-            }
-        }
-
     }
 
     /**
@@ -167,8 +168,11 @@ class QuakeFragment(
                                 }
                             }
                             else -> {
-                                includeErrorMessage.root.visibility = View.GONE
-                                tvCacheCopy.visibility = View.VISIBLE
+
+                                if (it != ApiError.ResourceNotFound) {
+                                    includeErrorMessage.root.visibility = View.GONE
+                                    tvCacheCopy.visibility = View.VISIBLE
+                                }
                             }
                         }
                     }
