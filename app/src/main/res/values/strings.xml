@@ -140,7 +140,7 @@
     <string name="retry">Retry</string>
     <string name="service_error">Quake server not available</string>
     <string name="menu_reload_title">Reload</string>
-    <string name="no_mas_sismos">No more items</string>
+    <string name="no_more_data">No more items</string>
     <string name="swipe_left">Swipe left to see earthquakes</string>
     <string name="local_copy">Showing local copy</string>
     <string name="cd_swipe_left_icon">Left icon</string>
@@ -189,5 +189,6 @@
     <string name="quake_verified_toast">Verified earthquake</string>
     <string name="cd_reference_icon">Reference icon</string>
     <string name="cd_hour_icon">Time icon</string>
+    <string name="empty_list">No content to show</string>
 
 </resources>

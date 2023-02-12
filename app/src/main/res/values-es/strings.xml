@@ -103,7 +103,7 @@
     <string name="retry">Reintentar</string>
     <string name="service_error">Servidor de sismos no disponible</string>
     <string name="menu_reload_title">Recargar</string>
-    <string name="no_mas_sismos">No hay más items</string>
+    <string name="no_more_data">No hay más items</string>
     <string name="swipe_left">Desliza a la izquierda para ver sismos</string>
     <string name="local_copy">Mostrando copia local</string>
     <string name="cd_swipe_left_icon">Icono izquierda</string>
@@ -152,4 +152,5 @@
     <string name="quake_verified_toast">Sismo verificado</string>
     <string name="cd_reference_icon">Icono referencia geográfica</string>
     <string name="cd_hour_icon">Icono tiempo</string>
+    <string name="empty_list">No hay contenido para mostrar</string>
 </resources>

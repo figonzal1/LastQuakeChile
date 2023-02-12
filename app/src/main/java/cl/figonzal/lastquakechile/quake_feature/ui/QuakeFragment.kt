@@ -166,19 +166,23 @@ class QuakeFragment(
                                 includeErrorMessage.btnRetry.setOnClickListener {
                                     viewModel.getFirstPageQuakes()
                                 }
+
+                                if (it == ApiError.EmptyList) {
+                                    includeErrorMessage.btnRetry.visibility = View.GONE
+                                }
                             }
                             else -> {
 
-                                if (it != ApiError.ResourceNotFound) {
+                                if (it != ApiError.NoMoreData) {
                                     includeErrorMessage.root.visibility = View.GONE
                                     tvCacheCopy.visibility = View.VISIBLE
                                 }
                             }
                         }
-                    }
+                        showServerApiError(it) { iconId, message ->
+                            configErrorStatusMsg(iconId, message)
+                        }
 
-                    showServerApiError(it) { iconId, message ->
-                        configErrorStatusMsg(iconId, message)
                     }
                 }
         }

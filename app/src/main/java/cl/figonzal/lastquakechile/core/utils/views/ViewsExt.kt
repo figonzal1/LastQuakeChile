@@ -20,6 +20,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.widget.ViewPager2
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.data.remote.ApiError
+import cl.figonzal.lastquakechile.core.data.remote.ApiError.*
 import cl.figonzal.lastquakechile.core.ui.SettingsActivity
 import cl.figonzal.lastquakechile.core.utils.latLongToDMS
 import cl.figonzal.lastquakechile.core.utils.localDateToDHMS
@@ -398,25 +399,23 @@ fun Context.getMonth(month: Int) = arrayOf(
     getString(R.string.DEC)
 )[month - 1]
 
-fun Fragment.showServerApiError(apiError: ApiError, callback: (Int, String) -> Unit) {
-    return when (apiError) {
-        ApiError.IoError, ApiError.NoWifiError -> {
+fun Fragment.showServerApiError(apiError: ApiError, callback: (Int, String) -> Unit) =
+    when (apiError) {
+        IoError, NoWifiError -> {
             toast(R.string.io_error)
             callback(R.drawable.round_wifi_off_24, getString(R.string.io_error))
         }
-        ApiError.ServerError, ApiError.TimeoutError -> {
+        ServerError, TimeoutError -> {
             toast(R.string.service_error)
             callback(R.drawable.round_router_24, getString(R.string.service_error))
         }
-        ApiError.ResourceNotFound -> {
-            toast(R.string.no_mas_sismos)
-        }
+        NoMoreData -> toast(R.string.no_more_data)
+        EmptyList -> callback(R.drawable.round_outlined_flag_24, getString(R.string.empty_list))
         else -> {
             toast(R.string.http_error)
             callback(R.drawable.round_report_24, getString(R.string.http_error))
         }
     }
-}
 
 fun ViewPager2.handleShortcuts(action: String?, packageName: String) {
     when {

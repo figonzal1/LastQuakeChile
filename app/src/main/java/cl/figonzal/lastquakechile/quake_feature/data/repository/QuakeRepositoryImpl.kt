@@ -41,17 +41,23 @@ class QuakeRepositoryImpl(
         remoteDataSource.getQuakes(pageIndex)
             .suspendOnSuccess {
 
-                val quakes = data.embedded!!.quakes.toQuakeListEntity()
+                when {
+                    data.embedded != null -> {
+                        val quakes = data.embedded!!.quakes.toQuakeListEntity()
+                        saveToLocalQuakes(quakes)
 
-                localDataSource.deleteAll() //Remove cache
+                        cacheList = localDataSource.getQuakes().toQuakeDomain()
 
-                saveToLocalQuakes(quakes)
+                        emit(StatusAPI.Success(cacheList))
 
-                cacheList = localDataSource.getQuakes().toQuakeDomain()
-
-                Timber.d("List updated with network call")
-
-                emit(StatusAPI.Success(cacheList))
+                        Timber.d("List updated with network call")
+                    }
+                    else -> {
+                        //Empty list in first page index
+                        val apiError = ApiError.EmptyList
+                        emit(StatusAPI.Error(cacheList, apiError))
+                    }
+                }
             }
             .suspendOnError {
 
@@ -89,7 +95,8 @@ class QuakeRepositoryImpl(
                         Timber.d("List updated with network call")
                     }
                     else -> {
-                        val apiError = ApiError.ResourceNotFound
+                        //Resources not found in next page index
+                        val apiError = ApiError.NoMoreData
                         emit(StatusAPI.Error(cacheList, apiError))
                     }
                 }

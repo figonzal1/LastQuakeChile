@@ -23,5 +23,6 @@ sealed class ApiError {
     object ServerError : ApiError()
     object UnknownError : ApiError()
     object TimeoutError : ApiError()
-    object ResourceNotFound : ApiError()
+    object NoMoreData : ApiError()
+    object EmptyList : ApiError()
 }
