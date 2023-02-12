@@ -8,5 +8,9 @@ import kotlinx.coroutines.flow.Flow
  * Interface for repository
  */
 interface ReportRepository {
+
     fun getReports(pageIndex: Int): Flow<StatusAPI<List<Report>>>
+    fun getFirstPage(pageIndex: Int): Flow<StatusAPI<List<Report>>>
+    fun getNextPages(pageIndex: Int): Flow<StatusAPI<List<Report>>>
+
 }

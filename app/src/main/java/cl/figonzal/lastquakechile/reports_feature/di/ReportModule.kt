@@ -34,7 +34,7 @@ val reportModule = module {
 
     //Repository
     single<ReportRepository> {
-        ReportRepositoryImpl(get(), get(), get(named("ioDispatcher")), get(), get())
+        ReportRepositoryImpl(get(), get(), get(named("ioDispatcher")), get())
     }
 
     //getReportsUseCase

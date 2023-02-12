@@ -4,14 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AbsListView
 import androidx.annotation.DrawableRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.data.remote.ApiError
 import cl.figonzal.lastquakechile.core.utils.views.configOptionsMenu
 import cl.figonzal.lastquakechile.core.utils.views.showServerApiError
 import cl.figonzal.lastquakechile.databinding.FragmentReportsBinding
@@ -20,6 +24,8 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
+
+private const val QUERY_PAGE_SIZE = 5
 
 class ReportsFragment(
     private val reportAdapter: ReportAdapter
@@ -31,7 +37,8 @@ class ReportsFragment(
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentReportsBinding.inflate(inflater, container, false)
@@ -41,7 +48,7 @@ class ReportsFragment(
 
         configOptionsMenu(fragmentIndex = 3) {
             when (it.itemId) {
-                R.id.refresh_menu -> viewModel.getReports()
+                R.id.refresh_menu -> viewModel.getFirstPageReports()
             }
         }
 
@@ -56,6 +63,7 @@ class ReportsFragment(
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(context)
                 adapter = reportAdapter
+                addOnScrollListener(this@ReportsFragment.scrollListener)
             }
         }
 
@@ -65,46 +73,57 @@ class ReportsFragment(
 
         viewLifecycleOwner.lifecycleScope.launch {
 
-            viewModel.reportState
-                .flowWithLifecycle(lifecycle, Lifecycle.State.CREATED)
-                .collectLatest {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
 
-                    when {
-                        it.isLoading -> loadingUI()
+                launch { processFirstPage() }
 
-                        //Check if apiError exists
-                        it.apiError != null -> handleErrors(it.reports.toList())
+                launch { processNextPage() }
+            }
+        }
+        viewModel.getFirstPageReports()
+    }
 
-                        //If api error is null, show updated list from network
-                        it.reports.isNotEmpty() -> {
-                            showListUI(it.reports)
-                        }
-                    }
+    private suspend fun processFirstPage() {
+        viewModel.firstPageState.collectLatest {
+
+            when {
+                it.isLoading -> loadingUI()
+
+                //Check if apiError exists
+                it.apiError != null -> handleErrors(it.reports.toList())
+
+                //If api error is null, show updated list from network
+                it.reports.isNotEmpty() -> {
+                    showListUI(it.reports.toList())
                 }
-        }
-        viewModel.getReports()
-    }
-
-    private fun loadingUI() {
-        with(binding) {
-            progressBarReports.visibility = View.VISIBLE
-            includeErrorMessage.root.visibility = View.GONE
-        }
-    }
-
-    private fun showListUI(reports: List<Report>) {
-
-        //Load reports
-        reportAdapter.reports = reports
-
-        with(binding) {
-            View.GONE.apply {
-                progressBarReports.visibility = this
-                includeErrorMessage.root.visibility = this
             }
         }
 
-        Timber.d("List loaded in fragment")
+    }
+
+    private suspend fun processNextPage() {
+        viewModel.nextPagesState.collectLatest {
+
+            when {
+                it.isLoading -> loadingUI()
+
+                //Check if apiError exists
+                it.apiError != null -> handleErrors(it.reports.toList())
+
+                //If api error is null, show updated list from network
+                it.reports.isNotEmpty() -> {
+
+                    showListUI(it.reports.toList())
+
+                    val totalPages = it.reports.size / QUERY_PAGE_SIZE + 2
+                    isLastPage = viewModel.actualIndexPage == totalPages
+
+                    if (isLastPage) {
+                        binding.recycleViewReports.setPadding(0, 0, 0, 0)
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -134,36 +153,91 @@ class ReportsFragment(
                                 includeErrorMessage.root.visibility = View.VISIBLE
 
                                 includeErrorMessage.btnRetry.setOnClickListener {
-                                    viewModel.getReports()
+                                    viewModel.getFirstPageReports()
                                 }
                             }
                             else -> {
-                                includeErrorMessage.root.visibility = View.GONE
+
+                                if (it != ApiError.NoMoreData) {
+                                    includeErrorMessage.root.visibility = View.GONE
+                                }
                             }
                         }
-                    }
-
-                    showServerApiError(it) { iconId, message ->
-                        configErrorStatusMsg(iconId, message)
+                        showServerApiError(it) { iconId, message ->
+                            configErrorStatusMsg(iconId, message)
+                        }
                     }
                 }
         }
     }
 
-    private fun configErrorStatusMsg(
-        @DrawableRes icon: Int,
-        errorMsg: String
-    ) {
+    private fun configErrorStatusMsg(@DrawableRes icon: Int, errorMsg: String) {
         with(binding.includeErrorMessage) {
 
             ivWifiOff.setImageDrawable(
-                ResourcesCompat.getDrawable(
-                    resources,
-                    icon,
-                    requireContext().theme
-                )
+                ResourcesCompat.getDrawable(resources, icon, requireContext().theme)
             )
-            tvMsgNoWifi.text = errorMsg
+            tvMsgApiError.text = errorMsg
+        }
+    }
+
+    private fun loadingUI() {
+        with(binding) {
+            isLoading = true
+            progressBarReports.visibility = View.VISIBLE
+            includeErrorMessage.root.visibility = View.GONE
+        }
+    }
+
+    private fun showListUI(reports: List<Report>) {
+
+        //Load reports
+        reportAdapter.reports = reports
+
+        with(binding) {
+            View.GONE.apply {
+                isLoading = false
+                progressBarReports.visibility = this
+                includeErrorMessage.root.visibility = this
+            }
+            Timber.d("Showing report list in fragment")
+        }
+    }
+
+    var isLoading = false
+    var isLastPage = false
+    var isScrolling = false
+
+    private val scrollListener = object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+
+            val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+            val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+            val visibleItemCount = layoutManager.childCount
+            val totalItemCount = layoutManager.itemCount
+
+            val isNotLoadingAndNotLastPage = !isLoading && !isLastPage
+            val isAtLastItem = firstVisibleItemPosition + visibleItemCount >= totalItemCount
+            val isNotAtBeginning = firstVisibleItemPosition >= 0
+            val isTotalMoreThanVisible = totalItemCount >= QUERY_PAGE_SIZE
+            val shouldPaginate =
+                isNotLoadingAndNotLastPage && isAtLastItem && isNotAtBeginning &&
+                        isTotalMoreThanVisible && isScrolling
+
+            if (shouldPaginate) {
+                viewModel.getReports()
+                isScrolling = false
+            } else {
+                binding.recycleViewReports.setPadding(0, 0, 0, 0)
+            }
+        }
+
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            super.onScrollStateChanged(recyclerView, newState)
+            if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                isScrolling = true
+            }
         }
     }
 

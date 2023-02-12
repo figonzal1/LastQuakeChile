@@ -28,7 +28,6 @@ class ReportAdapter : RecyclerView.Adapter<ReportViewHolder>() {
 
     init {
         asyncDiffer = AsyncListDiffer(this, diffCallback)
-        setHasStableIds(true)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
@@ -38,9 +37,7 @@ class ReportAdapter : RecyclerView.Adapter<ReportViewHolder>() {
         holder.bind(asyncDiffer.currentList[position])
     }
 
-    override fun getItemCount(): Int = asyncDiffer.currentList.size
-
-    override fun getItemId(position: Int): Long = position.toLong()
+    override fun getItemCount() = asyncDiffer.currentList.size
 
     inner class ReportViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 

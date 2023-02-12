@@ -12,24 +12,33 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class ReportViewModel(
     private val getReportsUseCase: GetReportsUseCase
 ) : ViewModel() {
 
-    private val _reportState = MutableStateFlow(ReportState())
-    val reportState = _reportState.asStateFlow()
+    var actualIndexPage = 1
+    private var oldList: MutableList<Report>? = null
+
+    private val _nextPageState = MutableStateFlow(ReportState())
+    val nextPagesState = _nextPageState.asStateFlow()
+
+    private val _firstPageState = MutableStateFlow(ReportState())
+    val firstPageState = _firstPageState.asStateFlow()
 
     private val _errorState = Channel<ApiError>()
     val errorState = _errorState.receiveAsFlow()
 
-    fun getReports() {
+    fun getFirstPageReports() {
 
         viewModelScope.launch {
 
-            _reportState.update { it.copy(isLoading = true) }
+            _firstPageState.update { it.copy(isLoading = true) }
 
             getReportsUseCase(0).collect { statusApi ->
+
+                Timber.d("FIRST PAGE STATE $statusApi")
 
                 val data = statusApi.data
                 val apiError = statusApi.apiError
@@ -39,11 +48,11 @@ class ReportViewModel(
                     is StatusAPI.Error -> {
 
                         apiError?.let {
-                            _reportState.update { state ->
+                            _firstPageState.update { state ->
                                 state.copy(
                                     isLoading = false,
                                     apiError = it,
-                                    reports = data as List<Report>
+                                    reports = data as List<Report> //cached list
                                 )
                             }
                             _errorState.send(it)
@@ -51,9 +60,65 @@ class ReportViewModel(
                     }
                     is StatusAPI.Success -> {
 
-                        _reportState.update {
+                        oldList = data?.toMutableList()
+
+                        _firstPageState.update {
                             it.copy(
                                 reports = data as List<Report>,
+                                isLoading = false,
+                                apiError = null
+                            )
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+    fun getReports() {
+
+        viewModelScope.launch {
+
+            _nextPageState.update { it.copy(isLoading = true) }
+
+            getReportsUseCase(actualIndexPage).collect { statusApi ->
+
+                Timber.d("NEXT PAGE STATE $statusApi")
+
+                val data = statusApi.data
+                val apiError = statusApi.apiError
+
+                when (statusApi) {
+
+                    is StatusAPI.Error -> {
+
+                        apiError?.let {
+                            _nextPageState.update { state ->
+                                state.copy(
+                                    isLoading = false,
+                                    apiError = it,
+                                    reports = data as List<Report> //cached list
+                                )
+                            }
+                            _errorState.send(it)
+                        }
+                    }
+                    is StatusAPI.Success -> {
+
+                        actualIndexPage++
+
+                        if (oldList == null) {
+                            oldList = data as MutableList<Report>
+                        } else {
+                            val oldData = oldList
+                            val newData = data as List<Report>
+                            oldData?.addAll(newData)
+                        }
+
+                        _nextPageState.update {
+                            it.copy(
+                                reports = oldList ?: data,
                                 isLoading = false,
                                 apiError = null
                             )

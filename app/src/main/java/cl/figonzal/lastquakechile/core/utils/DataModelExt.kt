@@ -34,7 +34,7 @@ fun List<QuakeAndCoordinate>.toQuakeDomain() = map { it.toDomain() }
 /**
  * Function that map report dto to entity
  */
-fun List<ReportDTO>.toReportEntity() = map { reportDTO ->
+fun List<ReportDTO>.toReportListEntity() = map { reportDTO ->
     val reportEntity = reportDTO.toEntity()
     val topCities = reportDTO.cityQuakes.map { it.toEntity() }
 
@@ -47,12 +47,12 @@ fun List<ReportDTO>.toReportEntity() = map { reportDTO ->
 /**
  * Function that map cityQuakeEntity to domain
  */
-fun List<CityQuakesEntity>.toCityQuakesDomain() = map { it.toDomain() }
+fun List<CityQuakesEntity>.toCityQuakesListDomain() = map { it.toDomain() }
 
 /**
  * Function that map reportWithCityQuakes to domain
  */
-fun List<ReportWithCityQuakes>.toReportDomain() = map { it.toDomain() }
+fun List<ReportWithCityQuakes>.toReportListDomain() = map { it.toDomain() }
 
 fun Context.openQuakeDetails(quake: Quake, isSnapshotRequestInBottomSheet: Boolean = false) {
     Intent(this, QuakeDetailsActivity::class.java).apply {

@@ -1,9 +1,13 @@
 package cl.figonzal.lastquakechile.reports_feature.data.repository
 
 import android.app.Application
+import cl.figonzal.lastquakechile.core.data.remote.ApiError
 import cl.figonzal.lastquakechile.core.data.remote.StatusAPI
-import cl.figonzal.lastquakechile.core.utils.*
+import cl.figonzal.lastquakechile.core.utils.processApiError
+import cl.figonzal.lastquakechile.core.utils.toReportListDomain
+import cl.figonzal.lastquakechile.core.utils.toReportListEntity
 import cl.figonzal.lastquakechile.reports_feature.data.local.ReportLocalDataSource
+import cl.figonzal.lastquakechile.reports_feature.data.local.entity.relation.ReportWithCityQuakes
 import cl.figonzal.lastquakechile.reports_feature.data.remote.ReportRemoteDataSource
 import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
 import cl.figonzal.lastquakechile.reports_feature.domain.repository.ReportRepository
@@ -16,9 +20,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import timber.log.Timber
-import java.time.LocalDateTime
-
-private const val SHARED_PREF_REPORT_CACHE = "reports_cache_entry"
 
 /**
  * Single source of truth for reports
@@ -26,83 +27,93 @@ private const val SHARED_PREF_REPORT_CACHE = "reports_cache_entry"
 class ReportRepositoryImpl(
     private val localDataSource: ReportLocalDataSource,
     private val remoteDataSource: ReportRemoteDataSource,
-    private val ioDispatcher: CoroutineDispatcher,
-    private val application: Application,
-    private val sharedPrefUtil: SharedPrefUtil
+    private val dispatcher: CoroutineDispatcher,
+    private val application: Application
 ) : ReportRepository {
 
-    override fun getReports(pageIndex: Int): Flow<StatusAPI<List<Report>>> = flow {
+    override fun getReports(pageIndex: Int) = when (pageIndex) {
+        0 -> getFirstPage(pageIndex)
+        else -> getNextPages(pageIndex)
+    }
 
-        var cacheList = localDataSource.getReports().toReportDomain()
+    override fun getFirstPage(pageIndex: Int): Flow<StatusAPI<List<Report>>> = flow {
 
-        when {
-            cacheList.isNotEmpty() && !isCacheExpired() -> {
+        var cacheList = localDataSource.getReports().toReportListDomain()
 
-                Timber.d("Emitting cached reportList")
+        remoteDataSource.getReports(pageIndex)
+            .suspendOnSuccess {
+
+                val report = data.embedded!!.reports.toReportListEntity()
+
+                localDataSource.deleteAll()
+
+                saveToLocalReports(report)
+
+                cacheList = localDataSource.getReports().toReportListDomain()
+
+                Timber.d("List updated with network call")
 
                 emit(StatusAPI.Success(cacheList))
             }
-            else -> {
+            .suspendOnError {
 
-                //Network call
-                remoteDataSource.getReports(pageIndex)
-                    .suspendOnSuccess {
+                Timber.e("Suspend error: ${this.message()}")
 
-                        val reports = data.embedded!!.reports.toReportEntity()
+                val apiError = application.processApiError("", statusCode)
+                emit(StatusAPI.Error(data = cacheList, apiError = apiError))
+            }
+            .suspendOnFailure {
 
-                        localDataSource.deleteAll() //delete cached
+                Timber.e("Suspend failure: ${this.message()}")
 
-                        reports.onEach { localDataSource.insert(it) }.toReportDomain()
+                val apiError = application.processApiError(message(), null)
+                emit(StatusAPI.Error(data = cacheList, apiError = apiError))
+            }
+    }.flowOn(dispatcher)
 
-                        //Save timestamp
-                        sharedPrefUtil.saveData(
-                            key = SHARED_PREF_REPORT_CACHE,
-                            value = LocalDateTime.now().localDateTimeToString()
-                        )
+    override fun getNextPages(pageIndex: Int): Flow<StatusAPI<List<Report>>> = flow {
+
+        var cacheList = localDataSource.getReports().toReportListDomain()
+
+        //Get remote data
+        remoteDataSource.getReports(pageIndex)
+            .suspendOnSuccess {
+
+                when {
+                    data.embedded != null -> {
+                        val reports = data.embedded!!.reports.toReportListEntity()
+                        saveToLocalReports(reports)
+
+                        cacheList = localDataSource.getReports().toReportListDomain()
+
+                        emit(StatusAPI.Success(cacheList))
 
                         Timber.d("List updated with network call")
-
-                        //emit cached
-                        cacheList = localDataSource.getReports().toReportDomain()
-                        emit(StatusAPI.Success(cacheList))
                     }
-                    .suspendOnError {
-
-                        Timber.e("Suspend error: ${this.message()}")
-
-                        val apiError = application.processApiError(message(), null)
+                    else -> {
+                        val apiError = ApiError.NoMoreData
                         emit(StatusAPI.Error(cacheList, apiError))
                     }
-                    .suspendOnFailure {
-
-                        Timber.e("Suspend failure: ${this.message()}")
-
-                        val apiError = application.processApiError(message(), null)
-                        emit(StatusAPI.Error(cacheList, apiError))
-                    }
+                }
             }
-        }
+            .suspendOnError {
+                Timber.e("Suspend error: ${this.message()}")
 
-    }.flowOn(ioDispatcher)
+                val apiError = application.processApiError("", null)
+                emit(StatusAPI.Error(cacheList, apiError))
+            }
+            .suspendOnFailure {
 
-    private fun isCacheExpired(): Boolean {
+                Timber.e("Suspend failure: ${this.message()}")
 
-        val sharedTimeCached = sharedPrefUtil.getData(
-            key = SHARED_PREF_REPORT_CACHE,
-            defaultValue = LocalDateTime.now().minusDays(2).localDateTimeToString()
-            //Return now()-2 days if timeCached not exist, to force expiration
-        ) as String
+                val apiError = application.processApiError(message(), null)
+                emit(StatusAPI.Error(cacheList, apiError))
+            }
+    }.flowOn(dispatcher)
 
-        val timeNow = LocalDateTime.now()
-        val timeCached = sharedTimeCached.stringToLocalDateTime().plusDays(1)
-
-        Timber.d("Cache list until $timeCached")
-
-        with(timeNow.isAfter(timeCached)) {
-
-            Timber.d("Report List isCacheExpired: $this")
-
-            return this
+    private fun saveToLocalReports(report: List<ReportWithCityQuakes>) {
+        report.forEach {
+            localDataSource.insert(it)
         }
     }
 }
