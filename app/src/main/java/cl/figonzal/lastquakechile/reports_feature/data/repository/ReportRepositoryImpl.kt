@@ -43,17 +43,23 @@ class ReportRepositoryImpl(
         remoteDataSource.getReports(pageIndex)
             .suspendOnSuccess {
 
-                val report = data.embedded!!.reports.toReportListEntity()
+                when {
+                    data.embedded != null -> {
+                        val quakes = data.embedded!!.reports.toReportListEntity()
+                        saveToLocalReports(quakes)
 
-                localDataSource.deleteAll()
+                        cacheList = localDataSource.getReports().toReportListDomain()
 
-                saveToLocalReports(report)
+                        emit(StatusAPI.Success(cacheList))
 
-                cacheList = localDataSource.getReports().toReportListDomain()
-
-                Timber.d("List updated with network call")
-
-                emit(StatusAPI.Success(cacheList))
+                        Timber.d("List updated with network call")
+                    }
+                    else -> {
+                        //Resources not found in next page index
+                        val apiError = ApiError.EmptyList
+                        emit(StatusAPI.Error(cacheList, apiError))
+                    }
+                }
             }
             .suspendOnError {
 

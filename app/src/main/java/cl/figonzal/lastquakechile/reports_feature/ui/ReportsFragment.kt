@@ -155,6 +155,10 @@ class ReportsFragment(
                                 includeErrorMessage.btnRetry.setOnClickListener {
                                     viewModel.getFirstPageReports()
                                 }
+
+                                if (it == ApiError.EmptyList) {
+                                    includeErrorMessage.btnRetry.visibility = View.GONE
+                                }
                             }
                             else -> {
 
