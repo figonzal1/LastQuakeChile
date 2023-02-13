@@ -243,7 +243,7 @@ class QuakeFragment(
                         isTotalMoreThanVisible && isScrolling
 
             if (shouldPaginate) {
-                viewModel.getQuakes()
+                viewModel.getNextPageQuakes()
                 isScrolling = false
             } else {
                 binding.recycleViewQuakes.setPadding(0, 0, 0, 0)

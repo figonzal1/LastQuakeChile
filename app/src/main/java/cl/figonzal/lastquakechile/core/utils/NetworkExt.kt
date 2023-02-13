@@ -53,14 +53,13 @@ fun Context.processApiError(message: String, statusCode: StatusCode?): ApiError 
                 statusCode == StatusCode.InternalServerError ||
                 statusCode == StatusCode.ServiceUnavailable ||
                 statusCode == StatusCode.Unknown -> ApiError.ServerError
-        message.contains("10000ms") || message.contains("failed to connect", true) ||
+        message.contains("10000ms") ||
+                message.contains("failed to connect", true) ||
                 message.contains("unable to resolve host", true) -> ApiError.TimeoutError
         else -> ApiError.UnknownError
     }
 
-    if (!isWifiConnected(this)) {
-        apiError = ApiError.NoWifiError
-    }
+    if (!isWifiConnected(this)) apiError = ApiError.NoWifiError
 
     return apiError
 }

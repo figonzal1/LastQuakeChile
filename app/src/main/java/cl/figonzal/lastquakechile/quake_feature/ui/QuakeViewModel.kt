@@ -75,7 +75,7 @@ class QuakeViewModel(
         }
     }
 
-    fun getQuakes() {
+    fun getNextPageQuakes() {
 
         viewModelScope.launch {
 

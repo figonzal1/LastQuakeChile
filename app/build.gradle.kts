@@ -199,6 +199,7 @@ dependencies {
     testImplementation("androidx.arch.core:core-testing:2.1.0")
     testImplementation("androidx.test.ext:truth:1.5.0")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
+    testImplementation("app.cash.turbine:turbine:0.12.1")
 
     // Instrumented Unit Tests
     androidTestImplementation("junit:junit:4.13.2")

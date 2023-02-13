@@ -72,7 +72,7 @@ class FakeQuakeRepository(
                     ApiError.HttpError
                 )
             )
-            else -> emit(StatusAPI.Success(quakeList.take(20)))
+            else -> emit(StatusAPI.Success(quakeList))
         }
     }.flowOn(dispatcher)
 
@@ -81,7 +81,7 @@ class FakeQuakeRepository(
             shouldReturnNetworkError -> emit(
                 StatusAPI.Error(quakeList, ApiError.HttpError)
             )
-            else -> emit(StatusAPI.Success(quakeList.take(20)))
+            else -> emit(StatusAPI.Success(quakeList))
         }
     }.flowOn(dispatcher)
 
