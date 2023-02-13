@@ -76,7 +76,7 @@ class ReportViewModel(
         }
     }
 
-    fun getReports() {
+    fun getNextPageReports() {
 
         viewModelScope.launch {
 

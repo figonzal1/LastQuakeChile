@@ -50,12 +50,22 @@ class FakeReportRepository(
         ),
     )
 
+    override fun getReports(pageIndex: Int) = when (pageIndex) {
+        0 -> getFirstPage(pageIndex)
+        else -> getNextPages(pageIndex)
+    }
 
-    override fun getReports(pageIndex: Int): Flow<StatusAPI<List<Report>>> = flow {
-
+    override fun getFirstPage(pageIndex: Int): Flow<StatusAPI<List<Report>>> = flow {
         when {
-            shouldReturnNetworkError -> emit(StatusAPI.Error(emptyList(), ApiError.HttpError))
-            else -> emit(StatusAPI.Success(reportList))
+            shouldReturnNetworkError -> emit(StatusAPI.Error(reportList, ApiError.HttpError))
+            else -> emit(StatusAPI.Success(reportList.take(5)))
+        }
+    }.flowOn(dispatcher)
+
+    override fun getNextPages(pageIndex: Int): Flow<StatusAPI<List<Report>>> = flow {
+        when {
+            shouldReturnNetworkError -> emit(StatusAPI.Error(reportList, ApiError.HttpError))
+            else -> emit(StatusAPI.Success(reportList.take(5)))
         }
     }.flowOn(dispatcher)
 }

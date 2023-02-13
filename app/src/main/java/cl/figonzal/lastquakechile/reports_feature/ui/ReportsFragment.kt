@@ -230,7 +230,7 @@ class ReportsFragment(
                         isTotalMoreThanVisible && isScrolling
 
             if (shouldPaginate) {
-                viewModel.getReports()
+                viewModel.getNextPageReports()
                 isScrolling = false
             } else {
                 binding.recycleViewReports.setPadding(0, 0, 0, 0)
