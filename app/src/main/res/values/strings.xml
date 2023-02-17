@@ -9,7 +9,6 @@
     <string name="PRIVACY_POLICY_URL_EN" translatable="false">https://github.com/figonzal1/LastQuakeChile/blob/main/privacy_policy_en.md</string>
     <string name="PRIVACY_POLICY_URL_ES" translatable="false">https://github.com/figonzal1/LastQuakeChile/blob/main/privacy_policy_es.md</string>
 
-
     <string name="mail_to_felipe" translatable="false">felipe.gonzalezalarcon94@gmail.com</string>
 
     <!-- TOOLBAR Menu STRINGS -->
@@ -46,7 +45,10 @@
     <string name="version_key" translatable="false">version</string>
     <string name="contact_key" translatable="false">contact_email</string>
     <string name="privacy_policy_key" translatable="false">privacy_policy</string>
-
+    <string name="shared_pref_map_type" translatable="false">map_type</string>
+    <string name="shared_pref_cv_permission" translatable="false">cv_alert_permission</string>
+    <string name="shared_pref_launch_counter" translatable="false">launch_count</string>
+    <string name="shared_pref_install_date" translatable="false">install_date</string>
 
     <!-- STRINGS DE LAYOUTS-->
     <string name="cd_paint_circle">Quake magnitude color</string>
@@ -185,5 +187,6 @@
     <string name="cd_reference_icon">Reference icon</string>
     <string name="cd_hour_icon">Time icon</string>
     <string name="empty_list">No content to show</string>
+
 
 </resources>

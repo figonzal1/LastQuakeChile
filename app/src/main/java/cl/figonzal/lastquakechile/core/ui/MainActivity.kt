@@ -13,10 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.preference.PreferenceManager
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.services.ChangeLogService
-import cl.figonzal.lastquakechile.core.services.GooglePlayService
-import cl.figonzal.lastquakechile.core.services.NightModeService
-import cl.figonzal.lastquakechile.core.services.UpdaterService
+import cl.figonzal.lastquakechile.core.services.*
 import cl.figonzal.lastquakechile.core.services.notifications.QuakeNotificationImpl
 import cl.figonzal.lastquakechile.core.services.notifications.utils.getFirebaseToken
 import cl.figonzal.lastquakechile.core.services.notifications.utils.subscribedToQuakes
@@ -30,6 +27,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.review.ReviewManagerFactory
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
@@ -75,6 +73,13 @@ class MainActivity : AppCompatActivity() {
 
         //ChangeLog Service
         lifecycle.addObserver(ChangeLogService(this, SharedPrefUtil(this), crashlytics))
+
+        //InAppReviewService
+        val manager = ReviewManagerFactory.create(this)
+        lifecycle.addObserver(InAppReviewService(this, sharedPrefUtil) {
+            val reviewInfo = getReviewInfo(manager)
+            startReviewFlow(manager, reviewInfo)
+        })
 
         //Firebase services
         getFirebaseToken()
