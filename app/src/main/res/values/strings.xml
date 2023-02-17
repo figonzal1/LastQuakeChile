@@ -174,8 +174,6 @@
     <string name="minimum_magnitude_title">Minimum magnitude alert</string>
     <string name="min_magnitude_dialog_title">Minimum magnitude</string>
     <string name="min_magnitude_dialog_message">Earthquakes greater than … \nExample: 5.6, 3.5, 2.9, etc</string>
-    <string name="improvement_1">- New notification system: preliminary earthquake alerts, alerts with customizable magnitudes and high priority alerts (See configs section)</string>
-    <string name="improvement_2">- Stability improvements</string>
     <string name="activate_button">Activate</string>
     <string name="alert_permission_description">This device is running Android 13. To receive earthquake alerts it is required to activate the permission for notifications.</string>
     <string name="alert_permission_title">Permission for earthquake alerts</string>
@@ -187,6 +185,10 @@
     <string name="cd_reference_icon">Reference icon</string>
     <string name="cd_hour_icon">Time icon</string>
     <string name="empty_list">No content to show</string>
+    <string name="improvement_1">- New icon for verified earthquakes</string>
+    <string name="improvement_2">- Notifications permission for Android 13</string>
+    <string name="improvement_3">- Map section redesign</string>
+    <string name="improvement_4">- Added privacy policy</string>
 
 
 </resources>

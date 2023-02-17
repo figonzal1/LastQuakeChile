@@ -26,7 +26,9 @@ class ChangeLogService(
     private val versionName = context.getString(R.string.version) + BuildConfig.VERSION_NAME
     private val listImprovements = listOf(
         context.getString(R.string.improvement_1),
-        context.getString(R.string.improvement_2)
+        context.getString(R.string.improvement_2),
+        context.getString(R.string.improvement_3),
+        context.getString(R.string.improvement_4)
     )
 
     override fun onCreate(owner: LifecycleOwner) {
