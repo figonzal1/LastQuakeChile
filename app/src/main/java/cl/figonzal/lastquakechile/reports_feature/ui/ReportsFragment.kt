@@ -132,9 +132,7 @@ class ReportsFragment(
      * If the list is empty show includeErrorMessage
      * Otherwise show toast with error and cached list
      */
-    private fun handleErrors(report: List<Report>) {
-
-        reportAdapter.reports = report
+    private fun handleErrors(reports: List<Report>) {
 
         viewLifecycleOwner.lifecycleScope.launch {
 
@@ -149,7 +147,7 @@ class ReportsFragment(
                         progressBarReports.visibility = View.GONE
 
                         when {
-                            reportAdapter.reports.isEmpty() -> {
+                            reports.isEmpty() && it != ApiError.NoMoreData -> {
                                 includeErrorMessage.root.visibility = View.VISIBLE
 
                                 includeErrorMessage.btnRetry.setOnClickListener {
@@ -160,12 +158,10 @@ class ReportsFragment(
                                     includeErrorMessage.btnRetry.visibility = View.GONE
                                 }
                             }
-                            else -> {
-
-                                if (it != ApiError.NoMoreData) {
-                                    includeErrorMessage.root.visibility = View.GONE
-                                }
+                            reports.isEmpty() && it == ApiError.NoMoreData -> {
+                                includeErrorMessage.root.visibility = View.GONE
                             }
+                            else -> reportAdapter.reports = reports //Cache list
                         }
                         showServerApiError(it) { iconId, message ->
                             configErrorStatusMsg(iconId, message)

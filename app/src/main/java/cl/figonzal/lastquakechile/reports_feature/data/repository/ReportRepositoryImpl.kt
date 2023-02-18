@@ -3,7 +3,7 @@ package cl.figonzal.lastquakechile.reports_feature.data.repository
 import android.app.Application
 import cl.figonzal.lastquakechile.core.data.remote.ApiError
 import cl.figonzal.lastquakechile.core.data.remote.StatusAPI
-import cl.figonzal.lastquakechile.core.utils.processApiError
+import cl.figonzal.lastquakechile.core.utils.processSandwichError
 import cl.figonzal.lastquakechile.core.utils.toReportListDomain
 import cl.figonzal.lastquakechile.core.utils.toReportListEntity
 import cl.figonzal.lastquakechile.reports_feature.data.local.ReportLocalDataSource
@@ -57,8 +57,11 @@ class ReportRepositoryImpl(
                         Timber.d("List updated with network call")
                     }
                     else -> {
-                        //Resources not found in next page index
-                        val apiError = ApiError.EmptyList
+                        //First page empty, send cacheList or empty list
+                        val apiError = when {
+                            cacheList.isEmpty() -> ApiError.EmptyList
+                            else -> ApiError.NoMoreData
+                        }
                         emit(StatusAPI.Error(cacheList, apiError))
                     }
                 }
@@ -67,21 +70,21 @@ class ReportRepositoryImpl(
 
                 Timber.e("Suspend error: ${this.message()}")
 
-                val apiError = application.processApiError("", statusCode)
+                val apiError = application.processSandwichError("", statusCode)
                 emit(StatusAPI.Error(data = cacheList, apiError = apiError))
             }
             .suspendOnFailure {
 
                 Timber.e("Suspend failure: ${this.message()}")
 
-                val apiError = application.processApiError(message(), null)
+                val apiError = application.processSandwichError(message(), null)
                 emit(StatusAPI.Error(data = cacheList, apiError = apiError))
             }
     }.flowOn(dispatcher)
 
     override fun getNextPages(pageIndex: Int): Flow<StatusAPI<List<Report>>> = flow {
 
-        var cacheList = localDataSource.getReports().toReportListDomain()
+        val emptyList = emptyList<Report>()
 
         //Get remote data
         remoteDataSource.getReports(pageIndex)
@@ -89,33 +92,32 @@ class ReportRepositoryImpl(
 
                 when {
                     data.embedded != null -> {
-                        val reports = data.embedded!!.reports.toReportListEntity()
-                        saveToLocalReports(reports)
+                        val reports = data.embedded!!.reports
+                            .toReportListEntity()
+                            .toReportListDomain()
 
-                        cacheList = localDataSource.getReports().toReportListDomain()
-
-                        emit(StatusAPI.Success(cacheList))
+                        emit(StatusAPI.Success(reports))
 
                         Timber.d("List updated with network call")
                     }
                     else -> {
                         val apiError = ApiError.NoMoreData
-                        emit(StatusAPI.Error(cacheList, apiError))
+                        emit(StatusAPI.Error(emptyList, apiError))
                     }
                 }
             }
             .suspendOnError {
                 Timber.e("Suspend error: ${this.message()}")
 
-                val apiError = application.processApiError("", null)
-                emit(StatusAPI.Error(cacheList, apiError))
+                val apiError = application.processSandwichError("", null)
+                emit(StatusAPI.Error(emptyList, apiError))
             }
             .suspendOnFailure {
 
                 Timber.e("Suspend failure: ${this.message()}")
 
-                val apiError = application.processApiError(message(), null)
-                emit(StatusAPI.Error(cacheList, apiError))
+                val apiError = application.processSandwichError(message(), null)
+                emit(StatusAPI.Error(emptyList, apiError))
             }
     }.flowOn(dispatcher)
 

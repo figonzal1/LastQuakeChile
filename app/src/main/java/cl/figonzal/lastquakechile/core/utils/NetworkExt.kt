@@ -45,7 +45,7 @@ fun isWifiConnected(context: Context): Boolean {
     return capabilities?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) == true
 }
 
-fun Context.processApiError(message: String, statusCode: StatusCode?): ApiError {
+fun Context.processSandwichError(message: String, statusCode: StatusCode?): ApiError {
 
     var apiError = when {
         statusCode == StatusCode.NotFound -> ApiError.HttpError
