@@ -37,7 +37,7 @@ android {
         applicationId = "cl.figonzal.lastquakechile"
         minSdk = 23
         targetSdk = 33
-        versionCode = 42 //41
+        versionCode = 44
         versionName = "1.7.3"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
