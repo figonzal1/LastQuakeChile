@@ -144,8 +144,6 @@ class QuakeFragment(
      */
     private fun handleErrors(quakes: List<Quake>) {
 
-        quakeAdapter.quakes = quakes
-
         viewLifecycleOwner.lifecycleScope.launch {
 
             viewModel.errorState
@@ -159,7 +157,7 @@ class QuakeFragment(
                         progressBarQuakes.visibility = View.GONE
 
                         when {
-                            quakeAdapter.quakes.isEmpty() -> {
+                            quakes.isEmpty() && it != ApiError.NoMoreData -> {
                                 includeErrorMessage.root.visibility = View.VISIBLE
                                 tvCacheCopy.visibility = View.GONE
 
@@ -171,12 +169,12 @@ class QuakeFragment(
                                     includeErrorMessage.btnRetry.visibility = View.GONE
                                 }
                             }
+                            quakes.isEmpty() && it == ApiError.NoMoreData -> {
+                                includeErrorMessage.root.visibility = View.GONE
+                            }
                             else -> {
-
-                                if (it != ApiError.NoMoreData) {
-                                    includeErrorMessage.root.visibility = View.GONE
-                                    tvCacheCopy.visibility = View.VISIBLE
-                                }
+                                quakeAdapter.quakes = quakes
+                                tvCacheCopy.visibility = View.VISIBLE
                             }
                         }
                         showServerApiError(it) { iconId, message ->
