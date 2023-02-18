@@ -39,16 +39,15 @@ class InAppReviewService(
     private fun handleTimeCounter(): Boolean {
 
         val savedDate = getSavedInstallDate()
-        //val dayDiff = ChronoUnit.DAYS.between(savedDate, LocalDateTime.now())
-        val hoursDiff = ChronoUnit.MINUTES.between(savedDate, LocalDateTime.now())
+        val dayDiff = ChronoUnit.DAYS.between(savedDate, LocalDateTime.now())
 
         return when {
-            hoursDiff >= 15 -> {
-                Timber.d("Install date: >= 15 min")
+            dayDiff >= 7 -> {
+                Timber.d("Install date: >= 7 days")
                 true
             }
             else -> {
-                Timber.d("Install date: < 15 min")
+                Timber.d("Install date: < 7 days")
                 false
             }
         }
