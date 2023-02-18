@@ -10,7 +10,7 @@ data class QuakeEntity(
     val quakeCode: Int,
     val utcDate: String,
     val city: String,
-    val reference: String,
+    var reference: String,
     val magnitude: Double,
     val depth: Double,
     val scale: String,

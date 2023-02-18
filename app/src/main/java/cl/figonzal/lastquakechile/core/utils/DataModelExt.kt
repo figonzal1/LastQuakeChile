@@ -12,6 +12,7 @@ import cl.figonzal.lastquakechile.reports_feature.data.local.entity.CityQuakesEn
 import cl.figonzal.lastquakechile.reports_feature.data.local.entity.relation.ReportWithCityQuakes
 import cl.figonzal.lastquakechile.reports_feature.data.remote.dto.ReportDTO
 import timber.log.Timber
+import java.util.*
 
 /**
  * Function that map dto list to full quake entity
@@ -65,4 +66,32 @@ fun Context.openQuakeDetails(quake: Quake, isSnapshotRequestInBottomSheet: Boole
         Timber.d("QuakeDetail intent")
         startActivity(this)
     }
+}
+
+fun List<QuakeAndCoordinate>.translateReference(): List<QuakeAndCoordinate> {
+
+    if (Locale.getDefault().language == "en") {
+        (this).onEach { quake ->
+
+            val split = quake.quakeEntity.reference
+                .trim()
+                .split(" ")
+                .toMutableList()
+                .apply {
+                    removeAt(2)
+                    this[2] = when {
+                        this[2] == "O" -> "W"
+                        this[2] == "NO" -> "NW"
+                        this[2] == "SO" -> "SW"
+                        else -> this[2]
+                    }
+
+                    this[3] = "of"
+                }
+
+            quake.quakeEntity.reference = split.joinToString(separator = " ")
+        }
+    }
+
+    return this
 }

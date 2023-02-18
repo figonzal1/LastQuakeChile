@@ -6,6 +6,7 @@ import cl.figonzal.lastquakechile.core.data.remote.StatusAPI
 import cl.figonzal.lastquakechile.core.utils.processApiError
 import cl.figonzal.lastquakechile.core.utils.toQuakeListDomain
 import cl.figonzal.lastquakechile.core.utils.toQuakeListEntity
+import cl.figonzal.lastquakechile.core.utils.translateReference
 import cl.figonzal.lastquakechile.quake_feature.data.local.QuakeLocalDataSource
 import cl.figonzal.lastquakechile.quake_feature.data.local.entity.relation.QuakeAndCoordinate
 import cl.figonzal.lastquakechile.quake_feature.data.remote.QuakeRemoteDataSource
@@ -43,7 +44,9 @@ class QuakeRepositoryImpl(
 
                 when {
                     data.embedded != null -> {
-                        val quakes = data.embedded!!.quakes.toQuakeListEntity()
+                        val quakes = data.embedded!!.quakes
+                            .toQuakeListEntity()
+                            .translateReference()
 
                         localDataSource.deleteAll()
                         saveToLocalQuakes(quakes)
@@ -87,8 +90,10 @@ class QuakeRepositoryImpl(
 
                 when {
                     data.embedded != null -> {
-                        val quakes = data.embedded!!.quakes.toQuakeListEntity()
-                        saveToLocalQuakes(quakes)
+                        val quakes = data.embedded!!.quakes
+                            .toQuakeListEntity()
+                            .translateReference()
+                            .toQuakeListDomain()
 
                         cacheList = localDataSource.getQuakes().toQuakeListDomain()
 
