@@ -81,9 +81,9 @@ android {
             signingConfig = signingConfigs.getByName("lastquakechilesign")
             resValue("string", "app_name", "LastQuakeChile")
 
-            resValue("string", "ADMOB_ID_BANNER", "ca-app-pub-3940256099942544/6300978111")
-            resValue("string", "ADMOB_ID_NATIVE_FRAGMENT", "ca-app-pub-3940256099942544/2247696110")
-            resValue("string", "ADMOB_ID_NATIVE_DETAILS", "ca-app-pub-3940256099942544/2247696110")
+            resValue("string", "ADMOB_ID_BANNER", "ca-app-pub-6355378855577476/5493893896")
+            resValue("string", "ADMOB_ID_NATIVE_FRAGMENT", "ca-app-pub-6355378855577476/2611250693")
+            resValue("string", "ADMOB_ID_NATIVE_DETAILS", "ca-app-pub-6355378855577476/2723765487")
         }
 
     }
