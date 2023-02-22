@@ -150,4 +150,8 @@
     <string name="empty_list">No content to show</string>
     <string name="improvement_3">- Map section redesign</string>
     <string name="improvement_4">- Added privacy policy</string>
+    <string name="notification_permission_off">You will not receive alerts</string>
+    <string name="notification_permission_on">You will receive alerts</string>
+    <string name="permission_totally_disabled">Permission disabled, reinstall to enabled it</string>
+
 </resources>

@@ -1,16 +1,21 @@
 package cl.figonzal.lastquakechile.core.services.notifications.utils
 
 import android.Manifest
-import android.app.Activity
 import android.app.NotificationManager
 import android.content.pm.PackageManager
 import android.os.Build
+import android.view.View
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat.PRIORITY_DEFAULT
 import androidx.core.app.NotificationCompat.PRIORITY_HIGH
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
+import cl.figonzal.lastquakechile.core.utils.views.toast
+import cl.figonzal.lastquakechile.databinding.FragmentQuakeBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import com.google.android.gms.tasks.Task
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -19,19 +24,75 @@ import timber.log.Timber
 import java.security.SecureRandom
 import kotlin.random.asKotlinRandom
 
-/**
- * Request notification permission for android 13
- */
+
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-fun Activity.checkAlertsPermissions(
-    permissionLauncher: ActivityResultLauncher<String>
+fun Fragment.handleCvAlertPermission(
+    binding: FragmentQuakeBinding,
+    sharedPrefUtil: SharedPrefUtil
+) {
+
+    val requestPermission = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+
+        //Called when requestPermission is launch
+        when {
+            isGranted -> {
+                Timber.d("Alert permission granted")
+                toast(R.string.notification_permission_on)
+                sharedPrefUtil.saveData(SHARED_PREF_PERMISSION_ALERT_ANDROID_13, true)
+            }
+            else -> {
+                Timber.d("Alert permission not granted")
+                toast(R.string.notification_permission_off)
+                sharedPrefUtil.saveData(SHARED_PREF_PERMISSION_ALERT_ANDROID_13, false)
+            }
+        }
+        sharedPrefUtil.saveData(SHARED_HIDE_ALERT_PERMISSION_CV, true)
+        binding.cvAlertPermission.root.visibility = View.GONE
+    }
+
+    val showCv = sharedPrefUtil.getData(SHARED_HIDE_ALERT_PERMISSION_CV, false) as Boolean
+
+    if (!showCv) {
+
+        with(binding.cvAlertPermission) {
+            root.visibility = View.VISIBLE
+            btnRequestPermission.setOnClickListener {
+                launchRequestPermission(
+                    this@handleCvAlertPermission,
+                    sharedPrefUtil,
+                    requestPermission
+                ) {
+                    root.visibility = View.GONE
+                }
+            }
+        }
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
+fun launchRequestPermission(
+    fragment: Fragment,
+    sharedPrefUtil: SharedPrefUtil,
+    requestPermission: ActivityResultLauncher<String>,
+    hideCardView: () -> Unit
 ) {
     when (PackageManager.PERMISSION_GRANTED) {
         ContextCompat.checkSelfPermission(
-            this,
+            fragment.requireContext(),
             Manifest.permission.POST_NOTIFICATIONS
-        ) -> Timber.d("Permission granted for this device")
-        else -> permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        ) -> {
+            Timber.d("Permission already granted for this device")
+            sharedPrefUtil.saveData(SHARED_PREF_PERMISSION_ALERT_ANDROID_13, true)
+
+            //Hide cardview permission
+            sharedPrefUtil.saveData(SHARED_HIDE_ALERT_PERMISSION_CV, true)
+            fragment.toast(R.string.notification_permission_on)
+
+            hideCardView()
+        }
+        else -> requestPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
     }
 }
 
