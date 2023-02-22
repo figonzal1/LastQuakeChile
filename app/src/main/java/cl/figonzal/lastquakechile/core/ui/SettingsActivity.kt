@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.text.InputType
 import android.view.MenuItem
+import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate.*
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -16,6 +17,7 @@ import androidx.preference.*
 import cl.figonzal.lastquakechile.BuildConfig
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.services.notifications.QuakeNotificationImpl
+import cl.figonzal.lastquakechile.core.services.notifications.utils.SHARED_PREF_PERMISSION_ALERT_ANDROID_13
 import cl.figonzal.lastquakechile.core.services.notifications.utils.subscribedToQuakes
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.views.toast
@@ -56,6 +58,7 @@ class SettingsActivity : AppCompatActivity() {
         private val fcm = Firebase.messaging
         private val crashlytics = Firebase.crashlytics
 
+        private lateinit var requestPermission: ActivityResultLauncher<String>
         private val sharedPrefUtil: SharedPrefUtil by lazy { SharedPrefUtil(requireActivity()) }
         private val notificationServiceImpl by lazy {
             QuakeNotificationImpl(requireActivity(), sharedPrefUtil)
@@ -65,6 +68,9 @@ class SettingsActivity : AppCompatActivity() {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
 
             if (isAdded) {
+
+                configNotifications()
+
                 configVersionPreferences()
 
                 configNightMode()
@@ -96,6 +102,26 @@ class SettingsActivity : AppCompatActivity() {
             with(requireActivity()) {
                 setTheme(R.style.AppTheme)
                 recreate()
+            }
+        }
+
+        private fun configNotifications() {
+            val isGrantedPermission =
+                sharedPrefUtil.getData(SHARED_PREF_PERMISSION_ALERT_ANDROID_13, true) as Boolean
+
+            when {
+                !isGrantedPermission -> {
+
+                    findPreference<SwitchPreferenceCompat>(getString(R.string.firebase_pref_key))?.apply {
+                        isChecked = false
+                        isEnabled = false
+                    }
+                    findPreference<PreferenceCategory>(getString(R.string.notifications_category_key))?.summary =
+                        getString(R.string.permission_totally_disabled)
+
+                    subscribedToQuakes(false, sharedPrefUtil, fcm, crashlytics)
+                    alertDependencies(false)
+                }
             }
         }
 

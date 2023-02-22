@@ -4,6 +4,7 @@
     app:key="preferenceScreen">
 
     <PreferenceCategory
+        android:key="@string/notifications_category_key"
         app:icon="@drawable/round_notifications_24"
         app:iconSpaceReserved="false"
         app:summary="@string/alert_pref_summary"

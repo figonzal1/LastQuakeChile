@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.content.pm.PackageManager
 import android.os.Build
 import android.view.View
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat.PRIORITY_DEFAULT
@@ -23,8 +24,6 @@ import timber.log.Timber
 import java.security.SecureRandom
 import kotlin.random.asKotlinRandom
 
-private const val SHARED_PREF_PERMISSION_ALERT_ANDROID_13 = "alert_permission_granted"
-private const val SHARED_HIDE_ALERT_PERMISSION_CV = "hide_alert_cv_v3"
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 fun Fragment.handleCvAlertPermission(
@@ -40,12 +39,12 @@ fun Fragment.handleCvAlertPermission(
         when {
             isGranted -> {
                 Timber.d("Alert permission granted")
-                toast(R.string.NOTIFICATION_PERMISSION_ON)
+                toast(R.string.notification_permission_on)
                 sharedPrefUtil.saveData(SHARED_PREF_PERMISSION_ALERT_ANDROID_13, true)
             }
             else -> {
                 Timber.d("Alert permission not granted")
-                toast(R.string.NOTIFICATION_PERMISSION_OFF)
+                toast(R.string.notification_permission_off)
                 sharedPrefUtil.saveData(SHARED_PREF_PERMISSION_ALERT_ANDROID_13, false)
             }
         }
@@ -60,24 +59,40 @@ fun Fragment.handleCvAlertPermission(
         with(binding.cvAlertPermission) {
             root.visibility = View.VISIBLE
             btnRequestPermission.setOnClickListener {
-
-                when (PackageManager.PERMISSION_GRANTED) {
-                    ContextCompat.checkSelfPermission(
-                        requireContext(),
-                        Manifest.permission.POST_NOTIFICATIONS
-                    ) -> {
-                        Timber.d("Permission already granted for this device")
-                        sharedPrefUtil.saveData(SHARED_PREF_PERMISSION_ALERT_ANDROID_13, true)
-
-                        //Hide cardview permission
-                        sharedPrefUtil.saveData(SHARED_HIDE_ALERT_PERMISSION_CV, true)
-                        root.visibility = View.GONE
-                        toast(R.string.NOTIFICATION_PERMISSION_ON)
-                    }
-                    else -> requestPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
+                launchRequestPermission(
+                    this@handleCvAlertPermission,
+                    sharedPrefUtil,
+                    requestPermission
+                ) {
+                    root.visibility = View.GONE
                 }
             }
         }
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
+fun launchRequestPermission(
+    fragment: Fragment,
+    sharedPrefUtil: SharedPrefUtil,
+    requestPermission: ActivityResultLauncher<String>,
+    hideCardView: () -> Unit
+) {
+    when (PackageManager.PERMISSION_GRANTED) {
+        ContextCompat.checkSelfPermission(
+            fragment.requireContext(),
+            Manifest.permission.POST_NOTIFICATIONS
+        ) -> {
+            Timber.d("Permission already granted for this device")
+            sharedPrefUtil.saveData(SHARED_PREF_PERMISSION_ALERT_ANDROID_13, true)
+
+            //Hide cardview permission
+            sharedPrefUtil.saveData(SHARED_HIDE_ALERT_PERMISSION_CV, true)
+            fragment.toast(R.string.notification_permission_on)
+
+            hideCardView()
+        }
+        else -> requestPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
     }
 }
 

@@ -41,6 +41,7 @@
     <string name="quake_preliminary_key" translatable="false">quake_preliminary</string>
     <string name="minimum_magnitude_key" translatable="false">minimum_magnitude</string>
     <string name="night_mode_category_key" translatable="false">nigh_mode_pref_category</string>
+    <string name="notifications_category_key" translatable="false">notifications_pref_category</string>
     <string name="firebase_pref_key" translatable="false">pref_suscrito_quake</string>
     <string name="version_key" translatable="false">version</string>
     <string name="contact_key" translatable="false">contact_email</string>
@@ -189,8 +190,9 @@
     <string name="improvement_2">- Notifications permission for Android 13</string>
     <string name="improvement_3">- Map section redesign</string>
     <string name="improvement_4">- Added privacy policy</string>
-    <string name="NOTIFICATION_PERMISSION_OFF">You will not receive alerts</string>
-    <string name="NOTIFICATION_PERMISSION_ON">You will receive alerts</string>
+    <string name="notification_permission_off">You will not receive alerts</string>
+    <string name="notification_permission_on">You will receive alerts</string>
+    <string name="permission_totally_disabled">Permission disabled, reinstall to enabled it</string>
 
 
 </resources>
