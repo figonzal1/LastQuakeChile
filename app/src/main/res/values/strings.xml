@@ -189,6 +189,8 @@
     <string name="improvement_2">- Notifications permission for Android 13</string>
     <string name="improvement_3">- Map section redesign</string>
     <string name="improvement_4">- Added privacy policy</string>
+    <string name="NOTIFICATION_PERMISSION_OFF">You will not receive alerts</string>
+    <string name="NOTIFICATION_PERMISSION_ON">You will receive alerts</string>
 
 
 </resources>

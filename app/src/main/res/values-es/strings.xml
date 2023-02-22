@@ -150,4 +150,6 @@
     <string name="empty_list">No hay contenido para mostrar</string>
     <string name="improvement_3">- Rediseño sección mapa</string>
     <string name="improvement_4">- Política de privacidad agregada</string>
+    <string name="NOTIFICATION_PERMISSION_OFF">No recibirás alertas</string>
+    <string name="NOTIFICATION_PERMISSION_ON">Recibirás alertas</string>
 </resources>
