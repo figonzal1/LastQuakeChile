@@ -6,11 +6,6 @@ internal const val ROOT_PREF_QUAKE_PRELIMINARY = "quake_preliminary"
 internal const val ROOT_PREF_MIN_MAGNITUDE = "minimum_magnitude"
 internal const val ROOT_PREF_SUBSCRIPTION = "pref_suscrito_quake"
 
-//SHARED PREFERENCES KEYS NOT USED IN settings preferences
-internal const val SHARED_PREF_PERMISSION_ALERT_ANDROID_13 = "alert_permission_granted"
-internal const val SHARED_HIDE_ALERT_PERMISSION_CV = "hide_alert_cv_v3"
-
-
 //Constants used for crashlytics logger
 internal const val FIREBASE_CHANNEL_STATUS = "channel_status"
 internal const val FIREBASE_MSG_QUAKE_DATA = "data_msg_received"
