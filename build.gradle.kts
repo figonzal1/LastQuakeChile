@@ -20,4 +20,7 @@ plugins {
 
     //Sonaqube
     id("org.sonarqube") version "4.0.0.2929"
+
+    //KSP
+    id("com.google.devtools.ksp") version "1.8.10-1.0.9" apply false
 }
