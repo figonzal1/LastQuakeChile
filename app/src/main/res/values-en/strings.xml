@@ -94,8 +94,7 @@
     <string name="SHARE_GEO_REF">Georeference</string>
     <string name="SHARE_DOWNLOAD_MSG"><![CDATA[Download the app here ->]]></string>
     <string name="email_chooser_title">Send email with:</string>
-    <string name="email_intent_fail">You don\'t have any email app to contact us</string>
-    <string name="email_subject">LastQuakeChlle developer contact</string>
+    <string name="email_subject">LastQuakeChile developer contact</string>
     <string name="retry">Retry</string>
     <string name="service_error">Quake server not available</string>
     <string name="menu_reload_title">Reload</string>
@@ -135,8 +134,6 @@
     <string name="minimum_magnitude_title">Minimum magnitude alert</string>
     <string name="min_magnitude_dialog_title">Minimum magnitude</string>
     <string name="min_magnitude_dialog_message">Earthquakes greater than … \nExample: 5.6, 3.5, 2.9, etc</string>
-    <string name="improvement_1">- New icon for verified earthquakes</string>
-    <string name="improvement_2">- Notifications permission for Android 13</string>
     <string name="activate_button">Activate</string>
     <string name="alert_permission_description">This device is running Android 13. To receive earthquake alerts it is required to activate the permission for notifications.</string>
     <string name="alert_permission_title">Permission for earthquake alerts</string>
@@ -148,8 +145,6 @@
     <string name="cd_reference_icon">Reference icon</string>
     <string name="cd_hour_icon">Time icon</string>
     <string name="empty_list">No content to show</string>
-    <string name="improvement_3">- Map section redesign</string>
-    <string name="improvement_4">- Added privacy policy</string>
     <string name="notification_permission_off">You will not receive alerts</string>
     <string name="notification_permission_on">You will receive alerts</string>
     <string name="permission_totally_disabled">Permission disabled, reinstall to enabled it</string>

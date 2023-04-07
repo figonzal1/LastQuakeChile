@@ -9,7 +9,6 @@ import android.os.Build
 import android.os.Bundle
 import android.text.InputType
 import android.view.MenuItem
-import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate.*
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -58,7 +57,6 @@ class SettingsActivity : AppCompatActivity() {
         private val fcm = Firebase.messaging
         private val crashlytics = Firebase.crashlytics
 
-        private lateinit var requestPermission: ActivityResultLauncher<String>
         private val sharedPrefUtil: SharedPrefUtil by lazy { SharedPrefUtil(requireActivity()) }
         private val notificationServiceImpl by lazy {
             QuakeNotificationImpl(requireActivity(), sharedPrefUtil)
@@ -149,19 +147,13 @@ class SettingsActivity : AppCompatActivity() {
             //VERSION
             findPreference<Preference>(getString(R.string.contact_key))?.setOnPreferenceClickListener {
 
-                Intent(ACTION_SEND).apply {
-                    putExtra(EXTRA_EMAIL, arrayOf(getString(R.string.mail_to_felipe)))
+                Intent(ACTION_SENDTO).apply {
                     putExtra(EXTRA_SUBJECT, getString(R.string.email_subject))
-                    type = "text/plain"
+                    data = Uri.parse("mailto:${getString(R.string.mail_to_felipe)}")
 
-                    when {
-                        resolveActivity(requireActivity().packageManager) != null -> {
-                            requireActivity().startActivity(
-                                createChooser(this, getString(R.string.email_chooser_title))
-                            )
-                        }
-                        else -> requireActivity().toast(R.string.email_intent_fail)
-                    }
+                    requireActivity().startActivity(
+                        createChooser(this, getString(R.string.email_chooser_title))
+                    )
                 }
                 true
             }

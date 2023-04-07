@@ -46,8 +46,6 @@
     <string name="version_key" translatable="false">version</string>
     <string name="contact_key" translatable="false">contact_email</string>
     <string name="privacy_policy_key" translatable="false">privacy_policy</string>
-    <string name="shared_pref_map_type" translatable="false">map_type</string>
-    <string name="shared_pref_cv_permission" translatable="false">cv_alert_permission</string>
     <string name="shared_pref_launch_counter" translatable="false">launch_count</string>
     <string name="shared_pref_install_date" translatable="false">install_date</string>
 
@@ -133,9 +131,8 @@
     <string name="about">About</string>
     <string name="cd_wifi_off">Wifi turn off</string>
     <string name="wifi_off_msg">Check your connection</string>
-    <string name="email_intent_fail">You don\'t have any email app to contact us</string>
     <string name="email_chooser_title">Send email with:</string>
-    <string name="email_subject">LastQuakeChlle developer contact</string>
+    <string name="email_subject">LastQuakeChile developer contact</string>
     <string name="retry">Retry</string>
     <string name="service_error">Quake server not available</string>
     <string name="menu_reload_title">Reload</string>
@@ -186,10 +183,6 @@
     <string name="cd_reference_icon">Reference icon</string>
     <string name="cd_hour_icon">Time icon</string>
     <string name="empty_list">No content to show</string>
-    <string name="improvement_1">- New icon for verified earthquakes</string>
-    <string name="improvement_2">- Notifications permission for Android 13</string>
-    <string name="improvement_3">- Map section redesign</string>
-    <string name="improvement_4">- Added privacy policy</string>
     <string name="notification_permission_off">You will not receive alerts</string>
     <string name="notification_permission_on">You will receive alerts</string>
     <string name="permission_totally_disabled">Permission disabled, reinstall to enabled it</string>
