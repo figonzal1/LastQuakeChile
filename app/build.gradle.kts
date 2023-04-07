@@ -133,8 +133,8 @@ dependencies {
     implementation("androidx.core:core-splashscreen:1.0.0") //splash screen
 
     //GLIDE
-    implementation("com.github.bumptech.glide:glide:4.14.2")
-    ksp("com.github.bumptech.glide:ksp:4.14.2")
+    implementation("com.github.bumptech.glide:glide:4.15.1")
+    ksp("com.github.bumptech.glide:ksp:4.15.1")
 
     //Life cycle components
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
@@ -146,8 +146,9 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 
     //Dependency injection KOIN
-    implementation("io.insert-koin:koin-core:3.2.2")
-    implementation("io.insert-koin:koin-android:3.3.0")
+    val koinVersion = "3.4.0"
+    implementation("io.insert-koin:koin-core:$koinVersion")
+    implementation("io.insert-koin:koin-android:$koinVersion")
 
     //Appodeal
     //implementation("com.appodeal.ads:sdk:3.0.0.4")
@@ -175,7 +176,7 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
 
     //SANDWICH
-    implementation("com.github.skydoves:sandwich:1.3.2")
+    implementation("com.github.skydoves:sandwich:1.3.5")
 
     //MOSHI
     implementation("com.squareup.moshi:moshi:1.14.0")
@@ -194,8 +195,8 @@ dependencies {
     //junit
     testImplementation("junit:junit:4.13.2")
     testImplementation("androidx.test:core-ktx:1.5.0")
-    testImplementation("io.insert-koin:koin-test:3.2.0")
-    testImplementation("io.insert-koin:koin-test-junit4:3.2.0")
+    testImplementation("io.insert-koin:koin-test:$koinVersion")
+    testImplementation("io.insert-koin:koin-test-junit4:$koinVersion")
     testImplementation("androidx.arch.core:core-testing:2.2.0")
     testImplementation("androidx.test.ext:truth:1.5.0")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
@@ -216,8 +217,8 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-intents:3.5.1")
     androidTestImplementation("androidx.test.ext:truth:1.5.0")
     androidTestImplementation("androidx.test.uiautomator:uiautomator:2.2.0")
-    androidTestImplementation("io.insert-koin:koin-test:3.2.0")
-    androidTestImplementation("io.insert-koin:koin-test-junit4:3.2.0")
+    androidTestImplementation("io.insert-koin:koin-test:$koinVersion")
+    androidTestImplementation("io.insert-koin:koin-test-junit4:$koinVersion")
 
     //Debug dependencies
     debugImplementation("androidx.fragment:fragment-testing:1.5.6")
