@@ -1,7 +1,10 @@
 package cl.figonzal.lastquakechile.core.ui
 
 import android.content.Intent
-import android.content.Intent.*
+import android.content.Intent.ACTION_SENDTO
+import android.content.Intent.ACTION_VIEW
+import android.content.Intent.EXTRA_SUBJECT
+import android.content.Intent.createChooser
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.net.Uri
@@ -10,9 +13,15 @@ import android.os.Bundle
 import android.text.InputType
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate.*
+import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
+import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
+import androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.preference.*
+import androidx.preference.EditTextPreference
+import androidx.preference.Preference
+import androidx.preference.PreferenceCategory
+import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.SwitchPreferenceCompat
 import cl.figonzal.lastquakechile.BuildConfig
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.services.notifications.QuakeNotificationImpl
@@ -25,7 +34,7 @@ import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
 import timber.log.Timber
-import java.util.*
+import java.util.Locale
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -147,10 +156,14 @@ class SettingsActivity : AppCompatActivity() {
             //VERSION
             findPreference<Preference>(getString(R.string.contact_key))?.setOnPreferenceClickListener {
 
-                Intent(ACTION_SENDTO).apply {
+                Intent(
+                    ACTION_SENDTO,
+                    Uri.parse(
+                        "mailto:${getString(R.string.mail_to_felipe)}" +
+                                "?subject=${getString(R.string.email_subject)}"
+                    )
+                ).apply {
                     putExtra(EXTRA_SUBJECT, getString(R.string.email_subject))
-                    data = Uri.parse("mailto:${getString(R.string.mail_to_felipe)}")
-
                     requireActivity().startActivity(
                         createChooser(this, getString(R.string.email_chooser_title))
                     )
@@ -170,6 +183,7 @@ class SettingsActivity : AppCompatActivity() {
 
                     nightModePrefCategory?.isVisible = true
                 }
+
                 else -> Timber.d("Don't show night mode preference")
             }
         }
@@ -202,6 +216,7 @@ class SettingsActivity : AppCompatActivity() {
                         toast(R.string.night_mode_key_toast_on)
 
                     }
+
                     else -> {
                         sharedPrefUtil.saveData(getString(R.string.night_mode_key), false)
 
@@ -227,6 +242,7 @@ class SettingsActivity : AppCompatActivity() {
                             toast(R.string.firebase_pref_key_alert_on)
                             alertDependencies(true)
                         }
+
                         else -> {
                             subscribedToQuakes(false, sharedPrefUtil, fcm, crashlytics)
                             toast(R.string.firebase_pref_key_alert_off)
