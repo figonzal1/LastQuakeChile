@@ -1,5 +1,3 @@
-@file:Suppress("unused")
-
 package cl.figonzal.lastquakechile.core.ui
 
 import android.annotation.SuppressLint
