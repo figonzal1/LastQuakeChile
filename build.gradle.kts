@@ -10,7 +10,7 @@ plugins {
     id("com.google.gms.google-services") version "4.3.15" apply false
 
     //Crashlytics Gradle plugin
-    id("com.google.firebase.crashlytics") version "2.9.4" apply false
+    id("com.google.firebase.crashlytics") version "2.9.5" apply false
 
     // Performance Monitoring plugin
     id("com.google.firebase.firebase-perf") version "1.4.2" apply false
