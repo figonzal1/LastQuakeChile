@@ -211,7 +211,9 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit-ktx:1.1.5")
     androidTestImplementation("androidx.room:room-testing:2.5.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation("androidx.test.espresso:espresso-contrib:3.5.1")
+    androidTestImplementation("androidx.test.espresso:espresso-contrib:3.5.1") {
+        exclude(module = "protobuf-lite")
+    }
     androidTestImplementation("androidx.test.espresso:espresso-intents:3.5.1")
     androidTestImplementation("androidx.test.ext:truth:1.5.0")
     androidTestImplementation("androidx.test.uiautomator:uiautomator:2.2.0")
@@ -219,7 +221,8 @@ dependencies {
     androidTestImplementation("io.insert-koin:koin-test-junit4:$koinVersion")
 
     //Debug dependencies
-    debugImplementation("androidx.fragment:fragment-testing:1.5.7")
+    debugImplementation("androidx.fragment:fragment-testing-manifest:1.6.0")
+    debugImplementation("androidx.fragment:fragment-testing:1.6.0")
     debugImplementation("com.squareup.leakcanary:leakcanary-android:2.11")
 
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
