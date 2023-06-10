@@ -19,6 +19,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.test.KoinTest
 import org.koin.test.inject
+import java.time.LocalDateTime
 
 
 @MediumTest
@@ -28,6 +29,8 @@ class ReportsFragmentTest : KoinTest {
 
     private lateinit var context: Context
     private val testFragmentFactory: TestFragmentFactory by inject()
+
+    private var now = LocalDateTime.now()
 
     @Before
     fun setUp() {
@@ -63,8 +66,8 @@ class ReportsFragmentTest : KoinTest {
             R.id.recycle_view_reports, 0, withText(
                 String.format(
                     REPORT_FORMAT,
-                    context.getMonth(1),
-                    "2021"
+                    context.getMonth(now.monthValue),
+                    now.year
                 )
             ), R.id.tv_title_report
         )
@@ -74,8 +77,8 @@ class ReportsFragmentTest : KoinTest {
             R.id.recycle_view_reports, 1, withText(
                 String.format(
                     REPORT_FORMAT,
-                    context.getMonth(12),
-                    "2020"
+                    context.getMonth(now.minusMonths(1).monthValue),
+                    now.minusMonths(1).year
                 )
             ), R.id.tv_title_report
         )

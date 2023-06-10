@@ -9,6 +9,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import java.time.LocalDateTime
 
 
 class FakeReportRepository(
@@ -17,9 +18,11 @@ class FakeReportRepository(
 
     private var shouldReturnNetworkError = false
 
+    private var now = LocalDateTime.now()
+
     private val reportList = listOf(
         Report(
-            reportMonth = "2021-01",
+            reportMonth = "${now.year}-${now.monthValue}",
             nSensitive = 12,
             nQuakes = 450,
             promMagnitude = 5.78,
@@ -34,7 +37,7 @@ class FakeReportRepository(
             )
         ),
         Report(
-            reportMonth = "2020-12",
+            reportMonth = "${now.minusMonths(1).year}-${now.minusMonths(1).monthValue}",
             nSensitive = 12,
             nQuakes = 363,
             promMagnitude = 4.23,

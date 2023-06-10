@@ -58,13 +58,13 @@ class QuakeFragmentTest : KoinTest {
         checkRecyclerSubViews(
             R.id.recycle_view_quakes,
             0,
-            withText("14km al OS de La Serena"),
+            withText("45km al OS de La Serena"),
             R.id.tv_reference
         )
         checkRecyclerSubViews(
             R.id.recycle_view_quakes,
             0,
-            withText("5${separator}6"),
+            withText("3${separator}6"),
             R.id.tv_magnitude
         )
 
@@ -80,7 +80,7 @@ class QuakeFragmentTest : KoinTest {
         checkRecyclerSubViews(
             R.id.recycle_view_quakes,
             1,
-            withText("7${separator}6"),
+            withText("6${separator}6"),
             R.id.tv_magnitude
         )
 
