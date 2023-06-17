@@ -186,6 +186,8 @@
     <string name="notification_permission_off">You will not receive alerts</string>
     <string name="notification_permission_on">You will receive alerts</string>
     <string name="permission_totally_disabled">Permission disabled, reinstall to enabled it</string>
+    <string name="tools_ad_title">AD TITLE</string>
+    <string name="tools_ad_description">AD DESCRIPTION</string>
 
 
 </resources>

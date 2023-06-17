@@ -74,3 +74,5 @@ lint/outputs/
 lint/tmp/
 # lint/reports/
 /app/qonversion_gcp_key.json
+/fastlane/google-play-fastlane.json
+/fastlane/.env

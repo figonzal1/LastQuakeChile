@@ -1,0 +1,59 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+  desc "Build debug and test APK"
+    lane :build do
+      build_android_app(task: "clean")
+      build_android_app(task: "test")
+      build_android_app(
+          task: 'assemble',
+          build_type: 'Debug'
+          )
+      build_android_app(
+          task: 'assemble',
+          build_type: 'AndroidTest'
+      )
+  end
+
+  desc "Build beta version"
+    lane :beta do
+      build_android_app(task: "clean")
+      build_android_app(
+          task: 'bundle',
+          flavor: 'beta',
+          build_type: 'Release',
+          properties: {
+               "android.injected.signing.store.file" => ENV['STORE_FILE'],
+               "android.injected.signing.store.password" => ENV['STORE_PASSWORD'],
+               "android.injected.signing.key.alias" => ENV['KEY_ALIAS'],
+               "android.injected.signing.key.password" => ENV['KEY_PASSWORD'],
+            }
+      )
+  end
+
+  desc "Deploy a new version to the Google Play"
+        lane :googleplay do
+          upload_to_play_store(
+              release_status: 'draft',
+              track: 'beta',
+              aab: 'app/build/outputs/bundle/betaRelease/app-beta-release.aab',
+              skip_upload_screenshots: true,
+              skip_upload_images: true
+          )
+        end
+end
