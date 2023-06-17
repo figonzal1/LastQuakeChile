@@ -4,10 +4,10 @@ package cl.figonzal.lastquakechile.core.ui
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
@@ -20,6 +20,7 @@ import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItem
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasData
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
@@ -33,7 +34,6 @@ import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.*
 import org.hamcrest.TypeSafeMatcher
-import org.hamcrest.core.IsInstanceOf.instanceOf
 import org.junit.Before
 import org.junit.FixMethodOrder
 import org.junit.Rule
@@ -62,67 +62,7 @@ class SettingsActivityTest {
     }
 
     @Test
-    fun test1_checkQuakeDataPreferences_correctText() {
-
-        Thread.sleep(2000)
-
-        //TOOLBAR TITLE
-        onView(
-            allOf(
-                withText(context.getString(R.string.menu_settings)),
-                withParent(
-                    allOf(
-                        withId(R.id.material_toolbar),
-                        withParent(instanceOf(LinearLayout::class.java))
-                    )
-                ),
-                isDisplayed()
-            )
-        ).check(matches(withText(context.getString(R.string.menu_settings))))
-
-        //Quake Data
-        onView(
-            allOf(
-                withId(android.R.id.title),
-                withText(context.getString(R.string.quake_list_number_pref_title))
-            )
-        ).check(matches(isDisplayed()))
-            .check(matches(withText(context.getString(R.string.quake_list_number_pref_title))))
-
-        //Quake Data summary
-        onView(
-            allOf(
-                withId(android.R.id.summary),
-                withText(context.getString(R.string.quake_list_number_pref_summary)),
-                isDisplayed()
-            )
-        ).check(matches(withText(context.getString(R.string.quake_list_number_pref_summary))))
-
-        //Quake limit summary
-        onView(
-            allOf(
-                withId(android.R.id.summary), withText(
-                    context.resources.getQuantityString(
-                        R.plurals.list_quake_number_summary,
-                        15,
-                        15
-                    )
-                ),
-                isDisplayed()
-            )
-        ).check(
-            matches(
-                withText(
-                    context.resources.getQuantityString(R.plurals.list_quake_number_summary, 15, 15)
-                )
-            )
-        )
-
-        Thread.sleep(2000)
-    }
-
-    @Test
-    fun test2_checkNotificationPreferences_correctText() {
+    fun test1_checkNotificationPreferences_correctText() {
 
         Thread.sleep(2000)
 
@@ -145,7 +85,7 @@ class SettingsActivityTest {
 
         Thread.sleep(2000)
 
-        //NOTIFICATIONS PREFERENCE TITLE
+        //QUAKE ALERTS TITLE
         onView(
             allOf(
                 withId(android.R.id.title),
@@ -156,21 +96,60 @@ class SettingsActivityTest {
 
         Thread.sleep(2000)
 
-        //NOTIFICATION PREFECENCE SUMMARY
+        //PRELIMARY TITLE
+        onView(
+            allOf(
+                withId(android.R.id.title),
+                withText(context.getString(R.string.preliminary_pref_title)),
+                isDisplayed()
+            )
+        ).check(matches(withText(context.getString(R.string.preliminary_pref_title))))
+
+        Thread.sleep(2000)
+
+        //HIGH PRIORITY ALERTS TITLE
+        onView(
+            allOf(
+                withId(android.R.id.title),
+                withText(context.getString(R.string.high_priority_title)),
+                isDisplayed()
+            )
+        ).check(matches(withText(context.getString(R.string.high_priority_title))))
+
+        //HIGH PRIORITY ALERTS SUMMARY
         onView(
             allOf(
                 withId(android.R.id.summary),
-                withText(context.getString(R.string.alert_pref_summary_on)),
+                withText(context.getString(R.string.high_priority_summary)),
                 isDisplayed()
             )
-        ).check(matches(withText(context.getString(R.string.alert_pref_summary_on))))
+        ).check(matches(withText(context.getString(R.string.high_priority_summary))))
 
+        Thread.sleep(2000)
+
+        //MINIMUM MAGNITUDE TITLE
+        onView(
+            allOf(
+                withId(android.R.id.title),
+                withText(context.getString(R.string.minimum_magnitude_title)),
+                isDisplayed()
+            )
+        ).check(matches(withText(context.getString(R.string.minimum_magnitude_title))))
+
+        //MINIMUM MAGNITUDE SUMMARY
+        onView(
+            allOf(
+                withId(android.R.id.summary),
+                withText(">=5.0"),
+                isDisplayed()
+            )
+        ).check(matches(withText(">=5.0")))
 
         Thread.sleep(2000)
     }
 
     @Test
-    fun test3_checkAboutPreferences_correctText() {
+    fun test2_checkAboutPreferences_correctText() {
 
         Thread.sleep(2000)
 
@@ -214,6 +193,17 @@ class SettingsActivityTest {
 
         Thread.sleep(2000)
 
+        //PRIVACY POLICY
+        onView(
+            allOf(
+                withId(android.R.id.title),
+                withText(context.getString(R.string.privacy_policy)),
+                isDisplayed()
+            )
+        ).check(matches(withText(context.getString(R.string.privacy_policy))))
+
+        Thread.sleep(2000)
+
         //CONTACT PREFERENCE TITLE
         onView(
             allOf(
@@ -238,7 +228,7 @@ class SettingsActivityTest {
 
     //NOT WORK IN API 31 & 32
     @Test
-    fun test4_clickOnAlertPreference_deactivateAlert() {
+    fun test3_clickOnAlertPreference_deactivateAlert() {
 
         Thread.sleep(2000)
 
@@ -257,7 +247,7 @@ class SettingsActivityTest {
 
     //NOT WORK IN API 31 & 32
     @Test
-    fun test5_clickOnAlertPreference_activatedAlert() {
+    fun test4_clickOnAlertPreference_activatedAlert() {
 
         Thread.sleep(2000)
 
@@ -275,7 +265,7 @@ class SettingsActivityTest {
     }
 
     @Test
-    fun test6_clickOnContactDeveloper_openIntent() {
+    fun test5_clickOnContactDeveloper_openIntent() {
 
         Thread.sleep(2000)
 
@@ -289,7 +279,7 @@ class SettingsActivityTest {
             )
         ).perform(
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
-                7,
+                9,
                 click()
             )
         )
@@ -299,9 +289,12 @@ class SettingsActivityTest {
             hasExtra(
                 equalTo(Intent.EXTRA_INTENT),
                 allOf(
-                    hasExtra(
-                        `is`(Intent.EXTRA_EMAIL),
-                        `is`(arrayOf(context.getString(R.string.mail_to_felipe)))
+                    hasAction(Intent.ACTION_SENDTO),
+                    hasData(
+                        Uri.parse(
+                            "mailto:${context.getString(R.string.mail_to_felipe)}" +
+                                    "?subject=${context.getString(R.string.email_subject)}"
+                        )
                     ),
                     hasExtra(
                         `is`(Intent.EXTRA_SUBJECT),

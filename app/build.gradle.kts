@@ -101,13 +101,13 @@ android {
     }
     flavorDimensions += listOf("version")
     productFlavors {
-        create("beta") {
-            dimension = "version"
-            versionNameSuffix = "-beta"
-        }
         create("dev") {
             dimension = "version"
             versionNameSuffix = "-dev"
+        }
+        create("beta") {
+            dimension = "version"
+            versionNameSuffix = "-beta"
         }
         create("prod") {
             dimension = "version"
