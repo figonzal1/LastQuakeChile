@@ -74,8 +74,6 @@
     <string name="east_cords">E</string>
     <string name="cd_quake_list_section">List of quakes section</string>
     <string name="cd_share_quake_button">Button to share quake</string>
-    <string name="quake_list_number_pref_summary">Number of quakes you want to see</string>
-    <string name="quake_list_number_pref_title">Quake data</string>
     <string name="cd_monthly_report_icon">Monthly report icon</string>
     <string name="n_report_quakes">N° reported quakes</string>
     <string name="n_quakes_sensitives">N° sensitive quakes</string>
@@ -89,10 +87,6 @@
     <string name="alert_pref_title_switch">Quake alerts</string>
     <string name="alert_pref_summary_on">Enabled</string>
     <string name="alert_pref_summary_off">Disabled</string>
-    <plurals name="list_quake_number_summary">
-        <item quantity="one">Último %d sismo</item>
-        <item quantity="other">Últimos %d sismos</item>
-    </plurals>
     <string name="night_mode_key_toast_on">Night mode on</string>
     <string name="night_mode_key_toast_off">Night mode off</string>
     <string name="night_mode_pref_summary">Save battery and avoid your eyestrain</string>
@@ -186,8 +180,20 @@
     <string name="notification_permission_off">You will not receive alerts</string>
     <string name="notification_permission_on">You will receive alerts</string>
     <string name="permission_totally_disabled">Permission disabled, reinstall to enabled it</string>
-    <string name="tools_ad_title">AD TITLE</string>
-    <string name="tools_ad_description">AD DESCRIPTION</string>
+    <string name="tools_ad_title" translatable="false">AD TITLE</string>
+    <string name="tools_ad_description" translatable="false">AD DESCRIPTION</string>
+    <string name="tools_city_name">City Name</string>
+    <string name="tools_datetime">XX d X h</string>
+    <string name="tools_geo_reference">XX km al XX de XX</string>
+    <string name="tools_magnitude">X.X</string>
+    <string name="tools_full_datetime">XXXX-XX-XX XX:XX:XX</string>
+    <string name="tools_gms">XX.X° X.X\' X.X\" X</string>
+    <string name="tools_epicentre">XX,XKm</string>
+    <string name="tools_scale">Magnitud local (Ml)</string>
+    <string name="tools_report_title">Mes Año</string>
+    <string name="tools_value">XX</string>
+    <string name="tools_changelog_version">vX.X</string>
+    <string name="tools_changelog_items">-Mejoras, novedades</string>
 
 
 </resources>

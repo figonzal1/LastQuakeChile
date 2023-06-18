@@ -16,18 +16,19 @@
 default_platform(:android)
 
 platform :android do
+
   desc "Build debug and test APK"
     lane :build do
       build_android_app(task: "clean")
       build_android_app(task: "test")
-      build_android_app(
-          task: 'assemble',
-          build_type: 'Debug'
-          )
-      build_android_app(
-          task: 'assemble',
-          build_type: 'AndroidTest'
-      )
+      #build_android_app(
+      #    task: 'assemble',
+      #    build_type: 'Debug'
+      #    )
+      #build_android_app(
+      #    task: 'assemble',
+      #    build_type: 'AndroidTest'
+      #)
   end
 
   desc "Build beta version"
@@ -47,13 +48,13 @@ platform :android do
   end
 
   desc "Deploy a new version to the Google Play"
-        lane :googleplay do
-          upload_to_play_store(
-              release_status: 'draft',
-              track: 'beta',
-              aab: 'app/build/outputs/bundle/betaRelease/app-beta-release.aab',
-              skip_upload_screenshots: true,
-              skip_upload_images: true
-          )
-        end
+    lane :beta_googleplay do
+      upload_to_play_store(
+          release_status: 'draft',
+          track: 'beta',
+          aab: 'app/build/outputs/bundle/betaRelease/app-beta-release.aab',
+          skip_upload_screenshots: true,
+          skip_upload_images: true
+      )
+  end
 end

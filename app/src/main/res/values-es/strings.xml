@@ -39,12 +39,6 @@
     <string name="night_mode_pref_title">Modo noche</string>
     <string name="tab_map">Mapa</string>
     <string name="tab_list">Sismos</string>
-    <plurals name="list_quake_number_summary">
-        <item quantity="one">Último %d sismo</item>
-        <item quantity="other">Últimos %d sismos</item>
-    </plurals>
-    <string name="quake_list_number_pref_title">Datos sismos</string>
-    <string name="quake_list_number_pref_summary">Número de sismos que quieres ver en lista</string>
     <string name="tab_reports">Reportes</string>
     <string name="cd_monthly_report_icon">Icono reporte mensual</string>
     <string name="n_report_quakes">N° sismos reportados</string>

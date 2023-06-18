@@ -39,12 +39,6 @@
     <string name="night_mode_pref_title">Night mode</string>
     <string name="tab_map">Map</string>
     <string name="tab_list">Quakes</string>
-    <plurals name="list_quake_number_summary">
-        <item quantity="one">Last %d quake</item>
-        <item quantity="other">Last %d quakes</item>
-    </plurals>
-    <string name="quake_list_number_pref_title">Quake data</string>
-    <string name="quake_list_number_pref_summary">Number of quakes you want to see</string>
     <string name="tab_reports">Reports</string>
     <string name="cd_monthly_report_icon">Monthly report icon</string>
     <string name="n_report_quakes">N° reported quakes</string>
