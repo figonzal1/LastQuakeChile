@@ -7,10 +7,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.utils.openQuakeDetails
-import cl.figonzal.lastquakechile.core.utils.views.*
+import cl.figonzal.lastquakechile.core.utils.views.QUAKE_DETAILS_MAGNITUDE_FORMAT
+import cl.figonzal.lastquakechile.core.utils.views.getMagnitudeColor
+import cl.figonzal.lastquakechile.core.utils.views.layoutInflater
+import cl.figonzal.lastquakechile.core.utils.views.timeToText
+import cl.figonzal.lastquakechile.core.utils.views.toast
 import cl.figonzal.lastquakechile.databinding.CardViewQuakeBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeAdapter.QuakeViewHolder
+import timber.log.Timber
 
 class QuakeAdapter : RecyclerView.Adapter<QuakeViewHolder>() {
 
@@ -23,9 +28,14 @@ class QuakeAdapter : RecyclerView.Adapter<QuakeViewHolder>() {
         override fun areContentsTheSame(oldItem: Quake, newItem: Quake) = oldItem == newItem
     }
 
+    private var binding: CardViewQuakeBinding? = null
+
     var quakes: List<Quake>
         get() = asyncDiffer.currentList
-        set(value) = asyncDiffer.submitList(value)
+        set(value) {
+            asyncDiffer.submitList(value)
+            recalculateTimeShowed()
+        }
 
     init {
         asyncDiffer = AsyncListDiffer(this, diffCallback)
@@ -35,18 +45,20 @@ class QuakeAdapter : RecyclerView.Adapter<QuakeViewHolder>() {
         QuakeViewHolder(viewGroup.layoutInflater(R.layout.card_view_quake))
 
     override fun onBindViewHolder(holder: QuakeViewHolder, position: Int) {
-        holder.bind(asyncDiffer.currentList[position])
+        holder.bind(quakes[position])
     }
 
     override fun getItemCount(): Int = asyncDiffer.currentList.size
 
+
     inner class QuakeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private val binding = CardViewQuakeBinding.bind(itemView)
 
         fun bind(quake: Quake) {
 
-            with(binding) {
+            binding = CardViewQuakeBinding.bind(itemView)
+
+            with(binding!!) {
 
                 tvCity.text = quake.city
                 tvReference.text = quake.reference
@@ -80,6 +92,18 @@ class QuakeAdapter : RecyclerView.Adapter<QuakeViewHolder>() {
                 root.setOnClickListener { itemView.context.openQuakeDetails(quake) }
             }
         }
+    }
+
+    /***
+     * Function that recalculate the time difference between quake time and device time
+     */
+    fun recalculateTimeShowed() {
+
+        quakes.forEachIndexed { index, quake ->
+            binding?.tvHour?.timeToText(quake, true)
+            notifyItemChanged(index)
+        }
+        Timber.d("Recalculating time shown in quakeList")
     }
 }
 
