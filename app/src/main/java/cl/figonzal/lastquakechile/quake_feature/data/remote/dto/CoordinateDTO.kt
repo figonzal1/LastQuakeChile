@@ -12,9 +12,6 @@ data class CoordinateDTO(
 
     @Json(name = "longitude")
     val longitude: Double,
-
-    @Json(name = "_links", ignore = true)
-    val links: Any? = null
 ) {
     fun toEntity() = CoordinateEntity(
         latitude = latitude,

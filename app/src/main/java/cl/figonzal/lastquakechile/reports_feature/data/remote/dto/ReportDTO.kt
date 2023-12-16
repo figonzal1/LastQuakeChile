@@ -33,9 +33,6 @@ data class ReportDTO(
 
     @Json(name = "cityQuakes")
     val cityQuakes: List<CityQuakesDTO>,
-
-    @Json(name = "_links", ignore = true)
-    val links: Any? = null
 ) {
 
     fun toEntity() = ReportEntity(

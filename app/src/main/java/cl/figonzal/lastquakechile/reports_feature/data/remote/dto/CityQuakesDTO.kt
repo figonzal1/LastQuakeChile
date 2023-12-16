@@ -15,9 +15,6 @@ data class CityQuakesDTO(
 
     @Json(name = "nquakes")
     val nQuakes: Int,
-
-    @Json(name = "_links")
-    val links: Any? = null
 ) {
     fun toEntity() = CityQuakesEntity(
         city = city,

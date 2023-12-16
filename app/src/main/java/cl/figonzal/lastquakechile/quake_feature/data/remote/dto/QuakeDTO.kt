@@ -38,9 +38,8 @@ data class QuakeDTO(
     val isSensitive: Boolean,
 
     @Json(name = "verified")
-    val isVerified: Boolean,
-
-    ) {
+    val isVerified: Boolean
+) {
     fun toEntity() = QuakeEntity(
         quakeCode = quakeCode,
         utcDate = utcDate,
