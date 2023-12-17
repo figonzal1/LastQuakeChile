@@ -12,6 +12,7 @@ import cl.figonzal.lastquakechile.reports_feature.data.remote.ReportRemoteDataSo
 import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
 import cl.figonzal.lastquakechile.reports_feature.domain.repository.ReportRepository
 import com.skydoves.sandwich.message
+import com.skydoves.sandwich.retrofit.statusCode
 import com.skydoves.sandwich.suspendOnError
 import com.skydoves.sandwich.suspendOnFailure
 import com.skydoves.sandwich.suspendOnSuccess

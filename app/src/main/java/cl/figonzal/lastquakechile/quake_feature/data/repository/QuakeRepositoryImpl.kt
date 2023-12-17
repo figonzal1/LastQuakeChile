@@ -13,6 +13,7 @@ import cl.figonzal.lastquakechile.quake_feature.data.remote.QuakeRemoteDataSourc
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import cl.figonzal.lastquakechile.quake_feature.domain.repository.QuakeRepository
 import com.skydoves.sandwich.message
+import com.skydoves.sandwich.retrofit.statusCode
 import com.skydoves.sandwich.suspendOnError
 import com.skydoves.sandwich.suspendOnFailure
 import com.skydoves.sandwich.suspendOnSuccess

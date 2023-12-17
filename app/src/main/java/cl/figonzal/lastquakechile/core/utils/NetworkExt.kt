@@ -8,7 +8,7 @@ import cl.figonzal.lastquakechile.core.data.remote.ApiError
 import cl.figonzal.lastquakechile.quake_feature.data.remote.QuakeAPI
 import cl.figonzal.lastquakechile.reports_feature.data.remote.ReportAPI
 import com.skydoves.sandwich.StatusCode
-import com.skydoves.sandwich.adapters.ApiResponseCallAdapterFactory
+import com.skydoves.sandwich.retrofit.adapters.ApiResponseCallAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

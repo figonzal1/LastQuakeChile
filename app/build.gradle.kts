@@ -119,35 +119,33 @@ android {
 dependencies {
 
     implementation(fileTree("libs") { include(listOf("*.jar")) })
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.10")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.21")
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
 
-    implementation("androidx.recyclerview:recyclerview:1.3.0")
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
-    implementation("androidx.fragment:fragment-ktx:1.5.7")
+    implementation("androidx.fragment:fragment-ktx:1.6.2")
     implementation("androidx.activity:activity-ktx:1.7.2")
 
     implementation("com.google.android.material:material:1.9.0")//Material design
     implementation("androidx.core:core-splashscreen:1.0.1") //splash screen
 
     //GLIDE
-    implementation("com.github.bumptech.glide:glide:4.15.1")
-    ksp("com.github.bumptech.glide:ksp:4.15.1")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    ksp("com.github.bumptech.glide:ksp:4.16.0")
 
     //Life cycle components
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
-    implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
 
     // Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
     //Dependency injection KOIN
-    val koinVersion = "3.4.1"
-    implementation("io.insert-koin:koin-core:$koinVersion")
+    val koinVersion = "3.5.0"
     implementation("io.insert-koin:koin-android:$koinVersion")
 
     //Appodeal
@@ -155,15 +153,15 @@ dependencies {
 
     //Google Play
     implementation("com.google.android.play:app-update-ktx:2.1.0")
-    implementation("com.google.android.gms:play-services-ads:22.1.0")
+    implementation("com.google.android.gms:play-services-ads:22.6.0")
     implementation("com.google.android.play:review-ktx:2.0.1")
 
     //Google Maps
     // KTX for the Maps SDK for Android
     implementation("com.google.maps.android:maps-ktx:3.4.0")
-    implementation("com.google.android.gms:play-services-maps:18.1.0")
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
 
-    implementation("androidx.preference:preference-ktx:1.2.0") //preference
+    implementation("androidx.preference:preference-ktx:1.2.1") //preference
 
     //Room components
     implementation("androidx.room:room-ktx:2.5.1")
@@ -176,14 +174,15 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
 
     //SANDWICH
-    implementation("com.github.skydoves:sandwich:1.3.7")
+    implementation("com.github.skydoves:sandwich:2.0.5")
+    implementation("com.github.skydoves:sandwich-retrofit:2.0.5")
 
     //MOSHI
     implementation("com.squareup.moshi:moshi:1.15.0")
     ksp("com.squareup.moshi:moshi-kotlin-codegen:1.15.0")
 
     //Firebase BOM
-    implementation(platform("com.google.firebase:firebase-bom:31.2.1"))
+    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-crashlytics-ktx")
     implementation("com.google.firebase:firebase-messaging-ktx")
@@ -199,17 +198,17 @@ dependencies {
     testImplementation("io.insert-koin:koin-test-junit4:$koinVersion")
     testImplementation("androidx.arch.core:core-testing:2.2.0")
     testImplementation("androidx.test.ext:truth:1.5.0")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
     testImplementation("app.cash.turbine:turbine:0.13.0")
 
     // Instrumented Unit Tests
     androidTestImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test:runner:1.5.2")
     androidTestImplementation("androidx.test:rules:1.5.0")
-    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
+    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
     androidTestImplementation("androidx.arch.core:core-testing:2.2.0")
     androidTestImplementation("androidx.test.ext:junit-ktx:1.1.5")
-    androidTestImplementation("androidx.room:room-testing:2.5.1")
+    androidTestImplementation("androidx.room:room-testing:2.6.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation("androidx.test.espresso:espresso-contrib:3.5.1") {
         exclude(module = "protobuf-lite")
@@ -221,11 +220,11 @@ dependencies {
     androidTestImplementation("io.insert-koin:koin-test-junit4:$koinVersion")
 
     //Debug dependencies
-    debugImplementation("androidx.fragment:fragment-testing-manifest:1.6.0")
-    debugImplementation("androidx.fragment:fragment-testing:1.6.0")
+    debugImplementation("androidx.fragment:fragment-testing-manifest:1.6.2")
+    debugImplementation("androidx.fragment:fragment-testing:1.6.2")
     debugImplementation("com.squareup.leakcanary:leakcanary-android:2.11")
 
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
 }
 
 sonarqube {
