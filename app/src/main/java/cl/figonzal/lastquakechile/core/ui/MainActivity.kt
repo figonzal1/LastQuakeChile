@@ -20,17 +20,22 @@ import cl.figonzal.lastquakechile.core.utils.views.handleShortcuts
 import cl.figonzal.lastquakechile.core.utils.views.loadImage
 import cl.figonzal.lastquakechile.databinding.ActivityMainBinding
 import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.review.ReviewManagerFactory
+import com.google.android.ump.ConsentInformation
+import com.google.android.ump.ConsentRequestParameters
+import com.google.android.ump.UserMessagingPlatform
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
 import org.koin.androidx.fragment.android.setupKoinFragmentFactory
 import timber.log.Timber
+import java.util.concurrent.atomic.AtomicBoolean
 
 
 class MainActivity : AppCompatActivity() {
@@ -41,6 +46,10 @@ class MainActivity : AppCompatActivity() {
 
     private val crashlytics = Firebase.crashlytics
     private val fcm = Firebase.messaging
+
+
+    private lateinit var consentInformation: ConsentInformation
+    private var isMobileAdsInitializeCalled = AtomicBoolean(false)
 
     @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,15 +65,7 @@ class MainActivity : AppCompatActivity() {
         val sharedPrefUtil = SharedPrefUtil(applicationContext)
 
         //Night mode
-        when {
-            Build.VERSION.SDK_INT < Build.VERSION_CODES.Q -> {
-                Timber.d("ANDROID_VERSION < Q: ${Build.VERSION.SDK_INT}")
-                lifecycle.addObserver(NightModeService(this, crashlytics))
-            }
-            else -> {
-                Timber.d("ANDROID_VERSION > Q: ${Build.VERSION.SDK_INT}")
-            }
-        }
+        checkNighMode()
 
         //GP services
         lifecycle.addObserver(GooglePlayService(this, crashlytics))
@@ -82,6 +83,11 @@ class MainActivity : AppCompatActivity() {
         //Firebase services
         getFirebaseToken()
 
+        checkConsent()
+        if (consentInformation.canRequestAds()) {
+            initializeMobileAdsSdk()
+        }
+
         //Ads
         adView = startAds(binding.adViewContainer)
 
@@ -94,6 +100,19 @@ class MainActivity : AppCompatActivity() {
         setToolbarViewPagerTabs()
 
         loadImage(R.drawable.foto, binding.toolbarLayout.toolbarImage)
+    }
+
+    private fun checkNighMode() {
+        when {
+            Build.VERSION.SDK_INT < Build.VERSION_CODES.Q -> {
+                Timber.d("ANDROID_VERSION < Q: ${Build.VERSION.SDK_INT}")
+                lifecycle.addObserver(NightModeService(this, crashlytics))
+            }
+
+            else -> {
+                Timber.d("ANDROID_VERSION > Q: ${Build.VERSION.SDK_INT}")
+            }
+        }
     }
 
     private fun setUpNotificationService(sharedPrefUtil: SharedPrefUtil) {
@@ -142,16 +161,19 @@ class MainActivity : AppCompatActivity() {
                         hideAdBanner(true)
                         tab.contentDescription = getString(R.string.cd_ad_pager)
                     }
+
                     1 -> {
                         tab.setIcon(R.drawable.quakes_24dp)
                         tab.contentDescription =
                             getString(R.string.cd_quakes_pager)
                     }
+
                     2 -> {
                         tab.setIcon(R.drawable.round_place_24)
                         hideAdBanner(true)
                         tab.contentDescription = getString(R.string.cd_map_pager)
                     }
+
                     3 -> {
                         tab.setIcon(R.drawable.round_analytics_24)
                         tab.contentDescription =
@@ -196,6 +218,59 @@ class MainActivity : AppCompatActivity() {
                 )
             tabLayout.requestLayout()
         }
+    }
+
+    private fun checkConsent() {
+
+        val params = ConsentRequestParameters
+            .Builder()
+            .setTagForUnderAgeOfConsent(false)
+            .build()
+
+        consentInformation = UserMessagingPlatform.getConsentInformation(this)
+        consentInformation.requestConsentInfoUpdate(
+            this,
+            params,
+            {
+                UserMessagingPlatform.loadAndShowConsentFormIfRequired(
+                    this@MainActivity
+                ) { loadAndShowError ->
+                    // Consent gathering failed.
+                    Timber.w(
+                        String.format(
+                            "%s: %s",
+                            loadAndShowError?.errorCode,
+                            loadAndShowError?.message
+                        )
+                    )
+                    // Consent has been gathered.
+                    if (consentInformation.canRequestAds()) {
+                        initializeMobileAdsSdk()
+                    }
+                }
+            },
+            { requestConsentError ->
+                // Consent gathering failed.
+                Timber.w(
+                    String.format(
+                        "%s: %s",
+                        requestConsentError.errorCode,
+                        requestConsentError.message
+                    )
+                )
+            })
+    }
+
+    private fun initializeMobileAdsSdk() {
+        if (isMobileAdsInitializeCalled.getAndSet(true)) {
+            return
+        }
+
+        // Initialize the Google Mobile Ads SDK.
+        MobileAds.initialize(this)
+
+        //Ads
+        adView = startAds(binding.adViewContainer)
     }
 
     private fun hideAdBanner(hide: Boolean) {

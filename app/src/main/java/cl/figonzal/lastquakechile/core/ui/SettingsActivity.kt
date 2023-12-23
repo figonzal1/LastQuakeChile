@@ -30,6 +30,8 @@ import cl.figonzal.lastquakechile.core.services.notifications.utils.subscribedTo
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.views.toast
 import cl.figonzal.lastquakechile.databinding.SettingsActivityBinding
+import com.google.android.ump.ConsentInformation
+import com.google.android.ump.UserMessagingPlatform
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
@@ -82,6 +84,8 @@ class SettingsActivity : AppCompatActivity() {
 
                 configNightMode()
 
+                contactAdsPolicy()
+
                 configMinimumMagnitude()
 
                 configPrivacyPolicy()
@@ -129,6 +133,30 @@ class SettingsActivity : AppCompatActivity() {
                     subscribedToQuakes(false, sharedPrefUtil, fcm, crashlytics)
                     alertDependencies(false)
                 }
+            }
+        }
+
+        private fun contactAdsPolicy() {
+            val consentInformation = UserMessagingPlatform.getConsentInformation(requireContext())
+
+            val isPrivacyOptionsRequired = consentInformation.privacyOptionsRequirementStatus ==
+                    ConsentInformation.PrivacyOptionsRequirementStatus.REQUIRED
+
+            if (isPrivacyOptionsRequired) {
+                val adsCategory: PreferenceCategory? =
+                    findPreference(getString(R.string.ads_category_key))
+
+                adsCategory?.isVisible = true
+
+                findPreference<Preference>(getString(R.string.ads_policy_key))?.setOnPreferenceClickListener {
+                    UserMessagingPlatform.showPrivacyOptionsForm(requireActivity()) { formError ->
+                        formError?.let {
+                            Timber.w("Privacy options form: ${it.message}")
+                        }
+                    }
+                    true
+                }
+
             }
         }
 

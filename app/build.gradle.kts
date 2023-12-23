@@ -28,13 +28,12 @@ android {
         }
     }
 
-    compileSdk = 33
-    buildToolsVersion = "33.0.2"
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "cl.figonzal.lastquakechile"
         minSdk = 23
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 47
         versionName = "1.7.6"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -98,6 +97,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
     flavorDimensions += listOf("version")
     productFlavors {
@@ -155,6 +155,7 @@ dependencies {
     implementation("com.google.android.play:app-update-ktx:2.1.0")
     implementation("com.google.android.gms:play-services-ads:22.6.0")
     implementation("com.google.android.play:review-ktx:2.0.1")
+    implementation("com.google.android.ump:user-messaging-platform:2.1.0")
 
     //Google Maps
     // KTX for the Maps SDK for Android

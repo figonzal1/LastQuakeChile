@@ -65,6 +65,22 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:key="@string/ads_category_key"
+        app:icon="@drawable/round_policy_24"
+        app:iconSpaceReserved="false"
+        app:isPreferenceVisible="false"
+        app:title="@string/ads_title"
+        tools:isPreferenceVisible="true">
+
+        <Preference
+            android:key="@string/ads_policy_key"
+            app:iconSpaceReserved="true"
+            app:summary="@string/conset_privacy_preference_subtitle"
+            app:title="@string/consent_privacy_preference_title" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         app:icon="@drawable/round_contact_support_24"
         app:iconSpaceReserved="true"
         app:title="@string/about">

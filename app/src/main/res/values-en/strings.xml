@@ -30,9 +30,19 @@
     <string name="night_mode_key_toast_on">Night mode on</string>
     <string name="alert_pref_summary_off">Disabled</string>
     <string name="alert_pref_title">Notifications</string>
+    <string name="ads_title">Ads</string>
     <string name="alert_pref_title_switch">Quake alerts</string>
     <string name="alert_pref_summary_on">Enabled</string>
     <string name="alert_pref_summary">Receive quakes notifications</string>
+
+
+    Expand Down
+
+
+    Expand Up
+
+    @@ -142,5 +143,7 @@
+
     <string name="night_mode_manual_pref_summary_off">Disabled</string>
     <string name="night_mode_manual_pref_summary_on">Enabled</string>
     <string name="night_mode_pref_summary">Save battery and avoid your eyestrain</string>
@@ -142,5 +152,7 @@
     <string name="notification_permission_off">You will not receive alerts</string>
     <string name="notification_permission_on">You will receive alerts</string>
     <string name="permission_totally_disabled">Permission disabled, reinstall to enabled it</string>
+    <string name="consent_privacy_preference_title">Consent Policy</string>
+    <string name="conset_privacy_preference_subtitle">Personalized advertising</string>
 
 </resources>

@@ -1,24 +1,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-
     //TODO: Cambiar por figonzal
     <string name="API_URL" translatable="false">https://lqch.figonzal.cl/</string>
-
     <string name="ROOM_DB_NAME" translatable="false">lqch_database</string>
     <string name="DEEP_LINK" translatable="false">https://lastquakechile.page.link/lqch</string>
     <string name="CRONITOR_STATUS" translatable="false">https://lqch.cronitorstatus.com/</string>
     <string name="PRIVACY_POLICY_URL_EN" translatable="false">https://github.com/figonzal1/LastQuakeChile/blob/main/privacy_policy_en.md</string>
     <string name="PRIVACY_POLICY_URL_ES" translatable="false">https://github.com/figonzal1/LastQuakeChile/blob/main/privacy_policy_es.md</string>
-
     <string name="mail_to_felipe" translatable="false">felipe.gonzalezalarcon94@gmail.com</string>
-
     <!-- TOOLBAR Menu STRINGS -->
     <string name="menu_settings">Settings</string>
-
     <!--TABS -->
     <string name="tab_map">Map</string>
     <string name="tab_list">Quakes</string>
     <string name="tab_reports">Reports</string>
-
     <!-- SHARE TEXT -->
     <string name="SHARE_TITLE">Seismic alert</string>
     <string name="SHARE_SUB_TITLE">Seismological information</string>
@@ -28,13 +22,11 @@
     <string name="SHARE_DEPTH">Depth</string>
     <string name="SHARE_GEO_REF">Georeference</string>
     <string name="SHARE_DOWNLOAD_MSG"><![CDATA[Download the app here ->]]></string>
-
     <!-- FIREBASE strings -->
     <string name="firebase_channel_name_quakes">Quake alerts</string>
     <string name="firebase_channel_description_quakes">Receives quake alerts</string>
     <string name="firebase_pref_key_alert_on">Alerts enabled</string>
     <string name="firebase_pref_key_alert_off">Alerts disabled</string>
-
     <!-- ROOT PREFERENCES -->
     <string name="night_mode_key" translatable="false">pref_night_mode</string>
     <string name="high_priority_key" translatable="false">high_priority_notifications</string>
@@ -42,13 +34,23 @@
     <string name="minimum_magnitude_key" translatable="false">minimum_magnitude</string>
     <string name="night_mode_category_key" translatable="false">nigh_mode_pref_category</string>
     <string name="notifications_category_key" translatable="false">notifications_pref_category</string>
+    <string name="ads_category_key" translatable="false">ads_pref_category</string>
+    <string name="ads_policy_key" translatable="false">policy_pref_category</string>
     <string name="firebase_pref_key" translatable="false">pref_suscrito_quake</string>
     <string name="version_key" translatable="false">version</string>
     <string name="contact_key" translatable="false">contact_email</string>
+
+
+    Expand Down
+
+
+    Expand Up
+
+    @@ -84,6 +86,7 @@
+
     <string name="privacy_policy_key" translatable="false">privacy_policy</string>
     <string name="shared_pref_launch_counter" translatable="false">launch_count</string>
     <string name="shared_pref_install_date" translatable="false">install_date</string>
-
     <!-- STRINGS DE LAYOUTS-->
     <string name="cd_paint_circle">Quake magnitude color</string>
     <string name="cd_toolbar_image">Toolbar background image</string>
@@ -84,16 +86,25 @@
     <string name="top_cities">Top cities with the most earthquakes</string>
     <string name="alert_pref_summary">Receive quakes notifications</string>
     <string name="alert_pref_title">Notifications</string>
+    <string name="ads_title">Ads</string>
     <string name="alert_pref_title_switch">Quake alerts</string>
     <string name="alert_pref_summary_on">Enabled</string>
     <string name="alert_pref_summary_off">Disabled</string>
+
+
+    Expand Down
+
+
+    Expand Up
+
+    @@ -182,18 +185,20 @@
+
     <string name="night_mode_key_toast_on">Night mode on</string>
     <string name="night_mode_key_toast_off">Night mode off</string>
     <string name="night_mode_pref_summary">Save battery and avoid your eyestrain</string>
     <string name="night_mode_pref_title">Night mode</string>
     <string name="night_mode_manual_pref_summary_on">Enabled</string>
     <string name="night_mode_manual_pref_summary_off">Disabled</string>
-
     <string name="JAN">January</string>
     <string name="FEB">February</string>
     <string name="MAR">March</string>
@@ -182,18 +193,20 @@
     <string name="permission_totally_disabled">Permission disabled, reinstall to enabled it</string>
     <string name="tools_ad_title" translatable="false">AD TITLE</string>
     <string name="tools_ad_description" translatable="false">AD DESCRIPTION</string>
-    <string name="tools_city_name">City Name</string>
-    <string name="tools_datetime">XX d X h</string>
-    <string name="tools_geo_reference">XX km al XX de XX</string>
-    <string name="tools_magnitude">X.X</string>
-    <string name="tools_full_datetime">XXXX-XX-XX XX:XX:XX</string>
-    <string name="tools_gms">XX.X° X.X\' X.X\" X</string>
-    <string name="tools_epicentre">XX,XKm</string>
-    <string name="tools_scale">Magnitud local (Ml)</string>
-    <string name="tools_report_title">Mes Año</string>
-    <string name="tools_value">XX</string>
-    <string name="tools_changelog_version">vX.X</string>
-    <string name="tools_changelog_items">-Mejoras, novedades</string>
+    <string name="tools_city_name" translatable="false">City Name</string>
+    <string name="tools_datetime" translatable="false">XX d X h</string>
+    <string name="tools_geo_reference" translatable="false">XX km al XX de XX</string>
+    <string name="tools_magnitude" translatable="false">X.X</string>
+    <string name="tools_full_datetime" translatable="false">XXXX-XX-XX XX:XX:XX</string>
+    <string name="tools_gms" translatable="false">XX.X° X.X\' X.X\" X</string>
+    <string name="tools_epicentre" translatable="false">XX,XKm</string>
+    <string name="tools_scale" translatable="false">Magnitud local (Ml)</string>
+    <string name="tools_report_title" translatable="false">Mes Año</string>
+    <string name="tools_value" translatable="false">XX</string>
+    <string name="tools_changelog_version" translatable="false">vX.X</string>
+    <string name="tools_changelog_items" translatable="false">-Mejoras, novedades</string>
+    <string name="consent_privacy_preference_title">Consent Policy</string>
+    <string name="conset_privacy_preference_subtitle">Personalized advertising</string>
 
 
 </resources>
