@@ -36,7 +36,7 @@
             app:title="@string/high_priority_title" />
 
         <EditTextPreference
-            app:defaultValue="5.0"
+            app:defaultValue="1.0"
             app:dialogMessage="@string/min_magnitude_dialog_message"
             app:dialogTitle="@string/min_magnitude_dialog_title"
             app:iconSpaceReserved="true"
