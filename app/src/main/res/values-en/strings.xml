@@ -139,7 +139,7 @@
     <string name="min_magnitude_dialog_title">Minimum magnitude</string>
     <string name="min_magnitude_dialog_message">Earthquakes greater than … \nExample: 5.6, 3.5, 2.9, etc</string>
     <string name="activate_button">Activate</string>
-    <string name="alert_permission_description">This device is running Android 13. To receive earthquake alerts it is required to activate the permission for notifications.</string>
+    <string name="alert_permission_description">This device requires permissions for earthquake alerts. To receive them, activate the permission for notifications.</string>
     <string name="alert_permission_title">Permission for earthquake alerts</string>
     <string name="privacy_policy">Privacy policy</string>
     <string name="details">Details</string>

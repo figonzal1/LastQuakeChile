@@ -139,7 +139,7 @@
     <string name="min_magnitude_dialog_title">Magnitud mínima</string>
     <string name="min_magnitude_dialog_message">Sismos mayores que … \nEjemplo: 5.6, 3.5, 2.9, etc.</string>
     <string name="activate_button">Activar</string>
-    <string name="alert_permission_description">Este dispositivo cuenta con Android 13. Para recibir alertas de sismos se requiere activar el permiso para notificaciones</string>
+    <string name="alert_permission_description">Este dispositivo requiere permisos para las alertas de sismos. Para recibirlas, active el permiso para notificaciones</string>
     <string name="alert_permission_title">Permiso para alertas sísmicas</string>
     <string name="privacy_policy">Política de privacidad</string>
     <string name="details">Detalles</string>

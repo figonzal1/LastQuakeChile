@@ -65,6 +65,7 @@ class SettingsActivity : AppCompatActivity() {
     //Settings Fragment
     class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeListener {
 
+        private val minMagnitude: String = "1.0"
         private val fcm = Firebase.messaging
         private val crashlytics = Firebase.crashlytics
 
@@ -220,7 +221,7 @@ class SettingsActivity : AppCompatActivity() {
 
             findPreference<EditTextPreference>(getString(R.string.minimum_magnitude_key))?.apply {
                 val value =
-                    sharedPrefUtil.getData(getString(R.string.minimum_magnitude_key), "5.0")
+                    sharedPrefUtil.getData(getString(R.string.minimum_magnitude_key), minMagnitude)
                 summary = String.format(">=%s", value)
 
                 setOnBindEditTextListener {
@@ -314,7 +315,7 @@ class SettingsActivity : AppCompatActivity() {
                 val commandPreference = findPreference<Preference>(key)
 
                 val minimumValueSaved = preferences?.getString(
-                    getString(R.string.minimum_magnitude_key), "5.0"
+                    getString(R.string.minimum_magnitude_key), minMagnitude
                 )
 
                 commandPreference?.summary =
