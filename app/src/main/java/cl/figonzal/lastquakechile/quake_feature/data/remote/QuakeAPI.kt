@@ -8,7 +8,7 @@ import retrofit2.http.Query
 /**
  * Interface used for retrofit
  */
-interface QuakeAPI {
+fun interface QuakeAPI {
 
     @GET("/api/v1/quakes")
     suspend fun listQuakes(

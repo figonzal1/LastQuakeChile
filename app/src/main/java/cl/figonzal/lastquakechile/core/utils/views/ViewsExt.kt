@@ -71,6 +71,7 @@ fun Fragment.configOptionsMenu(
                     refreshItem.isVisible = false
                     layerItem.isVisible = true
                 }
+
                 else -> {
                     refreshItem.isVisible = false
                     layerItem.isVisible = false
@@ -91,6 +92,7 @@ fun Fragment.configOptionsMenu(
                     }
 
                 }
+
                 R.id.settings_menu -> {
                     Intent(requireActivity(), SettingsActivity::class.java).apply {
                         startActivity(this)
@@ -156,6 +158,7 @@ fun TextView.setScale(scale: String) {
             QUAKE_DETAILS_SCALE_FORMAT,
             context.getString(R.string.moment_magnitude)
         )
+
         else -> String.format(
             QUAKE_DETAILS_SCALE_FORMAT,
             context.getString(R.string.local_magnitude)
@@ -203,9 +206,11 @@ fun TextView.timeToText(quake: Quake, isShortVersion: Boolean = false) {
         days != null && days == 0L -> {
             calculateTextViewBelowDay(this.context, timeMap, isShortVersion)
         }
+
         days != null && days > 0 -> {
             calculateTextViewAboveDay(this.context, timeMap, isShortVersion)
         }
+
         else -> ""
     }
 }
@@ -225,23 +230,27 @@ private fun calculateTextViewAboveDay(
                 QUAKETIME_D_FORMAT,
                 days
             )
+
             else -> String.format(
                 context.getString(R.string.quake_time_day_info_windows),
                 days
             )
         }
+
         hour != null && hour >= 1 -> when {
             isShortVersion -> String.format(
                 QUAKETIME_DH_FORMAT,
                 days,
                 hour / 24
             )
+
             else -> String.format(
                 context.getString(R.string.quake_time_day_hour_info_windows),
                 days,
                 hour / 24
             )
         }
+
         else -> ""
     }
 }
@@ -261,20 +270,24 @@ private fun calculateTextViewBelowDay(
             isShortVersion -> String.format(QUAKETIME_H_FORMAT, hour)
             else -> String.format(context.getString(R.string.quake_time_hour_info_windows), hour)
         }
+
         else -> when {
             min != null && min < 1 -> when {
                 isShortVersion -> String.format(
                     QUAKETIME_S_FORMAT, seg
                 )
+
                 else -> String.format(
                     context.getString(R.string.quake_time_second_info_windows), seg
                 )
             }
+
             else -> when {
                 isShortVersion -> String.format(
                     QUAKETIME_M_FORMAT,
                     min
                 )
+
                 else -> String.format(
                     context.getString(R.string.quake_time_minute_info_windows),
                     min
@@ -405,10 +418,12 @@ fun Fragment.showServerApiError(apiError: ApiError, callback: (Int, String) -> U
             toast(R.string.io_error)
             callback(R.drawable.round_wifi_off_24, getString(R.string.io_error))
         }
+
         ServerError, TimeoutError -> {
             toast(R.string.service_error)
             callback(R.drawable.round_router_24, getString(R.string.service_error))
         }
+
         NoMoreData -> toast(R.string.no_more_data)
         EmptyList -> callback(R.drawable.round_outlined_flag_24, getString(R.string.empty_list))
         else -> {
@@ -452,6 +467,7 @@ fun BottomSheetBehavior<MaterialCardView>.configBottomSheetCallback(
             BottomSheetBehavior.STATE_EXPANDED -> {
                 // Nothing to do here
             }
+
             else -> p0.adjustMapPadding(binding)
         }
     }
@@ -476,15 +492,15 @@ fun ViewGroup.getViewBottomHeight(
     targetViewId: Int,
     behavior: BottomSheetBehavior<MaterialCardView>?
 ) {
-    apply {
-        viewTreeObserver.addOnGlobalLayoutListener(
-            object : ViewTreeObserver.OnGlobalLayoutListener {
-                override fun onGlobalLayout() {
-                    viewTreeObserver.removeOnGlobalLayoutListener(this)
-                    behavior?.peekHeight =
-                        findViewById<View>(targetViewId).bottom + 20f.toDips(resources).toInt()
-                }
-            })
+
+    val callback = object : ViewTreeObserver.OnGlobalLayoutListener {
+        override fun onGlobalLayout() {
+            viewTreeObserver.removeOnGlobalLayoutListener(this)
+            behavior?.peekHeight =
+                findViewById<View>(targetViewId).bottom + 20f.toDips(resources).toInt()
+        }
     }
+
+    viewTreeObserver.addOnGlobalLayoutListener(callback)
 }
 

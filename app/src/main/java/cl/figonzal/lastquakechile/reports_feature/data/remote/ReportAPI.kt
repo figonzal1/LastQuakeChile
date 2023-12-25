@@ -8,7 +8,7 @@ import retrofit2.http.Query
 /**
  * Interface used for retrofit
  */
-interface ReportAPI {
+fun interface ReportAPI {
 
     @GET("/api/v1/reports")
     suspend fun listReports(

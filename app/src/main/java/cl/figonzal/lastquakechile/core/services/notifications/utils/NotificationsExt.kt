@@ -44,6 +44,7 @@ fun Fragment.handleCvAlertPermission(
                 toast(R.string.notification_permission_on)
                 sharedPrefUtil.saveData(SHARED_PREF_PERMISSION_ALERT_ANDROID_13, true)
             }
+
             else -> {
                 Timber.d("Alert permission not granted")
                 toast(R.string.notification_permission_off)
@@ -94,6 +95,7 @@ fun launchRequestPermission(
 
             hideCardView()
         }
+
         else -> requestPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
     }
 }
@@ -133,9 +135,9 @@ fun subscribedToQuakes(
         isSubscribed -> {
 
             messaging.subscribeToTopic(FIREBASE_TOPIC_CHANNEL)
-                .addOnCompleteListener { task: Task<Void?> ->
+                .addOnCompleteListener {
                     when {
-                        task.isSuccessful -> {
+                        it.isSuccessful -> {
 
                             with(true) {
                                 sharedPrefUtil.saveData(ROOT_PREF_SUBSCRIPTION, this)
@@ -147,6 +149,7 @@ fun subscribedToQuakes(
                     }
                 }
         }
+
         else -> {
             messaging.unsubscribeFromTopic(FIREBASE_TOPIC_CHANNEL)
                 .addOnCompleteListener {
