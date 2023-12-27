@@ -31,7 +31,7 @@
     <string name="night_mode_key" translatable="false">pref_night_mode</string>
     <string name="high_priority_key" translatable="false">high_priority_notifications</string>
     <string name="quake_preliminary_key" translatable="false">quake_preliminary</string>
-    <string name="minimum_magnitude_key" translatable="false">minimum_magnitude</string>
+    <string name="min_magnitude_alert_key" translatable="false">min_magnitude_alert</string>
     <string name="night_mode_category_key" translatable="false">nigh_mode_pref_category</string>
     <string name="notifications_category_key" translatable="false">notifications_pref_category</string>
     <string name="ads_category_key" translatable="false">ads_pref_category</string>

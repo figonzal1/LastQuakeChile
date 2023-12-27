@@ -26,6 +26,7 @@ import kotlin.random.asKotlinRandom
 
 const val SHARED_PREF_PERMISSION_ALERT_ANDROID_13 = "alert_permission_granted"
 private const val SHARED_HIDE_ALERT_PERMISSION_CV = "hide_alert_cv"
+private const val MIN_MAGNITUDE_ALERT = "1.0"
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 fun Fragment.handleCvAlertPermission(
@@ -253,7 +254,7 @@ fun getMinMagnitude(
 
     val savedMinMag = sharedPrefUtil.getData(
         minMagnitudeKey,
-        "5.0"
+        MIN_MAGNITUDE_ALERT
     ).toString()
 
     Timber.d("$minMagnitudeKey: ${savedMinMag.toDouble()}")

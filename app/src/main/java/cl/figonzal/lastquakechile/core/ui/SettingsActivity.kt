@@ -219,9 +219,12 @@ class SettingsActivity : AppCompatActivity() {
 
         private fun configMinimumMagnitude() {
 
-            findPreference<EditTextPreference>(getString(R.string.minimum_magnitude_key))?.apply {
+            findPreference<EditTextPreference>(getString(R.string.min_magnitude_alert_key))?.apply {
                 val value =
-                    sharedPrefUtil.getData(getString(R.string.minimum_magnitude_key), minMagnitude)
+                    sharedPrefUtil.getData(
+                        getString(R.string.min_magnitude_alert_key),
+                        minMagnitude
+                    )
                 summary = String.format(">=%s", value)
 
                 setOnBindEditTextListener {
@@ -311,18 +314,18 @@ class SettingsActivity : AppCompatActivity() {
 
         private fun handleMinimumMagnitude(preferences: SharedPreferences?, key: String?) {
 
-            if (key == getString(R.string.minimum_magnitude_key)) {
+            if (key == getString(R.string.min_magnitude_alert_key)) {
                 val commandPreference = findPreference<Preference>(key)
 
                 val minimumValueSaved = preferences?.getString(
-                    getString(R.string.minimum_magnitude_key), minMagnitude
+                    getString(R.string.min_magnitude_alert_key), minMagnitude
                 )
 
                 commandPreference?.summary =
                     String.format(">=%s", minimumValueSaved)
 
                 minimumValueSaved?.let {
-                    sharedPrefUtil.saveData(getString(R.string.minimum_magnitude_key), it)
+                    sharedPrefUtil.saveData(getString(R.string.min_magnitude_alert_key), it)
                 }
             }
         }
@@ -338,7 +341,7 @@ class SettingsActivity : AppCompatActivity() {
             findPreference<SwitchPreferenceCompat>(getString(R.string.high_priority_key))?.also {
                 it.isEnabled = isEnabled
             }
-            findPreference<Preference>(getString(R.string.minimum_magnitude_key))?.also {
+            findPreference<Preference>(getString(R.string.min_magnitude_alert_key))?.also {
                 it.isEnabled = isEnabled
             }
         }

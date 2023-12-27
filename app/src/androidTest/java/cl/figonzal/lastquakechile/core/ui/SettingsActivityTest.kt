@@ -140,10 +140,10 @@ class SettingsActivityTest {
         onView(
             allOf(
                 withId(android.R.id.summary),
-                withText(">=5.0"),
+                withText(">=1.0"),
                 isDisplayed()
             )
-        ).check(matches(withText(">=5.0")))
+        ).check(matches(withText(">=1.0")))
 
         Thread.sleep(2000)
     }
