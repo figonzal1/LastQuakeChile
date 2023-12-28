@@ -17,18 +17,23 @@ default_platform(:android)
 
 platform :android do
 
-  desc "Build debug and test APK"
-    lane :build do
-      build_android_app(task: "clean")
-      build_android_app(task: "test")
-      #build_android_app(
-      #    task: 'assemble',
-      #    build_type: 'Debug'
-      #    )
-      #build_android_app(
-      #    task: 'assemble',
-      #    build_type: 'AndroidTest'
-      #)
+  desc "Unit testing"
+      lane :unit_test do
+        build_android_app(task: "clean")
+        build_android_app(task: "test")
+  end
+
+  desc "Instrumentation testing"
+      lane :ui_test do
+        build_android_app(task: "clean")
+        build_android_app(
+          task: 'assemble',
+          build_type: 'DevDebug'
+        )
+        build_android_app(
+          task: 'connected',
+          build_type: 'DevDebug'
+        )
   end
 
   desc "Build beta version"
@@ -47,7 +52,7 @@ platform :android do
       )
   end
 
-  desc "Deploy a new version to the Google Play"
+  desc "Deploy Beta to the Google Play"
     lane :beta_googleplay do
       upload_to_play_store(
           release_status: 'draft',
@@ -57,4 +62,32 @@ platform :android do
           skip_upload_images: true
       )
   end
+
+  desc "Build production version"
+    lane :prod do
+      build_android_app(task: "clean")
+      build_android_app(
+        task: 'bundle',
+        flavor: 'prod',
+        build_type: 'Release',
+        properties: {
+            "android.injected.signing.store.file" => ENV['STORE_FILE'],
+            "android.injected.signing.store.password" => ENV['STORE_PASSWORD'],
+            "android.injected.signing.key.alias" => ENV['KEY_ALIAS'],
+            "android.injected.signing.key.password" => ENV['KEY_PASSWORD'],
+            }
+      )
+  end
+
+  desc "Deploy Production to the Google Play"
+    lane :prod_googleplay do
+        upload_to_play_store(
+            release_status: 'draft',
+            track: 'production',
+            aab: 'app/build/outputs/bundle/prodRelease/app-prod-release.aab',
+            skip_upload_screenshots: true,
+            skip_upload_images: true
+    )
+  end
+
 end
