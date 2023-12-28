@@ -25,6 +25,7 @@ import androidx.preference.SwitchPreferenceCompat
 import cl.figonzal.lastquakechile.BuildConfig
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.services.notifications.QuakeNotificationImpl
+import cl.figonzal.lastquakechile.core.services.notifications.utils.MIN_MAGNITUDE_ALERT
 import cl.figonzal.lastquakechile.core.services.notifications.utils.SHARED_PREF_PERMISSION_ALERT_ANDROID_13
 import cl.figonzal.lastquakechile.core.services.notifications.utils.subscribedToQuakes
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
@@ -65,7 +66,6 @@ class SettingsActivity : AppCompatActivity() {
     //Settings Fragment
     class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeListener {
 
-        private val minMagnitude: String = "1.0"
         private val fcm = Firebase.messaging
         private val crashlytics = Firebase.crashlytics
 
@@ -223,7 +223,7 @@ class SettingsActivity : AppCompatActivity() {
                 val value =
                     sharedPrefUtil.getData(
                         getString(R.string.min_magnitude_alert_key),
-                        minMagnitude
+                        MIN_MAGNITUDE_ALERT
                     )
                 summary = String.format(">=%s", value)
 
@@ -318,7 +318,7 @@ class SettingsActivity : AppCompatActivity() {
                 val commandPreference = findPreference<Preference>(key)
 
                 val minimumValueSaved = preferences?.getString(
-                    getString(R.string.min_magnitude_alert_key), minMagnitude
+                    getString(R.string.min_magnitude_alert_key), MIN_MAGNITUDE_ALERT
                 )
 
                 commandPreference?.summary =

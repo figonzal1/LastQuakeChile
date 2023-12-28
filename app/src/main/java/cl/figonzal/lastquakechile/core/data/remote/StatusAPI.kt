@@ -17,12 +17,12 @@ sealed class StatusAPI<T>(
  * Sealed class for api error response
  */
 sealed class ApiError {
-    object NoWifiError : ApiError()
-    object IoError : ApiError()
-    object HttpError : ApiError()
-    object ServerError : ApiError()
-    object UnknownError : ApiError()
-    object TimeoutError : ApiError()
-    object NoMoreData : ApiError()
-    object EmptyList : ApiError()
+    data object NoWifiError : ApiError()
+    data object IoError : ApiError()
+    data object HttpError : ApiError()
+    data object ServerError : ApiError()
+    data object UnknownError : ApiError()
+    data object TimeoutError : ApiError()
+    data object NoMoreData : ApiError()
+    data object EmptyList : ApiError()
 }

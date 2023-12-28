@@ -15,6 +15,11 @@ internal const val FIREBASE_TOPIC_CHANNEL = "quakes_v2"
 
 //Other constants
 internal const val RANDOM_CHANNEL_ID = "random_channel_id"
+const val MIN_MAGNITUDE_ALERT = "1.0"
+
+//ANDROID > 13 permission request for notifications
+internal const val SHARED_PREF_PERMISSION_ALERT_ANDROID_13 = "alert_permission_granted"
+internal const val SHARED_HIDE_ALERT_PERMISSION_CV = "hide_alert_cv"
 
 //JSON KEYS
 const val QUAKE = "quake"

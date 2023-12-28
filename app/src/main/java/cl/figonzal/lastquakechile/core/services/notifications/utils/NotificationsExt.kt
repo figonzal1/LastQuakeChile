@@ -24,9 +24,6 @@ import timber.log.Timber
 import java.security.SecureRandom
 import kotlin.random.asKotlinRandom
 
-const val SHARED_PREF_PERMISSION_ALERT_ANDROID_13 = "alert_permission_granted"
-private const val SHARED_HIDE_ALERT_PERMISSION_CV = "hide_alert_cv"
-private const val MIN_MAGNITUDE_ALERT = "1.0"
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 fun Fragment.handleCvAlertPermission(
