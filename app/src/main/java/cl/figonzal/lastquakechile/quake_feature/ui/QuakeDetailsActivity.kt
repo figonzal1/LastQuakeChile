@@ -15,6 +15,7 @@ import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.BundleCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
@@ -84,7 +85,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
             quake = when {
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> {
-                    this?.getParcelable(QUAKE, Quake::class.java)
+                    this?.let { BundleCompat.getParcelable(it, QUAKE, Quake::class.java) }
                 }
                 else -> this?.get(QUAKE) as Quake
             }
