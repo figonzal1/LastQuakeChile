@@ -3,7 +3,6 @@ package cl.figonzal.lastquakechile.core.services.notifications.utils
 //Constants used in settings preferences
 internal const val ROOT_PREF_HIGH_PRIORITY_NOTIFICATION = "high_priority_notifications"
 internal const val ROOT_PREF_QUAKE_PRELIMINARY = "quake_preliminary"
-internal const val ROOT_PREF_MIN_MAGNITUDE = "minimum_magnitude"
 internal const val ROOT_PREF_SUBSCRIPTION = "pref_suscrito_quake"
 
 //Constants used for crashlytics logger

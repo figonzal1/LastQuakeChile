@@ -7,11 +7,39 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.core.app.NotificationCompat.*
+import androidx.core.app.NotificationCompat.BigTextStyle
+import androidx.core.app.NotificationCompat.Builder
+import androidx.core.app.NotificationCompat.VISIBILITY_PUBLIC
 import androidx.core.app.TaskStackBuilder
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.services.notifications.utils.*
-import cl.figonzal.lastquakechile.core.utils.*
+import cl.figonzal.lastquakechile.core.services.notifications.utils.CITY
+import cl.figonzal.lastquakechile.core.services.notifications.utils.DEPTH
+import cl.figonzal.lastquakechile.core.services.notifications.utils.FIREBASE_CHANNEL_STATUS
+import cl.figonzal.lastquakechile.core.services.notifications.utils.IS_SENSIBLE
+import cl.figonzal.lastquakechile.core.services.notifications.utils.IS_UPDATE
+import cl.figonzal.lastquakechile.core.services.notifications.utils.LATITUDE
+import cl.figonzal.lastquakechile.core.services.notifications.utils.LONGITUDE
+import cl.figonzal.lastquakechile.core.services.notifications.utils.MAGNITUDE
+import cl.figonzal.lastquakechile.core.services.notifications.utils.QUAKE
+import cl.figonzal.lastquakechile.core.services.notifications.utils.QUAKE_CODE
+import cl.figonzal.lastquakechile.core.services.notifications.utils.RANDOM_CHANNEL_ID
+import cl.figonzal.lastquakechile.core.services.notifications.utils.REFERENCE
+import cl.figonzal.lastquakechile.core.services.notifications.utils.ROOT_PREF_HIGH_PRIORITY_NOTIFICATION
+import cl.figonzal.lastquakechile.core.services.notifications.utils.ROOT_PREF_QUAKE_PRELIMINARY
+import cl.figonzal.lastquakechile.core.services.notifications.utils.SCALE
+import cl.figonzal.lastquakechile.core.services.notifications.utils.STATE
+import cl.figonzal.lastquakechile.core.services.notifications.utils.UTC_DATE
+import cl.figonzal.lastquakechile.core.services.notifications.utils.generateRandomChannelId
+import cl.figonzal.lastquakechile.core.services.notifications.utils.getChannelImportance
+import cl.figonzal.lastquakechile.core.services.notifications.utils.getMinMagnitude
+import cl.figonzal.lastquakechile.core.services.notifications.utils.getNotificationPriority
+import cl.figonzal.lastquakechile.core.services.notifications.utils.getPreliminaryAlertsStatus
+import cl.figonzal.lastquakechile.core.services.notifications.utils.getRandomChannel
+import cl.figonzal.lastquakechile.core.services.notifications.utils.greaterThan
+import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
+import cl.figonzal.lastquakechile.core.utils.localDateTimeToString
+import cl.figonzal.lastquakechile.core.utils.stringToLocalDateTime
+import cl.figonzal.lastquakechile.core.utils.utcToLocalDate
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Coordinate
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeDetailsActivity
@@ -106,6 +134,7 @@ class QuakeNotificationImpl(
                         quake.reference
                     )
                 }
+
                 else -> {
                     title = String.format(
                         context.getString(R.string.no_alert_title_notification),
@@ -123,10 +152,12 @@ class QuakeNotificationImpl(
                     context.getString(R.string.preliminary_format_notification),
                     title
                 )
+
                 isUpdate -> String.format(
                     context.getString(R.string.verified_format_notification),
                     title
                 )
+
                 else -> title
             }
 
@@ -168,7 +199,11 @@ class QuakeNotificationImpl(
             )
 
         val minMagnitude: String =
-            getMinMagnitude(sharedPrefUtil, ROOT_PREF_MIN_MAGNITUDE, crashlytics)
+            getMinMagnitude(
+                sharedPrefUtil,
+                context.getString(R.string.min_magnitude_alert_key),
+                crashlytics
+            )
 
         Builder(
             context,
@@ -188,7 +223,7 @@ class QuakeNotificationImpl(
             )
             .run {
 
-                if (quake.greatherThan(minMagnitude) && (quake.isVerified || preliminaryNotifications)) {
+                if (quake.greaterThan(minMagnitude) && (quake.isVerified || preliminaryNotifications)) {
                     (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(
                         quake.quakeCode,
                         build()

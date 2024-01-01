@@ -259,4 +259,4 @@ fun getMinMagnitude(
     return savedMinMag
 }
 
-fun Quake.greatherThan(minMagnitude: String) = magnitude >= minMagnitude.toDouble()
+fun Quake.greaterThan(minMagnitude: String) = magnitude >= minMagnitude.toDouble()
