@@ -111,6 +111,7 @@
 
             </com.google.android.material.card.MaterialCardView>
 
+
             <include
                 android:id="@+id/include_cv_quake_detail"
                 layout="@layout/card_view_quake_detail"
@@ -120,10 +121,10 @@
                 android:layout_marginBottom="64dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/right_guide"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/left_guide"
                 app:layout_constraintTop_toBottomOf="@+id/cv_native_ad"
                 app:layout_constraintVertical_bias="0.0" />
-
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/left_status_guide"

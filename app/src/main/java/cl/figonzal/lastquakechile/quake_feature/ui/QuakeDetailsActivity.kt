@@ -3,6 +3,9 @@ package cl.figonzal.lastquakechile.quake_feature.ui
 import android.animation.IntEvaluator
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -14,6 +17,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.BundleCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -23,11 +27,12 @@ import androidx.lifecycle.lifecycleScope
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.services.notifications.utils.IS_SNAPSHOT_REQUEST_FROM_BOTTOM_SHEET
 import cl.figonzal.lastquakechile.core.services.notifications.utils.QUAKE
-import cl.figonzal.lastquakechile.core.ui.dialog.MapTerrainDialogFragment
 import cl.figonzal.lastquakechile.core.utils.*
 import cl.figonzal.lastquakechile.core.utils.views.*
 import cl.figonzal.lastquakechile.databinding.ActivityQuakeDetailsBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
+import cl.figonzal.lastquakechile.quake_feature.ui.dialog.MapTerrainDialogFragment
+import cl.figonzal.lastquakechile.quake_feature.ui.dialog.ShareQuakeBottomSheetDialog
 import com.google.android.gms.ads.*
 import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.gms.ads.nativead.NativeAdView
@@ -38,7 +43,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.ktx.addCircle
 import kotlinx.coroutines.*
 import timber.log.Timber
-import java.time.format.DateTimeFormatter
+
 
 private const val mapViewKey = "MapViewBundleKey"
 
@@ -87,6 +92,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> {
                     this?.let { BundleCompat.getParcelable(it, QUAKE, Quake::class.java) }
                 }
+
                 else -> this?.get(QUAKE) as Quake
             }
             isSnapshotRequest = this?.getBoolean(IS_SNAPSHOT_REQUEST_FROM_BOTTOM_SHEET) as Boolean
@@ -173,6 +179,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                 null -> {
                     View.INVISIBLE
                 }
+
                 else -> {
                     nativeAd.starRating?.let {
                         (starRatingView as RatingBar).rating = it.toFloat()
@@ -192,6 +199,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
             vc?.hasVideoContent() == true -> vc.videoLifecycleCallbacks =
                 object : VideoController.VideoLifecycleCallbacks() {
                 }
+
             else -> {
                 //refreshAd()
             }
@@ -210,36 +218,27 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                 tvReference.text = it.reference
 
-                tvMagnitude.text =
-                    String.format(QUAKE_DETAILS_MAGNITUDE_FORMAT, it.magnitude)
+                tvMagnitude.formatMagnitude(it)
 
-                ivMagColor.setColorFilter(getColor(getMagnitudeColor(it.magnitude, false)))
+                ivMagColor.formatFilterColor(this@QuakeDetailsActivity, it)
 
-                tvDepthValue.text =
-                    String.format(QUAKE_DETAILS_DEPTH_FORMAT, it.depth)
+                tvDepthValue.formatDepth(it)
 
-                tvDatetimeValue.text =
-                    it.localDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                tvDatetimeValue.formatDateTime(it)
 
-                tvGmsValue.formatDMS(it.coordinate)
+                tvGmsValue.formatDMS(it)
 
-                tvHour.timeToText(it, true)
+                tvHour.formatQuakeTime(it, true)
 
-                tvScaleValue.setScale(it.scale)
+                tvScaleValue.formatScale(it)
 
-                ivSensitive.visibility = when {
-                    it.isSensitive -> View.VISIBLE
-                    else -> View.GONE
-                }
+                ivSensitive.configSensitive(it)
 
-                //Verified status
-                ivVerified.visibility = when {
-                    it.isVerified -> View.VISIBLE
-                    else -> View.GONE
-                }
-
-                ivVerified.setOnClickListener {
-                    toast(R.string.quake_verified_toast)
+                with(ivVerified) {
+                    configVerified(it)
+                    setOnClickListener {
+                        toast(R.string.quake_verified_toast)
+                    }
                 }
             }
         }
@@ -249,12 +248,12 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         googleMap = p0
 
-        quake?.let {
+        quake?.let { quake ->
 
-            val quakeMagColor = getColor(getMagnitudeColor(it.magnitude, true))
+            val quakeMagColor = getColor(getMagnitudeColor(quake.magnitude, true))
             val greyAlpha = getColor(R.color.grey_dark_alpha)
 
-            val latLong = LatLng(it.coordinate.latitude, it.coordinate.longitude)
+            val latLong = LatLng(quake.coordinate.latitude, quake.coordinate.longitude)
 
             p0.apply {
 
@@ -336,15 +335,33 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                 //Seteo de floating buttons
                 binding.fabShare.setOnClickListener { _ ->
                     Timber.d("Share button clicked")
-                    this@QuakeDetailsActivity.makeSnapshot(p0, it)
+                    this@QuakeDetailsActivity.makeSnapshot(p0, quake) { uri ->
+                        uri?.let {
+                            Toast.makeText(
+                                this@QuakeDetailsActivity,
+                                "Snapshot correct",
+                                Toast.LENGTH_LONG
+                            ).show()
+
+                            val shareQuakeBottomSheetDialog = ShareQuakeBottomSheetDialog(it, quake)
+                            shareQuakeBottomSheetDialog.show(
+                                supportFragmentManager,
+                                "ShareQuakeBottomSheetDialog"
+                            )
+
+                        }
+                    }
+
+
+                    //instagramShareIntent()
                 }
 
                 if (isSnapshotRequest == true) {
                     Timber.d("Snapshot request from bottomSheetDialog")
 
                     lifecycleScope.launch {
-                        delay(1000)
-                        this@QuakeDetailsActivity.makeSnapshot(p0, it)
+                        //delay(1000)
+                        //this@QuakeDetailsActivity.makeSnapshot(p0, it)
                     }
                 }
             }
@@ -362,6 +379,49 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
             true -> View.GONE
             false -> View.VISIBLE
         }
+    }
+
+    private fun instagramShareIntent() {
+
+        // Crear la vista fuera de la pantalla
+        // Crear la vista fuera de la pantalla
+        val view = View(this)
+        view.layout(0, 0, 40, 50)
+        view.draw(Canvas())
+
+// Convertir la vista en un Bitmap
+
+// Convertir la vista en un Bitmap
+        val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        view.draw(canvas)
+
+        val bitMapUriView = getLocalBitmapUri(bitmap)
+
+        grantUriPermission(
+            "com.instagram.android",
+            bitMapUriView,
+            Intent.FLAG_GRANT_READ_URI_PERMISSION
+        )
+
+        val intent = Intent("com.instagram.share.ADD_TO_STORY").apply {
+
+            type = "image/*"
+            putExtra("source_application", "740961793640508")
+            putExtra("interactive_asset_uri", bitMapUriView)
+            putExtra("top_background_color", "#006994");
+            putExtra("bottom_background_color", "#006994");
+        }
+        startActivity(intent)
+    }
+
+    fun viewToBitmap(view: View): Bitmap {
+        val bitmap = Bitmap.createBitmap(
+            view.width, view.height, Bitmap.Config.ARGB_8888
+        )
+        val canvas = Canvas(bitmap)
+        view.draw(canvas)
+        return bitmap
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -423,6 +483,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                         Timber.d("Home up clicked")
                         finish()
                     }
+
                     R.id.layers_menu -> {
 
                         googleMap?.let {

@@ -12,6 +12,7 @@
     <string name="scale_title">Escala</string>
     <string name="local_magnitude">Magnitud local (Ml)</string>
     <string name="moment_magnitude">Magnitud Momento (Mw)</string>
+    <string name="moment_magnitude_w">Magnitud Momento fase w (Mww)</string>
     <string name="cd_sensitive_icon">Icono sismo sensible</string>
     <string name="firebase_channel_name_quakes">Alerta sismos</string>
     <string name="firebase_channel_description_quakes">Recibe alertas de sismos</string>

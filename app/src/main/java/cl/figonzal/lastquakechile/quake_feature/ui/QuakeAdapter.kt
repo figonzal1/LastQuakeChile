@@ -7,10 +7,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.utils.openQuakeDetails
-import cl.figonzal.lastquakechile.core.utils.views.QUAKE_DETAILS_MAGNITUDE_FORMAT
-import cl.figonzal.lastquakechile.core.utils.views.getMagnitudeColor
+import cl.figonzal.lastquakechile.core.utils.views.configSensitive
+import cl.figonzal.lastquakechile.core.utils.views.configVerified
+import cl.figonzal.lastquakechile.core.utils.views.formatFilterColor
+import cl.figonzal.lastquakechile.core.utils.views.formatMagnitude
+import cl.figonzal.lastquakechile.core.utils.views.formatQuakeTime
 import cl.figonzal.lastquakechile.core.utils.views.layoutInflater
-import cl.figonzal.lastquakechile.core.utils.views.timeToText
 import cl.figonzal.lastquakechile.core.utils.views.toast
 import cl.figonzal.lastquakechile.databinding.CardViewQuakeBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
@@ -63,30 +65,19 @@ class QuakeAdapter : RecyclerView.Adapter<QuakeViewHolder>() {
                 tvCity.text = quake.city
                 tvReference.text = quake.reference
 
-                tvMagnitude.text = String.format(
-                    QUAKE_DETAILS_MAGNITUDE_FORMAT, quake.magnitude
-                )
+                tvMagnitude.formatMagnitude(quake)
 
-                val idColor = getMagnitudeColor(quake.magnitude, false)
-                ivMagColor.setColorFilter(
-                    itemView.resources.getColor(idColor, itemView.context.theme)
-                )
+                ivMagColor.formatFilterColor(itemView.context, quake)
 
-                tvHour.timeToText(quake, true)
+                tvHour.formatQuakeTime(quake, true)
 
-                ivSensitive.visibility = when {
-                    quake.isSensitive -> View.VISIBLE
-                    else -> View.GONE
-                }
+                ivSensitive.configSensitive(quake)
 
-                //Verified status
-                ivVerified.visibility = when {
-                    quake.isVerified -> View.VISIBLE
-                    else -> View.GONE
-                }
-
-                ivVerified.setOnClickListener {
-                    itemView.context.toast(R.string.quake_verified_toast)
+                with(ivVerified) {
+                    configVerified(quake)
+                    setOnClickListener {
+                        itemView.context.toast(R.string.quake_verified_toast)
+                    }
                 }
 
                 root.setOnClickListener { itemView.context.openQuakeDetails(quake) }
@@ -97,10 +88,10 @@ class QuakeAdapter : RecyclerView.Adapter<QuakeViewHolder>() {
     /***
      * Function that recalculate the time difference between quake time and device time
      */
-    fun recalculateTimeShowed() {
+    private fun recalculateTimeShowed() {
 
         quakes.forEachIndexed { index, quake ->
-            binding?.tvHour?.timeToText(quake, true)
+            binding?.tvHour?.formatQuakeTime(quake, true)
             notifyItemChanged(index)
         }
         Timber.d("Recalculating time shown in quakeList")

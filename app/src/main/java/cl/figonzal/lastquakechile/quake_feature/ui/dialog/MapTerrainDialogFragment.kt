@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile.core.ui.dialog
+package cl.figonzal.lastquakechile.quake_feature.ui.dialog
 
 import android.app.Dialog
 import android.os.Bundle
@@ -8,7 +8,10 @@ import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.utils.SHARED_PREF_MAP_TYPE
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.GoogleMap.*
+import com.google.android.gms.maps.GoogleMap.MAP_TYPE_HYBRID
+import com.google.android.gms.maps.GoogleMap.MAP_TYPE_NONE
+import com.google.android.gms.maps.GoogleMap.MAP_TYPE_NORMAL
+import com.google.android.gms.maps.GoogleMap.MAP_TYPE_TERRAIN
 
 class MapTerrainDialogFragment(private val googleMap: GoogleMap) : DialogFragment() {
 

@@ -154,5 +154,6 @@
     <string name="permission_totally_disabled">Permission disabled, reinstall to enabled it</string>
     <string name="consent_privacy_preference_title">Consent Policy</string>
     <string name="conset_privacy_preference_subtitle">Personalized advertising</string>
+    <string name="moment_magnitude_w">Moment magnitude w phase (Mww)</string>
 
 </resources>

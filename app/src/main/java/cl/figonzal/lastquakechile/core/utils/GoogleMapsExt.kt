@@ -7,9 +7,14 @@ import android.content.pm.PackageManager.ResolveInfoFlags
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
-import android.view.View
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.utils.views.*
+import cl.figonzal.lastquakechile.core.utils.views.configSensitive
+import cl.figonzal.lastquakechile.core.utils.views.formatFilterColor
+import cl.figonzal.lastquakechile.core.utils.views.formatMagnitude
+import cl.figonzal.lastquakechile.core.utils.views.formatQuakeTime
+import cl.figonzal.lastquakechile.core.utils.views.getLocalBitmapUri
+import cl.figonzal.lastquakechile.core.utils.views.getMagnitudeColor
+import cl.figonzal.lastquakechile.core.utils.views.toast
 import cl.figonzal.lastquakechile.databinding.QuakeBottomSheetBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import com.google.android.gms.maps.GoogleMap
@@ -92,14 +97,16 @@ fun Circle.animate(body: Circle.() -> Unit): Circle {
 /**
  * Google maps take snapshot
  */
-fun Context.makeSnapshot(googleMap: GoogleMap, quake: Quake) {
+fun Context.makeSnapshot(googleMap: GoogleMap, quake: Quake, callback: (Uri?) -> Unit) {
 
     googleMap.snapshot {
         try {
             Timber.d("Snapshot google map")
 
             val bitMapUri = it?.let { it1 -> this.getLocalBitmapUri(it1) }
-            shareQuake(quake, bitMapUri)
+            callback(bitMapUri)
+
+            //shareQuake(quake, bitMapUri)
         } catch (e: IOException) {
             Timber.e(e, "Error screenshot map: %s", e.message)
         }
@@ -146,6 +153,7 @@ private fun Context.shareQuake(quake: Quake, bitMapUri: Uri?) {
                 chooser,
                 ResolveInfoFlags.of(MATCH_DEFAULT_ONLY.toLong())
             )
+
             else -> packageManager.queryIntentActivities(chooser, MATCH_DEFAULT_ONLY)
         }
 
@@ -176,26 +184,17 @@ fun Context.setBottomSheetQuakeData(
         tvCity.text = quake.city
         tvReference.text = quake.reference
 
-        tvMagnitude.text = String.format(
-            QUAKE_DETAILS_MAGNITUDE_FORMAT,
-            quake.magnitude
-        )
-        ivMagColor.setColorFilter(
-            resources.getColor(
-                getMagnitudeColor(quake.magnitude, false), theme
-            )
-        )
+        tvMagnitude.formatMagnitude(quake)
 
-        tvDate.timeToText(quake, true)
+        ivMagColor.formatFilterColor(applicationContext, quake)
 
-        //Verified status
-        ivVerified.visibility = when {
-            quake.isVerified -> View.VISIBLE
-            else -> View.GONE
-        }
+        tvDate.formatQuakeTime(quake, true)
 
-        ivVerified.setOnClickListener {
-            toast(R.string.quake_verified_toast)
+        with(ivVerified) {
+            configSensitive(quake)
+            setOnClickListener {
+                toast(R.string.quake_verified_toast)
+            }
         }
 
         root.setOnClickListener {

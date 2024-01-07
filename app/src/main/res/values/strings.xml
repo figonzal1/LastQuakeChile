@@ -206,6 +206,7 @@
     <string name="tools_changelog_items" translatable="false">-Mejoras, novedades</string>
     <string name="consent_privacy_preference_title">Consent Policy</string>
     <string name="conset_privacy_preference_subtitle">Personalized advertising</string>
+    <string name="moment_magnitude_w">Moment magnitude w phase (Mww)</string>
 
 
 </resources>
