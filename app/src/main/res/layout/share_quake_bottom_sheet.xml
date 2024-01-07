@@ -42,8 +42,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        android:paddingTop="@dimen/corner_radius_16dp"
-        android:paddingBottom="@dimen/corner_radius_16dp"
+        android:paddingTop="@dimen/corner_radius_8dp"
+        android:paddingBottom="@dimen/corner_radius_8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,34 +53,40 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/corner_radius_8dp"
+            android:paddingBottom="@dimen/corner_radius_8dp">
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btn_share_ig_story"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:contentDescription="TODO"
+                android:contentDescription="Instagram stories button"
                 app:elevation="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_chainStyle="spread"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/round_add_instagram_story" />
+                app:rippleColor="@color/colorPrimaryVariant"
+                app:srcCompat="@drawable/round_add_instagram_story"
+                app:tint="@color/white" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btn_share_ig_feed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:contentDescription="TODO"
-                android:enabled="false"
+                android:contentDescription="Instagram feed button"
+                app:backgroundTintMode="src_atop"
                 app:elevation="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/btn_share_ig_story"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0"
-                app:srcCompat="@drawable/round_share_24" />
+                app:rippleColor="@color/colorPrimaryVariant"
+                app:srcCompat="@drawable/round_share_24"
+                app:tint="@color/white" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

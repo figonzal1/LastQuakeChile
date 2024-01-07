@@ -91,7 +91,13 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_provider" />
-        </provider> <!-- TODO: Habilitar para produccion -->
+        </provider>
+        <!--<provider
+            android:name="com.facebook.FacebookContentProvider"
+            android:authorities="com.facebook.app.FacebookContentProvider{fb_id}"
+            android:exported="true" />-->
+
+        <!-- TODO: Habilitar para produccion -->
         <meta-data
             android:name="firebase_performance_collection_enabled"
             android:value="false" /> <!-- TODO: Habilitar para produccion -->

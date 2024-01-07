@@ -7,6 +7,7 @@ import android.content.pm.PackageManager.ResolveInfoFlags
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
+import cl.figonzal.lastquakechile.BuildConfig
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.utils.views.configSensitive
 import cl.figonzal.lastquakechile.core.utils.views.formatFilterColor
@@ -15,12 +16,14 @@ import cl.figonzal.lastquakechile.core.utils.views.formatQuakeTime
 import cl.figonzal.lastquakechile.core.utils.views.getLocalBitmapUri
 import cl.figonzal.lastquakechile.core.utils.views.getMagnitudeColor
 import cl.figonzal.lastquakechile.core.utils.views.toast
+import cl.figonzal.lastquakechile.core.utils.views.viewToBitmap
 import cl.figonzal.lastquakechile.databinding.QuakeBottomSheetBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Circle
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
+import com.google.android.material.card.MaterialCardView
 import com.google.maps.android.ktx.addCircle
 import com.google.maps.android.ktx.addMarker
 import timber.log.Timber
@@ -111,7 +114,28 @@ fun Context.makeSnapshot(googleMap: GoogleMap, quake: Quake, callback: (Uri?) ->
             Timber.e(e, "Error screenshot map: %s", e.message)
         }
     }
+}
 
+fun Context.igShareIntent(cvShareQuake: MaterialCardView) {
+
+    val bitmap = cvShareQuake.viewToBitmap()
+    val bitMapUriView = getLocalBitmapUri(bitmap)
+
+    grantUriPermission(
+        "com.instagram.android",
+        bitMapUriView,
+        Intent.FLAG_GRANT_READ_URI_PERMISSION
+    )
+
+    val intent = Intent("com.instagram.share.ADD_TO_STORY").apply {
+        flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+        type = "image/png"
+        putExtra("source_application", BuildConfig.FB_APP_ID)
+        putExtra("interactive_asset_uri", bitMapUriView)
+        putExtra("top_background_color", "#006994");
+        putExtra("bottom_background_color", "#253561");
+    }
+    startActivity(intent)
 }
 
 private fun Context.shareQuake(quake: Quake, bitMapUri: Uri?) {

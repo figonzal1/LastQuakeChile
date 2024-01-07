@@ -47,8 +47,8 @@ android {
             //buildConfigField("String", "APPO_DEAL_KEY", getProperty("APPO_DEAL_KEY"))
 
             //META API KEYS
-            //buildConfigField("String", "FB_APP_ID", getProperty("FB_APP_ID"))
-            //buildConfigField("String", "FB_CLIENT_ID", getProperty("FB_CLIENT_ID"))
+            buildConfigField("String", "FB_APP_ID", getProperty("FB_APP_ID"))
+            buildConfigField("String", "FB_CLIENT_ID", getProperty("FB_CLIENT_ID"))
 
             //ADMOB MASTER KEY
             buildConfigField("String", "ADMOB_MASTER_KEY", getProperty("ADMOB_MASTER_KEY"))
@@ -150,6 +150,8 @@ dependencies {
 
     //Appodeal
     //implementation("com.appodeal.ads:sdk:3.0.0.4")
+    //FAcebook
+    //implementation("com.facebook.android:facebook-android-sdk:latest.release")
 
     //Google Play
     implementation("com.google.android.play:app-update-ktx:2.1.0")

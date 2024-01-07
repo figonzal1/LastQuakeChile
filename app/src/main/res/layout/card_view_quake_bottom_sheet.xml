@@ -8,10 +8,7 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?attr/selectableItemBackgroundBorderless"
-    android:paddingStart="16dp"
-    android:paddingTop="8dp"
-    android:paddingEnd="16dp"
-    android:paddingBottom="8dp">
+    android:padding="@dimen/corner_radius_16dp">
 
     <ImageView
         android:id="@+id/iv_mag_color"

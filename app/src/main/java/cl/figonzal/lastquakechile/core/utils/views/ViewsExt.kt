@@ -5,7 +5,10 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Build
 import android.util.TypedValue
 import android.view.*
 import android.widget.ImageView
@@ -23,6 +26,7 @@ import cl.figonzal.lastquakechile.core.data.remote.ApiError.*
 import cl.figonzal.lastquakechile.core.ui.SettingsActivity
 import cl.figonzal.lastquakechile.core.utils.views.*
 import cl.figonzal.lastquakechile.databinding.FragmentMapsBinding
+import cl.figonzal.lastquakechile.databinding.ShareQuakeBottomSheetBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -31,6 +35,8 @@ import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.shape.CornerFamily
+import com.google.android.material.shape.ShapeAppearanceModel
 import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
@@ -175,11 +181,37 @@ fun Context.getLocalBitmapUri(bitmap: Bitmap): Uri {
         else -> {
             Timber.d("Share image not exist")
             val out = FileOutputStream(file)
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
             out.close()
         }
     }
     return getUriForFile(this, "${applicationContext.packageName}.fileprovider", file)
+}
+
+fun View.viewToBitmap(): Bitmap {
+
+    val bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        Bitmap.createBitmap(
+            width, height, Bitmap.Config.ARGB_8888, true
+        )
+    } else {
+        Bitmap.createBitmap(
+            width, height, Bitmap.Config.ARGB_8888
+        )
+    }
+    val canvas = Canvas(bitmap)
+    draw(canvas)
+    return bitmap
+}
+
+fun ShareQuakeBottomSheetBinding.configGoogleMapShareQuakeBorders(drawable: Drawable?) {
+    val shapeAppearanceModel = ShapeAppearanceModel()
+        .toBuilder()
+        .setTopLeftCorner(CornerFamily.ROUNDED, 32f)
+        .setTopRightCorner(CornerFamily.ROUNDED, 32f)
+        .build()
+    includeShareQuake.ivGoogleMaps.setImageDrawable(drawable)
+    includeShareQuake.ivGoogleMaps.shapeAppearanceModel = shapeAppearanceModel
 }
 
 /**

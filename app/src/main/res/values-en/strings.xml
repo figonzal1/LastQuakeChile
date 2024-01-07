@@ -155,5 +155,6 @@
     <string name="consent_privacy_preference_title">Consent Policy</string>
     <string name="conset_privacy_preference_subtitle">Personalized advertising</string>
     <string name="moment_magnitude_w">Moment magnitude w phase (Mww)</string>
+    <string name="google_map_screenshot">Google map screenshot</string>
 
 </resources>
