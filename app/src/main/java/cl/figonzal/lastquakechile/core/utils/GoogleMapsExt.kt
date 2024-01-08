@@ -132,8 +132,8 @@ fun Context.igShareIntent(cvShareQuake: MaterialCardView) {
         type = "image/png"
         putExtra("source_application", BuildConfig.FB_APP_ID)
         putExtra("interactive_asset_uri", bitMapUriView)
-        putExtra("top_background_color", "#006994");
-        putExtra("bottom_background_color", "#253561");
+        putExtra("top_background_color", "#006994")
+        putExtra("bottom_background_color", "#253561")
     }
     startActivity(intent)
 }
@@ -171,7 +171,6 @@ private fun Context.shareQuake(quake: Quake, bitMapUri: Uri?) {
 
         val chooser = Intent.createChooser(this, getString(R.string.intent_chooser))
 
-        @Suppress("DEPRECATION")
         val resInfoList = when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> packageManager.queryIntentActivities(
                 chooser,

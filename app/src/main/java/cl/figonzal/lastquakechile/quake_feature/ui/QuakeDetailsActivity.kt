@@ -3,9 +3,6 @@ package cl.figonzal.lastquakechile.quake_feature.ui
 import android.animation.IntEvaluator
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
-import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -351,9 +348,6 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                         }
                     }
-
-
-                    //instagramShareIntent()
                 }
 
                 if (isSnapshotRequest == true) {
@@ -379,49 +373,6 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
             true -> View.GONE
             false -> View.VISIBLE
         }
-    }
-
-    private fun instagramShareIntent() {
-
-        // Crear la vista fuera de la pantalla
-        // Crear la vista fuera de la pantalla
-        val view = View(this)
-        view.layout(0, 0, 40, 50)
-        view.draw(Canvas())
-
-// Convertir la vista en un Bitmap
-
-// Convertir la vista en un Bitmap
-        val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bitmap)
-        view.draw(canvas)
-
-        val bitMapUriView = getLocalBitmapUri(bitmap)
-
-        grantUriPermission(
-            "com.instagram.android",
-            bitMapUriView,
-            Intent.FLAG_GRANT_READ_URI_PERMISSION
-        )
-
-        val intent = Intent("com.instagram.share.ADD_TO_STORY").apply {
-
-            type = "image/*"
-            putExtra("source_application", "740961793640508")
-            putExtra("interactive_asset_uri", bitMapUriView)
-            putExtra("top_background_color", "#006994");
-            putExtra("bottom_background_color", "#006994");
-        }
-        startActivity(intent)
-    }
-
-    fun viewToBitmap(view: View): Bitmap {
-        val bitmap = Bitmap.createBitmap(
-            view.width, view.height, Bitmap.Config.ARGB_8888
-        )
-        val canvas = Canvas(bitmap)
-        view.draw(canvas)
-        return bitmap
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
