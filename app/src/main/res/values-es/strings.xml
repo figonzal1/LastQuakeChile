@@ -156,4 +156,5 @@
     <string name="consent_privacy_preference_title">Política de consentimiento</string>
     <string name="conset_privacy_preference_subtitle">Publicidad personalizada</string>
     <string name="google_map_screenshot">Captura de pantalla de google maps</string>
+    <string name="stories">Historia</string>
 </resources>

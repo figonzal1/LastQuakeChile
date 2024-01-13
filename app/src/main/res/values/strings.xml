@@ -208,6 +208,8 @@
     <string name="conset_privacy_preference_subtitle">Personalized advertising</string>
     <string name="moment_magnitude_w">Moment magnitude w phase (Mww)</string>
     <string name="google_map_screenshot">Google map screenshot</string>
+    <string name="stories">Stories</string>
+    <string name="feed" translatable="false">Feed</string>
 
 
 </resources>

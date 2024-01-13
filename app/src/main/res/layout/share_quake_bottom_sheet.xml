@@ -64,13 +64,25 @@
                 android:layout_marginStart="24dp"
                 android:contentDescription="Instagram stories button"
                 app:elevation="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_chainStyle="spread"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:maxImageSize="18dp"
                 app:rippleColor="@color/colorPrimaryVariant"
                 app:srcCompat="@drawable/round_add_instagram_story"
                 app:tint="@color/white" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="8dp"
+                android:gravity="center"
+                android:text="@string/stories"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/btn_share_ig_story"
+                app:layout_constraintStart_toStartOf="@+id/btn_share_ig_story"
+                app:layout_constraintTop_toBottomOf="@+id/btn_share_ig_story" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btn_share_ig_feed"
@@ -84,9 +96,69 @@
                 app:layout_constraintStart_toEndOf="@+id/btn_share_ig_story"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0"
+                app:maxImageSize="18dp"
+                app:rippleColor="@color/colorPrimaryVariant"
+                app:srcCompat="@drawable/instagram_logo"
+                app:tint="@color/white" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="8dp"
+                android:gravity="center"
+                android:text="@string/feed"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/btn_share_ig_feed"
+                app:layout_constraintStart_toStartOf="@+id/btn_share_ig_feed"
+                app:layout_constraintTop_toBottomOf="@+id/btn_share_ig_feed" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btn_share_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:contentDescription="Link share"
+                android:enabled="false"
+                app:backgroundTintMode="src_atop"
+                app:elevation="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/btn_share_ig_feed"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                app:maxImageSize="18dp"
                 app:rippleColor="@color/colorPrimaryVariant"
                 app:srcCompat="@drawable/round_share_24"
                 app:tint="@color/white" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btn_share_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:contentDescription="Link share"
+                app:backgroundTintMode="src_atop"
+                app:elevation="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/btn_share_link"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                app:maxImageSize="18dp"
+                app:rippleColor="@color/colorPrimaryVariant"
+                app:srcCompat="@drawable/round_share_24"
+                app:tint="@color/white" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="8dp"
+                android:gravity="center"
+                android:text="Más"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/btn_share_more"
+                app:layout_constraintStart_toStartOf="@+id/btn_share_more"
+                app:layout_constraintTop_toBottomOf="@+id/btn_share_more" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
