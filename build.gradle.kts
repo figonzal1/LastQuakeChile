@@ -2,12 +2,12 @@
 
 plugins {
 
-    id("com.android.application") version "8.2.0" apply false
-    id("com.android.library") version "8.2.0" apply false
-    id("org.jetbrains.kotlin.android") version "1.9.21" apply false
+    id("com.android.application") version "8.2.2" apply false
+    id("com.android.library") version "8.2.2" apply false
+    id("org.jetbrains.kotlin.android") version "1.9.23" apply false
 
     //FIREBASE CRASH ANALYTICS
-    id("com.google.gms.google-services") version "4.4.0" apply false
+    id("com.google.gms.google-services") version "4.4.1" apply false
 
     //Crashlytics Gradle plugin
     id("com.google.firebase.crashlytics") version "2.9.9" apply false
@@ -22,5 +22,5 @@ plugins {
     id("org.sonarqube") version "4.0.0.2929"
 
     //KSP
-    id("com.google.devtools.ksp") version "1.9.21-1.0.16" apply false
+    id("com.google.devtools.ksp") version "1.9.23-1.0.19" apply false
 }

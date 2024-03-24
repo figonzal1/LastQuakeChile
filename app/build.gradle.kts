@@ -34,8 +34,8 @@ android {
         applicationId = "cl.figonzal.lastquakechile"
         minSdk = 23
         targetSdk = 34
-        versionCode = 50
-        versionName = "1.7.7"
+        versionCode = 51
+        versionName = "1.7.8"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         with(gradleLocalProperties(rootDir)) {
@@ -119,17 +119,17 @@ android {
 dependencies {
 
     implementation(fileTree("libs") { include(listOf("*.jar")) })
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.21")
-    implementation("androidx.core:core-ktx:1.10.1")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.23")
+    implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
 
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
     implementation("androidx.fragment:fragment-ktx:1.6.2")
-    implementation("androidx.activity:activity-ktx:1.7.2")
+    implementation("androidx.activity:activity-ktx:1.8.2")
 
-    implementation("com.google.android.material:material:1.9.0")//Material design
+    implementation("com.google.android.material:material:1.11.0")//Material design
     implementation("androidx.core:core-splashscreen:1.0.1") //splash screen
 
     //GLIDE
@@ -137,15 +137,15 @@ dependencies {
     ksp("com.github.bumptech.glide:ksp:4.16.0")
 
     //Life cycle components
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
 
     // Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
 
     //Dependency injection KOIN
-    val koinVersion = "3.5.0"
+    val koinVersion = "3.5.3"
     implementation("io.insert-koin:koin-android:$koinVersion")
 
     //Appodeal
@@ -153,9 +153,9 @@ dependencies {
 
     //Google Play
     implementation("com.google.android.play:app-update-ktx:2.1.0")
-    implementation("com.google.android.gms:play-services-ads:22.6.0")
+    implementation("com.google.android.gms:play-services-ads:23.0.0")
     implementation("com.google.android.play:review-ktx:2.0.1")
-    implementation("com.google.android.ump:user-messaging-platform:2.1.0")
+    implementation("com.google.android.ump:user-messaging-platform:2.2.0")
 
     //Google Maps
     // KTX for the Maps SDK for Android
@@ -165,9 +165,9 @@ dependencies {
     implementation("androidx.preference:preference-ktx:1.2.1") //preference
 
     //Room components
-    implementation("androidx.room:room-ktx:2.5.1")
-    implementation("androidx.room:room-runtime:2.5.1")
-    ksp("androidx.room:room-compiler:2.5.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    implementation("androidx.room:room-runtime:2.6.1")
+    ksp("androidx.room:room-compiler:2.6.1")
 
     //Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
@@ -199,14 +199,14 @@ dependencies {
     testImplementation("io.insert-koin:koin-test-junit4:$koinVersion")
     testImplementation("androidx.arch.core:core-testing:2.2.0")
     testImplementation("androidx.test.ext:truth:1.5.0")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0")
     testImplementation("app.cash.turbine:turbine:0.13.0")
 
     // Instrumented Unit Tests
     androidTestImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test:runner:1.5.2")
     androidTestImplementation("androidx.test:rules:1.5.0")
-    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0")
     androidTestImplementation("androidx.arch.core:core-testing:2.2.0")
     androidTestImplementation("androidx.test.ext:junit-ktx:1.1.5")
     androidTestImplementation("androidx.room:room-testing:2.6.1")
@@ -216,7 +216,7 @@ dependencies {
     }
     androidTestImplementation("androidx.test.espresso:espresso-intents:3.5.1")
     androidTestImplementation("androidx.test.ext:truth:1.5.0")
-    androidTestImplementation("androidx.test.uiautomator:uiautomator:2.2.0")
+    androidTestImplementation("androidx.test.uiautomator:uiautomator:2.3.0")
     androidTestImplementation("io.insert-koin:koin-test:$koinVersion")
     androidTestImplementation("io.insert-koin:koin-test-junit4:$koinVersion")
 
