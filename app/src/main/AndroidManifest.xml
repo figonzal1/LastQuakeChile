@@ -17,6 +17,11 @@
         android:theme="@style/AppTheme.Starting"
         tools:targetApi="n">
 
+        <property
+            android:name="android.adservices.AD_SERVICES_CONFIG"
+            android:resource="@xml/gma_ad_services_config"
+            tools:replace="android:resource" />
+
         <meta-data
             android:name="com.google.android.gms.ads.AD_MANAGER_APP"
             android:value="true" />

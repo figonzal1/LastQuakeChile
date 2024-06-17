@@ -38,7 +38,7 @@ android {
         versionName = "1.7.8"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        with(gradleLocalProperties(rootDir)) {
+        with(gradleLocalProperties(rootDir, providers)) {
 
             //GOOGLE MAPS API KEY
             buildConfigField("String", "MAPS_API_KEY", getProperty("MAPS_API_KEY"))
@@ -120,16 +120,16 @@ dependencies {
 
     implementation(fileTree("libs") { include(listOf("*.jar")) })
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.23")
-    implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("androidx.core:core-ktx:1.13.1")
+    implementation("androidx.appcompat:appcompat:1.7.0")
 
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
-    implementation("androidx.fragment:fragment-ktx:1.6.2")
-    implementation("androidx.activity:activity-ktx:1.8.2")
+    implementation("androidx.fragment:fragment-ktx:1.8.0")
+    implementation("androidx.activity:activity-ktx:1.9.0")
 
-    implementation("com.google.android.material:material:1.11.0")//Material design
+    implementation("com.google.android.material:material:1.12.0")//Material design
     implementation("androidx.core:core-splashscreen:1.0.1") //splash screen
 
     //GLIDE
@@ -137,15 +137,15 @@ dependencies {
     ksp("com.github.bumptech.glide:ksp:4.16.0")
 
     //Life cycle components
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.2")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.2")
 
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
 
     //Dependency injection KOIN
-    val koinVersion = "3.5.3"
+    val koinVersion = "3.5.6"
     implementation("io.insert-koin:koin-android:$koinVersion")
 
     //Appodeal
@@ -153,7 +153,7 @@ dependencies {
 
     //Google Play
     implementation("com.google.android.play:app-update-ktx:2.1.0")
-    implementation("com.google.android.gms:play-services-ads:23.0.0")
+    implementation("com.google.android.gms:play-services-ads:23.1.0")
     implementation("com.google.android.play:review-ktx:2.0.1")
     implementation("com.google.android.ump:user-messaging-platform:2.2.0")
 
@@ -183,7 +183,7 @@ dependencies {
     ksp("com.squareup.moshi:moshi-kotlin-codegen:1.15.0")
 
     //Firebase BOM
-    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
+    implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-crashlytics-ktx")
     implementation("com.google.firebase:firebase-messaging-ktx")
@@ -221,8 +221,8 @@ dependencies {
     androidTestImplementation("io.insert-koin:koin-test-junit4:$koinVersion")
 
     //Debug dependencies
-    debugImplementation("androidx.fragment:fragment-testing-manifest:1.6.2")
-    debugImplementation("androidx.fragment:fragment-testing:1.6.2")
+    debugImplementation("androidx.fragment:fragment-testing-manifest:1.8.0")
+    debugImplementation("androidx.fragment:fragment-testing:1.8.0")
     debugImplementation("com.squareup.leakcanary:leakcanary-android:2.11")
 
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")

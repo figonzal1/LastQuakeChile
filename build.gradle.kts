@@ -2,15 +2,15 @@
 
 plugins {
 
-    id("com.android.application") version "8.2.2" apply false
-    id("com.android.library") version "8.2.2" apply false
+    id("com.android.application") version "8.4.0" apply false
+    id("com.android.library") version "8.4.0" apply false
     id("org.jetbrains.kotlin.android") version "1.9.23" apply false
 
     //FIREBASE CRASH ANALYTICS
-    id("com.google.gms.google-services") version "4.4.1" apply false
+    id("com.google.gms.google-services") version "4.4.2" apply false
 
     //Crashlytics Gradle plugin
-    id("com.google.firebase.crashlytics") version "2.9.9" apply false
+    id("com.google.firebase.crashlytics") version "3.0.1" apply false
 
     // Performance Monitoring plugin
     id("com.google.firebase.firebase-perf") version "1.4.2" apply false
