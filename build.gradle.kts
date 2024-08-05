@@ -1,26 +1,56 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
 plugins {
 
-    id("com.android.application") version "8.4.0" apply false
-    id("com.android.library") version "8.4.0" apply false
-    id("org.jetbrains.kotlin.android") version "1.9.23" apply false
+    alias(libs.plugins.androidApplication) apply false
+    alias(libs.plugins.jetbrainsKotlinAndroid) apply false
 
     //FIREBASE CRASH ANALYTICS
-    id("com.google.gms.google-services") version "4.4.2" apply false
+    alias(libs.plugins.com.google.gms.google.services) apply false
 
     //Crashlytics Gradle plugin
-    id("com.google.firebase.crashlytics") version "3.0.1" apply false
+    alias(libs.plugins.com.google.firebase.crashlytics) apply false
 
     // Performance Monitoring plugin
-    id("com.google.firebase.firebase-perf") version "1.4.2" apply false
-
-    //Google maps secrets
-    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin") version "2.0.1" apply false
-
-    //Sonaqube
-    id("org.sonarqube") version "4.0.0.2929"
+    alias(libs.plugins.com.google.firebase.firebase.perf) apply false
 
     //KSP
-    id("com.google.devtools.ksp") version "1.9.23-1.0.19" apply false
+    alias(libs.plugins.com.google.devtools.ksp) apply false
+
+    //Google maps secrets
+    alias(libs.plugins.com.google.android.libraries.mapsplatform.secrets.gradle.plugin) apply false
+
+    //Sonaqube
+    alias(libs.plugins.org.sonarqube)
+
+    //Version catalog updater
+    alias(libs.plugins.com.github.ben.manes.versions)
+    alias(libs.plugins.nl.littlerobots.version.catalog.update)
+}
+
+versionCatalogUpdate {
+    // These options will be set as default for all version catalogs
+    sortByKey.set(false)
+}
+
+
+// https://github.com/ben-manes/gradle-versions-plugin
+tasks.withType<DependencyUpdatesTask> {
+    resolutionStrategy {
+        componentSelection {
+            all {
+                if (isNonStable(candidate.version) && !isNonStable(currentVersion)) {
+                    reject("Release candidate")
+                }
+            }
+        }
+    }
+}
+
+fun isNonStable(version: String): Boolean {
+    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.uppercase().contains(it) }
+    val regex = "^[0-9,.v-]+(-r)?$".toRegex()
+    val isStable = stableKeyword || regex.matches(version)
+    return isStable.not()
 }
