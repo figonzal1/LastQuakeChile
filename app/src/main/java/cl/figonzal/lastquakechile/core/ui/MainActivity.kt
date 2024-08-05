@@ -1,8 +1,6 @@
 package cl.figonzal.lastquakechile.core.ui
 
-import android.annotation.SuppressLint
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -11,18 +9,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.preference.PreferenceManager
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.services.ChangeLogService
-import cl.figonzal.lastquakechile.core.services.GooglePlayService
-import cl.figonzal.lastquakechile.core.services.InAppReviewService
-import cl.figonzal.lastquakechile.core.services.NightModeService
 import cl.figonzal.lastquakechile.core.services.UpdaterService
-import cl.figonzal.lastquakechile.core.services.notifications.QuakeNotificationImpl
 import cl.figonzal.lastquakechile.core.services.notifications.utils.getFirebaseToken
-import cl.figonzal.lastquakechile.core.services.notifications.utils.subscribedToQuakes
+import cl.figonzal.lastquakechile.core.services.notifications.utils.setUpNotificationService
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
-import cl.figonzal.lastquakechile.core.utils.getReviewInfo
+import cl.figonzal.lastquakechile.core.utils.checkEULAConsentAds
+import cl.figonzal.lastquakechile.core.utils.initLifecycleObservers
 import cl.figonzal.lastquakechile.core.utils.startAds
-import cl.figonzal.lastquakechile.core.utils.startReviewFlow
 import cl.figonzal.lastquakechile.core.utils.views.handleShortcuts
 import cl.figonzal.lastquakechile.core.utils.views.loadImage
 import cl.figonzal.lastquakechile.databinding.ActivityMainBinding
@@ -33,16 +26,8 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
-import com.google.android.play.core.review.ReviewManagerFactory
-import com.google.android.ump.ConsentInformation
-import com.google.android.ump.ConsentRequestParameters
-import com.google.android.ump.UserMessagingPlatform
-import com.google.firebase.crashlytics.ktx.crashlytics
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.messaging.ktx.messaging
 import org.koin.androidx.fragment.android.setupKoinFragmentFactory
 import timber.log.Timber
-import java.util.concurrent.atomic.AtomicBoolean
 
 
 class MainActivity : AppCompatActivity() {
@@ -51,14 +36,6 @@ class MainActivity : AppCompatActivity() {
     private var updaterService: UpdaterService? = null
     private lateinit var binding: ActivityMainBinding
 
-    private val crashlytics = Firebase.crashlytics
-    private val fcm = Firebase.messaging
-
-
-    private lateinit var consentInformation: ConsentInformation
-    private var isMobileAdsInitializeCalled = AtomicBoolean(false)
-
-    @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
         setupKoinFragmentFactory()
         super.onCreate(savedInstanceState)
@@ -71,66 +48,31 @@ class MainActivity : AppCompatActivity() {
         PreferenceManager.setDefaultValues(this, R.xml.root_preferences, false)
         val sharedPrefUtil = SharedPrefUtil(applicationContext)
 
-        //Night mode
-        checkNighMode()
+        initServices(sharedPrefUtil)
+        setToolbarViewPagerTabs()
+        binding.toolbarLayout.toolbarImage.loadImage(R.drawable.foto)
+    }
 
-        //GP services
-        lifecycle.addObserver(GooglePlayService(this, crashlytics))
+    private fun initServices(sharedPrefUtil: SharedPrefUtil) {
+        initLifecycleObservers(sharedPrefUtil)
 
-        //ChangeLog Service
-        lifecycle.addObserver(ChangeLogService(this, SharedPrefUtil(this), crashlytics))
-
-        //InAppReviewService
-        val manager = ReviewManagerFactory.create(this)
-        lifecycle.addObserver(InAppReviewService(this, sharedPrefUtil) {
-            val reviewInfo = getReviewInfo(manager)
-            startReviewFlow(manager, reviewInfo)
-        })
-
-        //Firebase services
         getFirebaseToken()
 
-        checkConsent()
-        if (consentInformation.canRequestAds()) {
-            initializeMobileAdsSdk()
+        checkEULAConsentAds {
+            MobileAds.initialize(this)
+
+            //Ads
+            adView = startAds(binding.adViewContainer)
         }
 
         //Ads
         adView = startAds(binding.adViewContainer)
 
-        //Updater service
-        updaterService = UpdaterService(this, AppUpdateManagerFactory.create(this), crashlytics)
-        updaterService?.checkAvailability()
-
         setUpNotificationService(sharedPrefUtil)
 
-        setToolbarViewPagerTabs()
-
-        //loadImage(R.drawable.foto, binding.toolbarLayout.toolbarImage)
-        binding.toolbarLayout.toolbarImage.loadImage(R.drawable.foto)
-    }
-
-    private fun checkNighMode() {
-        when {
-            Build.VERSION.SDK_INT < Build.VERSION_CODES.Q -> {
-                Timber.d("ANDROID_VERSION < Q: ${Build.VERSION.SDK_INT}")
-                lifecycle.addObserver(NightModeService(this, crashlytics))
-            }
-
-            else -> {
-                Timber.d("ANDROID_VERSION > Q: ${Build.VERSION.SDK_INT}")
-            }
-        }
-    }
-
-    private fun setUpNotificationService(sharedPrefUtil: SharedPrefUtil) {
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            QuakeNotificationImpl(this, sharedPrefUtil).createChannel()
-        }
-
-        //Automatic subscribe
-        subscribedToQuakes(true, sharedPrefUtil, fcm, crashlytics)
+        //Updater service
+        updaterService = UpdaterService(this, AppUpdateManagerFactory.create(this))
+        updaterService?.checkAvailability()
     }
 
     private fun setToolbarViewPagerTabs() {
@@ -226,59 +168,6 @@ class MainActivity : AppCompatActivity() {
                 )
             tabLayout.requestLayout()
         }
-    }
-
-    private fun checkConsent() {
-
-        val params = ConsentRequestParameters
-            .Builder()
-            .setTagForUnderAgeOfConsent(false)
-            .build()
-
-        consentInformation = UserMessagingPlatform.getConsentInformation(this)
-        consentInformation.requestConsentInfoUpdate(
-            this,
-            params,
-            {
-                UserMessagingPlatform.loadAndShowConsentFormIfRequired(
-                    this@MainActivity
-                ) { loadAndShowError ->
-                    // Consent gathering failed.
-                    Timber.w(
-                        String.format(
-                            "%s: %s",
-                            loadAndShowError?.errorCode,
-                            loadAndShowError?.message
-                        )
-                    )
-                    // Consent has been gathered.
-                    if (consentInformation.canRequestAds()) {
-                        initializeMobileAdsSdk()
-                    }
-                }
-            },
-            { requestConsentError ->
-                // Consent gathering failed.
-                Timber.w(
-                    String.format(
-                        "%s: %s",
-                        requestConsentError.errorCode,
-                        requestConsentError.message
-                    )
-                )
-            })
-    }
-
-    private fun initializeMobileAdsSdk() {
-        if (isMobileAdsInitializeCalled.getAndSet(true)) {
-            return
-        }
-
-        // Initialize the Google Mobile Ads SDK.
-        MobileAds.initialize(this)
-
-        //Ads
-        adView = startAds(binding.adViewContainer)
     }
 
     private fun hideAdBanner(hide: Boolean) {

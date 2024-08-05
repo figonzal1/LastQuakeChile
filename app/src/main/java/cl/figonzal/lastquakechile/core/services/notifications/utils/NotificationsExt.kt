@@ -1,6 +1,7 @@
 package cl.figonzal.lastquakechile.core.services.notifications.utils
 
 import android.Manifest
+import android.app.Activity
 import android.app.NotificationManager
 import android.content.pm.PackageManager
 import android.os.Build
@@ -13,17 +14,30 @@ import androidx.core.app.NotificationCompat.PRIORITY_HIGH
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.services.notifications.QuakeNotificationImpl
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.views.toast
 import cl.figonzal.lastquakechile.databinding.FragmentQuakeBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import com.google.android.gms.tasks.Task
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.ktx.messaging
 import timber.log.Timber
 import java.security.SecureRandom
 import kotlin.random.asKotlinRandom
 
+fun Activity.setUpNotificationService(sharedPrefUtil: SharedPrefUtil) {
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        QuakeNotificationImpl(this, sharedPrefUtil).createChannel()
+    }
+
+    //Automatic subscribe
+    subscribedToQuakes(true, sharedPrefUtil)
+}
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 fun Fragment.handleCvAlertPermission(
@@ -122,17 +136,18 @@ fun getFirebaseToken() {
  *
  * @param isSubscribed
  */
-fun subscribedToQuakes(
+private fun subscribedToQuakes(
     isSubscribed: Boolean,
     sharedPrefUtil: SharedPrefUtil,
-    messaging: FirebaseMessaging,
-    crashlytics: FirebaseCrashlytics
 ) {
+
+    val fcm = Firebase.messaging
+    val crashlytics = Firebase.crashlytics
 
     when {
         isSubscribed -> {
 
-            messaging.subscribeToTopic(FIREBASE_TOPIC_CHANNEL)
+            fcm.subscribeToTopic(FIREBASE_TOPIC_CHANNEL)
                 .addOnCompleteListener {
                     when {
                         it.isSuccessful -> {
@@ -149,7 +164,7 @@ fun subscribedToQuakes(
         }
 
         else -> {
-            messaging.unsubscribeFromTopic(FIREBASE_TOPIC_CHANNEL)
+            fcm.unsubscribeFromTopic(FIREBASE_TOPIC_CHANNEL)
                 .addOnCompleteListener {
                     when {
                         it.isSuccessful -> {

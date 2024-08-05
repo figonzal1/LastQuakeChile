@@ -6,7 +6,8 @@ import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
-import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.ktx.Firebase
 import timber.log.Timber
 
 private const val FIREBASE_LQCH_UPDATER_STATUS = "lqch_updater_status"
@@ -14,10 +15,11 @@ private const val FIREBASE_LQCH_UPDATER_STATUS = "lqch_updater_status"
 class UpdaterService(
     private val activity: Activity,
     private val appUpdateManager: AppUpdateManager,
-    private val crashlytics: FirebaseCrashlytics
 ) {
 
     private val appUpdateInfoTask = appUpdateManager.appUpdateInfo
+    private val crashlytics = Firebase.crashlytics
+
 
     fun checkAvailability() {
 
@@ -46,6 +48,7 @@ class UpdaterService(
 
                     }
                 }
+
                 else -> {
                     Timber.d("No new updates available")
                     crashlytics.setCustomKey(
@@ -58,6 +61,9 @@ class UpdaterService(
     }
 
     fun resumeUpdater() {
+
+        val crashlytics = Firebase.crashlytics
+
         appUpdateManager
             .appUpdateInfo
             .addOnSuccessListener { appUpdateInfo: AppUpdateInfo ->

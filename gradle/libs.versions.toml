@@ -64,7 +64,6 @@ com-jakewharton-timber = "com.jakewharton.timber:timber:5.0.1"
 # Google play
 com-google-android-gms-play-services-ads = "com.google.android.gms:play-services-ads:23.2.0"
 com-google-android-play-app-update-ktx = "com.google.android.play:app-update-ktx:2.1.0"
-com-google-android-play-review-ktx = "com.google.android.play:review-ktx:2.0.1"
 com-google-android-ump-user-messaging-platform = "com.google.android.ump:user-messaging-platform:3.0.0"
 com-google-android-gms-play-services-maps = "com.google.android.gms:play-services-maps:19.0.0"
 com-google-maps-android-maps-ktx = "com.google.maps.android:maps-ktx:5.1.1"
@@ -91,7 +90,6 @@ google-play = [
     "com-google-android-gms-play-services-ads",
     "com-google-android-gms-play-services-maps",
     "com-google-android-play-app-update-ktx",
-    "com-google-android-play-review-ktx",
     "com-google-android-ump-user-messaging-platform",
     "com-google-maps-android-maps-ktx",
 ]
