@@ -130,7 +130,7 @@ dependencies {
     implementation(libs.androidx.core.splashscreen)
 
     //Coil
-    implementation("io.coil-kt:coil:2.0.0")
+    implementation(libs.coil)
 
     //Life cycle components
     implementation(libs.androidx.lifecycle.viewmodel.ktx)

@@ -22,7 +22,10 @@ import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasData
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
@@ -32,7 +35,9 @@ import cl.figonzal.lastquakechile.BuildConfig
 import cl.figonzal.lastquakechile.R
 import org.hamcrest.Description
 import org.hamcrest.Matcher
-import org.hamcrest.Matchers.*
+import org.hamcrest.Matchers.allOf
+import org.hamcrest.Matchers.equalTo
+import org.hamcrest.Matchers.`is`
 import org.hamcrest.TypeSafeMatcher
 import org.junit.Before
 import org.junit.FixMethodOrder
@@ -341,7 +346,7 @@ class SettingsActivityTest {
         }
 
         public override fun matchesSafely(root: Root): Boolean {
-            val type = root.windowLayoutParams.get().type
+            val type = root.windowLayoutParams2.type
             if (type == WindowManager.LayoutParams.TYPE_TOAST) {
                 val windowToken = root.decorView.windowToken
                 val appToken = root.decorView.applicationWindowToken
