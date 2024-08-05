@@ -29,10 +29,7 @@ import cl.figonzal.lastquakechile.core.utils.views.*
 import cl.figonzal.lastquakechile.databinding.FragmentMapsBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Coordinate
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
+import coil.load
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.card.MaterialCardView
@@ -377,25 +374,13 @@ fun List<String>.printChangeLogList(): CharSequence {
     return changes
 }
 
-/**
- * Load image to imageView from URL
- *
- * @param url
- * @param imageView
- * @return
- */
-fun Context.loadImage(url: Int, imageView: ImageView) = Glide.with(this)
-    .load(url)
-    .centerCrop()
-    .error(R.drawable.not_found)
-    .placeholder(R.drawable.placeholder)
-    .transition(
-        DrawableTransitionOptions.withCrossFade(
-            DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build()
-        )
-    )
-    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-    .into(imageView)
+fun ImageView.loadImage(url: Int) {
+    load(url) {
+        crossfade(true)
+        placeholder(R.drawable.placeholder)
+        error(R.drawable.not_found)
+    }
+}
 
 fun Context.getMonth(month: Int) = arrayOf(
     getString(R.string.JAN),

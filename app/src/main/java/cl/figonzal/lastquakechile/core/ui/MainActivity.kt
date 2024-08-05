@@ -11,11 +11,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.preference.PreferenceManager
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.services.*
+import cl.figonzal.lastquakechile.core.services.ChangeLogService
+import cl.figonzal.lastquakechile.core.services.GooglePlayService
+import cl.figonzal.lastquakechile.core.services.InAppReviewService
+import cl.figonzal.lastquakechile.core.services.NightModeService
+import cl.figonzal.lastquakechile.core.services.UpdaterService
 import cl.figonzal.lastquakechile.core.services.notifications.QuakeNotificationImpl
 import cl.figonzal.lastquakechile.core.services.notifications.utils.getFirebaseToken
 import cl.figonzal.lastquakechile.core.services.notifications.utils.subscribedToQuakes
-import cl.figonzal.lastquakechile.core.utils.*
+import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
+import cl.figonzal.lastquakechile.core.utils.getReviewInfo
+import cl.figonzal.lastquakechile.core.utils.startAds
+import cl.figonzal.lastquakechile.core.utils.startReviewFlow
 import cl.figonzal.lastquakechile.core.utils.views.handleShortcuts
 import cl.figonzal.lastquakechile.core.utils.views.loadImage
 import cl.figonzal.lastquakechile.databinding.ActivityMainBinding
@@ -99,7 +106,8 @@ class MainActivity : AppCompatActivity() {
 
         setToolbarViewPagerTabs()
 
-        loadImage(R.drawable.foto, binding.toolbarLayout.toolbarImage)
+        //loadImage(R.drawable.foto, binding.toolbarLayout.toolbarImage)
+        binding.toolbarLayout.toolbarImage.loadImage(R.drawable.foto)
     }
 
     private fun checkNighMode() {

@@ -129,9 +129,8 @@ dependencies {
     //Splash screen
     implementation(libs.androidx.core.splashscreen)
 
-    //GLIDE
-    implementation("com.github.bumptech.glide:glide:4.16.0")
-    ksp("com.github.bumptech.glide:ksp:4.16.0")
+    //Coil
+    implementation("io.coil-kt:coil:2.0.0")
 
     //Life cycle components
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
