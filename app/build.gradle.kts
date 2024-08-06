@@ -1,4 +1,3 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import java.io.FileInputStream
 import java.util.Properties
 
@@ -14,10 +13,14 @@ plugins {
     alias(libs.plugins.com.google.android.libraries.mapsplatform.secrets.gradle.plugin)
 }
 
+secrets {
+    propertiesFileName = "secrets.properties"
+}
+
 android {
 
     val prop = Properties().apply {
-        load(FileInputStream(File(rootProject.rootDir, "keystore.properties")))
+        load(FileInputStream(File(rootProject.rootDir, "keys/keystore.properties")))
     }
 
     signingConfigs {
@@ -38,24 +41,8 @@ android {
         versionCode = 51 //51
         versionName = "1.7.8"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-        with(gradleLocalProperties(rootDir, providers)) {
-
-            //GOOGLE MAPS API KEY
-            buildConfigField("String", "MAPS_API_KEY", getProperty("MAPS_API_KEY"))
-
-            //APPO DEAL KEY
-            //buildConfigField("String", "APPO_DEAL_KEY", getProperty("APPO_DEAL_KEY"))
-
-            //META API KEYS
-            //buildConfigField("String", "FB_APP_ID", getProperty("FB_APP_ID"))
-            //buildConfigField("String", "FB_CLIENT_ID", getProperty("FB_CLIENT_ID"))
-
-            //ADMOB MASTER KEY
-            buildConfigField("String", "ADMOB_MASTER_KEY", getProperty("ADMOB_MASTER_KEY"))
-        }
-
     }
+
     buildTypes {
         getByName("debug") {
             versionNameSuffix = "-debug"
