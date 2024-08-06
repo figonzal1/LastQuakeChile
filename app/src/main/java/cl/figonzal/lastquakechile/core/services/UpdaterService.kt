@@ -89,8 +89,4 @@ class UpdaterService(
             }
     }
 
-    companion object {
-        const val UPDATE_CODE = 305
-    }
-
 }

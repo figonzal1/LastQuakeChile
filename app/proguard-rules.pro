@@ -49,19 +49,6 @@
   @com.squareup.moshi.ToJson <methods>;
 }
 
-# GLIDE
--keep public class * implements com.bumptech.glide.module.GlideModule
--keep class * extends com.bumptech.glide.module.AppGlideModule {
- <init>(...);
-}
--keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
-  **[] $VALUES;
-  public *;
-}
--keep class com.bumptech.glide.load.data.ParcelFileDescriptorRewinder$InternalRewinder {
-  *** rewind();
-}
-
  # RETROFIT
  # Keep generic signature of Call, Response (R8 full mode strips signatures from non-kept items).
   -keep,allowobfuscation,allowshrinking interface retrofit2.Call

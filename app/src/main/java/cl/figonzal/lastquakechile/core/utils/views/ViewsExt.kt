@@ -174,15 +174,6 @@ fun Activity.toast(stringId: Int) {
     ).show()
 }
 
-fun Activity.toast(string: String) {
-    Toast.makeText(
-        this,
-        string,
-        Toast.LENGTH_LONG
-    ).show()
-}
-
-
 fun Fragment.toast(stringId: Int) {
     Toast.makeText(
         requireContext(),

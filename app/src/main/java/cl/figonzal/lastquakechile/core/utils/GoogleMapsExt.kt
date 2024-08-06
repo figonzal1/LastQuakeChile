@@ -9,7 +9,11 @@ import android.net.Uri
 import android.os.Build
 import android.view.View
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.utils.views.*
+import cl.figonzal.lastquakechile.core.utils.views.QUAKE_DETAILS_MAGNITUDE_FORMAT
+import cl.figonzal.lastquakechile.core.utils.views.getLocalBitmapUri
+import cl.figonzal.lastquakechile.core.utils.views.getMagnitudeColor
+import cl.figonzal.lastquakechile.core.utils.views.timeToText
+import cl.figonzal.lastquakechile.core.utils.views.toast
 import cl.figonzal.lastquakechile.databinding.QuakeBottomSheetBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import com.google.android.gms.maps.GoogleMap
@@ -140,7 +144,6 @@ private fun Context.shareQuake(quake: Quake, bitMapUri: Uri?) {
 
         val chooser = Intent.createChooser(this, getString(R.string.intent_chooser))
 
-        @Suppress("DEPRECATION")
         val resInfoList = when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> packageManager.queryIntentActivities(
                 chooser,

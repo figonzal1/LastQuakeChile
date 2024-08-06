@@ -48,8 +48,6 @@
     @@ -84,6 +86,7 @@
 
     <string name="privacy_policy_key" translatable="false">privacy_policy</string>
-    <string name="shared_pref_launch_counter" translatable="false">launch_count</string>
-    <string name="shared_pref_install_date" translatable="false">install_date</string>
     <!-- STRINGS DE LAYOUTS-->
     <string name="cd_paint_circle">Quake magnitude color</string>
     <string name="cd_toolbar_image">Toolbar background image</string>

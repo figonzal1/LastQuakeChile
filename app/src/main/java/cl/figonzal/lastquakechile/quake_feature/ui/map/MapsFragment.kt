@@ -11,7 +11,11 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.ui.dialog.MapTerrainDialogFragment
-import cl.figonzal.lastquakechile.core.utils.*
+import cl.figonzal.lastquakechile.core.utils.calculateMeanCords
+import cl.figonzal.lastquakechile.core.utils.configMapType
+import cl.figonzal.lastquakechile.core.utils.loadPins
+import cl.figonzal.lastquakechile.core.utils.setBottomSheetQuakeData
+import cl.figonzal.lastquakechile.core.utils.setNightMode
 import cl.figonzal.lastquakechile.core.utils.views.configBottomSheetCallback
 import cl.figonzal.lastquakechile.core.utils.views.configOptionsMenu
 import cl.figonzal.lastquakechile.core.utils.views.getViewBottomHeight
@@ -21,7 +25,6 @@ import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.GoogleMap.*
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng

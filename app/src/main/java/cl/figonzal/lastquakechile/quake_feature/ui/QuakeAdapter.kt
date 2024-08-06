@@ -97,7 +97,7 @@ class QuakeAdapter : RecyclerView.Adapter<QuakeViewHolder>() {
     /***
      * Function that recalculate the time difference between quake time and device time
      */
-    fun recalculateTimeShowed() {
+    private fun recalculateTimeShowed() {
 
         quakes.forEachIndexed { index, quake ->
             binding?.tvHour?.timeToText(quake, true)
