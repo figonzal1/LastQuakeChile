@@ -1,7 +1,6 @@
 package cl.figonzal.lastquakechile.core.utils
 
 import android.app.Activity
-import com.google.android.ump.ConsentDebugSettings
 import com.google.android.ump.ConsentRequestParameters
 import com.google.android.ump.UserMessagingPlatform
 import timber.log.Timber
@@ -12,14 +11,8 @@ private var isMobileAdsInitializeCalled = AtomicBoolean(false)
 
 fun Activity.checkEULAConsentAds(initAdsCallback: () -> Unit) {
 
-    val debugSettings = ConsentDebugSettings.Builder(this)
-        .setDebugGeography(ConsentDebugSettings.DebugGeography.DEBUG_GEOGRAPHY_EEA)
-        .addTestDeviceHashedId("96CE474F3C70354111098518981E3EE2")
-        .build()
-
     val params = ConsentRequestParameters
         .Builder()
-        .setConsentDebugSettings(debugSettings)
         .setTagForUnderAgeOfConsent(false)
         .build()
 

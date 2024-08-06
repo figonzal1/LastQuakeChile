@@ -1,10 +1,11 @@
 package cl.figonzal.lastquakechile.core.ui
 
-import android.content.Intent
+import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.preference.PreferenceManager
@@ -25,7 +26,6 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
-import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import org.koin.androidx.fragment.android.setupKoinFragmentFactory
 import timber.log.Timber
 
@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
         setUpNotificationService(sharedPrefUtil)
 
         //Updater service
-        updaterService = UpdaterService(this, AppUpdateManagerFactory.create(this))
+        updaterService = UpdaterService(this, activityResultLauncher)
         updaterService?.checkAvailability()
     }
 
@@ -177,18 +177,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    @Deprecated("Deprecated in Java")
-    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        @Suppress("DEPRECATION")
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == UpdaterService.UPDATE_CODE) {
-            when (resultCode) {
-                RESULT_OK -> Timber.d("Lqch-apk updated successfully")
+    private val activityResultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
+            when (val resultCode = result.resultCode) {
+                Activity.RESULT_OK -> Timber.d("Lqch-apk updated successfully")
+                Activity.RESULT_CANCELED -> Timber.d("User cancelled Update flow!")
                 else -> Timber.e("Lqch-apk update flow failed! Result code: %s", resultCode)
             }
         }
-    }
 
     /** Called when returning to the activity  */
     public override fun onResume() {

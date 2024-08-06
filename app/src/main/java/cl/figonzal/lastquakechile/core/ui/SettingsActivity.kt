@@ -33,9 +33,6 @@ import cl.figonzal.lastquakechile.core.utils.views.toast
 import cl.figonzal.lastquakechile.databinding.SettingsActivityBinding
 import com.google.android.ump.ConsentInformation
 import com.google.android.ump.UserMessagingPlatform
-import com.google.firebase.crashlytics.ktx.crashlytics
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.messaging.ktx.messaging
 import timber.log.Timber
 import java.util.Locale
 
@@ -65,9 +62,6 @@ class SettingsActivity : AppCompatActivity() {
 
     //Settings Fragment
     class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeListener {
-
-        private val fcm = Firebase.messaging
-        private val crashlytics = Firebase.crashlytics
 
         private val sharedPrefUtil: SharedPrefUtil by lazy { SharedPrefUtil(requireActivity()) }
         private val notificationServiceImpl by lazy {
@@ -131,7 +125,7 @@ class SettingsActivity : AppCompatActivity() {
                     findPreference<PreferenceCategory>(getString(R.string.notifications_category_key))?.summary =
                         getString(R.string.permission_totally_disabled)
 
-                    subscribedToQuakes(false, sharedPrefUtil, fcm, crashlytics)
+                    subscribedToQuakes(false, sharedPrefUtil)
                     alertDependencies(false)
                 }
             }
@@ -270,13 +264,13 @@ class SettingsActivity : AppCompatActivity() {
                     //Si el switch esta ON, lanzar toast con SUSCRITO
                     when (it) {
                         true -> {
-                            subscribedToQuakes(true, sharedPrefUtil, fcm, crashlytics)
+                            subscribedToQuakes(true, sharedPrefUtil)
                             toast(R.string.firebase_pref_key_alert_on)
                             alertDependencies(true)
                         }
 
                         else -> {
-                            subscribedToQuakes(false, sharedPrefUtil, fcm, crashlytics)
+                            subscribedToQuakes(false, sharedPrefUtil)
                             toast(R.string.firebase_pref_key_alert_off)
                             alertDependencies(false)
                         }

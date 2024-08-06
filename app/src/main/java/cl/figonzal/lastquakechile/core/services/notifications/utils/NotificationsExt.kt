@@ -136,7 +136,7 @@ fun getFirebaseToken() {
  *
  * @param isSubscribed
  */
-private fun subscribedToQuakes(
+fun subscribedToQuakes(
     isSubscribed: Boolean,
     sharedPrefUtil: SharedPrefUtil,
 ) {
