@@ -1,13 +1,14 @@
 package cl.figonzal.lastquakechile.core.utils
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.core.content.edit
 
 private const val SHARED_PREF_MASTER_KEY = "lastquakechile"
 
 class SharedPrefUtil(context: Context) {
 
-    private val sharedPreferences = context.getSharedPreferences(
+    val sharedPreferences: SharedPreferences = context.getSharedPreferences(
         SHARED_PREF_MASTER_KEY,
         Context.MODE_PRIVATE
     )
@@ -26,7 +27,8 @@ class SharedPrefUtil(context: Context) {
                 is Boolean -> putBoolean(key, value)
                 is Long -> putLong(key, value)
                 is Float -> putFloat(key, value)
-                else -> putString(key, value as String)
+                is String -> putString(key, value)
+                else -> throw IllegalArgumentException("Unsupported value type")
             }
         }
     }
@@ -38,16 +40,14 @@ class SharedPrefUtil(context: Context) {
      * @param defaultValue If the store value is inaccessible
      * @return Any
      */
-    fun getData(key: String, defaultValue: Any): Any? {
-
-        with(sharedPreferences) {
-            return when (defaultValue) {
-                is Int -> getInt(key, defaultValue)
-                is Boolean -> getBoolean(key, defaultValue)
-                is Float -> getFloat(key, defaultValue)
-                is Long -> getLong(key, defaultValue)
-                else -> getString(key, defaultValue as String)
-            }
+    inline fun <reified T> getData(key: String, defaultValue: T): T {
+        return when (T::class) {
+            Int::class -> sharedPreferences.getInt(key, defaultValue as Int) as T
+            Boolean::class -> sharedPreferences.getBoolean(key, defaultValue as Boolean) as T
+            Float::class -> sharedPreferences.getFloat(key, defaultValue as Float) as T
+            Long::class -> sharedPreferences.getLong(key, defaultValue as Long) as T
+            String::class -> sharedPreferences.getString(key, defaultValue as String) as T
+            else -> throw IllegalArgumentException("Unsupported default value type")
         }
     }
 }

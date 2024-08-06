@@ -67,7 +67,7 @@ fun Fragment.handleCvAlertPermission(
         binding.cvAlertPermission.root.visibility = View.GONE
     }
 
-    val showCv = sharedPrefUtil.getData(SHARED_HIDE_ALERT_PERMISSION_CV, false) as Boolean
+    val showCv = sharedPrefUtil.getData(SHARED_HIDE_ALERT_PERMISSION_CV, false)
 
     if (!showCv) {
 
@@ -188,7 +188,7 @@ fun generateRandomChannelId(
     randomChannelIdKey: String
 ): Int {
 
-    val savedRandomChannel = sharedPrefUtil.getData(randomChannelIdKey, 1) as Int
+    val savedRandomChannel = sharedPrefUtil.getData(randomChannelIdKey, 1)
 
     var newRandomChannel = 1
     while (savedRandomChannel == newRandomChannel) {
@@ -207,7 +207,7 @@ fun getPreliminaryAlertsStatus(
     val isPreliminaryAlerts = sharedPrefUtil.getData(
         key = prefQuakePreliminaryKey,
         defaultValue = true
-    ) as Boolean
+    )
 
     Timber.d("$prefQuakePreliminaryKey: $isPreliminaryAlerts")
     crashlytics.setCustomKey(prefQuakePreliminaryKey, isPreliminaryAlerts)
@@ -216,7 +216,7 @@ fun getPreliminaryAlertsStatus(
 }
 
 fun getRandomChannel(sharedPrefUtil: SharedPrefUtil, randomChannelId: String) =
-    sharedPrefUtil.getData(randomChannelId, 1) as Int
+    sharedPrefUtil.getData(randomChannelId, 1)
 
 /**
  * Return importance level for channel creation
@@ -228,7 +228,7 @@ fun getChannelImportance(
     crashlytics: FirebaseCrashlytics
 ): Int {
 
-    val highPriority = sharedPrefUtil.getData(prefHighPriorityKey, true) as Boolean
+    val highPriority = sharedPrefUtil.getData(prefHighPriorityKey, true)
 
     Timber.d("$prefHighPriorityKey: $highPriority")
     crashlytics.setCustomKey(prefHighPriorityKey, highPriority)
@@ -247,7 +247,7 @@ fun getNotificationPriority(
     prefHighPriorityKey: String,
     crashlytics: FirebaseCrashlytics
 ): Int {
-    val highPriority = sharedPrefUtil.getData(prefHighPriorityKey, true) as Boolean
+    val highPriority = sharedPrefUtil.getData(prefHighPriorityKey, true)
 
     Timber.d("$prefHighPriorityKey: $highPriority")
     crashlytics.setCustomKey(prefHighPriorityKey, highPriority)

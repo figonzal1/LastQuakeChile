@@ -35,7 +35,7 @@ class ChangeLogService(
     private fun configChangeLog() {
 
         //GET STORED VERSION CODE
-        val sharedVersionCode = sharedPrefUtil.getData(SHARED_PREF_VERSION_CODE_SAVED, 0) as Int
+        val sharedVersionCode = sharedPrefUtil.getData(SHARED_PREF_VERSION_CODE_SAVED, 0)
 
         Timber.d("Saved version code: $sharedVersionCode")
         Timber.d("Installed version code: $versionCode")
@@ -48,6 +48,7 @@ class ChangeLogService(
 
                 showBottomDialog()
             }
+
             else -> {
                 saveVersionCode()
 

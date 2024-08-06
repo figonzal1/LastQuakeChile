@@ -149,6 +149,7 @@ private fun Context.shareQuake(quake: Quake, bitMapUri: Uri?) {
                 chooser,
                 ResolveInfoFlags.of(MATCH_DEFAULT_ONLY.toLong())
             )
+
             else -> packageManager.queryIntentActivities(chooser, MATCH_DEFAULT_ONLY)
         }
 
@@ -165,10 +166,10 @@ private fun Context.shareQuake(quake: Quake, bitMapUri: Uri?) {
 }
 
 const val SHARED_PREF_MAP_TYPE = "map_type"
-fun Context.configMapType() = SharedPrefUtil(this).getData(
-    SHARED_PREF_MAP_TYPE,
-    GoogleMap.MAP_TYPE_NORMAL
-) as Int
+fun Context.configMapType(): Int {
+    val sharedPrefUtil = SharedPrefUtil(this@configMapType)
+    return sharedPrefUtil.getData(SHARED_PREF_MAP_TYPE, GoogleMap.MAP_TYPE_NORMAL)
+}
 
 fun Context.setBottomSheetQuakeData(
     quake: Quake,

@@ -113,7 +113,7 @@ class SettingsActivity : AppCompatActivity() {
 
         private fun configNotifications() {
             val isGrantedPermission =
-                sharedPrefUtil.getData(SHARED_PREF_PERMISSION_ALERT_ANDROID_13, true) as Boolean
+                sharedPrefUtil.getData(SHARED_PREF_PERMISSION_ALERT_ANDROID_13, true)
 
             when {
                 !isGrantedPermission -> {
@@ -214,11 +214,10 @@ class SettingsActivity : AppCompatActivity() {
         private fun configMinimumMagnitude() {
 
             findPreference<EditTextPreference>(getString(R.string.min_magnitude_alert_key))?.apply {
-                val value =
-                    sharedPrefUtil.getData(
-                        getString(R.string.min_magnitude_alert_key),
-                        MIN_MAGNITUDE_ALERT
-                    )
+                val value = sharedPrefUtil.getData(
+                    getString(R.string.min_magnitude_alert_key),
+                    MIN_MAGNITUDE_ALERT
+                )
                 summary = String.format(">=%s", value)
 
                 setOnBindEditTextListener {
