@@ -16,6 +16,7 @@ import cl.figonzal.lastquakechile.databinding.CardViewQuakeBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeAdapter.QuakeViewHolder
 import timber.log.Timber
+import java.util.Locale
 
 class QuakeAdapter : RecyclerView.Adapter<QuakeViewHolder>() {
 
@@ -64,6 +65,7 @@ class QuakeAdapter : RecyclerView.Adapter<QuakeViewHolder>() {
                 tvReference.text = quake.reference
 
                 tvMagnitude.text = String.format(
+                    Locale.getDefault(),
                     QUAKE_DETAILS_MAGNITUDE_FORMAT, quake.magnitude
                 )
 

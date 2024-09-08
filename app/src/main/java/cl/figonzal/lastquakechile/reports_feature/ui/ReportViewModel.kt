@@ -34,6 +34,7 @@ class ReportViewModel(
 
         viewModelScope.launch {
 
+            actualIndexPage = 1
             _firstPageState.update { it.copy(isLoading = true) }
 
             getReportsUseCase(0).collect { statusApi ->
@@ -58,6 +59,7 @@ class ReportViewModel(
                             _errorState.send(it)
                         }
                     }
+
                     is StatusAPI.Success -> {
 
                         oldList = data?.toMutableList()
@@ -104,6 +106,7 @@ class ReportViewModel(
                             _errorState.send(it)
                         }
                     }
+
                     is StatusAPI.Success -> {
 
                         actualIndexPage++

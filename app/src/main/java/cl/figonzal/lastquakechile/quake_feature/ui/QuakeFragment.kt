@@ -52,7 +52,10 @@ class QuakeFragment(
 
         configOptionsMenu(fragmentIndex = 1) {
             when (it.itemId) {
-                R.id.refresh_menu -> viewModel.getFirstPageQuakes()
+                R.id.refresh_menu -> {
+                    viewModel.getFirstPageQuakes()
+                    binding.recycleViewQuakes.scrollToPosition(0)
+                }
             }
         }
 
@@ -166,9 +169,11 @@ class QuakeFragment(
                                     includeErrorMessage.btnRetry.visibility = View.GONE
                                 }
                             }
+
                             quakes.isEmpty() && it == ApiError.NoMoreData -> {
                                 includeErrorMessage.root.visibility = View.GONE
                             }
+
                             else -> {
                                 quakeAdapter.quakes = quakes
                                 tvCacheCopy.visibility = View.VISIBLE

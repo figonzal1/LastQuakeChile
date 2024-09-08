@@ -34,6 +34,7 @@ class QuakeViewModel(
 
         viewModelScope.launch {
 
+            actualIndexPage = 1
             _firstPageState.update { it.copy(isLoading = true) }
 
             getQuakesUseCase(0).collect { statusApi ->
@@ -58,6 +59,7 @@ class QuakeViewModel(
                             _errorState.send(it)
                         }
                     }
+
                     is StatusAPI.Success -> {
 
                         oldList = data?.toMutableList()
@@ -103,6 +105,7 @@ class QuakeViewModel(
                             _errorState.send(it)
                         }
                     }
+
                     is StatusAPI.Success -> {
 
                         actualIndexPage++

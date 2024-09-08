@@ -48,7 +48,10 @@ class ReportsFragment(
 
         configOptionsMenu(fragmentIndex = 3) {
             when (it.itemId) {
-                R.id.refresh_menu -> viewModel.getFirstPageReports()
+                R.id.refresh_menu -> {
+                    viewModel.getFirstPageReports()
+                    binding.recycleViewReports.scrollToPosition(0)
+                }
             }
         }
 
@@ -158,9 +161,11 @@ class ReportsFragment(
                                     includeErrorMessage.btnRetry.visibility = View.GONE
                                 }
                             }
+
                             reports.isEmpty() && it == ApiError.NoMoreData -> {
                                 includeErrorMessage.root.visibility = View.GONE
                             }
+
                             else -> reportAdapter.reports = reports //Cache list
                         }
                         showServerApiError(it) { iconId, message ->
