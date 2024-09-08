@@ -24,11 +24,24 @@ import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.services.notifications.utils.IS_SNAPSHOT_REQUEST_FROM_BOTTOM_SHEET
 import cl.figonzal.lastquakechile.core.services.notifications.utils.QUAKE
 import cl.figonzal.lastquakechile.core.ui.dialog.MapTerrainDialogFragment
-import cl.figonzal.lastquakechile.core.utils.*
-import cl.figonzal.lastquakechile.core.utils.views.*
+import cl.figonzal.lastquakechile.core.utils.animate
+import cl.figonzal.lastquakechile.core.utils.configMapType
+import cl.figonzal.lastquakechile.core.utils.makeSnapshot
+import cl.figonzal.lastquakechile.core.utils.setNightMode
+import cl.figonzal.lastquakechile.core.utils.views.QUAKE_DETAILS_DEPTH_FORMAT
+import cl.figonzal.lastquakechile.core.utils.views.QUAKE_DETAILS_MAGNITUDE_FORMAT
+import cl.figonzal.lastquakechile.core.utils.views.formatDMS
+import cl.figonzal.lastquakechile.core.utils.views.getMagnitudeColor
+import cl.figonzal.lastquakechile.core.utils.views.setScale
+import cl.figonzal.lastquakechile.core.utils.views.timeToText
+import cl.figonzal.lastquakechile.core.utils.views.toast
 import cl.figonzal.lastquakechile.databinding.ActivityQuakeDetailsBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
-import com.google.android.gms.ads.*
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdLoader
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.VideoController
 import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.gms.ads.nativead.NativeAdView
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -36,9 +49,11 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.ktx.addCircle
-import kotlinx.coroutines.*
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 private const val mapViewKey = "MapViewBundleKey"
 
@@ -87,6 +102,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> {
                     this?.let { BundleCompat.getParcelable(it, QUAKE, Quake::class.java) }
                 }
+
                 else -> this?.get(QUAKE) as Quake
             }
             isSnapshotRequest = this?.getBoolean(IS_SNAPSHOT_REQUEST_FROM_BOTTOM_SHEET) as Boolean
@@ -173,6 +189,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                 null -> {
                     View.INVISIBLE
                 }
+
                 else -> {
                     nativeAd.starRating?.let {
                         (starRatingView as RatingBar).rating = it.toFloat()
@@ -192,6 +209,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
             vc?.hasVideoContent() == true -> vc.videoLifecycleCallbacks =
                 object : VideoController.VideoLifecycleCallbacks() {
                 }
+
             else -> {
                 //refreshAd()
             }
@@ -211,12 +229,12 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                 tvReference.text = it.reference
 
                 tvMagnitude.text =
-                    String.format(QUAKE_DETAILS_MAGNITUDE_FORMAT, it.magnitude)
+                    String.format(Locale.getDefault(), QUAKE_DETAILS_MAGNITUDE_FORMAT, it.magnitude)
 
                 ivMagColor.setColorFilter(getColor(getMagnitudeColor(it.magnitude, false)))
 
                 tvDepthValue.text =
-                    String.format(QUAKE_DETAILS_DEPTH_FORMAT, it.depth)
+                    String.format(Locale.getDefault(), QUAKE_DETAILS_DEPTH_FORMAT, it.depth)
 
                 tvDatetimeValue.text =
                     it.localDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
@@ -423,6 +441,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                         Timber.d("Home up clicked")
                         finish()
                     }
+
                     R.id.layers_menu -> {
 
                         googleMap?.let {

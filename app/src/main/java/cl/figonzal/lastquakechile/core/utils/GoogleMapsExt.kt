@@ -24,6 +24,7 @@ import com.google.maps.android.ktx.addCircle
 import com.google.maps.android.ktx.addMarker
 import timber.log.Timber
 import java.io.IOException
+import java.util.Locale
 
 
 fun GoogleMap.loadPins(quakeList: List<Quake>, context: Context) {
@@ -181,6 +182,7 @@ fun Context.setBottomSheetQuakeData(
         tvReference.text = quake.reference
 
         tvMagnitude.text = String.format(
+            Locale.getDefault(),
             QUAKE_DETAILS_MAGNITUDE_FORMAT,
             quake.magnitude
         )

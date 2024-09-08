@@ -224,6 +224,7 @@ private fun calculateTextViewAboveDay(
     return when {
         hour != null && hour == 0L -> when {
             isShortVersion -> String.format(
+                Locale.getDefault(),
                 QUAKETIME_D_FORMAT,
                 days
             )
@@ -236,6 +237,7 @@ private fun calculateTextViewAboveDay(
 
         hour != null && hour >= 1 -> when {
             isShortVersion -> String.format(
+                Locale.getDefault(),
                 QUAKETIME_DH_FORMAT,
                 days,
                 hour / 24
@@ -264,13 +266,14 @@ private fun calculateTextViewBelowDay(
 
     return when {
         hour != null && hour >= 1 -> when {
-            isShortVersion -> String.format(QUAKETIME_H_FORMAT, hour)
+            isShortVersion -> String.format(Locale.getDefault(), QUAKETIME_H_FORMAT, hour)
             else -> String.format(context.getString(R.string.quake_time_hour_info_windows), hour)
         }
 
         else -> when {
             min != null && min < 1 -> when {
                 isShortVersion -> String.format(
+                    Locale.getDefault(),
                     QUAKETIME_S_FORMAT, seg
                 )
 
@@ -281,6 +284,7 @@ private fun calculateTextViewBelowDay(
 
             else -> when {
                 isShortVersion -> String.format(
+                    Locale.getDefault(),
                     QUAKETIME_M_FORMAT,
                     min
                 )
