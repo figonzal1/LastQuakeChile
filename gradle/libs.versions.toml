@@ -2,7 +2,7 @@
 # Android Gradle Plugin (IMPORTANTE)
 agp = "8.5.1"
 # Kotlin (IMPORTANTE)
-kotlin = "2.0.0"
+kotlin = "2.0.20"
 # Funciones de extension Kotlin para Android
 coreKtx = "1.13.1"
 # Material Design
@@ -10,13 +10,13 @@ material = "1.12.0"
 # Cliente HTTP
 retrofit = "2.11.0"
 # Easy error handling para Retrofit
-sandwich = "2.0.8"
+sandwich = "2.0.9"
 # Serialización de JSON
 moshi = "1.15.1"
 # Base de datos local
 room = "2.6.1"
 # ViewModel para Android
-lifecycleViewmodelKtx = "2.8.4"
+lifecycleViewmodelKtx = "2.8.5"
 # Corrutinas android kotlin
 kotlinxCoroutinesAndroid = "1.8.1"
 # Android testing
@@ -24,9 +24,10 @@ androidx-test = "1.6.1"
 # Android testing 2
 coreTesting = "2.2.0"
 # Fragment testing
-androidx-fragment = "1.8.2"
+androidx-fragment = "1.8.3"
 # Android espresso
-espresso = "3.6.1"
+# sept. 2024 (NO ACTUALIZAR)
+espresso = "3.5.0"
 koin = "3.5.6"
 coil = "2.7.0"
 
@@ -55,14 +56,14 @@ sandwich = { module = "com.github.skydoves:sandwich", version.ref = "sandwich" }
 sandwich-retrofit = { module = "com.github.skydoves:sandwich-retrofit", version.ref = "sandwich" }
 moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
 moshi-kotlin-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "moshi" }
-com-google-firebase-firebase-bom = "com.google.firebase:firebase-bom:33.1.2"
+com-google-firebase-firebase-bom = "com.google.firebase:firebase-bom:33.2.0"
 com-google-firebase-firebase-analytics-ktx = { module = "com.google.firebase:firebase-analytics-ktx" }
 com-google-firebase-firebase-crashlytics-ktx = { module = "com.google.firebase:firebase-crashlytics-ktx" }
 com-google-firebase-firebase-perf-ktx = { module = "com.google.firebase:firebase-perf-ktx" }
 com-google-firebase-firebase-messaging-ktx = { module = "com.google.firebase:firebase-messaging-ktx" }
 com-jakewharton-timber = "com.jakewharton.timber:timber:5.0.1"
 # Google play
-com-google-android-gms-play-services-ads = "com.google.android.gms:play-services-ads:23.2.0"
+com-google-android-gms-play-services-ads = "com.google.android.gms:play-services-ads:23.3.0"
 com-google-android-play-app-update-ktx = "com.google.android.play:app-update-ktx:2.1.0"
 com-google-android-ump-user-messaging-platform = "com.google.android.ump:user-messaging-platform:3.0.0"
 com-google-android-gms-play-services-maps = "com.google.android.gms:play-services-maps:19.0.0"
@@ -73,7 +74,7 @@ androidx-test-core-ktx = { module = "androidx.test:core-ktx", version.ref = "and
 androidx-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "coreTesting" }
 androidx-test-ext-truth = "androidx.test.ext:truth:1.6.0"
 app-cash-turbine = "app.cash.turbine:turbine:1.1.0"
-androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidx-test" }
+androidx-test-runner = "androidx.test:runner:1.6.2"
 androidx-test-rules = { module = "androidx.test:rules", version.ref = "androidx-test" }
 androidx-test-ext-junit-ktx = "androidx.test.ext:junit-ktx:1.2.1"
 androidx-test-espresso-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
@@ -83,7 +84,7 @@ androidx-test-uiautomator = "androidx.test.uiautomator:uiautomator:2.3.0"
 androidx-fragment-fragment-testing-manifest = { module = "androidx.fragment:fragment-testing-manifest", version.ref = "androidx-fragment" }
 androidx-fragment-fragment-testing = { module = "androidx.fragment:fragment-testing", version.ref = "androidx-fragment" }
 com-squareup-leakcanary-leakcanary-android = "com.squareup.leakcanary:leakcanary-android:2.14"
-com-android-tools-desugar_jdk_libs = "com.android.tools:desugar_jdk_libs:2.0.4"
+com-android-tools-desugar_jdk_libs = "com.android.tools:desugar_jdk_libs:2.1.2"
 
 [bundles]
 google-play = [
@@ -108,7 +109,7 @@ com-github-ben-manes-versions = "com.github.ben-manes.versions:0.51.0"
 # Plugin para actualizar versiones de dependencias
 nl-littlerobots-version-catalog-update = "nl.littlerobots.version-catalog-update:0.8.4"
 com-google-android-libraries-mapsplatform-secrets-gradle-plugin = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:2.0.1"
-com-google-devtools-ksp = "com.google.devtools.ksp:2.0.0-1.0.24"
+com-google-devtools-ksp = "com.google.devtools.ksp:2.0.20-1.0.25"
 com-google-firebase-crashlytics = "com.google.firebase.crashlytics:3.0.2"
 com-google-firebase-firebase-perf = "com.google.firebase.firebase-perf:1.4.2"
 com-google-gms-google-services = "com.google.gms.google-services:4.4.2"
