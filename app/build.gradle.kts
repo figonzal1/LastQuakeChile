@@ -90,6 +90,7 @@ android {
     flavorDimensions += listOf("version")
     productFlavors {
         create("dev") {
+            isDefault = true
             dimension = "version"
             versionNameSuffix = "-dev"
         }

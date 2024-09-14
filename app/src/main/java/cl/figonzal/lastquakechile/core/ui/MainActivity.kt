@@ -26,6 +26,10 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.koin.androidx.fragment.android.setupKoinFragmentFactory
 import timber.log.Timber
 
@@ -59,10 +63,17 @@ class MainActivity : AppCompatActivity() {
         getFirebaseToken()
 
         checkEULAConsentAds {
-            MobileAds.initialize(this)
 
-            //Ads
-            adView = startAds(binding.adViewContainer)
+            val adsScope = CoroutineScope(Dispatchers.IO)
+            adsScope.launch {
+
+                MobileAds.initialize(this@MainActivity)
+
+                withContext(Dispatchers.Main) {
+                    //Ads
+                    adView = startAds(binding.adViewContainer)
+                }
+            }
         }
 
         //Ads
@@ -76,25 +87,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setToolbarViewPagerTabs() {
-
-        with(binding.toolbarLayout) {
+        binding.toolbarLayout.apply {
 
             setSupportActionBar(toolbarMain.toolBar)
 
-            collapsingToolbar.isTitleEnabled = true
-            collapsingToolbar.setContentScrimColor(
-                getColor(R.color.colorPrimary)
-            )
+            collapsingToolbar.run {
+                isTitleEnabled = true
+                setContentScrimColor(getColor(R.color.colorPrimary))
+            }
 
-            //View pager for fragments
             viewPager.apply {
                 adapter = MainFragmentStateAdapter(this@MainActivity, context)
                 setTabs(tabs, appBar)
-
                 handleShortcuts(intent.action, applicationContext.packageName)
             }
         }
-
     }
 
     private fun setTabs(tabLayout: TabLayout, appBar: AppBarLayout) {
@@ -156,16 +163,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun wrapFirstTab(tabLayout: TabLayout) {
-        val tabStrip = tabLayout.getChildAt(0)
-        if (tabStrip is ViewGroup) {
-            val tabView = tabStrip.getChildAt(0) // 0th position tab i.e 1st tab
-            tabView.minimumWidth = 0
-            tabView.setPadding(16, tabView.paddingTop, 16, tabView.paddingBottom)
-            tabView.layoutParams =
-                LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.MATCH_PARENT
-                )
+        (tabLayout.getChildAt(0) as? ViewGroup)?.getChildAt(0)?.apply {
+            minimumWidth = 0
+            setPadding(16, paddingTop, 16, paddingBottom)
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
+            )
             tabLayout.requestLayout()
         }
     }
