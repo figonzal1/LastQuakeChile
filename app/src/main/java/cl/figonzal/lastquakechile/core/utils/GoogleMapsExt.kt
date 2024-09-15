@@ -134,7 +134,7 @@ private fun Context.shareQuake(quake: Quake, bitMapUri: Uri?) {
         quake.scale,
         quake.depth,
         quake.reference,
-        getString(R.string.DEEP_LINK)
+        getString(R.string.APP_LINK)
     )
 
     Intent().apply {
