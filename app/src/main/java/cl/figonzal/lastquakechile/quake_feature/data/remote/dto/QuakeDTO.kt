@@ -7,37 +7,37 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class QuakeDTO(
 
-    @Json(name = "quakeCode")
+    @param:Json(name = "quakeCode")
     val quakeCode: Int,
 
-    @Json(name = "localDate", ignore = true)
+    @param:Json(name = "localDate", ignore = true)
     val localDate: String? = null,
 
-    @Json(name = "utcDate")
+    @param:Json(name = "utcDate")
     val utcDate: String,
 
-    @Json(name = "city")
+    @param:Json(name = "city")
     val city: String,
 
-    @Json(name = "reference")
+    @param:Json(name = "reference")
     val reference: String,
 
-    @Json(name = "magnitude")
+    @param:Json(name = "magnitude")
     val magnitude: Double,
 
-    @Json(name = "depth")
+    @param:Json(name = "depth")
     val depth: Double,
 
-    @Json(name = "scale")
+    @param:Json(name = "scale")
     val scale: String,
 
-    @Json(name = "coordinate")
+    @param:Json(name = "coordinate")
     val coordinate: CoordinateDTO,
 
-    @Json(name = "sensitive")
+    @param:Json(name = "sensitive")
     val isSensitive: Boolean,
 
-    @Json(name = "verified")
+    @param:Json(name = "verified")
     val isVerified: Boolean
 ) {
     fun toEntity() = QuakeEntity(

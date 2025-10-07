@@ -12,7 +12,7 @@ import cl.figonzal.lastquakechile.reports_feature.ui.ReportAdapter
 import cl.figonzal.lastquakechile.reports_feature.ui.ReportViewModel
 import cl.figonzal.lastquakechile.reports_feature.ui.ReportsFragment
 import org.koin.androidx.fragment.dsl.fragment
-import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.module.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 

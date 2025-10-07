@@ -32,14 +32,14 @@ android {
         }
     }
 
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "cl.figonzal.lastquakechile"
         minSdk = 23
-        targetSdk = 34
-        versionCode = 52
-        versionName = "1.7.8"
+        targetSdk = 36
+        versionCode = 53
+        versionName = "1.7.9"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -79,8 +79,8 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = "17"
+    kotlin {
+        jvmToolchain(17)
     }
 
     buildFeatures {
@@ -194,7 +194,7 @@ dependencies {
     //Debug dependencies
     debugImplementation(libs.androidx.fragment.fragment.testing.manifest)
     debugImplementation(libs.androidx.fragment.fragment.testing)
-    debugImplementation(libs.com.squareup.leakcanary.leakcanary.android)
+    //debugImplementation(libs.com.squareup.leakcanary.leakcanary.android)
 
     coreLibraryDesugaring(libs.com.android.tools.desugar.jdk.libs)
 }

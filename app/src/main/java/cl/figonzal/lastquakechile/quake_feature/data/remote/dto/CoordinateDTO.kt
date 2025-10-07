@@ -7,10 +7,10 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class CoordinateDTO(
 
-    @Json(name = "latitude")
+    @param:Json(name = "latitude")
     val latitude: Double,
 
-    @Json(name = "longitude")
+    @param:Json(name = "longitude")
     val longitude: Double,
 ) {
     fun toEntity() = CoordinateEntity(

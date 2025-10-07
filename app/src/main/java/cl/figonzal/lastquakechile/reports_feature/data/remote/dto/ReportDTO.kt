@@ -10,28 +10,28 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class ReportDTO(
 
-    @Json(name = "reportMonth")
+    @param:Json(name = "reportMonth")
     val reportMonth: String,
 
-    @Json(name = "promMagnitude")
+    @param:Json(name = "promMagnitude")
     val meanMagnitude: Double,
 
-    @Json(name = "promDepth")
+    @param:Json(name = "promDepth")
     val meanDepth: Double,
 
-    @Json(name = "maxMagnitude")
+    @param:Json(name = "maxMagnitude")
     val maxMagnitude: Double,
 
-    @Json(name = "minDepth")
+    @param:Json(name = "minDepth")
     val minDepth: Double,
 
-    @Json(name = "nsensitive")
+    @param:Json(name = "nsensitive")
     val nSensitives: Int,
 
-    @Json(name = "nquakes")
+    @param:Json(name = "nquakes")
     val nQuakes: Int,
 
-    @Json(name = "cityQuakes")
+    @param:Json(name = "cityQuakes")
     val cityQuakes: List<CityQuakesDTO>,
 ) {
 
