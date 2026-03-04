@@ -1,11 +1,10 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.io.FileInputStream
 import java.util.Properties
 
 plugins {
-    alias(libs.plugins.androidApplication)
-    alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.com.android.application)
     alias(libs.plugins.com.google.devtools.ksp)
-    id("kotlin-parcelize")
     alias(libs.plugins.com.google.gms.google.services)
     alias(libs.plugins.com.google.firebase.crashlytics)
     alias(libs.plugins.com.google.firebase.firebase.perf)
@@ -32,7 +31,9 @@ android {
         }
     }
 
+    namespace = "cl.figonzal.lastquakechile"
     compileSdk = 36
+    buildToolsVersion = "36.1.0"
 
     defaultConfig {
         applicationId = "cl.figonzal.lastquakechile"
@@ -79,13 +80,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlin {
-        jvmToolchain(17)
-    }
-
     buildFeatures {
         viewBinding = true
         buildConfig = true
+        resValues = true
     }
     flavorDimensions += listOf("version")
     productFlavors {
@@ -102,7 +100,6 @@ android {
             dimension = "version"
         }
     }
-    namespace = "cl.figonzal.lastquakechile"
 }
 
 dependencies {
@@ -197,6 +194,12 @@ dependencies {
     //debugImplementation(libs.com.squareup.leakcanary.leakcanary.android)
 
     coreLibraryDesugaring(libs.com.android.tools.desugar.jdk.libs)
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_17
+    }
 }
 
 sonarqube {
