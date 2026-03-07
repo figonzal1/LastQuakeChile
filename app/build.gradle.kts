@@ -2,6 +2,9 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.io.FileInputStream
 import java.util.Properties
 
+val appVersionName = "1.7.9" // x-release-please-version
+val (vMajor, vMinor, vPatch) = appVersionName.split(".").map { it.toInt() }
+
 plugins {
     alias(libs.plugins.com.android.application)
     alias(libs.plugins.com.google.devtools.ksp)
@@ -39,8 +42,8 @@ android {
         applicationId = "cl.figonzal.lastquakechile"
         minSdk = 23
         targetSdk = 36
-        versionCode = 53
-        versionName = "1.7.9"
+        versionCode = vMajor * 1_000_000 + vMinor * 1_000 + vPatch
+        versionName = appVersionName
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
