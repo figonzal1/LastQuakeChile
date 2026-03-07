@@ -477,6 +477,30 @@ private fun GoogleMap.adjustMapPadding(binding: FragmentMapsBinding) {
 fun Float.toDips(resources: Resources) =
     TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this, resources.displayMetrics)
 
+fun Quake.toRelativeTimeText(): String {
+    val timeMap = localDate.stringToLocalDateTime().localDateToDHMS()
+    val days = timeMap[DAYS]
+    val hours = timeMap[HOURS]
+    val min = timeMap[MINUTES]
+    val seg = timeMap[SECONDS]
+
+    return when {
+        days != null && days == 0L -> when {
+            hours != null && hours >= 1 -> String.format(Locale.getDefault(), QUAKETIME_H_FORMAT, hours)
+            else -> when {
+                min != null && min < 1 -> String.format(Locale.getDefault(), QUAKETIME_S_FORMAT, seg)
+                else -> String.format(Locale.getDefault(), QUAKETIME_M_FORMAT, min)
+            }
+        }
+        days != null && days > 0 -> when {
+            hours != null && hours == 0L -> String.format(Locale.getDefault(), QUAKETIME_D_FORMAT, days)
+            hours != null && hours >= 1 -> String.format(Locale.getDefault(), QUAKETIME_DH_FORMAT, days, hours / 24)
+            else -> ""
+        }
+        else -> ""
+    }
+}
+
 fun ViewGroup.getViewBottomHeight(
     targetViewId: Int,
     behavior: BottomSheetBehavior<MaterialCardView>?
