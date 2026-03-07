@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.data.remote.ApiError
 import cl.figonzal.lastquakechile.core.ui.composables.ErrorMessageComposable
+import cl.figonzal.lastquakechile.core.ui.composables.theme.AppTheme
 import cl.figonzal.lastquakechile.core.utils.views.configOptionsMenu
 import cl.figonzal.lastquakechile.core.utils.views.showServerApiError
 import cl.figonzal.lastquakechile.databinding.FragmentReportsBinding
@@ -169,12 +170,14 @@ class ReportsFragment(
                                 includeErrorMessage.root.apply {
                                     visibility = View.VISIBLE
                                     setContent {
-                                        ErrorMessageComposable(
-                                            iconRes = iconId,
-                                            message = message,
-                                            showRetry = showRetry,
-                                            onRetry = { viewModel.getFirstPageReports() }
-                                        )
+                                        AppTheme {
+                                            ErrorMessageComposable(
+                                                iconRes = iconId,
+                                                message = message,
+                                                showRetry = showRetry,
+                                                onRetry = { viewModel.getFirstPageReports() }
+                                            )
+                                        }
                                     }
                                 }
                             }

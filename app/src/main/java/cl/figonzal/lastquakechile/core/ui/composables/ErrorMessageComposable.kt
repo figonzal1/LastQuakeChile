@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -20,6 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.ui.composables.theme.AppTheme
 
 @Composable
 fun ErrorMessageComposable(
@@ -39,6 +41,7 @@ fun ErrorMessageComposable(
         Icon(
             painter = painterResource(id = iconRes),
             contentDescription = stringResource(R.string.cd_wifi_off),
+            tint = MaterialTheme.colorScheme.onSurface,
             modifier = Modifier
                 .size(80.dp)
                 .padding(top = 8.dp)
@@ -46,12 +49,19 @@ fun ErrorMessageComposable(
         Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = message,
-            style = MaterialTheme.typography.bodySmall
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurface
         )
         if (showRetry) {
             Spacer(modifier = Modifier.height(8.dp))
-            Button(onClick = onRetry) {
-                Text(text = stringResource(R.string.retry))
+            Button(
+                onClick = onRetry,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.secondary,
+                    contentColor = MaterialTheme.colorScheme.onSecondary
+                )
+            ) {
+                Text(text = stringResource(R.string.retry).uppercase())
             }
         }
     }
@@ -60,10 +70,25 @@ fun ErrorMessageComposable(
 @Preview(showBackground = true)
 @Composable
 private fun ErrorMessagePreview() {
-    ErrorMessageComposable(
-        iconRes = R.drawable.round_wifi_off_24,
-        message = "Check your connection",
-        showRetry = true,
-        onRetry = {}
-    )
+    AppTheme {
+        ErrorMessageComposable(
+            iconRes = R.drawable.round_wifi_off_24,
+            message = "Check your connection",
+            showRetry = true,
+            onRetry = {}
+        )
+    }
+}
+
+@Preview(showBackground = true, uiMode = android.content.res.Configuration.UI_MODE_NIGHT_YES)
+@Composable
+private fun ErrorMessagePreviewDark() {
+    AppTheme(darkTheme = true) {
+        ErrorMessageComposable(
+            iconRes = R.drawable.round_wifi_off_24,
+            message = "Check your connection",
+            showRetry = true,
+            onRetry = {}
+        )
+    }
 }

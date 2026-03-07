@@ -17,6 +17,7 @@ import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.data.remote.ApiError
 import cl.figonzal.lastquakechile.core.services.notifications.utils.handleCvAlertPermission
 import cl.figonzal.lastquakechile.core.ui.composables.ErrorMessageComposable
+import cl.figonzal.lastquakechile.core.ui.composables.theme.AppTheme
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.views.configOptionsMenu
 import cl.figonzal.lastquakechile.core.utils.views.showServerApiError
@@ -180,12 +181,14 @@ class QuakeFragment(
                                 includeErrorMessage.root.apply {
                                     visibility = View.VISIBLE
                                     setContent {
-                                        ErrorMessageComposable(
-                                            iconRes = iconId,
-                                            message = message,
-                                            showRetry = showRetry,
-                                            onRetry = { viewModel.getFirstPageQuakes() }
-                                        )
+                                        AppTheme {
+                                            ErrorMessageComposable(
+                                                iconRes = iconId,
+                                                message = message,
+                                                showRetry = showRetry,
+                                                onRetry = { viewModel.getFirstPageQuakes() }
+                                            )
+                                        }
                                     }
                                 }
                             }
