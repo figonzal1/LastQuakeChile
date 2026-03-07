@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
-import androidx.annotation.DrawableRes
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
@@ -18,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.data.remote.ApiError
 import cl.figonzal.lastquakechile.core.services.notifications.utils.handleCvAlertPermission
+import cl.figonzal.lastquakechile.core.ui.composables.ErrorMessageComposable
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.views.configOptionsMenu
 import cl.figonzal.lastquakechile.core.utils.views.showServerApiError
@@ -148,29 +147,25 @@ class QuakeFragment(
 
             viewModel.errorState
                 .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
-                .collectLatest {
+                .collectLatest { apiError ->
 
-                    Timber.d("COLLECT ERROR STATE: $it")
+                    Timber.d("COLLECT ERROR STATE: $apiError")
 
                     with(binding) {
 
                         progressBarQuakes.visibility = View.GONE
 
+                        var showErrorView = false
+                        var showRetry = false
+
                         when {
-                            quakes.isEmpty() && it != ApiError.NoMoreData -> {
-                                includeErrorMessage.root.visibility = View.VISIBLE
+                            quakes.isEmpty() && apiError != ApiError.NoMoreData -> {
+                                showErrorView = true
+                                showRetry = apiError != ApiError.EmptyList
                                 tvCacheCopy.visibility = View.GONE
-
-                                includeErrorMessage.btnRetry.setOnClickListener {
-                                    viewModel.getFirstPageQuakes()
-                                }
-
-                                if (it == ApiError.EmptyList) {
-                                    includeErrorMessage.btnRetry.visibility = View.GONE
-                                }
                             }
 
-                            quakes.isEmpty() && it == ApiError.NoMoreData -> {
+                            quakes.isEmpty() && apiError == ApiError.NoMoreData -> {
                                 includeErrorMessage.root.visibility = View.GONE
                             }
 
@@ -179,23 +174,26 @@ class QuakeFragment(
                                 tvCacheCopy.visibility = View.VISIBLE
                             }
                         }
-                        showServerApiError(it) { iconId, message ->
-                            configErrorStatusMsg(iconId, message)
-                        }
 
+                        showServerApiError(apiError) { iconId, message ->
+                            if (showErrorView) {
+                                includeErrorMessage.root.apply {
+                                    visibility = View.VISIBLE
+                                    setContent {
+                                        ErrorMessageComposable(
+                                            iconRes = iconId,
+                                            message = message,
+                                            showRetry = showRetry,
+                                            onRetry = { viewModel.getFirstPageQuakes() }
+                                        )
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
         }
     }
-
-    private fun configErrorStatusMsg(@DrawableRes icon: Int, errorMsg: String) =
-        with(binding.includeErrorMessage) {
-
-            ivWifiOff.setImageDrawable(
-                ResourcesCompat.getDrawable(resources, icon, requireContext().theme)
-            )
-            tvMsgApiError.text = errorMsg
-        }
 
     private fun loadingUI() {
         with(binding) {

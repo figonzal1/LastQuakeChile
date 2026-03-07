@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.services.notifications.QuakeNotificationImpl
+import cl.figonzal.lastquakechile.core.ui.composables.NotificationPermissionCard
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.views.toast
 import cl.figonzal.lastquakechile.databinding.FragmentQuakeBinding
@@ -70,17 +71,21 @@ fun Fragment.handleCvAlertPermission(
     val showCv = sharedPrefUtil.getData(SHARED_HIDE_ALERT_PERMISSION_CV, false)
 
     if (!showCv) {
-
-        with(binding.cvAlertPermission) {
-            root.visibility = View.VISIBLE
-            btnRequestPermission.setOnClickListener {
-                launchRequestPermission(
-                    this@handleCvAlertPermission,
-                    sharedPrefUtil,
-                    requestPermission
-                ) {
-                    root.visibility = View.GONE
-                }
+        val fragment = this
+        binding.cvAlertPermission.root.apply {
+            visibility = View.VISIBLE
+            setContent {
+                NotificationPermissionCard(
+                    onRequestPermission = {
+                        launchRequestPermission(
+                            fragment,
+                            sharedPrefUtil,
+                            requestPermission
+                        ) {
+                            binding.cvAlertPermission.root.visibility = View.GONE
+                        }
+                    }
+                )
             }
         }
     }
