@@ -13,6 +13,7 @@ plugins {
     alias(libs.plugins.com.google.firebase.firebase.perf)
 
     alias(libs.plugins.com.google.android.libraries.mapsplatform.secrets.gradle.plugin)
+    alias(libs.plugins.kotlin.plugin.compose)
 }
 
 secrets {
@@ -87,6 +88,7 @@ android {
         viewBinding = true
         buildConfig = true
         resValues = true
+        compose = true
     }
     flavorDimensions += listOf("version")
     productFlavors {
@@ -119,6 +121,13 @@ dependencies {
 
     //Coil
     implementation(libs.coil)
+    implementation(libs.coil.compose)
+
+    // Compose BOM
+    implementation(platform(libs.compose.bom))
+    implementation(libs.compose.ui)
+    implementation(libs.compose.ui.tooling.preview)
+    implementation(libs.compose.material3)
 
     //Life cycle components
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
@@ -192,6 +201,7 @@ dependencies {
     androidTestImplementation(libs.koin.test.junit4)
 
     //Debug dependencies
+    debugImplementation(libs.compose.ui.tooling)
     debugImplementation(libs.androidx.fragment.fragment.testing.manifest)
     debugImplementation(libs.androidx.fragment.fragment.testing)
     //debugImplementation(libs.com.squareup.leakcanary.leakcanary.android)

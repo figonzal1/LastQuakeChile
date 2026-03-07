@@ -5,8 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
-import androidx.annotation.DrawableRes
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
@@ -16,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.data.remote.ApiError
+import cl.figonzal.lastquakechile.core.ui.composables.ErrorMessageComposable
+import cl.figonzal.lastquakechile.core.ui.composables.theme.AppTheme
 import cl.figonzal.lastquakechile.core.utils.views.configOptionsMenu
 import cl.figonzal.lastquakechile.core.utils.views.showServerApiError
 import cl.figonzal.lastquakechile.databinding.FragmentReportsBinding
@@ -141,48 +141,49 @@ class ReportsFragment(
 
             viewModel.errorState
                 .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
-                .collectLatest {
+                .collectLatest { apiError ->
 
-                    Timber.d("COLLECT ERROR STATE: $it")
+                    Timber.d("COLLECT ERROR STATE: $apiError")
 
                     with(binding) {
 
                         progressBarReports.visibility = View.GONE
 
+                        var showErrorView = false
+                        var showRetry = false
+
                         when {
-                            reports.isEmpty() && it != ApiError.NoMoreData -> {
-                                includeErrorMessage.root.visibility = View.VISIBLE
-
-                                includeErrorMessage.btnRetry.setOnClickListener {
-                                    viewModel.getFirstPageReports()
-                                }
-
-                                if (it == ApiError.EmptyList) {
-                                    includeErrorMessage.btnRetry.visibility = View.GONE
-                                }
+                            reports.isEmpty() && apiError != ApiError.NoMoreData -> {
+                                showErrorView = true
+                                showRetry = apiError != ApiError.EmptyList
                             }
 
-                            reports.isEmpty() && it == ApiError.NoMoreData -> {
+                            reports.isEmpty() && apiError == ApiError.NoMoreData -> {
                                 includeErrorMessage.root.visibility = View.GONE
                             }
 
-                            else -> reportAdapter.reports = reports //Cache list
+                            else -> reportAdapter.reports = reports
                         }
-                        showServerApiError(it) { iconId, message ->
-                            configErrorStatusMsg(iconId, message)
+
+                        showServerApiError(apiError) { iconId, message ->
+                            if (showErrorView) {
+                                includeErrorMessage.root.apply {
+                                    visibility = View.VISIBLE
+                                    setContent {
+                                        AppTheme {
+                                            ErrorMessageComposable(
+                                                iconRes = iconId,
+                                                message = message,
+                                                showRetry = showRetry,
+                                                onRetry = { viewModel.getFirstPageReports() }
+                                            )
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
-        }
-    }
-
-    private fun configErrorStatusMsg(@DrawableRes icon: Int, errorMsg: String) {
-        with(binding.includeErrorMessage) {
-
-            ivWifiOff.setImageDrawable(
-                ResourcesCompat.getDrawable(resources, icon, requireContext().theme)
-            )
-            tvMsgApiError.text = errorMsg
         }
     }
 

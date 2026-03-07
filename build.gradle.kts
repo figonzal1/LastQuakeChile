@@ -4,6 +4,7 @@ import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 plugins {
 
     alias(libs.plugins.com.android.application) apply false
+    alias(libs.plugins.kotlin.plugin.compose) apply false
 
     //FIREBASE CRASH ANALYTICS
     alias(libs.plugins.com.google.gms.google.services) apply false

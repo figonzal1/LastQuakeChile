@@ -1,6 +1,8 @@
 [versions]
 agp = "9.0.1"
 coil = "2.7.0"
+compose-bom = "2025.02.00"
+kotlin = "2.3.10"
 # sept. 2024 (NO ACTUALIZAR)
 espresso = "3.7.0"
 koin = "4.1.1"
@@ -40,6 +42,13 @@ moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
 moshi-kotlin-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "moshi" }
 # Coil
 coil = { module = "io.coil-kt:coil", version.ref = "coil" }
+coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+# Compose
+compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
+compose-ui = { group = "androidx.compose.ui", name = "ui" }
+compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 # Koin
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 # Firebase
@@ -95,6 +104,7 @@ firebase = [
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-plugin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 com-google-devtools-ksp = "com.google.devtools.ksp:2.3.6"
 com-google-android-libraries-mapsplatform-secrets-gradle-plugin = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:2.0.1"
 com-google-gms-google-services = "com.google.gms.google-services:4.4.4"
