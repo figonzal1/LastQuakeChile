@@ -2,6 +2,7 @@ package cl.figonzal.lastquakechile.quake_feature.domain.model
 
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.core.os.ParcelCompat
 
 data class Quake(
     val quakeCode: Int,
@@ -25,7 +26,7 @@ data class Quake(
         parcel.readString()!!,
         parcel.readByte() != 0.toByte(),
         parcel.readByte() != 0.toByte(),
-        parcel.readParcelable(Coordinate::class.java.classLoader)!!
+        ParcelCompat.readParcelable(parcel, Coordinate::class.java.classLoader, Coordinate::class.java)!!
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
