@@ -38,6 +38,7 @@ import cl.figonzal.lastquakechile.core.utils.views.toast
 import cl.figonzal.lastquakechile.databinding.ActivityQuakeDetailsBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
@@ -49,8 +50,10 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.ktx.addCircle
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -111,8 +114,17 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
         setTextViews()
     }
 
-    @SuppressLint("MissingPermission")
     private fun refreshAd() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            MobileAds.initialize(this@QuakeDetailsActivity)
+            withContext(Dispatchers.Main) {
+                loadNativeAd()
+            }
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun loadNativeAd() {
         AdLoader.Builder(this, getString(R.string.ADMOB_ID_NATIVE_DETAILS))
             .forNativeAd { nativeAd ->
 
