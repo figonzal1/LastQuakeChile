@@ -125,6 +125,7 @@
     <string name="see_more">Visit site</string>
     <string name="http_error">Oops, something went wrong!</string>
     <string name="io_error">Check your internet connection</string>
+    <string name="no_browser_found">No browser app found to open this link</string>
     <string name="ad" translatable="false">Ad</string>
     <string name="cd_ad_app_icon">Icon ad app</string>
     <string name="about_msg">LastQuakeChile, allows you to quickly view the latest earthquakes in Chile</string>

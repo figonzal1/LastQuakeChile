@@ -82,6 +82,7 @@
     <string name="see_more">Ver más</string>
     <string name="http_error">Ups, algo funcionó mal!</string>
     <string name="io_error">Revisa tu conexión a Internet</string>
+    <string name="no_browser_found">No se encontró un navegador para abrir el enlace</string>
     <string name="cd_ad_app_icon">Icono publicidad aplicación</string>
     <string name="about_msg">LastQuakeChile, te permite visualizar rápidamente los últimos sismos ocurridos en Chile</string>
     <string name="contact_developer">Contacto desarrollador</string>
