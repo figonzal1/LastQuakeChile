@@ -3,6 +3,7 @@ agp = "9.2.1"
 coil = "2.7.0"
 # sept. 2024 (NO ACTUALIZAR)
 espresso = "3.7.0"
+espresso-contrib = "3.7.0"
 koin = "4.2.1"
 kotlinx-coroutines = "1.11.0"
 androidx-lifecycle = "2.10.0"
@@ -72,6 +73,7 @@ koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
 koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4", version.ref = "koin" }
 androidx-test-espresso-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
 androidx-test-espresso-espresso-intents = { module = "androidx.test.espresso:espresso-intents", version.ref = "espresso" }
+androidx-espresso-contrib = { module = "androidx.test.espresso:espresso-contrib", version.ref = "espresso-contrib" }
 androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "room" }
 # Debug
 androidx-fragment-fragment-testing-manifest = { module = "androidx.fragment:fragment-testing-manifest", version.ref = "androidx-fragment" }

@@ -1,6 +1,9 @@
 package cl.figonzal.lastquakechile.reports_feature.data.local
 
+import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.room.Room
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import cl.figonzal.lastquakechile.core.AppDatabase
@@ -10,27 +13,35 @@ import cl.figonzal.lastquakechile.reports_feature.data.local.entity.relation.Rep
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.koin.test.KoinTest
-import org.koin.test.inject
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
 @SmallTest
-class ReportDAOTest : KoinTest {
+class ReportDAOTest {
 
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    private val database: AppDatabase by inject()
+    private lateinit var database: AppDatabase
     private lateinit var reportDAO: ReportDAO
 
     @Before
     fun setUp() {
+        database = Room.inMemoryDatabaseBuilder(
+            ApplicationProvider.getApplicationContext<Application>(),
+            AppDatabase::class.java
+        ).allowMainThreadQueries().build()
         reportDAO = database.reportDao()
+    }
+
+    @After
+    fun tearDown() {
+        database.close()
     }
 
     @Test

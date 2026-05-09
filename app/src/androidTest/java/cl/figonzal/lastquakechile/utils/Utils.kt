@@ -34,7 +34,8 @@ private fun atPositionOnView(
 
         override fun matchesSafely(recyclerView: RecyclerView): Boolean {
             val viewHolder = recyclerView.findViewHolderForAdapterPosition(position)
-            val targetView = viewHolder!!.itemView.findViewById<View>(targetViewId)
+                ?: return false
+            val targetView = viewHolder.itemView.findViewById<View>(targetViewId)
             return itemMatcher.matches(targetView)
         }
     }

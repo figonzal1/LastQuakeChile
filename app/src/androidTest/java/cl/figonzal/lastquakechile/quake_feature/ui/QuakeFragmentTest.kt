@@ -42,11 +42,11 @@ class QuakeFragmentTest : KoinTest {
 
         val separator: Char = DecimalFormatSymbols.getInstance().decimalSeparator
 
-        Thread.sleep(2000)
-
         launchFragmentInContainer<QuakeFragment>(
             themeResId = R.style.AppTheme
         )
+
+        Thread.sleep(2000)
 
         //POSITION 0
         checkRecyclerSubViews(R.id.recycle_view_quakes, 0, withText("La Serena"), R.id.tv_city)

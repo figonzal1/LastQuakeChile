@@ -37,11 +37,11 @@ class ReportsFragmentTest : KoinTest {
     @Test
     fun checkIfRecyclerView_isDisplayed() {
 
-        Thread.sleep(2000)
-
         launchFragmentInContainer<ReportsFragment>(
             themeResId = R.style.AppTheme
         )
+
+        Thread.sleep(2000)
 
         onView(withId(R.id.recycle_view_reports))
             .check(matches(isDisplayed()))
@@ -50,11 +50,11 @@ class ReportsFragmentTest : KoinTest {
     @Test
     fun checkIfReport_showCorrectData() {
 
-        Thread.sleep(2000)
-
         launchFragmentInContainer<ReportsFragment>(
             themeResId = R.style.AppTheme
         )
+
+        Thread.sleep(2000)
 
         //Check first position
         checkRecyclerSubViews(

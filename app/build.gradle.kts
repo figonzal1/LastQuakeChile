@@ -44,7 +44,7 @@ android {
         targetSdk = 36
         versionCode = vMajor * 1_000_000 + vMinor * 1_000 + vPatch
         versionName = appVersionName
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "cl.figonzal.lastquakechile.InstrumentationTestRunner"
     }
 
     buildTypes {
@@ -103,6 +103,12 @@ android {
             dimension = "version"
         }
     }
+}
+
+configurations.all {
+    exclude(group = "com.google.firebase", module = "protolite-well-known-types")
+    exclude(group = "com.google.protobuf", module = "protobuf-lite")
+    resolutionStrategy.force("com.google.protobuf:protobuf-javalite:4.28.3")
 }
 
 dependencies {
@@ -182,9 +188,7 @@ dependencies {
     androidTestImplementation(libs.androidx.test.ext.junit.ktx)
     androidTestImplementation(libs.androidx.room.testing)
     androidTestImplementation(libs.androidx.test.espresso.espresso.core)
-    androidTestImplementation("androidx.test.espresso:espresso-contrib:3.5.1") {
-        exclude(module = "protobuf-lite")
-    }
+    androidTestImplementation(libs.androidx.espresso.contrib)
     androidTestImplementation(libs.androidx.test.espresso.espresso.intents)
     androidTestImplementation(libs.androidx.test.ext.truth)
     androidTestImplementation(libs.androidx.test.uiautomator)
@@ -193,7 +197,7 @@ dependencies {
 
     //Debug dependencies
     debugImplementation(libs.androidx.fragment.fragment.testing.manifest)
-    debugImplementation(libs.androidx.fragment.fragment.testing)
+    androidTestImplementation(libs.androidx.fragment.fragment.testing)
     //debugImplementation(libs.com.squareup.leakcanary.leakcanary.android)
 
     coreLibraryDesugaring(libs.com.android.tools.desugar.jdk.libs)
