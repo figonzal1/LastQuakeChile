@@ -48,10 +48,12 @@ class SettingsActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.includeToolbar.materialToolbar)
 
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.settings_container, SettingsFragment())
-            .commit()
+        if (savedInstanceState == null) {
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.settings_container, SettingsFragment())
+                .commit()
+        }
 
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
