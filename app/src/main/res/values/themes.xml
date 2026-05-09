@@ -63,8 +63,6 @@
         <item name="colorSurface">@color/colorSurface</item>
         <item name="colorOnSurface">@color/colorOnSurface</item>
 
-        <item name="android:fontFamily">@font/roboto</item>
-
         <!-- Toolbar Style -->
         <item name="toolbarStyle">@style/Widget.App.Toolbar</item>
 
