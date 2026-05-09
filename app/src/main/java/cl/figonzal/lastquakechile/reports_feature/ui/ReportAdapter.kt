@@ -2,6 +2,7 @@ package cl.figonzal.lastquakechile.reports_feature.ui
 
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -66,17 +67,23 @@ class ReportAdapter : RecyclerView.Adapter<ReportViewHolder>() {
                 tvMaxMagValue.text = String.format("%s", maxMagnitude)
                 tvMinProfValue.text = String.format("%s km", minDepth)
 
-                tvNombreC1.text = quakesCityList[0].city
-                tvNSismosC1.text = quakesCityList[0].nQuakes.toString()
-
-                tvNombreC2.text = quakesCityList[1].city
-                tvNSismosC2.text = quakesCityList[1].nQuakes.toString()
-
-                tvNombreC3.text = quakesCityList[2].city
-                tvNSismosC3.text = quakesCityList[2].nQuakes.toString()
-
-                tvNombreC4.text = quakesCityList[3].city
-                tvNSismosC4.text = quakesCityList[3].nQuakes.toString()
+                listOf(
+                    tvNombreC1 to tvNSismosC1,
+                    tvNombreC2 to tvNSismosC2,
+                    tvNombreC3 to tvNSismosC3,
+                    tvNombreC4 to tvNSismosC4
+                ).forEachIndexed { index, (tvName: TextView, tvCount: TextView) ->
+                    val city = quakesCityList.getOrNull(index)
+                    if (city != null) {
+                        tvName.visibility = View.VISIBLE
+                        tvCount.visibility = View.VISIBLE
+                        tvName.text = city.city
+                        tvCount.text = city.nQuakes.toString()
+                    } else {
+                        tvName.visibility = View.GONE
+                        tvCount.visibility = View.GONE
+                    }
+                }
             }
         }
     }
