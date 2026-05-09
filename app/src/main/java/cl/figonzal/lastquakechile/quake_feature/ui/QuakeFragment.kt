@@ -10,6 +10,7 @@ import androidx.annotation.DrawableRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import org.koin.android.ext.android.inject
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -30,10 +31,9 @@ import timber.log.Timber
 
 private const val QUERY_PAGE_SIZE: Int = 20
 
-class QuakeFragment(
-    private val quakeAdapter: QuakeAdapter
-) : Fragment() {
+class QuakeFragment : Fragment() {
 
+    private val quakeAdapter: QuakeAdapter by inject()
     private val viewModel: QuakeViewModel by activityViewModel()
 
     private var _binding: FragmentQuakeBinding? = null

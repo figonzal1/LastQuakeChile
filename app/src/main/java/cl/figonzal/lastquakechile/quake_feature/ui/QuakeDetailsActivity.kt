@@ -429,6 +429,12 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun configOptionsMenu() {
 
+        supportFragmentManager.setFragmentResultListener(
+            MapTerrainDialogFragment.REQUEST_KEY, this
+        ) { _, bundle ->
+            googleMap?.mapType = bundle.getInt(MapTerrainDialogFragment.RESULT_MAP_TYPE)
+        }
+
         addMenuProvider(object : MenuProvider {
 
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -443,15 +449,10 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                     }
 
                     R.id.layers_menu -> {
-
-                        googleMap?.let {
-
-                            MapTerrainDialogFragment(it).show(
-                                supportFragmentManager,
-                                "Dialogo mapType"
-                            )
-                        }
-
+                        MapTerrainDialogFragment.newInstance().show(
+                            supportFragmentManager,
+                            "map_terrain"
+                        )
                     }
                 }
                 return true

@@ -49,6 +49,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     private var quakeList: List<Quake> = listOf()
     private var sheetBehavior: BottomSheetBehavior<MaterialCardView>? = null
 
+    private var googleMap: GoogleMap? = null
     private var lastMarker: Marker? = null
     private var isFirstInit = true
 
@@ -59,6 +60,12 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     ): View {
 
         _binding = FragmentMapsBinding.inflate(inflater, container, false)
+
+        parentFragmentManager.setFragmentResultListener(
+            MapTerrainDialogFragment.REQUEST_KEY, viewLifecycleOwner
+        ) { _, bundle ->
+            googleMap?.mapType = bundle.getInt(MapTerrainDialogFragment.RESULT_MAP_TYPE)
+        }
 
         binding.mapView.onCreate(savedInstanceState)
 
@@ -96,11 +103,13 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     @SuppressLint("PotentialBehaviorOverride")
     override fun onMapReady(p0: GoogleMap) {
 
+        googleMap = p0
+
         if (isFirstInit) {
             configOptionsMenu(fragmentIndex = 2) {
                 when (it.itemId) {
                     R.id.layers_menu -> {
-                        MapTerrainDialogFragment(p0).show(parentFragmentManager, "Dialogo mapType")
+                        MapTerrainDialogFragment.newInstance().show(parentFragmentManager, "map_terrain")
                     }
                 }
             }

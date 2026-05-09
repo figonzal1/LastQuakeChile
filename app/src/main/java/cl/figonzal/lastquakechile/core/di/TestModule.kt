@@ -2,7 +2,6 @@
 
 package cl.figonzal.lastquakechile.core.di
 
-import cl.figonzal.lastquakechile.core.utils.TestFragmentFactory
 import cl.figonzal.lastquakechile.core.utils.provideTestDatabase
 import cl.figonzal.lastquakechile.quake_feature.data.repository.FakeQuakeRepository
 import cl.figonzal.lastquakechile.quake_feature.domain.repository.QuakeRepository
@@ -57,6 +56,4 @@ val instrumentationTestModule = module {
 
     includes(testQuakeModule, testReportModule)
 
-    //Test factory depends on submodules above
-    factory { TestFragmentFactory(get(), get()) }
 }

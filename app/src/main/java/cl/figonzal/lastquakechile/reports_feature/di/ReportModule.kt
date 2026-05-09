@@ -47,5 +47,5 @@ val reportModule = module {
     factory { ReportAdapter() }
 
     //Report Fragment
-    fragment { ReportsFragment(get()) }
+    fragment { ReportsFragment() }
 }

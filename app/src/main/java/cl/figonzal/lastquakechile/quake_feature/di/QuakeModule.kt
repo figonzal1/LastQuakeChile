@@ -49,7 +49,7 @@ val quakeModule = module {
     factory { QuakeAdapter() }
 
     //QuakeFragment
-    fragment { QuakeFragment(get()) }
+    fragment { QuakeFragment() }
 
     //Map Fragment
     fragment { MapsFragment() }
