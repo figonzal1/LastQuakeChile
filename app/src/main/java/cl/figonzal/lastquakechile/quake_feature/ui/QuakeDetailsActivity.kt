@@ -105,7 +105,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                 else -> this?.get(QUAKE) as Quake
             }
-            isSnapshotRequest = this?.getBoolean(IS_SNAPSHOT_REQUEST_FROM_BOTTOM_SHEET) as Boolean
+            isSnapshotRequest = this?.getBoolean(IS_SNAPSHOT_REQUEST_FROM_BOTTOM_SHEET, false) ?: false
         }
 
         setTextViews()
