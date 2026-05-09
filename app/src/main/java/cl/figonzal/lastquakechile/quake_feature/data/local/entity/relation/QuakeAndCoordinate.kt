@@ -20,21 +20,24 @@ data class QuakeAndCoordinate(
         entityColumn = "quakeId",
         entity = CoordinateEntity::class
     )
-    val coordinateEntity: CoordinateEntity
+    val coordinateEntity: CoordinateEntity?
 
 ) {
-    fun toDomain() = Quake(
-        quakeCode = quakeEntity.quakeCode,
-        localDate = quakeEntity.utcDate.stringToLocalDateTime()
-            .utcToLocalDate()
-            .localDateTimeToString(),
-        city = quakeEntity.city,
-        reference = quakeEntity.reference,
-        magnitude = quakeEntity.magnitude,
-        depth = quakeEntity.depth,
-        scale = quakeEntity.scale,
-        isSensitive = quakeEntity.isSensitive,
-        isVerified = quakeEntity.isVerified,
-        coordinate = Coordinate(coordinateEntity.latitude, coordinateEntity.longitude)
-    )
+    fun toDomain(): Quake? {
+        val coord = coordinateEntity ?: return null
+        return Quake(
+            quakeCode = quakeEntity.quakeCode,
+            localDate = quakeEntity.utcDate.stringToLocalDateTime()
+                .utcToLocalDate()
+                .localDateTimeToString(),
+            city = quakeEntity.city,
+            reference = quakeEntity.reference,
+            magnitude = quakeEntity.magnitude,
+            depth = quakeEntity.depth,
+            scale = quakeEntity.scale,
+            isSensitive = quakeEntity.isSensitive,
+            isVerified = quakeEntity.isVerified,
+            coordinate = Coordinate(coord.latitude, coord.longitude)
+        )
+    }
 }

@@ -30,12 +30,13 @@ interface QuakeDAO {
 
     @Transaction
     fun insertAll(fullQuake: QuakeAndCoordinate) {
-
         val quakeId = insertQuake(fullQuake.quakeEntity)
-        fullQuake.coordinateEntity.quakeId = quakeId
-        insertCoordinate(fullQuake.coordinateEntity)
+        val coordinate = fullQuake.coordinateEntity ?: return
+        coordinate.quakeId = quakeId
+        insertCoordinate(coordinate)
     }
 
+    @Transaction
     fun deleteAll() {
         deleteAllCoordinates()
         deleteAllQuakes()
