@@ -2,7 +2,6 @@
 
 package cl.figonzal.lastquakechile.core.di
 
-import cl.figonzal.lastquakechile.core.utils.TestFragmentFactory
 import cl.figonzal.lastquakechile.core.utils.provideTestDatabase
 import cl.figonzal.lastquakechile.quake_feature.data.repository.FakeQuakeRepository
 import cl.figonzal.lastquakechile.quake_feature.domain.repository.QuakeRepository
@@ -14,7 +13,7 @@ import cl.figonzal.lastquakechile.reports_feature.domain.repository.ReportReposi
 import cl.figonzal.lastquakechile.reports_feature.domain.use_case.GetReportsUseCase
 import cl.figonzal.lastquakechile.reports_feature.ui.ReportAdapter
 import cl.figonzal.lastquakechile.reports_feature.ui.ReportViewModel
-import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.module.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
@@ -57,6 +56,4 @@ val instrumentationTestModule = module {
 
     includes(testQuakeModule, testReportModule)
 
-    //Test factory depends on submodules above
-    factory { TestFragmentFactory(get(), get()) }
 }

@@ -22,15 +22,15 @@ import cl.figonzal.lastquakechile.databinding.FragmentReportsBinding
 import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 private const val QUERY_PAGE_SIZE = 5
 
-class ReportsFragment(
-    private val reportAdapter: ReportAdapter
-) : Fragment() {
+class ReportsFragment : Fragment() {
 
+    private val reportAdapter: ReportAdapter by inject()
     private val viewModel: ReportViewModel by viewModel()
 
     private var _binding: FragmentReportsBinding? = null

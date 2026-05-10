@@ -7,9 +7,9 @@ import androidx.lifecycle.Lifecycle
 import cl.figonzal.lastquakechile.core.services.ChangeLogService
 import cl.figonzal.lastquakechile.core.services.GooglePlayService
 import cl.figonzal.lastquakechile.core.services.NightModeService
+import com.google.firebase.Firebase
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.google.firebase.crashlytics.ktx.crashlytics
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.crashlytics.crashlytics
 import timber.log.Timber
 
 

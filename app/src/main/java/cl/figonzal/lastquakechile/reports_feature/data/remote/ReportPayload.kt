@@ -6,6 +6,6 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class ReportPayload(
-    @Json(name = "reports")
+    @param:Json(name = "reports")
     val reports: List<ReportDTO>
 )

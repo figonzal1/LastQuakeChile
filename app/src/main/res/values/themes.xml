@@ -56,7 +56,6 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
         <item name="colorOnPrimary">@color/colorOnPrimary</item>
-        <item name="android:statusBarColor">@color/colorPrimaryVariant</item>
 
         <item name="colorSecondary">@color/colorSecondary</item>
         <item name="colorOnSecondary">@color/colorOnSecondary</item>
@@ -64,14 +63,17 @@
         <item name="colorSurface">@color/colorSurface</item>
         <item name="colorOnSurface">@color/colorOnSurface</item>
 
-        <item name="android:windowBackground">@color/background</item>
-        <item name="android:fontFamily">@font/roboto</item>
-
         <!-- Toolbar Style -->
         <item name="toolbarStyle">@style/Widget.App.Toolbar</item>
 
         <!-- Material Button Style -->
         <item name="materialButtonStyle">@style/Widget.App.Button</item>
+
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+
 
     </style>
 

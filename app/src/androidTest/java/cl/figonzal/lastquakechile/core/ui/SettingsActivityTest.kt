@@ -7,12 +7,10 @@ import android.content.Intent
 import android.net.Uri
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.Root
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
@@ -23,8 +21,12 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasData
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
+import androidx.test.espresso.matcher.ViewMatchers.hasSibling
+import androidx.test.espresso.matcher.ViewMatchers.isChecked
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.isNotChecked
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -231,7 +233,6 @@ class SettingsActivityTest {
         Thread.sleep(2000)
     }
 
-    //NOT WORK IN API 31 & 32
     @Test
     fun test3_clickOnAlertPreference_deactivateAlert() {
 
@@ -244,13 +245,21 @@ class SettingsActivityTest {
                 )
             )
 
-        //Checkear display de Toast de shared pref TRUE
-        onView(withText(context.getString(R.string.firebase_pref_key_alert_off)))
-            .inRoot(ToastMatcher())
-            .check(matches(isDisplayed()))
+        // Verify the switch is now OFF
+        onView(
+            allOf(
+                withId(androidx.preference.R.id.switchWidget),
+                withParent(
+                    hasSibling(
+                        hasDescendant(
+                            allOf(withId(android.R.id.title), withText(R.string.alert_pref_title_switch))
+                        )
+                    )
+                )
+            )
+        ).check(matches(isNotChecked()))
     }
 
-    //NOT WORK IN API 31 & 32
     @Test
     fun test4_clickOnAlertPreference_activatedAlert() {
 
@@ -263,10 +272,19 @@ class SettingsActivityTest {
                 )
             )
 
-        //Checkear display de Toast de shared pref TRUE
-        onView(withText(context.getString(R.string.firebase_pref_key_alert_on)))
-            .inRoot(ToastMatcher())
-            .check(matches(isDisplayed()))
+        // Verify the switch is now ON
+        onView(
+            allOf(
+                withId(androidx.preference.R.id.switchWidget),
+                withParent(
+                    hasSibling(
+                        hasDescendant(
+                            allOf(withId(android.R.id.title), withText(R.string.alert_pref_title_switch))
+                        )
+                    )
+                )
+            )
+        ).check(matches(isChecked()))
     }
 
     @Test
@@ -340,23 +358,5 @@ class SettingsActivityTest {
         }
     }
 
-    class ToastMatcher : TypeSafeMatcher<Root>() {
-        override fun describeTo(description: Description) {
-            description.appendText("is toast")
-        }
 
-        public override fun matchesSafely(root: Root): Boolean {
-            val type = root.windowLayoutParams.get().type
-            if (type == WindowManager.LayoutParams.TYPE_TOAST) {
-                val windowToken = root.decorView.windowToken
-                val appToken = root.decorView.applicationWindowToken
-                if (windowToken === appToken) {
-                    // windowToken == appToken means this window isn't contained by any other windows.
-                    // if it was a window for an activity, it would have TYPE_BASE_APPLICATION.
-                    return true
-                }
-            }
-            return false
-        }
-    }
 }

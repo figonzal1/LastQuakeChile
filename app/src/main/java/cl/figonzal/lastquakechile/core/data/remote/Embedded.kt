@@ -8,6 +8,6 @@ import com.squareup.moshi.JsonClass
  */
 @JsonClass(generateAdapter = true)
 data class Embedded<T>(
-    @Json(name = "_embedded")
+    @param:Json(name = "_embedded")
     val embedded: T?
 )

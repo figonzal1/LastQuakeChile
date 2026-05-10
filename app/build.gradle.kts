@@ -1,11 +1,13 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.io.FileInputStream
 import java.util.Properties
 
+val appVersionName = "1.7.9" // x-release-please-version
+val (vMajor, vMinor, vPatch) = appVersionName.split(".").map { it.toInt() }
+
 plugins {
-    alias(libs.plugins.androidApplication)
-    alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.com.android.application)
     alias(libs.plugins.com.google.devtools.ksp)
-    id("kotlin-parcelize")
     alias(libs.plugins.com.google.gms.google.services)
     alias(libs.plugins.com.google.firebase.crashlytics)
     alias(libs.plugins.com.google.firebase.firebase.perf)
@@ -32,15 +34,17 @@ android {
         }
     }
 
-    compileSdk = 34
+    namespace = "cl.figonzal.lastquakechile"
+    compileSdk = 36
+    buildToolsVersion = "36.1.0"
 
     defaultConfig {
         applicationId = "cl.figonzal.lastquakechile"
         minSdk = 23
-        targetSdk = 34
-        versionCode = 52
-        versionName = "1.7.8"
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        targetSdk = 36
+        versionCode = vMajor * 1_000_000 + vMinor * 1_000 + vPatch
+        versionName = appVersionName
+        testInstrumentationRunner = "cl.figonzal.lastquakechile.InstrumentationTestRunner"
     }
 
     buildTypes {
@@ -79,13 +83,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-
     buildFeatures {
         viewBinding = true
         buildConfig = true
+        resValues = true
     }
     flavorDimensions += listOf("version")
     productFlavors {
@@ -102,7 +103,12 @@ android {
             dimension = "version"
         }
     }
-    namespace = "cl.figonzal.lastquakechile"
+}
+
+configurations.all {
+    exclude(group = "com.google.firebase", module = "protolite-well-known-types")
+    exclude(group = "com.google.protobuf", module = "protobuf-lite")
+    resolutionStrategy.force("com.google.protobuf:protobuf-javalite:4.28.3")
 }
 
 dependencies {
@@ -182,9 +188,7 @@ dependencies {
     androidTestImplementation(libs.androidx.test.ext.junit.ktx)
     androidTestImplementation(libs.androidx.room.testing)
     androidTestImplementation(libs.androidx.test.espresso.espresso.core)
-    androidTestImplementation("androidx.test.espresso:espresso-contrib:3.5.1") {
-        exclude(module = "protobuf-lite")
-    }
+    androidTestImplementation(libs.androidx.espresso.contrib)
     androidTestImplementation(libs.androidx.test.espresso.espresso.intents)
     androidTestImplementation(libs.androidx.test.ext.truth)
     androidTestImplementation(libs.androidx.test.uiautomator)
@@ -193,10 +197,16 @@ dependencies {
 
     //Debug dependencies
     debugImplementation(libs.androidx.fragment.fragment.testing.manifest)
-    debugImplementation(libs.androidx.fragment.fragment.testing)
-    debugImplementation(libs.com.squareup.leakcanary.leakcanary.android)
+    androidTestImplementation(libs.androidx.fragment.fragment.testing)
+    //debugImplementation(libs.com.squareup.leakcanary.leakcanary.android)
 
     coreLibraryDesugaring(libs.com.android.tools.desugar.jdk.libs)
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_17
+    }
 }
 
 sonarqube {

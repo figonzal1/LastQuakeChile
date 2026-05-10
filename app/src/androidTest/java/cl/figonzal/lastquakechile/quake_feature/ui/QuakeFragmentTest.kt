@@ -11,7 +11,6 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.utils.TestFragmentFactory
 import cl.figonzal.lastquakechile.utils.checkRecyclerSubViews
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Test
@@ -26,15 +25,12 @@ import java.text.DecimalFormatSymbols
 @MediumTest
 class QuakeFragmentTest : KoinTest {
 
-    private val testFragmentFactory: TestFragmentFactory by inject()
-
     @Test
     fun checkIfRecyclerView_isDisplayed() {
 
         Thread.sleep(2000)
 
         launchFragmentInContainer<QuakeFragment>(
-            factory = testFragmentFactory,
             themeResId = R.style.AppTheme
         )
 
@@ -46,12 +42,11 @@ class QuakeFragmentTest : KoinTest {
 
         val separator: Char = DecimalFormatSymbols.getInstance().decimalSeparator
 
-        Thread.sleep(2000)
-
         launchFragmentInContainer<QuakeFragment>(
-            factory = testFragmentFactory,
             themeResId = R.style.AppTheme
         )
+
+        Thread.sleep(2000)
 
         //POSITION 0
         checkRecyclerSubViews(R.id.recycle_view_quakes, 0, withText("La Serena"), R.id.tv_city)
@@ -93,7 +88,6 @@ class QuakeFragmentTest : KoinTest {
         Intents.init()
 
         launchFragmentInContainer<QuakeFragment>(
-            factory = testFragmentFactory,
             themeResId = R.style.AppTheme
         )
 

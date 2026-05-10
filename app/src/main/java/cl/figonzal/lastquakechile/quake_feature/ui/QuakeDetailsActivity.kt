@@ -38,6 +38,7 @@ import cl.figonzal.lastquakechile.core.utils.views.toast
 import cl.figonzal.lastquakechile.databinding.ActivityQuakeDetailsBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
@@ -49,8 +50,10 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.ktx.addCircle
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -105,14 +108,23 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                 else -> this?.get(QUAKE) as Quake
             }
-            isSnapshotRequest = this?.getBoolean(IS_SNAPSHOT_REQUEST_FROM_BOTTOM_SHEET) as Boolean
+            isSnapshotRequest = this?.getBoolean(IS_SNAPSHOT_REQUEST_FROM_BOTTOM_SHEET, false) ?: false
         }
 
         setTextViews()
     }
 
-    @SuppressLint("MissingPermission")
     private fun refreshAd() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            MobileAds.initialize(this@QuakeDetailsActivity)
+            withContext(Dispatchers.Main) {
+                loadNativeAd()
+            }
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun loadNativeAd() {
         AdLoader.Builder(this, getString(R.string.ADMOB_ID_NATIVE_DETAILS))
             .forNativeAd { nativeAd ->
 
@@ -429,6 +441,12 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun configOptionsMenu() {
 
+        supportFragmentManager.setFragmentResultListener(
+            MapTerrainDialogFragment.REQUEST_KEY, this
+        ) { _, bundle ->
+            googleMap?.mapType = bundle.getInt(MapTerrainDialogFragment.RESULT_MAP_TYPE)
+        }
+
         addMenuProvider(object : MenuProvider {
 
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -443,15 +461,10 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                     }
 
                     R.id.layers_menu -> {
-
-                        googleMap?.let {
-
-                            MapTerrainDialogFragment(it).show(
-                                supportFragmentManager,
-                                "Dialogo mapType"
-                            )
-                        }
-
+                        MapTerrainDialogFragment.newInstance().show(
+                            supportFragmentManager,
+                            "map_terrain"
+                        )
                     }
                 }
                 return true

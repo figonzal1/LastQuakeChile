@@ -8,6 +8,8 @@ import android.widget.LinearLayout
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.preference.PreferenceManager
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.services.UpdaterService
@@ -47,6 +49,17 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.toolbarLayout.appBar) { view, insets ->
+            val statusBarInsets = insets.getInsets(WindowInsetsCompat.Type.statusBars())
+            view.setPadding(
+                view.paddingLeft,
+                statusBarInsets.top,
+                view.paddingRight,
+                view.paddingBottom
+            )
+            insets
+        }
 
         //Default preferences
         PreferenceManager.setDefaultValues(this, R.xml.root_preferences, false)

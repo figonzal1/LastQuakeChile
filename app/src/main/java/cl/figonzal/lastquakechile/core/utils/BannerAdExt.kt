@@ -83,6 +83,7 @@ private fun anchoredAddSize(adView: AdView, activity: Activity): AdSize {
         }
 
         val adWidth = (adWidthPixels / density).toInt()
+        @Suppress("DEPRECATION")
         return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(activity, adWidth)
     }
 }

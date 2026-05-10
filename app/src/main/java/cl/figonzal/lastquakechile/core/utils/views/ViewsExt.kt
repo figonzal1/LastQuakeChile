@@ -1,6 +1,7 @@
 package cl.figonzal.lastquakechile.core.utils.views
 
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
@@ -81,13 +82,13 @@ fun Fragment.configOptionsMenu(
             //Settings called in all fragments
             when (menuItem.itemId) {
                 R.id.status_menu -> {
-                    Intent(
-                        Intent.ACTION_VIEW,
-                        Uri.parse(getString(R.string.CRONITOR_STATUS))
-                    ).apply {
-                        startActivity(this)
+                    try {
+                        startActivity(
+                            Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.CRONITOR_STATUS)))
+                        )
+                    } catch (e: ActivityNotFoundException) {
+                        toast(R.string.no_browser_found)
                     }
-
                 }
 
                 R.id.settings_menu -> {

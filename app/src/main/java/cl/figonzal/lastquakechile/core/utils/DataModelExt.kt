@@ -12,7 +12,7 @@ import cl.figonzal.lastquakechile.reports_feature.data.local.entity.CityQuakesEn
 import cl.figonzal.lastquakechile.reports_feature.data.local.entity.relation.ReportWithCityQuakes
 import cl.figonzal.lastquakechile.reports_feature.data.remote.dto.ReportDTO
 import timber.log.Timber
-import java.util.*
+import java.util.Locale
 
 /**
  * Function that map dto list to full quake entity
@@ -30,7 +30,7 @@ fun List<QuakeDTO>.toQuakeListEntity() = map {
 /**
  * Function that map full quake entity to domain model
  */
-fun List<QuakeAndCoordinate>.toQuakeListDomain() = map { it.toDomain() }
+fun List<QuakeAndCoordinate>.toQuakeListDomain() = mapNotNull { it.toDomain() }
 
 /**
  * Function that map report dto to entity
