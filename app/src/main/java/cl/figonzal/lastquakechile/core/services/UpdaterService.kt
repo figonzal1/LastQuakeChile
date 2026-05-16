@@ -4,6 +4,9 @@ import android.app.Activity
 import android.content.IntentSender.SendIntentException
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.appupdate.AppUpdateOptions
 import com.google.android.play.core.install.model.AppUpdateType
@@ -15,12 +18,44 @@ import timber.log.Timber
 private const val FIREBASE_LQCH_UPDATER_STATUS = "lqch_updater_status"
 
 class UpdaterService(
-    activity: Activity,
+    private val activity: Activity,
     private val activityResultLauncher: ActivityResultLauncher<IntentSenderRequest>
 ) {
 
     private var manager = AppUpdateManagerFactory.create(activity)
     private var crashlytics = Firebase.crashlytics
+
+    /**
+     * The Play Core appUpdateInfo task is async; by the time it resolves the Activity may have
+     * been destroyed/recreated, which unregisters the ActivityResultLauncher. Launching it then
+     * throws IllegalStateException. Only launch while the Activity is alive and at least STARTED.
+     */
+    private fun canLaunch(): Boolean {
+        if (activity.isFinishing || activity.isDestroyed) return false
+        val owner = activity as? LifecycleOwner ?: return true
+        return owner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)
+    }
+
+    private fun launchUpdate(appUpdateInfo: AppUpdateInfo) {
+        if (!canLaunch()) {
+            Timber.w("Update flow skipped: activity not in valid state")
+            crashlytics.setCustomKey(FIREBASE_LQCH_UPDATER_STATUS, "Skipped: invalid lifecycle")
+            return
+        }
+        try {
+            manager.startUpdateFlowForResult(
+                appUpdateInfo,
+                activityResultLauncher,
+                AppUpdateOptions.newBuilder(AppUpdateType.IMMEDIATE).build()
+            )
+        } catch (e: SendIntentException) {
+            Timber.e(e, "Update intent failed")
+            crashlytics.setCustomKey(FIREBASE_LQCH_UPDATER_STATUS, "Update intent failed")
+        } catch (e: IllegalStateException) {
+            Timber.e(e, "Launcher unregistered when starting update flow")
+            crashlytics.setCustomKey(FIREBASE_LQCH_UPDATER_STATUS, "Launcher unregistered")
+        }
+    }
 
     fun checkAvailability() {
 
@@ -33,19 +68,7 @@ class UpdaterService(
                     Timber.d("Update available")
                     crashlytics.setCustomKey(FIREBASE_LQCH_UPDATER_STATUS, "Update available")
 
-                    try {
-                        manager.startUpdateFlowForResult(
-                            appUpdateInfo,
-                            activityResultLauncher,
-                            AppUpdateOptions.newBuilder(AppUpdateType.IMMEDIATE).build()
-                        )
-                    } catch (e: SendIntentException) {
-                        Timber.e("Update intent failed")
-                        crashlytics.setCustomKey(
-                            FIREBASE_LQCH_UPDATER_STATUS,
-                            "Update intent failed"
-                        )
-                    }
+                    launchUpdate(appUpdateInfo)
                 }
 
                 else -> {
@@ -62,8 +85,6 @@ class UpdaterService(
 
     fun resumeUpdater() {
 
-        val crashlytics = Firebase.crashlytics
-
         manager
             .appUpdateInfo
             .addOnSuccessListener { appUpdateInfo ->
@@ -71,20 +92,7 @@ class UpdaterService(
                 if (appUpdateInfo.updateAvailability()
                     == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS
                 ) {
-                    try {
-                        manager.startUpdateFlowForResult(
-                            appUpdateInfo,
-                            activityResultLauncher,
-                            AppUpdateOptions.newBuilder(AppUpdateType.IMMEDIATE).build()
-                        )
-                    } catch (e: SendIntentException) {
-                        Timber.e(e, "onResume updater failed")
-                        crashlytics.setCustomKey(
-                            FIREBASE_LQCH_UPDATER_STATUS,
-                            "onResume updater failed"
-                        )
-
-                    }
+                    launchUpdate(appUpdateInfo)
                 }
             }
     }
