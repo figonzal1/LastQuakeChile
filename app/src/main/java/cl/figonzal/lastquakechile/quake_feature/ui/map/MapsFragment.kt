@@ -80,7 +80,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                             quakeList = it.quakes
                             Timber.d("List loaded in fragment")
 
-                            binding.mapView.getMapAsync(this@MapsFragment)
+                            if (googleMap == null) {
+                                binding.mapView.getMapAsync(this@MapsFragment)
+                            }
                         }
                     }
                 }
@@ -102,6 +104,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     @SuppressLint("PotentialBehaviorOverride")
     override fun onMapReady(p0: GoogleMap) {
+
+        if (!viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) return
 
         googleMap = p0
 
