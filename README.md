@@ -7,25 +7,22 @@
   <a href="https://play.google.com/store/apps/details?id=cl.figonzal.lastquakechile">
           <img alt="Google Play Badge" src="https://img.shields.io/endpoint?color=green&logo=google-play&logoColor=green&url=https%3A%2F%2Fplay.cuzi.workers.dev%2Fplay%3Fi%3Dcl.figonzal.lastquakechile%26gl%3Dcl%26hl%3Den%26l%3DGoogle%2520Play%26m%3DVersion%253A%2520%24version%2520%257C%2520Downloads%253A%2520%2524shortinstalls%2520%257C%2520Updated%253A%2520%2524updated">
     </a>
+  </p>
 
+<p align="center">
   <a href="https://wakatime.com/badge/github/figonzal1/LastQuakeChile"><img src="https://wakatime.com/badge/github/figonzal1/LastQuakeChile.svg" alt="wakatime"></a>
-  
   <a href="https://www.codefactor.io/repository/github/figonzal1/LastQuakeChile" >
         <img src="https://www.codefactor.io/repository/github/figonzal1/LastQuakeChile/badge" >
   </a>
-
   <a href="https://img.shields.io/github/languages/top/figonzal1/LastQuakeChile?color=orange" >
         <img alt="GitHub repo language" src="https://img.shields.io/github/languages/top/figonzal1/LastQuakeChile?color=orange">
   </a>
-
    <a href="https://img.shields.io/github/repo-size/figonzal1/LastQuakeChile" >
          <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/figonzal1/LastQuakeChile">
     </a>
-
    <a href="https://img.shields.io/github/last-commit/figonzal1/LastQuakeChile?color=yellow" >
         <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/figonzal1/LastQuakeChile?color=yellow">
    </a>
-  
 </p>
 
 This is the repository of the **LastQuakeChile application - Earthquakes in Chile**
