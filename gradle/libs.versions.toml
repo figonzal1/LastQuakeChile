@@ -1,6 +1,6 @@
 [versions]
 agp = "9.2.1"
-coil = "2.7.0"
+coil = "3.4.0"
 # sept. 2024 (NO ACTUALIZAR)
 espresso = "3.7.0"
 espresso-contrib = "3.7.0"
@@ -40,7 +40,7 @@ sandwich-retrofit = { module = "com.github.skydoves:sandwich-retrofit", version.
 moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
 moshi-kotlin-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "moshi" }
 # Coil
-coil = { module = "io.coil-kt:coil", version.ref = "coil" }
+coil = { module = "io.coil-kt.coil3:coil", version.ref = "coil" }
 # Koin
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 # Firebase
