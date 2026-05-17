@@ -1,5 +1,6 @@
 package cl.figonzal.lastquakechile.quake_feature.ui
 
+import android.app.NotificationManager
 import android.animation.IntEvaluator
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
@@ -109,6 +110,10 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                 else -> this?.get(QUAKE) as Quake
             }
             isSnapshotRequest = this?.getBoolean(IS_SNAPSHOT_REQUEST_FROM_BOTTOM_SHEET, false) ?: false
+        }
+
+        quake?.let {
+            (getSystemService(NOTIFICATION_SERVICE) as NotificationManager).cancel(it.quakeCode)
         }
 
         setTextViews()
