@@ -1,0 +1,2 @@
+• Mejoras en las notificaciones de sismos.
+• Se mejoró la estabilidad del proceso de la aplicacion.
