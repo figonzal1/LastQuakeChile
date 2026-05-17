@@ -58,3 +58,9 @@
   # kept. Suspend functions are wrapped in continuations where the type argument
   # is used.
   -keep,allowobfuscation,allowshrinking class kotlin.coroutines.Continuation
+
+# FIREBASE PERFORMANCE + PROTOBUF
+# R8 renames fields in protobuf-generated classes, breaking Firebase Perf's reflection-based schema
+-keepclassmembers class * extends com.google.protobuf.GeneratedMessageLite {
+    <fields>;
+}
