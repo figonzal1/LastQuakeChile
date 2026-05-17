@@ -143,7 +143,6 @@
     <string name="swipe_left">Swipe left to see earthquakes</string>
     <string name="local_copy">Showing local copy</string>
     <string name="cd_swipe_left_icon">Left icon</string>
-    <string name="view_quake_notification_button">See earthquake</string>
     <string name="shortcut_short_map_label">Quakes map</string>
     <string name="shortcut_long_map_label">Last quakes map</string>
     <string name="shortcut_map_disabled">Map disabled</string>
