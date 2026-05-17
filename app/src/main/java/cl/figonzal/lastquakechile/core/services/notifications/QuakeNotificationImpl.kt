@@ -216,11 +216,6 @@ class QuakeNotificationImpl(
             .setAutoCancel(true)
             .setVisibility(VISIBILITY_PUBLIC)
             .setContentIntent(pendingIntent)
-            .addAction(
-                R.drawable.quakes_24dp,
-                context.getString(R.string.view_quake_notification_button),
-                pendingIntent
-            )
             .run {
 
                 if (quake.greaterThan(minMagnitude) && (quake.isVerified || preliminaryNotifications)) {

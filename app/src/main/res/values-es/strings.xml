@@ -107,7 +107,6 @@
     <string name="swipe_left">Desliza a la izquierda para ver sismos</string>
     <string name="local_copy">Mostrando copia local</string>
     <string name="cd_swipe_left_icon">Icono izquierda</string>
-    <string name="view_quake_notification_button">Ver sismo</string>
     <string name="shortcut_short_map_label">Mapa sismos</string>
     <string name="shortcut_long_map_label">Mapa últimos sismos</string>
     <string name="shortcut_map_disabled">Mapa deshabilitado</string>
