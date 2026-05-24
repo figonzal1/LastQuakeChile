@@ -15,6 +15,10 @@
     <string name="cd_sensitive_icon">Sensitive quake icon</string>
     <string name="firebase_channel_name_quakes">Quake alerts</string>
     <string name="firebase_channel_description_quakes">Receives quake alerts</string>
+    <string name="firebase_channel_name_quakes_high">Quake alerts · High priority</string>
+    <string name="firebase_channel_description_quakes_high">Quake alerts with heads-up notification</string>
+    <string name="firebase_channel_name_quakes_default">Quake alerts · Normal priority</string>
+    <string name="firebase_channel_description_quakes_default">Quake alerts shown in status bar</string>
     <string name="west_cords">W</string>
     <string name="east_cords">E</string>
     <string name="cd_quake_list_section">List of quakes section</string>
@@ -138,6 +142,7 @@
     <string name="min_magnitude_dialog_title">Minimum magnitude</string>
     <string name="min_magnitude_dialog_message">Earthquakes greater than … \nExample: 5.6, 3.5, 2.9, etc</string>
     <string name="activate_button">Activate</string>
+    <string name="open_settings_button">Open Settings</string>
     <string name="alert_permission_description">This device requires permissions for earthquake alerts. To receive them, activate the permission for notifications.</string>
     <string name="alert_permission_title">Permission for earthquake alerts</string>
     <string name="privacy_policy">Privacy policy</string>

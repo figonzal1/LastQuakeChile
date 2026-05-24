@@ -15,6 +15,10 @@
     <string name="cd_sensitive_icon">Icono sismo sensible</string>
     <string name="firebase_channel_name_quakes">Alerta sismos</string>
     <string name="firebase_channel_description_quakes">Recibe alertas de sismos</string>
+    <string name="firebase_channel_name_quakes_high">Alerta sismos · Alta prioridad</string>
+    <string name="firebase_channel_description_quakes_high">Alertas de sismos con notificación emergente</string>
+    <string name="firebase_channel_name_quakes_default">Alerta sismos · Prioridad normal</string>
+    <string name="firebase_channel_description_quakes_default">Alertas de sismos en la barra de notificaciones</string>
     <string name="west_cords">O</string>
     <string name="east_cords">E</string>
     <string name="cd_quake_list_section">Sección listado de sismos</string>
@@ -139,6 +143,7 @@
     <string name="min_magnitude_dialog_title">Magnitud mínima</string>
     <string name="min_magnitude_dialog_message">Sismos mayores que … \nEjemplo: 5.6, 3.5, 2.9, etc.</string>
     <string name="activate_button">Activar</string>
+    <string name="open_settings_button">Ir a Ajustes</string>
     <string name="alert_permission_description">Este dispositivo requiere permisos para las alertas de sismos. Para recibirlas, active el permiso para notificaciones</string>
     <string name="alert_permission_title">Permiso para alertas sísmicas</string>
     <string name="privacy_policy">Política de privacidad</string>

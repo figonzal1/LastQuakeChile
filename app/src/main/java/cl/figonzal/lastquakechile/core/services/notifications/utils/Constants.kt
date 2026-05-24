@@ -12,13 +12,20 @@ internal const val FIREBASE_MSG_GENERIC = "generic_msg_received"
 internal const val FIREBASE_SUB_QUAKE = "subscribed_quake"
 internal const val FIREBASE_TOPIC_CHANNEL = "quakes_v2"
 
-//Other constants
-internal const val RANDOM_CHANNEL_ID = "random_channel_id"
+//Notification channel IDs (fixed, coexisting)
+internal const val CHANNEL_ID_HIGH = "quakes_high"
+internal const val CHANNEL_ID_DEFAULT = "quakes_default"
+
+//Legacy key — used only during migration from random channel scheme
+internal const val RANDOM_CHANNEL_ID_LEGACY = "random_channel_id"
 const val MIN_MAGNITUDE_ALERT = "1.0"
 
 //ANDROID > 13 permission request for notifications
 internal const val SHARED_PREF_PERMISSION_ALERT_ANDROID_13 = "alert_permission_granted"
 internal const val SHARED_HIDE_ALERT_PERMISSION_CV = "hide_alert_cv"
+// Tracks whether POST_NOTIFICATIONS was ever requested at least once, so we can distinguish
+// "never asked" (should show system dialog) from "permanently denied" (should open Settings).
+internal const val SHARED_PREF_PERMISSION_ASKED_ONCE = "post_notifications_asked"
 
 //JSON KEYS
 const val QUAKE = "quake"
