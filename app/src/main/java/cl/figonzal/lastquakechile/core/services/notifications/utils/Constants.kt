@@ -22,7 +22,7 @@ const val MIN_MAGNITUDE_ALERT = "1.0"
 
 //ANDROID > 13 permission request for notifications
 internal const val SHARED_PREF_PERMISSION_ALERT_ANDROID_13 = "alert_permission_granted"
-internal const val SHARED_HIDE_ALERT_PERMISSION_CV = "hide_alert_cv"
+
 // Tracks whether POST_NOTIFICATIONS was ever requested at least once, so we can distinguish
 // "never asked" (should show system dialog) from "permanently denied" (should open Settings).
 internal const val SHARED_PREF_PERMISSION_ASKED_ONCE = "post_notifications_asked"
