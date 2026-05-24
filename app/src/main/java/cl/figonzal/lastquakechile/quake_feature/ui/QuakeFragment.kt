@@ -13,7 +13,6 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import org.koin.android.ext.android.inject
-import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -97,111 +96,61 @@ class QuakeFragment : Fragment() {
     }
 
     private fun handleQuakeState() {
-
         viewLifecycleOwner.lifecycleScope.launch {
-
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-
-                launch { processFirstPage() }
-
-                launch { processNextPage() }
+                launch { collectUiState() }
+                launch { collectErrors() }
             }
         }
         viewModel.getFirstPageQuakes()
     }
 
-    private suspend fun processFirstPage() {
-        viewModel.firstPageState.collectLatest {
+    private suspend fun collectUiState() {
+        viewModel.uiState.collectLatest { state ->
+            isLoading = state.isLoading
+            isLastPage = state.isLastPage
 
             when {
-                it.isLoading -> loadingUI()
-
-                //Check if apiError exists
-                it.apiError != null -> handleErrors(it.quakes.toList())
-
-                //If api error is null, show updated list from network
-                it.quakes.isNotEmpty() -> {
-                    showListUI(it.quakes.toList())
-                }
-            }
-        }
-
-    }
-
-    private suspend fun processNextPage() {
-        viewModel.nextPagesState.collectLatest {
-
-            when {
-                it.isLoading -> loadingUI()
-
-                //Check if apiError exists
-                it.apiError != null -> handleErrors(it.quakes.toList())
-
-                //If api error is null, show updated list from network
-                it.quakes.isNotEmpty() -> {
-
-                    showListUI(it.quakes.toList())
-
-                    val totalPages = it.quakes.size / QUERY_PAGE_SIZE + 2
-                    isLastPage = viewModel.actualIndexPage == totalPages
-
-                    if (isLastPage) {
-                        binding.recycleViewQuakes.setPadding(0, 0, 0, 0)
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Handle api error and show cached results
-     *
-     * If the list is empty show includeErrorMessage
-     * Otherwise show toast with error and cached list
-     */
-    private fun handleErrors(quakes: List<Quake>) {
-
-        viewLifecycleOwner.lifecycleScope.launch {
-
-            viewModel.errorState
-                .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
-                .collectLatest {
-
-                    Timber.d("COLLECT ERROR STATE: $it")
-
+                state.isLoading -> loadingUI()
+                state.apiError != null -> {
                     with(binding) {
-
                         progressBarQuakes.visibility = View.GONE
-
+                        val quakes = state.quakes
                         when {
-                            quakes.isEmpty() && it != ApiError.NoMoreData -> {
+                            quakes.isEmpty() && state.apiError != ApiError.NoMoreData -> {
                                 includeErrorMessage.root.visibility = View.VISIBLE
                                 tvCacheCopy.visibility = View.GONE
-
                                 includeErrorMessage.btnRetry.setOnClickListener {
                                     viewModel.getFirstPageQuakes()
                                 }
-
-                                if (it == ApiError.EmptyList) {
-                                    includeErrorMessage.btnRetry.visibility = View.GONE
-                                }
+                                includeErrorMessage.btnRetry.visibility =
+                                    if (state.apiError == ApiError.EmptyList) View.GONE else View.VISIBLE
                             }
-
-                            quakes.isEmpty() && it == ApiError.NoMoreData -> {
+                            quakes.isEmpty() && state.apiError == ApiError.NoMoreData -> {
                                 includeErrorMessage.root.visibility = View.GONE
                             }
-
                             else -> {
                                 quakeAdapter.quakes = quakes
                                 tvCacheCopy.visibility = View.VISIBLE
+                                includeErrorMessage.root.visibility = View.GONE
                             }
                         }
-                        showServerApiError(it) { iconId, message ->
-                            configErrorStatusMsg(iconId, message)
-                        }
-
                     }
                 }
+                state.quakes.isNotEmpty() -> showListUI(state.quakes)
+            }
+            if (state.isLastPage) {
+                binding.recycleViewQuakes.setPadding(0, 0, 0, 0)
+            }
+        }
+    }
+
+    private suspend fun collectErrors() {
+        viewModel.errorState.collect { error ->
+            Timber.d("COLLECT ERROR STATE: $error")
+            showServerApiError(error) { iconId, message ->
+                configErrorStatusMsg(iconId, message)
+            }
         }
     }
 
@@ -216,24 +165,17 @@ class QuakeFragment : Fragment() {
 
     private fun loadingUI() {
         with(binding) {
-            isLoading = true
             progressBarQuakes.visibility = View.VISIBLE
             includeErrorMessage.root.visibility = View.GONE
         }
     }
 
     private fun showListUI(quakes: List<Quake>) {
-
-        //Load quakes
         quakeAdapter.quakes = quakes
-
         with(binding) {
-            View.GONE.apply {
-                isLoading = false
-                progressBarQuakes.visibility = this
-                includeErrorMessage.root.visibility = this
-                tvCacheCopy.visibility = this
-            }
+            progressBarQuakes.visibility = View.GONE
+            includeErrorMessage.root.visibility = View.GONE
+            tvCacheCopy.visibility = View.GONE
             Timber.d("Showing quake list in fragment")
         }
     }

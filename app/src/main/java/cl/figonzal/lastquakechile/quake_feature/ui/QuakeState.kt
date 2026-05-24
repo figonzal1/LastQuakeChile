@@ -6,5 +6,6 @@ import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 data class QuakeState(
     val isLoading: Boolean = false,
     val apiError: ApiError? = null,
-    val quakes: List<Quake> = listOf()
+    val quakes: List<Quake> = emptyList(),
+    val isLastPage: Boolean = false
 )

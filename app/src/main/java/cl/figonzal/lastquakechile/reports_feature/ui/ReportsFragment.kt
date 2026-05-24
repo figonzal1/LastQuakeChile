@@ -9,7 +9,6 @@ import androidx.annotation.DrawableRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -73,106 +72,59 @@ class ReportsFragment : Fragment() {
     }
 
     private fun handleReportState() {
-
         viewLifecycleOwner.lifecycleScope.launch {
-
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-
-                launch { processFirstPage() }
-
-                launch { processNextPage() }
+                launch { collectUiState() }
+                launch { collectErrors() }
             }
         }
         viewModel.getFirstPageReports()
     }
 
-    private suspend fun processFirstPage() {
-        viewModel.firstPageState.collectLatest {
+    private suspend fun collectUiState() {
+        viewModel.uiState.collectLatest { state ->
+            isLoading = state.isLoading
+            isLastPage = state.isLastPage
 
             when {
-                it.isLoading -> loadingUI()
-
-                //Check if apiError exists
-                it.apiError != null -> handleErrors(it.reports.toList())
-
-                //If api error is null, show updated list from network
-                it.reports.isNotEmpty() -> {
-                    showListUI(it.reports.toList())
-                }
-            }
-        }
-
-    }
-
-    private suspend fun processNextPage() {
-        viewModel.nextPagesState.collectLatest {
-
-            when {
-                it.isLoading -> loadingUI()
-
-                //Check if apiError exists
-                it.apiError != null -> handleErrors(it.reports.toList())
-
-                //If api error is null, show updated list from network
-                it.reports.isNotEmpty() -> {
-
-                    showListUI(it.reports.toList())
-
-                    val totalPages = it.reports.size / QUERY_PAGE_SIZE + 2
-                    isLastPage = viewModel.actualIndexPage == totalPages
-
-                    if (isLastPage) {
-                        binding.recycleViewReports.setPadding(0, 0, 0, 0)
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Handle api error and show cached results
-     *
-     * If the list is empty show includeErrorMessage
-     * Otherwise show toast with error and cached list
-     */
-    private fun handleErrors(reports: List<Report>) {
-
-        viewLifecycleOwner.lifecycleScope.launch {
-
-            viewModel.errorState
-                .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
-                .collectLatest {
-
-                    Timber.d("COLLECT ERROR STATE: $it")
-
+                state.isLoading -> loadingUI()
+                state.apiError != null -> {
                     with(binding) {
-
                         progressBarReports.visibility = View.GONE
-
+                        val reports = state.reports
                         when {
-                            reports.isEmpty() && it != ApiError.NoMoreData -> {
+                            reports.isEmpty() && state.apiError != ApiError.NoMoreData -> {
                                 includeErrorMessage.root.visibility = View.VISIBLE
-
                                 includeErrorMessage.btnRetry.setOnClickListener {
                                     viewModel.getFirstPageReports()
                                 }
-
-                                if (it == ApiError.EmptyList) {
-                                    includeErrorMessage.btnRetry.visibility = View.GONE
-                                }
+                                includeErrorMessage.btnRetry.visibility =
+                                    if (state.apiError == ApiError.EmptyList) View.GONE else View.VISIBLE
                             }
-
-                            reports.isEmpty() && it == ApiError.NoMoreData -> {
+                            reports.isEmpty() && state.apiError == ApiError.NoMoreData -> {
                                 includeErrorMessage.root.visibility = View.GONE
                             }
-
-                            else -> reportAdapter.reports = reports //Cache list
-                        }
-                        showServerApiError(it) { iconId, message ->
-                            configErrorStatusMsg(iconId, message)
+                            else -> {
+                                reportAdapter.reports = reports
+                                includeErrorMessage.root.visibility = View.GONE
+                            }
                         }
                     }
                 }
+                state.reports.isNotEmpty() -> showListUI(state.reports)
+            }
+            if (state.isLastPage) {
+                binding.recycleViewReports.setPadding(0, 0, 0, 0)
+            }
+        }
+    }
+
+    private suspend fun collectErrors() {
+        viewModel.errorState.collect { error ->
+            Timber.d("COLLECT ERROR STATE: $error")
+            showServerApiError(error) { iconId, message ->
+                configErrorStatusMsg(iconId, message)
+            }
         }
     }
 
@@ -188,23 +140,16 @@ class ReportsFragment : Fragment() {
 
     private fun loadingUI() {
         with(binding) {
-            isLoading = true
             progressBarReports.visibility = View.VISIBLE
             includeErrorMessage.root.visibility = View.GONE
         }
     }
 
     private fun showListUI(reports: List<Report>) {
-
-        //Load reports
         reportAdapter.reports = reports
-
         with(binding) {
-            View.GONE.apply {
-                isLoading = false
-                progressBarReports.visibility = this
-                includeErrorMessage.root.visibility = this
-            }
+            progressBarReports.visibility = View.GONE
+            includeErrorMessage.root.visibility = View.GONE
             Timber.d("Showing report list in fragment")
         }
     }

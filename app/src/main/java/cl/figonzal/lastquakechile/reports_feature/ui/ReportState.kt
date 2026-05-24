@@ -6,5 +6,6 @@ import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
 data class ReportState(
     val isLoading: Boolean = false,
     val apiError: ApiError? = null,
-    val reports: List<Report> = listOf()
+    val reports: List<Report> = emptyList(),
+    val isLastPage: Boolean = false
 )

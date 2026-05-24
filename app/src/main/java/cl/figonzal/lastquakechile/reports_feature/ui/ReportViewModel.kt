@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cl.figonzal.lastquakechile.core.data.remote.ApiError
 import cl.figonzal.lastquakechile.core.data.remote.StatusAPI
-import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
 import cl.figonzal.lastquakechile.reports_feature.domain.use_case.GetReportsUseCase
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,55 +17,38 @@ class ReportViewModel(
     private val getReportsUseCase: GetReportsUseCase
 ) : ViewModel() {
 
-    var actualIndexPage = 1
-    private var oldList: MutableList<Report>? = null
+    private var currentPage = 1
 
-    private val _nextPageState = MutableStateFlow(ReportState())
-    val nextPagesState = _nextPageState.asStateFlow()
-
-    private val _firstPageState = MutableStateFlow(ReportState())
-    val firstPageState = _firstPageState.asStateFlow()
+    private val _uiState = MutableStateFlow(ReportState())
+    val uiState = _uiState.asStateFlow()
 
     private val _errorState = Channel<ApiError>()
     val errorState = _errorState.receiveAsFlow()
 
     fun getFirstPageReports() {
-
         viewModelScope.launch {
-
-            actualIndexPage = 1
-            _firstPageState.update { it.copy(isLoading = true) }
+            currentPage = 1
+            _uiState.update { it.copy(isLoading = true, apiError = null, isLastPage = false) }
 
             getReportsUseCase(0).collect { statusApi ->
-
                 Timber.d("FIRST PAGE STATE $statusApi")
 
-                val data = statusApi.data
-                val apiError = statusApi.apiError
-
                 when (statusApi) {
-
                     is StatusAPI.Error -> {
-
-                        apiError?.let {
-                            _firstPageState.update { state ->
-                                state.copy(
-                                    isLoading = false,
-                                    apiError = it,
-                                    reports = data as List<Report> //cached list
-                                )
-                            }
-                            _errorState.send(it)
+                        val error = statusApi.apiError ?: return@collect
+                        _uiState.update { state ->
+                            state.copy(
+                                isLoading = false,
+                                apiError = error,
+                                reports = statusApi.data.orEmpty()
+                            )
                         }
+                        _errorState.send(error)
                     }
-
                     is StatusAPI.Success -> {
-
-                        oldList = data?.toMutableList()
-
-                        _firstPageState.update {
+                        _uiState.update {
                             it.copy(
-                                reports = data as List<Report>,
+                                reports = statusApi.data.orEmpty(),
                                 isLoading = false,
                                 apiError = null
                             )
@@ -74,54 +56,32 @@ class ReportViewModel(
                     }
                 }
             }
-
         }
     }
 
     fun getNextPageReports() {
-
         viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true, apiError = null) }
 
-            _nextPageState.update { it.copy(isLoading = true) }
-
-            getReportsUseCase(actualIndexPage).collect { statusApi ->
-
+            getReportsUseCase(currentPage).collect { statusApi ->
                 Timber.d("NEXT PAGE STATE $statusApi")
 
-                val data = statusApi.data
-                val apiError = statusApi.apiError
-
                 when (statusApi) {
-
                     is StatusAPI.Error -> {
-
-                        apiError?.let {
-                            _nextPageState.update { state ->
-                                state.copy(
-                                    isLoading = false,
-                                    apiError = it,
-                                    reports = data as List<Report> //cached list
-                                )
-                            }
-                            _errorState.send(it)
+                        val error = statusApi.apiError ?: return@collect
+                        if (error == ApiError.NoMoreData) {
+                            _uiState.update { it.copy(isLoading = false, isLastPage = true) }
+                        } else {
+                            _uiState.update { it.copy(isLoading = false, apiError = error) }
+                            _errorState.send(error)
                         }
                     }
-
                     is StatusAPI.Success -> {
-
-                        actualIndexPage++
-
-                        if (oldList == null) {
-                            oldList = data as MutableList<Report>
-                        } else {
-                            val oldData = oldList
-                            val newData = data as List<Report>
-                            oldData?.addAll(newData)
-                        }
-
-                        _nextPageState.update {
+                        currentPage++
+                        val newReports = statusApi.data.orEmpty()
+                        _uiState.update {
                             it.copy(
-                                reports = oldList ?: data,
+                                reports = it.reports + newReports,
                                 isLoading = false,
                                 apiError = null
                             )
