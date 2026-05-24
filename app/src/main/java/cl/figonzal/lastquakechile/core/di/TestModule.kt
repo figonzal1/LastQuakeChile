@@ -5,7 +5,7 @@ package cl.figonzal.lastquakechile.core.di
 import cl.figonzal.lastquakechile.core.utils.provideTestDatabase
 import cl.figonzal.lastquakechile.quake_feature.data.repository.FakeQuakeRepository
 import cl.figonzal.lastquakechile.quake_feature.domain.repository.QuakeRepository
-import cl.figonzal.lastquakechile.quake_feature.domain.uses_cases.GetQuakesUseCase
+import cl.figonzal.lastquakechile.quake_feature.domain.use_case.GetQuakesUseCase
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeAdapter
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeViewModel
 import cl.figonzal.lastquakechile.reports_feature.data.repository.FakeReportRepository

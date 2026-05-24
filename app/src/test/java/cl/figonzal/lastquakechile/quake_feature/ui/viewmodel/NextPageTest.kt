@@ -3,7 +3,7 @@ package cl.figonzal.lastquakechile.quake_feature.ui.viewmodel
 import app.cash.turbine.test
 import cl.figonzal.lastquakechile.core.data.remote.ApiError
 import cl.figonzal.lastquakechile.quake_feature.data.repository.FakeQuakeRepository
-import cl.figonzal.lastquakechile.quake_feature.domain.uses_cases.GetQuakesUseCase
+import cl.figonzal.lastquakechile.quake_feature.domain.use_case.GetQuakesUseCase
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeViewModel
 import com.google.common.truth.Truth.*
 import kotlinx.coroutines.Dispatchers
