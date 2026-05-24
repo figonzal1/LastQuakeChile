@@ -16,6 +16,8 @@ import org.koin.dsl.module
 val appModule = module {
 
     single(named("ioDispatcher")) { Dispatchers.IO }
+    single(named("mainDispatcher")) { Dispatchers.Main }
+    single(named("defaultDispatcher")) { Dispatchers.Default }
 
     single { SharedPrefUtil(androidContext()) }
 
