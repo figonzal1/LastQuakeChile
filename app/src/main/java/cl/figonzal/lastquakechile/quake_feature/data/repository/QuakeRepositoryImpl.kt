@@ -4,11 +4,11 @@ import android.app.Application
 import cl.figonzal.lastquakechile.core.data.remote.ApiError
 import cl.figonzal.lastquakechile.core.data.remote.StatusAPI
 import cl.figonzal.lastquakechile.core.utils.processSandwichError
-import cl.figonzal.lastquakechile.core.utils.toQuakeListDomain
-import cl.figonzal.lastquakechile.core.utils.toQuakeListEntity
-import cl.figonzal.lastquakechile.core.utils.translateReference
 import cl.figonzal.lastquakechile.quake_feature.data.local.QuakeLocalDataSource
 import cl.figonzal.lastquakechile.quake_feature.data.local.entity.relation.QuakeAndCoordinate
+import cl.figonzal.lastquakechile.quake_feature.data.mapper.toQuakeListDomain
+import cl.figonzal.lastquakechile.quake_feature.data.mapper.toQuakeListEntity
+import cl.figonzal.lastquakechile.quake_feature.data.mapper.translateReference
 import cl.figonzal.lastquakechile.quake_feature.data.remote.QuakeRemoteDataSource
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import cl.figonzal.lastquakechile.quake_feature.domain.repository.QuakeRepository
@@ -37,29 +37,27 @@ class QuakeRepositoryImpl(
 
     override fun getFirstPage(pageIndex: Int): Flow<StatusAPI<List<Quake>>> = flow {
 
-        var cacheList = localDataSource.getQuakes().toQuakeListDomain()
+        var cacheList = localDataSource.getQuakes()
 
-        //GET REMOTE DATA
         remoteDataSource.getQuakes(pageIndex)
             .suspendOnSuccess {
 
                 when {
-                    data.embedded != null -> {
-                        val quakes = data.embedded!!.quakes
+                    data.isNotEmpty() -> {
+                        val quakes = data
                             .toQuakeListEntity()
                             .translateReference()
 
                         localDataSource.deleteAll()
                         saveToLocalQuakes(quakes)
 
-                        cacheList = localDataSource.getQuakes().toQuakeListDomain()
+                        cacheList = localDataSource.getQuakes()
 
                         emit(StatusAPI.Success(cacheList))
 
                         Timber.d("List updated with network call")
                     }
                     else -> {
-                        //First page empty, send cacheList or empty list
                         val apiError = when {
                             cacheList.isEmpty() -> ApiError.EmptyList
                             else -> ApiError.NoMoreData
@@ -88,13 +86,12 @@ class QuakeRepositoryImpl(
 
         val emptyList = emptyList<Quake>()
 
-        //GET REMOTE DATA
         remoteDataSource.getQuakes(pageIndex)
             .suspendOnSuccess {
 
                 when {
-                    data.embedded != null -> {
-                        val quakes = data.embedded!!.quakes
+                    data.isNotEmpty() -> {
+                        val quakes = data
                             .toQuakeListEntity()
                             .translateReference()
                             .toQuakeListDomain()
@@ -104,9 +101,7 @@ class QuakeRepositoryImpl(
                         Timber.d("List updated with network call")
                     }
                     else -> {
-                        //Resources not found in next page index
-                        val apiError = ApiError.NoMoreData
-                        emit(StatusAPI.Error(emptyList, apiError))
+                        emit(StatusAPI.Error(emptyList, ApiError.NoMoreData))
                     }
                 }
             }
@@ -127,9 +122,7 @@ class QuakeRepositoryImpl(
     }.flowOn(dispatcher)
 
     private fun saveToLocalQuakes(remoteData: List<QuakeAndCoordinate>) {
-
         remoteData.forEach {
-            //store remote result in cache
             localDataSource.insert(it)
         }
     }

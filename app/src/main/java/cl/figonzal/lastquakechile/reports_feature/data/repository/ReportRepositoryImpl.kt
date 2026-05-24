@@ -4,10 +4,10 @@ import android.app.Application
 import cl.figonzal.lastquakechile.core.data.remote.ApiError
 import cl.figonzal.lastquakechile.core.data.remote.StatusAPI
 import cl.figonzal.lastquakechile.core.utils.processSandwichError
-import cl.figonzal.lastquakechile.core.utils.toReportListDomain
-import cl.figonzal.lastquakechile.core.utils.toReportListEntity
 import cl.figonzal.lastquakechile.reports_feature.data.local.ReportLocalDataSource
 import cl.figonzal.lastquakechile.reports_feature.data.local.entity.relation.ReportWithCityQuakes
+import cl.figonzal.lastquakechile.reports_feature.data.mapper.toReportListDomain
+import cl.figonzal.lastquakechile.reports_feature.data.mapper.toReportListEntity
 import cl.figonzal.lastquakechile.reports_feature.data.remote.ReportRemoteDataSource
 import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
 import cl.figonzal.lastquakechile.reports_feature.domain.repository.ReportRepository
@@ -22,9 +22,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import timber.log.Timber
 
-/**
- * Single source of truth for reports
- */
 class ReportRepositoryImpl(
     private val localDataSource: ReportLocalDataSource,
     private val remoteDataSource: ReportRemoteDataSource,
@@ -39,26 +36,25 @@ class ReportRepositoryImpl(
 
     override fun getFirstPage(pageIndex: Int): Flow<StatusAPI<List<Report>>> = flow {
 
-        var cacheList = localDataSource.getReports().toReportListDomain()
+        var cacheList = localDataSource.getReports()
 
         remoteDataSource.getReports(pageIndex)
             .suspendOnSuccess {
 
                 when {
-                    data.embedded != null -> {
-                        val quakes = data.embedded!!.reports.toReportListEntity()
+                    data.isNotEmpty() -> {
+                        val reports = data.toReportListEntity()
 
                         localDataSource.deleteAll()
-                        saveToLocalReports(quakes)
+                        saveToLocalReports(reports)
 
-                        cacheList = localDataSource.getReports().toReportListDomain()
+                        cacheList = localDataSource.getReports()
 
                         emit(StatusAPI.Success(cacheList))
 
                         Timber.d("List updated with network call")
                     }
                     else -> {
-                        //First page empty, send cacheList or empty list
                         val apiError = when {
                             cacheList.isEmpty() -> ApiError.EmptyList
                             else -> ApiError.NoMoreData
@@ -87,13 +83,12 @@ class ReportRepositoryImpl(
 
         val emptyList = emptyList<Report>()
 
-        //Get remote data
         remoteDataSource.getReports(pageIndex)
             .suspendOnSuccess {
 
                 when {
-                    data.embedded != null -> {
-                        val reports = data.embedded!!.reports
+                    data.isNotEmpty() -> {
+                        val reports = data
                             .toReportListEntity()
                             .toReportListDomain()
 
@@ -102,12 +97,12 @@ class ReportRepositoryImpl(
                         Timber.d("List updated with network call")
                     }
                     else -> {
-                        val apiError = ApiError.NoMoreData
-                        emit(StatusAPI.Error(emptyList, apiError))
+                        emit(StatusAPI.Error(emptyList, ApiError.NoMoreData))
                     }
                 }
             }
             .suspendOnError {
+
                 Timber.e("Suspend error: ${this.message()}")
 
                 val apiError = application.processSandwichError("", null)
