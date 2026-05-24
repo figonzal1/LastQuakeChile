@@ -18,7 +18,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.data.remote.ApiError
+import cl.figonzal.lastquakechile.core.domain.DomainError
 import cl.figonzal.lastquakechile.core.services.notifications.utils.handleCvAlertPermission
 import cl.figonzal.lastquakechile.core.services.notifications.utils.onNotificationPermissionResult
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
@@ -112,21 +112,21 @@ class QuakeFragment : Fragment() {
 
             when {
                 state.isLoading -> loadingUI()
-                state.apiError != null -> {
+                state.domainError != null -> {
                     with(binding) {
                         progressBarQuakes.visibility = View.GONE
                         val quakes = state.quakes
                         when {
-                            quakes.isEmpty() && state.apiError != ApiError.NoMoreData -> {
+                            quakes.isEmpty() && state.domainError != DomainError.NoMoreData -> {
                                 includeErrorMessage.root.visibility = View.VISIBLE
                                 tvCacheCopy.visibility = View.GONE
                                 includeErrorMessage.btnRetry.setOnClickListener {
                                     viewModel.getFirstPageQuakes()
                                 }
                                 includeErrorMessage.btnRetry.visibility =
-                                    if (state.apiError == ApiError.EmptyList) View.GONE else View.VISIBLE
+                                    if (state.domainError == DomainError.EmptyList) View.GONE else View.VISIBLE
                             }
-                            quakes.isEmpty() && state.apiError == ApiError.NoMoreData -> {
+                            quakes.isEmpty() && state.domainError == DomainError.NoMoreData -> {
                                 includeErrorMessage.root.visibility = View.GONE
                             }
                             else -> {

@@ -1,9 +1,8 @@
 package cl.figonzal.lastquakechile.quake_feature.data.repository
 
-import android.app.Application
-import cl.figonzal.lastquakechile.core.data.remote.ApiError
-import cl.figonzal.lastquakechile.core.data.remote.StatusAPI
-import cl.figonzal.lastquakechile.core.utils.processSandwichError
+import cl.figonzal.lastquakechile.core.data.remote.toDomainError
+import cl.figonzal.lastquakechile.core.domain.DomainError
+import cl.figonzal.lastquakechile.core.domain.DomainResult
 import cl.figonzal.lastquakechile.quake_feature.data.local.QuakeLocalDataSource
 import cl.figonzal.lastquakechile.quake_feature.data.local.entity.relation.QuakeAndCoordinate
 import cl.figonzal.lastquakechile.quake_feature.data.mapper.toQuakeListDomain
@@ -26,8 +25,7 @@ import timber.log.Timber
 class QuakeRepositoryImpl(
     private val localDataSource: QuakeLocalDataSource,
     private val remoteDataSource: QuakeRemoteDataSource,
-    private val dispatcher: CoroutineDispatcher,
-    private val application: Application
+    private val dispatcher: CoroutineDispatcher
 ) : QuakeRepository {
 
     override fun getQuakes(pageIndex: Int) = when (pageIndex) {
@@ -35,13 +33,12 @@ class QuakeRepositoryImpl(
         else -> getNextPages(pageIndex)
     }
 
-    override fun getFirstPage(pageIndex: Int): Flow<StatusAPI<List<Quake>>> = flow {
+    override fun getFirstPage(pageIndex: Int): Flow<DomainResult<List<Quake>>> = flow {
 
         var cacheList = localDataSource.getQuakes()
 
         remoteDataSource.getQuakes(pageIndex)
             .suspendOnSuccess {
-
                 when {
                     data.isNotEmpty() -> {
                         val quakes = data
@@ -53,42 +50,31 @@ class QuakeRepositoryImpl(
 
                         cacheList = localDataSource.getQuakes()
 
-                        emit(StatusAPI.Success(cacheList))
-
+                        emit(DomainResult.Success(cacheList))
                         Timber.d("List updated with network call")
                     }
                     else -> {
-                        val apiError = when {
-                            cacheList.isEmpty() -> ApiError.EmptyList
-                            else -> ApiError.NoMoreData
-                        }
-                        emit(StatusAPI.Error(cacheList, apiError))
+                        val error = if (cacheList.isEmpty()) DomainError.EmptyList else DomainError.NoMoreData
+                        emit(DomainResult.Error(cacheList, error))
                     }
                 }
             }
             .suspendOnError {
-
                 Timber.e("Suspend error: ${this.message()}")
-
-                val apiError = application.processSandwichError("", statusCode)
-                emit(StatusAPI.Error(data = cacheList, apiError = apiError))
+                emit(DomainResult.Error(cacheList, statusCode.toDomainError()))
             }
             .suspendOnFailure {
-
                 Timber.e("Suspend failure: ${this.message()}")
-
-                val apiError = application.processSandwichError(message(), null)
-                emit(StatusAPI.Error(data = cacheList, apiError = apiError))
+                emit(DomainResult.Error(cacheList, message().toDomainError()))
             }
     }.flowOn(dispatcher)
 
-    override fun getNextPages(pageIndex: Int): Flow<StatusAPI<List<Quake>>> = flow {
+    override fun getNextPages(pageIndex: Int): Flow<DomainResult<List<Quake>>> = flow {
 
         val emptyList = emptyList<Quake>()
 
         remoteDataSource.getQuakes(pageIndex)
             .suspendOnSuccess {
-
                 when {
                     data.isNotEmpty() -> {
                         val quakes = data
@@ -96,34 +82,23 @@ class QuakeRepositoryImpl(
                             .translateReference()
                             .toQuakeListDomain()
 
-                        emit(StatusAPI.Success(quakes))
-
+                        emit(DomainResult.Success(quakes))
                         Timber.d("List updated with network call")
                     }
-                    else -> {
-                        emit(StatusAPI.Error(emptyList, ApiError.NoMoreData))
-                    }
+                    else -> emit(DomainResult.Error(emptyList, DomainError.NoMoreData))
                 }
             }
             .suspendOnError {
-
                 Timber.e("Suspend error: ${this.message()}")
-
-                val apiError = application.processSandwichError("", null)
-                emit(StatusAPI.Error(emptyList, apiError))
+                emit(DomainResult.Error(emptyList, statusCode.toDomainError()))
             }
             .suspendOnFailure {
-
                 Timber.e("Suspend failure: ${this.message()}")
-
-                val apiError = application.processSandwichError(message(), null)
-                emit(StatusAPI.Error(emptyList, apiError))
+                emit(DomainResult.Error(emptyList, message().toDomainError()))
             }
     }.flowOn(dispatcher)
 
     private fun saveToLocalQuakes(remoteData: List<QuakeAndCoordinate>) {
-        remoteData.forEach {
-            localDataSource.insert(it)
-        }
+        remoteData.forEach { localDataSource.insert(it) }
     }
 }

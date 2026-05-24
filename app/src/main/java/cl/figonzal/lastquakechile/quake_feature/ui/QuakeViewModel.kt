@@ -2,8 +2,8 @@ package cl.figonzal.lastquakechile.quake_feature.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cl.figonzal.lastquakechile.core.data.remote.ApiError
-import cl.figonzal.lastquakechile.core.data.remote.StatusAPI
+import cl.figonzal.lastquakechile.core.domain.DomainError
+import cl.figonzal.lastquakechile.core.domain.DomainResult
 import cl.figonzal.lastquakechile.quake_feature.domain.use_case.GetQuakesUseCase
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,35 +22,34 @@ class QuakeViewModel(
     private val _uiState = MutableStateFlow(QuakeState())
     val uiState = _uiState.asStateFlow()
 
-    private val _errorState = Channel<ApiError>()
+    private val _errorState = Channel<DomainError>()
     val errorState = _errorState.receiveAsFlow()
 
     fun getFirstPageQuakes() {
         viewModelScope.launch {
             currentPage = 1
-            _uiState.update { it.copy(isLoading = true, apiError = null, isLastPage = false) }
+            _uiState.update { it.copy(isLoading = true, domainError = null, isLastPage = false) }
 
-            getQuakesUseCase(0).collect { statusApi ->
-                Timber.d("FIRST PAGE STATE $statusApi")
+            getQuakesUseCase(0).collect { result ->
+                Timber.d("FIRST PAGE STATE $result")
 
-                when (statusApi) {
-                    is StatusAPI.Error -> {
-                        val error = statusApi.apiError ?: return@collect
+                when (result) {
+                    is DomainResult.Error -> {
                         _uiState.update { state ->
                             state.copy(
                                 isLoading = false,
-                                apiError = error,
-                                quakes = statusApi.data.orEmpty()
+                                domainError = result.error,
+                                quakes = result.data
                             )
                         }
-                        _errorState.send(error)
+                        _errorState.send(result.error)
                     }
-                    is StatusAPI.Success -> {
+                    is DomainResult.Success -> {
                         _uiState.update {
                             it.copy(
-                                quakes = statusApi.data.orEmpty(),
+                                quakes = result.data,
                                 isLoading = false,
-                                apiError = null
+                                domainError = null
                             )
                         }
                     }
@@ -61,29 +60,27 @@ class QuakeViewModel(
 
     fun getNextPageQuakes() {
         viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true, apiError = null) }
+            _uiState.update { it.copy(isLoading = true, domainError = null) }
 
-            getQuakesUseCase(currentPage).collect { statusApi ->
-                Timber.d("NEXT PAGE STATE $statusApi")
+            getQuakesUseCase(currentPage).collect { result ->
+                Timber.d("NEXT PAGE STATE $result")
 
-                when (statusApi) {
-                    is StatusAPI.Error -> {
-                        val error = statusApi.apiError ?: return@collect
-                        if (error == ApiError.NoMoreData) {
+                when (result) {
+                    is DomainResult.Error -> {
+                        if (result.error == DomainError.NoMoreData) {
                             _uiState.update { it.copy(isLoading = false, isLastPage = true) }
                         } else {
-                            _uiState.update { it.copy(isLoading = false, apiError = error) }
-                            _errorState.send(error)
+                            _uiState.update { it.copy(isLoading = false, domainError = result.error) }
+                            _errorState.send(result.error)
                         }
                     }
-                    is StatusAPI.Success -> {
+                    is DomainResult.Success -> {
                         currentPage++
-                        val newQuakes = statusApi.data.orEmpty()
                         _uiState.update {
                             it.copy(
-                                quakes = it.quakes + newQuakes,
+                                quakes = it.quakes + result.data,
                                 isLoading = false,
-                                apiError = null
+                                domainError = null
                             )
                         }
                     }

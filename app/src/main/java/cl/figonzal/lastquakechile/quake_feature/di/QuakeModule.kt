@@ -34,8 +34,7 @@ val quakeModule = module {
         QuakeRepositoryImpl(
             get(),
             get(),
-            get(named("ioDispatcher")),
-            get()
+            get(named("ioDispatcher"))
         )
     }
 
