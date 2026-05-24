@@ -19,7 +19,7 @@ import cl.figonzal.lastquakechile.reports_feature.data.local.entity.ReportEntity
         ReportEntity::class,
         CityQuakesEntity::class],
     version = 4,
-    exportSchema = false
+    exportSchema = true
 )
 abstract class AppDatabase : RoomDatabase() {
 

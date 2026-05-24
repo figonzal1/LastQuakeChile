@@ -210,6 +210,10 @@ kotlin {
     }
 }
 
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+}
+
 sonarqube {
     properties {
         property("sonar.projectName", "LastQuakeChile")
