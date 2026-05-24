@@ -275,6 +275,18 @@ class QuakeFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        // Re-evaluate the permission cardview whenever the fragment becomes visible.
+        // Covers the case where the user returns from system Settings after granting/revoking
+        // POST_NOTIFICATIONS — otherwise the card stays stuck on its previous state.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            _binding?.let {
+                handleCvAlertPermission(it, SharedPrefUtil(requireContext()), notificationPermissionLauncher)
+            }
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
