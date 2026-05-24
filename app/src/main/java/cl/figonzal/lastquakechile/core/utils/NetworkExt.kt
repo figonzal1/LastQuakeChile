@@ -12,7 +12,8 @@ import java.util.concurrent.TimeUnit
 
 private val okHttpClient = OkHttpClient().newBuilder()
     .addInterceptor(HttpLoggingInterceptor().apply {
-        level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
+        level =
+            if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
     })
     .connectTimeout(10, TimeUnit.SECONDS)
     .readTimeout(10, TimeUnit.SECONDS)

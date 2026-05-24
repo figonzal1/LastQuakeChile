@@ -12,7 +12,6 @@ import androidx.annotation.DrawableRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
-import org.koin.android.ext.android.inject
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,6 +27,7 @@ import cl.figonzal.lastquakechile.databinding.FragmentQuakeBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import timber.log.Timber
 
@@ -90,7 +90,11 @@ class QuakeFragment : Fragment() {
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                handleCvAlertPermission(binding, SharedPrefUtil(requireContext()), notificationPermissionLauncher)
+                handleCvAlertPermission(
+                    binding,
+                    SharedPrefUtil(requireContext()),
+                    notificationPermissionLauncher
+                )
             }
         }
     }
@@ -126,9 +130,11 @@ class QuakeFragment : Fragment() {
                                 includeErrorMessage.btnRetry.visibility =
                                     if (state.domainError == DomainError.EmptyList) View.GONE else View.VISIBLE
                             }
+
                             quakes.isEmpty() && state.domainError == DomainError.NoMoreData -> {
                                 includeErrorMessage.root.visibility = View.GONE
                             }
+
                             else -> {
                                 quakeAdapter.quakes = quakes
                                 tvCacheCopy.visibility = View.VISIBLE
@@ -137,6 +143,7 @@ class QuakeFragment : Fragment() {
                         }
                     }
                 }
+
                 state.quakes.isNotEmpty() -> showListUI(state.quakes)
             }
             if (state.isLastPage) {
@@ -224,7 +231,11 @@ class QuakeFragment : Fragment() {
         // POST_NOTIFICATIONS — otherwise the card stays stuck on its previous state.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             _binding?.let {
-                handleCvAlertPermission(it, SharedPrefUtil(requireContext()), notificationPermissionLauncher)
+                handleCvAlertPermission(
+                    it,
+                    SharedPrefUtil(requireContext()),
+                    notificationPermissionLauncher
+                )
             }
         }
     }

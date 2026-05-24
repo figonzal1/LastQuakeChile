@@ -109,7 +109,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             configOptionsMenu(fragmentIndex = 2) {
                 when (it.itemId) {
                     R.id.layers_menu -> {
-                        MapTerrainDialogFragment.newInstance().show(parentFragmentManager, "map_terrain")
+                        MapTerrainDialogFragment.newInstance()
+                            .show(parentFragmentManager, "map_terrain")
                     }
                 }
             }

@@ -13,7 +13,12 @@ import androidx.fragment.app.Fragment
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.utils.views.configOptionsMenu
 import cl.figonzal.lastquakechile.databinding.FragmentAdMobBinding
-import com.google.android.gms.ads.*
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdLoader
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.VideoController
+import com.google.android.gms.ads.VideoOptions
 import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.gms.ads.nativead.NativeAdOptions
 import com.google.android.gms.ads.nativead.NativeAdView
@@ -137,6 +142,7 @@ class AdFragment : Fragment() {
                 null -> {
                     View.INVISIBLE
                 }
+
                 else -> {
                     nativeAd.starRating?.let {
                         (adView.starRatingView as RatingBar).rating = it.toFloat()
@@ -165,6 +171,7 @@ class AdFragment : Fragment() {
             vc?.hasVideoContent() == true -> vc.videoLifecycleCallbacks =
                 object : VideoController.VideoLifecycleCallbacks() {
                 }
+
             else -> {
                 //refreshAd()
             }

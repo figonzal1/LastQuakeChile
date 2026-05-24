@@ -53,8 +53,10 @@ class QuakeRepositoryImpl(
                         emit(DomainResult.Success(cacheList))
                         Timber.d("List updated with network call")
                     }
+
                     else -> {
-                        val error = if (cacheList.isEmpty()) DomainError.EmptyList else DomainError.NoMoreData
+                        val error =
+                            if (cacheList.isEmpty()) DomainError.EmptyList else DomainError.NoMoreData
                         emit(DomainResult.Error(cacheList, error))
                     }
                 }
@@ -85,6 +87,7 @@ class QuakeRepositoryImpl(
                         emit(DomainResult.Success(quakes))
                         Timber.d("List updated with network call")
                     }
+
                     else -> emit(DomainResult.Error(emptyList, DomainError.NoMoreData))
                 }
             }

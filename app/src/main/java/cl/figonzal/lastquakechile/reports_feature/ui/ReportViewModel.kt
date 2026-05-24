@@ -44,6 +44,7 @@ class ReportViewModel(
                         }
                         _errorState.send(result.error)
                     }
+
                     is DomainResult.Success -> {
                         _uiState.update {
                             it.copy(
@@ -70,10 +71,16 @@ class ReportViewModel(
                         if (result.error == DomainError.NoMoreData) {
                             _uiState.update { it.copy(isLoading = false, isLastPage = true) }
                         } else {
-                            _uiState.update { it.copy(isLoading = false, domainError = result.error) }
+                            _uiState.update {
+                                it.copy(
+                                    isLoading = false,
+                                    domainError = result.error
+                                )
+                            }
                             _errorState.send(result.error)
                         }
                     }
+
                     is DomainResult.Success -> {
                         currentPage++
                         _uiState.update {

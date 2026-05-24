@@ -252,7 +252,10 @@ class SettingsActivityTest {
                 withParent(
                     hasSibling(
                         hasDescendant(
-                            allOf(withId(android.R.id.title), withText(R.string.alert_pref_title_switch))
+                            allOf(
+                                withId(android.R.id.title),
+                                withText(R.string.alert_pref_title_switch)
+                            )
                         )
                     )
                 )
@@ -279,7 +282,10 @@ class SettingsActivityTest {
                 withParent(
                     hasSibling(
                         hasDescendant(
-                            allOf(withId(android.R.id.title), withText(R.string.alert_pref_title_switch))
+                            allOf(
+                                withId(android.R.id.title),
+                                withText(R.string.alert_pref_title_switch)
+                            )
                         )
                     )
                 )

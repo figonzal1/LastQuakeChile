@@ -101,9 +101,11 @@ class ReportsFragment : Fragment() {
                                 includeErrorMessage.btnRetry.visibility =
                                     if (state.domainError == DomainError.EmptyList) View.GONE else View.VISIBLE
                             }
+
                             reports.isEmpty() && state.domainError == DomainError.NoMoreData -> {
                                 includeErrorMessage.root.visibility = View.GONE
                             }
+
                             else -> {
                                 reportAdapter.reports = reports
                                 includeErrorMessage.root.visibility = View.GONE
@@ -111,6 +113,7 @@ class ReportsFragment : Fragment() {
                         }
                     }
                 }
+
                 state.reports.isNotEmpty() -> showListUI(state.reports)
             }
             if (state.isLastPage) {

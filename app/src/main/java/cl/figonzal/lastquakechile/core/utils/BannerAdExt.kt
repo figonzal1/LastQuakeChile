@@ -7,7 +7,11 @@ import android.util.DisplayMetrics
 import android.view.View
 import android.widget.FrameLayout
 import cl.figonzal.lastquakechile.R
-import com.google.android.gms.ads.*
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.LoadAdError
 import timber.log.Timber
 
 /*

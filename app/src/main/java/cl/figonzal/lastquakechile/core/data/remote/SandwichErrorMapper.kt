@@ -9,15 +9,18 @@ internal fun StatusCode?.toDomainError(): DomainError = when (this) {
     StatusCode.InternalServerError,
     StatusCode.ServiceUnavailable,
     StatusCode.Unknown -> DomainError.ServerError
+
     null -> DomainError.Unknown
     else -> DomainError.HttpError
 }
 
 internal fun String.toDomainError(): DomainError = when {
     contains("unable to resolve host", ignoreCase = true) ||
-    contains("failed to connect", ignoreCase = true) ||
-    contains("no address associated", ignoreCase = true) -> DomainError.NoConnection
+            contains("failed to connect", ignoreCase = true) ||
+            contains("no address associated", ignoreCase = true) -> DomainError.NoConnection
+
     contains("timeout", ignoreCase = true) ||
-    contains("10000ms") -> DomainError.Timeout
+            contains("10000ms") -> DomainError.Timeout
+
     else -> DomainError.Unknown
 }
