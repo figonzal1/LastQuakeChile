@@ -50,7 +50,7 @@ class FirstPageTest : KoinTest {
     @Test
     fun `check default state`() = runTest {
 
-        viewModel.firstPageState.test {
+        viewModel.uiState.test {
             val emission = awaitItem()
 
             assertThat(emission.quakes.size).isEqualTo(0)
@@ -65,7 +65,7 @@ class FirstPageTest : KoinTest {
         viewModel.getFirstPageQuakes()
 
         //Drop default state
-        viewModel.firstPageState.drop(1).test {
+        viewModel.uiState.drop(1).test {
             val emission = awaitItem()
 
             assertThat(emission.isLoading).isTrue()
@@ -80,7 +80,7 @@ class FirstPageTest : KoinTest {
         viewModel.getFirstPageQuakes()
 
         //Drop 2 states (Default & loading state)
-        viewModel.firstPageState.drop(2).test {
+        viewModel.uiState.drop(2).test {
             val emission = awaitItem()
             assertThat(emission.quakes.size).isEqualTo(3)
             assertThat(emission.isLoading).isFalse()
@@ -95,7 +95,7 @@ class FirstPageTest : KoinTest {
         repository.shouldReturnNetworkError = true
         viewModel.getFirstPageQuakes()
 
-        viewModel.firstPageState.drop(2).test {
+        viewModel.uiState.drop(2).test {
 
             val emission = awaitItem()
 

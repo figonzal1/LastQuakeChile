@@ -50,7 +50,7 @@ class NextPageTest : KoinTest {
     @Test
     fun `check default state`() = runTest {
 
-        viewModel.nextPagesState.test {
+        viewModel.uiState.test {
             val emission = awaitItem()
 
             assertThat(emission.quakes.size).isEqualTo(0)
@@ -65,7 +65,7 @@ class NextPageTest : KoinTest {
         viewModel.getNextPageQuakes()
 
         //Drop default state
-        viewModel.nextPagesState.drop(1).test {
+        viewModel.uiState.drop(1).test {
             val emission = awaitItem()
 
             assertThat(emission.isLoading).isTrue()
@@ -80,7 +80,7 @@ class NextPageTest : KoinTest {
         viewModel.getNextPageQuakes()
 
         //Drop 2 states (Default & loading state)
-        viewModel.nextPagesState.drop(2).test {
+        viewModel.uiState.drop(2).test {
             val emission = awaitItem()
             assertThat(emission.quakes.size).isEqualTo(3)
             assertThat(emission.isLoading).isFalse()
@@ -94,11 +94,11 @@ class NextPageTest : KoinTest {
         repository.shouldReturnNetworkError = true
         viewModel.getNextPageQuakes()
 
-        viewModel.nextPagesState.drop(2).test {
+        viewModel.uiState.drop(2).test {
 
             val emission = awaitItem()
 
-            assertThat(emission.quakes.size).isEqualTo(3)
+            assertThat(emission.quakes.size).isEqualTo(0)
             assertThat(emission.isLoading).isFalse()
             assertThat(emission.apiError).isSameInstanceAs(ApiError.HttpError)
         }
