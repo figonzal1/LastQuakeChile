@@ -5,10 +5,11 @@ import androidx.lifecycle.viewModelScope
 import cl.figonzal.lastquakechile.core.domain.DomainError
 import cl.figonzal.lastquakechile.core.domain.DomainResult
 import cl.figonzal.lastquakechile.quake_feature.domain.use_case.GetQuakesUseCase
-import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -22,8 +23,11 @@ class QuakeViewModel(
     private val _uiState = MutableStateFlow(QuakeState())
     val uiState = _uiState.asStateFlow()
 
-    private val _errorState = Channel<DomainError>()
-    val errorState = _errorState.receiveAsFlow()
+    private val _errorState = MutableSharedFlow<DomainError>(
+        extraBufferCapacity = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+    val errorState = _errorState.asSharedFlow()
 
     fun getFirstPageQuakes() {
         viewModelScope.launch {
@@ -42,7 +46,7 @@ class QuakeViewModel(
                                 quakes = result.data
                             )
                         }
-                        _errorState.send(result.error)
+                        _errorState.tryEmit(result.error)
                     }
 
                     is DomainResult.Success -> {
@@ -77,7 +81,7 @@ class QuakeViewModel(
                                     domainError = result.error
                                 )
                             }
-                            _errorState.send(result.error)
+                            _errorState.tryEmit(result.error)
                         }
                     }
 
