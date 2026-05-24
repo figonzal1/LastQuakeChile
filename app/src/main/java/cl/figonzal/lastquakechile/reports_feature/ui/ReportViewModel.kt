@@ -2,8 +2,8 @@ package cl.figonzal.lastquakechile.reports_feature.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cl.figonzal.lastquakechile.core.data.remote.ApiError
-import cl.figonzal.lastquakechile.core.data.remote.StatusAPI
+import cl.figonzal.lastquakechile.core.domain.DomainError
+import cl.figonzal.lastquakechile.core.domain.DomainResult
 import cl.figonzal.lastquakechile.reports_feature.domain.use_case.GetReportsUseCase
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,35 +22,34 @@ class ReportViewModel(
     private val _uiState = MutableStateFlow(ReportState())
     val uiState = _uiState.asStateFlow()
 
-    private val _errorState = Channel<ApiError>()
+    private val _errorState = Channel<DomainError>()
     val errorState = _errorState.receiveAsFlow()
 
     fun getFirstPageReports() {
         viewModelScope.launch {
             currentPage = 1
-            _uiState.update { it.copy(isLoading = true, apiError = null, isLastPage = false) }
+            _uiState.update { it.copy(isLoading = true, domainError = null, isLastPage = false) }
 
-            getReportsUseCase(0).collect { statusApi ->
-                Timber.d("FIRST PAGE STATE $statusApi")
+            getReportsUseCase(0).collect { result ->
+                Timber.d("FIRST PAGE STATE $result")
 
-                when (statusApi) {
-                    is StatusAPI.Error -> {
-                        val error = statusApi.apiError ?: return@collect
+                when (result) {
+                    is DomainResult.Error -> {
                         _uiState.update { state ->
                             state.copy(
                                 isLoading = false,
-                                apiError = error,
-                                reports = statusApi.data.orEmpty()
+                                domainError = result.error,
+                                reports = result.data
                             )
                         }
-                        _errorState.send(error)
+                        _errorState.send(result.error)
                     }
-                    is StatusAPI.Success -> {
+                    is DomainResult.Success -> {
                         _uiState.update {
                             it.copy(
-                                reports = statusApi.data.orEmpty(),
+                                reports = result.data,
                                 isLoading = false,
-                                apiError = null
+                                domainError = null
                             )
                         }
                     }
@@ -61,29 +60,27 @@ class ReportViewModel(
 
     fun getNextPageReports() {
         viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true, apiError = null) }
+            _uiState.update { it.copy(isLoading = true, domainError = null) }
 
-            getReportsUseCase(currentPage).collect { statusApi ->
-                Timber.d("NEXT PAGE STATE $statusApi")
+            getReportsUseCase(currentPage).collect { result ->
+                Timber.d("NEXT PAGE STATE $result")
 
-                when (statusApi) {
-                    is StatusAPI.Error -> {
-                        val error = statusApi.apiError ?: return@collect
-                        if (error == ApiError.NoMoreData) {
+                when (result) {
+                    is DomainResult.Error -> {
+                        if (result.error == DomainError.NoMoreData) {
                             _uiState.update { it.copy(isLoading = false, isLastPage = true) }
                         } else {
-                            _uiState.update { it.copy(isLoading = false, apiError = error) }
-                            _errorState.send(error)
+                            _uiState.update { it.copy(isLoading = false, domainError = result.error) }
+                            _errorState.send(result.error)
                         }
                     }
-                    is StatusAPI.Success -> {
+                    is DomainResult.Success -> {
                         currentPage++
-                        val newReports = statusApi.data.orEmpty()
                         _uiState.update {
                             it.copy(
-                                reports = it.reports + newReports,
+                                reports = it.reports + result.data,
                                 isLoading = false,
-                                apiError = null
+                                domainError = null
                             )
                         }
                     }

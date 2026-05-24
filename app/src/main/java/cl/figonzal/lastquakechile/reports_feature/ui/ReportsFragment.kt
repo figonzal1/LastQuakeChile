@@ -14,7 +14,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.data.remote.ApiError
+import cl.figonzal.lastquakechile.core.domain.DomainError
 import cl.figonzal.lastquakechile.core.utils.views.configOptionsMenu
 import cl.figonzal.lastquakechile.core.utils.views.showServerApiError
 import cl.figonzal.lastquakechile.databinding.FragmentReportsBinding
@@ -88,20 +88,20 @@ class ReportsFragment : Fragment() {
 
             when {
                 state.isLoading -> loadingUI()
-                state.apiError != null -> {
+                state.domainError != null -> {
                     with(binding) {
                         progressBarReports.visibility = View.GONE
                         val reports = state.reports
                         when {
-                            reports.isEmpty() && state.apiError != ApiError.NoMoreData -> {
+                            reports.isEmpty() && state.domainError != DomainError.NoMoreData -> {
                                 includeErrorMessage.root.visibility = View.VISIBLE
                                 includeErrorMessage.btnRetry.setOnClickListener {
                                     viewModel.getFirstPageReports()
                                 }
                                 includeErrorMessage.btnRetry.visibility =
-                                    if (state.apiError == ApiError.EmptyList) View.GONE else View.VISIBLE
+                                    if (state.domainError == DomainError.EmptyList) View.GONE else View.VISIBLE
                             }
-                            reports.isEmpty() && state.apiError == ApiError.NoMoreData -> {
+                            reports.isEmpty() && state.domainError == DomainError.NoMoreData -> {
                                 includeErrorMessage.root.visibility = View.GONE
                             }
                             else -> {

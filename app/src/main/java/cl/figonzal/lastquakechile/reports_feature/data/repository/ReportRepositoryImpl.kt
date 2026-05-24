@@ -1,9 +1,8 @@
 package cl.figonzal.lastquakechile.reports_feature.data.repository
 
-import android.app.Application
-import cl.figonzal.lastquakechile.core.data.remote.ApiError
-import cl.figonzal.lastquakechile.core.data.remote.StatusAPI
-import cl.figonzal.lastquakechile.core.utils.processSandwichError
+import cl.figonzal.lastquakechile.core.data.remote.toDomainError
+import cl.figonzal.lastquakechile.core.domain.DomainError
+import cl.figonzal.lastquakechile.core.domain.DomainResult
 import cl.figonzal.lastquakechile.reports_feature.data.local.ReportLocalDataSource
 import cl.figonzal.lastquakechile.reports_feature.data.local.entity.relation.ReportWithCityQuakes
 import cl.figonzal.lastquakechile.reports_feature.data.mapper.toReportListDomain
@@ -25,8 +24,7 @@ import timber.log.Timber
 class ReportRepositoryImpl(
     private val localDataSource: ReportLocalDataSource,
     private val remoteDataSource: ReportRemoteDataSource,
-    private val dispatcher: CoroutineDispatcher,
-    private val application: Application
+    private val dispatcher: CoroutineDispatcher
 ) : ReportRepository {
 
     override fun getReports(pageIndex: Int) = when (pageIndex) {
@@ -34,13 +32,12 @@ class ReportRepositoryImpl(
         else -> getNextPages(pageIndex)
     }
 
-    override fun getFirstPage(pageIndex: Int): Flow<StatusAPI<List<Report>>> = flow {
+    override fun getFirstPage(pageIndex: Int): Flow<DomainResult<List<Report>>> = flow {
 
         var cacheList = localDataSource.getReports()
 
         remoteDataSource.getReports(pageIndex)
             .suspendOnSuccess {
-
                 when {
                     data.isNotEmpty() -> {
                         val reports = data.toReportListEntity()
@@ -50,76 +47,54 @@ class ReportRepositoryImpl(
 
                         cacheList = localDataSource.getReports()
 
-                        emit(StatusAPI.Success(cacheList))
-
+                        emit(DomainResult.Success(cacheList))
                         Timber.d("List updated with network call")
                     }
                     else -> {
-                        val apiError = when {
-                            cacheList.isEmpty() -> ApiError.EmptyList
-                            else -> ApiError.NoMoreData
-                        }
-                        emit(StatusAPI.Error(cacheList, apiError))
+                        val error = if (cacheList.isEmpty()) DomainError.EmptyList else DomainError.NoMoreData
+                        emit(DomainResult.Error(cacheList, error))
                     }
                 }
             }
             .suspendOnError {
-
                 Timber.e("Suspend error: ${this.message()}")
-
-                val apiError = application.processSandwichError("", statusCode)
-                emit(StatusAPI.Error(data = cacheList, apiError = apiError))
+                emit(DomainResult.Error(cacheList, statusCode.toDomainError()))
             }
             .suspendOnFailure {
-
                 Timber.e("Suspend failure: ${this.message()}")
-
-                val apiError = application.processSandwichError(message(), null)
-                emit(StatusAPI.Error(data = cacheList, apiError = apiError))
+                emit(DomainResult.Error(cacheList, message().toDomainError()))
             }
     }.flowOn(dispatcher)
 
-    override fun getNextPages(pageIndex: Int): Flow<StatusAPI<List<Report>>> = flow {
+    override fun getNextPages(pageIndex: Int): Flow<DomainResult<List<Report>>> = flow {
 
         val emptyList = emptyList<Report>()
 
         remoteDataSource.getReports(pageIndex)
             .suspendOnSuccess {
-
                 when {
                     data.isNotEmpty() -> {
                         val reports = data
                             .toReportListEntity()
                             .toReportListDomain()
 
-                        emit(StatusAPI.Success(reports))
-
+                        emit(DomainResult.Success(reports))
                         Timber.d("List updated with network call")
                     }
-                    else -> {
-                        emit(StatusAPI.Error(emptyList, ApiError.NoMoreData))
-                    }
+                    else -> emit(DomainResult.Error(emptyList, DomainError.NoMoreData))
                 }
             }
             .suspendOnError {
-
                 Timber.e("Suspend error: ${this.message()}")
-
-                val apiError = application.processSandwichError("", null)
-                emit(StatusAPI.Error(emptyList, apiError))
+                emit(DomainResult.Error(emptyList, statusCode.toDomainError()))
             }
             .suspendOnFailure {
-
                 Timber.e("Suspend failure: ${this.message()}")
-
-                val apiError = application.processSandwichError(message(), null)
-                emit(StatusAPI.Error(emptyList, apiError))
+                emit(DomainResult.Error(emptyList, message().toDomainError()))
             }
     }.flowOn(dispatcher)
 
     private fun saveToLocalReports(report: List<ReportWithCityQuakes>) {
-        report.forEach {
-            localDataSource.insert(it)
-        }
+        report.forEach { localDataSource.insert(it) }
     }
 }
