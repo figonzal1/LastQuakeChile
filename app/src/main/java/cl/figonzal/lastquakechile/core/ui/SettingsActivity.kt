@@ -22,11 +22,10 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
+import androidx.core.app.NotificationManagerCompat
 import cl.figonzal.lastquakechile.BuildConfig
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.services.notifications.QuakeNotificationImpl
 import cl.figonzal.lastquakechile.core.services.notifications.utils.MIN_MAGNITUDE_ALERT
-import cl.figonzal.lastquakechile.core.services.notifications.utils.SHARED_PREF_PERMISSION_ALERT_ANDROID_13
 import cl.figonzal.lastquakechile.core.services.notifications.utils.subscribedToQuakes
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.views.toast
@@ -66,9 +65,6 @@ class SettingsActivity : AppCompatActivity() {
     class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeListener {
 
         private val sharedPrefUtil: SharedPrefUtil by lazy { SharedPrefUtil(requireActivity()) }
-        private val notificationServiceImpl by lazy {
-            QuakeNotificationImpl(requireActivity(), sharedPrefUtil)
-        }
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
@@ -115,7 +111,7 @@ class SettingsActivity : AppCompatActivity() {
 
         private fun configNotifications() {
             val isGrantedPermission =
-                sharedPrefUtil.getData(SHARED_PREF_PERMISSION_ALERT_ANDROID_13, true)
+                NotificationManagerCompat.from(requireContext()).areNotificationsEnabled()
 
             when {
                 !isGrantedPermission -> {
@@ -285,13 +281,9 @@ class SettingsActivity : AppCompatActivity() {
             if (key == getString(R.string.high_priority_key)) {
 
                 preferences?.getBoolean(getString(R.string.high_priority_key), true)?.also {
-
-                    //Si el switch esta ON, lanzar toast con SUSCRITO
                     sharedPrefUtil.saveData(getString(R.string.high_priority_key), it)
-
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        notificationServiceImpl.recreateChannel()
-                    }
+                    // Channel selection (CHANNEL_ID_HIGH vs CHANNEL_ID_DEFAULT) happens at
+                    // notification time via resolveChannelId(), so no channel recreation needed.
                 }
             }
         }

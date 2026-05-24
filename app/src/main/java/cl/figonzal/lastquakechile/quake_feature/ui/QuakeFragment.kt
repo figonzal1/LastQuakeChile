@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.DrawableRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
@@ -19,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.data.remote.ApiError
 import cl.figonzal.lastquakechile.core.services.notifications.utils.handleCvAlertPermission
+import cl.figonzal.lastquakechile.core.services.notifications.utils.onNotificationPermissionResult
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.views.configOptionsMenu
 import cl.figonzal.lastquakechile.core.utils.views.showServerApiError
@@ -38,6 +41,20 @@ class QuakeFragment : Fragment() {
 
     private var _binding: FragmentQuakeBinding? = null
     private val binding get() = _binding!!
+
+    // Must be registered before onStart — fragment property initializer is the correct place.
+    private val notificationPermissionLauncher: ActivityResultLauncher<String> =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            _binding?.let { handlePermissionResult(isGranted, it) }
+        }
+
+    private fun handlePermissionResult(isGranted: Boolean, binding: FragmentQuakeBinding) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val sharedPrefUtil = SharedPrefUtil(requireContext())
+            onNotificationPermissionResult(isGranted, sharedPrefUtil)
+            handleCvAlertPermission(binding, sharedPrefUtil, notificationPermissionLauncher)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -74,7 +91,7 @@ class QuakeFragment : Fragment() {
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                handleCvAlertPermission(binding, SharedPrefUtil(requireContext()))
+                handleCvAlertPermission(binding, SharedPrefUtil(requireContext()), notificationPermissionLauncher)
             }
         }
     }

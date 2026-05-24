@@ -92,7 +92,7 @@ class MainActivity : AppCompatActivity() {
         //Ads
         adView = startAds(binding.adViewContainer)
 
-        setUpNotificationService(sharedPrefUtil)
+        setUpNotificationService(applicationContext, sharedPrefUtil)
 
         //Updater service
         updaterService = UpdaterService(this, activityResultLauncher)
