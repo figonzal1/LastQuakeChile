@@ -73,7 +73,7 @@ class ReportsFragment : Fragment() {
 
     private fun handleReportState() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch { collectUiState() }
                 launch { collectErrors() }
             }
@@ -83,9 +83,6 @@ class ReportsFragment : Fragment() {
 
     private suspend fun collectUiState() {
         viewModel.uiState.collectLatest { state ->
-            isLoading = state.isLoading
-            isLastPage = state.isLastPage
-
             when {
                 state.isLoading -> loadingUI()
                 state.domainError != null -> {
@@ -157,9 +154,7 @@ class ReportsFragment : Fragment() {
         }
     }
 
-    var isLoading = false
-    var isLastPage = false
-    var isScrolling = false
+    private var isScrolling = false
 
     private val scrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -170,7 +165,8 @@ class ReportsFragment : Fragment() {
             val visibleItemCount = layoutManager.childCount
             val totalItemCount = layoutManager.itemCount
 
-            val isNotLoadingAndNotLastPage = !isLoading && !isLastPage
+            val uiState = viewModel.uiState.value
+            val isNotLoadingAndNotLastPage = !uiState.isLoading && !uiState.isLastPage
             val isAtLastItem = firstVisibleItemPosition + visibleItemCount >= totalItemCount
             val isNotAtBeginning = firstVisibleItemPosition >= 0
             val isTotalMoreThanVisible = totalItemCount >= QUERY_PAGE_SIZE
