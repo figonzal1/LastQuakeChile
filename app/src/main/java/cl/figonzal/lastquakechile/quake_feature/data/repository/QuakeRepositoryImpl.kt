@@ -16,8 +16,10 @@ import com.skydoves.sandwich.retrofit.statusCode
 import com.skydoves.sandwich.suspendOnError
 import com.skydoves.sandwich.suspendOnFailure
 import com.skydoves.sandwich.suspendOnSuccess
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import timber.log.Timber
@@ -69,6 +71,10 @@ class QuakeRepositoryImpl(
                 Timber.e("Suspend failure: ${this.message()}")
                 emit(DomainResult.Error(cacheList, message().toDomainError()))
             }
+    }.catch { throwable ->
+        if (throwable is CancellationException) throw throwable
+        Timber.e(throwable, "Unexpected error in getFirstPage flow")
+        emit(DomainResult.Error(emptyList(), DomainError.Unknown))
     }.flowOn(dispatcher)
 
     override fun getNextPages(pageIndex: Int): Flow<DomainResult<List<Quake>>> = flow {
@@ -99,9 +105,15 @@ class QuakeRepositoryImpl(
                 Timber.e("Suspend failure: ${this.message()}")
                 emit(DomainResult.Error(emptyList, message().toDomainError()))
             }
+    }.catch { throwable ->
+        if (throwable is CancellationException) throw throwable
+        Timber.e(throwable, "Unexpected error in getNextPages flow")
+        emit(DomainResult.Error(emptyList(), DomainError.Unknown))
     }.flowOn(dispatcher)
 
-    private fun saveToLocalQuakes(remoteData: List<QuakeAndCoordinate>) {
-        remoteData.forEach { localDataSource.insert(it) }
+    private suspend fun saveToLocalQuakes(remoteData: List<QuakeAndCoordinate>) {
+        for (quake in remoteData) {
+            localDataSource.insert(quake)
+        }
     }
 }
