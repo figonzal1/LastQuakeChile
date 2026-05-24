@@ -51,7 +51,14 @@ fun setUpNotificationService(
     }
 
     if (notificationsEnabled) {
-        subscribedToQuakes(true, sharedPrefUtil)
+        // Respect the user's persisted preference — re-subscribing on every cold start would
+        // override an explicit OFF toggle the user made in Settings.
+        val userWantsAlerts = sharedPrefUtil.getData(ROOT_PREF_SUBSCRIPTION, true)
+        if (userWantsAlerts) {
+            subscribedToQuakes(true)
+        } else {
+            Timber.d("User opted out of alerts — skipping FCM subscription")
+        }
     } else {
         Timber.d("POST_NOTIFICATIONS not granted — skipping FCM subscription")
     }
@@ -82,8 +89,18 @@ fun Fragment.handleCvAlertPermission(
     ) == PackageManager.PERMISSION_GRANTED
 
     if (isGranted) {
+        // Detect the "just granted from Settings" transition: if the card was visible (or its
+        // initial INVISIBLE/default state) right before this call, FCM wasn't subscribed at boot
+        // because permission was missing. Subscribe now so the topic is registered without
+        // requiring an app restart.
+        val wasShowingCard = binding.cvAlertPermission.root.visibility != View.GONE
         binding.cvAlertPermission.root.visibility = View.GONE
         sharedPrefUtil.saveData(SHARED_PREF_PERMISSION_ALERT_ANDROID_13, true)
+        // Subscribe only on the denied → granted transition AND if the user wants alerts.
+        // Re-evaluating on every onResume would otherwise hit FCM with no actual state change.
+        if (wasShowingCard && sharedPrefUtil.getData(ROOT_PREF_SUBSCRIPTION, true)) {
+            subscribedToQuakes(true)
+        }
         return
     }
 
@@ -130,7 +147,7 @@ fun Fragment.onNotificationPermissionResult(
         Timber.d("POST_NOTIFICATIONS granted")
         toast(R.string.notification_permission_on)
         sharedPrefUtil.saveData(SHARED_PREF_PERMISSION_ALERT_ANDROID_13, true)
-        subscribedToQuakes(true, sharedPrefUtil)
+        subscribedToQuakes(true)
     } else {
         Timber.d("POST_NOTIFICATIONS denied")
         toast(R.string.notification_permission_off)
@@ -169,14 +186,14 @@ fun getFirebaseToken() {
  *
  * @param isSubscribed
  */
-fun subscribedToQuakes(
-    isSubscribed: Boolean,
-    sharedPrefUtil: SharedPrefUtil,
-) {
+fun subscribedToQuakes(isSubscribed: Boolean) {
 
     val fcm = Firebase.messaging
     val crashlytics = Firebase.crashlytics
 
+    // Persistence of the user's preference is owned by SwitchPreferenceCompat (bound to the
+    // "pref_suscrito_quake" key). This function is a pure FCM side-effect — writing here would
+    // shadow that same key and corrupt the switch state.
     when {
         isSubscribed -> {
 
@@ -184,13 +201,8 @@ fun subscribedToQuakes(
                 .addOnCompleteListener {
                     when {
                         it.isSuccessful -> {
-
-                            with(true) {
-                                sharedPrefUtil.saveData(ROOT_PREF_SUBSCRIPTION, this)
-
-                                Timber.d("Subscribed to topic")
-                                crashlytics.setCustomKey(FIREBASE_SUB_QUAKE, this)
-                            }
+                            Timber.d("Subscribed to topic")
+                            crashlytics.setCustomKey(FIREBASE_SUB_QUAKE, true)
                         }
                     }
                 }
@@ -201,13 +213,8 @@ fun subscribedToQuakes(
                 .addOnCompleteListener {
                     when {
                         it.isSuccessful -> {
-
-                            with(false) {
-                                sharedPrefUtil.saveData(ROOT_PREF_SUBSCRIPTION, this)
-
-                                Timber.d("Subscription deleted")
-                                crashlytics.setCustomKey(FIREBASE_SUB_QUAKE, this)
-                            }
+                            Timber.d("Subscription deleted")
+                            crashlytics.setCustomKey(FIREBASE_SUB_QUAKE, false)
                         }
                     }
                 }

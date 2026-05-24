@@ -113,19 +113,30 @@ class SettingsActivity : AppCompatActivity() {
             val isGrantedPermission =
                 NotificationManagerCompat.from(requireContext()).areNotificationsEnabled()
 
-            when {
-                !isGrantedPermission -> {
+            val alertSwitch =
+                findPreference<SwitchPreferenceCompat>(getString(R.string.firebase_pref_key))
+            val category =
+                findPreference<PreferenceCategory>(getString(R.string.notifications_category_key))
 
-                    findPreference<SwitchPreferenceCompat>(getString(R.string.firebase_pref_key))?.apply {
-                        isChecked = false
-                        isEnabled = false
-                    }
-                    findPreference<PreferenceCategory>(getString(R.string.notifications_category_key))?.summary =
-                        getString(R.string.permission_totally_disabled)
-
-                    subscribedToQuakes(false, sharedPrefUtil)
-                    alertDependencies(false)
+            if (!isGrantedPermission) {
+                // OS-level block. Only disable the UI and update the summary. Do NOT touch
+                // isChecked (it would persist false and corrupt the user's preference), and do
+                // NOT call subscribedToQuakes(false) (Android already drops the pushes; the
+                // FCM topic registration is harmless when permission is missing).
+                alertSwitch?.isEnabled = false
+                category?.summary = getString(R.string.permission_totally_disabled)
+                alertDependencies(false)
+            } else {
+                // Permission granted. Re-enable the switch and honor the user's persisted
+                // preference. Re-subscribe in case boot-time subscription was skipped due to
+                // missing permission. subscribedToQuakes is now a pure FCM side-effect and no
+                // longer writes to SharedPrefs, so this cannot corrupt the switch state.
+                alertSwitch?.isEnabled = true
+                val userWantsAlerts = alertSwitch?.isChecked ?: true
+                if (userWantsAlerts) {
+                    subscribedToQuakes(true)
                 }
+                alertDependencies(userWantsAlerts)
             }
         }
 
@@ -261,13 +272,13 @@ class SettingsActivity : AppCompatActivity() {
                     //Si el switch esta ON, lanzar toast con SUSCRITO
                     when (it) {
                         true -> {
-                            subscribedToQuakes(true, sharedPrefUtil)
+                            subscribedToQuakes(true)
                             toast(R.string.firebase_pref_key_alert_on)
                             alertDependencies(true)
                         }
 
                         else -> {
-                            subscribedToQuakes(false, sharedPrefUtil)
+                            subscribedToQuakes(false)
                             toast(R.string.firebase_pref_key_alert_off)
                             alertDependencies(false)
                         }
