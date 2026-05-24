@@ -3,9 +3,9 @@ package cl.figonzal.lastquakechile.reports_feature.data.local.entity.relation
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Relation
-import cl.figonzal.lastquakechile.core.utils.toCityQuakesListDomain
 import cl.figonzal.lastquakechile.reports_feature.data.local.entity.CityQuakesEntity
 import cl.figonzal.lastquakechile.reports_feature.data.local.entity.ReportEntity
+import cl.figonzal.lastquakechile.reports_feature.data.local.entity.toCityQuakesListDomain
 import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
 
 @Entity
