@@ -6,13 +6,13 @@ import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
 
 class ReportLocalDataSource(private val reportDAO: ReportDAO) {
 
-    fun getReports(): List<Report> = reportDAO.getAll().toReportListDomain()
+    suspend fun getReports(): List<Report> = reportDAO.getAll().toReportListDomain()
 
-    fun insert(report: ReportWithCityQuakes) {
+    suspend fun insert(report: ReportWithCityQuakes) {
         reportDAO.insertAll(report)
     }
 
-    fun deleteAll() {
+    suspend fun deleteAll() {
         reportDAO.deleteAll()
     }
 }

@@ -13,23 +13,23 @@ import cl.figonzal.lastquakechile.quake_feature.data.local.entity.relation.Quake
 interface QuakeDAO {
 
     @Insert(onConflict = REPLACE)
-    fun insertCoordinate(coordinateEntity: CoordinateEntity): Long
+    suspend fun insertCoordinate(coordinateEntity: CoordinateEntity): Long
 
     @Insert(onConflict = REPLACE)
-    fun insertQuake(quakeEntity: QuakeEntity): Long
+    suspend fun insertQuake(quakeEntity: QuakeEntity): Long
 
     @Transaction
     @Query("SELECT * FROM quakeentity")
-    fun getAll(): List<QuakeAndCoordinate>
+    suspend fun getAll(): List<QuakeAndCoordinate>
 
     @Query("DELETE FROM quakeentity")
-    fun deleteAllQuakes()
+    suspend fun deleteAllQuakes()
 
     @Query("DELETE FROM coordinateentity")
-    fun deleteAllCoordinates()
+    suspend fun deleteAllCoordinates()
 
     @Transaction
-    fun insertAll(fullQuake: QuakeAndCoordinate) {
+    suspend fun insertAll(fullQuake: QuakeAndCoordinate) {
         val quakeId = insertQuake(fullQuake.quakeEntity)
         val coordinate = fullQuake.coordinateEntity ?: return
         coordinate.quakeId = quakeId
@@ -37,7 +37,7 @@ interface QuakeDAO {
     }
 
     @Transaction
-    fun deleteAll() {
+    suspend fun deleteAll() {
         deleteAllCoordinates()
         deleteAllQuakes()
     }

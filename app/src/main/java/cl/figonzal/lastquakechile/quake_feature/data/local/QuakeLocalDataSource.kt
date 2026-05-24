@@ -6,13 +6,13 @@ import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 
 class QuakeLocalDataSource(private val quakeDAO: QuakeDAO) {
 
-    fun getQuakes(): List<Quake> = quakeDAO.getAll().toQuakeListDomain()
+    suspend fun getQuakes(): List<Quake> = quakeDAO.getAll().toQuakeListDomain()
 
-    fun insert(quake: QuakeAndCoordinate) {
+    suspend fun insert(quake: QuakeAndCoordinate) {
         quakeDAO.insertAll(quake)
     }
 
-    fun deleteAll() {
+    suspend fun deleteAll() {
         quakeDAO.deleteAll()
     }
 }
