@@ -20,8 +20,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.widget.ViewPager2
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.data.remote.ApiError
-import cl.figonzal.lastquakechile.core.data.remote.ApiError.*
+import cl.figonzal.lastquakechile.core.domain.DomainError
+import cl.figonzal.lastquakechile.core.domain.DomainError.*
 import cl.figonzal.lastquakechile.core.ui.SettingsActivity
 import cl.figonzal.lastquakechile.core.utils.latLongToDMS
 import cl.figonzal.lastquakechile.core.utils.localDateToDHMS
@@ -405,18 +405,16 @@ fun Context.getMonth(month: Int) = arrayOf(
     getString(R.string.DEC)
 )[month - 1]
 
-fun Fragment.showServerApiError(apiError: ApiError, callback: (Int, String) -> Unit) =
-    when (apiError) {
-        IoError, NoWifiError -> {
+fun Fragment.showServerApiError(error: DomainError, callback: (Int, String) -> Unit) =
+    when (error) {
+        NoConnection -> {
             toast(R.string.io_error)
             callback(R.drawable.round_wifi_off_24, getString(R.string.io_error))
         }
-
-        ServerError, TimeoutError -> {
+        ServerError, Timeout -> {
             toast(R.string.service_error)
             callback(R.drawable.round_router_24, getString(R.string.service_error))
         }
-
         NoMoreData -> toast(R.string.no_more_data)
         EmptyList -> callback(R.drawable.round_outlined_flag_24, getString(R.string.empty_list))
         else -> {
