@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import cl.figonzal.lastquakechile.BuildConfig
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.quake_feature.data.local.QuakeDAO
 import cl.figonzal.lastquakechile.quake_feature.data.local.entity.CoordinateEntity
@@ -38,8 +39,9 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     context.getString(R.string.ROOM_DB_NAME)
-                ).fallbackToDestructiveMigration(true)
-                    .build()
+                ).apply {
+                    if (BuildConfig.DEBUG) fallbackToDestructiveMigration(true)
+                }.build()
 
                 INSTANCE = instance
                 instance

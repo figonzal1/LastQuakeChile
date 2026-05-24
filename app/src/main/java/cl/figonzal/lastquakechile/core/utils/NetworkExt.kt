@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import cl.figonzal.lastquakechile.BuildConfig
 import cl.figonzal.lastquakechile.core.data.remote.ApiError
 import cl.figonzal.lastquakechile.quake_feature.data.remote.QuakeAPI
 import cl.figonzal.lastquakechile.reports_feature.data.remote.ReportAPI
@@ -17,9 +18,7 @@ import java.util.concurrent.TimeUnit
 
 private val okHttpClient = OkHttpClient().newBuilder()
     .addInterceptor(HttpLoggingInterceptor().apply {
-
-        //HTTP LOGGER
-        level = HttpLoggingInterceptor.Level.BODY
+        level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
     })
     .connectTimeout(10, TimeUnit.SECONDS)
     .readTimeout(10, TimeUnit.SECONDS)
