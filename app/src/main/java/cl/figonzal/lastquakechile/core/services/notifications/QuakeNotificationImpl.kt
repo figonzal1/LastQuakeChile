@@ -76,7 +76,11 @@ class QuakeNotificationImpl(
 
         val defaultName = context.getString(R.string.firebase_channel_name_quakes_default)
         val defaultDesc = context.getString(R.string.firebase_channel_description_quakes_default)
-        NotificationChannel(CHANNEL_ID_DEFAULT, defaultName, NotificationManager.IMPORTANCE_DEFAULT).apply {
+        NotificationChannel(
+            CHANNEL_ID_DEFAULT,
+            defaultName,
+            NotificationManager.IMPORTANCE_DEFAULT
+        ).apply {
             description = defaultDesc
             enableLights(true)
             lightColor = R.color.colorSecondary
@@ -159,7 +163,7 @@ class QuakeNotificationImpl(
             TaskStackBuilder.create(context).run {
                 addNextIntentWithParentStack(intent)
                 getPendingIntent(
-                    0,
+                    quake.quakeCode,
                     PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                 )
             }?.also {
