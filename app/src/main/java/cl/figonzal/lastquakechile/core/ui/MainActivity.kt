@@ -28,15 +28,21 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.koin.android.ext.android.inject
 import org.koin.androidx.fragment.android.setupKoinFragmentFactory
+import org.koin.core.qualifier.named
 import timber.log.Timber
 
 
 class MainActivity : AppCompatActivity() {
+
+    private val sharedPrefUtil: SharedPrefUtil by inject()
+    private val ioDispatcher: CoroutineDispatcher by inject(named("ioDispatcher"))
 
     private var adView: AdView? = null
     private var updaterService: UpdaterService? = null
@@ -61,23 +67,21 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        //Default preferences
         PreferenceManager.setDefaultValues(this, R.xml.root_preferences, false)
-        val sharedPrefUtil = SharedPrefUtil(applicationContext)
 
-        initServices(sharedPrefUtil)
+        initServices()
         setToolbarViewPagerTabs()
         binding.toolbarLayout.toolbarImage.loadImage(R.drawable.foto)
     }
 
-    private fun initServices(sharedPrefUtil: SharedPrefUtil) {
+    private fun initServices() {
         initLifecycleObservers(sharedPrefUtil)
 
         getFirebaseToken()
 
         checkEULAConsentAds {
 
-            val adsScope = CoroutineScope(Dispatchers.IO)
+            val adsScope = CoroutineScope(ioDispatcher)
             adsScope.launch {
 
                 MobileAds.initialize(this@MainActivity)

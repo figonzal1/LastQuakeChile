@@ -45,6 +45,7 @@ android {
         versionCode = vMajor * 1_000_000 + vMinor * 1_000 + vPatch
         versionName = appVersionName
         testInstrumentationRunner = "cl.figonzal.lastquakechile.InstrumentationTestRunner"
+        buildConfigField("String", "API_URL", "\"https://lqch.figonzal.cl/\"")
     }
 
     buildTypes {
