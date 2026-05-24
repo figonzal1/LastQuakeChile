@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.SystemClock
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.Menu
@@ -489,6 +490,17 @@ private fun GoogleMap.adjustMapPadding(binding: FragmentMapsBinding) {
         0, // right
         bottomSheetContainerHeight - currentBottomSheetTop // bottom
     )
+}
+
+fun View.setDebouncedClickListener(intervalMs: Long = 500L, action: (View) -> Unit) {
+    var lastClickTime = 0L
+    setOnClickListener { view ->
+        val now = SystemClock.elapsedRealtime()
+        if (now - lastClickTime >= intervalMs) {
+            lastClickTime = now
+            action(view)
+        }
+    }
 }
 
 fun Float.toDips(resources: Resources) =
