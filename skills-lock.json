@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "skills": {
+    "android-architecture-clean": {
+      "source": "krutikJain/android-agent-skills",
+      "sourceType": "autoskills-registry",
+      "computedHash": "36442c8502d91da49ffe0838391eff59207fe50ca152204b8387e700938eab78"
+    },
+    "android-compose-foundations": {
+      "source": "krutikJain/android-agent-skills",
+      "sourceType": "autoskills-registry",
+      "computedHash": "2fa62193bee29d68015b18b6473c1eb5db5618ed9d0209301259a0bb3f26d7e5"
+    },
+    "android-coroutines-flow": {
+      "source": "krutikJain/android-agent-skills",
+      "sourceType": "autoskills-registry",
+      "computedHash": "373c0ed1eb6fe061d38ac8ceee04bdb9380c4862596d5515984d5768a85d1aaf"
+    },
+    "android-di-hilt": {
+      "source": "krutikJain/android-agent-skills",
+      "sourceType": "autoskills-registry",
+      "computedHash": "702ff3dba5cd0fe3b87b458dcc256c56d05a9242948407a4e8d4f0eca26bf1f2"
+    },
+    "android-gradle-build-logic": {
+      "source": "krutikJain/android-agent-skills",
+      "sourceType": "autoskills-registry",
+      "computedHash": "a06680cd5c497a398b341e1ac00a2998e76b353efaae2218c8ab1762b2fb8f5c"
+    },
+    "android-kotlin-core": {
+      "source": "krutikJain/android-agent-skills",
+      "sourceType": "autoskills-registry",
+      "computedHash": "0a510e8fc8e64eb8ea1d2042a79a07f92eb10bf9b4f8461deea5cff4b745966a"
+    },
+    "android-networking-retrofit-okhttp": {
+      "source": "krutikJain/android-agent-skills",
+      "sourceType": "autoskills-registry",
+      "computedHash": "8cb3647f71f6904752a1681eb575ea1fda35cf7d769834b4034b9f52ac0d146e"
+    },
+    "android-testing-unit": {
+      "source": "krutikJain/android-agent-skills",
+      "sourceType": "autoskills-registry",
+      "computedHash": "7848ad8738bc5a20458ff3b60a520aae13d509c097354dfa07244952c7472bcd"
+    }
+  }
+}

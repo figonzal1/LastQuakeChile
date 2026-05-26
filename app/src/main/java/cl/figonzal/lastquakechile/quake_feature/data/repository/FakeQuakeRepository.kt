@@ -2,8 +2,8 @@
 
 package cl.figonzal.lastquakechile.quake_feature.data.repository
 
-import cl.figonzal.lastquakechile.core.data.remote.ApiError
-import cl.figonzal.lastquakechile.core.data.remote.StatusAPI
+import cl.figonzal.lastquakechile.core.domain.DomainError
+import cl.figonzal.lastquakechile.core.domain.DomainResult
 import cl.figonzal.lastquakechile.core.utils.localDateTimeToString
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Coordinate
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
@@ -144,24 +144,24 @@ class FakeQuakeRepository(
         )
     )
 
-    override fun getQuakes(pageIndex: Int) = when (pageIndex) {
+    override fun getQuakes(pageIndex: Int): Flow<DomainResult<List<Quake>>> = when (pageIndex) {
         0 -> getFirstPage(pageIndex)
         else -> getNextPages(pageIndex)
     }
 
     //NOSONAR
-    override fun getFirstPage(pageIndex: Int): Flow<StatusAPI<List<Quake>>> = flow {
+    override fun getFirstPage(pageIndex: Int): Flow<DomainResult<List<Quake>>> = flow {
         when {
-            shouldReturnNetworkError -> emit(StatusAPI.Error(quakeList, ApiError.HttpError))
-            else -> emit(StatusAPI.Success(quakeList.take(20)))
+            shouldReturnNetworkError -> emit(DomainResult.Error(quakeList, DomainError.HttpError))
+            else -> emit(DomainResult.Success(quakeList.take(20)))
         }
     }.flowOn(dispatcher)
 
     //NOSONAR
-    override fun getNextPages(pageIndex: Int): Flow<StatusAPI<List<Quake>>> = flow {
+    override fun getNextPages(pageIndex: Int): Flow<DomainResult<List<Quake>>> = flow {
         when {
-            shouldReturnNetworkError -> emit(StatusAPI.Error(quakeList, ApiError.HttpError))
-            else -> emit(StatusAPI.Success(quakeList.take(20)))
+            shouldReturnNetworkError -> emit(DomainResult.Error(quakeList, DomainError.HttpError))
+            else -> emit(DomainResult.Success(quakeList.take(20)))
         }
     }.flowOn(dispatcher)
 

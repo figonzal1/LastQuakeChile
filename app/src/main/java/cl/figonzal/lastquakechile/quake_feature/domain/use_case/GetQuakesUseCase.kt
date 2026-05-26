@@ -1,4 +1,4 @@
-package cl.figonzal.lastquakechile.quake_feature.domain.uses_cases
+package cl.figonzal.lastquakechile.quake_feature.domain.use_case
 
 import cl.figonzal.lastquakechile.quake_feature.domain.repository.QuakeRepository
 

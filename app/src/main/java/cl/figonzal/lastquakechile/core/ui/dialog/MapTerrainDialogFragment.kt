@@ -3,12 +3,12 @@ package cl.figonzal.lastquakechile.core.ui.dialog
 import android.app.Dialog
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
-import android.os.Bundle as PlatformBundle
 import androidx.fragment.app.DialogFragment
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.utils.SHARED_PREF_MAP_TYPE
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import com.google.android.gms.maps.GoogleMap
+import android.os.Bundle as PlatformBundle
 
 class MapTerrainDialogFragment : DialogFragment() {
 
@@ -31,7 +31,9 @@ class MapTerrainDialogFragment : DialogFragment() {
                     else -> GoogleMap.MAP_TYPE_NONE
                 }
                 sharedPrefUtil.saveData(SHARED_PREF_MAP_TYPE, mapType)
-                parentFragmentManager.setFragmentResult(REQUEST_KEY, PlatformBundle().apply { putInt(RESULT_MAP_TYPE, mapType) })
+                parentFragmentManager.setFragmentResult(
+                    REQUEST_KEY,
+                    PlatformBundle().apply { putInt(RESULT_MAP_TYPE, mapType) })
             }
             .create()
     }

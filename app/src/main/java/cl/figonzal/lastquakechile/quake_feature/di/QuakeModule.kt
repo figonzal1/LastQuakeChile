@@ -6,7 +6,7 @@ import cl.figonzal.lastquakechile.quake_feature.data.local.QuakeLocalDataSource
 import cl.figonzal.lastquakechile.quake_feature.data.remote.QuakeRemoteDataSource
 import cl.figonzal.lastquakechile.quake_feature.data.repository.QuakeRepositoryImpl
 import cl.figonzal.lastquakechile.quake_feature.domain.repository.QuakeRepository
-import cl.figonzal.lastquakechile.quake_feature.domain.uses_cases.GetQuakesUseCase
+import cl.figonzal.lastquakechile.quake_feature.domain.use_case.GetQuakesUseCase
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeAdapter
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeFragment
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeViewModel
@@ -34,8 +34,7 @@ val quakeModule = module {
         QuakeRepositoryImpl(
             get(),
             get(),
-            get(named("ioDispatcher")),
-            get()
+            get(named("ioDispatcher"))
         )
     }
 

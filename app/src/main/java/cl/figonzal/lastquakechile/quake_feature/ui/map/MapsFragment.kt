@@ -13,11 +13,11 @@ import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.ui.dialog.MapTerrainDialogFragment
 import cl.figonzal.lastquakechile.core.utils.calculateMeanCords
 import cl.figonzal.lastquakechile.core.utils.configMapType
-import cl.figonzal.lastquakechile.core.utils.loadPins
 import cl.figonzal.lastquakechile.core.utils.setBottomSheetQuakeData
 import cl.figonzal.lastquakechile.core.utils.setNightMode
 import cl.figonzal.lastquakechile.core.utils.views.configBottomSheetCallback
 import cl.figonzal.lastquakechile.core.utils.views.configOptionsMenu
+import cl.figonzal.lastquakechile.core.utils.views.getMagnitudeColor
 import cl.figonzal.lastquakechile.core.utils.views.getViewBottomHeight
 import cl.figonzal.lastquakechile.core.utils.views.handleBottomSheetState
 import cl.figonzal.lastquakechile.databinding.FragmentMapsBinding
@@ -27,11 +27,15 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.Circle
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.card.MaterialCardView
+import com.google.maps.android.clustering.ClusterManager
+import com.google.maps.android.clustering.view.DefaultClusterRenderer
+import com.google.maps.android.ktx.addCircle
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
@@ -53,6 +57,14 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     private var lastMarker: Marker? = null
     private var isFirstInit = true
 
+    private var clusterManager: ClusterManager<QuakeClusterItem>? = null
+    private val circles = mutableListOf<Circle>()
+    private var loadedQuakesCount = 0
+
+    companion object {
+        private const val MAX_MAP_PINS = 50
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -71,24 +83,33 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
         viewLifecycleOwner.lifecycleScope.launch {
 
-            viewModel.firstPageState
+            viewModel.uiState
                 .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collectLatest {
 
                     when {
                         !it.isLoading && it.quakes.isNotEmpty() -> {
+                            if (it.quakes.size < loadedQuakesCount) {
+                                clearMapOverlays()
+                                googleMap?.moveCamera(
+                                    CameraUpdateFactory.newLatLngZoom(
+                                        calculateMeanCords(it.quakes), 5.0f
+                                    )
+                                )
+                            }
                             quakeList = it.quakes
                             Timber.d("List loaded in fragment")
 
                             if (googleMap == null) {
                                 binding.mapView.getMapAsync(this@MapsFragment)
+                            } else {
+                                addIncrementalPins()
                             }
                         }
                     }
                 }
         }
 
-        //Initialization of bottomSheetBehavior
         with(binding.include.cvBottomSheet) {
             sheetBehavior = BottomSheetBehavior.from(this).also {
                 it.isHideable = true
@@ -98,14 +119,11 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             }
         }
 
-
         return binding.root
     }
 
     @SuppressLint("PotentialBehaviorOverride")
     override fun onMapReady(p0: GoogleMap) {
-
-        if (!viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) return
 
         googleMap = p0
 
@@ -113,7 +131,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             configOptionsMenu(fragmentIndex = 2) {
                 when (it.itemId) {
                     R.id.layers_menu -> {
-                        MapTerrainDialogFragment.newInstance().show(parentFragmentManager, "map_terrain")
+                        MapTerrainDialogFragment.newInstance()
+                            .show(parentFragmentManager, "map_terrain")
                     }
                 }
             }
@@ -125,14 +144,11 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                 addBottomSheetCallback(configBottomSheetCallback(p0, binding))
             }
 
-            //Set limits for map
             val mChile = LatLngBounds(LatLng(-60.15, -78.06), LatLng(-15.6, -66.5))
             setLatLngBoundsForCameraTarget(mChile)
 
-            //Night mode
             setNightMode(requireContext())
 
-            //Map configs
             mapType = requireContext().configMapType()
             setMinZoomPreference(4.0f)
 
@@ -149,25 +165,20 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                 CameraUpdateFactory.newLatLngZoom(calculateMeanCords(quakeList), 5.0f)
             )
 
-            loadPins(quakeList, requireContext())
+            clusterManager = ClusterManager<QuakeClusterItem>(requireContext(), this).also { cm ->
+                setOnCameraIdleListener(cm)
+                setOnMarkerClickListener(cm)
 
-            setOnMarkerClickListener { marker ->
+                cm.setOnClusterItemClickListener { item ->
+                    lastMarker?.setIcon(BitmapDescriptorFactory.defaultMarker())
+                    val marker = (cm.renderer as? DefaultClusterRenderer<QuakeClusterItem>)?.getMarker(item)
+                    marker?.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+                    lastMarker = marker
 
-                //Restore color for previus marker
-                lastMarker?.setIcon(BitmapDescriptorFactory.defaultMarker())
-
-                //Change color to actual marker
-                marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
-                lastMarker = marker
-
-                val quake = marker.tag as Quake
-
-                sheetBehavior?.handleBottomSheetState()
-
-                //Set quake data in bottomSheetDialog
-                requireContext().setBottomSheetQuakeData(quake, binding.include)
-
-                false
+                    sheetBehavior?.handleBottomSheetState()
+                    requireContext().setBottomSheetQuakeData(item.quake, binding.include)
+                    true
+                }
             }
 
             setOnMapClickListener {
@@ -175,8 +186,40 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             }
         }
 
-        //Log zone
+        addIncrementalPins()
+
         Timber.d("Map ready")
+    }
+
+    private fun addIncrementalPins() {
+        val cm = clusterManager ?: return
+        if (loadedQuakesCount >= MAX_MAP_PINS) return
+
+        val newQuakes = quakeList.subList(
+            loadedQuakesCount,
+            minOf(quakeList.size, MAX_MAP_PINS)
+        )
+        if (newQuakes.isEmpty()) return
+
+        newQuakes.forEach { quake ->
+            cm.addItem(QuakeClusterItem(quake))
+            googleMap?.addCircle {
+                center(LatLng(quake.coordinate.latitude, quake.coordinate.longitude))
+                radius(10000 * quake.magnitude)
+                fillColor(requireContext().getColor(getMagnitudeColor(quake.magnitude, true)))
+                strokeColor(requireContext().getColor(R.color.grey_dark_alpha))
+            }?.also { circles.add(it) }
+        }
+        cm.cluster()
+        loadedQuakesCount = minOf(quakeList.size, MAX_MAP_PINS)
+    }
+
+    private fun clearMapOverlays() {
+        circles.forEach { it.remove() }
+        circles.clear()
+        clusterManager?.clearItems()
+        clusterManager?.cluster()
+        loadedQuakesCount = 0
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

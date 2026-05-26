@@ -48,6 +48,7 @@ class GooglePlayService(
                         show()
                     }
                 }
+
                 else -> {
                     //The problem cannot be handle & the app close
                     Timber.e("Not supported")

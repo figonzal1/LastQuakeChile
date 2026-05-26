@@ -12,6 +12,8 @@ import androidx.core.app.NotificationCompat.Builder
 import androidx.core.app.NotificationCompat.VISIBILITY_PUBLIC
 import androidx.core.app.TaskStackBuilder
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.services.notifications.utils.CHANNEL_ID_DEFAULT
+import cl.figonzal.lastquakechile.core.services.notifications.utils.CHANNEL_ID_HIGH
 import cl.figonzal.lastquakechile.core.services.notifications.utils.CITY
 import cl.figonzal.lastquakechile.core.services.notifications.utils.DEPTH
 import cl.figonzal.lastquakechile.core.services.notifications.utils.FIREBASE_CHANNEL_STATUS
@@ -22,19 +24,16 @@ import cl.figonzal.lastquakechile.core.services.notifications.utils.LONGITUDE
 import cl.figonzal.lastquakechile.core.services.notifications.utils.MAGNITUDE
 import cl.figonzal.lastquakechile.core.services.notifications.utils.QUAKE
 import cl.figonzal.lastquakechile.core.services.notifications.utils.QUAKE_CODE
-import cl.figonzal.lastquakechile.core.services.notifications.utils.RANDOM_CHANNEL_ID
+import cl.figonzal.lastquakechile.core.services.notifications.utils.RANDOM_CHANNEL_ID_LEGACY
 import cl.figonzal.lastquakechile.core.services.notifications.utils.REFERENCE
 import cl.figonzal.lastquakechile.core.services.notifications.utils.ROOT_PREF_HIGH_PRIORITY_NOTIFICATION
 import cl.figonzal.lastquakechile.core.services.notifications.utils.ROOT_PREF_QUAKE_PRELIMINARY
 import cl.figonzal.lastquakechile.core.services.notifications.utils.SCALE
 import cl.figonzal.lastquakechile.core.services.notifications.utils.STATE
 import cl.figonzal.lastquakechile.core.services.notifications.utils.UTC_DATE
-import cl.figonzal.lastquakechile.core.services.notifications.utils.generateRandomChannelId
-import cl.figonzal.lastquakechile.core.services.notifications.utils.getChannelImportance
 import cl.figonzal.lastquakechile.core.services.notifications.utils.getMinMagnitude
 import cl.figonzal.lastquakechile.core.services.notifications.utils.getNotificationPriority
 import cl.figonzal.lastquakechile.core.services.notifications.utils.getPreliminaryAlertsStatus
-import cl.figonzal.lastquakechile.core.services.notifications.utils.getRandomChannel
 import cl.figonzal.lastquakechile.core.services.notifications.utils.greaterThan
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.localDateTimeToString
@@ -57,54 +56,49 @@ class QuakeNotificationImpl(
 
     private val crashlytics = FirebaseCrashlytics.getInstance()
 
+    /**
+     * Creates both fixed notification channels (idempotent — Android ignores duplicates).
+     * Also migrates any legacy random channel left by the old scheme.
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     override fun createChannel() {
+        migrateLegacyChannel()
 
-        val randomChannel = generateRandomChannelId(sharedPrefUtil, RANDOM_CHANNEL_ID)
+        val notificationManager = context.getSystemService(NotificationManager::class.java)
 
-        val name = context.getString(R.string.firebase_channel_name_quakes)
-        val description = context.getString(R.string.firebase_channel_description_quakes)
+        val highName = context.getString(R.string.firebase_channel_name_quakes_high)
+        val highDesc = context.getString(R.string.firebase_channel_description_quakes_high)
+        NotificationChannel(CHANNEL_ID_HIGH, highName, NotificationManager.IMPORTANCE_HIGH).apply {
+            description = highDesc
+            enableLights(true)
+            lightColor = R.color.colorSecondary
+        }.also { notificationManager.createNotificationChannel(it) }
 
-        val importance =
-            getChannelImportance(sharedPrefUtil, ROOT_PREF_HIGH_PRIORITY_NOTIFICATION, crashlytics)
+        val defaultName = context.getString(R.string.firebase_channel_name_quakes_default)
+        val defaultDesc = context.getString(R.string.firebase_channel_description_quakes_default)
+        NotificationChannel(
+            CHANNEL_ID_DEFAULT,
+            defaultName,
+            NotificationManager.IMPORTANCE_DEFAULT
+        ).apply {
+            description = defaultDesc
+            enableLights(true)
+            lightColor = R.color.colorSecondary
+        }.also { notificationManager.createNotificationChannel(it) }
 
-        context.getSystemService(NotificationManager::class.java).apply {
-
-            createNotificationChannel(
-                NotificationChannel(
-                    randomChannel.toString(),
-                    name,
-                    importance
-                ).apply {
-                    this.description = description
-                    this.importance = importance
-                    this.enableLights(true)
-                    this.lightColor = R.color.colorSecondary
-
-                    Timber.d("Notification channel created")
-                    crashlytics.setCustomKey(FIREBASE_CHANNEL_STATUS, "Created")
-                }
-            )
-        }
+        Timber.d("Notification channels created/verified")
+        crashlytics.setCustomKey(FIREBASE_CHANNEL_STATUS, "Created")
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun deleteChannel() {
-
-        val randomChannel = getRandomChannel(sharedPrefUtil, RANDOM_CHANNEL_ID)
-
-        context.getSystemService(NotificationManager::class.java).apply {
-            deleteNotificationChannel(randomChannel.toString())
-
-            Timber.d("Notification channel deleted")
-            crashlytics.setCustomKey(FIREBASE_CHANNEL_STATUS, "Deleted")
+    private fun migrateLegacyChannel() {
+        val legacyId = sharedPrefUtil.getData(RANDOM_CHANNEL_ID_LEGACY, 0)
+        if (legacyId != 0) {
+            context.getSystemService(NotificationManager::class.java)
+                .deleteNotificationChannel(legacyId.toString())
+            sharedPrefUtil.saveData(RANDOM_CHANNEL_ID_LEGACY, 0)
+            Timber.d("Migrated legacy notification channel: $legacyId")
         }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    override fun recreateChannel() {
-        deleteChannel()
-        createChannel()
     }
 
     /**
@@ -169,7 +163,7 @@ class QuakeNotificationImpl(
             TaskStackBuilder.create(context).run {
                 addNextIntentWithParentStack(intent)
                 getPendingIntent(
-                    0,
+                    quake.quakeCode,
                     PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                 )
             }?.also {
@@ -185,7 +179,7 @@ class QuakeNotificationImpl(
         pendingIntent: PendingIntent
     ) {
 
-        val randomChannel = getRandomChannel(sharedPrefUtil, RANDOM_CHANNEL_ID)
+        val channelId = resolveChannelId()
 
         val preliminaryNotifications = getPreliminaryAlertsStatus(
             sharedPrefUtil, ROOT_PREF_QUAKE_PRELIMINARY, crashlytics
@@ -205,10 +199,8 @@ class QuakeNotificationImpl(
                 crashlytics
             )
 
-        Builder(
-            context,
-            randomChannel.toString()
-        ).setSmallIcon(R.drawable.lastquakechile_400)
+        Builder(context, channelId)
+            .setSmallIcon(R.drawable.lastquakechile_400)
             .setContentTitle(title)
             .setContentText(description)
             .setStyle(BigTextStyle().bigText(description))
@@ -234,12 +226,10 @@ class QuakeNotificationImpl(
      */
     fun handleNotificationGeneric(remoteMessage: RemoteMessage) {
 
-        val randomChannel = getRandomChannel(sharedPrefUtil, RANDOM_CHANNEL_ID)
+        val channelId = resolveChannelId()
 
-        Builder(
-            context,
-            randomChannel.toString()
-        ).setContentTitle(remoteMessage.notification?.title)
+        Builder(context, channelId)
+            .setContentTitle(remoteMessage.notification?.title)
             .setContentText(remoteMessage.notification?.body)
             .setStyle(BigTextStyle().bigText(remoteMessage.notification?.body))
             .setSmallIcon(R.drawable.lastquakechile_400)
@@ -247,10 +237,16 @@ class QuakeNotificationImpl(
             .setVisibility(VISIBILITY_PUBLIC)
             .also {
                 (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(
-                    randomChannel,
+                    (System.currentTimeMillis() % Int.MAX_VALUE).toInt(),
                     it.build()
                 )
             }
+    }
+
+    /** Returns the channel ID to use for an incoming notification based on current preference. */
+    private fun resolveChannelId(): String {
+        val highPriority = sharedPrefUtil.getData(ROOT_PREF_HIGH_PRIORITY_NOTIFICATION, true)
+        return if (highPriority) CHANNEL_ID_HIGH else CHANNEL_ID_DEFAULT
     }
 
     /**

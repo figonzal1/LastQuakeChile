@@ -62,10 +62,10 @@
             android:layout_height="0dp"
             android:contentDescription="@string/cd_quake_list_section"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cv_alert_permission"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cv_alert_permission"
             tools:listitem="@layout/card_view_quake" />
 
         <include

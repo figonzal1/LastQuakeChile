@@ -1,7 +1,9 @@
 package cl.figonzal.lastquakechile.core.di
 
-import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.BuildConfig
+import cl.figonzal.lastquakechile.core.services.notifications.QuakeNotificationImpl
 import cl.figonzal.lastquakechile.core.ui.MainFragmentStateAdapter
+import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.provideApiService
 import cl.figonzal.lastquakechile.core.utils.provideDatabase
 import cl.figonzal.lastquakechile.quake_feature.di.quakeModule
@@ -11,23 +13,21 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
-/**
- * Koin application module
- */
 val appModule = module {
 
-    //IoDispatcher
     single(named("ioDispatcher")) { Dispatchers.IO }
+    single(named("mainDispatcher")) { Dispatchers.Main }
+    single(named("defaultDispatcher")) { Dispatchers.Default }
 
-    //Database
+    single { SharedPrefUtil(androidContext()) }
+
+    single { QuakeNotificationImpl(androidContext(), get()) }
+
     single(named("database")) { provideDatabase(get()) }
 
-    //Retrofit
-    single(named("apiService")) { provideApiService(androidContext().resources.getString(R.string.API_URL)) }
+    single(named("apiService")) { provideApiService(BuildConfig.API_URL) }
 
-    //StateAdapter
     single { MainFragmentStateAdapter(get(), get()) }
 
-    //Include child modules
     includes(quakeModule, reportModule)
 }

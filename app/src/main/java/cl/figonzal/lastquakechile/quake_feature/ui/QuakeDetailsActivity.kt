@@ -1,9 +1,9 @@
 package cl.figonzal.lastquakechile.quake_feature.ui
 
-import android.app.NotificationManager
 import android.animation.IntEvaluator
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
+import android.app.NotificationManager
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -39,10 +39,10 @@ import cl.figonzal.lastquakechile.core.utils.views.toast
 import cl.figonzal.lastquakechile.databinding.ActivityQuakeDetailsBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import com.google.android.gms.ads.AdListener
-import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.VideoController
 import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.gms.ads.nativead.NativeAdView
@@ -109,7 +109,8 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                 else -> this?.get(QUAKE) as Quake
             }
-            isSnapshotRequest = this?.getBoolean(IS_SNAPSHOT_REQUEST_FROM_BOTTOM_SHEET, false) ?: false
+            isSnapshotRequest =
+                this?.getBoolean(IS_SNAPSHOT_REQUEST_FROM_BOTTOM_SHEET, false) ?: false
         }
 
         quake?.let {

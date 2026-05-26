@@ -20,7 +20,7 @@ import java.util.Locale
 
 class QuakeAdapter : RecyclerView.Adapter<QuakeViewHolder>() {
 
-    private var asyncDiffer: AsyncListDiffer<Quake>
+    private val asyncDiffer: AsyncListDiffer<Quake>
     private val diffCallback = object : DiffUtil.ItemCallback<Quake>() {
 
         override fun areItemsTheSame(oldItem: Quake, newItem: Quake) =
@@ -28,8 +28,6 @@ class QuakeAdapter : RecyclerView.Adapter<QuakeViewHolder>() {
 
         override fun areContentsTheSame(oldItem: Quake, newItem: Quake) = oldItem == newItem
     }
-
-    private var binding: CardViewQuakeBinding? = null
 
     var quakes: List<Quake>
         get() = asyncDiffer.currentList
@@ -54,12 +52,10 @@ class QuakeAdapter : RecyclerView.Adapter<QuakeViewHolder>() {
 
     inner class QuakeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
+        private val binding = CardViewQuakeBinding.bind(itemView)
 
         fun bind(quake: Quake) {
-
-            binding = CardViewQuakeBinding.bind(itemView)
-
-            with(binding!!) {
+            with(binding) {
 
                 tvCity.text = quake.city
                 tvReference.text = quake.reference
@@ -81,7 +77,6 @@ class QuakeAdapter : RecyclerView.Adapter<QuakeViewHolder>() {
                     else -> View.GONE
                 }
 
-                //Verified status
                 ivVerified.visibility = when {
                     quake.isVerified -> View.VISIBLE
                     else -> View.GONE
@@ -96,16 +91,8 @@ class QuakeAdapter : RecyclerView.Adapter<QuakeViewHolder>() {
         }
     }
 
-    /***
-     * Function that recalculate the time difference between quake time and device time
-     */
     private fun recalculateTimeShowed() {
-
-        quakes.forEachIndexed { index, quake ->
-            binding?.tvHour?.timeToText(quake, true)
-            notifyItemChanged(index)
-        }
+        quakes.indices.forEach { notifyItemChanged(it) }
         Timber.d("Recalculating time shown in quakeList")
     }
 }
-

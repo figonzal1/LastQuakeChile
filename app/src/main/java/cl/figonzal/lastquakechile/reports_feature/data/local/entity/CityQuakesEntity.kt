@@ -18,3 +18,5 @@ data class CityQuakesEntity(
         nQuakes = nQuakes
     )
 }
+
+fun List<CityQuakesEntity>.toCityQuakesListDomain() = map { it.toDomain() }

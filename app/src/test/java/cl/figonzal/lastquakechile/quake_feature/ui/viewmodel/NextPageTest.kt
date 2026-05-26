@@ -1,11 +1,11 @@
 package cl.figonzal.lastquakechile.quake_feature.ui.viewmodel
 
 import app.cash.turbine.test
-import cl.figonzal.lastquakechile.core.data.remote.ApiError
+import cl.figonzal.lastquakechile.core.domain.DomainError
 import cl.figonzal.lastquakechile.quake_feature.data.repository.FakeQuakeRepository
-import cl.figonzal.lastquakechile.quake_feature.domain.uses_cases.GetQuakesUseCase
+import cl.figonzal.lastquakechile.quake_feature.domain.use_case.GetQuakesUseCase
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeViewModel
-import com.google.common.truth.Truth.*
+import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.drop
@@ -50,11 +50,11 @@ class NextPageTest : KoinTest {
     @Test
     fun `check default state`() = runTest {
 
-        viewModel.nextPagesState.test {
+        viewModel.uiState.test {
             val emission = awaitItem()
 
             assertThat(emission.quakes.size).isEqualTo(0)
-            assertThat(emission.apiError).isNull()
+            assertThat(emission.domainError).isNull()
             assertThat(emission.isLoading).isFalse()
         }
     }
@@ -65,11 +65,11 @@ class NextPageTest : KoinTest {
         viewModel.getNextPageQuakes()
 
         //Drop default state
-        viewModel.nextPagesState.drop(1).test {
+        viewModel.uiState.drop(1).test {
             val emission = awaitItem()
 
             assertThat(emission.isLoading).isTrue()
-            assertThat(emission.apiError).isNull()
+            assertThat(emission.domainError).isNull()
             assertThat(emission.quakes.size).isEqualTo(0)
         }
     }
@@ -80,11 +80,11 @@ class NextPageTest : KoinTest {
         viewModel.getNextPageQuakes()
 
         //Drop 2 states (Default & loading state)
-        viewModel.nextPagesState.drop(2).test {
+        viewModel.uiState.drop(2).test {
             val emission = awaitItem()
             assertThat(emission.quakes.size).isEqualTo(3)
             assertThat(emission.isLoading).isFalse()
-            assertThat(emission.apiError).isNull()
+            assertThat(emission.domainError).isNull()
         }
     }
 
@@ -94,13 +94,13 @@ class NextPageTest : KoinTest {
         repository.shouldReturnNetworkError = true
         viewModel.getNextPageQuakes()
 
-        viewModel.nextPagesState.drop(2).test {
+        viewModel.uiState.drop(2).test {
 
             val emission = awaitItem()
 
-            assertThat(emission.quakes.size).isEqualTo(3)
+            assertThat(emission.quakes.size).isEqualTo(0)
             assertThat(emission.isLoading).isFalse()
-            assertThat(emission.apiError).isSameInstanceAs(ApiError.HttpError)
+            assertThat(emission.domainError).isSameInstanceAs(DomainError.HttpError)
         }
     }
 }
