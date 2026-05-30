@@ -11,7 +11,6 @@ import cl.figonzal.lastquakechile.quake_feature.ui.QuakeViewModel
 import cl.figonzal.lastquakechile.reports_feature.data.repository.FakeReportRepository
 import cl.figonzal.lastquakechile.reports_feature.domain.repository.ReportRepository
 import cl.figonzal.lastquakechile.reports_feature.domain.use_case.GetReportsUseCase
-import cl.figonzal.lastquakechile.reports_feature.ui.ReportAdapter
 import cl.figonzal.lastquakechile.reports_feature.ui.ReportViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.qualifier.named
@@ -41,9 +40,6 @@ val testReportModule = module {
 
     //viewModel
     viewModel { ReportViewModel(get()) }
-
-    //Adapter
-    factory { ReportAdapter() }
 }
 
 /**
