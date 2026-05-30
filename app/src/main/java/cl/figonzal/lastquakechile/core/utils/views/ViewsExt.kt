@@ -330,6 +330,33 @@ private fun calculateTextViewBelowDay(
 }
 
 /**
+ * Pure-function equivalent of [TextView.setScale] for use in Compose composables.
+ */
+fun quakeScaleText(context: Context, scale: String): String = when {
+    scale.contains("Mw") -> String.format(QUAKE_DETAILS_SCALE_FORMAT, context.getString(R.string.moment_magnitude))
+    else -> String.format(QUAKE_DETAILS_SCALE_FORMAT, context.getString(R.string.local_magnitude))
+}
+
+/**
+ * Pure-function equivalent of [TextView.formatDMS] for use in Compose composables.
+ */
+fun coordinateToDMS(context: Context, coordinates: Coordinate): String {
+    val latDMS = coordinates.latitude.latLongToDMS()
+    val dmsLat = String.format(
+        Locale.US, "%.1f° %.1f' %.1f'' %s",
+        latDMS["grados"], latDMS["minutos"], latDMS["segundos"],
+        if (coordinates.latitude < 0) context.getString(R.string.south_cords) else context.getString(R.string.north_cords)
+    )
+    val longDMS = coordinates.longitude.latLongToDMS()
+    val dmsLong = String.format(
+        Locale.US, "%.1f° %.1f' %.1f'' %s",
+        longDMS["grados"], longDMS["minutos"], longDMS["segundos"],
+        if (coordinates.longitude < 0) context.getString(R.string.west_cords) else context.getString(R.string.east_cords)
+    )
+    return String.format(QUAKE_CORDS_FORMAT, dmsLat, dmsLong)
+}
+
+/**
  * Coordinates to DMS
  */
 fun TextView.formatDMS(coordinates: Coordinate) {
