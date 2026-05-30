@@ -230,6 +230,19 @@ fun TextView.timeToText(quake: Quake, isShortVersion: Boolean = false) {
     }
 }
 
+/**
+ * Pure-function equivalent of [timeToText] for use in Compose composables.
+ */
+fun quakeTimeText(context: Context, quake: Quake, isShortVersion: Boolean = false): String {
+    val timeMap = quake.localDate.stringToLocalDateTime().localDateToDHMS()
+    val days = timeMap[DAYS]
+    return when {
+        days != null && days == 0L -> calculateTextViewBelowDay(context, timeMap, isShortVersion)
+        days != null && days > 0 -> calculateTextViewAboveDay(context, timeMap, isShortVersion)
+        else -> ""
+    }
+}
+
 private fun calculateTextViewAboveDay(
     context: Context,
     timeMap: Map<String, Long>,
