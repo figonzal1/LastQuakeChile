@@ -40,6 +40,9 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import org.koin.androidx.compose.koinViewModel
 
+// Tamaño de página de reportes (igual que el QUERY_PAGE_SIZE del antiguo ReportsFragment).
+private const val QUERY_PAGE_SIZE = 5
+
 // ─── ViewModel-backed entry point ────────────────────────────────────────────
 
 @Composable
@@ -141,7 +144,10 @@ private fun ReportsList(
             .map { info ->
                 val lastVisible = info.visibleItemsInfo.lastOrNull()?.index ?: return@map false
                 val total = info.totalItemsCount
-                !isLoading && !isLastPage && total > 0 && lastVisible >= total - 1
+                // total >= QUERY_PAGE_SIZE replica el guard del RecyclerView original:
+                // no paginar cuando hay menos de una página completa (no hay siguiente página),
+                // evitando además recargar datos duplicados.
+                !isLoading && !isLastPage && total >= QUERY_PAGE_SIZE && lastVisible >= total - 1
             }
             .distinctUntilChanged()
             .collect { shouldLoad -> if (shouldLoad) onLoadMore() }

@@ -8,7 +8,7 @@ Cada fase compila + tests pasan + validación manual antes de continuar con la s
 | Fase | Descripción                                              | Estado       |
 |------|----------------------------------------------------------|--------------|
 | 0    | Infraestructura Compose + Theme Material 3               | ✅ Completa  |
-| 1    | Lista de Reportes (ComposeView interop)                  | ✅ Completa  |
+| 1    | Lista de Reportes (ComposeView interop) + cleanup + test | ✅ Completa  |
 | 2    | Lista de Sismos + permiso notificaciones                 | ⏳ Pendiente |
 | 3    | Detalle de sismo (mapa + ads con AndroidView)            | ⏳ Pendiente |
 | 4    | Ajustes (SharedPrefUtil → Compose)                       | ⏳ Pendiente |
@@ -48,24 +48,36 @@ ViewModel y toda la capa de datos/dominio **no cambiaron**.
 - `reports_feature/ui/ReportsFragment.kt` — reemplazado ViewBinding por ComposeView
 - `reports_feature/di/ReportModule.kt` — eliminado `ReportAdapter` (ya no se usa)
 
-**Archivos pendientes de borrar** (una vez validado en dispositivo):
+**Archivos borrados (cleanup completado):**
 - `reports_feature/ui/ReportAdapter.kt`
 - `res/layout/card_view_reports.xml`
 - `res/layout/fragment_reports.xml`
 
-**Patrón de paginación en Compose:**
+**Test instrumentado migrado:** `ReportsFragmentTest` pasó de Espresso (RecyclerView/IDs)
+a Compose testing (`createEmptyComposeRule` + `onNodeWithText`). Requiere
+`androidx-compose-ui-test-junit4` (androidTest) y `ui-test-manifest` (debug).
+Ambos tests verdes en dispositivo.
+
+**Patrón de paginación en Compose** (con guard de tamaño de página):
 ```kotlin
 LaunchedEffect(listState) {
     snapshotFlow { listState.layoutInfo }
         .map { info ->
             val lastVisible = info.visibleItemsInfo.lastOrNull()?.index ?: return@map false
             val total = info.totalItemsCount
-            !isLoading && !isLastPage && total > 0 && lastVisible >= total - 1
+            // total >= QUERY_PAGE_SIZE replica el guard del RecyclerView original:
+            // sin él, la lista auto-pagina apenas el fondo es visible (sin scroll del
+            // usuario), recargando datos y, con keys duplicadas, crasheando el LazyColumn.
+            !isLoading && !isLastPage && total >= QUERY_PAGE_SIZE && lastVisible >= total - 1
         }
         .distinctUntilChanged()
         .collect { shouldLoad -> if (shouldLoad) onLoadMore() }
 }
 ```
+
+> ⚠️ **Lección para Fase 2+:** el `RecyclerView.OnScrollListener` original tenía dos guards
+> que hay que replicar: `totalItemCount >= QUERY_PAGE_SIZE` y el flag `isScrolling`. Omitirlos
+> hace que la lista auto-pagine en el primer layout. El guard de página es el mínimo imprescindible.
 
 ---
 
