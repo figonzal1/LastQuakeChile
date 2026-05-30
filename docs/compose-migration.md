@@ -9,8 +9,8 @@ Cada fase compila + tests pasan + validación manual antes de continuar con la s
 |------|----------------------------------------------------------|--------------|
 | 0    | Infraestructura Compose + Theme Material 3               | ✅ Completa  |
 | 1    | Lista de Reportes (ComposeView interop) + cleanup + test | ✅ Completa  |
-| 2    | Lista de Sismos + permiso notificaciones                 | ⏳ Pendiente |
-| 3    | Detalle de sismo (mapa + ads con AndroidView)            | ⏳ Pendiente |
+| 2    | Lista de Sismos + permiso notificaciones                 | ✅ Completa  |
+| 3    | Detalle de sismo (mapa + ads con AndroidView)            | ✅ Completa  |
 | 4    | Ajustes (SharedPrefUtil → Compose)                       | ⏳ Pendiente |
 | 5    | Single-activity con Navigation Compose                   | ⏳ Pendiente |
 | 6    | Limpieza final (ViewBinding, XMLs, adapters huérfanos)   | ⏳ Pendiente |
@@ -81,40 +81,156 @@ LaunchedEffect(listState) {
 
 ---
 
-## Fase 2 — Lista de Sismos (próxima)
+## Fase 2 — Lista de Sismos (completada)
 
-Misma estructura que Fase 1. Diferencias a considerar:
+Misma estrategia que Fase 1: `QuakeFragment.onCreateView` devuelve un `ComposeView`
+(`DisposeOnViewTreeLifecycleDestroyed`). ViewModel y capa de datos sin cambios.
 
-1. `QuakeCard` — portar `card_view_quake.xml`:
-   - Color de magnitud: usar `getMagnitudeColor(quake.magnitude, false)` del `ViewsExt.kt` existente
-     → mapear el `@ColorRes Int` a `Color` de Compose con `colorResource(id)`.
-   - `timeToText` es una extension de `TextView` — hay que crear una función pura equivalente
-     o llamar a la lógica interna (`localDateToDHMS`) directamente desde el composable.
-   - Íconos de verificado/sensible con visibilidad condicional → `if (quake.isVerified) Icon(...)`.
+**Archivos nuevos:**
+- `quake_feature/ui/compose/QuakeCard.kt` — card M3 portando `card_view_quake.xml`
+- `quake_feature/ui/compose/QuakeScreen.kt` — pantalla con estados + `NotificationPermissionCard`
 
-2. Tarjeta de permiso de notificaciones (Android 13+):
-   - Reemplaza `handleCvAlertPermission` → `rememberLauncherForActivityResult` + `if` en composable.
+**Archivos modificados:**
+- `quake_feature/ui/QuakeFragment.kt` — ComposeView (menú vía `configOptionsMenu(fragmentIndex = 1)`)
+- `quake_feature/di/QuakeModule.kt` — eliminado `QuakeAdapter`
 
-3. Navegación a detalle: `openQuakeDetails(quake)` es extension de `Context` → se puede llamar
-   directamente desde el composable con `LocalContext.current.openQuakeDetails(quake)`.
+**Archivos borrados:** `QuakeAdapter.kt`, `card_view_quake.xml`, `fragment_quake.xml`.
 
-**Archivos a crear:**
-- `quake_feature/ui/compose/QuakeCard.kt`
-- `quake_feature/ui/compose/QuakeScreen.kt`
+**Decisiones clave (reutilizables en Fase 3):**
+- **Función pura para Compose:** se creó `quakeTimeText(context, quake, isShortVersion)` en
+  `ViewsExt.kt` como equivalente puro de la extension `TextView.timeToText`. Las composables NO
+  deben llamar extensions de `View` — se extrae la lógica a una función que devuelve `String`.
+- **Color de magnitud:** `colorResource(getMagnitudeColor(quake.magnitude, false))`.
+- **Círculo de magnitud:** `background_magnitude_circle_shape` (rect con esquinas) escalado a 50dp →
+  `RoundedCornerShape(12.dp)`, no `CircleShape`. El badge verificado (layer-list) se compone a mano
+  (óvalo blanco + ícono) porque `painterResource` no soporta layer-list.
+- **Permiso notificaciones (Android 13+):** `NotificationPermissionCard` con
+  `rememberLauncherForActivityResult(RequestPermission())` + re-chequeo en `ON_RESUME` vía
+  `LifecycleEventObserver` (la tarjeta desaparece al volver de Ajustes del sistema).
 
-**Archivos a modificar:**
-- `quake_feature/ui/QuakeFragment.kt` → ComposeView
-- `quake_feature/di/QuakeModule.kt` → eliminar `QuakeAdapter`
+**Test instrumentado:** `QuakeFragmentTest` migrado a Compose testing (mismo patrón que Fase 1).
 
 ---
 
-## Fase 3 — Detalle de sismo
+## Fase 3 — Detalle de sismo (próxima)
 
-- Tarjeta detalle → Compose puro (Column con los campos).
-- **Mapa**: `MapView` envuelto con `AndroidView` (mantener ciclo de vida completo).
-  La animación de los círculos y `ValueAnimator` quedan intactos dentro del callback de `onMapReady`.
-- **Anuncio nativo**: `NativeAdView` envuelto con `AndroidView`.
-- `Scaffold` + `TopAppBar` para el toolbar con el botón de capas y compartir.
+`QuakeDetailsActivity` es la pantalla más compleja: combina **3 vistas Android que NO se migran a
+Compose puro** (mapa con animaciones, ad nativo) más una tarjeta de datos que sí se porta. El objetivo
+es dejar la `Activity` como host delgado (`setContent { }`) sin tocar todavía la navegación (eso es
+Fase 5). El sismo sigue llegando por `intent extra` (`Quake` parcelable) — no se introduce ViewModel
+nuevo.
+
+### Estructura objetivo
+
+```
+QuakeDetailsActivity (setContent)
+└─ LastQuakeChileTheme
+   └─ QuakeDetailScreen(quake, isSnapshotRequest, onBack, onShare)
+      └─ Scaffold(topBar = TopAppBar)            // título = ciudad, back, menú capas
+         └─ Column (verticalScroll)              // reemplaza NestedScrollView
+            ├─ QuakeMap(quake)                   // AndroidView(MapView) — interop
+            ├─ NativeAdCard()                    // AndroidView(NativeAdView) — interop
+            └─ QuakeDetailCard(quake)            // Compose puro
+         + FloatingActionButton(onShare)         // botón compartir (snapshot)
+```
+
+### 1. Tarjeta de detalle → Compose puro (`QuakeDetailCard`)
+
+Porta `card_view_quake_detail.xml`. Reutiliza lo de Fase 2:
+- **Encabezado** (círculo magnitud + badge verificado + ciudad + hora + referencia + ícono sensible)
+  es idéntico al de `QuakeCard`. → **Extraer un composable compartido** `MagnitudeHeader` /
+  `MagnitudeCircle` a `core/ui/components/` y consumirlo desde `QuakeCard` y `QuakeDetailCard`
+  (DRY; evita duplicar la lógica del badge layer-list).
+- **Grid inferior** (fecha/hora, coordenadas DMS, profundidad, escala) → `Row` con dos `Column`
+  separadas por el guideline al 50%. Cada celda: ícono + título + valor.
+- **Funciones puras pendientes de crear en `ViewsExt.kt`** (mismo patrón que `quakeTimeText`):
+  - `quakeScaleText(context, scale)` ← equivalente de `TextView.setScale`
+  - `coordinateToDMS(context, coordinate)` ← equivalente de `TextView.formatDMS`
+  - Fecha/hora completa: `it.localDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))`
+    se puede calcular directo en la composable.
+
+### 2. Mapa → `AndroidView(MapView)` con ciclo de vida (interop obligatorio)
+
+**Buena práctica:** crear un helper reutilizable `rememberMapViewWithLifecycle()` en
+`core/ui/map/` que:
+- `remember { MapView(context).apply { onCreate(null) } }`
+- observa el `LifecycleOwner` con un `DisposableEffect` y reenvía
+  `onStart/onResume/onPause/onStop/onDestroy` + `onLowMemory` al `MapView`.
+- en `onDispose` llama `onDestroy` y **cancela los `ValueAnimator`** de los círculos.
+
+Este helper se reutiliza tal cual en la migración del mapa de Fase 5.
+
+La lógica de `onMapReady` (configuración de gestos, `setNightMode`, `configMapType`, los 4 `addCircle`
+y los dos `ValueAnimator` animados) se mueve **sin cambios** dentro de `getMapAsync { }`, llamado desde
+el `factory`/`LaunchedEffect`. Los animadores se guardan en `remember` para poder cancelarlos en
+`onDispose`.
+
+> ⚠️ `onSaveInstanceState`: en interop con `setContent` no hay el `Bundle` del `MapView` que tenía la
+> Activity XML. Para Fase 3 se acepta recrear el mapa en cambios de configuración (el sismo viene del
+> intent, no hay estado que perder). Documentar esta diferencia respecto al XML original.
+
+### 3. Anuncio nativo → `AndroidView(NativeAdView)` (interop obligatorio)
+
+- Mantener `loadNativeAd()` / `populateNativeAdView()` prácticamente igual, pero disparados desde la
+  composable. El `NativeAdView` se infla de `R.layout.ad_small_template` dentro del `factory`.
+- **Ciclo de vida del `NativeAd`:** `DisposableEffect(Unit) { onDispose { nativeAd?.destroy() } }`
+  para no filtrar el ad (hoy lo hace `onDestroy` de la Activity).
+- Estado de visibilidad (`hideAdBanner`) → `var adLoaded by remember { mutableStateOf(false) }`;
+  la tarjeta solo se compone si el ad cargó (reemplaza `cv_native_ad.visibility`).
+- `MobileAds.initialize` sigue en un coroutine (`LaunchedEffect`).
+
+### 4. Toolbar + compartir + menú de capas
+
+- `Scaffold` + `TopAppBar` M3: título = `quake.city`, navegación back (`onBack { finish() }`),
+  acción de menú "capas".
+- **FAB compartir:** `makeSnapshot(googleMap, quake)` necesita la referencia al `GoogleMap` → guardarla
+  en un `remember { mutableStateOf<GoogleMap?>(null) }` seteado en `onMapReady`. El `onClick` del FAB
+  invoca `context.makeSnapshot(map, quake)`. Replicar también el `isSnapshotRequest` (delay 1s →
+  snapshot automático) con un `LaunchedEffect(mapReady)`.
+- **Diálogo de capas (`MapTerrainDialogFragment`):** dos opciones —
+  (a) mantenerlo como `DialogFragment` vía `supportFragmentManager` (interop, menos trabajo), o
+  (b) migrarlo a un `AlertDialog`/`ModalBottomSheet` de Compose con estado `rememberSaveable`.
+  **Recomendado:** (b) por coherencia, pero es aislable en su propio commit; si se prioriza tamaño de
+  PR, dejar (a) y migrar el diálogo en Fase 4/5.
+
+### Archivos a crear
+
+- `quake_feature/ui/compose/QuakeDetailScreen.kt` — Scaffold + Column scrollable + FAB
+- `quake_feature/ui/compose/QuakeDetailCard.kt` — tarjeta de datos (Compose puro)
+- `quake_feature/ui/compose/QuakeMap.kt` — `AndroidView` del mapa + lógica de círculos
+- `quake_feature/ui/compose/NativeAdCard.kt` — `AndroidView` del ad nativo
+- `core/ui/map/MapViewLifecycle.kt` — `rememberMapViewWithLifecycle()` (reutilizable Fase 5)
+- `core/ui/components/MagnitudeHeader.kt` — composable compartido extraído de `QuakeCard`
+- (opcional) `quake_feature/ui/compose/MapTerrainDialog.kt` — diálogo de capas en Compose
+
+### Archivos a modificar
+
+- `quake_feature/ui/QuakeDetailsActivity.kt` → host delgado con `setContent { }`; se eliminan
+  ViewBinding, overrides de ciclo de vida del `MapView` y `MenuProvider` (migran a Compose)
+- `core/utils/views/ViewsExt.kt` → agregar `quakeScaleText` y `coordinateToDMS` (funciones puras)
+- `QuakeCard.kt` → consumir `MagnitudeHeader` compartido
+
+### Archivos a borrar (cleanup al cerrar la fase)
+
+- `res/layout/activity_quake_details.xml`
+- `res/layout/card_view_quake_detail.xml`
+- `res/layout/card_view_mapview.xml`
+- `res/menu/menu_quake_details.xml` (si se migra el menú a Compose)
+
+> ⚠️ **No se borran** `ad_small_template.xml` (se sigue inflando vía `AndroidView`) ni los layouts del
+> diálogo de capas si se elige la opción (a).
+
+### Buenas prácticas transversales de la fase
+
+- **Composables stateless + state hoisting:** `QuakeDetailScreen` recibe `quake`, `onBack`, `onShare`
+  como parámetros; nada de lógica de Activity dentro de las composables de UI.
+- **`@Preview`** para `QuakeDetailCard` (claro/oscuro, verificado/sensible) — el mapa y el ad no se
+  previsualizan (dependen de servicios), se aíslan en sus propios composables interop.
+- **Interop limpio:** cada `AndroidView` en su propio composable, con `factory` + `update` separados y
+  liberación de recursos en `DisposableEffect`.
+- **Verificación de la fase:** `assembleDevDebug` + `testDevDebugUnitTest` + validación manual del
+  detalle (animación de círculos, modo noche del mapa, carga/ocultar ad, compartir snapshot, cambio de
+  tipo de mapa). Migrar/crear test instrumentado de la pantalla de detalle si existía cobertura previa.
 
 ---
 
