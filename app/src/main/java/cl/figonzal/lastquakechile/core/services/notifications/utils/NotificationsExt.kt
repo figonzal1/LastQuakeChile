@@ -1,22 +1,13 @@
 package cl.figonzal.lastquakechile.core.services.notifications.utils
 
 import android.Manifest
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
-import android.provider.Settings
-import android.view.View
-import androidx.activity.result.ActivityResultLauncher
-import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat.PRIORITY_DEFAULT
 import androidx.core.app.NotificationCompat.PRIORITY_HIGH
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
-import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.services.notifications.QuakeNotificationImpl
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
-import cl.figonzal.lastquakechile.core.utils.views.toast
-import cl.figonzal.lastquakechile.databinding.FragmentQuakeBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import com.google.android.gms.tasks.Task
 import com.google.firebase.Firebase
@@ -61,104 +52,6 @@ fun setUpNotificationService(
     } else {
         Timber.d("POST_NOTIFICATIONS not granted — skipping FCM subscription")
     }
-}
-
-/**
- * Manages the permission cardview in QuakeFragment.
- *
- * Visibility is driven by the real permission state (checkSelfPermission), NOT SharedPreferences,
- * so the card reappears after a reinstall or revocation regardless of Auto Backup state.
- *
- * The [launcher] must be registered by the Fragment before onStart (e.g. as a property).
- *
- * Flow:
- *  - Permission already granted → hide cardview.
- *  - Not granted, can ask again → show cardview with "Activate" → system dialog.
- *  - Permanently denied → show cardview with "Open Settings" → system notification settings.
- */
-@RequiresApi(Build.VERSION_CODES.TIRAMISU)
-fun Fragment.handleCvAlertPermission(
-    binding: FragmentQuakeBinding,
-    sharedPrefUtil: SharedPrefUtil,
-    launcher: ActivityResultLauncher<String>
-) {
-    val isGranted = ContextCompat.checkSelfPermission(
-        requireContext(),
-        Manifest.permission.POST_NOTIFICATIONS
-    ) == PackageManager.PERMISSION_GRANTED
-
-    if (isGranted) {
-        // Detect the "just granted from Settings" transition: if the card was visible (or its
-        // initial INVISIBLE/default state) right before this call, FCM wasn't subscribed at boot
-        // because permission was missing. Subscribe now so the topic is registered without
-        // requiring an app restart.
-        val wasShowingCard = binding.cvAlertPermission.root.visibility != View.GONE
-        binding.cvAlertPermission.root.visibility = View.GONE
-        sharedPrefUtil.saveData(SHARED_PREF_PERMISSION_ALERT_ANDROID_13, true)
-        // Subscribe only on the denied → granted transition AND if the user wants alerts.
-        // Re-evaluating on every onResume would otherwise hit FCM with no actual state change.
-        if (wasShowingCard && sharedPrefUtil.getData(ROOT_PREF_SUBSCRIPTION, true)) {
-            subscribedToQuakes(true)
-        }
-        return
-    }
-
-    binding.cvAlertPermission.root.visibility = View.VISIBLE
-
-    // shouldShowRequestPermissionRationale() returns false in TWO cases:
-    //   1. Permission was NEVER requested (fresh install) — should show "Activate"
-    //   2. User selected "Don't ask again" (permanently denied) — should show "Open Settings"
-    // We use a persisted flag to distinguish them: if we've never launched the request, case 1.
-    val wasAskedBefore = sharedPrefUtil.getData(SHARED_PREF_PERMISSION_ASKED_ONCE, false)
-    val permanentlyDenied = wasAskedBefore && !shouldShowRequestPermissionRationale(
-        Manifest.permission.POST_NOTIFICATIONS
-    )
-
-    with(binding.cvAlertPermission) {
-        if (permanentlyDenied) {
-            btnRequestPermission.setText(R.string.open_settings_button)
-            btnRequestPermission.setOnClickListener {
-                openNotificationSettings()
-            }
-        } else {
-            btnRequestPermission.setText(R.string.activate_button)
-            btnRequestPermission.setOnClickListener {
-                launcher.launch(Manifest.permission.POST_NOTIFICATIONS)
-            }
-        }
-    }
-}
-
-/**
- * Called from QuakeFragment after the permission launcher returns a result.
- * Updates SharedPrefs and subscribes to FCM on grant.
- */
-@RequiresApi(Build.VERSION_CODES.TIRAMISU)
-fun Fragment.onNotificationPermissionResult(
-    isGranted: Boolean,
-    sharedPrefUtil: SharedPrefUtil
-) {
-    // Mark that the system dialog was shown at least once, so the next call to
-    // handleCvAlertPermission can correctly distinguish "never asked" from "permanently denied".
-    sharedPrefUtil.saveData(SHARED_PREF_PERMISSION_ASKED_ONCE, true)
-
-    if (isGranted) {
-        Timber.d("POST_NOTIFICATIONS granted")
-        toast(R.string.notification_permission_on)
-        sharedPrefUtil.saveData(SHARED_PREF_PERMISSION_ALERT_ANDROID_13, true)
-        subscribedToQuakes(true)
-    } else {
-        Timber.d("POST_NOTIFICATIONS denied")
-        toast(R.string.notification_permission_off)
-        sharedPrefUtil.saveData(SHARED_PREF_PERMISSION_ALERT_ANDROID_13, false)
-    }
-}
-
-private fun Fragment.openNotificationSettings() {
-    val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
-        putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
-    }
-    startActivity(intent)
 }
 
 /**

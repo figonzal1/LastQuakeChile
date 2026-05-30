@@ -7,7 +7,6 @@ import cl.figonzal.lastquakechile.quake_feature.data.remote.QuakeRemoteDataSourc
 import cl.figonzal.lastquakechile.quake_feature.data.repository.QuakeRepositoryImpl
 import cl.figonzal.lastquakechile.quake_feature.domain.repository.QuakeRepository
 import cl.figonzal.lastquakechile.quake_feature.domain.use_case.GetQuakesUseCase
-import cl.figonzal.lastquakechile.quake_feature.ui.QuakeAdapter
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeFragment
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeViewModel
 import cl.figonzal.lastquakechile.quake_feature.ui.map.MapsFragment
@@ -43,9 +42,6 @@ val quakeModule = module {
 
     //viewModel
     viewModel { QuakeViewModel(get()) }
-
-    //Adapter
-    factory { QuakeAdapter() }
 
     //QuakeFragment
     fragment { QuakeFragment() }
