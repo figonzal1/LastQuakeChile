@@ -16,6 +16,7 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -88,6 +89,12 @@ internal fun ReportsContent(
     onRetry: () -> Unit = {},
     onLoadMore: () -> Unit = {}
 ) {
+    // background (#28282C dark / #EFEFEF light) coincide con el Scaffold del detalle,
+    // asegurando que los cards (surface = #323236) sean más claros que el fondo en dark mode.
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.background
+    ) {
     Box(modifier = Modifier.fillMaxSize()) {
         when {
             state.reports.isEmpty() && state.domainError != null && state.domainError != DomainError.NoMoreData -> {
@@ -124,7 +131,8 @@ internal fun ReportsContent(
             hostState = snackbarHostState,
             modifier = Modifier.align(Alignment.BottomCenter)
         )
-    }
+    } // Box
+    } // Surface
 }
 
 // ─── Internal composables ─────────────────────────────────────────────────────
