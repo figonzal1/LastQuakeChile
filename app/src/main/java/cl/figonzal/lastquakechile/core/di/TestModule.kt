@@ -6,7 +6,6 @@ import cl.figonzal.lastquakechile.core.utils.provideTestDatabase
 import cl.figonzal.lastquakechile.quake_feature.data.repository.FakeQuakeRepository
 import cl.figonzal.lastquakechile.quake_feature.domain.repository.QuakeRepository
 import cl.figonzal.lastquakechile.quake_feature.domain.use_case.GetQuakesUseCase
-import cl.figonzal.lastquakechile.quake_feature.ui.QuakeAdapter
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeViewModel
 import cl.figonzal.lastquakechile.reports_feature.data.repository.FakeReportRepository
 import cl.figonzal.lastquakechile.reports_feature.domain.repository.ReportRepository
@@ -26,9 +25,6 @@ val testQuakeModule = module {
 
     //viewModel
     viewModel { QuakeViewModel(get()) }
-
-    //Adapter
-    factory { QuakeAdapter() }
 }
 
 val testReportModule = module {
