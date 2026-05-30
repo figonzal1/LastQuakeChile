@@ -7,6 +7,7 @@ val (vMajor, vMinor, vPatch) = appVersionName.split(".").map { it.toInt() }
 
 plugins {
     alias(libs.plugins.com.android.application)
+    alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.com.google.devtools.ksp)
     alias(libs.plugins.com.google.gms.google.services)
     alias(libs.plugins.com.google.firebase.crashlytics)
@@ -88,6 +89,7 @@ android {
         viewBinding = true
         buildConfig = true
         resValues = true
+        compose = true
     }
     flavorDimensions += listOf("version")
     productFlavors {
@@ -115,6 +117,18 @@ configurations.all {
 dependencies {
 
     implementation(fileTree("libs") { include(listOf("*.jar")) })
+
+    // Compose BOM
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.koin.androidx.compose)
+    implementation(libs.coil.compose)
+    debugImplementation(libs.androidx.compose.ui.tooling)
+    implementation(libs.androidx.compose.ui.tooling.preview)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

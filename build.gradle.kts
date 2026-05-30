@@ -17,6 +17,9 @@ plugins {
     //KSP
     alias(libs.plugins.com.google.devtools.ksp) apply false
 
+    //Kotlin Compose Compiler
+    alias(libs.plugins.kotlin.compose) apply false
+
     //Google maps secrets
     alias(libs.plugins.com.google.android.libraries.mapsplatform.secrets.gradle.plugin) apply false
 

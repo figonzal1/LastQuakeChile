@@ -1,6 +1,8 @@
 [versions]
 agp = "9.2.1"
 coil = "3.4.0"
+compose-bom = "2025.05.00"
+kotlin = "2.3.20"
 # sept. 2024 (NO ACTUALIZAR)
 espresso = "3.7.0"
 espresso-contrib = "3.7.0"
@@ -41,6 +43,18 @@ moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
 moshi-kotlin-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "moshi" }
 # Coil
 coil = { module = "io.coil-kt.coil3:coil", version.ref = "coil" }
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
+# Compose
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
+androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-activity-compose = "androidx.activity:activity-compose:1.10.1"
+androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle" }
+# Koin Compose
+koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
 # Koin
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 # Firebase
@@ -99,6 +113,7 @@ firebase = [
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 com-google-devtools-ksp = "com.google.devtools.ksp:2.3.7"
 com-google-android-libraries-mapsplatform-secrets-gradle-plugin = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:2.0.1"
 com-google-gms-google-services = "com.google.gms.google-services:4.4.4"
