@@ -23,6 +23,9 @@ val SurfaceDark = Color(0xFF323236)
 // colorOnSurface de M2 para elementos secundarios, no para texto primario.
 val OnSurfaceDark = Color(0xDEFFFFFF)
 val BackgroundDark = Color(0xFF28282C)
+// M2 colorOnSurface secondary/caption emphasis = 55% white/black (medium emphasis)
+val OnSurfaceVariantDark = Color(0x8CFFFFFF)
+val OnSurfaceVariantLight = Color(0x8C000000)
 
 // Magnitude scale (reutilizada en composables igual que getMagnitudeColor)
 val Magnitude1 = Color(0xFF006400)
