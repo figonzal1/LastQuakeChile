@@ -8,7 +8,6 @@ import cl.figonzal.lastquakechile.reports_feature.data.remote.ReportRemoteDataSo
 import cl.figonzal.lastquakechile.reports_feature.data.repository.ReportRepositoryImpl
 import cl.figonzal.lastquakechile.reports_feature.domain.repository.ReportRepository
 import cl.figonzal.lastquakechile.reports_feature.domain.use_case.GetReportsUseCase
-import cl.figonzal.lastquakechile.reports_feature.ui.ReportAdapter
 import cl.figonzal.lastquakechile.reports_feature.ui.ReportViewModel
 import cl.figonzal.lastquakechile.reports_feature.ui.ReportsFragment
 import org.koin.androidx.fragment.dsl.fragment
@@ -42,9 +41,6 @@ val reportModule = module {
 
     //viewModel
     viewModel { ReportViewModel(get()) }
-
-    //ReportAdapter
-    factory { ReportAdapter() }
 
     //Report Fragment
     fragment { ReportsFragment() }
