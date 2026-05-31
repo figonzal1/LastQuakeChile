@@ -4,7 +4,8 @@ import android.app.Activity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import androidx.preference.PreferenceManager
+import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
+import cl.figonzal.lastquakechile.core.utils.readBoolMigrating
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import timber.log.Timber
 
@@ -13,6 +14,7 @@ private const val FIREBASE_NIGHT_MODE_STATUS = "night_mode_status"
 
 class NightModeService(
     private val activity: Activity,
+    private val sharedPrefUtil: SharedPrefUtil,
     private val crashlytics: FirebaseCrashlytics
 ) : DefaultLifecycleObserver {
 
@@ -25,10 +27,11 @@ class NightModeService(
 
     private fun checkNightMode() {
 
-        //Leer preference settings
-        val isNightModeActivated = PreferenceManager
-            .getDefaultSharedPreferences(activity)
-            .getBoolean(ROOT_PREF_NIGHT_MODE, false)
+        // Read from SharedPrefUtil (single source of truth shared with the Compose settings
+        // screen). readBoolMigrating falls back to the legacy default-prefs value so installs
+        // configured before the migration keep their choice.
+        val isNightModeActivated =
+            sharedPrefUtil.readBoolMigrating(activity, ROOT_PREF_NIGHT_MODE, false)
 
         when {
             isNightModeActivated -> {

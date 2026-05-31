@@ -19,7 +19,7 @@ fun AppCompatActivity.initLifecycleObservers(sharedPrefUtil: SharedPrefUtil) {
         val crashlytics = Firebase.crashlytics
 
         //Night mode
-        checkNightMode(lifecycle = this, crashlytics = crashlytics)
+        checkNightMode(lifecycle = this, sharedPrefUtil = sharedPrefUtil, crashlytics = crashlytics)
 
         //GP services
         val playService = GooglePlayService(
@@ -40,11 +40,13 @@ fun AppCompatActivity.initLifecycleObservers(sharedPrefUtil: SharedPrefUtil) {
 
 private fun Activity.checkNightMode(
     lifecycle: Lifecycle,
+    sharedPrefUtil: SharedPrefUtil,
     crashlytics: FirebaseCrashlytics
 ) {
     when {
         Build.VERSION.SDK_INT < Build.VERSION_CODES.Q -> {
-            val nightModeService = NightModeService(this@checkNightMode, crashlytics)
+            val nightModeService =
+                NightModeService(this@checkNightMode, sharedPrefUtil, crashlytics)
             lifecycle.addObserver(nightModeService)
             Timber.d("ANDROID_VERSION < Q: ${Build.VERSION.SDK_INT}")
         }

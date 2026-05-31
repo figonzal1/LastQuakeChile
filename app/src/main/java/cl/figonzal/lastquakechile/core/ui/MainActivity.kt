@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.preference.PreferenceManager
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.services.UpdaterService
 import cl.figonzal.lastquakechile.core.services.notifications.utils.getFirebaseToken
@@ -66,8 +65,6 @@ class MainActivity : AppCompatActivity() {
             )
             insets
         }
-
-        PreferenceManager.setDefaultValues(this, R.xml.root_preferences, false)
 
         initServices()
         setToolbarViewPagerTabs()

@@ -3,6 +3,7 @@ package cl.figonzal.lastquakechile.core.utils
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import androidx.preference.PreferenceManager
 
 private const val SHARED_PREF_MASTER_KEY = "lastquakechile"
 
@@ -50,4 +51,21 @@ class SharedPrefUtil(context: Context) {
             else -> throw IllegalArgumentException("Unsupported default value type")
         }
     }
+}
+
+/**
+ * Reads a boolean preferring this [SharedPrefUtil] store, falling back to the legacy
+ * default-SharedPreferences value when the key is absent. Lets settings persisted by the old
+ * PreferenceFragmentCompat (which wrote to the default file) carry over after the Compose
+ * migration without an explicit one-time copy.
+ */
+fun SharedPrefUtil.readBoolMigrating(context: Context, key: String, default: Boolean): Boolean {
+    val legacy = PreferenceManager.getDefaultSharedPreferences(context).getBoolean(key, default)
+    return getData(key, legacy)
+}
+
+/** String counterpart of [readBoolMigrating]. */
+fun SharedPrefUtil.readStringMigrating(context: Context, key: String, default: String): String {
+    val legacy = PreferenceManager.getDefaultSharedPreferences(context).getString(key, default) ?: default
+    return getData(key, legacy)
 }
