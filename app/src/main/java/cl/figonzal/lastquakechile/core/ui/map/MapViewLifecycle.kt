@@ -1,5 +1,6 @@
 package cl.figonzal.lastquakechile.core.ui.map
 
+import android.content.Context
 import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -15,12 +16,18 @@ import com.google.android.gms.maps.MapView
  * All lifecycle events (onCreate → onDestroy + onLowMemory) are forwarded automatically,
  * so callers only need to call [MapView.getMapAsync] to interact with the map.
  *
- * Reusable across Phase 3 (QuakeDetailsActivity) and Phase 5 (NavGraph destination).
+ * Reusable across Phase 3 (QuakeDetailsActivity) and Phase 5 (MapsScreen).
+ *
+ * @param factory how to instantiate the [MapView]. The map inside the swipeable pager
+ * (MapsScreen) must use a [cl.figonzal.lastquakechile.core.ui.MapViewInScroll] so the
+ * surrounding `ViewPager2` does not steal pan/zoom gestures.
  */
 @Composable
-fun rememberMapViewWithLifecycle(): MapView {
+fun rememberMapViewWithLifecycle(
+    factory: (Context) -> MapView = { MapView(it) }
+): MapView {
     val context = LocalContext.current
-    val mapView = remember { MapView(context) }
+    val mapView = remember { factory(context) }
     val lifecycle = LocalLifecycleOwner.current.lifecycle
 
     DisposableEffect(lifecycle) {
