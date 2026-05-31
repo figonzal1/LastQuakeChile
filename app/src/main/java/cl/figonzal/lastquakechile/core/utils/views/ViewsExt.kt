@@ -15,7 +15,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -37,16 +36,12 @@ import cl.figonzal.lastquakechile.core.ui.SettingsActivity
 import cl.figonzal.lastquakechile.core.utils.latLongToDMS
 import cl.figonzal.lastquakechile.core.utils.localDateToDHMS
 import cl.figonzal.lastquakechile.core.utils.stringToLocalDateTime
-import cl.figonzal.lastquakechile.databinding.FragmentMapsBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Coordinate
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import coil3.load
 import coil3.request.crossfade
 import coil3.request.error
 import coil3.request.placeholder
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.card.MaterialCardView
 import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
@@ -487,51 +482,6 @@ fun ViewPager2.handleShortcuts(action: String?, packageName: String) {
     }
 }
 
-fun BottomSheetBehavior<MaterialCardView>.handleBottomSheetState() {
-    state = when (state) {
-        BottomSheetBehavior.STATE_EXPANDED -> BottomSheetBehavior.STATE_EXPANDED
-        else -> BottomSheetBehavior.STATE_COLLAPSED
-    }
-}
-
-fun BottomSheetBehavior<MaterialCardView>.configBottomSheetCallback(
-    p0: GoogleMap,
-    binding: FragmentMapsBinding
-) = object : BottomSheetBehavior.BottomSheetCallback() {
-
-    override fun onSlide(bottomSheet: View, slideOffset: Float) {
-
-        if (state == BottomSheetBehavior.STATE_DRAGGING ||
-            state == BottomSheetBehavior.STATE_SETTLING
-        ) {
-            p0.adjustMapPadding(binding)
-        }
-    }
-
-    override fun onStateChanged(bottomSheet: View, newState: Int) {
-        // Needed only in case you manually change the bottomsheet's state in code somewhere.
-        when (newState) {
-            BottomSheetBehavior.STATE_EXPANDED -> {
-                // Nothing to do here
-            }
-
-            else -> p0.adjustMapPadding(binding)
-        }
-    }
-}
-
-private fun GoogleMap.adjustMapPadding(binding: FragmentMapsBinding) {
-    val bottomSheetContainerHeight = binding.include.root.height
-    val currentBottomSheetTop = binding.include.cvBottomSheet.top
-
-    this.setPadding(
-        0, // left
-        0, // top
-        0, // right
-        bottomSheetContainerHeight - currentBottomSheetTop // bottom
-    )
-}
-
 fun View.setDebouncedClickListener(intervalMs: Long = 500L, action: (View) -> Unit) {
     var lastClickTime = 0L
     setOnClickListener { view ->
@@ -546,19 +496,4 @@ fun View.setDebouncedClickListener(intervalMs: Long = 500L, action: (View) -> Un
 fun Float.toDips(resources: Resources) =
     TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this, resources.displayMetrics)
 
-fun ViewGroup.getViewBottomHeight(
-    targetViewId: Int,
-    behavior: BottomSheetBehavior<MaterialCardView>?
-) {
-
-    val callback = object : ViewTreeObserver.OnGlobalLayoutListener {
-        override fun onGlobalLayout() {
-            viewTreeObserver.removeOnGlobalLayoutListener(this)
-            behavior?.peekHeight =
-                findViewById<View>(targetViewId).bottom + 20f.toDips(resources).toInt()
-        }
-    }
-
-    viewTreeObserver.addOnGlobalLayoutListener(callback)
-}
 
