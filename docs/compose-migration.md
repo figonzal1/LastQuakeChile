@@ -12,8 +12,8 @@ Cada fase compila + tests pasan + validación manual antes de continuar con la s
 | 2    | Lista de Sismos + permiso notificaciones                 | ✅ Completa  |
 | 3    | Detalle de sismo (mapa + ads con AndroidView)            | ✅ Completa  |
 | 4    | Ajustes (SharedPrefUtil → Compose)                       | ✅ Completa  |
-| 5    | Single-activity con Navigation Compose                   | ⏳ Pendiente |
-| 6    | Limpieza final (ViewBinding, XMLs, adapters huérfanos)   | ⏳ Pendiente |
+| 5    | Single-activity con Navigation Compose                   | 🔀 Diferida al rediseño UI/UX |
+| 6    | Limpieza final (ViewBinding, XMLs, adapters huérfanos)   | 🔀 Diferida al rediseño UI/UX |
 
 ---
 
@@ -280,15 +280,39 @@ notificaciones.
 
 ---
 
-## Fase 5 — Single-activity (destino final)
+## Fase 5 — Single-activity (diferida al rediseño UI/UX)
 
-- `MainActivity` pasa a `setContent { }`.
-- Reemplazar `ViewPager2 + TabLayout + CollapsingToolbar` por:
-  - `Scaffold` + `TopAppBar` M3
-  - `HorizontalPager` + `TabRow` de Compose
-- `NavHost` con rutas: lista → detalle, lista reportes, mapa, ajustes.
-- `QuakeDetailsActivity` se convierte en destino composable (sin `Activity` ni `Intent` extra).
-- Eliminar `MainFragmentStateAdapter`, `setupKoinFragmentFactory`, `koin-androidx-fragment`.
+> **Decisión:** esta fase no se ejecuta como migración aislada. Todo el *contenido* (listas,
+> detalle, ajustes, tarjetas, tema M3, componentes, ViewModels) ya es Compose y reutilizable.
+> Lo único que queda en Views es el **shell de navegación** (`MainActivity`: `ViewPager2` +
+> `TabLayout` + `CollapsingToolbar`), y ese es exactamente el fragmento que el rediseño UI/UX
+> va a reemplazar de todos modos.
+>
+> Implementar `NavHost`/`HorizontalPager` ahora contra la arquitectura de información actual
+> (4 tabs) sería trabajo desechable: en el rediseño se rehace porque los flujos, rutas y
+> jerarquía cambiarán. **Navigation Compose se diseña junto con la nueva UX, no antes.**
+
+**Cuando llegue el rediseño, en ese momento se deberá:**
+
+- `MainActivity` → `setContent` con `Scaffold` + `TopAppBar` M3 + `HorizontalPager`/`NavHost`
+- `QuakeDetailsActivity` → destino composable (sin `Activity` ni `Intent` extra)
+- Eliminar `MainFragmentStateAdapter`, `setupKoinFragmentFactory`, `koin-androidx-fragment`
+- Desactivar `viewBinding = true` en `build.gradle.kts` (último uso es `ActivityMainBinding`)
+- Borrar `activity_main.xml`, `toolbar_layout.xml`, `toolbar_main.xml`
+
+**Lo que se limpió antes del rediseño (layouts huérfanos, sin referencias en código):**
+- `res/layout/overlay.xml`
+- `res/layout/error_message.xml`
+- `res/layout/card_view_notification_permission.xml`
+- `res/layout/toolbar_no_main.xml`
+- `res/menu/menu_quake_details.xml`
+
+---
+
+## Fase 6 — Limpieza final (diferida al rediseño UI/UX)
+
+> Todo lo pendiente de esta fase está acoplado al shell Views de `MainActivity` y cae
+> automáticamente al ejecutar la Fase 5 en el rediseño. No tiene sentido limpiar en aislado.
 
 ---
 
