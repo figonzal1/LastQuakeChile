@@ -11,7 +11,7 @@ Cada fase compila + tests pasan + validación manual antes de continuar con la s
 | 1    | Lista de Reportes (ComposeView interop) + cleanup + test | ✅ Completa  |
 | 2    | Lista de Sismos + permiso notificaciones                 | ✅ Completa  |
 | 3    | Detalle de sismo (mapa + ads con AndroidView)            | ✅ Completa  |
-| 4    | Ajustes (SharedPrefUtil → Compose)                       | ⏳ Pendiente |
+| 4    | Ajustes (SharedPrefUtil → Compose)                       | ✅ Completa  |
 | 5    | Single-activity con Navigation Compose                   | ⏳ Pendiente |
 | 6    | Limpieza final (ViewBinding, XMLs, adapters huérfanos)   | ⏳ Pendiente |
 
@@ -234,10 +234,49 @@ el `factory`/`LaunchedEffect`. Los animadores se guardan en `remember` para pode
 
 ---
 
-## Fase 4 — Ajustes
+## Fase 4 — Ajustes (completada)
 
-- `PreferenceFragmentCompat` → pantalla Compose con lista de opciones.
-- Leer/escribir usando el mismo `SharedPrefUtil` para no cambiar el almacenamiento.
+`SettingsActivity` queda como host delgado (`setContent`). `PreferenceFragmentCompat` y su
+`OnSharedPreferenceChangeListener` se eliminan. La pantalla `SettingsScreen` lee/escribe
+directamente en `SharedPrefUtil`, fuente única de verdad compartida con el sistema de
+notificaciones.
+
+**Archivos nuevos:**
+- `core/ui/compose/SettingsScreen.kt` — pantalla Compose con secciones notificaciones,
+  modo noche (API < Q), ads consent (condicional), y acerca de.
+
+**Archivos modificados:**
+- `core/ui/SettingsActivity.kt` → host delgado con `setContent`; lógica de modo noche y
+  consent form como callbacks.
+- `core/services/NightModeService.kt` → lee de `SharedPrefUtil` en vez de default prefs,
+  con fallback de migración via `readBoolMigrating`.
+- `core/utils/SharedPrefUtil.kt` → añadidos `readBoolMigrating` y `readStringMigrating`
+  para migración transparente de valores persistidos por el antiguo `PreferenceFragmentCompat`.
+- `core/utils/DataModelExt.kt` → añadidos `openPrivacyPolicy()` y `sendContactEmail()`
+  como extensiones de `Context`, moviendo los intents de la Activity a funciones puras.
+- `core/utils/LifecycleExt.kt` → propaga `sharedPrefUtil` a `NightModeService`.
+- `core/ui/MainActivity.kt` → eliminada llamada a `PreferenceManager.setDefaultValues`
+  (ya no hay `PreferenceFragment`; defaults son explícitos en cada llamada).
+
+**Archivos borrados:**
+- `res/layout/settings_activity.xml`
+- `res/xml/root_preferences.xml`
+
+**Decisiones clave:**
+- **Fuente única de almacenamiento:** Todas las lecturas y escrituras van a `SharedPrefUtil`
+  (`"lastquakechile"`). El antiguo flujo tenía doble archivo: el `PreferenceFragmentCompat`
+  escribía en default-prefs y un listener espejaba manualmente a `SharedPrefUtil`. Compose
+  lo unifica.
+- **Migración transparente:** `readBoolMigrating`/`readStringMigrating` leen de
+  `SharedPrefUtil` con fallback a default-prefs, por lo que usuarios con valores persistidos
+  antes de la migración no pierden sus preferencias.
+- **Bug suscripción corregido:** El switch de alertas persiste en `SharedPrefUtil` bajo la
+  clave `pref_suscrito_quake`, donde `setUpNotificationService` la lee en cada arranque.
+  Antes, el switch escribía solo en default-prefs y un OFF se perdía al reiniciar.
+- **Diálogo magnitud mínima:** Reemplaza el `EditTextPreference` por un `AlertDialog` de
+  Compose con `OutlinedTextField` y validación `toDoubleOrNull()` antes de persistir.
+- **Modo noche:** Solo visible en API < Q (igual que en el XML). El callback
+  `onNightModeChanged` llama a `setDefaultNightMode` + `recreate()` en la Activity.
 
 ---
 
