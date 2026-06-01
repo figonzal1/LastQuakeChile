@@ -1,8 +1,8 @@
 [versions]
 agp = "9.2.1"
 coil = "3.4.0"
-compose-bom = "2025.05.00"
-kotlin = "2.3.20"
+compose-bom = "2026.05.01"
+kotlin = "2.3.21"
 # sept. 2024 (NO ACTUALIZAR)
 espresso = "3.7.0"
 espresso-contrib = "3.7.0"
@@ -23,7 +23,7 @@ androidx-core-splashscreen = "androidx.core:core-splashscreen:1.2.0"
 androidx-appcompat = "androidx.appcompat:appcompat:1.7.1"
 androidx-constraintlayout = "androidx.constraintlayout:constraintlayout:2.2.1"
 androidx-preference-ktx = "androidx.preference:preference-ktx:1.2.1"
-material = "com.google.android.material:material:1.13.0"
+material = "com.google.android.material:material:1.14.0"
 # Lifecycle
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle" }
 # Coroutines
@@ -45,15 +45,15 @@ moshi-kotlin-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", ver
 coil = { module = "io.coil-kt.coil3:coil", version.ref = "coil" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 # Compose
-androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
-androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
-androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
-androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
-androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
-androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
-androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
-androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
-androidx-activity-compose = "androidx.activity:activity-compose:1.10.1"
+androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
+androidx-compose-ui = { module = "androidx.compose.ui:ui" }
+androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+androidx-compose-material3 = { module = "androidx.compose.material3:material3" }
+androidx-compose-foundation = { module = "androidx.compose.foundation:foundation" }
+androidx-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
+androidx-compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
+androidx-activity-compose = "androidx.activity:activity-compose:1.13.0"
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle" }
 # Koin Compose
@@ -61,18 +61,18 @@ koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", versi
 # Koin
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 # Firebase
-com-google-firebase-firebase-bom = "com.google.firebase:firebase-bom:34.13.0"
+com-google-firebase-firebase-bom = "com.google.firebase:firebase-bom:34.14.0"
 com-google-firebase-firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 com-google-firebase-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 com-google-firebase-firebase-perf = { module = "com.google.firebase:firebase-perf" }
 com-google-firebase-firebase-messaging = { module = "com.google.firebase:firebase-messaging" }
 # Google Play
-com-google-android-gms-play-services-ads = "com.google.android.gms:play-services-ads:25.2.0"
+com-google-android-gms-play-services-ads = "com.google.android.gms:play-services-ads:25.3.0"
 com-google-android-play-app-update = "com.google.android.play:app-update:2.1.0"
 com-google-android-ump-user-messaging-platform = "com.google.android.ump:user-messaging-platform:4.0.0"
 com-google-android-gms-play-services-maps = "com.google.android.gms:play-services-maps:20.0.0"
 com-google-maps-android-maps-ktx = "com.google.maps.android:maps-ktx:6.0.1"
-com-google-maps-android-android-maps-utils = "com.google.maps.android:android-maps-utils:4.3.0"
+com-google-maps-android-android-maps-utils = "com.google.maps.android:android-maps-utils:4.4.0"
 # Misc
 com-jakewharton-timber = "com.jakewharton.timber:timber:5.0.1"
 com-android-tools-desugar_jdk_libs = "com.android.tools:desugar_jdk_libs:2.1.5"
@@ -104,8 +104,8 @@ google-play = [
     "com-google-android-gms-play-services-maps",
     "com-google-android-play-app-update",
     "com-google-android-ump-user-messaging-platform",
-    "com-google-maps-android-maps-ktx",
     "com-google-maps-android-android-maps-utils",
+    "com-google-maps-android-maps-ktx",
 ]
 firebase = [
     "com-google-firebase-firebase-analytics",
@@ -117,7 +117,7 @@ firebase = [
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-com-google-devtools-ksp = "com.google.devtools.ksp:2.3.7"
+com-google-devtools-ksp = "com.google.devtools.ksp:2.3.9"
 com-google-android-libraries-mapsplatform-secrets-gradle-plugin = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:2.0.1"
 com-google-gms-google-services = "com.google.gms.google-services:4.4.4"
 com-google-firebase-crashlytics = "com.google.firebase.crashlytics:3.0.7"
