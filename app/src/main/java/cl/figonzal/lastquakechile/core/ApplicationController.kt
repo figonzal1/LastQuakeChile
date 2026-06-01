@@ -3,6 +3,7 @@ package cl.figonzal.lastquakechile.core
 import android.app.Application
 import cl.figonzal.lastquakechile.BuildConfig
 import cl.figonzal.lastquakechile.core.di.appModule
+import cl.figonzal.lastquakechile.onboarding_feature.di.onboardingModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.fragment.koin.fragmentFactory
@@ -31,7 +32,7 @@ class ApplicationController : Application() {
 
             fragmentFactory()
 
-            modules(appModule)//, instrumentationTestModule)
+            modules(appModule, onboardingModule)//, instrumentationTestModule)
         }
 
         when {

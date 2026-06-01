@@ -10,8 +10,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import android.content.Intent
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.services.UpdaterService
+import cl.figonzal.lastquakechile.onboarding_feature.data.OnboardingPreferences
+import cl.figonzal.lastquakechile.onboarding_feature.ui.OnboardingActivity
 import cl.figonzal.lastquakechile.core.services.notifications.utils.getFirebaseToken
 import cl.figonzal.lastquakechile.core.services.notifications.utils.setUpNotificationService
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
@@ -42,6 +45,7 @@ class MainActivity : AppCompatActivity() {
 
     private val sharedPrefUtil: SharedPrefUtil by inject()
     private val ioDispatcher: CoroutineDispatcher by inject(named("ioDispatcher"))
+    private val onboardingPrefs: OnboardingPreferences by inject()
 
     private var adView: AdView? = null
     private var updaterService: UpdaterService? = null
@@ -51,6 +55,12 @@ class MainActivity : AppCompatActivity() {
         setupKoinFragmentFactory()
         super.onCreate(savedInstanceState)
         installSplashScreen()
+
+        if (!onboardingPrefs.isCompleted()) {
+            startActivity(Intent(this, OnboardingActivity::class.java))
+            finish()
+            return
+        }
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

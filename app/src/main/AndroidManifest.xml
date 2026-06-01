@@ -53,6 +53,10 @@
                 android:resource="@xml/shortcuts" />
         </activity>
         <activity
+            android:name=".onboarding_feature.ui.OnboardingActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".quake_feature.ui.QuakeDetailsActivity"
             android:parentActivityName=".core.ui.MainActivity"
             tools:ignore="LockedOrientationActivity">
