@@ -77,7 +77,8 @@ fun NativeAdCard(modifier: Modifier = Modifier) {
         ) {
             AndroidView(
                 factory = { ctx ->
-                    (LayoutInflater.from(ctx).inflate(R.layout.ad_small_template, null, false) as NativeAdView)
+                    (LayoutInflater.from(ctx)
+                        .inflate(R.layout.ad_small_template, null, false) as NativeAdView)
                         .also { populateNativeAdView(ad, it) }
                 },
                 update = { adView -> populateNativeAdView(ad, adView) },

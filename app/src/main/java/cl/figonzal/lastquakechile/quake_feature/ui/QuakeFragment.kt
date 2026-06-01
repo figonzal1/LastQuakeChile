@@ -4,11 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.ui.theme.LastQuakeChileTheme
 import cl.figonzal.lastquakechile.core.utils.views.configOptionsMenu

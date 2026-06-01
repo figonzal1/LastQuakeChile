@@ -95,43 +95,44 @@ internal fun ReportsContent(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-    Box(modifier = Modifier.fillMaxSize()) {
-        when {
-            state.reports.isEmpty() && state.domainError != null && state.domainError != DomainError.NoMoreData -> {
-                ErrorContent(
-                    error = state.domainError,
-                    onRetry = onRetry,
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
-            else -> {
-                ReportsList(
-                    reports = state.reports,
-                    isLoading = state.isLoading,
-                    isLastPage = state.isLastPage,
-                    onLoadMore = onLoadMore
-                )
-            }
-        }
+        Box(modifier = Modifier.fillMaxSize()) {
+            when {
+                state.reports.isEmpty() && state.domainError != null && state.domainError != DomainError.NoMoreData -> {
+                    ErrorContent(
+                        error = state.domainError,
+                        onRetry = onRetry,
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
 
-        // Barra horizontal en la parte superior, igual que progressBarStyleHorizontal del XML.
-        // secondary (cyan) es visible en light y dark. trackColor transparent elimina el
-        // fondo gris de M3 que no existía en el M2 ProgressBar.
-        if (state.isLoading) {
-            LinearProgressIndicator(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.TopCenter),
-                color = MaterialTheme.colorScheme.secondary,
-                trackColor = Color.Transparent
+                else -> {
+                    ReportsList(
+                        reports = state.reports,
+                        isLoading = state.isLoading,
+                        isLastPage = state.isLastPage,
+                        onLoadMore = onLoadMore
+                    )
+                }
+            }
+
+            // Barra horizontal en la parte superior, igual que progressBarStyleHorizontal del XML.
+            // secondary (cyan) es visible en light y dark. trackColor transparent elimina el
+            // fondo gris de M3 que no existía en el M2 ProgressBar.
+            if (state.isLoading) {
+                LinearProgressIndicator(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.TopCenter),
+                    color = MaterialTheme.colorScheme.secondary,
+                    trackColor = Color.Transparent
+                )
+            }
+
+            SnackbarHost(
+                hostState = snackbarHostState,
+                modifier = Modifier.align(Alignment.BottomCenter)
             )
-        }
-
-        SnackbarHost(
-            hostState = snackbarHostState,
-            modifier = Modifier.align(Alignment.BottomCenter)
-        )
-    } // Box
+        } // Box
     } // Surface
 }
 

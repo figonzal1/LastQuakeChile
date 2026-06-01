@@ -66,6 +66,7 @@ fun SharedPrefUtil.readBoolMigrating(context: Context, key: String, default: Boo
 
 /** String counterpart of [readBoolMigrating]. */
 fun SharedPrefUtil.readStringMigrating(context: Context, key: String, default: String): String {
-    val legacy = PreferenceManager.getDefaultSharedPreferences(context).getString(key, default) ?: default
+    val legacy =
+        PreferenceManager.getDefaultSharedPreferences(context).getString(key, default) ?: default
     return getData(key, legacy)
 }

@@ -11,8 +11,16 @@ import com.google.android.gms.maps.MapView
  */
 class MapViewInScroll : MapView {
     constructor(context: Context?) : super(requireNotNull(context))
-    constructor(context: Context?, attributeSet: AttributeSet?) : super(requireNotNull(context), attributeSet)
-    constructor(context: Context?, attributeSet: AttributeSet?, i: Int) : super(requireNotNull(context), requireNotNull(attributeSet), i)
+    constructor(context: Context?, attributeSet: AttributeSet?) : super(
+        requireNotNull(context),
+        attributeSet
+    )
+
+    constructor(context: Context?, attributeSet: AttributeSet?, i: Int) : super(
+        requireNotNull(
+            context
+        ), requireNotNull(attributeSet), i
+    )
 
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
         parent.requestDisallowInterceptTouchEvent(true)

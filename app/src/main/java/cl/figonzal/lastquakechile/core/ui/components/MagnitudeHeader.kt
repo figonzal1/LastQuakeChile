@@ -65,7 +65,9 @@ fun MagnitudeHeader(
 
         Spacer(modifier = Modifier.width(16.dp))
 
-        Column(modifier = Modifier.weight(1f).padding(top = 4.dp)) {
+        Column(modifier = Modifier
+            .weight(1f)
+            .padding(top = 4.dp)) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()

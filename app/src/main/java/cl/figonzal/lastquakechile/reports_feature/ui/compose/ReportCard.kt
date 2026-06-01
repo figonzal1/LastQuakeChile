@@ -61,7 +61,10 @@ fun ReportCard(report: Report, modifier: Modifier = Modifier) {
             HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
 
             ReportStatRow(stringResource(R.string.n_report_quakes), report.nQuakes.toString())
-            ReportStatRow(stringResource(R.string.n_quakes_sensitives), report.nSensitive.toString())
+            ReportStatRow(
+                stringResource(R.string.n_quakes_sensitives),
+                report.nSensitive.toString()
+            )
             ReportStatRow(stringResource(R.string.magnitude_mean), "${report.promMagnitude}")
             ReportStatRow(stringResource(R.string.mean_depth_epicentre), "${report.promDepth} km")
             ReportStatRow(stringResource(R.string.max_magnitude), "${report.maxMagnitude}")
@@ -145,7 +148,11 @@ private fun ReportCardLightPreview() {
     }
 }
 
-@Preview(showBackground = true, uiMode = android.content.res.Configuration.UI_MODE_NIGHT_YES, name = "ReportCard — Dark")
+@Preview(
+    showBackground = true,
+    uiMode = android.content.res.Configuration.UI_MODE_NIGHT_YES,
+    name = "ReportCard — Dark"
+)
 @Composable
 private fun ReportCardDarkPreview() {
     LastQuakeChileTheme(darkTheme = true) {

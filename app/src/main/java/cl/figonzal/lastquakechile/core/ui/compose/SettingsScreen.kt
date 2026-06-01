@@ -1,11 +1,11 @@
 package cl.figonzal.lastquakechile.core.ui.compose
 
 import android.os.Build
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
-import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
@@ -25,6 +25,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.dp
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -43,7 +44,6 @@ import cl.figonzal.lastquakechile.core.utils.readBoolMigrating
 import cl.figonzal.lastquakechile.core.utils.readStringMigrating
 import cl.figonzal.lastquakechile.core.utils.sendContactEmail
 import cl.figonzal.lastquakechile.core.utils.views.toast
-import androidx.compose.foundation.text.KeyboardOptions
 
 /**
  * Compose settings screen. Reads/writes directly to [SharedPrefUtil], the single source of
@@ -92,7 +92,13 @@ fun SettingsScreen(
         mutableStateOf(sharedPrefUtil.readBoolMigrating(context, highPriorityKey, true))
     }
     var minMagnitude by remember {
-        mutableStateOf(sharedPrefUtil.readStringMigrating(context, minMagnitudeKey, MIN_MAGNITUDE_ALERT))
+        mutableStateOf(
+            sharedPrefUtil.readStringMigrating(
+                context,
+                minMagnitudeKey,
+                MIN_MAGNITUDE_ALERT
+            )
+        )
     }
     var nightModeOn by remember {
         mutableStateOf(sharedPrefUtil.readBoolMigrating(context, nightModeKey, false))

@@ -56,8 +56,10 @@ fun QuakeMap(
             factory = {
                 mapView.apply {
                     getMapAsync { googleMap ->
-                        val quakeMagColor = context.getColor(getMagnitudeColor(quake.magnitude, true))
-                        val greyAlpha = context.getColor(cl.figonzal.lastquakechile.R.color.grey_dark_alpha)
+                        val quakeMagColor =
+                            context.getColor(getMagnitudeColor(quake.magnitude, true))
+                        val greyAlpha =
+                            context.getColor(cl.figonzal.lastquakechile.R.color.grey_dark_alpha)
                         val latLng = LatLng(quake.coordinate.latitude, quake.coordinate.longitude)
 
                         googleMap.apply {
@@ -100,7 +102,8 @@ fun QuakeMap(
                                     setEvaluator(IntEvaluator())
                                     interpolator = AccelerateDecelerateInterpolator()
                                     addUpdateListener { animator ->
-                                        this@animate.radius = (animator.animatedFraction * 140000).toDouble()
+                                        this@animate.radius =
+                                            (animator.animatedFraction * 140000).toDouble()
                                     }
                                     start()
                                 }
@@ -121,7 +124,8 @@ fun QuakeMap(
                                     setEvaluator(IntEvaluator())
                                     interpolator = AccelerateDecelerateInterpolator()
                                     addUpdateListener { animator ->
-                                        this@animate.radius = (animator.animatedFraction * 140000).toDouble()
+                                        this@animate.radius =
+                                            (animator.animatedFraction * 140000).toDouble()
                                     }
                                     start()
                                 }

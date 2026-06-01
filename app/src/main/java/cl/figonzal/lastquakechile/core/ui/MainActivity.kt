@@ -1,6 +1,7 @@
 package cl.figonzal.lastquakechile.core.ui
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -10,11 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import android.content.Intent
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.services.UpdaterService
-import cl.figonzal.lastquakechile.onboarding_feature.data.OnboardingPreferences
-import cl.figonzal.lastquakechile.onboarding_feature.ui.OnboardingActivity
 import cl.figonzal.lastquakechile.core.services.notifications.utils.getFirebaseToken
 import cl.figonzal.lastquakechile.core.services.notifications.utils.setUpNotificationService
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
@@ -24,6 +22,8 @@ import cl.figonzal.lastquakechile.core.utils.startAds
 import cl.figonzal.lastquakechile.core.utils.views.handleShortcuts
 import cl.figonzal.lastquakechile.core.utils.views.loadImage
 import cl.figonzal.lastquakechile.databinding.ActivityMainBinding
+import cl.figonzal.lastquakechile.onboarding_feature.data.OnboardingPreferences
+import cl.figonzal.lastquakechile.onboarding_feature.ui.OnboardingActivity
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import com.google.android.material.appbar.AppBarLayout

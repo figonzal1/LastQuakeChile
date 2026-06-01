@@ -19,10 +19,12 @@ val OnPrimaryDarkTheme = Color(0xCCFFFFFF)
 val SecondaryBlueDarkTheme = Color(0xFF006994)
 val OnSecondaryDarkTheme = Color(0xFFFFFFFF)
 val SurfaceDark = Color(0xFF323236)
+
 // M2 textColorPrimary alto énfasis = 87% blanco (0xDE). El 0x8C original era
 // colorOnSurface de M2 para elementos secundarios, no para texto primario.
 val OnSurfaceDark = Color(0xDEFFFFFF)
 val BackgroundDark = Color(0xFF28282C)
+
 // M2 colorOnSurface secondary/caption emphasis = 55% white/black (medium emphasis)
 val OnSurfaceVariantDark = Color(0x8CFFFFFF)
 val OnSurfaceVariantLight = Color(0x8C000000)

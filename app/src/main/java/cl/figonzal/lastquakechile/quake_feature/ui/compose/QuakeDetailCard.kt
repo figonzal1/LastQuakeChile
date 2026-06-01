@@ -41,52 +41,52 @@ fun QuakeDetailCard(quake: Quake, modifier: Modifier = Modifier) {
         modifier = modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
-    Column(modifier = Modifier.fillMaxWidth()) {
-        MagnitudeHeader(quake = quake)
+        Column(modifier = Modifier.fillMaxWidth()) {
+            MagnitudeHeader(quake = quake)
 
-        HorizontalDivider(modifier = Modifier.padding(top = 16.dp))
+            HorizontalDivider(modifier = Modifier.padding(top = 16.dp))
 
-        // Two-column grid: left (datetime + coords), right (depth + scale)
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 8.dp, bottom = 16.dp)
-        ) {
-            // Left column: date/hour + position DMS
-            Column(modifier = Modifier.weight(1f)) {
-                DetailCell(
-                    iconRes = R.drawable.round_date_range_24,
-                    iconCd = stringResource(R.string.cd_datetime_icon),
-                    title = stringResource(R.string.date_time_title),
-                    value = quake.localDate
-                )
-                Spacer(Modifier.height(8.dp))
-                DetailCell(
-                    iconRes = R.drawable.round_near_me_24,
-                    iconCd = stringResource(R.string.gms_icon),
-                    title = stringResource(R.string.gms_title),
-                    value = coordinateToDMS(context, quake.coordinate)
-                )
+            // Two-column grid: left (datetime + coords), right (depth + scale)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp, bottom = 16.dp)
+            ) {
+                // Left column: date/hour + position DMS
+                Column(modifier = Modifier.weight(1f)) {
+                    DetailCell(
+                        iconRes = R.drawable.round_date_range_24,
+                        iconCd = stringResource(R.string.cd_datetime_icon),
+                        title = stringResource(R.string.date_time_title),
+                        value = quake.localDate
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    DetailCell(
+                        iconRes = R.drawable.round_near_me_24,
+                        iconCd = stringResource(R.string.gms_icon),
+                        title = stringResource(R.string.gms_title),
+                        value = coordinateToDMS(context, quake.coordinate)
+                    )
+                }
+
+                // Right column: depth + scale
+                Column(modifier = Modifier.weight(1f)) {
+                    DetailCell(
+                        iconRes = R.drawable.round_height_24,
+                        iconCd = stringResource(R.string.cd_depth_icon),
+                        title = stringResource(R.string.depth_title),
+                        value = String.format(Locale.getDefault(), "%.1f Km", quake.depth)
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    DetailCell(
+                        iconRes = R.drawable.round_ruler_24,
+                        iconCd = stringResource(R.string.cd_scale_icon),
+                        title = stringResource(R.string.scale_title),
+                        value = quakeScaleText(context, quake.scale)
+                    )
+                }
             }
-
-            // Right column: depth + scale
-            Column(modifier = Modifier.weight(1f)) {
-                DetailCell(
-                    iconRes = R.drawable.round_height_24,
-                    iconCd = stringResource(R.string.cd_depth_icon),
-                    title = stringResource(R.string.depth_title),
-                    value = String.format(Locale.getDefault(), "%.1f Km", quake.depth)
-                )
-                Spacer(Modifier.height(8.dp))
-                DetailCell(
-                    iconRes = R.drawable.round_ruler_24,
-                    iconCd = stringResource(R.string.cd_scale_icon),
-                    title = stringResource(R.string.scale_title),
-                    value = quakeScaleText(context, quake.scale)
-                )
-            }
-        }
-    } // Column
+        } // Column
     } // Card
 }
 

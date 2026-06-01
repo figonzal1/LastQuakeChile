@@ -91,23 +91,26 @@ fun MapsScreen(
                     isCompassEnabled = false
                 }
 
-                cluster.clusterManager = ClusterManager<QuakeClusterItem>(context, this).also { cm ->
-                    setOnCameraIdleListener(cm)
-                    setOnMarkerClickListener(cm)
+                cluster.clusterManager =
+                    ClusterManager<QuakeClusterItem>(context, this).also { cm ->
+                        setOnCameraIdleListener(cm)
+                        setOnMarkerClickListener(cm)
 
-                    cm.setOnClusterItemClickListener { item ->
-                        cluster.lastMarker?.setIcon(BitmapDescriptorFactory.defaultMarker())
-                        val marker =
-                            (cm.renderer as? DefaultClusterRenderer<QuakeClusterItem>)?.getMarker(item)
-                        marker?.setIcon(
-                            BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)
-                        )
-                        cluster.lastMarker = marker
+                        cm.setOnClusterItemClickListener { item ->
+                            cluster.lastMarker?.setIcon(BitmapDescriptorFactory.defaultMarker())
+                            val marker =
+                                (cm.renderer as? DefaultClusterRenderer<QuakeClusterItem>)?.getMarker(
+                                    item
+                                )
+                            marker?.setIcon(
+                                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)
+                            )
+                            cluster.lastMarker = marker
 
-                        selectedQuake = item.quake
-                        true
+                            selectedQuake = item.quake
+                            true
+                        }
                     }
-                }
 
                 setOnMapClickListener { selectedQuake = null }
             }

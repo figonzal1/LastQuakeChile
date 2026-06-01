@@ -51,9 +51,9 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.domain.DomainError
-import cl.figonzal.lastquakechile.core.services.notifications.utils.SHARED_PREF_PERMISSION_ASKED_ONCE
-import cl.figonzal.lastquakechile.core.services.notifications.utils.SHARED_PREF_PERMISSION_ALERT_ANDROID_13
 import cl.figonzal.lastquakechile.core.services.notifications.utils.ROOT_PREF_SUBSCRIPTION
+import cl.figonzal.lastquakechile.core.services.notifications.utils.SHARED_PREF_PERMISSION_ALERT_ANDROID_13
+import cl.figonzal.lastquakechile.core.services.notifications.utils.SHARED_PREF_PERMISSION_ASKED_ONCE
 import cl.figonzal.lastquakechile.core.services.notifications.utils.subscribedToQuakes
 import cl.figonzal.lastquakechile.core.ui.theme.LastQuakeChileTheme
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil

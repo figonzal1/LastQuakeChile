@@ -106,7 +106,8 @@ private sealed interface AdState {
 private fun NativeAdContent(nativeAd: NativeAd) {
     AndroidView(
         factory = { ctx ->
-            (LayoutInflater.from(ctx).inflate(R.layout.ad_fragment_template, null, false) as NativeAdView)
+            (LayoutInflater.from(ctx)
+                .inflate(R.layout.ad_fragment_template, null, false) as NativeAdView)
                 .also { populateNativeAdView(nativeAd, it) }
         },
         update = { adView -> populateNativeAdView(nativeAd, adView) },

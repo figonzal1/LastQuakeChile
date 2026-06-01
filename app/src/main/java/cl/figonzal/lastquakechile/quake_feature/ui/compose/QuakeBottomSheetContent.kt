@@ -71,7 +71,12 @@ fun QuakeBottomSheetContent(
             Spacer(Modifier.width(8.dp))
 
             OutlinedButton(
-                onClick = { context.openQuakeDetails(quake, isSnapshotRequestInBottomSheet = true) },
+                onClick = {
+                    context.openQuakeDetails(
+                        quake,
+                        isSnapshotRequestInBottomSheet = true
+                    )
+                },
                 colors = buttonColors
             ) {
                 Icon(

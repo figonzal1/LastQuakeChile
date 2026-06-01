@@ -157,7 +157,7 @@ fun getMinMagnitude(
     val savedMinMag = sharedPrefUtil.getData(
         minMagnitudeKey,
         MIN_MAGNITUDE_ALERT
-    ).toString()
+    )
 
     Timber.d("$minMagnitudeKey: ${savedMinMag.toDouble()}")
     crashlytics.setCustomKey(minMagnitudeKey, savedMinMag)
