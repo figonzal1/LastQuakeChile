@@ -6,19 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.DrawableRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
-import org.koin.android.ext.android.inject
-import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.data.remote.ApiError
+import cl.figonzal.lastquakechile.core.domain.DomainError
 import cl.figonzal.lastquakechile.core.services.notifications.utils.handleCvAlertPermission
+import cl.figonzal.lastquakechile.core.services.notifications.utils.onNotificationPermissionResult
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.views.configOptionsMenu
 import cl.figonzal.lastquakechile.core.utils.views.showServerApiError
@@ -26,6 +27,7 @@ import cl.figonzal.lastquakechile.databinding.FragmentQuakeBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import timber.log.Timber
 
@@ -38,6 +40,20 @@ class QuakeFragment : Fragment() {
 
     private var _binding: FragmentQuakeBinding? = null
     private val binding get() = _binding!!
+
+    // Must be registered before onStart — fragment property initializer is the correct place.
+    private val notificationPermissionLauncher: ActivityResultLauncher<String> =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            _binding?.let { handlePermissionResult(isGranted, it) }
+        }
+
+    private fun handlePermissionResult(isGranted: Boolean, binding: FragmentQuakeBinding) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val sharedPrefUtil = SharedPrefUtil(requireContext())
+            onNotificationPermissionResult(isGranted, sharedPrefUtil)
+            handleCvAlertPermission(binding, sharedPrefUtil, notificationPermissionLauncher)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -74,117 +90,71 @@ class QuakeFragment : Fragment() {
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                handleCvAlertPermission(binding, SharedPrefUtil(requireContext()))
+                handleCvAlertPermission(
+                    binding,
+                    SharedPrefUtil(requireContext()),
+                    notificationPermissionLauncher
+                )
             }
         }
     }
 
     private fun handleQuakeState() {
-
         viewLifecycleOwner.lifecycleScope.launch {
-
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-
-                launch { processFirstPage() }
-
-                launch { processNextPage() }
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch { collectUiState() }
+                launch { collectErrors() }
             }
         }
         viewModel.getFirstPageQuakes()
     }
 
-    private suspend fun processFirstPage() {
-        viewModel.firstPageState.collectLatest {
-
+    private suspend fun collectUiState() {
+        viewModel.uiState.collectLatest { state ->
             when {
-                it.isLoading -> loadingUI()
-
-                //Check if apiError exists
-                it.apiError != null -> handleErrors(it.quakes.toList())
-
-                //If api error is null, show updated list from network
-                it.quakes.isNotEmpty() -> {
-                    showListUI(it.quakes.toList())
-                }
-            }
-        }
-
-    }
-
-    private suspend fun processNextPage() {
-        viewModel.nextPagesState.collectLatest {
-
-            when {
-                it.isLoading -> loadingUI()
-
-                //Check if apiError exists
-                it.apiError != null -> handleErrors(it.quakes.toList())
-
-                //If api error is null, show updated list from network
-                it.quakes.isNotEmpty() -> {
-
-                    showListUI(it.quakes.toList())
-
-                    val totalPages = it.quakes.size / QUERY_PAGE_SIZE + 2
-                    isLastPage = viewModel.actualIndexPage == totalPages
-
-                    if (isLastPage) {
-                        binding.recycleViewQuakes.setPadding(0, 0, 0, 0)
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Handle api error and show cached results
-     *
-     * If the list is empty show includeErrorMessage
-     * Otherwise show toast with error and cached list
-     */
-    private fun handleErrors(quakes: List<Quake>) {
-
-        viewLifecycleOwner.lifecycleScope.launch {
-
-            viewModel.errorState
-                .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
-                .collectLatest {
-
-                    Timber.d("COLLECT ERROR STATE: $it")
-
+                state.isLoading -> loadingUI()
+                state.domainError != null -> {
                     with(binding) {
-
                         progressBarQuakes.visibility = View.GONE
-
+                        val quakes = state.quakes
                         when {
-                            quakes.isEmpty() && it != ApiError.NoMoreData -> {
+                            quakes.isEmpty() && state.domainError != DomainError.NoMoreData -> {
                                 includeErrorMessage.root.visibility = View.VISIBLE
                                 tvCacheCopy.visibility = View.GONE
-
                                 includeErrorMessage.btnRetry.setOnClickListener {
                                     viewModel.getFirstPageQuakes()
                                 }
-
-                                if (it == ApiError.EmptyList) {
-                                    includeErrorMessage.btnRetry.visibility = View.GONE
-                                }
+                                includeErrorMessage.btnRetry.visibility =
+                                    if (state.domainError == DomainError.EmptyList) View.GONE else View.VISIBLE
                             }
 
-                            quakes.isEmpty() && it == ApiError.NoMoreData -> {
+                            quakes.isEmpty() && state.domainError == DomainError.NoMoreData -> {
                                 includeErrorMessage.root.visibility = View.GONE
                             }
 
                             else -> {
                                 quakeAdapter.quakes = quakes
                                 tvCacheCopy.visibility = View.VISIBLE
+                                includeErrorMessage.root.visibility = View.GONE
                             }
                         }
-                        showServerApiError(it) { iconId, message ->
-                            configErrorStatusMsg(iconId, message)
-                        }
-
                     }
                 }
+
+                state.quakes.isNotEmpty() -> showListUI(state.quakes)
+            }
+            if (state.isLastPage) {
+                binding.recycleViewQuakes.setPadding(0, 0, 0, 0)
+            }
+        }
+    }
+
+    private suspend fun collectErrors() {
+        viewModel.errorState.collect { error ->
+            Timber.d("COLLECT ERROR STATE: $error")
+            showServerApiError(error) { iconId, message ->
+                configErrorStatusMsg(iconId, message)
+            }
         }
     }
 
@@ -199,31 +169,22 @@ class QuakeFragment : Fragment() {
 
     private fun loadingUI() {
         with(binding) {
-            isLoading = true
             progressBarQuakes.visibility = View.VISIBLE
             includeErrorMessage.root.visibility = View.GONE
         }
     }
 
     private fun showListUI(quakes: List<Quake>) {
-
-        //Load quakes
         quakeAdapter.quakes = quakes
-
         with(binding) {
-            View.GONE.apply {
-                isLoading = false
-                progressBarQuakes.visibility = this
-                includeErrorMessage.root.visibility = this
-                tvCacheCopy.visibility = this
-            }
+            progressBarQuakes.visibility = View.GONE
+            includeErrorMessage.root.visibility = View.GONE
+            tvCacheCopy.visibility = View.GONE
             Timber.d("Showing quake list in fragment")
         }
     }
 
-    var isLoading = false
-    var isLastPage = false
-    var isScrolling = false
+    private var isScrolling = false
 
     private val scrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -234,7 +195,8 @@ class QuakeFragment : Fragment() {
             val visibleItemCount = layoutManager.childCount
             val totalItemCount = layoutManager.itemCount
 
-            val isNotLoadingAndNotLastPage = !isLoading && !isLastPage
+            val uiState = viewModel.uiState.value
+            val isNotLoadingAndNotLastPage = !uiState.isLoading && !uiState.isLastPage
             val isAtLastItem = firstVisibleItemPosition + visibleItemCount >= totalItemCount
             val isNotAtBeginning = firstVisibleItemPosition >= 0
             val isTotalMoreThanVisible = totalItemCount >= QUERY_PAGE_SIZE
@@ -254,6 +216,22 @@ class QuakeFragment : Fragment() {
             super.onScrollStateChanged(recyclerView, newState)
             if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
                 isScrolling = true
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Re-evaluate the permission cardview whenever the fragment becomes visible.
+        // Covers the case where the user returns from system Settings after granting/revoking
+        // POST_NOTIFICATIONS — otherwise the card stays stuck on its previous state.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            _binding?.let {
+                handleCvAlertPermission(
+                    it,
+                    SharedPrefUtil(requireContext()),
+                    notificationPermissionLauncher
+                )
             }
         }
     }

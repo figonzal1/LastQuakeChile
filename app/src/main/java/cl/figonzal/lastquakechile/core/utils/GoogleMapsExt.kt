@@ -20,39 +20,9 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Circle
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
-import com.google.maps.android.ktx.addCircle
-import com.google.maps.android.ktx.addMarker
 import timber.log.Timber
 import java.io.IOException
 import java.util.Locale
-
-
-fun GoogleMap.loadPins(quakeList: List<Quake>, context: Context) {
-
-    for (quake in quakeList) {
-
-        //LatLong of quake
-        val epicentre = LatLng(quake.coordinate.latitude, quake.coordinate.longitude)
-
-        //Search magnitude color
-        val quakeColor = getMagnitudeColor(quake.magnitude, true)
-
-        apply {
-
-            addMarker {
-                position(epicentre)
-                alpha(0.9f)
-            }?.tag = quake
-
-            addCircle {
-                center(epicentre)
-                radius(10000 * quake.magnitude)
-                fillColor(context.getColor(quakeColor))
-                strokeColor(context.getColor(R.color.grey_dark_alpha))
-            }
-        }
-    }
-}
 
 /**
  * Night mode for google map

@@ -2,14 +2,14 @@ package cl.figonzal.lastquakechile.quake_feature.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cl.figonzal.lastquakechile.core.data.remote.ApiError
-import cl.figonzal.lastquakechile.core.data.remote.StatusAPI
-import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
-import cl.figonzal.lastquakechile.quake_feature.domain.uses_cases.GetQuakesUseCase
-import kotlinx.coroutines.channels.Channel
+import cl.figonzal.lastquakechile.core.domain.DomainError
+import cl.figonzal.lastquakechile.core.domain.DomainResult
+import cl.figonzal.lastquakechile.quake_feature.domain.use_case.GetQuakesUseCase
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -18,57 +18,43 @@ class QuakeViewModel(
     private val getQuakesUseCase: GetQuakesUseCase
 ) : ViewModel() {
 
-    var actualIndexPage = 1
-    private var oldList: MutableList<Quake>? = null
+    private var currentPage = 1
 
-    private val _nextPageState = MutableStateFlow(QuakeState())
-    val nextPagesState = _nextPageState.asStateFlow()
+    private val _uiState = MutableStateFlow(QuakeState())
+    val uiState = _uiState.asStateFlow()
 
-    private val _firstPageState = MutableStateFlow(QuakeState())
-    val firstPageState = _firstPageState.asStateFlow()
-
-    private val _errorState = Channel<ApiError>()
-    val errorState = _errorState.receiveAsFlow()
+    private val _errorState = MutableSharedFlow<DomainError>(
+        extraBufferCapacity = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+    val errorState = _errorState.asSharedFlow()
 
     fun getFirstPageQuakes() {
-
         viewModelScope.launch {
+            currentPage = 1
+            _uiState.update { it.copy(isLoading = true, domainError = null, isLastPage = false) }
 
-            actualIndexPage = 1
-            _firstPageState.update { it.copy(isLoading = true) }
+            getQuakesUseCase(0).collect { result ->
+                Timber.d("FIRST PAGE STATE $result")
 
-            getQuakesUseCase(0).collect { statusApi ->
-
-                Timber.d("FIRST PAGE STATE $statusApi")
-
-                val data = statusApi.data
-                val apiError = statusApi.apiError
-
-                when (statusApi) {
-
-                    is StatusAPI.Error -> {
-
-                        apiError?.let {
-                            _firstPageState.update { state ->
-                                state.copy(
-                                    isLoading = false,
-                                    apiError = it,
-                                    quakes = data as List<Quake> //cached list
-                                )
-                            }
-                            _errorState.send(it)
+                when (result) {
+                    is DomainResult.Error -> {
+                        _uiState.update { state ->
+                            state.copy(
+                                isLoading = false,
+                                domainError = result.error,
+                                quakes = result.data
+                            )
                         }
+                        _errorState.tryEmit(result.error)
                     }
 
-                    is StatusAPI.Success -> {
-
-                        oldList = data?.toMutableList()
-
-                        _firstPageState.update {
+                    is DomainResult.Success -> {
+                        _uiState.update {
                             it.copy(
-                                quakes = data as List<Quake>,
+                                quakes = result.data,
                                 isLoading = false,
-                                apiError = null
+                                domainError = null
                             )
                         }
                     }
@@ -78,52 +64,34 @@ class QuakeViewModel(
     }
 
     fun getNextPageQuakes() {
-
         viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true, domainError = null) }
 
-            _nextPageState.update { it.copy(isLoading = true) }
+            getQuakesUseCase(currentPage).collect { result ->
+                Timber.d("NEXT PAGE STATE $result")
 
-            getQuakesUseCase(actualIndexPage).collect { statusApi ->
-
-                Timber.d("NEXT PAGE STATE $statusApi")
-
-                val data = statusApi.data
-                val apiError = statusApi.apiError
-
-                when (statusApi) {
-
-                    is StatusAPI.Error -> {
-
-                        apiError?.let {
-                            _nextPageState.update { state ->
-                                state.copy(
+                when (result) {
+                    is DomainResult.Error -> {
+                        if (result.error == DomainError.NoMoreData) {
+                            _uiState.update { it.copy(isLoading = false, isLastPage = true) }
+                        } else {
+                            _uiState.update {
+                                it.copy(
                                     isLoading = false,
-                                    apiError = it,
-                                    quakes = data as List<Quake> //cached list
+                                    domainError = result.error
                                 )
                             }
-                            _errorState.send(it)
+                            _errorState.tryEmit(result.error)
                         }
                     }
 
-                    is StatusAPI.Success -> {
-
-                        actualIndexPage++
-
-                        if (oldList == null) {
-                            oldList = data as MutableList<Quake>
-                        } else {
-                            val oldData = oldList
-                            val newData = data as List<Quake>
-                            oldData?.addAll(newData)
-                        }
-
-
-                        _nextPageState.update {
+                    is DomainResult.Success -> {
+                        currentPage++
+                        _uiState.update {
                             it.copy(
-                                quakes = oldList ?: data,
+                                quakes = it.quakes + result.data,
                                 isLoading = false,
-                                apiError = null
+                                domainError = null
                             )
                         }
                     }

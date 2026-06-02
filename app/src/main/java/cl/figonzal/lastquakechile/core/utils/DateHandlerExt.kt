@@ -2,7 +2,6 @@ package cl.figonzal.lastquakechile.core.utils
 
 import java.time.Duration
 import java.time.LocalDateTime
-import java.time.OffsetDateTime
 import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter

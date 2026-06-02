@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.preference.EditTextPreference
 import androidx.preference.Preference
@@ -24,9 +25,7 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
 import cl.figonzal.lastquakechile.BuildConfig
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.services.notifications.QuakeNotificationImpl
 import cl.figonzal.lastquakechile.core.services.notifications.utils.MIN_MAGNITUDE_ALERT
-import cl.figonzal.lastquakechile.core.services.notifications.utils.SHARED_PREF_PERMISSION_ALERT_ANDROID_13
 import cl.figonzal.lastquakechile.core.services.notifications.utils.subscribedToQuakes
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.views.toast
@@ -66,9 +65,6 @@ class SettingsActivity : AppCompatActivity() {
     class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeListener {
 
         private val sharedPrefUtil: SharedPrefUtil by lazy { SharedPrefUtil(requireActivity()) }
-        private val notificationServiceImpl by lazy {
-            QuakeNotificationImpl(requireActivity(), sharedPrefUtil)
-        }
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
@@ -115,21 +111,32 @@ class SettingsActivity : AppCompatActivity() {
 
         private fun configNotifications() {
             val isGrantedPermission =
-                sharedPrefUtil.getData(SHARED_PREF_PERMISSION_ALERT_ANDROID_13, true)
+                NotificationManagerCompat.from(requireContext()).areNotificationsEnabled()
 
-            when {
-                !isGrantedPermission -> {
+            val alertSwitch =
+                findPreference<SwitchPreferenceCompat>(getString(R.string.firebase_pref_key))
+            val category =
+                findPreference<PreferenceCategory>(getString(R.string.notifications_category_key))
 
-                    findPreference<SwitchPreferenceCompat>(getString(R.string.firebase_pref_key))?.apply {
-                        isChecked = false
-                        isEnabled = false
-                    }
-                    findPreference<PreferenceCategory>(getString(R.string.notifications_category_key))?.summary =
-                        getString(R.string.permission_totally_disabled)
-
-                    subscribedToQuakes(false, sharedPrefUtil)
-                    alertDependencies(false)
+            if (!isGrantedPermission) {
+                // OS-level block. Only disable the UI and update the summary. Do NOT touch
+                // isChecked (it would persist false and corrupt the user's preference), and do
+                // NOT call subscribedToQuakes(false) (Android already drops the pushes; the
+                // FCM topic registration is harmless when permission is missing).
+                alertSwitch?.isEnabled = false
+                category?.summary = getString(R.string.permission_totally_disabled)
+                alertDependencies(false)
+            } else {
+                // Permission granted. Re-enable the switch and honor the user's persisted
+                // preference. Re-subscribe in case boot-time subscription was skipped due to
+                // missing permission. subscribedToQuakes is now a pure FCM side-effect and no
+                // longer writes to SharedPrefs, so this cannot corrupt the switch state.
+                alertSwitch?.isEnabled = true
+                val userWantsAlerts = alertSwitch?.isChecked ?: true
+                if (userWantsAlerts) {
+                    subscribedToQuakes(true)
                 }
+                alertDependencies(userWantsAlerts)
             }
         }
 
@@ -265,13 +272,13 @@ class SettingsActivity : AppCompatActivity() {
                     //Si el switch esta ON, lanzar toast con SUSCRITO
                     when (it) {
                         true -> {
-                            subscribedToQuakes(true, sharedPrefUtil)
+                            subscribedToQuakes(true)
                             toast(R.string.firebase_pref_key_alert_on)
                             alertDependencies(true)
                         }
 
                         else -> {
-                            subscribedToQuakes(false, sharedPrefUtil)
+                            subscribedToQuakes(false)
                             toast(R.string.firebase_pref_key_alert_off)
                             alertDependencies(false)
                         }
@@ -285,13 +292,9 @@ class SettingsActivity : AppCompatActivity() {
             if (key == getString(R.string.high_priority_key)) {
 
                 preferences?.getBoolean(getString(R.string.high_priority_key), true)?.also {
-
-                    //Si el switch esta ON, lanzar toast con SUSCRITO
                     sharedPrefUtil.saveData(getString(R.string.high_priority_key), it)
-
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        notificationServiceImpl.recreateChannel()
-                    }
+                    // Channel selection (CHANNEL_ID_HIGH vs CHANNEL_ID_DEFAULT) happens at
+                    // notification time via resolveChannelId(), so no channel recreation needed.
                 }
             }
         }

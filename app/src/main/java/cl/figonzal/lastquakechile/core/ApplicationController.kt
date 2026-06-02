@@ -18,6 +18,8 @@ class ApplicationController : Application() {
     override fun onCreate() {
         super.onCreate()
 
+        installDeadSystemExceptionFilter()
+
         startKoin {
             androidLogger(
                 when {
@@ -36,5 +38,22 @@ class ApplicationController : Application() {
             BuildConfig.DEBUG -> Timber.plant(DebugTree())
             else -> Timber.plant(CrashlyticsTree())
         }
+    }
+
+    private fun installDeadSystemExceptionFilter() {
+        val upstream = Thread.getDefaultUncaughtExceptionHandler()
+        Thread.setDefaultUncaughtExceptionHandler { thread, throwable ->
+            if (isDeadSystemException(throwable)) {
+                Timber.w("Ignored DeadSystemRuntimeException: system server died")
+                return@setDefaultUncaughtExceptionHandler
+            }
+            upstream?.uncaughtException(thread, throwable)
+        }
+    }
+
+    private fun isDeadSystemException(throwable: Throwable): Boolean {
+        val name = throwable::class.java.name
+        return name == "android.os.DeadSystemRuntimeException" ||
+                name == "android.os.DeadSystemException"
     }
 }

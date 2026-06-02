@@ -26,7 +26,11 @@ data class Quake(
         parcel.readString()!!,
         parcel.readByte() != 0.toByte(),
         parcel.readByte() != 0.toByte(),
-        ParcelCompat.readParcelable(parcel, Coordinate::class.java.classLoader, Coordinate::class.java)!!
+        ParcelCompat.readParcelable(
+            parcel,
+            Coordinate::class.java.classLoader,
+            Coordinate::class.java
+        )!!
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {

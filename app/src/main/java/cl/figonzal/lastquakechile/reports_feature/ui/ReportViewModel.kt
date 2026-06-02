@@ -2,14 +2,14 @@ package cl.figonzal.lastquakechile.reports_feature.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cl.figonzal.lastquakechile.core.data.remote.ApiError
-import cl.figonzal.lastquakechile.core.data.remote.StatusAPI
-import cl.figonzal.lastquakechile.reports_feature.domain.model.Report
+import cl.figonzal.lastquakechile.core.domain.DomainError
+import cl.figonzal.lastquakechile.core.domain.DomainResult
 import cl.figonzal.lastquakechile.reports_feature.domain.use_case.GetReportsUseCase
-import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -18,112 +18,80 @@ class ReportViewModel(
     private val getReportsUseCase: GetReportsUseCase
 ) : ViewModel() {
 
-    var actualIndexPage = 1
-    private var oldList: MutableList<Report>? = null
+    private var currentPage = 1
 
-    private val _nextPageState = MutableStateFlow(ReportState())
-    val nextPagesState = _nextPageState.asStateFlow()
+    private val _uiState = MutableStateFlow(ReportState())
+    val uiState = _uiState.asStateFlow()
 
-    private val _firstPageState = MutableStateFlow(ReportState())
-    val firstPageState = _firstPageState.asStateFlow()
-
-    private val _errorState = Channel<ApiError>()
-    val errorState = _errorState.receiveAsFlow()
+    private val _errorState = MutableSharedFlow<DomainError>(
+        extraBufferCapacity = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+    val errorState = _errorState.asSharedFlow()
 
     fun getFirstPageReports() {
-
         viewModelScope.launch {
+            currentPage = 1
+            _uiState.update { it.copy(isLoading = true, domainError = null, isLastPage = false) }
 
-            actualIndexPage = 1
-            _firstPageState.update { it.copy(isLoading = true) }
+            getReportsUseCase(0).collect { result ->
+                Timber.d("FIRST PAGE STATE $result")
 
-            getReportsUseCase(0).collect { statusApi ->
-
-                Timber.d("FIRST PAGE STATE $statusApi")
-
-                val data = statusApi.data
-                val apiError = statusApi.apiError
-
-                when (statusApi) {
-
-                    is StatusAPI.Error -> {
-
-                        apiError?.let {
-                            _firstPageState.update { state ->
-                                state.copy(
-                                    isLoading = false,
-                                    apiError = it,
-                                    reports = data as List<Report> //cached list
-                                )
-                            }
-                            _errorState.send(it)
+                when (result) {
+                    is DomainResult.Error -> {
+                        _uiState.update { state ->
+                            state.copy(
+                                isLoading = false,
+                                domainError = result.error,
+                                reports = result.data
+                            )
                         }
+                        _errorState.tryEmit(result.error)
                     }
 
-                    is StatusAPI.Success -> {
-
-                        oldList = data?.toMutableList()
-
-                        _firstPageState.update {
+                    is DomainResult.Success -> {
+                        _uiState.update {
                             it.copy(
-                                reports = data as List<Report>,
+                                reports = result.data,
                                 isLoading = false,
-                                apiError = null
+                                domainError = null
                             )
                         }
                     }
                 }
             }
-
         }
     }
 
     fun getNextPageReports() {
-
         viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true, domainError = null) }
 
-            _nextPageState.update { it.copy(isLoading = true) }
+            getReportsUseCase(currentPage).collect { result ->
+                Timber.d("NEXT PAGE STATE $result")
 
-            getReportsUseCase(actualIndexPage).collect { statusApi ->
-
-                Timber.d("NEXT PAGE STATE $statusApi")
-
-                val data = statusApi.data
-                val apiError = statusApi.apiError
-
-                when (statusApi) {
-
-                    is StatusAPI.Error -> {
-
-                        apiError?.let {
-                            _nextPageState.update { state ->
-                                state.copy(
+                when (result) {
+                    is DomainResult.Error -> {
+                        if (result.error == DomainError.NoMoreData) {
+                            _uiState.update { it.copy(isLoading = false, isLastPage = true) }
+                        } else {
+                            _uiState.update {
+                                it.copy(
                                     isLoading = false,
-                                    apiError = it,
-                                    reports = data as List<Report> //cached list
+                                    domainError = result.error
                                 )
                             }
-                            _errorState.send(it)
+                            _errorState.tryEmit(result.error)
                         }
                     }
 
-                    is StatusAPI.Success -> {
-
-                        actualIndexPage++
-
-                        if (oldList == null) {
-                            oldList = data as MutableList<Report>
-                        } else {
-                            val oldData = oldList
-                            val newData = data as List<Report>
-                            oldData?.addAll(newData)
-                        }
-
-                        _nextPageState.update {
+                    is DomainResult.Success -> {
+                        currentPage++
+                        _uiState.update {
                             it.copy(
-                                reports = oldList ?: data,
+                                reports = it.reports + result.data,
                                 isLoading = false,
-                                apiError = null
+                                domainError = null
                             )
                         }
                     }

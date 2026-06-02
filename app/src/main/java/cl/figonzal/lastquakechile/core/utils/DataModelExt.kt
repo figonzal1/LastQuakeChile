@@ -4,56 +4,9 @@ import android.content.Context
 import android.content.Intent
 import cl.figonzal.lastquakechile.core.services.notifications.utils.IS_SNAPSHOT_REQUEST_FROM_BOTTOM_SHEET
 import cl.figonzal.lastquakechile.core.services.notifications.utils.QUAKE
-import cl.figonzal.lastquakechile.quake_feature.data.local.entity.relation.QuakeAndCoordinate
-import cl.figonzal.lastquakechile.quake_feature.data.remote.dto.QuakeDTO
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeDetailsActivity
-import cl.figonzal.lastquakechile.reports_feature.data.local.entity.CityQuakesEntity
-import cl.figonzal.lastquakechile.reports_feature.data.local.entity.relation.ReportWithCityQuakes
-import cl.figonzal.lastquakechile.reports_feature.data.remote.dto.ReportDTO
 import timber.log.Timber
-import java.util.Locale
-
-/**
- * Function that map dto list to full quake entity
- */
-fun List<QuakeDTO>.toQuakeListEntity() = map {
-    val quakeEntity = it.toEntity()
-    val coordinateEntity = it.coordinate.toEntity()
-
-    QuakeAndCoordinate(
-        quakeEntity,
-        coordinateEntity
-    )
-}
-
-/**
- * Function that map full quake entity to domain model
- */
-fun List<QuakeAndCoordinate>.toQuakeListDomain() = mapNotNull { it.toDomain() }
-
-/**
- * Function that map report dto to entity
- */
-fun List<ReportDTO>.toReportListEntity() = map { reportDTO ->
-    val reportEntity = reportDTO.toEntity()
-    val topCities = reportDTO.cityQuakes.map { it.toEntity() }
-
-    ReportWithCityQuakes(
-        report = reportEntity,
-        cityQuakes = topCities
-    )
-}
-
-/**
- * Function that map cityQuakeEntity to domain
- */
-fun List<CityQuakesEntity>.toCityQuakesListDomain() = map { it.toDomain() }
-
-/**
- * Function that map reportWithCityQuakes to domain
- */
-fun List<ReportWithCityQuakes>.toReportListDomain() = map { it.toDomain() }
 
 fun Context.openQuakeDetails(quake: Quake, isSnapshotRequestInBottomSheet: Boolean = false) {
     Intent(this, QuakeDetailsActivity::class.java).apply {
@@ -66,32 +19,4 @@ fun Context.openQuakeDetails(quake: Quake, isSnapshotRequestInBottomSheet: Boole
         Timber.d("QuakeDetail intent")
         startActivity(this)
     }
-}
-
-fun List<QuakeAndCoordinate>.translateReference(): List<QuakeAndCoordinate> {
-
-    if (Locale.getDefault().language == "en") {
-        (this).onEach { quake ->
-
-            val split = quake.quakeEntity.reference
-                .trim()
-                .split(" ")
-                .toMutableList()
-                .apply {
-                    removeAt(2)
-                    this[2] = when {
-                        this[2] == "O" -> "W"
-                        this[2] == "NO" -> "NW"
-                        this[2] == "SO" -> "SW"
-                        else -> this[2]
-                    }
-
-                    this[3] = "of"
-                }
-
-            quake.quakeEntity.reference = split.joinToString(separator = " ")
-        }
-    }
-
-    return this
 }

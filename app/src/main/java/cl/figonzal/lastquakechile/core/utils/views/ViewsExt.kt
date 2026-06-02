@@ -7,8 +7,15 @@ import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.SystemClock
 import android.util.TypedValue
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -20,13 +27,16 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.widget.ViewPager2
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.data.remote.ApiError
-import cl.figonzal.lastquakechile.core.data.remote.ApiError.*
+import cl.figonzal.lastquakechile.core.domain.DomainError
+import cl.figonzal.lastquakechile.core.domain.DomainError.EmptyList
+import cl.figonzal.lastquakechile.core.domain.DomainError.NoConnection
+import cl.figonzal.lastquakechile.core.domain.DomainError.NoMoreData
+import cl.figonzal.lastquakechile.core.domain.DomainError.ServerError
+import cl.figonzal.lastquakechile.core.domain.DomainError.Timeout
 import cl.figonzal.lastquakechile.core.ui.SettingsActivity
 import cl.figonzal.lastquakechile.core.utils.latLongToDMS
 import cl.figonzal.lastquakechile.core.utils.localDateToDHMS
 import cl.figonzal.lastquakechile.core.utils.stringToLocalDateTime
-import cl.figonzal.lastquakechile.core.utils.views.*
 import cl.figonzal.lastquakechile.databinding.FragmentMapsBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Coordinate
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
@@ -41,7 +51,8 @@ import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
 import kotlin.math.floor
 
 
@@ -87,7 +98,10 @@ fun Fragment.configOptionsMenu(
                 R.id.status_menu -> {
                     try {
                         startActivity(
-                            Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.CRONITOR_STATUS)))
+                            Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse(getString(R.string.CRONITOR_STATUS))
+                            )
                         )
                     } catch (e: ActivityNotFoundException) {
                         toast(R.string.no_browser_found)
@@ -405,14 +419,14 @@ fun Context.getMonth(month: Int) = arrayOf(
     getString(R.string.DEC)
 )[month - 1]
 
-fun Fragment.showServerApiError(apiError: ApiError, callback: (Int, String) -> Unit) =
-    when (apiError) {
-        IoError, NoWifiError -> {
+fun Fragment.showServerApiError(error: DomainError, callback: (Int, String) -> Unit) =
+    when (error) {
+        NoConnection -> {
             toast(R.string.io_error)
             callback(R.drawable.round_wifi_off_24, getString(R.string.io_error))
         }
 
-        ServerError, TimeoutError -> {
+        ServerError, Timeout -> {
             toast(R.string.service_error)
             callback(R.drawable.round_router_24, getString(R.string.service_error))
         }
@@ -476,6 +490,17 @@ private fun GoogleMap.adjustMapPadding(binding: FragmentMapsBinding) {
         0, // right
         bottomSheetContainerHeight - currentBottomSheetTop // bottom
     )
+}
+
+fun View.setDebouncedClickListener(intervalMs: Long = 500L, action: (View) -> Unit) {
+    var lastClickTime = 0L
+    setOnClickListener { view ->
+        val now = SystemClock.elapsedRealtime()
+        if (now - lastClickTime >= intervalMs) {
+            lastClickTime = now
+            action(view)
+        }
+    }
 }
 
 fun Float.toDips(resources: Resources) =
