@@ -1,2 +1,3 @@
-• Improvements to earthquake notifications.
-• Stability improvements.
+• The map now groups nearby earthquakes for a clearer view.
+• Improvements and fixes for earthquake notifications.
+• Stability fixes to prevent unexpected crashes.
