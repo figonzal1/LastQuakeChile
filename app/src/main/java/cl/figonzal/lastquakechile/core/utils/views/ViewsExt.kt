@@ -20,7 +20,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.MenuRes
-import androidx.core.content.FileProvider.getUriForFile
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -34,6 +33,7 @@ import cl.figonzal.lastquakechile.core.domain.DomainError.NoMoreData
 import cl.figonzal.lastquakechile.core.domain.DomainError.ServerError
 import cl.figonzal.lastquakechile.core.domain.DomainError.Timeout
 import cl.figonzal.lastquakechile.core.ui.SettingsActivity
+import cl.figonzal.lastquakechile.core.utils.cacheImageUri
 import cl.figonzal.lastquakechile.core.utils.latLongToDMS
 import cl.figonzal.lastquakechile.core.utils.localDateToDHMS
 import cl.figonzal.lastquakechile.core.utils.stringToLocalDateTime
@@ -47,9 +47,6 @@ import coil3.request.placeholder
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.card.MaterialCardView
-import timber.log.Timber
-import java.io.File
-import java.io.FileOutputStream
 import java.io.IOException
 import java.util.Calendar
 import java.util.Locale
@@ -363,21 +360,8 @@ fun TextView.formatDMS(coordinates: Coordinate) {
  */
 @Throws(IOException::class)
 fun Context.getLocalBitmapUri(bitmap: Bitmap): Uri {
-
-    val c = Calendar.getInstance()
-    val date = c.timeInMillis.toInt()
-    val file = File(cacheDir, "share$date.jpeg")
-
-    when {
-        file.exists() -> Timber.d("Share image exist")
-        else -> {
-            Timber.d("Share image not exist")
-            val out = FileOutputStream(file)
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
-            out.close()
-        }
-    }
-    return getUriForFile(this, "${applicationContext.packageName}.fileprovider", file)
+    val date = Calendar.getInstance().timeInMillis.toInt()
+    return cacheImageUri(bitmap, date.toString(), Bitmap.CompressFormat.JPEG)
 }
 
 /**

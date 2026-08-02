@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Rendered off-screen (never attached to a window) by QuakeStoryRenderer to produce the
+    Instagram Stories sticker bitmap. Colors are intentionally literal, not theme attrs or
+    values-night overrides: the sticker must look identical regardless of the device theme.
+    QuakeStoryRenderer repaints them at runtime for the DARK variant.
+
+    IMPORTANT: this layout is inflated with a plain LayoutInflater (no AppCompatViewInflater
+    factory, since there's no Activity/Fragment involved), so <ImageView> stays a plain
+    android.widget.ImageView. Never use app:srcCompat here - it's silently ignored by a
+    non-AppCompat ImageView. Use android:src instead.
+-->
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_share_sticker"
+    android:layout_width="360dp"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="#FFFFFF"
+    app:cardCornerRadius="24dp"
+    app:cardElevation="0dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+
+        <ImageView
+            android:id="@+id/iv_share_logo"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:contentDescription="@null"
+            android:src="@drawable/lastquakechile_400"
+            app:layout_constraintBottom_toBottomOf="@id/tv_share_app_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_share_app_name" />
+
+        <TextView
+            android:id="@+id/tv_share_app_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:letterSpacing="0.02"
+            android:text="@string/SHARE_BRAND_NAME"
+            android:textColor="#1A1A1A"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_share_logo"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_share_map"
+            android:layout_width="0dp"
+            android:layout_height="170dp"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_share_app_name">
+
+            <ImageView
+                android:id="@+id/iv_share_map"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#E0E0E0"
+                android:contentDescription="@null"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/placeholder" />
+
+            <TextView
+                android:id="@+id/tv_share_map_attribution"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="6dp"
+                android:background="#59000000"
+                android:paddingStart="6dp"
+                android:paddingTop="2dp"
+                android:paddingEnd="6dp"
+                android:paddingBottom="2dp"
+                android:text="@string/SHARE_MAP_ATTRIBUTION"
+                android:textColor="#F0FFFFFF"
+                android:textSize="8sp" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <ImageView
+            android:id="@+id/iv_share_mag_color"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="18dp"
+            android:contentDescription="@null"
+            android:src="@drawable/background_magnitude_circle_shape"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/card_share_map" />
+
+        <TextView
+            android:id="@+id/tv_share_magnitude"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/iv_share_mag_color"
+            app:layout_constraintEnd_toEndOf="@id/iv_share_mag_color"
+            app:layout_constraintStart_toStartOf="@id/iv_share_mag_color"
+            app:layout_constraintTop_toTopOf="@id/iv_share_mag_color"
+            tools:text="6.2" />
+
+        <TextView
+            android:id="@+id/tv_share_city"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="#1A1A1A"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_share_mag_color"
+            app:layout_constraintTop_toTopOf="@id/iv_share_mag_color"
+            tools:text="Pichidangui" />
+
+        <TextView
+            android:id="@+id/tv_share_reference"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="1dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="#5C5C5C"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_share_mag_color"
+            app:layout_constraintTop_toBottomOf="@id/tv_share_city"
+            tools:text="30 km al SO de Pichidangui" />
+
+        <TextView
+            android:id="@+id/tv_share_datetime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="2dp"
+            android:textColor="#8A8A8A"
+            android:textSize="11sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_share_mag_color"
+            app:layout_constraintTop_toBottomOf="@id/tv_share_reference"
+            tools:text="Hace 15 min" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier_share_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="iv_share_mag_color,tv_share_datetime" />
+
+        <View
+            android:id="@+id/view_share_divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="18dp"
+            android:background="#E8E8E8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/barrier_share_header" />
+
+        <TextView
+            android:id="@+id/tv_share_depth_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:gravity="center"
+            android:letterSpacing="0.06"
+            android:text="@string/depth_title"
+            android:textAllCaps="true"
+            android:textColor="#9A9A9A"
+            android:textSize="9sp"
+            app:layout_constraintEnd_toStartOf="@id/tv_share_scale_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_share_divider" />
+
+        <TextView
+            android:id="@+id/tv_share_depth_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:textColor="#1A1A1A"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/tv_share_depth_label"
+            app:layout_constraintStart_toStartOf="@id/tv_share_depth_label"
+            app:layout_constraintTop_toBottomOf="@id/tv_share_depth_label"
+            tools:text="26.0 Km" />
+
+        <TextView
+            android:id="@+id/tv_share_scale_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:gravity="center"
+            android:letterSpacing="0.06"
+            android:text="@string/scale_title"
+            android:textAllCaps="true"
+            android:textColor="#9A9A9A"
+            android:textSize="9sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_share_depth_label"
+            app:layout_constraintTop_toBottomOf="@id/view_share_divider" />
+
+        <TextView
+            android:id="@+id/tv_share_scale_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:textColor="#1A1A1A"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/tv_share_scale_label"
+            app:layout_constraintStart_toStartOf="@id/tv_share_scale_label"
+            app:layout_constraintTop_toBottomOf="@id/tv_share_scale_label"
+            tools:text="Magnitud local (Ml)" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier_share_values"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="tv_share_depth_value,tv_share_scale_value" />
+
+        <TextView
+            android:id="@+id/tv_share_footer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="@string/SHARE_STICKER_FOOTER"
+            android:textColor="#3F51B5"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/barrier_share_values" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

@@ -5,4 +5,10 @@
     <dimen name="corner_radius_16dp">16dp</dimen>
     <dimen name="corner_radius_8dp">8dp</dimen>
     <dimen name="corner_radius_4dp">4dp</dimen>
+
+    <!-- Gap between pages in the share sticker design carousel -->
+    <dimen name="share_design_page_margin">12dp</dimen>
+    <!-- Corner radius of the 9:16 story canvas and the background picker dots' preview shape -->
+    <dimen name="share_story_canvas_corner">20dp</dimen>
+    <dimen name="share_background_dot_size">28dp</dimen>
 </resources>

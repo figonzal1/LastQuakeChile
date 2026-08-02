@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Poster-style sticker design: no map, dark card (matches the CARD design's palette) with
+    the magnitude value/rule painted in the quake's magnitude color at runtime. Rendered
+    off-screen by QuakeStoryRenderer, same fixed-size / theme-wrapped pipeline as
+    share_story_sticker.xml. The fixed height roughly matches the card design's so the
+    carousel doesn't jump between pages.
+-->
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_share_sticker_magnitude"
+    android:layout_width="360dp"
+    android:layout_height="400dp"
+    app:cardCornerRadius="24dp"
+    app:cardElevation="0dp"
+    tools:cardBackgroundColor="#1A1A1A">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="24dp">
+
+        <LinearLayout
+            android:id="@+id/layout_share_magnitude_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@id/layout_share_magnitude_footer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_share_magnitude_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:textSize="96sp"
+                android:textStyle="bold"
+                tools:textColor="#6c9800"
+                tools:text="6.2" />
+
+            <TextView
+                android:id="@+id/tv_share_magnitude_scale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:letterSpacing="0.06"
+                android:textAllCaps="true"
+                android:textColor="#B0B0B0"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                tools:text="Magnitud local (Ml)" />
+
+            <View
+                android:id="@+id/view_share_magnitude_rule"
+                android:layout_width="40dp"
+                android:layout_height="2dp"
+                android:layout_marginTop="20dp"
+                tools:background="#6c9800" />
+
+            <TextView
+                android:id="@+id/tv_share_magnitude_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:textColor="#FFFFFF"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                tools:text="Pichidangui" />
+
+            <TextView
+                android:id="@+id/tv_share_magnitude_reference"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="2"
+                android:textColor="#B0B0B0"
+                android:textSize="13sp"
+                tools:text="30 km al SO de Pichidangui" />
+
+            <TextView
+                android:id="@+id/tv_share_magnitude_datetime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:gravity="center"
+                android:textColor="#8A8A8A"
+                android:textSize="11sp"
+                tools:text="Hace 15 min" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_share_magnitude_footer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_share_magnitude_logo"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:contentDescription="@null"
+                android:src="@drawable/lastquakechile_400" />
+
+            <TextView
+                android:id="@+id/tv_share_magnitude_app_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:letterSpacing="0.02"
+                android:text="@string/SHARE_BRAND_NAME"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

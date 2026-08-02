@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    clipToPadding=false on the root so the carousel's neighbouring pages can bleed into the
+    sheet's own horizontal padding instead of being clipped away.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:orientation="vertical"
+    android:paddingStart="24dp"
+    android:paddingTop="20dp"
+    android:paddingEnd="24dp"
+    android:paddingBottom="20dp">
+
+    <!-- Drag handle: purely decorative, mirrors the pill already used elsewhere
+         (@drawable/background_bottom_sheet reads @color/colorOnSecondary, which is correct in
+         both themes - unlike ?attr/colorOnSecondary, see themes.xml). -->
+    <View
+        android:layout_width="32dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/background_bottom_sheet" />
+
+    <TextView
+        android:id="@+id/tv_share_sheet_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:gravity="center"
+        android:text="@string/SHARE_SHEET_TITLE"
+        android:textAppearance="?attr/textAppearanceSubtitle1" />
+
+    <!-- ViewPager2 can't measure wrap_content reliably, so the carousel gets a fixed height
+         sized for the tallest design. Each page is now a 9:16 story canvas (narrower than the
+         old wide card), so the peek effect no longer needs large horizontal padding. -->
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/pager_share_designs"
+        android:layout_width="match_parent"
+        android:layout_height="340dp"
+        android:layout_marginTop="16dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp" />
+
+    <!-- Sticker type: card vs magnitude. A segmented toggle (not dots) since the two designs
+         are different layouts, not the same content on different backgrounds. Both segments
+         share layout_weight=1 so they're always equal width regardless of label length;
+         MaterialButtonToggleGroup is a LinearLayout under the hood so weights apply normally. -->
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/toggle_share_designs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="40dp"
+        app:selectionRequired="true"
+        app:singleSelection="true">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_design_card"
+            style="@style/Widget.App.Button.Toggle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/SHARE_DESIGN_CARD" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_design_magnitude"
+            style="@style/Widget.App.Button.Toggle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/SHARE_DESIGN_MAGNITUDE" />
+
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    <!-- Story background: solid magnitude color vs gradient to black. Each dot previews its
+         real color/gradient at bind time (ShareQuakeBottomSheet), Spotify-style. -->
+    <LinearLayout
+        android:id="@+id/layout_share_backgrounds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal">
+
+        <include
+            android:id="@+id/bg_solid"
+            layout="@layout/item_share_background"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <include
+            android:id="@+id/bg_gradient"
+            layout="@layout/item_share_background"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_share_destinations"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal">
+
+        <!-- layout_width AND layout_height must both be declared on an <include> for any of
+             its layout_* overrides to apply - without layout_height the layout_weight below is
+             silently dropped and each item collapses to 0dp wide. -->
+        <include
+            android:id="@+id/dest_instagram"
+            layout="@layout/item_share_destination"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <include
+            android:id="@+id/dest_whatsapp"
+            layout="@layout/item_share_destination"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <include
+            android:id="@+id/dest_copy"
+            layout="@layout/item_share_destination"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <include
+            android:id="@+id/dest_more"
+            layout="@layout/item_share_destination"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+</LinearLayout>

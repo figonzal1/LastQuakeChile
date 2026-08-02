@@ -4,6 +4,7 @@ import android.animation.IntEvaluator
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.app.NotificationManager
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -26,18 +27,23 @@ import cl.figonzal.lastquakechile.core.services.notifications.utils.IS_SNAPSHOT_
 import cl.figonzal.lastquakechile.core.services.notifications.utils.QUAKE
 import cl.figonzal.lastquakechile.core.ui.dialog.MapTerrainDialogFragment
 import cl.figonzal.lastquakechile.core.utils.animate
+import cl.figonzal.lastquakechile.core.utils.cacheImageUri
+import cl.figonzal.lastquakechile.core.utils.clearShareImageCache
 import cl.figonzal.lastquakechile.core.utils.configMapType
-import cl.figonzal.lastquakechile.core.utils.makeSnapshot
 import cl.figonzal.lastquakechile.core.utils.setNightMode
 import cl.figonzal.lastquakechile.core.utils.views.QUAKE_DETAILS_DEPTH_FORMAT
 import cl.figonzal.lastquakechile.core.utils.views.QUAKE_DETAILS_MAGNITUDE_FORMAT
 import cl.figonzal.lastquakechile.core.utils.views.formatDMS
 import cl.figonzal.lastquakechile.core.utils.views.getMagnitudeColor
+import cl.figonzal.lastquakechile.core.utils.views.setDebouncedClickListener
 import cl.figonzal.lastquakechile.core.utils.views.setScale
 import cl.figonzal.lastquakechile.core.utils.views.timeToText
 import cl.figonzal.lastquakechile.core.utils.views.toast
 import cl.figonzal.lastquakechile.databinding.ActivityQuakeDetailsBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
+import cl.figonzal.lastquakechile.quake_feature.ui.share.QuakeStoryRenderer
+import cl.figonzal.lastquakechile.quake_feature.ui.share.ShareQuakeBottomSheet
+import cl.figonzal.lastquakechile.quake_feature.ui.share.StickerDesign
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
@@ -49,28 +55,35 @@ import com.google.android.gms.ads.nativead.NativeAdView
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.Circle
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.ktx.addCircle
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.koin.android.ext.android.inject
 import timber.log.Timber
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 private const val mapViewKey = "MapViewBundleKey"
+private const val PULSE_CIRCLE_FROZEN_RADIUS = 90000.0
 
 class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private var circleAnimator2: ValueAnimator? = null
     private var circleAnimator: ValueAnimator? = null
+    private var pulseCircleA: Circle? = null
+    private var pulseCircleB: Circle? = null
     private var currentNativeAd: NativeAd? = null
 
     private var googleMap: GoogleMap? = null
 
     private var quake: Quake? = null
     private var isSnapshotRequest: Boolean? = null
+
+    private val quakeStoryRenderer: QuakeStoryRenderer by inject()
 
     private lateinit var binding: ActivityQuakeDetailsBinding
 
@@ -325,7 +338,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                     strokeColor(Color.TRANSPARENT)
                 }
 
-                addCircle {
+                pulseCircleA = addCircle {
                     center(latLong)
                     radius(90000.0)
                     strokeWidth(1f)
@@ -344,7 +357,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                     }
                 }
 
-                addCircle {
+                pulseCircleB = addCircle {
                     center(latLong)
                     radius(90000.0)
                     strokeWidth(1f)
@@ -370,9 +383,9 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                 Timber.d("Map ready")
 
                 //Seteo de floating buttons
-                binding.fabShare.setOnClickListener { _ ->
+                binding.fabShare.setDebouncedClickListener { _ ->
                     Timber.d("Share button clicked")
-                    this@QuakeDetailsActivity.makeSnapshot(p0, it)
+                    shareQuake(it)
                 }
 
                 if (isSnapshotRequest == true) {
@@ -380,12 +393,70 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                     lifecycleScope.launch {
                         delay(1000)
-                        this@QuakeDetailsActivity.makeSnapshot(p0, it)
+                        shareQuake(it)
                     }
                 }
             }
         }
 
+    }
+
+    /**
+     * Freezes the pulsing circle radii before taking the map snapshot so the share image is
+     * deterministic, then resumes the animation. Skips the snapshot entirely if the activity
+     * isn't at least STARTED - this is the fix for the #83 crash
+     * (`IllegalStateException: Can't take a snapshot while executing in the background`),
+     * which happened because `GoogleMap.snapshot()` was called after the map's GL surface
+     * was paused.
+     */
+    private fun captureMapSnapshot(onReady: (Bitmap?) -> Unit) {
+        val map = googleMap
+
+        if (map == null || !lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+            onReady(null)
+            return
+        }
+
+        circleAnimator?.pause()
+        circleAnimator2?.pause()
+        pulseCircleA?.radius = PULSE_CIRCLE_FROZEN_RADIUS
+        pulseCircleB?.radius = PULSE_CIRCLE_FROZEN_RADIUS
+
+        map.snapshot { bitmap ->
+            circleAnimator?.resume()
+            circleAnimator2?.resume()
+            onReady(bitmap)
+        }
+    }
+
+    /**
+     * Renders all [StickerDesign] variants (map snapshot may be null if it couldn't be
+     * captured) and opens [ShareQuakeBottomSheet] with them. Rendering happens off the main
+     * thread: the sticker views are never attached to a window, so it's safe to
+     * measure/layout/draw them from any thread, and PNG compression to the cache dir is I/O.
+     * Designs are rendered sequentially and each bitmap is recycled right after it's cached -
+     * doing all three at once would keep ~18 MB of bitmaps alive simultaneously.
+     */
+    private fun shareQuake(quake: Quake) {
+        captureMapSnapshot { mapSnapshot ->
+            lifecycleScope.launch(Dispatchers.Default) {
+                clearShareImageCache()
+
+                val stickerUris = StickerDesign.entries.map { design ->
+                    val sticker = quakeStoryRenderer.renderSticker(quake, mapSnapshot, design)
+                    cacheImageUri(sticker, "sticker-${quake.quakeCode}-${design.name}", Bitmap.CompressFormat.PNG)
+                        .also { sticker.recycle() }
+                }
+                val magnitudeColor = quakeStoryRenderer.magnitudeColor(quake)
+
+                withContext(Dispatchers.Main) {
+                    if (isFinishing || isDestroyed) return@withContext
+
+                    ShareQuakeBottomSheet.newInstance(quake, stickerUris, magnitudeColor)
+                        .show(supportFragmentManager, ShareQuakeBottomSheet.TAG)
+                }
+            }
+        }
     }
 
     private fun hideAdBanner(hide: Boolean) {
