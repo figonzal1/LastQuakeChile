@@ -12,14 +12,16 @@ import androidx.core.content.ContextCompat
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.utils.fixedDensityContext
 import cl.figonzal.lastquakechile.core.utils.renderToBitmap
+import cl.figonzal.lastquakechile.core.utils.stringToLocalDateTime
 import cl.figonzal.lastquakechile.core.utils.views.QUAKE_DETAILS_DEPTH_FORMAT
 import cl.figonzal.lastquakechile.core.utils.views.QUAKE_DETAILS_MAGNITUDE_FORMAT
 import cl.figonzal.lastquakechile.core.utils.views.getMagnitudeColor
 import cl.figonzal.lastquakechile.core.utils.views.setScale
-import cl.figonzal.lastquakechile.core.utils.views.timeToText
 import cl.figonzal.lastquakechile.databinding.ShareStoryStickerBinding
 import cl.figonzal.lastquakechile.databinding.ShareStoryStickerMagnitudeBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import java.util.Locale
 
 private const val STICKER_WIDTH_DP = 360
@@ -82,7 +84,7 @@ class QuakeStoryRenderer(private val context: Context) {
             tvShareReference.setTextColor(palette.secondaryText)
 
             tvShareDatetime.setTextColor(palette.tertiaryText)
-            tvShareDatetime.timeToText(quake, true)
+            tvShareDatetime.text = quake.fullDateText()
 
             tvShareMagnitude.text = String.format(
                 Locale.getDefault(),
@@ -143,7 +145,7 @@ class QuakeStoryRenderer(private val context: Context) {
             tvShareMagnitudeScale.setScale(quake.scale)
             tvShareMagnitudeCity.text = quake.city
             tvShareMagnitudeReference.text = quake.reference
-            tvShareMagnitudeDatetime.timeToText(quake, true)
+            tvShareMagnitudeDatetime.text = quake.fullDateText()
         }
 
         return binding.root.toStickerBitmap(densityContext.resources.displayMetrics.density)
@@ -164,6 +166,10 @@ class QuakeStoryRenderer(private val context: Context) {
         val widthPx = (STICKER_WIDTH_DP * density).toInt()
         return renderToBitmap(widthPx)
     }
+
+    /** Stickers outlive the moment they were generated, so they show an absolute date, not a relative one. */
+    private fun Quake.fullDateText(): String = localDate.stringToLocalDateTime()
+        .format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM, FormatStyle.SHORT))
 
     /** The quake's magnitude color, used to build the picker's [StickerBackground] previews. */
     @ColorInt
