@@ -1,5 +1,6 @@
 package cl.figonzal.lastquakechile.quake_feature.ui.share
 
+import android.app.Dialog
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
@@ -26,6 +27,8 @@ import cl.figonzal.lastquakechile.databinding.ItemShareBackgroundBinding
 import cl.figonzal.lastquakechile.databinding.ItemShareDestinationBinding
 import cl.figonzal.lastquakechile.databinding.ShareQuakeBottomSheetBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 private const val ARG_QUAKE = "arg_quake"
@@ -85,6 +88,14 @@ class ShareQuakeBottomSheet : BottomSheetDialogFragment() {
     /** The sticker design currently visible in the carousel - that's the one that gets shared. */
     private val selectedStickerUri: Uri
         get() = stickerUris[binding.pagerShareDesigns.currentItem]
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
+        (super.onCreateDialog(savedInstanceState) as BottomSheetDialog).apply {
+            // Content (340dp carousel + toggle + dots + destinations row) is taller than the
+            // default peekHeight, so it opens looking cut off until dragged - open expanded instead.
+            behavior.state = BottomSheetBehavior.STATE_EXPANDED
+            behavior.skipCollapsed = true
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater,
