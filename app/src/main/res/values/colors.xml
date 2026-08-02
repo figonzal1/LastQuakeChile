@@ -17,6 +17,14 @@
     <color name="white">#fff</color>
     <color name="grey_dark">#ADADAD</color>
 
+    <!-- Outlined / segmented button tokens - kept separate from colorPrimary so they stay
+         readable against a bottom sheet surface in both themes (see Widget.App.Button.Outlined
+         and Widget.App.Button.Toggle in themes.xml). -->
+    <color name="toggle_accent">#3F51B5</color>
+    <color name="toggle_text_unchecked">#99000000</color>
+    <color name="toggle_stroke_unchecked">#33000000</color>
+    <color name="toggle_fill_checked">#1A3F51B5</color>
+
     <color name="changelog_icon_release">#CD03A9F4</color>
     <color name="verified">#03A9F4</color>
     <color name="badge_green">#9A8BC34A</color>
