@@ -11,7 +11,8 @@ Android app (Kotlin) showing recent earthquakes in Chile. Single Gradle module `
 - **Persistence:** Room (KSP codegen)
 - **Images:** Coil · **Maps:** Google Maps + android-maps-utils (marker clustering)
 - **Backend services:** Firebase (Crashlytics, Performance, FCM)
-- **UI:** XML views, with an incremental XML → Compose migration in progress (see PR #80)
+- **UI:** XML views + ViewBinding. A Compose migration exists only in the **unmerged** PR #80
+  (`feat/compose-migration`) — `main` and every feature branch have zero Compose deps. Write XML.
 
 ### Architecture
 
@@ -30,7 +31,8 @@ Build uses product flavors `dev` / `beta` / `prod` (dimension `version`) and bui
 
 ```bash
 ./gradlew assembleDevDebug          # build dev/debug APK
-./gradlew test                      # all unit tests
+./gradlew testDevDebugUnitTest      # unit tests, dev/debug only (fast — prefer this)
+./gradlew test                      # all unit tests, all 6 variants (slow)
 ./gradlew :app:connectedDevDebugAndroidTest   # instrumentation tests (device/emulator)
 ./gradlew bundleProdRelease         # production AAB
 
@@ -42,10 +44,20 @@ bundle exec fastlane prod_googleplay # build prod AAB + upload to Google Play
 
 ## Gotchas
 
-- Requires `secrets.properties` (Maps API key via Secrets Gradle plugin) and signing material
-  under `keys/` — both untracked; builds fail without them.
+- Requires two untracked files, or the build fails:
+  - `secrets.properties` (Secrets Gradle plugin) with `MAPS_API_KEY`, `ADMOB_MASTER_KEY`
+    and `FB_APP_ID` (the last one is used by the Instagram Stories share).
+  - `keys/keystore.properties` + the `.jks` it points at. Read at **configuration** time,
+    so without it even `./gradlew tasks` fails.
 - Destructive Room migration and HTTP logging are gated to debug builds only.
 - `versionCode` is derived from the version managed by release-please — do not hardcode it.
+- Debug builds use applicationId `cl.figonzal.lastquakechile.debug` (`applicationIdSuffix`).
+  `res/xml-v25/shortcuts.xml` hardcodes the release package, so launcher shortcuts silently
+  do nothing on debug builds — don't hardcode the package in new manifest/xml entries.
+- `Quake.localDate` is a **`String`** (`"yyyy-MM-dd HH:mm:ss"`), not a `LocalDateTime`. Parse it
+  with `String.stringToLocalDateTime()` (`core/utils/DateHandlerExt.kt`) before formatting —
+  calling `.format(someDateTimeFormatter)` on it silently hits Kotlin's `String.format` and
+  returns the string unchanged (see `QuakeDetailsActivity.kt:271`).
 
 ## Release process (release-please + fastlane + Google Play)
 
