@@ -1,5 +1,3 @@
-@file:Suppress("OldIssuesGlobalInspectionTool")
-
 package cl.figonzal.lastquakechile.quake_feature.data.repository
 
 import cl.figonzal.lastquakechile.core.domain.DomainError
@@ -149,7 +147,6 @@ class FakeQuakeRepository(
         else -> getNextPages(pageIndex)
     }
 
-    //NOSONAR
     override fun getFirstPage(pageIndex: Int): Flow<DomainResult<List<Quake>>> = flow {
         when {
             shouldReturnNetworkError -> emit(DomainResult.Error(quakeList, DomainError.HttpError))
@@ -157,7 +154,6 @@ class FakeQuakeRepository(
         }
     }.flowOn(dispatcher)
 
-    //NOSONAR
     override fun getNextPages(pageIndex: Int): Flow<DomainResult<List<Quake>>> = flow {
         when {
             shouldReturnNetworkError -> emit(DomainResult.Error(quakeList, DomainError.HttpError))
