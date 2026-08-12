@@ -108,8 +108,8 @@
     <string name="SHARE_DEST_COPY">Copiar texto</string>
     <string name="SHARE_DEST_MORE">Más</string>
     <string name="SHARE_COPIED_TOAST">Texto copiado</string>
-    <string name="SHARE_IG_NOT_AVAILABLE">Historias de Instagram no está disponible en este dispositivo</string>
-    <string name="cd_share_preview">Vista previa para compartir</string>
+    <string name="SHARE_APP_NOT_AVAILABLE">Esta app no está disponible en este dispositivo</string>
+    <string name="SHARE_CD_PREVIEW">Vista previa para compartir</string>
     <string name="SHARE_STICKER_FOOTER">Descarga LastQuakeChile en Google Play</string>
     <string name="SHARE_DESIGN_CARD">Tarjeta</string>
     <string name="SHARE_DESIGN_MAGNITUDE">Magnitud</string>

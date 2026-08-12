@@ -49,7 +49,6 @@ import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
-import com.google.android.gms.ads.VideoController
 import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.gms.ads.nativead.NativeAdView
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -231,19 +230,6 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
             //End population ad
             setNativeAd(nativeAd)
-        }
-
-
-        val vc = nativeAd.mediaContent?.videoController
-
-        when {
-            vc?.hasVideoContent() == true -> vc.videoLifecycleCallbacks =
-                object : VideoController.VideoLifecycleCallbacks() {
-                }
-
-            else -> {
-                //refreshAd()
-            }
         }
     }
 
@@ -450,7 +436,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                 val magnitudeColor = quakeStoryRenderer.magnitudeColor(quake)
 
                 withContext(Dispatchers.Main) {
-                    if (isFinishing || isDestroyed) return@withContext
+                    if (supportFragmentManager.isStateSaved) return@withContext
 
                     ShareQuakeBottomSheet.newInstance(quake, stickerUris, magnitudeColor)
                         .show(supportFragmentManager, ShareQuakeBottomSheet.TAG)

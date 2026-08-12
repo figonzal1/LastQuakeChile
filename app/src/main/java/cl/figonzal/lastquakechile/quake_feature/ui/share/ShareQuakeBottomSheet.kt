@@ -16,6 +16,8 @@ import androidx.core.os.BundleCompat
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.utils.INSTAGRAM_PACKAGE
+import cl.figonzal.lastquakechile.core.utils.WHATSAPP_PACKAGE
 import cl.figonzal.lastquakechile.core.utils.copyQuakeText
 import cl.figonzal.lastquakechile.core.utils.isInstagramStoriesAvailable
 import cl.figonzal.lastquakechile.core.utils.isWhatsAppAvailable
@@ -35,9 +37,6 @@ private const val ARG_QUAKE = "arg_quake"
 private const val ARG_STICKER_URIS = "arg_sticker_uris"
 private const val ARG_MAGNITUDE_COLOR = "arg_magnitude_color"
 private const val ARG_SELECTED_BACKGROUND = "arg_selected_background"
-
-private const val INSTAGRAM_PACKAGE = "com.instagram.android"
-private const val WHATSAPP_PACKAGE = "com.whatsapp"
 
 class ShareQuakeBottomSheet : BottomSheetDialogFragment() {
 
@@ -109,6 +108,10 @@ class ShareQuakeBottomSheet : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        check(designButtonIds.size == StickerDesign.entries.size) {
+            "designButtonIds must have one entry per StickerDesign, in StickerDesign.entries order"
+        }
+
         savedInstanceState
             ?.getString(ARG_SELECTED_BACKGROUND)
             ?.let { selectedBackground = StickerBackground.valueOf(it) }
@@ -139,23 +142,24 @@ class ShareQuakeBottomSheet : BottomSheetDialogFragment() {
 
         configDestination(
             item = binding.destInstagram,
-            icon = resolveAppIcon(INSTAGRAM_PACKAGE),
+            icon = { resolveAppIcon(INSTAGRAM_PACKAGE) },
             labelRes = R.string.SHARE_DEST_INSTAGRAM_STORIES,
             isAvailable = requireContext().isInstagramStoriesAvailable()
         ) {
             val (topColor, bottomColor) = selectedBackground.storyColors(magnitudeColor)
             val sent = requireContext().shareQuakeToInstagramStory(selectedStickerUri, topColor, bottomColor)
-            if (!sent) requireContext().toast(R.string.SHARE_IG_NOT_AVAILABLE)
+            if (!sent) requireContext().toast(R.string.SHARE_APP_NOT_AVAILABLE)
             dismiss()
         }
 
         configDestination(
             item = binding.destWhatsapp,
-            icon = resolveAppIcon(WHATSAPP_PACKAGE),
+            icon = { resolveAppIcon(WHATSAPP_PACKAGE) },
             labelRes = R.string.SHARE_DEST_WHATSAPP,
             isAvailable = requireContext().isWhatsAppAvailable()
         ) {
-            requireContext().shareQuakeToWhatsApp(quake, selectedStickerUri)
+            val sent = requireContext().shareQuakeToWhatsApp(quake, selectedStickerUri)
+            if (!sent) requireContext().toast(R.string.SHARE_APP_NOT_AVAILABLE)
             dismiss()
         }
 
@@ -190,7 +194,7 @@ class ShareQuakeBottomSheet : BottomSheetDialogFragment() {
         item: ItemShareDestinationBinding,
         @StringRes labelRes: Int,
         isAvailable: Boolean,
-        icon: Drawable? = null,
+        icon: (() -> Drawable?)? = null,
         @DrawableRes iconRes: Int? = null,
         onClick: () -> Unit
     ) {
@@ -201,7 +205,7 @@ class ShareQuakeBottomSheet : BottomSheetDialogFragment() {
 
         item.tvDestLabel.setText(labelRes)
         when {
-            icon != null -> item.ivDestIcon.setImageDrawable(icon)
+            icon != null -> item.ivDestIcon.setImageDrawable(icon())
             iconRes != null -> item.ivDestIcon.setImageResource(iconRes)
         }
         item.root.setOnClickListener { onClick() }

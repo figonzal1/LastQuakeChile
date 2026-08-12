@@ -12,9 +12,9 @@ import cl.figonzal.lastquakechile.BuildConfig
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 
-private const val INSTAGRAM_PACKAGE = "com.instagram.android"
+internal const val INSTAGRAM_PACKAGE = "com.instagram.android"
 private const val INSTAGRAM_STORY_ACTION = "com.instagram.share.ADD_TO_STORY"
-private const val WHATSAPP_PACKAGE = "com.whatsapp"
+internal const val WHATSAPP_PACKAGE = "com.whatsapp"
 
 fun Context.buildShareText(quake: Quake): String = String.format(
     """
@@ -88,14 +88,18 @@ fun Context.shareQuakeToInstagramStory(
     return true
 }
 
-fun Context.shareQuakeToWhatsApp(quake: Quake, imageUri: Uri?) {
-    whatsAppSendIntent().apply {
+fun Context.shareQuakeToWhatsApp(quake: Quake, imageUri: Uri?): Boolean {
+    val intent = whatsAppSendIntent().apply {
         putExtra(Intent.EXTRA_TEXT, buildShareText(quake))
         putExtra(Intent.EXTRA_STREAM, imageUri)
         addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        imageUri?.let { grantUriPermission(WHATSAPP_PACKAGE, it, Intent.FLAG_GRANT_READ_URI_PERMISSION) }
-        startActivity(this)
     }
+
+    if (resolveActivityOrNull(intent) == null) return false
+
+    imageUri?.let { grantUriPermission(WHATSAPP_PACKAGE, it, Intent.FLAG_GRANT_READ_URI_PERMISSION) }
+    startActivity(intent)
+    return true
 }
 
 fun Context.copyQuakeText(quake: Quake) {

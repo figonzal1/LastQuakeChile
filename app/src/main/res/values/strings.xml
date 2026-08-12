@@ -22,14 +22,14 @@
     <string name="SHARE_GEO_REF">Georeference</string>
     <string name="SHARE_DOWNLOAD_MSG"><![CDATA[Download the app here ->]]></string>
     <string name="SHARE_SHEET_TITLE">Share earthquake</string>
-    <string name="SHARE_DEST_INSTAGRAM_STORIES">Instagram Stories</string>
+    <string name="SHARE_DEST_INSTAGRAM_STORIES">Stories</string>
     <string name="SHARE_DEST_WHATSAPP">WhatsApp</string>
     <string name="SHARE_DEST_COPY">Copy text</string>
     <string name="SHARE_DEST_MORE">More</string>
     <string name="SHARE_COPIED_TOAST">Text copied</string>
-    <string name="SHARE_IG_NOT_AVAILABLE">Instagram Stories isn\'t available on this device</string>
+    <string name="SHARE_APP_NOT_AVAILABLE">This app isn\'t available on this device</string>
     <string name="SHARE_MAP_ATTRIBUTION" translatable="false">Map data ©Google</string>
-    <string name="cd_share_preview">Share preview</string>
+    <string name="SHARE_CD_PREVIEW">Share preview</string>
     <string name="SHARE_STICKER_FOOTER">Get LastQuakeChile on Google Play</string>
     <string name="SHARE_DESIGN_CARD">Card</string>
     <string name="SHARE_DESIGN_MAGNITUDE">Magnitude</string>
