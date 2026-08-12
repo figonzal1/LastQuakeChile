@@ -2,8 +2,8 @@
 <!--
     Rendered off-screen (never attached to a window) by QuakeStoryRenderer to produce the
     Instagram Stories sticker bitmap. Colors are intentionally literal, not theme attrs or
-    values-night overrides: the sticker must look identical regardless of the device theme.
-    QuakeStoryRenderer repaints them at runtime for the DARK variant.
+    values-night overrides: the sticker must look identical regardless of the device theme -
+    same dark palette as share_story_sticker_magnitude.xml.
 
     IMPORTANT: this layout is inflated with a plain LayoutInflater (no AppCompatViewInflater
     factory, since there's no Activity/Fragment involved), so <ImageView> stays a plain
@@ -16,7 +16,7 @@
     android:id="@+id/card_share_sticker"
     android:layout_width="360dp"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="#FFFFFF"
+    app:cardBackgroundColor="#1A1A1A"
     app:cardCornerRadius="24dp"
     app:cardElevation="0dp">
 
@@ -42,7 +42,7 @@
             android:layout_marginStart="10dp"
             android:letterSpacing="0.02"
             android:text="@string/SHARE_BRAND_NAME"
-            android:textColor="#1A1A1A"
+            android:textColor="#FFFFFF"
             android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -117,7 +117,7 @@
             android:layout_marginStart="14dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textColor="#1A1A1A"
+            android:textColor="#FFFFFF"
             android:textSize="19sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -133,7 +133,7 @@
             android:layout_marginTop="1dp"
             android:ellipsize="end"
             android:maxLines="2"
-            android:textColor="#5C5C5C"
+            android:textColor="#B0B0B0"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/iv_share_mag_color"
@@ -165,7 +165,7 @@
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_marginTop="18dp"
-            android:background="#E8E8E8"
+            android:background="#3A3A3A"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/barrier_share_header" />
@@ -179,7 +179,7 @@
             android:letterSpacing="0.06"
             android:text="@string/depth_title"
             android:textAllCaps="true"
-            android:textColor="#9A9A9A"
+            android:textColor="#8A8A8A"
             android:textSize="9sp"
             app:layout_constraintEnd_toStartOf="@id/tv_share_scale_label"
             app:layout_constraintStart_toStartOf="parent"
@@ -191,7 +191,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:gravity="center"
-            android:textColor="#1A1A1A"
+            android:textColor="#FFFFFF"
             android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@id/tv_share_depth_label"
@@ -208,7 +208,7 @@
             android:letterSpacing="0.06"
             android:text="@string/scale_title"
             android:textAllCaps="true"
-            android:textColor="#9A9A9A"
+            android:textColor="#8A8A8A"
             android:textSize="9sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_share_depth_label"
@@ -220,7 +220,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:gravity="center"
-            android:textColor="#1A1A1A"
+            android:textColor="#FFFFFF"
             android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@id/tv_share_scale_label"
@@ -243,7 +243,7 @@
             android:gravity="center"
             android:maxLines="1"
             android:text="@string/SHARE_STICKER_FOOTER"
-            android:textColor="#3F51B5"
+            android:textColor="#7986CB"
             android:textSize="10sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"

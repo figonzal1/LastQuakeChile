@@ -2,12 +2,12 @@ package cl.figonzal.lastquakechile.quake_feature.ui.share
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.util.DisplayMetrics
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import androidx.annotation.ColorInt
+import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.utils.fixedDensityContext
@@ -26,33 +26,10 @@ import java.util.Locale
 
 private const val STICKER_WIDTH_DP = 360
 
-enum class StickerDesign {
-    CARD, MAGNITUDE
+enum class StickerDesign(@StringRes val labelRes: Int) {
+    CARD(R.string.SHARE_DESIGN_CARD),
+    MAGNITUDE(R.string.SHARE_DESIGN_MAGNITUDE)
 }
-
-val StickerDesign.labelRes: Int
-    get() = when (this) {
-        StickerDesign.CARD -> R.string.SHARE_DESIGN_CARD
-        StickerDesign.MAGNITUDE -> R.string.SHARE_DESIGN_MAGNITUDE
-    }
-
-private data class StickerPalette(
-    val cardBackground: Int,
-    val primaryText: Int,
-    val secondaryText: Int,
-    val tertiaryText: Int,
-    val divider: Int,
-    val accent: Int
-)
-
-private val CARD_PALETTE = StickerPalette(
-    cardBackground = Color.parseColor("#1A1A1A"),
-    primaryText = Color.parseColor("#FFFFFF"),
-    secondaryText = Color.parseColor("#B0B0B0"),
-    tertiaryText = Color.parseColor("#8A8A8A"),
-    divider = Color.parseColor("#3A3A3A"),
-    accent = Color.parseColor("#7986CB")
-)
 
 /**
  * Renders the earthquake data card used both as the Instagram Stories sticker and as the
@@ -64,26 +41,17 @@ class QuakeStoryRenderer(private val context: Context) {
 
     fun renderSticker(quake: Quake, mapSnapshot: Bitmap?, design: StickerDesign): Bitmap =
         when (design) {
-            StickerDesign.CARD -> renderCardSticker(quake, mapSnapshot, CARD_PALETTE)
+            StickerDesign.CARD -> renderCardSticker(quake, mapSnapshot)
             StickerDesign.MAGNITUDE -> renderMagnitudeSticker(quake)
         }
 
-    private fun renderCardSticker(quake: Quake, mapSnapshot: Bitmap?, palette: StickerPalette): Bitmap {
+    private fun renderCardSticker(quake: Quake, mapSnapshot: Bitmap?): Bitmap {
         val densityContext = themedDensityContext()
         val binding = ShareStoryStickerBinding.inflate(LayoutInflater.from(densityContext))
 
         with(binding) {
-            root.setCardBackgroundColor(palette.cardBackground)
-
-            tvShareAppName.setTextColor(palette.primaryText)
-
             tvShareCity.text = quake.city
-            tvShareCity.setTextColor(palette.primaryText)
-
             tvShareReference.text = quake.reference
-            tvShareReference.setTextColor(palette.secondaryText)
-
-            tvShareDatetime.setTextColor(palette.tertiaryText)
             tvShareDatetime.text = quake.fullDateText()
 
             tvShareMagnitude.text = String.format(
@@ -95,20 +63,13 @@ class QuakeStoryRenderer(private val context: Context) {
                 ContextCompat.getColor(densityContext, getMagnitudeColor(quake.magnitude, false))
             )
 
-            tvShareDepthLabel.setTextColor(palette.tertiaryText)
             tvShareDepthValue.text = String.format(
                 Locale.getDefault(),
                 QUAKE_DETAILS_DEPTH_FORMAT,
                 quake.depth
             )
-            tvShareDepthValue.setTextColor(palette.primaryText)
 
-            tvShareScaleLabel.setTextColor(palette.tertiaryText)
             tvShareScaleValue.setScale(quake.scale)
-            tvShareScaleValue.setTextColor(palette.primaryText)
-
-            viewShareDivider.setBackgroundColor(palette.divider)
-            tvShareFooter.setTextColor(palette.accent)
 
             when (mapSnapshot) {
                 null -> {
@@ -133,8 +94,6 @@ class QuakeStoryRenderer(private val context: Context) {
         val magnitudeColor = ContextCompat.getColor(densityContext, getMagnitudeColor(quake.magnitude, false))
 
         with(binding) {
-            root.setCardBackgroundColor(CARD_PALETTE.cardBackground)
-
             tvShareMagnitudeValue.text = String.format(
                 Locale.getDefault(),
                 QUAKE_DETAILS_MAGNITUDE_FORMAT,

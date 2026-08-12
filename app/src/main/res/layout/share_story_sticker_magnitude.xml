@@ -12,9 +12,9 @@
     android:id="@+id/card_share_sticker_magnitude"
     android:layout_width="360dp"
     android:layout_height="400dp"
+    app:cardBackgroundColor="#1A1A1A"
     app:cardCornerRadius="24dp"
-    app:cardElevation="0dp"
-    tools:cardBackgroundColor="#1A1A1A">
+    app:cardElevation="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

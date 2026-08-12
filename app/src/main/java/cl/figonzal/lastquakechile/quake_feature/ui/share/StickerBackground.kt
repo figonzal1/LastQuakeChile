@@ -3,19 +3,15 @@ package cl.figonzal.lastquakechile.quake_feature.ui.share
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import androidx.annotation.ColorInt
+import androidx.annotation.StringRes
 import cl.figonzal.lastquakechile.R
 import java.util.Locale
 
 /** The two Instagram-Stories-style backgrounds the user can pick for the share canvas. */
-enum class StickerBackground {
-    SOLID, GRADIENT
+enum class StickerBackground(@StringRes val labelRes: Int) {
+    SOLID(R.string.SHARE_BG_SOLID),
+    GRADIENT(R.string.SHARE_BG_GRADIENT)
 }
-
-val StickerBackground.labelRes: Int
-    get() = when (this) {
-        StickerBackground.SOLID -> R.string.SHARE_BG_SOLID
-        StickerBackground.GRADIENT -> R.string.SHARE_BG_GRADIENT
-    }
 
 /** Top/bottom hex colors for Instagram's `top_background_color` / `bottom_background_color` extras. */
 fun StickerBackground.storyColors(@ColorInt magnitudeColor: Int): Pair<String, String> {
