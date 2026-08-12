@@ -5,7 +5,6 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.SystemClock
 import android.util.TypedValue
@@ -33,7 +32,6 @@ import cl.figonzal.lastquakechile.core.domain.DomainError.NoMoreData
 import cl.figonzal.lastquakechile.core.domain.DomainError.ServerError
 import cl.figonzal.lastquakechile.core.domain.DomainError.Timeout
 import cl.figonzal.lastquakechile.core.ui.SettingsActivity
-import cl.figonzal.lastquakechile.core.utils.cacheImageUri
 import cl.figonzal.lastquakechile.core.utils.latLongToDMS
 import cl.figonzal.lastquakechile.core.utils.localDateToDHMS
 import cl.figonzal.lastquakechile.core.utils.stringToLocalDateTime
@@ -47,8 +45,6 @@ import coil3.request.placeholder
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.card.MaterialCardView
-import java.io.IOException
-import java.util.Calendar
 import java.util.Locale
 import kotlin.math.floor
 
@@ -353,15 +349,6 @@ fun TextView.formatDMS(coordinates: Coordinate) {
     )
 
     text = String.format(QUAKE_CORDS_FORMAT, dmsLat, dmsLong)
-}
-
-/**
- * Save snapshot from google map in cache directory
- */
-@Throws(IOException::class)
-fun Context.getLocalBitmapUri(bitmap: Bitmap): Uri {
-    val date = Calendar.getInstance().timeInMillis.toInt()
-    return cacheImageUri(bitmap, date.toString(), Bitmap.CompressFormat.JPEG)
 }
 
 /**

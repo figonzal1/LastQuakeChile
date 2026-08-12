@@ -136,9 +136,6 @@ dependencies {
     //Dependency injection KOIN
     implementation(libs.koin.android)
 
-    //Appodeal
-    //implementation("com.appodeal.ads:sdk:3.0.0.4")
-
     //Google Play
     implementation(libs.bundles.google.play)
 
@@ -199,7 +196,6 @@ dependencies {
     //Debug dependencies
     debugImplementation(libs.androidx.fragment.fragment.testing.manifest)
     androidTestImplementation(libs.androidx.fragment.fragment.testing)
-    //debugImplementation(libs.com.squareup.leakcanary.leakcanary.android)
 
     coreLibraryDesugaring(libs.com.android.tools.desugar.jdk.libs)
 }
