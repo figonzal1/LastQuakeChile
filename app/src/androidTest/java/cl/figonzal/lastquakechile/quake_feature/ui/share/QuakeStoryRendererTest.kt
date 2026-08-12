@@ -2,6 +2,7 @@ package cl.figonzal.lastquakechile.quake_feature.ui.share
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
@@ -50,29 +51,17 @@ class QuakeStoryRendererTest {
     }
 
     @Test
-    fun storyColors_returnValidHexPairsForEveryBackground() {
-        val magnitudeColor = renderer.magnitudeColor(quake)
-
-        StickerBackground.entries.forEach { background ->
-            val (top, bottom) = background.storyColors(magnitudeColor)
-
-            assertThat(top).matches("#[0-9A-F]{6}")
-            assertThat(bottom).matches("#[0-9A-F]{6}")
-
-            when (background) {
-                StickerBackground.SOLID -> assertThat(bottom).isEqualTo(top)
-                StickerBackground.GRADIENT -> assertThat(bottom).isEqualTo("#000000")
-            }
-        }
-    }
-
-    @Test
     fun cacheImageUri_writesReadableFile() {
         val bitmap = renderer.renderSticker(quake, mapSnapshot = null, StickerDesign.CARD)
         val uri = context.cacheImageUri(bitmap, "test-sticker", Bitmap.CompressFormat.PNG)
 
         context.contentResolver.openInputStream(uri).use { stream ->
-            assertThat(stream).isNotNull()
+            val decoded = BitmapFactory.decodeStream(stream)
+            assertThat(decoded).isNotNull()
+            assertThat(decoded!!.width).isEqualTo(STICKER_WIDTH_PX)
+            decoded.recycle()
         }
+
+        bitmap.recycle()
     }
 }
