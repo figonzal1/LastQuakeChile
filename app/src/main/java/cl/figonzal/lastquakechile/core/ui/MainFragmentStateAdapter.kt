@@ -23,6 +23,13 @@ class MainFragmentStateAdapter(
     private val reportFragment: ReportsFragment by inject()
     private val adFragment: AdFragment = AdFragment.newInstance()
 
+    val tabs = listOf(
+        "", //Ad section
+        context.getString(R.string.tab_list),
+        context.getString(R.string.tab_map),
+        context.getString(R.string.tab_reports)
+    )
+
     override fun createFragment(position: Int) = when (position) {
         0 -> adFragment
         1 -> quakeFragment
@@ -32,15 +39,4 @@ class MainFragmentStateAdapter(
     }
 
     override fun getItemCount() = tabs.size
-
-    companion object {
-        val tabs = arrayOfNulls<String>(4)
-    }
-
-    init {
-        tabs[0] = "" //Ad section
-        tabs[1] = context.getString(R.string.tab_list)
-        tabs[2] = context.getString(R.string.tab_map)
-        tabs[3] = context.getString(R.string.tab_reports)
-    }
 }

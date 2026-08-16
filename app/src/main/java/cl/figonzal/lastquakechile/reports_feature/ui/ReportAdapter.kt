@@ -62,10 +62,10 @@ class ReportAdapter : RecyclerView.Adapter<ReportViewHolder>() {
 
                 tvNQuakesValue.text = nQuakes.toString()
                 tvNSensiblesValue.text = nSensitive.toString()
-                tvPromMagnitudValue.text = String.format("%s", promMagnitud)
-                tvPromProfValue.text = String.format("%s km", promDepth)
-                tvMaxMagValue.text = String.format("%s", maxMagnitude)
-                tvMinProfValue.text = String.format("%s km", minDepth)
+                tvPromMagnitudValue.text = promMagnitud.toString()
+                tvPromProfValue.text = "$promDepth km"
+                tvMaxMagValue.text = maxMagnitude.toString()
+                tvMinProfValue.text = "$minDepth km"
 
                 listOf(
                     tvNombreC1 to tvNSismosC1,

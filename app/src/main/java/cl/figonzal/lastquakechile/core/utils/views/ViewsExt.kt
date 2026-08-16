@@ -1,6 +1,5 @@
 package cl.figonzal.lastquakechile.core.utils.views
 
-import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -121,39 +120,28 @@ fun Fragment.configOptionsMenu(
     }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 }
 
+private val MAGNITUDE_COLORS = intArrayOf(
+    R.color.colorPrimary, R.color.magnitude1, R.color.magnitude2, R.color.magnitude3,
+    R.color.magnitude4, R.color.magnitude5, R.color.magnitude6, R.color.magnitude7,
+    R.color.magnitude8
+)
+
+private val MAGNITUDE_COLORS_ALPHA = intArrayOf(
+    R.color.colorPrimary, R.color.magnitude1_alpha, R.color.magnitude2_alpha,
+    R.color.magnitude3_alpha, R.color.magnitude4_alpha, R.color.magnitude5_alpha,
+    R.color.magnitude6_alpha, R.color.magnitude7_alpha, R.color.magnitude8_alpha
+)
+
 /**
  * Function that sets background colors depending on the magnitude of the earthquake
  *
  * @param magnitude Quake magnitude
  * @return id color resource
  */
-fun getMagnitudeColor(magnitude: Double, forMapa: Boolean) = when {
-    forMapa -> getColorResourceMap(floor(magnitude).toInt())
-    else -> getColorResource(floor(magnitude).toInt())
-}
-
-private fun getColorResource(mMagFloor: Int) = when {
-    mMagFloor == 1 -> R.color.magnitude1
-    mMagFloor == 2 -> R.color.magnitude2
-    mMagFloor == 3 -> R.color.magnitude3
-    mMagFloor == 4 -> R.color.magnitude4
-    mMagFloor == 5 -> R.color.magnitude5
-    mMagFloor == 6 -> R.color.magnitude6
-    mMagFloor == 7 -> R.color.magnitude7
-    mMagFloor >= 8 -> R.color.magnitude8
-    else -> R.color.colorPrimary
-}
-
-private fun getColorResourceMap(mMagFloor: Int) = when {
-    mMagFloor == 1 -> R.color.magnitude1_alpha
-    mMagFloor == 2 -> R.color.magnitude2_alpha
-    mMagFloor == 3 -> R.color.magnitude3_alpha
-    mMagFloor == 4 -> R.color.magnitude4_alpha
-    mMagFloor == 5 -> R.color.magnitude5_alpha
-    mMagFloor == 6 -> R.color.magnitude6_alpha
-    mMagFloor == 7 -> R.color.magnitude7_alpha
-    mMagFloor >= 8 -> R.color.magnitude8_alpha
-    else -> R.color.colorPrimary
+fun getMagnitudeColor(magnitude: Double, forMapa: Boolean): Int {
+    val mMagFloor = floor(magnitude).toInt()
+    val index = if (mMagFloor >= 1) mMagFloor.coerceAtMost(8) else 0
+    return if (forMapa) MAGNITUDE_COLORS_ALPHA[index] else MAGNITUDE_COLORS[index]
 }
 
 /**
@@ -169,29 +157,14 @@ fun ViewGroup.layoutInflater(layout: Int): View =
  */
 fun TextView.setScale(scale: String) {
     text = when {
-        scale.contains("Mw") -> String.format(
-            QUAKE_DETAILS_SCALE_FORMAT,
-            context.getString(R.string.moment_magnitude)
-        )
-
-        else -> String.format(
-            QUAKE_DETAILS_SCALE_FORMAT,
-            context.getString(R.string.local_magnitude)
-        )
+        scale.contains("Mw") -> context.getString(R.string.moment_magnitude)
+        else -> context.getString(R.string.local_magnitude)
     }
 }
 
 /**
  * Extension for toast
  */
-fun Activity.toast(stringId: Int) {
-    Toast.makeText(
-        this,
-        getString(stringId),
-        Toast.LENGTH_LONG
-    ).show()
-}
-
 fun Fragment.toast(stringId: Int) {
     Toast.makeText(
         requireContext(),
@@ -432,9 +405,8 @@ fun ViewPager2.handleShortcuts(action: String?, packageName: String) {
 }
 
 fun BottomSheetBehavior<MaterialCardView>.handleBottomSheetState() {
-    state = when (state) {
-        BottomSheetBehavior.STATE_EXPANDED -> BottomSheetBehavior.STATE_EXPANDED
-        else -> BottomSheetBehavior.STATE_COLLAPSED
+    if (state != BottomSheetBehavior.STATE_EXPANDED) {
+        state = BottomSheetBehavior.STATE_COLLAPSED
     }
 }
 

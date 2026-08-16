@@ -19,13 +19,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.BundleCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.MenuProvider
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.services.notifications.utils.IS_SNAPSHOT_REQUEST_FROM_BOTTOM_SHEET
 import cl.figonzal.lastquakechile.core.services.notifications.utils.QUAKE
 import cl.figonzal.lastquakechile.core.ui.dialog.MapTerrainDialogFragment
-import cl.figonzal.lastquakechile.core.utils.animate
 import cl.figonzal.lastquakechile.core.utils.configMapType
 import cl.figonzal.lastquakechile.core.utils.makeSnapshot
 import cl.figonzal.lastquakechile.core.utils.setNightMode
@@ -55,10 +55,36 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 private const val mapViewKey = "MapViewBundleKey"
+
+/**
+ * Adds a pulsing radar circle centered on [latLng] and returns the animator driving it, so the
+ * caller can pause/resume/cancel it. Two of these overlap with a [startDelay] offset to create
+ * the staggered pulse effect.
+ */
+private fun GoogleMap.addPulseCircle(latLng: LatLng, color: Int, startDelay: Long): ValueAnimator {
+    val circle = addCircle {
+        center(latLng)
+        radius(90000.0)
+        strokeWidth(1f)
+        strokeColor(color)
+    }
+
+    return ValueAnimator.ofInt(0, 90000).apply {
+        repeatMode = ValueAnimator.RESTART
+        repeatCount = ValueAnimator.INFINITE
+        duration = 4000
+        this.startDelay = startDelay
+        setEvaluator(IntEvaluator())
+        interpolator = AccelerateDecelerateInterpolator()
+        addUpdateListener { animator ->
+            circle.radius = (animator.animatedFraction * 140000).toDouble()
+        }
+        start()
+    }
+}
 
 class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -240,8 +266,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                 tvDepthValue.text =
                     String.format(Locale.getDefault(), QUAKE_DETAILS_DEPTH_FORMAT, it.depth)
 
-                tvDatetimeValue.text =
-                    it.localDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                tvDatetimeValue.text = it.localDate
 
                 tvGmsValue.formatDMS(it.coordinate)
 
@@ -311,44 +336,8 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                     strokeColor(Color.TRANSPARENT)
                 }
 
-                addCircle {
-                    center(latLong)
-                    radius(90000.0)
-                    strokeWidth(1f)
-                    strokeColor(greyAlpha)
-                }.animate {
-                    circleAnimator2 = ValueAnimator.ofInt(0, 90000).apply {
-                        repeatMode = ValueAnimator.RESTART
-                        repeatCount = ValueAnimator.INFINITE
-                        duration = 4000
-                        setEvaluator(IntEvaluator())
-                        interpolator = AccelerateDecelerateInterpolator()
-                        addUpdateListener { animator ->
-                            this@animate.radius = (animator.animatedFraction * 140000).toDouble()
-                        }
-                        start()
-                    }
-                }
-
-                addCircle {
-                    center(latLong)
-                    radius(90000.0)
-                    strokeWidth(1f)
-                    strokeColor(greyAlpha)
-                }.animate {
-                    circleAnimator = ValueAnimator.ofInt(0, 90000).apply {
-                        repeatMode = ValueAnimator.RESTART
-                        repeatCount = ValueAnimator.INFINITE
-                        duration = 4000
-                        startDelay = 1000
-                        setEvaluator(IntEvaluator())
-                        interpolator = AccelerateDecelerateInterpolator()
-                        addUpdateListener { animator ->
-                            this@animate.radius = (animator.animatedFraction * 140000).toDouble()
-                        }
-                        start()
-                    }
-                }
+                circleAnimator2 = addPulseCircle(latLong, greyAlpha, startDelay = 0)
+                circleAnimator = addPulseCircle(latLong, greyAlpha, startDelay = 1000)
 
                 moveCamera(CameraUpdateFactory.newLatLngZoom(latLong, 6.0f))
 
@@ -375,15 +364,8 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun hideAdBanner(hide: Boolean) {
-        binding.cvNativeAd.visibility = when (hide) {
-            true -> View.GONE
-            false -> View.VISIBLE
-        }
-
-        binding.admobTemplate.root.visibility = when (hide) {
-            true -> View.GONE
-            false -> View.VISIBLE
-        }
+        binding.cvNativeAd.isVisible = !hide
+        binding.admobTemplate.root.isVisible = !hide
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

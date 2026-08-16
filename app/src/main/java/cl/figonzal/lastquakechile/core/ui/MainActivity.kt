@@ -2,7 +2,6 @@ package cl.figonzal.lastquakechile.core.ui
 
 import android.app.Activity
 import android.os.Bundle
-import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.activity.result.contract.ActivityResultContracts
@@ -10,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.preference.PreferenceManager
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.services.UpdaterService
@@ -127,7 +127,7 @@ class MainActivity : AppCompatActivity() {
 
             //Setting tabs
             TabLayoutMediator(tabs, viewPager) { tab: TabLayout.Tab, position: Int ->
-                tab.text = MainFragmentStateAdapter.tabs[position]
+                tab.text = (viewPager.adapter as MainFragmentStateAdapter).tabs[position]
 
                 when (position) {
                     0 -> {
@@ -192,10 +192,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun hideAdBanner(hide: Boolean) {
-        binding.adViewContainer.visibility = when (hide) {
-            true -> View.GONE
-            false -> View.VISIBLE
-        }
+        binding.adViewContainer.isVisible = !hide
     }
 
     private val activityResultLauncher =

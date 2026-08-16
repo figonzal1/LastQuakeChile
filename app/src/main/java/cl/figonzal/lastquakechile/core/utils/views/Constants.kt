@@ -11,7 +11,6 @@ internal const val QUAKETIME_H_FORMAT = "%1\$dh"
 internal const val QUAKETIME_M_FORMAT = "%1\$dm"
 internal const val QUAKETIME_S_FORMAT = "%1\$ds"
 
-internal const val QUAKE_DETAILS_SCALE_FORMAT = "%1\$s"
 internal const val QUAKE_DETAILS_DEPTH_FORMAT = "%.1f Km"
 internal const val QUAKE_DETAILS_MAGNITUDE_FORMAT = "%.1f"
 
