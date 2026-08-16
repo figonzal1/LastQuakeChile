@@ -2,7 +2,9 @@
 
 package cl.figonzal.lastquakechile.core.di
 
-import cl.figonzal.lastquakechile.core.utils.provideTestDatabase
+import android.app.Application
+import androidx.room.Room
+import cl.figonzal.lastquakechile.core.AppDatabase
 import cl.figonzal.lastquakechile.quake_feature.data.repository.FakeQuakeRepository
 import cl.figonzal.lastquakechile.quake_feature.domain.repository.QuakeRepository
 import cl.figonzal.lastquakechile.quake_feature.domain.use_case.GetQuakesUseCase
@@ -45,6 +47,14 @@ val testReportModule = module {
     //Adapter
     factory { ReportAdapter() }
 }
+
+/**
+ * Provide in memory database for injection test
+ */
+private fun provideTestDatabase(application: Application): AppDatabase = Room.inMemoryDatabaseBuilder(
+    application,
+    AppDatabase::class.java
+).allowMainThreadQueries().build()
 
 /**
  * Dependencies for instrumented Test
