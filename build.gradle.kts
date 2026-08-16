@@ -27,7 +27,7 @@ plugins {
     alias(libs.plugins.org.sonarqube)
 
     //Version catalog updater
-    alias(libs.plugins.com.github.ben.manes.versions)
+    alias(libs.plugins.io.github.ben.manes.versions)
     alias(libs.plugins.nl.littlerobots.version.catalog.update)
 }
 

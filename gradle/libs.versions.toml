@@ -106,6 +106,6 @@ com-google-android-libraries-mapsplatform-secrets-gradle-plugin = "com.google.an
 com-google-gms-google-services = "com.google.gms.google-services:4.5.0"
 com-google-firebase-crashlytics = "com.google.firebase.crashlytics:3.0.7"
 com-google-firebase-firebase-perf = "com.google.firebase.firebase-perf:2.0.2"
-com-github-ben-manes-versions = "com.github.ben-manes.versions:0.54.0"
+io-github-ben-manes-versions = "io.github.ben-manes.versions:0.61.0"
 nl-littlerobots-version-catalog-update = "nl.littlerobots.version-catalog-update:1.1.1"
 org-sonarqube = "org.sonarqube:7.3.0.8198"
