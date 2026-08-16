@@ -2,12 +2,12 @@ package cl.figonzal.lastquakechile.core.ui.dialog
 
 import android.app.Dialog
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.utils.SHARED_PREF_MAP_TYPE
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import android.os.Bundle as PlatformBundle
 
 class MapTerrainDialogFragment : DialogFragment() {
@@ -21,7 +21,7 @@ class MapTerrainDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val sharedPrefUtil = SharedPrefUtil(requireContext())
-        return AlertDialog.Builder(requireActivity())
+        return MaterialAlertDialogBuilder(requireActivity())
             .setTitle(getString(R.string.map_type))
             .setItems(R.array.maps) { _, which ->
                 val mapType = when (which) {
