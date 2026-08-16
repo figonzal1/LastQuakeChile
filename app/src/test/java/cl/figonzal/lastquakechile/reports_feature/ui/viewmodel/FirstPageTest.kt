@@ -3,7 +3,6 @@ package cl.figonzal.lastquakechile.reports_feature.ui.viewmodel
 import app.cash.turbine.test
 import cl.figonzal.lastquakechile.core.domain.DomainError
 import cl.figonzal.lastquakechile.reports_feature.data.repository.FakeReportRepository
-import cl.figonzal.lastquakechile.reports_feature.domain.use_case.GetReportsUseCase
 import cl.figonzal.lastquakechile.reports_feature.ui.ReportViewModel
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.Dispatchers
@@ -38,8 +37,7 @@ class FirstPageTest : KoinTest {
     fun setUp() {
         Dispatchers.setMain(dispatcher)
 
-        val useCase = GetReportsUseCase(repository)
-        viewModel = ReportViewModel(useCase)
+        viewModel = ReportViewModel(repository)
     }
 
     @After

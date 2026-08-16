@@ -6,6 +6,4 @@ import kotlinx.coroutines.flow.Flow
 
 interface ReportRepository {
     fun getReports(pageIndex: Int): Flow<DomainResult<List<Report>>>
-    fun getFirstPage(pageIndex: Int): Flow<DomainResult<List<Report>>>
-    fun getNextPages(pageIndex: Int): Flow<DomainResult<List<Report>>>
 }

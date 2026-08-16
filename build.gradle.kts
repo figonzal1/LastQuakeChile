@@ -5,6 +5,9 @@ plugins {
 
     alias(libs.plugins.com.android.application) apply false
 
+    //Parcelize codegen
+    alias(libs.plugins.org.jetbrains.kotlin.plugin.parcelize) apply false
+
     //FIREBASE CRASH ANALYTICS
     alias(libs.plugins.com.google.gms.google.services) apply false
 

@@ -21,8 +21,6 @@
     <string name="SHARE_GEO_REF">Georeference</string>
     <string name="SHARE_DOWNLOAD_MSG"><![CDATA[Download the app here ->]]></string>
     <!-- FIREBASE strings -->
-    <string name="firebase_channel_name_quakes">Quake alerts</string>
-    <string name="firebase_channel_description_quakes">Receives quake alerts</string>
     <string name="firebase_channel_name_quakes_high">Quake alerts · High priority</string>
     <string name="firebase_channel_description_quakes_high">Quake alerts with heads-up notification</string>
     <string name="firebase_channel_name_quakes_default">Quake alerts · Normal priority</string>
@@ -119,9 +117,6 @@
     <string name="DEC">December</string>
     <string name="intent_chooser">Share quakes</string>
     <string name="version">"Version "</string>
-    <string name="change_log_title">What\'s new in the app?</string>
-    <string name="novedades">New things</string>
-    <string name="ok">OK</string>
     <string name="map_type">Map type</string>
     <string name="cd_new_version_icon">New Version Icon</string>
     <string name="menu_map_style_title">Map style</string>

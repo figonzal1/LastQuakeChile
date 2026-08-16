@@ -1,8 +1,6 @@
 package cl.figonzal.lastquakechile.core.utils
 
 import cl.figonzal.lastquakechile.BuildConfig
-import cl.figonzal.lastquakechile.quake_feature.data.remote.QuakeAPI
-import cl.figonzal.lastquakechile.reports_feature.data.remote.ReportAPI
 import com.skydoves.sandwich.retrofit.adapters.ApiResponseCallAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -27,8 +25,4 @@ fun provideApiService(url: String): Retrofit =
         .addCallAdapterFactory(ApiResponseCallAdapterFactory.create())
         .addConverterFactory(MoshiConverterFactory.create())
         .build()
-
-fun provideQuakeAPI(apiService: Retrofit): QuakeAPI = apiService.create(QuakeAPI::class.java)
-
-fun provideReportAPI(apiService: Retrofit): ReportAPI = apiService.create(ReportAPI::class.java)
 

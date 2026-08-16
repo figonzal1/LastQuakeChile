@@ -17,7 +17,6 @@ import cl.figonzal.lastquakechile.core.utils.views.toast
 import cl.figonzal.lastquakechile.databinding.QuakeBottomSheetBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.model.Circle
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import timber.log.Timber
@@ -41,28 +40,10 @@ fun GoogleMap.setNightMode(context: Context) {
 /**
  * Calculate mean coordinates of quakeList
  */
-fun calculateMeanCords(quakeList: List<Quake>): LatLng {
-    var meanLat = 0.0
-    var meanLong = 0.0
-
-    quakeList.onEach {
-        meanLat += it.coordinate.latitude
-        meanLong += it.coordinate.longitude
-    }
-
-    meanLat /= quakeList.size.toDouble()
-    meanLong /= quakeList.size.toDouble()
-
-    return LatLng(meanLat, meanLong)
-}
-
-/**
- * Animate circle
- */
-fun Circle.animate(body: Circle.() -> Unit): Circle {
-    body()
-    return this
-}
+fun calculateMeanCords(quakeList: List<Quake>): LatLng = LatLng(
+    quakeList.map { it.coordinate.latitude }.average(),
+    quakeList.map { it.coordinate.longitude }.average()
+)
 
 /**
  * Google maps take snapshot

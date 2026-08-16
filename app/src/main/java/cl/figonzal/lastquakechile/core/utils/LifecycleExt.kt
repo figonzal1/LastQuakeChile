@@ -4,7 +4,6 @@ import android.app.Activity
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
-import cl.figonzal.lastquakechile.core.services.ChangeLogService
 import cl.figonzal.lastquakechile.core.services.GooglePlayService
 import cl.figonzal.lastquakechile.core.services.NightModeService
 import com.google.firebase.Firebase
@@ -13,7 +12,7 @@ import com.google.firebase.crashlytics.crashlytics
 import timber.log.Timber
 
 
-fun AppCompatActivity.initLifecycleObservers(sharedPrefUtil: SharedPrefUtil) {
+fun AppCompatActivity.initLifecycleObservers() {
 
     with(lifecycle) {
         val crashlytics = Firebase.crashlytics
@@ -27,14 +26,6 @@ fun AppCompatActivity.initLifecycleObservers(sharedPrefUtil: SharedPrefUtil) {
             crashlytics = crashlytics
         )
         addObserver(playService)
-
-        //ChangeLog Service
-        val changeLogService = ChangeLogService(
-            this@initLifecycleObservers,
-            sharedPrefUtil,
-            crashlytics
-        )
-        addObserver(changeLogService)
     }
 }
 

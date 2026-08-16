@@ -150,7 +150,7 @@ class FakeQuakeRepository(
     }
 
     //NOSONAR
-    override fun getFirstPage(pageIndex: Int): Flow<DomainResult<List<Quake>>> = flow {
+    private fun getFirstPage(pageIndex: Int): Flow<DomainResult<List<Quake>>> = flow {
         when {
             shouldReturnNetworkError -> emit(DomainResult.Error(quakeList, DomainError.HttpError))
             else -> emit(DomainResult.Success(quakeList.take(20)))
@@ -158,7 +158,7 @@ class FakeQuakeRepository(
     }.flowOn(dispatcher)
 
     //NOSONAR
-    override fun getNextPages(pageIndex: Int): Flow<DomainResult<List<Quake>>> = flow {
+    private fun getNextPages(pageIndex: Int): Flow<DomainResult<List<Quake>>> = flow {
         when {
             shouldReturnNetworkError -> emit(DomainResult.Error(quakeList, DomainError.HttpError))
             else -> emit(DomainResult.Success(quakeList.take(20)))

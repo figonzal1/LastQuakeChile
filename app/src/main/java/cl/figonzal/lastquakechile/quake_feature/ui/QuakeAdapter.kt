@@ -92,7 +92,7 @@ class QuakeAdapter : RecyclerView.Adapter<QuakeViewHolder>() {
     }
 
     private fun recalculateTimeShowed() {
-        quakes.indices.forEach { notifyItemChanged(it) }
+        notifyItemRangeChanged(0, itemCount)
         Timber.d("Recalculating time shown in quakeList")
     }
 }

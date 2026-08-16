@@ -3,7 +3,6 @@ package cl.figonzal.lastquakechile.quake_feature.ui.viewmodel
 import app.cash.turbine.test
 import cl.figonzal.lastquakechile.core.domain.DomainError
 import cl.figonzal.lastquakechile.quake_feature.data.repository.FakeQuakeRepository
-import cl.figonzal.lastquakechile.quake_feature.domain.use_case.GetQuakesUseCase
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeViewModel
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.Dispatchers
@@ -38,8 +37,7 @@ class FirstPageTest : KoinTest {
     fun setup() {
         Dispatchers.setMain(dispatcher)
 
-        val userCase = GetQuakesUseCase(repository)
-        viewModel = QuakeViewModel(userCase)
+        viewModel = QuakeViewModel(repository)
     }
 
     @After
