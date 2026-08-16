@@ -1,28 +1,28 @@
 [versions]
 agp = "9.2.1"
-coil = "3.4.0"
-kotlin = "2.3.20"
+coil = "3.5.0"
+kotlin = "2.4.10"
 # sept. 2024 (NO ACTUALIZAR)
 espresso = "3.7.0"
 espresso-contrib = "3.7.0"
-koin = "4.2.1"
+koin = "4.2.2"
 kotlinx-coroutines = "1.11.0"
-androidx-lifecycle = "2.10.0"
+androidx-lifecycle = "2.11.0"
 moshi = "1.15.2"
 retrofit = "3.0.0"
 room = "2.8.4"
-sandwich = "2.2.2"
-androidx-fragment = "1.8.9"
+sandwich = "2.4.0"
+androidx-fragment = "1.9.0"
 androidx-test = "1.7.0"
 
 [libraries]
 # AndroidX
-androidx-core-ktx = "androidx.core:core-ktx:1.18.0"
+androidx-core-ktx = "androidx.core:core-ktx:1.19.0"
 androidx-core-splashscreen = "androidx.core:core-splashscreen:1.2.0"
-androidx-appcompat = "androidx.appcompat:appcompat:1.7.1"
-androidx-constraintlayout = "androidx.constraintlayout:constraintlayout:2.2.1"
+androidx-appcompat = "androidx.appcompat:appcompat:1.8.0"
+androidx-constraintlayout = "androidx.constraintlayout:constraintlayout:2.2.2"
 androidx-preference-ktx = "androidx.preference:preference-ktx:1.2.1"
-material = "com.google.android.material:material:1.13.0"
+material = "com.google.android.material:material:1.14.0"
 # Lifecycle
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle" }
 # Coroutines
@@ -34,7 +34,7 @@ androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref =
 # Network
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 retrofit-converter-moshi = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "retrofit" }
-logging-interceptor = "com.squareup.okhttp3:logging-interceptor:5.3.2"
+logging-interceptor = "com.squareup.okhttp3:logging-interceptor:5.4.0"
 sandwich = { module = "com.github.skydoves:sandwich", version.ref = "sandwich" }
 sandwich-retrofit = { module = "com.github.skydoves:sandwich-retrofit", version.ref = "sandwich" }
 # Moshi
@@ -45,18 +45,18 @@ coil = { module = "io.coil-kt.coil3:coil", version.ref = "coil" }
 # Koin
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 # Firebase
-com-google-firebase-firebase-bom = "com.google.firebase:firebase-bom:34.13.0"
+com-google-firebase-firebase-bom = "com.google.firebase:firebase-bom:34.17.0"
 com-google-firebase-firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 com-google-firebase-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 com-google-firebase-firebase-perf = { module = "com.google.firebase:firebase-perf" }
 com-google-firebase-firebase-messaging = { module = "com.google.firebase:firebase-messaging" }
 # Google Play
-com-google-android-gms-play-services-ads = "com.google.android.gms:play-services-ads:25.2.0"
+com-google-android-gms-play-services-ads = "com.google.android.gms:play-services-ads:25.4.0"
 com-google-android-play-app-update = "com.google.android.play:app-update:2.1.0"
 com-google-android-ump-user-messaging-platform = "com.google.android.ump:user-messaging-platform:4.0.0"
 com-google-android-gms-play-services-maps = "com.google.android.gms:play-services-maps:20.0.0"
-com-google-maps-android-maps-ktx = "com.google.maps.android:maps-ktx:6.0.1"
-com-google-maps-android-android-maps-utils = "com.google.maps.android:android-maps-utils:4.3.0"
+com-google-maps-android-maps-ktx = "com.google.maps.android:maps-ktx:6.3.0"
+com-google-maps-android-android-maps-utils = "com.google.maps.android:android-maps-utils:5.1.1"
 # Misc
 com-jakewharton-timber = "com.jakewharton.timber:timber:5.0.1"
 com-android-tools-desugar_jdk_libs = "com.android.tools:desugar_jdk_libs:2.1.5"
@@ -67,7 +67,7 @@ androidx-test-runner = { module = "androidx.test:runner", version.ref = "android
 androidx-test-rules = { module = "androidx.test:rules", version.ref = "androidx-test" }
 androidx-test-ext-truth = "androidx.test.ext:truth:1.7.0"
 androidx-test-ext-junit-ktx = "androidx.test.ext:junit-ktx:1.3.0"
-androidx-test-uiautomator = "androidx.test.uiautomator:uiautomator:2.3.0"
+androidx-test-uiautomator = "androidx.test.uiautomator:uiautomator:2.4.0"
 androidx-core-testing = "androidx.arch.core:core-testing:2.2.0"
 app-cash-turbine = "app.cash.turbine:turbine:1.2.1"
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
@@ -101,11 +101,11 @@ firebase = [
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "agp" }
 org-jetbrains-kotlin-plugin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
-com-google-devtools-ksp = "com.google.devtools.ksp:2.3.7"
+com-google-devtools-ksp = "com.google.devtools.ksp:2.3.11"
 com-google-android-libraries-mapsplatform-secrets-gradle-plugin = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:2.0.1"
-com-google-gms-google-services = "com.google.gms.google-services:4.4.4"
+com-google-gms-google-services = "com.google.gms.google-services:4.5.0"
 com-google-firebase-crashlytics = "com.google.firebase.crashlytics:3.0.7"
 com-google-firebase-firebase-perf = "com.google.firebase.firebase-perf:2.0.2"
 com-github-ben-manes-versions = "com.github.ben-manes.versions:0.54.0"
-nl-littlerobots-version-catalog-update = "nl.littlerobots.version-catalog-update:1.1.0"
+nl-littlerobots-version-catalog-update = "nl.littlerobots.version-catalog-update:1.1.1"
 org-sonarqube = "org.sonarqube:7.3.0.8198"
