@@ -13,8 +13,6 @@
     <string name="local_magnitude">Magnitud local (Ml)</string>
     <string name="moment_magnitude">Magnitud Momento (Mw)</string>
     <string name="cd_sensitive_icon">Icono sismo sensible</string>
-    <string name="firebase_channel_name_quakes">Alerta sismos</string>
-    <string name="firebase_channel_description_quakes">Recibe alertas de sismos</string>
     <string name="firebase_channel_name_quakes_high">Alerta sismos · Alta prioridad</string>
     <string name="firebase_channel_description_quakes_high">Alertas de sismos con notificación emergente</string>
     <string name="firebase_channel_name_quakes_default">Alerta sismos · Prioridad normal</string>

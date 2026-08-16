@@ -114,8 +114,6 @@ configurations.all {
 
 dependencies {
 
-    implementation(fileTree("libs") { include(listOf("*.jar")) })
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
