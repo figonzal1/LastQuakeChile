@@ -1,3 +1,4 @@
+import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.io.FileInputStream
 import java.util.Properties
@@ -75,6 +76,13 @@ android {
             resValue("string", "ADMOB_ID_BANNER", "ca-app-pub-6355378855577476/5493893896")
             resValue("string", "ADMOB_ID_NATIVE_FRAGMENT", "ca-app-pub-6355378855577476/2611250693")
             resValue("string", "ADMOB_ID_NATIVE_DETAILS", "ca-app-pub-6355378855577476/2723765487")
+
+            configure<CrashlyticsExtension> {
+                // Solo los builds de deploy suben el mapping (fastlane pasa
+                // -PuploadMapping); los release locales pisarían el mapping del
+                // mismo versionCode en Firebase.
+                mappingFileUploadEnabled = project.hasProperty("uploadMapping")
+            }
         }
 
     }

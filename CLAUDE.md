@@ -28,6 +28,9 @@ expose `DomainResult<T>` (success/error), surfaced to ViewModels as a single `ui
 
 Build uses product flavors `dev` / `beta` / `prod` (dimension `version`) and build types `debug` / `release`.
 
+The toolchain is pinned in `mise.toml`: **Java temurin-21** (Gradle JVM — `compileOptions` and
+`jvmTarget` stay at 17, that is the bytecode level) and **Ruby 3.4** (fastlane/bundler).
+
 ```bash
 ./gradlew assembleDevDebug          # build dev/debug APK
 ./gradlew test                      # all unit tests
@@ -46,6 +49,13 @@ bundle exec fastlane prod_googleplay # build prod AAB + upload to Google Play
   under `keys/` — both untracked; builds fail without them.
 - Destructive Room migration and HTTP logging are gated to debug builds only.
 - `versionCode` is derived from the version managed by release-please — do not hardcode it.
+- Signing comes **only** from `keys/keystore.properties`, read by the `lastquakechilesign`
+  `signingConfig`. Fastlane deliberately does not inject `android.injected.signing.*` — a second
+  copy of the keystore path drifts per machine, and `-P` properties leak the passwords into the
+  build log. The only property the build lanes pass is `uploadMapping`.
+- The Crashlytics mapping is uploaded **only** when `-PuploadMapping` is set (the `beta` and `prod`
+  fastlane lanes pass it). Local release builds skip it so they don't overwrite the mapping of the
+  same `versionCode` in Firebase.
 
 ## Release process (release-please + fastlane + Google Play)
 
