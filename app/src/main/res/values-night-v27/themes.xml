@@ -24,11 +24,18 @@
         <!-- Snackbar style -->
         <item name="snackbarStyle">@style/Widget.App.Snackbar</item>
 
+        <!-- Alert Dialog style -->
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.App.AlertDialog</item>
+
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:windowTranslucentNavigation">false</item>
         <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
 
+    </style>
+
+    <style name="ThemeOverlay.App.AlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="colorOnSurface">@color/white</item>
     </style>
 </resources>

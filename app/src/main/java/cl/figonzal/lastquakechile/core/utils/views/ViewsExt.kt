@@ -396,9 +396,7 @@ fun ViewPager2.handleShortcuts(action: String?, packageName: String) {
 }
 
 fun BottomSheetBehavior<MaterialCardView>.handleBottomSheetState() {
-    if (state != BottomSheetBehavior.STATE_EXPANDED) {
-        state = BottomSheetBehavior.STATE_COLLAPSED
-    }
+    state = BottomSheetBehavior.STATE_EXPANDED
 }
 
 fun BottomSheetBehavior<MaterialCardView>.configBottomSheetCallback(

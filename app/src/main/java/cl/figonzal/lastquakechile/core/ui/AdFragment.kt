@@ -17,7 +17,6 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.VideoOptions
 import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.gms.ads.nativead.NativeAdOptions
-import com.google.android.gms.ads.nativead.NativeAdView
 import timber.log.Timber
 
 class AdFragment : Fragment() {
@@ -36,7 +35,7 @@ class AdFragment : Fragment() {
 
         _binding = FragmentAdMobBinding.inflate(inflater, container, false)
 
-        refreshAd(container)
+        refreshAd()
 
         configOptionsMenu {}
 
@@ -44,7 +43,7 @@ class AdFragment : Fragment() {
     }
 
     @SuppressLint("MissingPermission")
-    private fun refreshAd(container: ViewGroup?) {
+    private fun refreshAd() {
         AdLoader.Builder(requireContext(), getString(R.string.ADMOB_ID_NATIVE_FRAGMENT))
             .forNativeAd { nativeAd ->
 
@@ -57,17 +56,7 @@ class AdFragment : Fragment() {
                 currentNativeAd = nativeAd
 
                 if (isAdded) {
-                    val adView = layoutInflater.inflate(
-                        R.layout.ad_fragment_template,
-                        container
-                    ) as NativeAdView
-
-                    adView.populate(nativeAd)
-
-                    binding.adInclude.root.apply {
-                        removeAllViews()
-                        addView(adView)
-                    }
+                    binding.adInclude.root.populate(nativeAd)
                 }
             }
             .withAdListener(object : AdListener() {
