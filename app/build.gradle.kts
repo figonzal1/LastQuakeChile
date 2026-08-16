@@ -37,13 +37,13 @@ android {
     }
 
     namespace = "cl.figonzal.lastquakechile"
-    compileSdk = 36
-    buildToolsVersion = "36.1.0"
+    compileSdk = 37
+    buildToolsVersion = "37.0.0"
 
     defaultConfig {
         applicationId = "cl.figonzal.lastquakechile"
         minSdk = 23
-        targetSdk = 36
+        targetSdk = 37
         versionCode = vMajor * 1_000_000 + vMinor * 1_000 + vPatch
         versionName = appVersionName
         testInstrumentationRunner = "cl.figonzal.lastquakechile.InstrumentationTestRunner"
