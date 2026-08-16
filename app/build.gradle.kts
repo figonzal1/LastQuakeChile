@@ -105,10 +105,6 @@ android {
             dimension = "version"
             versionNameSuffix = "-dev"
         }
-        create("beta") {
-            dimension = "version"
-            versionNameSuffix = "-beta"
-        }
         create("prod") {
             dimension = "version"
         }
