@@ -1,5 +1,31 @@
 # Changelog
 
+## [1.9.0](https://github.com/figonzal1/LastQuakeChile/compare/v1.8.0...v1.9.0) (2026-08-16)
+
+
+### Features
+
+* share earthquakes to Instagram Stories and WhatsApp ([5752db5](https://github.com/figonzal1/LastQuakeChile/commit/5752db53b42782290bb0857ee0448a9eaf103472))
+
+
+### Bug Fixes
+
+* adapt QuakeClusterItem to android-maps-utils 5.1.1 ClusterItem API ([b1f0167](https://github.com/figonzal1/LastQuakeChile/commit/b1f0167a9dc21ae341314858b9e0f0e89070f281))
+* expand map bottom sheet fully on marker tap and card tap ([86c84e8](https://github.com/figonzal1/LastQuakeChile/commit/86c84e83691c6bc8a2976189c089e9c770b02501))
+* expand share bottom sheet fully on open ([70e2d12](https://github.com/figonzal1/LastQuakeChile/commit/70e2d121bd38aeb500e7ce5c908e73fbd42c00af))
+* fix low-contrast alert dialog text in night mode ([8fd7170](https://github.com/figonzal1/LastQuakeChile/commit/8fd71707bc9c44eb60f97a0ec704f991d7106638))
+* guard share flow against saved-state and missing-app crashes ([cc79f28](https://github.com/figonzal1/LastQuakeChile/commit/cc79f289c7ad2636b1cff8977598f2c3ff358ad1))
+* improve dark-theme contrast for outlined and toggle buttons ([1a97c23](https://github.com/figonzal1/LastQuakeChile/commit/1a97c23ca2a5509d5f4ba3acbf7ab6e9b35d909f))
+* keep native ad tab's app bar collapsed so CTA stays on screen ([17c888e](https://github.com/figonzal1/LastQuakeChile/commit/17c888e9c2d56ebfba80e9355298572bcad046e8))
+* map bottom sheet/dialog styling and native ad rendering issues ([c051264](https://github.com/figonzal1/LastQuakeChile/commit/c0512647b88f1ffccf51f5a28caa8ea165c7f62d))
+* paint status bar area with app bar color in settings and details ([940fe84](https://github.com/figonzal1/LastQuakeChile/commit/940fe84f935e7c6460aaf1902579f94bef7f684c))
+* redesign native ad template to stop truncating text ([4572e86](https://github.com/figonzal1/LastQuakeChile/commit/4572e86567cbfed345c6f96617a9891714a48d69))
+* remove duplicate banner ad initialization ([6f6f226](https://github.com/figonzal1/LastQuakeChile/commit/6f6f22691990bf2c571d6413e1bad672069fb381))
+* remove nested NativeAdView and unblock swipe hint in ad fragment ([09d24cf](https://github.com/figonzal1/LastQuakeChile/commit/09d24cf7a219a7acc7b0f563833f4aaf33999281))
+* shorten Instagram Stories destination label ([10a2637](https://github.com/figonzal1/LastQuakeChile/commit/10a2637e91ae7e6c25b3e1647428a7012f78bac0))
+* show full date instead of relative time in share stickers ([03bcc4d](https://github.com/figonzal1/LastQuakeChile/commit/03bcc4d20db8b37a9800db734229ac11ed248f30))
+* use MaterialAlertDialogBuilder for map type dialog styling ([a88173d](https://github.com/figonzal1/LastQuakeChile/commit/a88173d0ddaf198102b9553d1e6f0f0af45d580f))
+
 ## [1.8.0](https://github.com/figonzal1/LastQuakeChile/compare/v1.7.10...v1.8.0) (2026-06-03)
 
 
