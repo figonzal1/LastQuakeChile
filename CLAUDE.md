@@ -11,8 +11,9 @@ Android app (Kotlin) showing recent earthquakes in Chile. Single Gradle module `
 - **Persistence:** Room (KSP codegen)
 - **Images:** Coil · **Maps:** Google Maps + android-maps-utils (marker clustering)
 - **Backend services:** Firebase (Crashlytics, Performance, FCM)
-- **UI:** XML views + ViewBinding. A Compose migration exists only in the **unmerged** PR #80
-  (`feat/compose-migration`) — `main` and every feature branch have zero Compose deps. Write XML.
+- **UI:** XML views + ViewBinding. Two Compose migration attempts (PR #57, PR #80,
+  `feat/compose-migration`) were both **closed without merging** — `main` and every feature branch
+  have zero Compose deps. Write XML.
 
 ### Architecture
 
