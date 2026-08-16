@@ -11,7 +11,9 @@ Android app (Kotlin) showing recent earthquakes in Chile. Single Gradle module `
 - **Persistence:** Room (KSP codegen)
 - **Images:** Coil · **Maps:** Google Maps + android-maps-utils (marker clustering)
 - **Backend services:** Firebase (Crashlytics, Performance, FCM)
-- **UI:** XML views, with an incremental XML → Compose migration in progress (see PR #80)
+- **UI:** XML views + ViewBinding. Two Compose migration attempts (PR #57, PR #80,
+  `feat/compose-migration`) were both **closed without merging** — `main` and every feature branch
+  have zero Compose deps. Write XML.
 
 ### Architecture
 
@@ -65,6 +67,11 @@ bundle exec fastlane beta_googleplay # upload that AAB to the beta track
   not from the flavor. `devDebug` is `cl.figonzal.lastquakechile.debug` and both package names are
   registered in `app/google-services.json` — moving that suffix onto the `dev` flavor would leave
   `prodDebug` holding the production applicationId.
+- Dependencies live in `gradle/libs.versions.toml`; `app/build.gradle.kts` only references
+  `libs.*` aliases. Never add a raw coordinate to the build file.
+- Instrumentation tests run through `InstrumentationTestRunner` + `TestApplication`, with Koin
+  overrides in `androidTest/.../core/di/TestModule.kt`. Test doubles are intentionally duplicated
+  in `src/test` and `src/androidTest` (no shared source set) — don't "dedupe" them.
 
 ## Release process (release-please + fastlane + Google Play)
 

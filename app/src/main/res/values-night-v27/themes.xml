@@ -8,6 +8,7 @@
         <item name="colorOnPrimary">@color/colorOnPrimary</item>
 
         <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorOnSecondary">@color/colorOnSecondary</item>
 
         <item name="colorSurface">@color/colorSurface</item>
         <item name="colorOnSurface">@color/colorOnSurface</item>
@@ -20,6 +21,7 @@
 
         <!-- Material Button Dark Style -->
         <item name="materialButtonStyle">@style/Widget.App.Button</item>
+        <item name="materialButtonOutlinedStyle">@style/Widget.App.Button.Outlined</item>
 
         <!-- Snackbar style -->
         <item name="snackbarStyle">@style/Widget.App.Snackbar</item>

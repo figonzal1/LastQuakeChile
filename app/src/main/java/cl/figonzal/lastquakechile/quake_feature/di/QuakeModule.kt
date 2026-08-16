@@ -10,6 +10,8 @@ import cl.figonzal.lastquakechile.quake_feature.ui.QuakeAdapter
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeFragment
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeViewModel
 import cl.figonzal.lastquakechile.quake_feature.ui.map.MapsFragment
+import cl.figonzal.lastquakechile.quake_feature.ui.share.QuakeStoryRenderer
+import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.fragment.dsl.fragment
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.qualifier.named
@@ -43,6 +45,9 @@ val quakeModule = module {
 
     //Adapter
     factory { QuakeAdapter() }
+
+    //Share
+    factory { QuakeStoryRenderer(androidContext()) }
 
     //QuakeFragment
     fragment { QuakeFragment() }

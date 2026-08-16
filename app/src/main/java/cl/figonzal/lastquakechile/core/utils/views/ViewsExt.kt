@@ -4,7 +4,6 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.SystemClock
 import android.util.TypedValue
@@ -20,7 +19,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.MenuRes
-import androidx.core.content.FileProvider.getUriForFile
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -50,11 +48,6 @@ import coil3.request.placeholder
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.card.MaterialCardView
-import timber.log.Timber
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.util.Calendar
 import java.util.Locale
 import kotlin.math.floor
 
@@ -320,28 +313,6 @@ fun TextView.formatDMS(coordinates: Coordinate) {
     )
 
     text = String.format(QUAKE_CORDS_FORMAT, dmsLat, dmsLong)
-}
-
-/**
- * Save snapshot from google map in cache directory
- */
-@Throws(IOException::class)
-fun Context.getLocalBitmapUri(bitmap: Bitmap): Uri {
-
-    val c = Calendar.getInstance()
-    val date = c.timeInMillis.toInt()
-    val file = File(cacheDir, "share$date.jpeg")
-
-    when {
-        file.exists() -> Timber.d("Share image exist")
-        else -> {
-            Timber.d("Share image not exist")
-            val out = FileOutputStream(file)
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
-            out.close()
-        }
-    }
-    return getUriForFile(this, "${applicationContext.packageName}.fileprovider", file)
 }
 
 fun ImageView.loadImage(url: Int) {

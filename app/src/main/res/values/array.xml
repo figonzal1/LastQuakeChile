@@ -2,9 +2,9 @@
 <resources>
 
     <string-array name="maps">
-        <item name="MAP_TYPE_NORMAL">Mapa normal</item>
-        <item name="MAP_TYPE_TERRAIN">Mapa topográfico</item>
-        <item name="MAP_TYPE_HYBRID">Mapa satelital</item>
+        <item name="MAP_TYPE_NORMAL">Normal map</item>
+        <item name="MAP_TYPE_TERRAIN">Topographic map</item>
+        <item name="MAP_TYPE_HYBRID">Satellite map</item>
     </string-array>
 
 </resources>

@@ -1,6 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="ROOM_DB_NAME" translatable="false">lqch_database</string>
     <string name="APP_LINK" translatable="false">https://play.google.com/store/apps/details?id=cl.figonzal.lastquakechile&amp;pcampaignid=web_share</string>
+    <string name="SHARE_BRAND_NAME" translatable="false">LastQuakeChile</string>
     <string name="CRONITOR_STATUS" translatable="false">https://lqch.cronitorstatus.com/</string>
     <string name="PRIVACY_POLICY_URL_EN" translatable="false">https://github.com/figonzal1/LastQuakeChile/blob/main/privacy_policy_en.md</string>
     <string name="PRIVACY_POLICY_URL_ES" translatable="false">https://github.com/figonzal1/LastQuakeChile/blob/main/privacy_policy_es.md</string>
@@ -20,6 +21,20 @@
     <string name="SHARE_DEPTH">Depth</string>
     <string name="SHARE_GEO_REF">Georeference</string>
     <string name="SHARE_DOWNLOAD_MSG"><![CDATA[Download the app here ->]]></string>
+    <string name="SHARE_SHEET_TITLE">Share earthquake</string>
+    <string name="SHARE_DEST_INSTAGRAM_STORIES">Stories</string>
+    <string name="SHARE_DEST_WHATSAPP">WhatsApp</string>
+    <string name="SHARE_DEST_COPY">Copy text</string>
+    <string name="SHARE_DEST_MORE">More</string>
+    <string name="SHARE_COPIED_TOAST">Text copied</string>
+    <string name="SHARE_APP_NOT_AVAILABLE">This app isn\'t available on this device</string>
+    <string name="SHARE_MAP_ATTRIBUTION" translatable="false">Map data ©Google</string>
+    <string name="SHARE_CD_PREVIEW">Share preview</string>
+    <string name="SHARE_STICKER_FOOTER">Get LastQuakeChile on Google Play</string>
+    <string name="SHARE_DESIGN_CARD">Card</string>
+    <string name="SHARE_DESIGN_MAGNITUDE">Magnitude</string>
+    <string name="SHARE_BG_SOLID">Solid background</string>
+    <string name="SHARE_BG_GRADIENT">Gradient background</string>
     <!-- FIREBASE strings -->
     <string name="firebase_channel_name_quakes_high">Quake alerts · High priority</string>
     <string name="firebase_channel_description_quakes_high">Quake alerts with heads-up notification</string>
