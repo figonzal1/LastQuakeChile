@@ -10,9 +10,9 @@ import com.google.android.gms.maps.MapView
  * This class correct the problem with scroll viewpager2 with GoogleMap
  */
 class MapViewInScroll : MapView {
-    constructor(context: Context?) : super(requireNotNull(context))
-    constructor(context: Context?, attributeSet: AttributeSet?) : super(requireNotNull(context), attributeSet)
-    constructor(context: Context?, attributeSet: AttributeSet?, i: Int) : super(requireNotNull(context), requireNotNull(attributeSet), i)
+    constructor(context: Context) : super(context)
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
+    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle)
 
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
         parent.requestDisallowInterceptTouchEvent(true)

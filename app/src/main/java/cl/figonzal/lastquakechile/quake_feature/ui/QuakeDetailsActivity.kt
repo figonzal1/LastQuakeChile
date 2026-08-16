@@ -13,23 +13,21 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.widget.ImageView
-import android.widget.RatingBar
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.BundleCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.MenuProvider
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.services.notifications.utils.IS_SNAPSHOT_REQUEST_FROM_BOTTOM_SHEET
 import cl.figonzal.lastquakechile.core.services.notifications.utils.QUAKE
 import cl.figonzal.lastquakechile.core.ui.dialog.MapTerrainDialogFragment
-import cl.figonzal.lastquakechile.core.utils.animate
 import cl.figonzal.lastquakechile.core.utils.cacheImageUri
 import cl.figonzal.lastquakechile.core.utils.clearShareImageCache
 import cl.figonzal.lastquakechile.core.utils.configMapType
+import cl.figonzal.lastquakechile.core.utils.populate
 import cl.figonzal.lastquakechile.core.utils.setNightMode
 import cl.figonzal.lastquakechile.core.utils.views.QUAKE_DETAILS_DEPTH_FORMAT
 import cl.figonzal.lastquakechile.core.utils.views.QUAKE_DETAILS_MAGNITUDE_FORMAT
@@ -63,11 +61,44 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.inject
 import timber.log.Timber
-import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 private const val mapViewKey = "MapViewBundleKey"
 private const val PULSE_CIRCLE_FROZEN_RADIUS = 90000.0
+
+/**
+ * Adds a pulsing radar circle centered on [latLng] and returns it along with the animator driving
+ * it, so the caller can pause/resume/cancel the animation and freeze the radius before taking a
+ * map snapshot. Two of these overlap with a [startDelay] offset to create the staggered pulse
+ * effect.
+ */
+private fun GoogleMap.addPulseCircle(
+    latLng: LatLng,
+    color: Int,
+    startDelay: Long
+): Pair<Circle, ValueAnimator> {
+    val circle = addCircle {
+        center(latLng)
+        radius(90000.0)
+        strokeWidth(1f)
+        strokeColor(color)
+    }
+
+    val animator = ValueAnimator.ofInt(0, 90000).apply {
+        repeatMode = ValueAnimator.RESTART
+        repeatCount = ValueAnimator.INFINITE
+        duration = 4000
+        this.startDelay = startDelay
+        setEvaluator(IntEvaluator())
+        interpolator = AccelerateDecelerateInterpolator()
+        addUpdateListener { animator ->
+            circle.radius = (animator.animatedFraction * 140000).toDouble()
+        }
+        start()
+    }
+
+    return circle to animator
+}
 
 class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -161,7 +192,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                         false
                     ) as NativeAdView
 
-                populateNativeAdView(nativeAd, adView)
+                adView.populate(nativeAd)
 
                 binding.admobTemplate.root.apply {
                     removeAllViews()
@@ -184,55 +215,6 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
             .build().loadAd(AdRequest.Builder().build())
     }
 
-    private fun populateNativeAdView(nativeAd: NativeAd, adView: NativeAdView) {
-
-        with(adView) {
-
-            iconView = findViewById<ImageView>(R.id.ad_app_icon)
-            headlineView = findViewById<TextView>(R.id.ad_title)
-            starRatingView = findViewById<RatingBar>(R.id.ad_rating_bar)
-            bodyView = findViewById<TextView>(R.id.ad_body)
-
-            //Asset guaranteed
-            (headlineView as TextView).text = nativeAd.headline
-
-            //app icon
-            iconView?.visibility = when (nativeAd.icon) {
-                null -> View.INVISIBLE
-                else -> {
-                    (iconView as ImageView).setImageDrawable(nativeAd.icon?.drawable)
-                    View.VISIBLE
-                }
-            }
-
-            //body text
-            bodyView?.visibility = when (nativeAd.body) {
-                null -> View.INVISIBLE
-                else -> {
-                    (bodyView as TextView).text = nativeAd.body
-                    View.VISIBLE
-                }
-            }
-
-            //start rating
-            starRatingView?.visibility = when (nativeAd.starRating) {
-                null -> {
-                    View.INVISIBLE
-                }
-
-                else -> {
-                    nativeAd.starRating?.let {
-                        (starRatingView as RatingBar).rating = it.toFloat()
-                    }
-                    View.VISIBLE
-                }
-            }
-
-            //End population ad
-            setNativeAd(nativeAd)
-        }
-    }
-
     private fun setTextViews() {
 
         quake?.let {
@@ -253,8 +235,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                 tvDepthValue.text =
                     String.format(Locale.getDefault(), QUAKE_DETAILS_DEPTH_FORMAT, it.depth)
 
-                tvDatetimeValue.text =
-                    it.localDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                tvDatetimeValue.text = it.localDate
 
                 tvGmsValue.formatDMS(it.coordinate)
 
@@ -324,44 +305,13 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                     strokeColor(Color.TRANSPARENT)
                 }
 
-                pulseCircleA = addCircle {
-                    center(latLong)
-                    radius(90000.0)
-                    strokeWidth(1f)
-                    strokeColor(greyAlpha)
-                }.animate {
-                    circleAnimator2 = ValueAnimator.ofInt(0, 90000).apply {
-                        repeatMode = ValueAnimator.RESTART
-                        repeatCount = ValueAnimator.INFINITE
-                        duration = 4000
-                        setEvaluator(IntEvaluator())
-                        interpolator = AccelerateDecelerateInterpolator()
-                        addUpdateListener { animator ->
-                            this@animate.radius = (animator.animatedFraction * 140000).toDouble()
-                        }
-                        start()
-                    }
-                }
+                val (circleA, animatorA) = addPulseCircle(latLong, greyAlpha, startDelay = 0)
+                pulseCircleA = circleA
+                circleAnimator2 = animatorA
 
-                pulseCircleB = addCircle {
-                    center(latLong)
-                    radius(90000.0)
-                    strokeWidth(1f)
-                    strokeColor(greyAlpha)
-                }.animate {
-                    circleAnimator = ValueAnimator.ofInt(0, 90000).apply {
-                        repeatMode = ValueAnimator.RESTART
-                        repeatCount = ValueAnimator.INFINITE
-                        duration = 4000
-                        startDelay = 1000
-                        setEvaluator(IntEvaluator())
-                        interpolator = AccelerateDecelerateInterpolator()
-                        addUpdateListener { animator ->
-                            this@animate.radius = (animator.animatedFraction * 140000).toDouble()
-                        }
-                        start()
-                    }
-                }
+                val (circleB, animatorB) = addPulseCircle(latLong, greyAlpha, startDelay = 1000)
+                pulseCircleB = circleB
+                circleAnimator = animatorB
 
                 moveCamera(CameraUpdateFactory.newLatLngZoom(latLong, 6.0f))
 
@@ -446,15 +396,8 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun hideAdBanner(hide: Boolean) {
-        binding.cvNativeAd.visibility = when (hide) {
-            true -> View.GONE
-            false -> View.VISIBLE
-        }
-
-        binding.admobTemplate.root.visibility = when (hide) {
-            true -> View.GONE
-            false -> View.VISIBLE
-        }
+        binding.cvNativeAd.isVisible = !hide
+        binding.admobTemplate.root.isVisible = !hide
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

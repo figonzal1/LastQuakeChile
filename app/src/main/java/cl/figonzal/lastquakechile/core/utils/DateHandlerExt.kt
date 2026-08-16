@@ -10,10 +10,12 @@ import kotlin.math.floor
 import kotlin.math.roundToLong
 
 
+data class Elapsed(val days: Long, val hours: Long, val minutes: Long, val seconds: Long)
+
 /**
- * LocalDateTime to Map<D,H,M,S>
+ * Time elapsed between this LocalDateTime and now
  */
-fun LocalDateTime.localDateToDHMS(): Map<String, Long> {
+fun LocalDateTime.toElapsed(): Elapsed {
 
     val currentTime = LocalDateTime.now()
 
@@ -23,30 +25,23 @@ fun LocalDateTime.localDateToDHMS(): Map<String, Long> {
     val mHours = mMinutes / 60
     val mDays = mHours / 24
 
-    return mutableMapOf(
-        "days" to mDays,
-        "hours" to mHours,
-        "minutes" to mMinutes,
-        "seconds" to mSeconds
-    )
+    return Elapsed(mDays, mHours, mMinutes, mSeconds)
 }
 
-/**
- * Lat or Long to Map<Degree,Hours,Minutes,Seconds>
- */
-fun Double.latLongToDMS(): Map<String, Double> {
+data class DMS(val degrees: Double, val minutes: Double, val seconds: Double)
 
-    val dmsMap = HashMap<String, Double>()
+/**
+ * Lat or Long to Degree/Minutes/Seconds
+ */
+fun Double.toDMS(): DMS {
+
     val abs = abs(this)
 
     val degree = floor(abs)
     val minutes = floor((abs - degree) * 3600 / 60)
     val seg = ((abs - degree) * 3600 / 60 - minutes) * 60
 
-    dmsMap["grados"] = floor(abs(this))
-    dmsMap["minutos"] = minutes.roundToLong().toDouble()
-    dmsMap["segundos"] = seg.roundToLong().toDouble()
-    return dmsMap
+    return DMS(degree, minutes.roundToLong().toDouble(), seg.roundToLong().toDouble())
 }
 
 fun LocalDateTime.localDateTimeToString(): String {

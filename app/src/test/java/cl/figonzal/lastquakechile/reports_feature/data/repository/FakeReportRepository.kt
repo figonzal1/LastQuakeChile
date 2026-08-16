@@ -53,14 +53,14 @@ class FakeReportRepository(
         else -> getNextPages(pageIndex)
     }
 
-    override fun getFirstPage(pageIndex: Int): Flow<DomainResult<List<Report>>> = flow {
+    private fun getFirstPage(pageIndex: Int): Flow<DomainResult<List<Report>>> = flow {
         when {
             shouldReturnNetworkError -> emit(DomainResult.Error(reportList, DomainError.HttpError))
             else -> emit(DomainResult.Success(reportList))
         }
     }.flowOn(dispatcher)
 
-    override fun getNextPages(pageIndex: Int): Flow<DomainResult<List<Report>>> = flow {
+    private fun getNextPages(pageIndex: Int): Flow<DomainResult<List<Report>>> = flow {
         when {
             shouldReturnNetworkError -> emit(DomainResult.Error(reportList, DomainError.HttpError))
             else -> emit(DomainResult.Success(reportList))

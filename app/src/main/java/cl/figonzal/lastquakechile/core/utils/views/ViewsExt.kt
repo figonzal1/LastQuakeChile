@@ -1,6 +1,5 @@
 package cl.figonzal.lastquakechile.core.utils.views
 
-import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -15,6 +14,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.widget.AbsListView
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -23,6 +23,8 @@ import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.domain.DomainError
@@ -32,9 +34,10 @@ import cl.figonzal.lastquakechile.core.domain.DomainError.NoMoreData
 import cl.figonzal.lastquakechile.core.domain.DomainError.ServerError
 import cl.figonzal.lastquakechile.core.domain.DomainError.Timeout
 import cl.figonzal.lastquakechile.core.ui.SettingsActivity
-import cl.figonzal.lastquakechile.core.utils.latLongToDMS
-import cl.figonzal.lastquakechile.core.utils.localDateToDHMS
+import cl.figonzal.lastquakechile.core.utils.Elapsed
 import cl.figonzal.lastquakechile.core.utils.stringToLocalDateTime
+import cl.figonzal.lastquakechile.core.utils.toDMS
+import cl.figonzal.lastquakechile.core.utils.toElapsed
 import cl.figonzal.lastquakechile.databinding.FragmentMapsBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Coordinate
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
@@ -114,39 +117,28 @@ fun Fragment.configOptionsMenu(
     }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 }
 
+private val MAGNITUDE_COLORS = intArrayOf(
+    R.color.colorPrimary, R.color.magnitude1, R.color.magnitude2, R.color.magnitude3,
+    R.color.magnitude4, R.color.magnitude5, R.color.magnitude6, R.color.magnitude7,
+    R.color.magnitude8
+)
+
+private val MAGNITUDE_COLORS_ALPHA = intArrayOf(
+    R.color.colorPrimary, R.color.magnitude1_alpha, R.color.magnitude2_alpha,
+    R.color.magnitude3_alpha, R.color.magnitude4_alpha, R.color.magnitude5_alpha,
+    R.color.magnitude6_alpha, R.color.magnitude7_alpha, R.color.magnitude8_alpha
+)
+
 /**
  * Function that sets background colors depending on the magnitude of the earthquake
  *
  * @param magnitude Quake magnitude
  * @return id color resource
  */
-fun getMagnitudeColor(magnitude: Double, forMapa: Boolean) = when {
-    forMapa -> getColorResourceMap(floor(magnitude).toInt())
-    else -> getColorResource(floor(magnitude).toInt())
-}
-
-private fun getColorResource(mMagFloor: Int) = when {
-    mMagFloor == 1 -> R.color.magnitude1
-    mMagFloor == 2 -> R.color.magnitude2
-    mMagFloor == 3 -> R.color.magnitude3
-    mMagFloor == 4 -> R.color.magnitude4
-    mMagFloor == 5 -> R.color.magnitude5
-    mMagFloor == 6 -> R.color.magnitude6
-    mMagFloor == 7 -> R.color.magnitude7
-    mMagFloor >= 8 -> R.color.magnitude8
-    else -> R.color.colorPrimary
-}
-
-private fun getColorResourceMap(mMagFloor: Int) = when {
-    mMagFloor == 1 -> R.color.magnitude1_alpha
-    mMagFloor == 2 -> R.color.magnitude2_alpha
-    mMagFloor == 3 -> R.color.magnitude3_alpha
-    mMagFloor == 4 -> R.color.magnitude4_alpha
-    mMagFloor == 5 -> R.color.magnitude5_alpha
-    mMagFloor == 6 -> R.color.magnitude6_alpha
-    mMagFloor == 7 -> R.color.magnitude7_alpha
-    mMagFloor >= 8 -> R.color.magnitude8_alpha
-    else -> R.color.colorPrimary
+fun getMagnitudeColor(magnitude: Double, forMapa: Boolean): Int {
+    val mMagFloor = floor(magnitude).toInt()
+    val index = if (mMagFloor >= 1) mMagFloor.coerceAtMost(8) else 0
+    return if (forMapa) MAGNITUDE_COLORS_ALPHA[index] else MAGNITUDE_COLORS[index]
 }
 
 /**
@@ -162,29 +154,14 @@ fun ViewGroup.layoutInflater(layout: Int): View =
  */
 fun TextView.setScale(scale: String) {
     text = when {
-        scale.contains("Mw") -> String.format(
-            QUAKE_DETAILS_SCALE_FORMAT,
-            context.getString(R.string.moment_magnitude)
-        )
-
-        else -> String.format(
-            QUAKE_DETAILS_SCALE_FORMAT,
-            context.getString(R.string.local_magnitude)
-        )
+        scale.contains("Mw") -> context.getString(R.string.moment_magnitude)
+        else -> context.getString(R.string.local_magnitude)
     }
 }
 
 /**
  * Extension for toast
  */
-fun Activity.toast(stringId: Int) {
-    Toast.makeText(
-        this,
-        getString(stringId),
-        Toast.LENGTH_LONG
-    ).show()
-}
-
 fun Fragment.toast(stringId: Int) {
     Toast.makeText(
         requireContext(),
@@ -207,33 +184,26 @@ fun Context.toast(stringId: Int) {
  */
 fun TextView.timeToText(quake: Quake, isShortVersion: Boolean = false) {
 
-    val timeMap = quake.localDate.stringToLocalDateTime().localDateToDHMS()
-    val days = timeMap[DAYS]
+    val elapsed = quake.localDate.stringToLocalDateTime().toElapsed()
 
     text = when {
-        days != null && days == 0L -> {
-            calculateTextViewBelowDay(this.context, timeMap, isShortVersion)
-        }
-
-        days != null && days > 0 -> {
-            calculateTextViewAboveDay(this.context, timeMap, isShortVersion)
-        }
-
+        elapsed.days == 0L -> calculateTextViewBelowDay(this.context, elapsed, isShortVersion)
+        elapsed.days > 0 -> calculateTextViewAboveDay(this.context, elapsed, isShortVersion)
         else -> ""
     }
 }
 
 private fun calculateTextViewAboveDay(
     context: Context,
-    timeMap: Map<String, Long>,
+    elapsed: Elapsed,
     isShortVersion: Boolean
 ): String {
 
-    val days = timeMap[DAYS]
-    val hour = timeMap[HOURS]
+    val days = elapsed.days
+    val hour = elapsed.hours
 
     return when {
-        hour != null && hour == 0L -> when {
+        hour == 0L -> when {
             isShortVersion -> String.format(
                 Locale.getDefault(),
                 QUAKETIME_D_FORMAT,
@@ -246,7 +216,7 @@ private fun calculateTextViewAboveDay(
             )
         }
 
-        hour != null && hour >= 1 -> when {
+        hour >= 1 -> when {
             isShortVersion -> String.format(
                 Locale.getDefault(),
                 QUAKETIME_DH_FORMAT,
@@ -267,22 +237,22 @@ private fun calculateTextViewAboveDay(
 
 private fun calculateTextViewBelowDay(
     context: Context,
-    timeMap: Map<String, Long>,
+    elapsed: Elapsed,
     isShortVersion: Boolean
 ): String {
 
-    val hour = timeMap[HOURS]
-    val min = timeMap[MINUTES]
-    val seg = timeMap[SECONDS]
+    val hour = elapsed.hours
+    val min = elapsed.minutes
+    val seg = elapsed.seconds
 
     return when {
-        hour != null && hour >= 1 -> when {
+        hour >= 1 -> when {
             isShortVersion -> String.format(Locale.getDefault(), QUAKETIME_H_FORMAT, hour)
             else -> String.format(context.getString(R.string.quake_time_hour_info_windows), hour)
         }
 
         else -> when {
-            min != null && min < 1 -> when {
+            min < 1 -> when {
                 isShortVersion -> String.format(
                     Locale.getDefault(),
                     QUAKETIME_S_FORMAT, seg
@@ -314,34 +284,28 @@ private fun calculateTextViewBelowDay(
  */
 fun TextView.formatDMS(coordinates: Coordinate) {
 
-    val latDMS = coordinates.latitude.latLongToDMS()
-    val degreeLat = latDMS["grados"]
-    val minLat = latDMS["minutos"]
-    val segLat = latDMS["segundos"]
+    val latDMS = coordinates.latitude.toDMS()
 
     val dmsLat = String.format(
         Locale.US,
         "%.1f° %.1f' %.1f'' %s",
-        degreeLat,
-        minLat,
-        segLat,
+        latDMS.degrees,
+        latDMS.minutes,
+        latDMS.seconds,
         when {
             coordinates.latitude < 0 -> this.context.getString(R.string.south_cords)
             else -> this.context.getString(R.string.north_cords)
         }
     )
 
-    val longDMS = coordinates.longitude.latLongToDMS()
-    val degreeLong = longDMS["grados"]
-    val minLong = longDMS["minutos"]
-    val segLong = longDMS["segundos"]
+    val longDMS = coordinates.longitude.toDMS()
 
     val dmsLong = String.format(
         Locale.US,
         "%.1f° %.1f' %.1f'' %s",
-        degreeLong,
-        minLong,
-        segLong,
+        longDMS.degrees,
+        longDMS.minutes,
+        longDMS.seconds,
         when {
             coordinates.longitude < 0 -> this.context.getString(R.string.west_cords)
             else -> this.context.getString(R.string.east_cords)
@@ -349,22 +313,6 @@ fun TextView.formatDMS(coordinates: Coordinate) {
     )
 
     text = String.format(QUAKE_CORDS_FORMAT, dmsLat, dmsLong)
-}
-
-/**
- * Function to print change log features
- */
-fun List<String>.printChangeLogList(): CharSequence {
-    var changes = ""
-
-    this.indices.forEach { i ->
-
-        changes = when {
-            i > 0 -> changes.plus("\n" + this[i])
-            else -> changes.plus(this[i])
-        }
-    }
-    return changes
 }
 
 fun ImageView.loadImage(url: Int) {
@@ -419,9 +367,8 @@ fun ViewPager2.handleShortcuts(action: String?, packageName: String) {
 }
 
 fun BottomSheetBehavior<MaterialCardView>.handleBottomSheetState() {
-    state = when (state) {
-        BottomSheetBehavior.STATE_EXPANDED -> BottomSheetBehavior.STATE_EXPANDED
-        else -> BottomSheetBehavior.STATE_COLLAPSED
+    if (state != BottomSheetBehavior.STATE_EXPANDED) {
+        state = BottomSheetBehavior.STATE_COLLAPSED
     }
 }
 
@@ -476,6 +423,53 @@ fun View.setDebouncedClickListener(intervalMs: Long = 500L, action: (View) -> Un
 
 fun Float.toDips(resources: Resources) =
     TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this, resources.displayMetrics)
+
+/**
+ * Drives infinite-scroll pagination: fires [onPaginate] once the user has actively scrolled to
+ * the last visible item, provided the list is long enough to page (>= [pageSize]) and
+ * [isPaginationBlocked] doesn't say otherwise (already loading, or already on the last page).
+ * Resets this RecyclerView's padding to zero whenever it doesn't paginate, since the loading
+ * footer inset only needs to persist between the scroll-to-bottom and the state update.
+ */
+fun RecyclerView.addPaginationListener(
+    pageSize: Int,
+    isPaginationBlocked: () -> Boolean,
+    onPaginate: () -> Unit
+) {
+    var isScrolling = false
+
+    addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+
+            val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+            val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+            val visibleItemCount = layoutManager.childCount
+            val totalItemCount = layoutManager.itemCount
+
+            val isAtLastItem = firstVisibleItemPosition + visibleItemCount >= totalItemCount
+            val isNotAtBeginning = firstVisibleItemPosition >= 0
+            val isTotalMoreThanVisible = totalItemCount >= pageSize
+            val shouldPaginate =
+                !isPaginationBlocked() && isAtLastItem && isNotAtBeginning &&
+                        isTotalMoreThanVisible && isScrolling
+
+            if (shouldPaginate) {
+                onPaginate()
+                isScrolling = false
+            } else {
+                recyclerView.setPadding(0, 0, 0, 0)
+            }
+        }
+
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            super.onScrollStateChanged(recyclerView, newState)
+            if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                isScrolling = true
+            }
+        }
+    })
+}
 
 fun ViewGroup.getViewBottomHeight(
     targetViewId: Int,

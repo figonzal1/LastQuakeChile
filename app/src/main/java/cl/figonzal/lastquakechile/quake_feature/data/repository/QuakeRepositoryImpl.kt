@@ -35,7 +35,7 @@ class QuakeRepositoryImpl(
         else -> getNextPages(pageIndex)
     }
 
-    override fun getFirstPage(pageIndex: Int): Flow<DomainResult<List<Quake>>> = flow {
+    private fun getFirstPage(pageIndex: Int): Flow<DomainResult<List<Quake>>> = flow {
 
         var cacheList = localDataSource.getQuakes()
 
@@ -77,7 +77,7 @@ class QuakeRepositoryImpl(
         emit(DomainResult.Error(emptyList(), DomainError.Unknown))
     }.flowOn(dispatcher)
 
-    override fun getNextPages(pageIndex: Int): Flow<DomainResult<List<Quake>>> = flow {
+    private fun getNextPages(pageIndex: Int): Flow<DomainResult<List<Quake>>> = flow {
 
         val emptyList = emptyList<Quake>()
 

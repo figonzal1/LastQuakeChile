@@ -8,6 +8,7 @@ val (vMajor, vMinor, vPatch) = appVersionName.split(".").map { it.toInt() }
 
 plugins {
     alias(libs.plugins.com.android.application)
+    alias(libs.plugins.org.jetbrains.kotlin.plugin.parcelize)
     alias(libs.plugins.com.google.devtools.ksp)
     alias(libs.plugins.com.google.gms.google.services)
     alias(libs.plugins.com.google.firebase.crashlytics)
@@ -121,8 +122,6 @@ configurations.all {
 }
 
 dependencies {
-
-    implementation(fileTree("libs") { include(listOf("*.jar")) })
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

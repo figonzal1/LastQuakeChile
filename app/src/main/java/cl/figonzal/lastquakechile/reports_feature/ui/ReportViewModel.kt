@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cl.figonzal.lastquakechile.core.domain.DomainError
 import cl.figonzal.lastquakechile.core.domain.DomainResult
-import cl.figonzal.lastquakechile.reports_feature.domain.use_case.GetReportsUseCase
+import cl.figonzal.lastquakechile.reports_feature.domain.repository.ReportRepository
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class ReportViewModel(
-    private val getReportsUseCase: GetReportsUseCase
+    private val reportRepository: ReportRepository
 ) : ViewModel() {
 
     private var currentPage = 1
@@ -34,7 +34,7 @@ class ReportViewModel(
             currentPage = 1
             _uiState.update { it.copy(isLoading = true, domainError = null, isLastPage = false) }
 
-            getReportsUseCase(0).collect { result ->
+            reportRepository.getReports(0).collect { result ->
                 Timber.d("FIRST PAGE STATE $result")
 
                 when (result) {
@@ -67,7 +67,7 @@ class ReportViewModel(
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, domainError = null) }
 
-            getReportsUseCase(currentPage).collect { result ->
+            reportRepository.getReports(currentPage).collect { result ->
                 Timber.d("NEXT PAGE STATE $result")
 
                 when (result) {

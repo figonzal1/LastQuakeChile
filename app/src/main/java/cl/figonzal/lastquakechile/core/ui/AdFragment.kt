@@ -5,12 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.RatingBar
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.utils.populate
 import cl.figonzal.lastquakechile.core.utils.views.configOptionsMenu
 import cl.figonzal.lastquakechile.databinding.FragmentAdMobBinding
 import com.google.android.gms.ads.AdListener
@@ -65,7 +62,7 @@ class AdFragment : Fragment() {
                         container
                     ) as NativeAdView
 
-                    populateNativeAdView(nativeAd, adView)
+                    adView.populate(nativeAd)
 
                     binding.adInclude.root.apply {
                         removeAllViews()
@@ -103,67 +100,6 @@ class AdFragment : Fragment() {
             )
             .build().loadAd(AdRequest.Builder().build())
     }
-
-    private fun populateNativeAdView(nativeAd: NativeAd, adView: NativeAdView) {
-
-        with(adView) {
-            iconView = findViewById<ImageView>(R.id.ad_app_icon)
-            headlineView = findViewById<TextView>(R.id.ad_title)
-            starRatingView = findViewById<RatingBar>(R.id.ad_rating_bar)
-            mediaView = findViewById(R.id.ad_media)
-            bodyView = findViewById<TextView>(R.id.ad_body)
-            callToActionView = findViewById(R.id.ad_call_to_action)
-
-            //Asset guaranteed
-            (headlineView as TextView).text = nativeAd.headline
-            nativeAd.mediaContent?.let { mediaView?.setMediaContent(it) }
-
-            //app icon
-            adView.iconView?.visibility = when (nativeAd.icon) {
-                null -> View.INVISIBLE
-                else -> {
-                    (adView.iconView as ImageView).setImageDrawable(nativeAd.icon?.drawable)
-                    View.VISIBLE
-                }
-            }
-
-            //body text
-            adView.bodyView?.visibility = when (nativeAd.body) {
-                null -> View.INVISIBLE
-                else -> {
-                    (adView.bodyView as TextView).text = nativeAd.body
-                    View.VISIBLE
-                }
-            }
-
-            //start rating
-            adView.starRatingView?.visibility = when (nativeAd.starRating) {
-                null -> {
-                    View.INVISIBLE
-                }
-
-                else -> {
-                    nativeAd.starRating?.let {
-                        (adView.starRatingView as RatingBar).rating = it.toFloat()
-                    }
-
-                    View.VISIBLE
-                }
-            }
-
-            adView.callToActionView?.visibility = when (nativeAd.callToAction) {
-                null -> View.INVISIBLE
-                else -> {
-                    (adView.callToActionView as Button).text = nativeAd.callToAction
-                    View.VISIBLE
-                }
-            }
-
-            //End population ad
-            adView.setNativeAd(nativeAd)
-        }
-    }
-
 
     companion object {
         fun newInstance() = AdFragment()
