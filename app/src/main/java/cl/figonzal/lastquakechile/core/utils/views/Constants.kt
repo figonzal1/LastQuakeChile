@@ -1,10 +1,5 @@
 package cl.figonzal.lastquakechile.core.utils.views
 
-internal const val DAYS = "days"
-internal const val HOURS = "hours"
-internal const val MINUTES = "minutes"
-internal const val SECONDS = "seconds"
-
 internal const val QUAKETIME_D_FORMAT = "%1\$dd"
 internal const val QUAKETIME_DH_FORMAT = "%1\$dd %2\$dh"
 internal const val QUAKETIME_H_FORMAT = "%1\$dh"

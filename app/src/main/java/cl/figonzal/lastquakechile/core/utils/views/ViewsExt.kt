@@ -36,9 +36,10 @@ import cl.figonzal.lastquakechile.core.domain.DomainError.NoMoreData
 import cl.figonzal.lastquakechile.core.domain.DomainError.ServerError
 import cl.figonzal.lastquakechile.core.domain.DomainError.Timeout
 import cl.figonzal.lastquakechile.core.ui.SettingsActivity
-import cl.figonzal.lastquakechile.core.utils.latLongToDMS
-import cl.figonzal.lastquakechile.core.utils.localDateToDHMS
+import cl.figonzal.lastquakechile.core.utils.Elapsed
 import cl.figonzal.lastquakechile.core.utils.stringToLocalDateTime
+import cl.figonzal.lastquakechile.core.utils.toDMS
+import cl.figonzal.lastquakechile.core.utils.toElapsed
 import cl.figonzal.lastquakechile.databinding.FragmentMapsBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Coordinate
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
@@ -190,33 +191,26 @@ fun Context.toast(stringId: Int) {
  */
 fun TextView.timeToText(quake: Quake, isShortVersion: Boolean = false) {
 
-    val timeMap = quake.localDate.stringToLocalDateTime().localDateToDHMS()
-    val days = timeMap[DAYS]
+    val elapsed = quake.localDate.stringToLocalDateTime().toElapsed()
 
     text = when {
-        days != null && days == 0L -> {
-            calculateTextViewBelowDay(this.context, timeMap, isShortVersion)
-        }
-
-        days != null && days > 0 -> {
-            calculateTextViewAboveDay(this.context, timeMap, isShortVersion)
-        }
-
+        elapsed.days == 0L -> calculateTextViewBelowDay(this.context, elapsed, isShortVersion)
+        elapsed.days > 0 -> calculateTextViewAboveDay(this.context, elapsed, isShortVersion)
         else -> ""
     }
 }
 
 private fun calculateTextViewAboveDay(
     context: Context,
-    timeMap: Map<String, Long>,
+    elapsed: Elapsed,
     isShortVersion: Boolean
 ): String {
 
-    val days = timeMap[DAYS]
-    val hour = timeMap[HOURS]
+    val days = elapsed.days
+    val hour = elapsed.hours
 
     return when {
-        hour != null && hour == 0L -> when {
+        hour == 0L -> when {
             isShortVersion -> String.format(
                 Locale.getDefault(),
                 QUAKETIME_D_FORMAT,
@@ -229,7 +223,7 @@ private fun calculateTextViewAboveDay(
             )
         }
 
-        hour != null && hour >= 1 -> when {
+        hour >= 1 -> when {
             isShortVersion -> String.format(
                 Locale.getDefault(),
                 QUAKETIME_DH_FORMAT,
@@ -250,22 +244,22 @@ private fun calculateTextViewAboveDay(
 
 private fun calculateTextViewBelowDay(
     context: Context,
-    timeMap: Map<String, Long>,
+    elapsed: Elapsed,
     isShortVersion: Boolean
 ): String {
 
-    val hour = timeMap[HOURS]
-    val min = timeMap[MINUTES]
-    val seg = timeMap[SECONDS]
+    val hour = elapsed.hours
+    val min = elapsed.minutes
+    val seg = elapsed.seconds
 
     return when {
-        hour != null && hour >= 1 -> when {
+        hour >= 1 -> when {
             isShortVersion -> String.format(Locale.getDefault(), QUAKETIME_H_FORMAT, hour)
             else -> String.format(context.getString(R.string.quake_time_hour_info_windows), hour)
         }
 
         else -> when {
-            min != null && min < 1 -> when {
+            min < 1 -> when {
                 isShortVersion -> String.format(
                     Locale.getDefault(),
                     QUAKETIME_S_FORMAT, seg
@@ -297,34 +291,28 @@ private fun calculateTextViewBelowDay(
  */
 fun TextView.formatDMS(coordinates: Coordinate) {
 
-    val latDMS = coordinates.latitude.latLongToDMS()
-    val degreeLat = latDMS["grados"]
-    val minLat = latDMS["minutos"]
-    val segLat = latDMS["segundos"]
+    val latDMS = coordinates.latitude.toDMS()
 
     val dmsLat = String.format(
         Locale.US,
         "%.1f° %.1f' %.1f'' %s",
-        degreeLat,
-        minLat,
-        segLat,
+        latDMS.degrees,
+        latDMS.minutes,
+        latDMS.seconds,
         when {
             coordinates.latitude < 0 -> this.context.getString(R.string.south_cords)
             else -> this.context.getString(R.string.north_cords)
         }
     )
 
-    val longDMS = coordinates.longitude.latLongToDMS()
-    val degreeLong = longDMS["grados"]
-    val minLong = longDMS["minutos"]
-    val segLong = longDMS["segundos"]
+    val longDMS = coordinates.longitude.toDMS()
 
     val dmsLong = String.format(
         Locale.US,
         "%.1f° %.1f' %.1f'' %s",
-        degreeLong,
-        minLong,
-        segLong,
+        longDMS.degrees,
+        longDMS.minutes,
+        longDMS.seconds,
         when {
             coordinates.longitude < 0 -> this.context.getString(R.string.west_cords)
             else -> this.context.getString(R.string.east_cords)
