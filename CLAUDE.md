@@ -41,7 +41,8 @@ The toolchain is pinned in `mise.toml`: **Java temurin-21** (Gradle JVM — `com
 # fastlane wrappers (bundle exec):
 bundle exec fastlane unit_test      # unit tests
 bundle exec fastlane ui_test        # instrumentation tests (DevDebug)
-bundle exec fastlane prod_googleplay # build prod AAB + upload to Google Play
+bundle exec fastlane prod            # build prod AAB (passes -PuploadMapping)
+bundle exec fastlane prod_googleplay # upload the built AAB to Google Play (draft)
 ```
 
 ## Gotchas
@@ -60,6 +61,11 @@ bundle exec fastlane prod_googleplay # build prod AAB + upload to Google Play
 - The Crashlytics mapping is uploaded **only** when `-PuploadMapping` is set (the `beta` and `prod`
   fastlane lanes pass it). Local release builds skip it so they don't overwrite the mapping of the
   same `versionCode` in Firebase.
+- Dependencies live in `gradle/libs.versions.toml`; `app/build.gradle.kts` only references
+  `libs.*` aliases. Never add a raw coordinate to the build file.
+- Instrumentation tests run through `InstrumentationTestRunner` + `TestApplication`, with Koin
+  overrides in `androidTest/.../core/di/TestModule.kt`. Test doubles are intentionally duplicated
+  in `src/test` and `src/androidTest` (no shared source set) — don't "dedupe" them.
 
 ## Release process (release-please + fastlane + Google Play)
 
@@ -104,7 +110,9 @@ Use the `/fastlane-changelog` command (see `.claude/commands/fastlane-changelog.
 3. Commit those `default.txt` files as the final commit onto the release PR branch.
 4. **Merge the release PR** (`gh pr merge <n> --merge` or the GitHub UI) → creates the tag,
    GitHub Release, and `versionCode` bump.
-5. Build and upload: `fastlane prod_googleplay` (or `beta_googleplay`) — reads `default.txt`.
+5. Build, then upload: `fastlane prod` → `fastlane prod_googleplay` (or `beta` → `beta_googleplay`).
+   The build lane produces the AAB the deploy lane uploads by hardcoded path; the deploy lane
+   does **not** build. Uploads land as `release_status: 'draft'` — promote in the Play Console.
 
 ## Conventions
 
