@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cl.figonzal.lastquakechile.core.domain.DomainError
 import cl.figonzal.lastquakechile.core.domain.DomainResult
-import cl.figonzal.lastquakechile.quake_feature.domain.use_case.GetQuakesUseCase
+import cl.figonzal.lastquakechile.quake_feature.domain.repository.QuakeRepository
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class QuakeViewModel(
-    private val getQuakesUseCase: GetQuakesUseCase
+    private val quakeRepository: QuakeRepository
 ) : ViewModel() {
 
     private var currentPage = 1
@@ -34,7 +34,7 @@ class QuakeViewModel(
             currentPage = 1
             _uiState.update { it.copy(isLoading = true, domainError = null, isLastPage = false) }
 
-            getQuakesUseCase(0).collect { result ->
+            quakeRepository.getQuakes(0).collect { result ->
                 Timber.d("FIRST PAGE STATE $result")
 
                 when (result) {
@@ -67,7 +67,7 @@ class QuakeViewModel(
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, domainError = null) }
 
-            getQuakesUseCase(currentPage).collect { result ->
+            quakeRepository.getQuakes(currentPage).collect { result ->
                 Timber.d("NEXT PAGE STATE $result")
 
                 when (result) {
