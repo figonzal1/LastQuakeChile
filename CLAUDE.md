@@ -26,7 +26,7 @@ expose `DomainResult<T>` (success/error), surfaced to ViewModels as a single `ui
 
 ## Commands
 
-Build uses product flavors `dev` / `beta` / `prod` (dimension `version`) and build types `debug` / `release`.
+Build uses product flavors `dev` / `prod` (dimension `version`) and build types `debug` / `release`.
 
 The toolchain is pinned in `mise.toml`: **Java temurin-21** (Gradle JVM — `compileOptions` and
 `jvmTarget` stay at 17, that is the bytecode level) and **Ruby 3.4** (fastlane/bundler).
@@ -40,7 +40,8 @@ The toolchain is pinned in `mise.toml`: **Java temurin-21** (Gradle JVM — `com
 # fastlane wrappers (bundle exec):
 bundle exec fastlane unit_test      # unit tests
 bundle exec fastlane ui_test        # instrumentation tests (DevDebug)
-bundle exec fastlane prod_googleplay # build prod AAB + upload to Google Play
+bundle exec fastlane release        # build the prodRelease AAB (used for every track)
+bundle exec fastlane beta_googleplay # upload that AAB to the beta track
 ```
 
 ## Gotchas
@@ -53,9 +54,17 @@ bundle exec fastlane prod_googleplay # build prod AAB + upload to Google Play
   `signingConfig`. Fastlane deliberately does not inject `android.injected.signing.*` — a second
   copy of the keystore path drifts per machine, and `-P` properties leak the passwords into the
   build log. The only property the build lanes pass is `uploadMapping`.
-- The Crashlytics mapping is uploaded **only** when `-PuploadMapping` is set (the `beta` and `prod`
-  fastlane lanes pass it). Local release builds skip it so they don't overwrite the mapping of the
+- The Crashlytics mapping is uploaded **only** when `-PuploadMapping` is set (the `release`
+  fastlane lane passes it). Local release builds skip it so they don't overwrite the mapping of the
   same `versionCode` in Firebase.
+- **Build once, promote.** There is a single release artifact — `prodRelease` — and it is what
+  every Play track gets. Do not reintroduce a per-track flavor or `versionNameSuffix`: Play
+  rejects a second upload with the same `versionCode`, so a track-specific binary forces a version
+  bump between beta and production and the tested bits stop being the shipped bits.
+- Side-by-side installs come from the **`debug` build type** (`applicationIdSuffix = ".debug"`),
+  not from the flavor. `devDebug` is `cl.figonzal.lastquakechile.debug` and both package names are
+  registered in `app/google-services.json` — moving that suffix onto the `dev` flavor would leave
+  `prodDebug` holding the production applicationId.
 
 ## Release process (release-please + fastlane + Google Play)
 
@@ -100,7 +109,12 @@ Use the `/fastlane-changelog` command (see `.claude/commands/fastlane-changelog.
 3. Commit those `default.txt` files as the final commit onto the release PR branch.
 4. **Merge the release PR** (`gh pr merge <n> --merge` or the GitHub UI) → creates the tag,
    GitHub Release, and `versionCode` bump.
-5. Build and upload: `fastlane prod_googleplay` (or `beta_googleplay`) — reads `default.txt`.
+5. Build and upload to beta: `fastlane release` then `fastlane beta_googleplay` — reads
+   `default.txt`. In Play Console the release can be *named* `1.8.0-beta`; that label is separate
+   from the AAB's `versionName` and is editable when promoting.
+6. Test on the beta track, then **promote in Play Console** (Production → Create release → Add
+   from library → pick that `versionCode`). No rebuild, no second upload: production ships the
+   exact bits the testers ran. `prod_googleplay` is only for a version that skips beta entirely.
 
 ## Conventions
 

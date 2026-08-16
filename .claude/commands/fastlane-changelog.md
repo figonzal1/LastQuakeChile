@@ -35,4 +35,5 @@ Generate the Fastlane changelog files before a Google Play release.
 6. Report a summary:
    - Files created or updated
    - Character count for each changelog (reminder: Google Play limit is 500 chars)
-   - Next step hint: run `fastlane beta_googleplay` or `fastlane prod_googleplay`
+   - Next step hint: run `fastlane release` then `fastlane beta_googleplay` (production is
+     reached by promoting that same build in Play Console, not by rebuilding)

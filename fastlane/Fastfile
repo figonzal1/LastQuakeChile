@@ -36,32 +36,8 @@ platform :android do
         )
   end
 
-  desc "Build beta version"
-    lane :beta do
-      build_android_app(task: "clean")
-      build_android_app(
-          task: 'bundle',
-          flavor: 'beta',
-          build_type: 'Release',
-          properties: {
-               "uploadMapping" => "true",
-            }
-      )
-  end
-
-  desc "Deploy Beta to the Google Play"
-    lane :beta_googleplay do
-      upload_to_play_store(
-          release_status: 'draft',
-          track: 'beta',
-          aab: 'app/build/outputs/bundle/betaRelease/app-beta-release.aab',
-          skip_upload_screenshots: true,
-          skip_upload_images: true
-      )
-  end
-
-  desc "Build production version"
-    lane :prod do
+  desc "Build release version (el mismo AAB para beta y produccion)"
+    lane :release do
       build_android_app(task: "clean")
       build_android_app(
         task: 'bundle',
@@ -73,7 +49,22 @@ platform :android do
       )
   end
 
-  desc "Deploy Production to the Google Play"
+  # Un versionCode se sube con UNA sola de estas dos lanes. El camino normal es
+  # beta_googleplay y despues promover en Play Console; reusar prod_googleplay sobre
+  # un versionCode ya subido falla con "version code already used".
+
+  desc "Deploy Beta to the Google Play"
+    lane :beta_googleplay do
+      upload_to_play_store(
+          release_status: 'draft',
+          track: 'beta',
+          aab: 'app/build/outputs/bundle/prodRelease/app-prod-release.aab',
+          skip_upload_screenshots: true,
+          skip_upload_images: true
+      )
+  end
+
+  desc "Deploy Production to the Google Play (solo si no paso por beta)"
     lane :prod_googleplay do
         upload_to_play_store(
             release_status: 'draft',
