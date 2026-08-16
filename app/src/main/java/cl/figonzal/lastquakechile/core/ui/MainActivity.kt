@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initServices() {
-        initLifecycleObservers(sharedPrefUtil)
+        initLifecycleObservers()
 
         getFirebaseToken()
 

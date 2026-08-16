@@ -17,7 +17,6 @@ import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
-import com.google.android.gms.ads.VideoController
 import com.google.android.gms.ads.VideoOptions
 import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.gms.ads.nativead.NativeAdOptions
@@ -162,19 +161,6 @@ class AdFragment : Fragment() {
 
             //End population ad
             adView.setNativeAd(nativeAd)
-        }
-
-
-        val vc = nativeAd.mediaContent?.videoController
-
-        when {
-            vc?.hasVideoContent() == true -> vc.videoLifecycleCallbacks =
-                object : VideoController.VideoLifecycleCallbacks() {
-                }
-
-            else -> {
-                //refreshAd()
-            }
         }
     }
 

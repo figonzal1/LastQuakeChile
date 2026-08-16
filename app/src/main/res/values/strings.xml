@@ -117,9 +117,6 @@
     <string name="DEC">December</string>
     <string name="intent_chooser">Share quakes</string>
     <string name="version">"Version "</string>
-    <string name="change_log_title">What\'s new in the app?</string>
-    <string name="novedades">New things</string>
-    <string name="ok">OK</string>
     <string name="map_type">Map type</string>
     <string name="cd_new_version_icon">New Version Icon</string>
     <string name="menu_map_style_title">Map style</string>

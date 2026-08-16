@@ -43,7 +43,6 @@ import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
-import com.google.android.gms.ads.VideoController
 import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.gms.ads.nativead.NativeAdView
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -218,19 +217,6 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
             //End population ad
             setNativeAd(nativeAd)
-        }
-
-
-        val vc = nativeAd.mediaContent?.videoController
-
-        when {
-            vc?.hasVideoContent() == true -> vc.videoLifecycleCallbacks =
-                object : VideoController.VideoLifecycleCallbacks() {
-                }
-
-            else -> {
-                //refreshAd()
-            }
         }
     }
 

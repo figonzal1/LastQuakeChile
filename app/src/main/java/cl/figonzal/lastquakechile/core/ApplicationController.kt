@@ -31,7 +31,7 @@ class ApplicationController : Application() {
 
             fragmentFactory()
 
-            modules(appModule)//, instrumentationTestModule)
+            modules(appModule)
         }
 
         when {

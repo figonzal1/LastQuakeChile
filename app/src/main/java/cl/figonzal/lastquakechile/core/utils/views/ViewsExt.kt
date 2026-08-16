@@ -380,22 +380,6 @@ fun Context.getLocalBitmapUri(bitmap: Bitmap): Uri {
     return getUriForFile(this, "${applicationContext.packageName}.fileprovider", file)
 }
 
-/**
- * Function to print change log features
- */
-fun List<String>.printChangeLogList(): CharSequence {
-    var changes = ""
-
-    this.indices.forEach { i ->
-
-        changes = when {
-            i > 0 -> changes.plus("\n" + this[i])
-            else -> changes.plus(this[i])
-        }
-    }
-    return changes
-}
-
 fun ImageView.loadImage(url: Int) {
     load(url) {
         crossfade(true)

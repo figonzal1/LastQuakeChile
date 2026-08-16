@@ -75,9 +75,6 @@
     <string name="intent_chooser">Compartir sismos</string>
     <string name="night_mode_key_toast_off">Modo noche desactivado</string>
     <string name="version">"Versión "</string>
-    <string name="change_log_title">¿Qué hay de nuevo en la app?</string>
-    <string name="novedades">Novedades</string>
-    <string name="ok">Entendido</string>
     <string name="map_type">Tipo de mapa</string>
     <string name="cd_new_version_icon">Icono nueva version</string>
     <string name="menu_map_style_title">Estilo Mapa</string>

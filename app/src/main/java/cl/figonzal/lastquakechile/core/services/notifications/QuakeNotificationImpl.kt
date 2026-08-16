@@ -52,7 +52,7 @@ import timber.log.Timber
 class QuakeNotificationImpl(
     private val context: Context,
     private val sharedPrefUtil: SharedPrefUtil
-) : QuakeNotification {
+) {
 
     private val crashlytics = FirebaseCrashlytics.getInstance()
 
@@ -61,7 +61,7 @@ class QuakeNotificationImpl(
      * Also migrates any legacy random channel left by the old scheme.
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
-    override fun createChannel() {
+    fun createChannel() {
         migrateLegacyChannel()
 
         val notificationManager = context.getSystemService(NotificationManager::class.java)
@@ -106,7 +106,7 @@ class QuakeNotificationImpl(
      *
      * @remoteMessage: RemoteMessage with quake data
      */
-    override fun handleQuakeNotification(remoteMessage: RemoteMessage) {
+    fun handleQuakeNotification(remoteMessage: RemoteMessage) {
 
         //Get data from php file in lqch-server
         with(remoteMessage.data) {
