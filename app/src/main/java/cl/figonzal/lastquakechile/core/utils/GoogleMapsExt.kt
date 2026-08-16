@@ -1,16 +1,10 @@
 package cl.figonzal.lastquakechile.core.utils
 
 import android.content.Context
-import android.content.Intent
-import android.content.pm.PackageManager.MATCH_DEFAULT_ONLY
-import android.content.pm.PackageManager.ResolveInfoFlags
 import android.content.res.Configuration
-import android.net.Uri
-import android.os.Build
 import android.view.View
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.utils.views.QUAKE_DETAILS_MAGNITUDE_FORMAT
-import cl.figonzal.lastquakechile.core.utils.views.getLocalBitmapUri
 import cl.figonzal.lastquakechile.core.utils.views.getMagnitudeColor
 import cl.figonzal.lastquakechile.core.utils.views.timeToText
 import cl.figonzal.lastquakechile.core.utils.views.toast
@@ -19,8 +13,6 @@ import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
-import timber.log.Timber
-import java.io.IOException
 import java.util.Locale
 
 /**
@@ -44,78 +36,6 @@ fun calculateMeanCords(quakeList: List<Quake>): LatLng = LatLng(
     quakeList.map { it.coordinate.latitude }.average(),
     quakeList.map { it.coordinate.longitude }.average()
 )
-
-/**
- * Google maps take snapshot
- */
-fun Context.makeSnapshot(googleMap: GoogleMap, quake: Quake) {
-
-    googleMap.snapshot {
-        try {
-            Timber.d("Snapshot google map")
-
-            val bitMapUri = it?.let { it1 -> this.getLocalBitmapUri(it1) }
-            shareQuake(quake, bitMapUri)
-        } catch (e: IOException) {
-            Timber.e(e, "Error screenshot map: %s", e.message)
-        }
-    }
-
-}
-
-private fun Context.shareQuake(quake: Quake, bitMapUri: Uri?) {
-
-    val shareText = String.format(
-        """
-        [${getString(R.string.SHARE_TITLE)}]
-        
-        ${getString(R.string.SHARE_SUB_TITLE)}
-        ${getString(R.string.SHARE_CITY)}: %1${"$"}s
-        ${getString(R.string.SHARE_LOCAL_HOUR)}: %2${"$"}s
-        ${getString(R.string.SHARE_MAGNITUDE)}: %3$.1f %4${"$"}s
-        ${getString(R.string.SHARE_DEPTH)}: %5$.1f Km
-        ${getString(R.string.SHARE_GEO_REF)}: %6${"$"}s
-        
-        ${getString(R.string.SHARE_DOWNLOAD_MSG)} %7${"$"}s
-        
-    """.trimIndent(),
-        quake.city,
-        quake.localDate,
-        quake.magnitude,
-        quake.scale,
-        quake.depth,
-        quake.reference,
-        getString(R.string.APP_LINK)
-    )
-
-    Intent().apply {
-        action = Intent.ACTION_SEND
-        putExtra(Intent.EXTRA_TEXT, shareText)
-        putExtra(Intent.EXTRA_STREAM, bitMapUri)
-        type = "image/*"
-
-        val chooser = Intent.createChooser(this, getString(R.string.intent_chooser))
-
-        val resInfoList = when {
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> packageManager.queryIntentActivities(
-                chooser,
-                ResolveInfoFlags.of(MATCH_DEFAULT_ONLY.toLong())
-            )
-
-            else -> packageManager.queryIntentActivities(chooser, MATCH_DEFAULT_ONLY)
-        }
-
-        for (resolveInfo in resInfoList) {
-            val packageName = resolveInfo.activityInfo.packageName
-            grantUriPermission(
-                packageName,
-                bitMapUri,
-                Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION
-            )
-        }
-        startActivity(chooser)
-    }
-}
 
 const val SHARED_PREF_MAP_TYPE = "map_type"
 fun Context.configMapType(): Int {

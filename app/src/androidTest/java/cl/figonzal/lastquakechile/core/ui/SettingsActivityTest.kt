@@ -1,12 +1,15 @@
 package cl.figonzal.lastquakechile.core.ui
 
 
-import android.app.Activity
+import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.edit
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
@@ -28,10 +31,10 @@ import androidx.test.espresso.matcher.ViewMatchers.isNotChecked
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.rule.GrantPermissionRule
 import androidx.test.uiautomator.UiDevice
 import cl.figonzal.lastquakechile.BuildConfig
 import cl.figonzal.lastquakechile.R
@@ -41,10 +44,13 @@ import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.equalTo
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.TypeSafeMatcher
+import org.junit.After
 import org.junit.Before
 import org.junit.FixMethodOrder
 import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.RuleChain
+import org.junit.rules.TestRule
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 
@@ -54,18 +60,46 @@ import org.junit.runners.MethodSorters
 @RunWith(AndroidJUnit4::class)
 class SettingsActivityTest {
 
-    @get:Rule
-    val rule = ActivityScenarioRule(SettingsActivity::class.java)
+    /**
+     * Without POST_NOTIFICATIONS, [SettingsActivity] takes its permission-blocked branch:
+     * it disables the alerts switch and replaces the category summary with
+     * `permission_totally_disabled`, which breaks test1 and test3. The permission only
+     * exists from API 33; below that `areNotificationsEnabled()` is already true.
+     */
+    @get:Rule(order = 0)
+    val permissionRule: TestRule =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+            GrantPermissionRule.grant(Manifest.permission.POST_NOTIFICATIONS)
+        else
+            RuleChain.emptyRuleChain()
 
     private lateinit var context: Context
-    private lateinit var activity: Activity
+    private lateinit var scenario: ActivityScenario<SettingsActivity>
 
     @Before
     fun setUp() {
         context = ApplicationProvider.getApplicationContext()
+        launchWith(alertsEnabled = true)
+    }
 
-        val scenario = ActivityScenario.launch(SettingsActivity::class.java)
-        scenario.onActivity { activity -> this.activity = activity }
+    @After
+    fun tearDown() {
+        scenario.close()
+    }
+
+    /**
+     * The alerts switch is persisted in SharedPreferences, so it survives between runs and
+     * between tests. Each test declares the state it needs instead of relying on whatever the
+     * previous one left behind - otherwise an interrupted run flips the assertions.
+     */
+    private fun launchWith(alertsEnabled: Boolean) {
+        if (::scenario.isInitialized) scenario.close()
+
+        PreferenceManager.getDefaultSharedPreferences(context).edit(commit = true) {
+            putBoolean(context.getString(R.string.firebase_pref_key), alertsEnabled)
+        }
+
+        scenario = ActivityScenario.launch(SettingsActivity::class.java)
     }
 
     @Test
@@ -265,6 +299,9 @@ class SettingsActivityTest {
 
     @Test
     fun test4_clickOnAlertPreference_activatedAlert() {
+
+        // This test toggles OFF -> ON, so it needs the switch to start OFF.
+        launchWith(alertsEnabled = false)
 
         Thread.sleep(2000)
 

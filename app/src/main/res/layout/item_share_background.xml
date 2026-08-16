@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    A single background-picker dot. The ring (selected/unselected) comes from
+    share_background_dot_ring.xml via android:selected; the color fill inside it is a
+    StickerBackground preview drawable set at runtime by ShareQuakeBottomSheet, so the dot
+    always shows the real color the user is about to pick.
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/share_background_dot_ring"
+    android:clickable="true"
+    android:focusable="true"
+    android:padding="4dp">
+
+    <ImageView
+        android:id="@+id/iv_background_dot"
+        android:layout_width="@dimen/share_background_dot_size"
+        android:layout_height="@dimen/share_background_dot_size"
+        android:contentDescription="@null" />
+
+</FrameLayout>

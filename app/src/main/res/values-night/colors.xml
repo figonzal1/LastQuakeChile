@@ -14,4 +14,9 @@
 
     <color name="background">#28282C</color>
 
+    <color name="toggle_accent">#B8C4FF</color>
+    <color name="toggle_text_unchecked">#B3FFFFFF</color>
+    <color name="toggle_stroke_unchecked">#40FFFFFF</color>
+    <color name="toggle_fill_checked">#1AB8C4FF</color>
+
 </resources>

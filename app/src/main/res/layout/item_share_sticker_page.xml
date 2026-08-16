@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- The story canvas: its background (a StickerBackground preview drawable, set at
+             bind time) fills a 9:16 rect derived from the available height, mimicking an
+             Instagram Stories background. elevation + outlineProvider="background" makes the
+             shadow follow the drawable's own rounded-rect shape instead of a plain rectangle.
+             It's a ConstraintLayout (not a FrameLayout) so the sticker inside it can use
+             layout_constraintWidth_percent. -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/canvas_sticker_page"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:elevation="3dp"
+            android:outlineProvider="background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="9:16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <!-- adjustViewBounds + fitCenter: the sticker keeps its own aspect ratio regardless
+                 of how tall each design renders. -->
+            <ImageView
+                android:id="@+id/iv_sticker_page"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/SHARE_CD_PREVIEW"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.78" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>
