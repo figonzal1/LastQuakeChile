@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -118,6 +119,11 @@ class MainActivity : AppCompatActivity() {
                 setTabs(tabs, appBar)
                 handleShortcuts(intent.action, applicationContext.packageName)
             }
+
+            // TabLayoutMediator.attach() selecciona la pestaña 0 antes de que exista el listener,
+            // así que el estado inicial hay que fijarlo aquí. Se consulta después de
+            // handleShortcuts para no colapsar cuando la app arranca en otra pestaña.
+            if (viewPager.currentItem == 0) appBar.setExpanded(false, false)
         }
     }
 
@@ -166,15 +172,21 @@ class MainActivity : AppCompatActivity() {
                         else -> hideAdBanner(false)
                     }
 
-                    when {
-                        tab.position != 0 || tab.position != 2 -> appBar.setExpanded(false)
-                        else -> appBar.setExpanded(true)
-                    }
+                    // El anuncio ocupa la pestaña completa: con el AppBar expandido su borde
+                    // inferior (y con él el CTA) queda bajo el borde de la pantalla.
+                    if (tab.position == 0) appBar.setExpanded(false)
                 }
 
                 override fun onTabUnselected(tab: TabLayout.Tab) = Unit
                 override fun onTabReselected(tab: TabLayout.Tab) = Unit
             })
+
+            // Sin esto el usuario puede volver a expandir el AppBar arrastrándolo y dejar el
+            // CTA del anuncio fuera de pantalla: el AdFragment no tiene scroll anidado.
+            ((appBar.layoutParams as? CoordinatorLayout.LayoutParams)?.behavior as? AppBarLayout.Behavior)
+                ?.setDragCallback(object : AppBarLayout.Behavior.DragCallback() {
+                    override fun canDrag(appBarLayout: AppBarLayout) = viewPager.currentItem != 0
+                })
 
         }
     }
