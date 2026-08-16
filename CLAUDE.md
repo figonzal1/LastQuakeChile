@@ -29,10 +29,12 @@ expose `DomainResult<T>` (success/error), surfaced to ViewModels as a single `ui
 
 Build uses product flavors `dev` / `beta` / `prod` (dimension `version`) and build types `debug` / `release`.
 
+The toolchain is pinned in `mise.toml`: **Java temurin-21** (Gradle JVM — `compileOptions` and
+`jvmTarget` stay at 17, that is the bytecode level) and **Ruby 3.4** (fastlane/bundler).
+
 ```bash
 ./gradlew assembleDevDebug          # build dev/debug APK
-./gradlew testDevDebugUnitTest      # unit tests, dev/debug only (fast — prefer this)
-./gradlew test                      # all unit tests, all 6 variants (slow)
+./gradlew test                      # all unit tests
 ./gradlew :app:connectedDevDebugAndroidTest   # instrumentation tests (device/emulator)
 ./gradlew bundleProdRelease         # production AAB
 
@@ -51,13 +53,13 @@ bundle exec fastlane prod_googleplay # build prod AAB + upload to Google Play
     so without it even `./gradlew tasks` fails.
 - Destructive Room migration and HTTP logging are gated to debug builds only.
 - `versionCode` is derived from the version managed by release-please — do not hardcode it.
-- Debug builds use applicationId `cl.figonzal.lastquakechile.debug` (`applicationIdSuffix`).
-  `res/xml-v25/shortcuts.xml` hardcodes the release package, so launcher shortcuts silently
-  do nothing on debug builds — don't hardcode the package in new manifest/xml entries.
-- `Quake.localDate` is a **`String`** (`"yyyy-MM-dd HH:mm:ss"`), not a `LocalDateTime`. Parse it
-  with `String.stringToLocalDateTime()` (`core/utils/DateHandlerExt.kt`) before formatting —
-  calling `.format(someDateTimeFormatter)` on it silently hits Kotlin's `String.format` and
-  returns the string unchanged (see `QuakeDetailsActivity.kt:271`).
+- Signing comes **only** from `keys/keystore.properties`, read by the `lastquakechilesign`
+  `signingConfig`. Fastlane deliberately does not inject `android.injected.signing.*` — a second
+  copy of the keystore path drifts per machine, and `-P` properties leak the passwords into the
+  build log. The only property the build lanes pass is `uploadMapping`.
+- The Crashlytics mapping is uploaded **only** when `-PuploadMapping` is set (the `beta` and `prod`
+  fastlane lanes pass it). Local release builds skip it so they don't overwrite the mapping of the
+  same `versionCode` in Firebase.
 
 ## Release process (release-please + fastlane + Google Play)
 
