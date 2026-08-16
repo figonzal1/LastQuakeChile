@@ -1,6 +1,7 @@
 [versions]
 agp = "9.2.1"
 coil = "3.4.0"
+kotlin = "2.3.20"
 # sept. 2024 (NO ACTUALIZAR)
 espresso = "3.7.0"
 espresso-contrib = "3.7.0"
@@ -99,6 +100,7 @@ firebase = [
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "agp" }
+org-jetbrains-kotlin-plugin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 com-google-devtools-ksp = "com.google.devtools.ksp:2.3.7"
 com-google-android-libraries-mapsplatform-secrets-gradle-plugin = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:2.0.1"
 com-google-gms-google-services = "com.google.gms.google-services:4.4.4"
