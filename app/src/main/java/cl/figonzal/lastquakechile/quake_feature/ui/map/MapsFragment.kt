@@ -117,6 +117,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
                 getViewBottomHeight(R.id.sheet_content, it)
             }
+            setOnClickListener { sheetBehavior?.state = BottomSheetBehavior.STATE_EXPANDED }
         }
 
         return binding.root
