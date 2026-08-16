@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AbsListView
 import androidx.annotation.DrawableRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
@@ -12,9 +11,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.domain.DomainError
+import cl.figonzal.lastquakechile.core.utils.views.addPaginationListener
 import cl.figonzal.lastquakechile.core.utils.views.configOptionsMenu
 import cl.figonzal.lastquakechile.core.utils.views.showServerApiError
 import cl.figonzal.lastquakechile.databinding.FragmentReportsBinding
@@ -65,7 +64,10 @@ class ReportsFragment : Fragment() {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(context)
                 adapter = reportAdapter
-                addOnScrollListener(this@ReportsFragment.scrollListener)
+                addPaginationListener(
+                    pageSize = QUERY_PAGE_SIZE,
+                    isPaginationBlocked = { viewModel.uiState.value.let { it.isLoading || it.isLastPage } }
+                ) { viewModel.getNextPageReports() }
             }
         }
 
@@ -151,42 +153,6 @@ class ReportsFragment : Fragment() {
             progressBarReports.visibility = View.GONE
             includeErrorMessage.root.visibility = View.GONE
             Timber.d("Showing report list in fragment")
-        }
-    }
-
-    private var isScrolling = false
-
-    private val scrollListener = object : RecyclerView.OnScrollListener() {
-        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            super.onScrolled(recyclerView, dx, dy)
-
-            val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-            val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
-            val visibleItemCount = layoutManager.childCount
-            val totalItemCount = layoutManager.itemCount
-
-            val uiState = viewModel.uiState.value
-            val isNotLoadingAndNotLastPage = !uiState.isLoading && !uiState.isLastPage
-            val isAtLastItem = firstVisibleItemPosition + visibleItemCount >= totalItemCount
-            val isNotAtBeginning = firstVisibleItemPosition >= 0
-            val isTotalMoreThanVisible = totalItemCount >= QUERY_PAGE_SIZE
-            val shouldPaginate =
-                isNotLoadingAndNotLastPage && isAtLastItem && isNotAtBeginning &&
-                        isTotalMoreThanVisible && isScrolling
-
-            if (shouldPaginate) {
-                viewModel.getNextPageReports()
-                isScrolling = false
-            } else {
-                binding.recycleViewReports.setPadding(0, 0, 0, 0)
-            }
-        }
-
-        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-            super.onScrollStateChanged(recyclerView, newState)
-            if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
-                isScrolling = true
-            }
         }
     }
 

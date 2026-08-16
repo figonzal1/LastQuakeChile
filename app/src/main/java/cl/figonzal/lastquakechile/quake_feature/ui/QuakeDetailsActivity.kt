@@ -12,9 +12,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.widget.ImageView
-import android.widget.RatingBar
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.BundleCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -28,6 +25,7 @@ import cl.figonzal.lastquakechile.core.services.notifications.utils.QUAKE
 import cl.figonzal.lastquakechile.core.ui.dialog.MapTerrainDialogFragment
 import cl.figonzal.lastquakechile.core.utils.configMapType
 import cl.figonzal.lastquakechile.core.utils.makeSnapshot
+import cl.figonzal.lastquakechile.core.utils.populate
 import cl.figonzal.lastquakechile.core.utils.setNightMode
 import cl.figonzal.lastquakechile.core.utils.views.QUAKE_DETAILS_DEPTH_FORMAT
 import cl.figonzal.lastquakechile.core.utils.views.QUAKE_DETAILS_MAGNITUDE_FORMAT
@@ -174,7 +172,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                         false
                     ) as NativeAdView
 
-                populateNativeAdView(nativeAd, adView)
+                adView.populate(nativeAd)
 
                 binding.admobTemplate.root.apply {
                     removeAllViews()
@@ -195,55 +193,6 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
             })
             .build().loadAd(AdRequest.Builder().build())
-    }
-
-    private fun populateNativeAdView(nativeAd: NativeAd, adView: NativeAdView) {
-
-        with(adView) {
-
-            iconView = findViewById<ImageView>(R.id.ad_app_icon)
-            headlineView = findViewById<TextView>(R.id.ad_title)
-            starRatingView = findViewById<RatingBar>(R.id.ad_rating_bar)
-            bodyView = findViewById<TextView>(R.id.ad_body)
-
-            //Asset guaranteed
-            (headlineView as TextView).text = nativeAd.headline
-
-            //app icon
-            iconView?.visibility = when (nativeAd.icon) {
-                null -> View.INVISIBLE
-                else -> {
-                    (iconView as ImageView).setImageDrawable(nativeAd.icon?.drawable)
-                    View.VISIBLE
-                }
-            }
-
-            //body text
-            bodyView?.visibility = when (nativeAd.body) {
-                null -> View.INVISIBLE
-                else -> {
-                    (bodyView as TextView).text = nativeAd.body
-                    View.VISIBLE
-                }
-            }
-
-            //start rating
-            starRatingView?.visibility = when (nativeAd.starRating) {
-                null -> {
-                    View.INVISIBLE
-                }
-
-                else -> {
-                    nativeAd.starRating?.let {
-                        (starRatingView as RatingBar).rating = it.toFloat()
-                    }
-                    View.VISIBLE
-                }
-            }
-
-            //End population ad
-            setNativeAd(nativeAd)
-        }
     }
 
     private fun setTextViews() {

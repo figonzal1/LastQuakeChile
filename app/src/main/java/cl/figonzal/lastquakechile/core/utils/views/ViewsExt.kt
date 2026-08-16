@@ -15,6 +15,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.widget.AbsListView
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -24,6 +25,8 @@ import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.domain.DomainError
@@ -461,6 +464,53 @@ fun View.setDebouncedClickListener(intervalMs: Long = 500L, action: (View) -> Un
 
 fun Float.toDips(resources: Resources) =
     TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this, resources.displayMetrics)
+
+/**
+ * Drives infinite-scroll pagination: fires [onPaginate] once the user has actively scrolled to
+ * the last visible item, provided the list is long enough to page (>= [pageSize]) and
+ * [isPaginationBlocked] doesn't say otherwise (already loading, or already on the last page).
+ * Resets this RecyclerView's padding to zero whenever it doesn't paginate, since the loading
+ * footer inset only needs to persist between the scroll-to-bottom and the state update.
+ */
+fun RecyclerView.addPaginationListener(
+    pageSize: Int,
+    isPaginationBlocked: () -> Boolean,
+    onPaginate: () -> Unit
+) {
+    var isScrolling = false
+
+    addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+
+            val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+            val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+            val visibleItemCount = layoutManager.childCount
+            val totalItemCount = layoutManager.itemCount
+
+            val isAtLastItem = firstVisibleItemPosition + visibleItemCount >= totalItemCount
+            val isNotAtBeginning = firstVisibleItemPosition >= 0
+            val isTotalMoreThanVisible = totalItemCount >= pageSize
+            val shouldPaginate =
+                !isPaginationBlocked() && isAtLastItem && isNotAtBeginning &&
+                        isTotalMoreThanVisible && isScrolling
+
+            if (shouldPaginate) {
+                onPaginate()
+                isScrolling = false
+            } else {
+                recyclerView.setPadding(0, 0, 0, 0)
+            }
+        }
+
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            super.onScrollStateChanged(recyclerView, newState)
+            if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                isScrolling = true
+            }
+        }
+    })
+}
 
 fun ViewGroup.getViewBottomHeight(
     targetViewId: Int,

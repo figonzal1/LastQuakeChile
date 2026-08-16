@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AbsListView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.DrawableRes
@@ -15,12 +14,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.domain.DomainError
 import cl.figonzal.lastquakechile.core.services.notifications.utils.handleCvAlertPermission
 import cl.figonzal.lastquakechile.core.services.notifications.utils.onNotificationPermissionResult
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
+import cl.figonzal.lastquakechile.core.utils.views.addPaginationListener
 import cl.figonzal.lastquakechile.core.utils.views.configOptionsMenu
 import cl.figonzal.lastquakechile.core.utils.views.showServerApiError
 import cl.figonzal.lastquakechile.databinding.FragmentQuakeBinding
@@ -86,7 +85,10 @@ class QuakeFragment : Fragment() {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(context)
                 adapter = quakeAdapter
-                addOnScrollListener(this@QuakeFragment.scrollListener)
+                addPaginationListener(
+                    pageSize = QUERY_PAGE_SIZE,
+                    isPaginationBlocked = { viewModel.uiState.value.let { it.isLoading || it.isLastPage } }
+                ) { viewModel.getNextPageQuakes() }
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -181,42 +183,6 @@ class QuakeFragment : Fragment() {
             includeErrorMessage.root.visibility = View.GONE
             tvCacheCopy.visibility = View.GONE
             Timber.d("Showing quake list in fragment")
-        }
-    }
-
-    private var isScrolling = false
-
-    private val scrollListener = object : RecyclerView.OnScrollListener() {
-        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            super.onScrolled(recyclerView, dx, dy)
-
-            val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-            val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
-            val visibleItemCount = layoutManager.childCount
-            val totalItemCount = layoutManager.itemCount
-
-            val uiState = viewModel.uiState.value
-            val isNotLoadingAndNotLastPage = !uiState.isLoading && !uiState.isLastPage
-            val isAtLastItem = firstVisibleItemPosition + visibleItemCount >= totalItemCount
-            val isNotAtBeginning = firstVisibleItemPosition >= 0
-            val isTotalMoreThanVisible = totalItemCount >= QUERY_PAGE_SIZE
-            val shouldPaginate =
-                isNotLoadingAndNotLastPage && isAtLastItem && isNotAtBeginning &&
-                        isTotalMoreThanVisible && isScrolling
-
-            if (shouldPaginate) {
-                viewModel.getNextPageQuakes()
-                isScrolling = false
-            } else {
-                binding.recycleViewQuakes.setPadding(0, 0, 0, 0)
-            }
-        }
-
-        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-            super.onScrollStateChanged(recyclerView, newState)
-            if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
-                isScrolling = true
-            }
         }
     }
 
