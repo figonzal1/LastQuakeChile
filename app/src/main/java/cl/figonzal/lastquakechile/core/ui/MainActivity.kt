@@ -10,6 +10,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.doOnLayout
 import androidx.core.view.isVisible
 import androidx.preference.PreferenceManager
 import cl.figonzal.lastquakechile.R
@@ -41,6 +42,11 @@ import timber.log.Timber
 
 
 class MainActivity : AppCompatActivity() {
+
+    companion object {
+        // Pestañas cuyo toolbar debe permanecer fijo (no colapsable): ads y mapa
+        private val NON_COLLAPSIBLE_TABS = setOf(0, 2)
+    }
 
     private val sharedPrefUtil: SharedPrefUtil by inject()
     private val ioDispatcher: CoroutineDispatcher by inject(named("ioDispatcher"))
@@ -120,7 +126,7 @@ class MainActivity : AppCompatActivity() {
             // TabLayoutMediator.attach() selecciona la pestaña 0 antes de que exista el listener,
             // así que el estado inicial hay que fijarlo aquí. Se consulta después de
             // handleShortcuts para no colapsar cuando la app arranca en otra pestaña.
-            if (viewPager.currentItem == 0) appBar.setExpanded(false, false)
+            if (viewPager.currentItem in NON_COLLAPSIBLE_TABS) appBar.setExpanded(false, false)
         }
     }
 
@@ -169,9 +175,10 @@ class MainActivity : AppCompatActivity() {
                         else -> hideAdBanner(false)
                     }
 
-                    // El anuncio ocupa la pestaña completa: con el AppBar expandido su borde
-                    // inferior (y con él el CTA) queda bajo el borde de la pantalla.
-                    if (tab.position == 0) appBar.setExpanded(false)
+                    // Ads y mapa ocupan la pestaña completa: con el AppBar expandido su borde
+                    // inferior (y con él el CTA del ad, o altura útil del mapa) queda bajo el
+                    // borde de la pantalla.
+                    if (tab.position in NON_COLLAPSIBLE_TABS) appBar.setExpanded(false)
                 }
 
                 override fun onTabUnselected(tab: TabLayout.Tab) = Unit
@@ -179,11 +186,19 @@ class MainActivity : AppCompatActivity() {
             })
 
             // Sin esto el usuario puede volver a expandir el AppBar arrastrándolo y dejar el
-            // CTA del anuncio fuera de pantalla: el AdFragment no tiene scroll anidado.
-            ((appBar.layoutParams as? CoordinatorLayout.LayoutParams)?.behavior as? AppBarLayout.Behavior)
-                ?.setDragCallback(object : AppBarLayout.Behavior.DragCallback() {
-                    override fun canDrag(appBarLayout: AppBarLayout) = viewPager.currentItem != 0
-                })
+            // CTA del anuncio, o el mapa, con menos altura útil: ninguno de los dos tiene
+            // scroll anidado.
+            // doOnLayout: el AppBarLayout no declara app:layout_behavior en XML, así que
+            // CoordinatorLayout.LayoutParams.behavior se resuelve recién en el primer layout
+            // pass (vía @DefaultBehavior). Leerlo aquí de forma síncrona (dentro de onCreate)
+            // siempre da null y el ?.setDragCallback no hace nada.
+            appBar.doOnLayout {
+                ((appBar.layoutParams as? CoordinatorLayout.LayoutParams)?.behavior as? AppBarLayout.Behavior)
+                    ?.setDragCallback(object : AppBarLayout.Behavior.DragCallback() {
+                        override fun canDrag(appBarLayout: AppBarLayout) =
+                            viewPager.currentItem !in NON_COLLAPSIBLE_TABS
+                    })
+            }
 
         }
     }
