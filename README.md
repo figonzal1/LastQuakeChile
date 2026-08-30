@@ -1,3 +1,5 @@
+
+
 <p align="center">
   <img src="https://raw.githubusercontent.com/figonzal1/LastQuakeChile/0d85bc5cfd0705e8255ca4c3b7cd008415b740e4/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" width="200" height="200">
 </p>
@@ -33,11 +35,11 @@ This is the repository of the **LastQuakeChile application - Earthquakes in Chil
 
 **LastQuakeChile**, is an app where you can get the latest earthquakes in Chile and receive notifications quickly on your cell phone.
 
-In the application you can review the latest earthquakes occurred in the country, you can also review details of each one, such as: date, time, epicenter depth, measurement scale, geographic location, etc..
+In the application you can review the latest earthquakes occurred in the country, you can also review details of each one, such as: date, time, epicenter depth, measurement scale, geographic location, etc.
 
 Every time an earthquake occurs, the LastQuakeChile service will send an alert and you will be able to get all the details of the earthquake by simply pressing the notification.
 
 # Screenshots
 
 <img src="https://github.com/figonzal1/LastQuakeChile/blob/main/graphics/screenshots/celular/en/Screenshot_20230218_150211.png" width="216" height="420"> <img src="https://github.com/figonzal1/LastQuakeChile/blob/main/graphics/screenshots/celular/en/Screenshot_20230218_150442.png" width="216" height="420"> <img src="https://github.com/figonzal1/LastQuakeChile/blob/main/graphics/screenshots/celular/en/Screenshot_20230218_150257.png" width="216" height="420"> <img src="https://github.com/figonzal1/LastQuakeChile/blob/main/graphics/screenshots/celular/en/Screenshot_20230218_151354.png" width="216" height="420"> <img src="https://github.com/figonzal1/LastQuakeChile/blob/main/graphics/screenshots/celular/en/Screenshot_20230218_150713.png" width="216" height="420"> <img src="https://github.com/figonzal1/LastQuakeChile/blob/main/graphics/screenshots/celular/en/Screenshot_20230218_151554.png" width="216" height="420">
-<img src="https://github.com/figonzal1/LastQuakeChile/blob/main/graphics/screenshots/celular/Screenshot_20190603-10254.jpg" width="216" height="420"> 
+<img src="https://github.com/figonzal1/LastQuakeChile/blob/main/graphics/screenshots/celular/Screenshot_20190603-10254.jpg" width="216" height="420">
