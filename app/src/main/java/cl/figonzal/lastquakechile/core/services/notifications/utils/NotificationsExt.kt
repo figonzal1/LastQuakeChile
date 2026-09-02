@@ -182,6 +182,11 @@ fun subscribedToQuakes(isSubscribed: Boolean) {
                             Timber.d("Subscribed to topic")
                             crashlytics.setCustomKey(FIREBASE_SUB_QUAKE, true)
                         }
+
+                        else -> {
+                            Timber.e(it.exception, "Subscribe to topic failed")
+                            crashlytics.setCustomKey(FIREBASE_SUB_QUAKE, false)
+                        }
                     }
                 }
         }
@@ -194,9 +199,10 @@ fun subscribedToQuakes(isSubscribed: Boolean) {
                             Timber.d("Subscription deleted")
                             crashlytics.setCustomKey(FIREBASE_SUB_QUAKE, false)
                         }
+
+                        else -> Timber.e(it.exception, "Unsubscribe from topic failed")
                     }
                 }
-                .addOnFailureListener { Timber.d("Already subscribed") }
         }
     }
 }
