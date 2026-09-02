@@ -18,11 +18,9 @@ import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.views.toast
 import cl.figonzal.lastquakechile.databinding.FragmentQuakeBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
-import com.google.android.gms.tasks.Task
 import com.google.firebase.Firebase
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.crashlytics.crashlytics
-import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.messaging
 import timber.log.Timber
 
@@ -159,25 +157,6 @@ private fun Fragment.openNotificationSettings() {
         putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
     }
     startActivity(intent)
-}
-
-/**
- * Retrieve token for FCM
- */
-fun getFirebaseToken() {
-
-    //FIREBASE SECTION
-    FirebaseMessaging.getInstance().token
-        .addOnCompleteListener { task: Task<String?> ->
-            if (!task.isSuccessful) {
-                Timber.w("Fetching FCM registration token failed")
-                return@addOnCompleteListener
-            }
-
-            // Get new FCM registration token
-            val token = task.result
-            Timber.d("Token %s", token)
-        }
 }
 
 /**

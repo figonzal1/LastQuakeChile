@@ -32,9 +32,9 @@ class FCMService : FirebaseMessagingService() {
         }
     }
 
-    override fun onNewToken(s: String) {
-        super.onNewToken(s)
-        Timber.d("Refresh token: %s", s)
-        crashlytics.setUserId(s)
+    override fun onRegistered(installationId: String) {
+        super.onRegistered(installationId)
+        Timber.d("Registered with FID: %s", installationId)
+        crashlytics.setUserId(installationId)
     }
 }
