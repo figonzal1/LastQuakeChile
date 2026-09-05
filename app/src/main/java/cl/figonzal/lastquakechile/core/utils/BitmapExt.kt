@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.net.Uri
 import android.view.View
 import androidx.core.content.FileProvider
+import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -54,7 +55,9 @@ fun View.renderToBitmap(widthPx: Int): Bitmap {
  * a single share can now produce several images (one per [StickerDesign]) that must coexist.
  */
 fun Context.clearShareImageCache() {
-    shareCacheDir.listFiles()?.forEach { it.delete() }
+    shareCacheDir.listFiles()?.forEach {
+        if (!it.delete()) Timber.w("Could not delete cached share image %s", it.name)
+    }
 }
 
 /**
