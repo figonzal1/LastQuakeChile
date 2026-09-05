@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.9.1](https://github.com/figonzal1/LastQuakeChile/compare/v1.9.0...v1.9.1) (2026-09-05)
+
+
+### Bug Fixes
+
+* block cleartext traffic on API 23 and drop the dead localhost exception ([252cffc](https://github.com/figonzal1/LastQuakeChile/commit/252cffc91d5bb52da11ff81cf5e011b79b426452))
+* cleartext traffic, share cache errors and Sonar/Kover coverage ([d0730cf](https://github.com/figonzal1/LastQuakeChile/commit/d0730cf9e50658008d953497d972732b2106e58d))
+* keep share button working when the map fails to load ([7e6e4e0](https://github.com/figonzal1/LastQuakeChile/commit/7e6e4e0c28abb95e3876a2519c13a9d42cc4fe78))
+* keep toolbar fixed on ads and map tabs ([4913c05](https://github.com/figonzal1/LastQuakeChile/commit/4913c05e9e5a7baf1e24defcd9d66357703b9cd7))
+* keep toolbar fixed on ads and map tabs ([7fd1149](https://github.com/figonzal1/LastQuakeChile/commit/7fd11498589bd542015dc91c9914908173e70c84))
+* log FCM topic subscription failures ([8d516c7](https://github.com/figonzal1/LastQuakeChile/commit/8d516c7f0e3176f7d754911b31f03567ddfa4fe1))
+* report failures when clearing the share image cache ([29dc056](https://github.com/figonzal1/LastQuakeChile/commit/29dc056c3552e707a16939deef2df4c2ce80671f))
+* scope share image cache to its own subdirectory ([9858d94](https://github.com/figonzal1/LastQuakeChile/commit/9858d94981b2baa166163aac783d89cbfdc03fde))
+* share quake button dead when the map fails to load ([900c414](https://github.com/figonzal1/LastQuakeChile/commit/900c414863600c7739af4140556b09e7058859df))
+
 ## [1.9.0](https://github.com/figonzal1/LastQuakeChile/compare/v1.8.0...v1.9.0) (2026-08-16)
 
 
