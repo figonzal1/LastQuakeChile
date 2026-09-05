@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.io.FileInputStream
 import java.util.Properties
 
-val appVersionName = "1.9.0" // x-release-please-version
+val appVersionName = "1.9.1" // x-release-please-version
 val (vMajor, vMinor, vPatch) = appVersionName.split(".").map { it.toInt() }
 
 plugins {
