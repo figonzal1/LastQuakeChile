@@ -1,3 +1,3 @@
-• El mapa ahora agrupa los sismos cercanos para una vista más clara.
-• Mejoras y correcciones en las notificaciones de sismos.
-• Correcciones de estabilidad para evitar cierres inesperados.
+• ¡Nuevo! Comparte sismos en tus historias de Instagram y por WhatsApp, con una imagen lista para publicar.
+• Arreglado el botón de compartir: ahora funciona aunque el mapa no alcance a cargar.
+• La barra superior ya no se desplaza al cambiar de pestaña.
