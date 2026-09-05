@@ -110,6 +110,7 @@
     <string name="SHARE_DESIGN_MAGNITUDE">Magnitud</string>
     <string name="SHARE_BG_SOLID">Fondo sólido</string>
     <string name="SHARE_BG_GRADIENT">Fondo degradado</string>
+    <string name="SHARE_ERROR">No se pudo generar la imagen para compartir</string>
     <string name="email_chooser_title">Envía un email usando:</string>
     <string name="email_subject">Contacto desarrollador LastQuakeChile</string>
     <string name="retry">Reintentar</string>

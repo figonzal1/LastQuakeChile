@@ -57,10 +57,12 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.Circle
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.ktx.addCircle
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeoutOrNull
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 import java.util.Locale
@@ -111,6 +113,9 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
     private var currentNativeAd: NativeAd? = null
 
     private var googleMap: GoogleMap? = null
+
+    /** Completed when map tiles finish loading; stays pending if the map never becomes ready. */
+    private val mapLoaded = CompletableDeferred<Unit>()
 
     private var quake: Quake? = null
     private var isSnapshotRequest: Boolean? = null
@@ -169,6 +174,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         setTextViews()
+        configShare()
     }
 
     private fun refreshAd() {
@@ -269,6 +275,24 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    /** Share must work even if the map never loads (e.g. invalid API key) - [shareQuake] already falls back to a mapless sticker. */
+    private fun configShare() {
+        val q = quake ?: return
+
+        binding.fabShare.setDebouncedClickListener {
+            Timber.d("Share button clicked")
+            shareQuake(q)
+        }
+
+        if (isSnapshotRequest == true) {
+            Timber.d("Snapshot request from bottomSheetDialog")
+            lifecycleScope.launch {
+                withTimeoutOrNull(3_000) { mapLoaded.await() }
+                shareQuake(q)
+            }
+        }
+    }
+
     override fun onMapReady(p0: GoogleMap) {
 
         googleMap = p0
@@ -323,23 +347,10 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                 moveCamera(CameraUpdateFactory.newLatLngZoom(latLong, 6.0f))
 
+                setOnMapLoadedCallback { mapLoaded.complete(Unit) }
+
                 //Log zone
                 Timber.d("Map ready")
-
-                //Seteo de floating buttons
-                binding.fabShare.setDebouncedClickListener { _ ->
-                    Timber.d("Share button clicked")
-                    shareQuake(it)
-                }
-
-                if (isSnapshotRequest == true) {
-                    Timber.d("Snapshot request from bottomSheetDialog")
-
-                    lifecycleScope.launch {
-                        delay(1000)
-                        shareQuake(it)
-                    }
-                }
             }
         }
 
@@ -384,20 +395,27 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun shareQuake(quake: Quake) {
         captureMapSnapshot { mapSnapshot ->
             lifecycleScope.launch(Dispatchers.Default) {
-                clearShareImageCache()
+                try {
+                    clearShareImageCache()
 
-                val stickerUris = StickerDesign.entries.map { design ->
-                    val sticker = quakeStoryRenderer.renderSticker(quake, mapSnapshot, design)
-                    cacheImageUri(sticker, "sticker-${quake.quakeCode}-${design.name}", Bitmap.CompressFormat.PNG)
-                        .also { sticker.recycle() }
-                }
-                val magnitudeColor = quakeStoryRenderer.magnitudeColor(quake)
+                    val stickerUris = StickerDesign.entries.map { design ->
+                        val sticker = quakeStoryRenderer.renderSticker(quake, mapSnapshot, design)
+                        cacheImageUri(sticker, "sticker-${quake.quakeCode}-${design.name}", Bitmap.CompressFormat.PNG)
+                            .also { sticker.recycle() }
+                    }
+                    val magnitudeColor = quakeStoryRenderer.magnitudeColor(quake)
 
-                withContext(Dispatchers.Main) {
-                    if (supportFragmentManager.isStateSaved) return@withContext
+                    withContext(Dispatchers.Main) {
+                        if (supportFragmentManager.isStateSaved) return@withContext
 
-                    ShareQuakeBottomSheet.newInstance(quake, stickerUris, magnitudeColor)
-                        .show(supportFragmentManager, ShareQuakeBottomSheet.TAG)
+                        ShareQuakeBottomSheet.newInstance(quake, stickerUris, magnitudeColor)
+                            .show(supportFragmentManager, ShareQuakeBottomSheet.TAG)
+                    }
+                } catch (e: CancellationException) {
+                    throw e
+                } catch (e: Exception) {
+                    Timber.e(e, "Share image generation failed")
+                    withContext(Dispatchers.Main) { toast(R.string.SHARE_ERROR) }
                 }
             }
         }

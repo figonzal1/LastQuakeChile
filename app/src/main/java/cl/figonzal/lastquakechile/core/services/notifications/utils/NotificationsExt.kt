@@ -18,11 +18,9 @@ import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.views.toast
 import cl.figonzal.lastquakechile.databinding.FragmentQuakeBinding
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
-import com.google.android.gms.tasks.Task
 import com.google.firebase.Firebase
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.crashlytics.crashlytics
-import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.messaging
 import timber.log.Timber
 
@@ -162,25 +160,6 @@ private fun Fragment.openNotificationSettings() {
 }
 
 /**
- * Retrieve token for FCM
- */
-fun getFirebaseToken() {
-
-    //FIREBASE SECTION
-    FirebaseMessaging.getInstance().token
-        .addOnCompleteListener { task: Task<String?> ->
-            if (!task.isSuccessful) {
-                Timber.w("Fetching FCM registration token failed")
-                return@addOnCompleteListener
-            }
-
-            // Get new FCM registration token
-            val token = task.result
-            Timber.d("Token %s", token)
-        }
-}
-
-/**
  * Function that checks subscriptions to quake channels alerts
  *
  * @param isSubscribed
@@ -203,6 +182,11 @@ fun subscribedToQuakes(isSubscribed: Boolean) {
                             Timber.d("Subscribed to topic")
                             crashlytics.setCustomKey(FIREBASE_SUB_QUAKE, true)
                         }
+
+                        else -> {
+                            Timber.e(it.exception, "Subscribe to topic failed")
+                            crashlytics.setCustomKey(FIREBASE_SUB_QUAKE, false)
+                        }
                     }
                 }
         }
@@ -215,9 +199,10 @@ fun subscribedToQuakes(isSubscribed: Boolean) {
                             Timber.d("Subscription deleted")
                             crashlytics.setCustomKey(FIREBASE_SUB_QUAKE, false)
                         }
+
+                        else -> Timber.e(it.exception, "Unsubscribe from topic failed")
                     }
                 }
-                .addOnFailureListener { Timber.d("Already subscribed") }
         }
     }
 }

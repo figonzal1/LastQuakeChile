@@ -35,6 +35,7 @@
     <string name="SHARE_DESIGN_MAGNITUDE">Magnitude</string>
     <string name="SHARE_BG_SOLID">Solid background</string>
     <string name="SHARE_BG_GRADIENT">Gradient background</string>
+    <string name="SHARE_ERROR">Couldn\'t generate the image to share</string>
     <!-- FIREBASE strings -->
     <string name="firebase_channel_name_quakes_high">Quake alerts · High priority</string>
     <string name="firebase_channel_description_quakes_high">Quake alerts with heads-up notification</string>

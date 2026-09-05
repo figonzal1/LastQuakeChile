@@ -3,7 +3,7 @@
     <!-- See table below.  The external-files-path DOES NOT require external storage permissions. -->
     <cache-path
         name="images"
-        path="/" />
+        path="share/" />
 
     <!--Uncomment below to share the entire application specific directory -->
     <!--<external-path name="all_dirs" path="."/>-->
