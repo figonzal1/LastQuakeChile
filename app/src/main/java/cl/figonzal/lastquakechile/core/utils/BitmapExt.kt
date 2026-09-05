@@ -12,7 +12,10 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 
-private const val SHARE_CACHE_PREFIX = "share"
+private const val SHARE_CACHE_DIR = "share"
+
+private val Context.shareCacheDir: File
+    get() = File(cacheDir, SHARE_CACHE_DIR).apply { mkdirs() }
 
 /**
  * Wraps [this] in a Context whose display density is fixed, so an offscreen view inflated
@@ -51,12 +54,11 @@ fun View.renderToBitmap(widthPx: Int): Bitmap {
  * a single share can now produce several images (one per [StickerDesign]) that must coexist.
  */
 fun Context.clearShareImageCache() {
-    cacheDir.listFiles { candidate -> candidate.name.startsWith(SHARE_CACHE_PREFIX) }
-        ?.forEach { it.delete() }
+    shareCacheDir.listFiles()?.forEach { it.delete() }
 }
 
 /**
- * Writes [bitmap] to the cache dir and returns a [FileProvider] uri for it.
+ * Writes [bitmap] to the share cache dir and returns a [FileProvider] uri for it.
  */
 @Throws(IOException::class)
 fun Context.cacheImageUri(
@@ -66,7 +68,7 @@ fun Context.cacheImageUri(
     quality: Int = 100
 ): Uri {
     val extension = if (format == Bitmap.CompressFormat.PNG) "png" else "jpeg"
-    val file = File(cacheDir, "$SHARE_CACHE_PREFIX-$name.$extension")
+    val file = File(shareCacheDir, "$name.$extension")
 
     FileOutputStream(file).use { out -> bitmap.compress(format, quality, out) }
 
