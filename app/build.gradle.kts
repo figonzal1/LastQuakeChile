@@ -15,6 +15,8 @@ plugins {
     alias(libs.plugins.com.google.firebase.firebase.perf)
 
     alias(libs.plugins.com.google.android.libraries.mapsplatform.secrets.gradle.plugin)
+
+    alias(libs.plugins.org.jetbrains.kotlinx.kover)
 }
 
 secrets {
@@ -213,12 +215,24 @@ ksp {
     arg("room.schemaLocation", "$projectDir/schemas")
 }
 
-sonarqube {
+kover {
+    reports {
+        filters { excludes { androidGeneratedClasses() } }
+        variant("devDebug") {
+            xml { xmlFile = layout.buildDirectory.file("reports/kover/report-devDebug.xml") }
+        }
+    }
+}
+
+sonar {
     properties {
-        property("sonar.projectName", "LastQuakeChile")
         property("sonar.projectKey", "LastQuakeChile")
-        property("sonar.test.inclusions", "**/*Test*/**")
+        property("sonar.projectName", "LastQuakeChile")
+        property("sonar.projectVersion", appVersionName)
         property("sonar.sourceEncoding", "UTF-8")
-        property("sonar.sources", "src/main/java")
+        property(
+            "sonar.coverage.jacoco.xmlReportPaths",
+            layout.buildDirectory.file("reports/kover/report-devDebug.xml").get().asFile.path
+        )
     }
 }

@@ -12,6 +12,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.doOnLayout
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.services.UpdaterService
@@ -30,8 +31,6 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.inject
@@ -84,16 +83,9 @@ class MainActivity : AppCompatActivity() {
         initLifecycleObservers()
 
         checkEULAConsentAds {
-
-            val adsScope = CoroutineScope(ioDispatcher)
-            adsScope.launch {
-
-                MobileAds.initialize(this@MainActivity)
-
-                withContext(Dispatchers.Main) {
-                    //Ads
-                    adView = startAds(binding.adViewContainer)
-                }
+            lifecycleScope.launch {
+                withContext(ioDispatcher) { MobileAds.initialize(this@MainActivity) }
+                adView = startAds(binding.adViewContainer)
             }
         }
 

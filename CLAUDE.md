@@ -44,6 +44,9 @@ bundle exec fastlane unit_test      # unit tests
 bundle exec fastlane ui_test        # instrumentation tests (DevDebug)
 bundle exec fastlane release        # build the prodRelease AAB (used for every track)
 bundle exec fastlane beta_googleplay # upload that AAB to the beta track
+
+# SonarQube (local self-hosted server on :9000):
+./gradlew koverXmlReportDevDebug sonar   # coverage (Kover) + analysis
 ```
 
 ## Gotchas
@@ -67,6 +70,13 @@ bundle exec fastlane beta_googleplay # upload that AAB to the beta track
   not from the flavor. `devDebug` is `cl.figonzal.lastquakechile.debug` and both package names are
   registered in `app/google-services.json` — moving that suffix onto the `dev` flavor would leave
   `prodDebug` holding the production applicationId.
+- SonarQube runs **locally only**, never in CI. `sonar.host.url` lives in
+  `~/.gradle/gradle.properties` and the token in the `SONAR_TOKEN` env var — never in the repo.
+  Coverage comes from **Kover** (`koverXmlReportDevDebug` →
+  `app/build/reports/kover/report-devDebug.xml`), not AGP's JaCoCo: on AGP 9 the
+  `createDevDebugUnitTestCoverageReport` task only emits HTML and Sonar needs XML.
+- The `org.sonarqube` plugin must be **>= 7.4**; 7.3.0.8198 blows up on AGP 9.2 — its
+  `sonarResolver` task reads the `res` directories before `generateDevDebugResValues` runs.
 - Dependencies live in `gradle/libs.versions.toml`; `app/build.gradle.kts` only references
   `libs.*` aliases. Never add a raw coordinate to the build file.
 - Instrumentation tests run through `InstrumentationTestRunner` + `TestApplication`, with Koin
