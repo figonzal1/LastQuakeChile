@@ -13,7 +13,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import android.widget.AbsListView
 import android.widget.ImageView
 import android.widget.TextView
@@ -21,6 +20,7 @@ import android.widget.Toast
 import androidx.annotation.MenuRes
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
+import androidx.core.view.doOnNextLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -472,16 +472,7 @@ fun RecyclerView.addPaginationListener(
 fun ViewGroup.getViewBottomHeight(
     targetViewId: Int,
     behavior: BottomSheetBehavior<MaterialCardView>?
-) {
-
-    val callback = object : ViewTreeObserver.OnGlobalLayoutListener {
-        override fun onGlobalLayout() {
-            viewTreeObserver.removeOnGlobalLayoutListener(this)
-            behavior?.peekHeight =
-                findViewById<View>(targetViewId).bottom + 20f.toDips(resources).toInt()
-        }
-    }
-
-    viewTreeObserver.addOnGlobalLayoutListener(callback)
+) = doOnNextLayout {
+    behavior?.peekHeight = findViewById<View>(targetViewId).bottom + 20f.toDips(resources).toInt()
 }
 
