@@ -15,7 +15,6 @@ import androidx.core.view.isVisible
 import androidx.preference.PreferenceManager
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.services.UpdaterService
-import cl.figonzal.lastquakechile.core.services.notifications.utils.getFirebaseToken
 import cl.figonzal.lastquakechile.core.services.notifications.utils.setUpNotificationService
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.checkEULAConsentAds
@@ -83,8 +82,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun initServices() {
         initLifecycleObservers()
-
-        getFirebaseToken()
 
         checkEULAConsentAds {
 
