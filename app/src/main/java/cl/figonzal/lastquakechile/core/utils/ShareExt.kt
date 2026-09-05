@@ -15,6 +15,7 @@ import cl.figonzal.lastquakechile.quake_feature.domain.model.Quake
 internal const val INSTAGRAM_PACKAGE = "com.instagram.android"
 private const val INSTAGRAM_STORY_ACTION = "com.instagram.share.ADD_TO_STORY"
 internal const val WHATSAPP_PACKAGE = "com.whatsapp"
+private const val MIME_IMAGE = "image/*"
 
 fun Context.buildShareText(quake: Quake): String = String.format(
     """
@@ -47,13 +48,13 @@ fun Context.buildShareText(quake: Quake): String = String.format(
  */
 private fun instagramStoryIntent(imageUri: Uri?): Intent = Intent(INSTAGRAM_STORY_ACTION).apply {
     setPackage(INSTAGRAM_PACKAGE)
-    type = "image/*"
+    type = MIME_IMAGE
     imageUri?.let { putExtra("interactive_asset_uri", it) }
     addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
 }
 
 private fun whatsAppSendIntent(): Intent =
-    Intent(Intent.ACTION_SEND).setPackage(WHATSAPP_PACKAGE).setType("image/*")
+    Intent(Intent.ACTION_SEND).setPackage(WHATSAPP_PACKAGE).setType(MIME_IMAGE)
 
 fun Context.isInstagramStoriesAvailable(): Boolean =
     resolveActivityOrNull(instagramStoryIntent(null)) != null
@@ -117,25 +118,24 @@ fun Context.shareQuakeGeneric(quake: Quake, imageUri: Uri?) {
         action = Intent.ACTION_SEND
         putExtra(Intent.EXTRA_TEXT, buildShareText(quake))
         putExtra(Intent.EXTRA_STREAM, imageUri)
-        type = "image/*"
+        type = MIME_IMAGE
 
         val chooser = Intent.createChooser(this, getString(R.string.intent_chooser))
 
-        val resInfoList = when {
+        val targetPackages = when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> packageManager.queryIntentActivities(
                 chooser,
                 ResolveInfoFlags.of(MATCH_DEFAULT_ONLY.toLong())
             )
 
             else -> packageManager.queryIntentActivities(chooser, MATCH_DEFAULT_ONLY)
-        }
+        }.map { it.activityInfo.packageName }
 
-        for (resolveInfo in resInfoList) {
-            val packageName = resolveInfo.activityInfo.packageName
-            imageUri?.let {
+        imageUri?.let { uri ->
+            targetPackages.forEach { packageName ->
                 grantUriPermission(
                     packageName,
-                    it,
+                    uri,
                     Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION
                 )
             }
