@@ -135,4 +135,7 @@ Use the `/fastlane-changelog` command (see `.claude/commands/fastlane-changelog.
 
 ## Conventions
 
-- Write GitHub issues in **English**, regardless of conversation language.
+- Write everything that lands on GitHub in **English**, regardless of conversation
+  language: issue titles and bodies, PR titles and bodies, and commit messages.
+  The exception is store copy — the fastlane changelogs under
+  `fastlane/metadata/android/es-419/` are user-facing and stay in Spanish.
