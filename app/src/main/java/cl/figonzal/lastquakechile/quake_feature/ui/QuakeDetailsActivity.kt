@@ -59,11 +59,12 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.ktx.addCircle
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CompletableDeferred
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
 import org.koin.android.ext.android.inject
+import org.koin.core.qualifier.named
 import timber.log.Timber
 import java.util.Locale
 
@@ -121,6 +122,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
     private var isSnapshotRequest: Boolean? = null
 
     private val quakeStoryRenderer: QuakeStoryRenderer by inject()
+    private val ioDispatcher: CoroutineDispatcher by inject(named("ioDispatcher"))
 
     private lateinit var binding: ActivityQuakeDetailsBinding
 
@@ -178,11 +180,9 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun refreshAd() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            MobileAds.initialize(this@QuakeDetailsActivity)
-            withContext(Dispatchers.Main) {
-                loadNativeAd()
-            }
+        lifecycleScope.launch {
+            withContext(ioDispatcher) { MobileAds.initialize(this@QuakeDetailsActivity) }
+            loadNativeAd()
         }
     }
 
@@ -386,36 +386,36 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     /**
      * Renders all [StickerDesign] variants (map snapshot may be null if it couldn't be
-     * captured) and opens [ShareQuakeBottomSheet] with them. Rendering happens off the main
-     * thread: the sticker views are never attached to a window, so it's safe to
-     * measure/layout/draw them from any thread, and PNG compression to the cache dir is I/O.
-     * Designs are rendered sequentially and each bitmap is recycled right after it's cached -
-     * doing all three at once would keep ~18 MB of bitmaps alive simultaneously.
+     * captured) and opens [ShareQuakeBottomSheet] with them. Rendering happens on [ioDispatcher]:
+     * the sticker views are never attached to a window, so it's safe to measure/layout/draw them
+     * off the main thread, and PNG compression to the cache dir is I/O. Designs are rendered
+     * sequentially and each bitmap is recycled right after it's cached - doing all three at once
+     * would keep ~18 MB of bitmaps alive simultaneously.
      */
     private fun shareQuake(quake: Quake) {
         captureMapSnapshot { mapSnapshot ->
-            lifecycleScope.launch(Dispatchers.Default) {
+            lifecycleScope.launch {
                 try {
-                    clearShareImageCache()
+                    val stickerUris = withContext(ioDispatcher) {
+                        clearShareImageCache()
 
-                    val stickerUris = StickerDesign.entries.map { design ->
-                        val sticker = quakeStoryRenderer.renderSticker(quake, mapSnapshot, design)
-                        cacheImageUri(sticker, "sticker-${quake.quakeCode}-${design.name}", Bitmap.CompressFormat.PNG)
-                            .also { sticker.recycle() }
+                        StickerDesign.entries.map { design ->
+                            val sticker = quakeStoryRenderer.renderSticker(quake, mapSnapshot, design)
+                            cacheImageUri(sticker, "sticker-${quake.quakeCode}-${design.name}", Bitmap.CompressFormat.PNG)
+                                .also { sticker.recycle() }
+                        }
                     }
-                    val magnitudeColor = quakeStoryRenderer.magnitudeColor(quake)
 
-                    withContext(Dispatchers.Main) {
-                        if (supportFragmentManager.isStateSaved) return@withContext
+                    if (supportFragmentManager.isStateSaved) return@launch
 
-                        ShareQuakeBottomSheet.newInstance(quake, stickerUris, magnitudeColor)
-                            .show(supportFragmentManager, ShareQuakeBottomSheet.TAG)
-                    }
+                    ShareQuakeBottomSheet
+                        .newInstance(quake, stickerUris, quakeStoryRenderer.magnitudeColor(quake))
+                        .show(supportFragmentManager, ShareQuakeBottomSheet.TAG)
                 } catch (e: CancellationException) {
                     throw e
                 } catch (e: Exception) {
                     Timber.e(e, "Share image generation failed")
-                    withContext(Dispatchers.Main) { toast(R.string.SHARE_ERROR) }
+                    toast(R.string.SHARE_ERROR)
                 }
             }
         }
