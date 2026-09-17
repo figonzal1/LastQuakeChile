@@ -1,3 +1,5 @@
 • New! Share earthquakes to your Instagram stories and via WhatsApp, with a ready-to-post image.
 • Fixed the share button: it now works even if the map fails to load.
 • The top bar no longer moves when switching tabs.
+• Fixed a crash when opening a quake's detail screen from an older notification.
+• Fixed an issue that could stop earthquake alerts if the minimum magnitude field was left empty.

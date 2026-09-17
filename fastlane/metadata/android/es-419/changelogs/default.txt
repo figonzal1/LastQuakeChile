@@ -1,3 +1,5 @@
 • ¡Nuevo! Comparte sismos en tus historias de Instagram y por WhatsApp, con una imagen lista para publicar.
 • Arreglado el botón de compartir: ahora funciona aunque el mapa no alcance a cargar.
 • La barra superior ya no se desplaza al cambiar de pestaña.
+• Corregido un cierre inesperado al abrir el detalle de un sismo desde notificaciones antiguas.
+• Corregido un error que podía dejar de mostrar alertas si la magnitud mínima quedaba vacía.
