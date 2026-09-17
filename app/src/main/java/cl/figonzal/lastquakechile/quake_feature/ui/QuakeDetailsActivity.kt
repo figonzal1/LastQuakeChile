@@ -28,6 +28,7 @@ import cl.figonzal.lastquakechile.core.ui.dialog.MapTerrainDialogFragment
 import cl.figonzal.lastquakechile.core.utils.cacheImageUri
 import cl.figonzal.lastquakechile.core.utils.clearShareImageCache
 import cl.figonzal.lastquakechile.core.utils.configMapType
+import cl.figonzal.lastquakechile.core.utils.logAdResponseId
 import cl.figonzal.lastquakechile.core.utils.populate
 import cl.figonzal.lastquakechile.core.utils.setNightMode
 import cl.figonzal.lastquakechile.core.utils.views.QUAKE_DETAILS_DEPTH_FORMAT
@@ -196,6 +197,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                 currentNativeAd?.destroy()
                 currentNativeAd = nativeAd
+                logAdResponseId(nativeAd.responseInfo)
 
                 val adView =
                     layoutInflater.inflate(

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.utils.logAdResponseId
 import cl.figonzal.lastquakechile.core.utils.populate
 import cl.figonzal.lastquakechile.core.utils.views.configOptionsMenu
 import cl.figonzal.lastquakechile.databinding.FragmentAdMobBinding
@@ -54,6 +55,7 @@ class AdFragment : Fragment() {
 
                 currentNativeAd?.destroy()
                 currentNativeAd = nativeAd
+                logAdResponseId(nativeAd.responseInfo)
 
                 if (isAdded) {
                     binding.adInclude.root.populate(nativeAd)

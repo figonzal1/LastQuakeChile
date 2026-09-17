@@ -55,6 +55,7 @@ fun AdView.loadAnchored(activity: Activity) {
         override fun onAdLoaded() {
             Timber.d("Banner loaded successfully")
             visibility = View.VISIBLE
+            logAdResponseId(this@loadAnchored.responseInfo)
         }
 
         override fun onAdOpened() {
