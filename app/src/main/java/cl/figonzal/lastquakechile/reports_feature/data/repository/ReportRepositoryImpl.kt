@@ -62,13 +62,11 @@ class ReportRepositoryImpl(
                 }
             }
             .suspendOnError {
-                val error = statusCode.toDomainError()
-                error.logApiFailure("reports", statusCode, message())
+                val error = statusCode.toDomainError().logApiFailure("reports", statusCode, message())
                 emit(DomainResult.Error(cacheList, error))
             }
             .suspendOnFailure {
-                val error = message().toDomainError()
-                error.logApiFailure("reports", null, message())
+                val error = message().toDomainError().logApiFailure("reports", null, message())
                 emit(DomainResult.Error(cacheList, error))
             }
     }.catch { throwable ->
@@ -97,13 +95,11 @@ class ReportRepositoryImpl(
                 }
             }
             .suspendOnError {
-                val error = statusCode.toDomainError()
-                error.logApiFailure("reports", statusCode, message())
+                val error = statusCode.toDomainError().logApiFailure("reports", statusCode, message())
                 emit(DomainResult.Error(emptyList, error))
             }
             .suspendOnFailure {
-                val error = message().toDomainError()
-                error.logApiFailure("reports", null, message())
+                val error = message().toDomainError().logApiFailure("reports", null, message())
                 emit(DomainResult.Error(emptyList, error))
             }
     }.catch { throwable ->

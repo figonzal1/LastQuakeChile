@@ -9,17 +9,19 @@ class ApiException(endpoint: String, statusCode: StatusCode?, detail: String?) :
     Exception("$endpoint failed [$statusCode]: $detail")
 
 /**
- * Reports a failed API call at the level its cause deserves: a 4xx/5xx means our backend failed
+ * Reports a failed API call at the level its cause deserves — a 4xx/5xx means our backend failed
  * and is worth a non-fatal in Crashlytics; anything else (no connection, timeout) is the user's
- * environment and would just flood the panel with nothing actionable, so it's a breadcrumb.
+ * environment and would just flood the panel with nothing actionable, so it's a breadcrumb — and
+ * returns the receiver unchanged so call sites can report and emit in one line.
  */
-internal fun DomainError.logApiFailure(endpoint: String, statusCode: StatusCode?, detail: String?) {
+internal fun DomainError.logApiFailure(endpoint: String, statusCode: StatusCode?, detail: String?): DomainError {
     when (this) {
         DomainError.ServerError, DomainError.HttpError ->
             Timber.e(ApiException(endpoint, statusCode, detail), "API failure")
 
         else -> Timber.w("API failure ($this) on $endpoint: $detail")
     }
+    return this
 }
 
 internal fun StatusCode?.toDomainError(): DomainError = when (this) {

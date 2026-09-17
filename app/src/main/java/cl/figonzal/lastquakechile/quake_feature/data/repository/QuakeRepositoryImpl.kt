@@ -65,13 +65,11 @@ class QuakeRepositoryImpl(
                 }
             }
             .suspendOnError {
-                val error = statusCode.toDomainError()
-                error.logApiFailure("quakes", statusCode, message())
+                val error = statusCode.toDomainError().logApiFailure("quakes", statusCode, message())
                 emit(DomainResult.Error(cacheList, error))
             }
             .suspendOnFailure {
-                val error = message().toDomainError()
-                error.logApiFailure("quakes", null, message())
+                val error = message().toDomainError().logApiFailure("quakes", null, message())
                 emit(DomainResult.Error(cacheList, error))
             }
     }.catch { throwable ->
@@ -101,13 +99,11 @@ class QuakeRepositoryImpl(
                 }
             }
             .suspendOnError {
-                val error = statusCode.toDomainError()
-                error.logApiFailure("quakes", statusCode, message())
+                val error = statusCode.toDomainError().logApiFailure("quakes", statusCode, message())
                 emit(DomainResult.Error(emptyList, error))
             }
             .suspendOnFailure {
-                val error = message().toDomainError()
-                error.logApiFailure("quakes", null, message())
+                val error = message().toDomainError().logApiFailure("quakes", null, message())
                 emit(DomainResult.Error(emptyList, error))
             }
     }.catch { throwable ->
