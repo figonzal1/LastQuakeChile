@@ -6,7 +6,6 @@ import android.annotation.SuppressLint
 import android.app.NotificationManager
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -157,19 +156,17 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
             setHomeAsUpIndicator(R.drawable.round_arrow_back_24)
         }
 
-        @Suppress("DEPRECATION")
-        with(intent.extras) {
+        quake = intent.extras?.let { BundleCompat.getParcelable(it, QUAKE, Quake::class.java) }
 
-            quake = when {
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> {
-                    this?.let { BundleCompat.getParcelable(it, QUAKE, Quake::class.java) }
-                }
-
-                else -> this?.get(QUAKE) as Quake
-            }
-            isSnapshotRequest =
-                this?.getBoolean(IS_SNAPSHOT_REQUEST_FROM_BOTTOM_SHEET, false) ?: false
+        if (quake == null) {
+            // A PendingIntent created by an older version carries extras in a Parcelable
+            // format this build can no longer read; Android silently empties the Bundle.
+            Timber.e("QuakeDetails opened without a readable QUAKE extra")
+            finish()
+            return
         }
+
+        isSnapshotRequest = intent.getBooleanExtra(IS_SNAPSHOT_REQUEST_FROM_BOTTOM_SHEET, false)
 
         quake?.let {
             (getSystemService(NOTIFICATION_SERVICE) as NotificationManager).cancel(it.quakeCode)
