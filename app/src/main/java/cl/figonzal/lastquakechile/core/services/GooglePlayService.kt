@@ -3,12 +3,12 @@ package cl.figonzal.lastquakechile.core.services
 import android.app.Activity
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import cl.figonzal.lastquakechile.core.FIREBASE_GOOGLE_PLAY_SERVICE_STATE
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import timber.log.Timber
 
+private const val FIREBASE_GOOGLE_PLAY_SERVICE_STATE = "google_play_service_state"
 private const val PLAY_SERVICES_RESOLUTION_REQUEST = 9000
 
 class GooglePlayService(

@@ -5,11 +5,11 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.preference.PreferenceManager
-import cl.figonzal.lastquakechile.core.FIREBASE_NIGHT_MODE_STATUS
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import timber.log.Timber
 
 private const val ROOT_PREF_NIGHT_MODE = "pref_night_mode"
+private const val FIREBASE_NIGHT_MODE_STATUS = "night_mode_status"
 
 class NightModeService(
     private val activity: Activity,

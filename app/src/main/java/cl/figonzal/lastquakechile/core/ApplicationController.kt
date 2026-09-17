@@ -15,6 +15,7 @@ import org.koin.core.logger.Level
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 
+private const val FIREBASE_CURRENT_SCREEN = "screen"
 
 class ApplicationController : Application() {
 

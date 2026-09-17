@@ -5,8 +5,6 @@ internal const val ROOT_PREF_HIGH_PRIORITY_NOTIFICATION = "high_priority_notific
 internal const val ROOT_PREF_QUAKE_PRELIMINARY = "quake_preliminary"
 internal const val ROOT_PREF_SUBSCRIPTION = "pref_suscrito_quake"
 
-//Crashlytics custom keys — see core/CrashlyticsKeys.kt for FIREBASE_CHANNEL_STATUS,
-//FIREBASE_MSG_QUAKE_DATA, FIREBASE_MSG_GENERIC and FIREBASE_SUB_QUAKE.
 internal const val FIREBASE_TOPIC_CHANNEL = "quakes_v2"
 
 //Notification channel IDs (fixed, coexisting)

@@ -6,7 +6,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import cl.figonzal.lastquakechile.core.FIREBASE_LQCH_UPDATER_STATUS
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.appupdate.AppUpdateOptions
@@ -15,6 +14,8 @@ import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.firebase.Firebase
 import com.google.firebase.crashlytics.crashlytics
 import timber.log.Timber
+
+private const val FIREBASE_LQCH_UPDATER_STATUS = "lqch_updater_status"
 
 class UpdaterService(
     private val activity: Activity,

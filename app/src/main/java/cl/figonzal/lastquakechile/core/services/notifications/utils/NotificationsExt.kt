@@ -13,7 +13,6 @@ import androidx.core.app.NotificationCompat.PRIORITY_HIGH
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.FIREBASE_SUB_QUAKE
 import cl.figonzal.lastquakechile.core.services.notifications.QuakeNotificationImpl
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.views.toast
@@ -24,6 +23,8 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.crashlytics.crashlytics
 import com.google.firebase.messaging.messaging
 import timber.log.Timber
+
+private const val FIREBASE_SUB_QUAKE = "subscribed_quake"
 
 /**
  * Sets up notification channels and subscribes to the FCM topic only if POST_NOTIFICATIONS

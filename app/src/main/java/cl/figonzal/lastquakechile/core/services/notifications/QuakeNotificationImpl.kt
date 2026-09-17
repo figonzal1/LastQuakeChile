@@ -12,7 +12,6 @@ import androidx.core.app.NotificationCompat.Builder
 import androidx.core.app.NotificationCompat.VISIBILITY_PUBLIC
 import androidx.core.app.TaskStackBuilder
 import cl.figonzal.lastquakechile.R
-import cl.figonzal.lastquakechile.core.FIREBASE_CHANNEL_STATUS
 import cl.figonzal.lastquakechile.core.services.notifications.utils.CHANNEL_ID_DEFAULT
 import cl.figonzal.lastquakechile.core.services.notifications.utils.CHANNEL_ID_HIGH
 import cl.figonzal.lastquakechile.core.services.notifications.utils.CITY
@@ -47,6 +46,8 @@ import cl.figonzal.lastquakechile.quake_feature.ui.QuakeDetailsActivity
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.messaging.RemoteMessage
 import timber.log.Timber
+
+private const val FIREBASE_CHANNEL_STATUS = "channel_status"
 
 /**
  * NotificationService implementation
