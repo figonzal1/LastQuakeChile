@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.10.0](https://github.com/figonzal1/LastQuakeChile/compare/v1.9.1...v1.10.0) (2026-09-17)
+
+
+### Features
+
+* add Crashlytics breadcrumbs, non-fatals, Analytics events and Performance traces ([d710bad](https://github.com/figonzal1/LastQuakeChile/commit/d710badcef2c89a1fcafea24696b69efce8a148f))
+
+
+### Bug Fixes
+
+* general fixes for notification and quake-detail crashes ([0dc01a3](https://github.com/figonzal1/LastQuakeChile/commit/0dc01a3a81fabf96202b9e910f39b98fc224862b))
+* stop crashing on notification when min-magnitude preference is unparsable ([41ab7ea](https://github.com/figonzal1/LastQuakeChile/commit/41ab7ea8f034d6e07882da5f64f8d1b9406bdc9f))
+* stop crashing when QuakeDetailsActivity is opened without a readable quake extra ([10e0a41](https://github.com/figonzal1/LastQuakeChile/commit/10e0a4185370948812bfe4c6ddf71a35f46119aa))
+
 ## [1.9.1](https://github.com/figonzal1/LastQuakeChile/compare/v1.9.0...v1.9.1) (2026-09-05)
 
 
