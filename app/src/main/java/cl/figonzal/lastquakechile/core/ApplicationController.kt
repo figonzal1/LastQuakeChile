@@ -1,8 +1,12 @@
 package cl.figonzal.lastquakechile.core
 
+import android.app.Activity
 import android.app.Application
+import android.os.Bundle
 import cl.figonzal.lastquakechile.BuildConfig
 import cl.figonzal.lastquakechile.core.di.appModule
+import com.google.firebase.Firebase
+import com.google.firebase.crashlytics.crashlytics
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.fragment.koin.fragmentFactory
@@ -38,6 +42,30 @@ class ApplicationController : Application() {
             BuildConfig.DEBUG -> Timber.plant(DebugTree())
             else -> Timber.plant(CrashlyticsTree())
         }
+
+        trackCurrentScreen()
+    }
+
+    /**
+     * Custom key "screen" en Crashlytics con la Activity visible: el dato #1 para triage,
+     * saber en qué pantalla estaba el usuario cuando ocurrió el crash.
+     */
+    private fun trackCurrentScreen() {
+        registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
+            override fun onActivityResumed(activity: Activity) {
+                Firebase.crashlytics.setCustomKey(
+                    FIREBASE_CURRENT_SCREEN,
+                    activity::class.java.simpleName
+                )
+            }
+
+            override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) = Unit
+            override fun onActivityStarted(activity: Activity) = Unit
+            override fun onActivityPaused(activity: Activity) = Unit
+            override fun onActivityStopped(activity: Activity) = Unit
+            override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) = Unit
+            override fun onActivityDestroyed(activity: Activity) = Unit
+        })
     }
 
     private fun installDeadSystemExceptionFilter() {

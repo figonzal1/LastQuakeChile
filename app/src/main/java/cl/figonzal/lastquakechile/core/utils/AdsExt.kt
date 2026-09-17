@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.FIREBASE_AD_RESPONSE_ID
 import com.google.android.gms.ads.ResponseInfo
 import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.gms.ads.nativead.NativeAdView
@@ -15,8 +16,6 @@ import com.google.android.ump.UserMessagingPlatform
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
-
-private const val FIREBASE_AD_RESPONSE_ID = "ad_response_id"
 
 private var isMobileAdsInitializeCalled = AtomicBoolean(false)
 

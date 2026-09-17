@@ -5,11 +5,8 @@ internal const val ROOT_PREF_HIGH_PRIORITY_NOTIFICATION = "high_priority_notific
 internal const val ROOT_PREF_QUAKE_PRELIMINARY = "quake_preliminary"
 internal const val ROOT_PREF_SUBSCRIPTION = "pref_suscrito_quake"
 
-//Constants used for crashlytics logger
-internal const val FIREBASE_CHANNEL_STATUS = "channel_status"
-internal const val FIREBASE_MSG_QUAKE_DATA = "data_msg_received"
-internal const val FIREBASE_MSG_GENERIC = "generic_msg_received"
-internal const val FIREBASE_SUB_QUAKE = "subscribed_quake"
+//Crashlytics custom keys — see core/CrashlyticsKeys.kt for FIREBASE_CHANNEL_STATUS,
+//FIREBASE_MSG_QUAKE_DATA, FIREBASE_MSG_GENERIC and FIREBASE_SUB_QUAKE.
 internal const val FIREBASE_TOPIC_CHANNEL = "quakes_v2"
 
 //Notification channel IDs (fixed, coexisting)
@@ -43,3 +40,7 @@ internal const val STATE = "estado"
 internal const val IS_UPDATE = "is_update"
 
 const val IS_SNAPSHOT_REQUEST_FROM_BOTTOM_SHEET = "isSnapshotRequestFromBottomSheet"
+
+// Marks the intent built by QuakeNotificationImpl so QuakeDetailsActivity can tell "opened by
+// tapping the push notification" apart from every other way of opening the same screen.
+const val IS_FROM_NOTIFICATION = "isFromNotification"

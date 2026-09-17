@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cl.figonzal.lastquakechile.core.domain.DomainError
 import cl.figonzal.lastquakechile.core.domain.DomainResult
+import cl.figonzal.lastquakechile.core.domain.describe
 import cl.figonzal.lastquakechile.reports_feature.domain.repository.ReportRepository
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -35,7 +36,7 @@ class ReportViewModel(
             _uiState.update { it.copy(isLoading = true, domainError = null, isLastPage = false) }
 
             reportRepository.getReports(0).collect { result ->
-                Timber.d("FIRST PAGE STATE $result")
+                Timber.d("FIRST PAGE STATE: ${result.describe()}")
 
                 when (result) {
                     is DomainResult.Error -> {
@@ -68,7 +69,7 @@ class ReportViewModel(
             _uiState.update { it.copy(isLoading = true, domainError = null) }
 
             reportRepository.getReports(currentPage).collect { result ->
-                Timber.d("NEXT PAGE STATE $result")
+                Timber.d("NEXT PAGE STATE: ${result.describe()}")
 
                 when (result) {
                     is DomainResult.Error -> {

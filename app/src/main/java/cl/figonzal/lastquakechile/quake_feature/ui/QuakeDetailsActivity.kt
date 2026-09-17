@@ -22,6 +22,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.services.notifications.utils.IS_FROM_NOTIFICATION
 import cl.figonzal.lastquakechile.core.services.notifications.utils.IS_SNAPSHOT_REQUEST_FROM_BOTTOM_SHEET
 import cl.figonzal.lastquakechile.core.services.notifications.utils.QUAKE
 import cl.figonzal.lastquakechile.core.ui.dialog.MapTerrainDialogFragment
@@ -29,6 +30,7 @@ import cl.figonzal.lastquakechile.core.utils.cacheImageUri
 import cl.figonzal.lastquakechile.core.utils.clearShareImageCache
 import cl.figonzal.lastquakechile.core.utils.configMapType
 import cl.figonzal.lastquakechile.core.utils.logAdResponseId
+import cl.figonzal.lastquakechile.core.utils.logAnalyticsEvent
 import cl.figonzal.lastquakechile.core.utils.populate
 import cl.figonzal.lastquakechile.core.utils.setNightMode
 import cl.figonzal.lastquakechile.core.utils.views.QUAKE_DETAILS_DEPTH_FORMAT
@@ -169,9 +171,14 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         isSnapshotRequest = intent.getBooleanExtra(IS_SNAPSHOT_REQUEST_FROM_BOTTOM_SHEET, false)
+        val isFromNotification = intent.getBooleanExtra(IS_FROM_NOTIFICATION, false)
 
         quake?.let {
             (getSystemService(NOTIFICATION_SERVICE) as NotificationManager).cancel(it.quakeCode)
+
+            if (isFromNotification) {
+                logAnalyticsEvent("quake_notification_opened", "magnitude" to it.magnitude)
+            }
         }
 
         setTextViews()
@@ -281,6 +288,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         binding.fabShare.setDebouncedClickListener {
             Timber.d("Share button clicked")
+            logAnalyticsEvent("quake_shared")
             shareQuake(q)
         }
 

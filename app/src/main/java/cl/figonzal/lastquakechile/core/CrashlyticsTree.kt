@@ -8,14 +8,14 @@ class CrashlyticsTree : Timber.Tree() {
 
     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
 
-        when (priority) {
-            Log.VERBOSE, Log.DEBUG, Log.INFO -> return
-            else -> {
-                FirebaseCrashlytics.getInstance().log(message)
-                if (t != null) {
-                    FirebaseCrashlytics.getInstance().recordException(t)
-                }
-            }
+        // VERBOSE/DEBUG es ruido de desarrollo; INFO en adelante es una miga de pan real para
+        // el próximo crash report.
+        if (priority < Log.INFO) return
+
+        val crashlytics = FirebaseCrashlytics.getInstance()
+        crashlytics.log(if (tag != null) "$tag: $message" else message)
+        if (t != null) {
+            crashlytics.recordException(t)
         }
     }
 }

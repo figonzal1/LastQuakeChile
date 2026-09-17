@@ -19,6 +19,7 @@ import cl.figonzal.lastquakechile.core.services.notifications.utils.setUpNotific
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.checkEULAConsentAds
 import cl.figonzal.lastquakechile.core.utils.initLifecycleObservers
+import cl.figonzal.lastquakechile.core.utils.logAnalyticsEvent
 import cl.figonzal.lastquakechile.core.utils.startAds
 import cl.figonzal.lastquakechile.core.utils.views.handleShortcuts
 import cl.figonzal.lastquakechile.core.utils.views.loadImage
@@ -158,6 +159,8 @@ class MainActivity : AppCompatActivity() {
             tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab) {
 
+                    logAnalyticsEvent("tab_selected", "tab" to tab.position)
+
                     when (tab.position) {
                         0, 2 -> hideAdBanner(true)
                         else -> hideAdBanner(false)
@@ -210,8 +213,8 @@ class MainActivity : AppCompatActivity() {
     private val activityResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
             when (val resultCode = result.resultCode) {
-                RESULT_OK -> Timber.d("Lqch-apk updated successfully")
-                RESULT_CANCELED -> Timber.d("User cancelled Update flow!")
+                RESULT_OK -> Timber.i("Lqch-apk updated successfully")
+                RESULT_CANCELED -> Timber.i("User cancelled Update flow!")
                 else -> Timber.e("Lqch-apk update flow failed! Result code: %s", resultCode)
             }
         }

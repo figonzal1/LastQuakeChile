@@ -13,6 +13,7 @@ import androidx.core.app.NotificationCompat.PRIORITY_HIGH
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.FIREBASE_SUB_QUAKE
 import cl.figonzal.lastquakechile.core.services.notifications.QuakeNotificationImpl
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.views.toast
@@ -54,10 +55,10 @@ fun setUpNotificationService(
         if (userWantsAlerts) {
             subscribedToQuakes(true)
         } else {
-            Timber.d("User opted out of alerts — skipping FCM subscription")
+            Timber.i("User opted out of alerts — skipping FCM subscription")
         }
     } else {
-        Timber.d("POST_NOTIFICATIONS not granted — skipping FCM subscription")
+        Timber.i("POST_NOTIFICATIONS not granted — skipping FCM subscription")
     }
 }
 
@@ -141,12 +142,12 @@ fun Fragment.onNotificationPermissionResult(
     sharedPrefUtil.saveData(SHARED_PREF_PERMISSION_ASKED_ONCE, true)
 
     if (isGranted) {
-        Timber.d("POST_NOTIFICATIONS granted")
+        Timber.i("POST_NOTIFICATIONS granted")
         toast(R.string.notification_permission_on)
         sharedPrefUtil.saveData(SHARED_PREF_PERMISSION_ALERT_ANDROID_13, true)
         subscribedToQuakes(true)
     } else {
-        Timber.d("POST_NOTIFICATIONS denied")
+        Timber.i("POST_NOTIFICATIONS denied")
         toast(R.string.notification_permission_off)
         sharedPrefUtil.saveData(SHARED_PREF_PERMISSION_ALERT_ANDROID_13, false)
     }
@@ -179,7 +180,7 @@ fun subscribedToQuakes(isSubscribed: Boolean) {
                 .addOnCompleteListener {
                     when {
                         it.isSuccessful -> {
-                            Timber.d("Subscribed to topic")
+                            Timber.i("Subscribed to topic")
                             crashlytics.setCustomKey(FIREBASE_SUB_QUAKE, true)
                         }
 
@@ -196,7 +197,7 @@ fun subscribedToQuakes(isSubscribed: Boolean) {
                 .addOnCompleteListener {
                     when {
                         it.isSuccessful -> {
-                            Timber.d("Subscription deleted")
+                            Timber.i("Subscription deleted")
                             crashlytics.setCustomKey(FIREBASE_SUB_QUAKE, false)
                         }
 

@@ -31,6 +31,7 @@ import cl.figonzal.lastquakechile.core.services.notifications.utils.MIN_MAGNITUD
 import cl.figonzal.lastquakechile.core.services.notifications.utils.subscribedToQuakes
 import cl.figonzal.lastquakechile.core.services.notifications.utils.toMinMagnitude
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
+import cl.figonzal.lastquakechile.core.utils.logAnalyticsEvent
 import cl.figonzal.lastquakechile.core.utils.views.toast
 import cl.figonzal.lastquakechile.databinding.SettingsActivityBinding
 import com.google.android.ump.ConsentInformation
@@ -286,6 +287,7 @@ class SettingsActivity : AppCompatActivity() {
             if (key == getString(R.string.firebase_pref_key)) {
 
                 preferences?.getBoolean(getString(R.string.firebase_pref_key), true).also {
+                    logAnalyticsEvent("alerts_toggled", "enabled" to it)
 
                     //Si el switch esta ON, lanzar toast con SUSCRITO
                     when (it) {
@@ -342,6 +344,7 @@ class SettingsActivity : AppCompatActivity() {
 
                 minimumValueSaved?.let {
                     sharedPrefUtil.saveData(getString(R.string.min_magnitude_alert_key), it)
+                    logAnalyticsEvent("min_magnitude_changed", "value" to it)
                 }
             }
         }

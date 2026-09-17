@@ -1,7 +1,7 @@
 package cl.figonzal.lastquakechile.core.services.notifications
 
-import cl.figonzal.lastquakechile.core.services.notifications.utils.FIREBASE_MSG_GENERIC
-import cl.figonzal.lastquakechile.core.services.notifications.utils.FIREBASE_MSG_QUAKE_DATA
+import cl.figonzal.lastquakechile.core.FIREBASE_MSG_GENERIC
+import cl.figonzal.lastquakechile.core.FIREBASE_MSG_QUAKE_DATA
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -17,7 +17,7 @@ class FCMService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
 
-        Timber.d("From: ${remoteMessage.from}")
+        Timber.i("From: ${remoteMessage.from}")
 
         if (remoteMessage.data.isNotEmpty()) {
             Timber.d("Message quake data payload: ${remoteMessage.data}")
