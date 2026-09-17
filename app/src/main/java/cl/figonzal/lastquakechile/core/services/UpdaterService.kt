@@ -65,7 +65,7 @@ class UpdaterService(
             when {
                 appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
                         && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE) -> {
-                    Timber.d("Update available")
+                    Timber.i("Update available")
                     crashlytics.setCustomKey(FIREBASE_LQCH_UPDATER_STATUS, "Update available")
 
                     launchUpdate(appUpdateInfo)

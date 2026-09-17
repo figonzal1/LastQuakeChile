@@ -33,6 +33,7 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.card.MaterialCardView
+import com.google.firebase.perf.trace
 import com.google.maps.android.clustering.ClusterManager
 import com.google.maps.android.clustering.view.DefaultClusterRenderer
 import com.google.maps.android.ktx.addCircle
@@ -202,16 +203,18 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         )
         if (newQuakes.isEmpty()) return
 
-        newQuakes.forEach { quake ->
-            cm.addItem(QuakeClusterItem(quake))
-            googleMap?.addCircle {
-                center(LatLng(quake.coordinate.latitude, quake.coordinate.longitude))
-                radius(10000 * quake.magnitude)
-                fillColor(requireContext().getColor(getMagnitudeColor(quake.magnitude, true)))
-                strokeColor(requireContext().getColor(R.color.grey_dark_alpha))
-            }?.also { circles.add(it) }
+        trace("map_markers_render") {
+            newQuakes.forEach { quake ->
+                cm.addItem(QuakeClusterItem(quake))
+                googleMap?.addCircle {
+                    center(LatLng(quake.coordinate.latitude, quake.coordinate.longitude))
+                    radius(10000 * quake.magnitude)
+                    fillColor(requireContext().getColor(getMagnitudeColor(quake.magnitude, true)))
+                    strokeColor(requireContext().getColor(R.color.grey_dark_alpha))
+                }?.also { circles.add(it) }
+            }
+            cm.cluster()
         }
-        cm.cluster()
         loadedQuakesCount = minOf(quakeList.size, MAX_MAP_PINS)
     }
 

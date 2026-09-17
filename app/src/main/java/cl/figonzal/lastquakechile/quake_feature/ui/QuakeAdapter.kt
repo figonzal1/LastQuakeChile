@@ -50,7 +50,7 @@ class QuakeAdapter : RecyclerView.Adapter<QuakeViewHolder>() {
     override fun getItemCount(): Int = asyncDiffer.currentList.size
 
 
-    inner class QuakeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class QuakeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val binding = CardViewQuakeBinding.bind(itemView)
 

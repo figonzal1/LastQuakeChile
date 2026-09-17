@@ -6,7 +6,6 @@ import android.annotation.SuppressLint
 import android.app.NotificationManager
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -23,12 +22,15 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.services.notifications.utils.IS_FROM_NOTIFICATION
 import cl.figonzal.lastquakechile.core.services.notifications.utils.IS_SNAPSHOT_REQUEST_FROM_BOTTOM_SHEET
 import cl.figonzal.lastquakechile.core.services.notifications.utils.QUAKE
 import cl.figonzal.lastquakechile.core.ui.dialog.MapTerrainDialogFragment
 import cl.figonzal.lastquakechile.core.utils.cacheImageUri
 import cl.figonzal.lastquakechile.core.utils.clearShareImageCache
 import cl.figonzal.lastquakechile.core.utils.configMapType
+import cl.figonzal.lastquakechile.core.utils.logAdResponseId
+import cl.figonzal.lastquakechile.core.utils.logAnalyticsEvent
 import cl.figonzal.lastquakechile.core.utils.populate
 import cl.figonzal.lastquakechile.core.utils.setNightMode
 import cl.figonzal.lastquakechile.core.utils.views.QUAKE_DETAILS_DEPTH_FORMAT
@@ -67,6 +69,7 @@ import org.koin.android.ext.android.inject
 import org.koin.core.qualifier.named
 import timber.log.Timber
 import java.util.Locale
+import kotlin.time.Duration.Companion.milliseconds
 
 private const val mapViewKey = "MapViewBundleKey"
 private const val PULSE_CIRCLE_FROZEN_RADIUS = 90000.0
@@ -157,22 +160,25 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
             setHomeAsUpIndicator(R.drawable.round_arrow_back_24)
         }
 
-        @Suppress("DEPRECATION")
-        with(intent.extras) {
+        quake = intent.extras?.let { BundleCompat.getParcelable(it, QUAKE, Quake::class.java) }
 
-            quake = when {
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> {
-                    this?.let { BundleCompat.getParcelable(it, QUAKE, Quake::class.java) }
-                }
-
-                else -> this?.get(QUAKE) as Quake
-            }
-            isSnapshotRequest =
-                this?.getBoolean(IS_SNAPSHOT_REQUEST_FROM_BOTTOM_SHEET, false) ?: false
+        if (quake == null) {
+            // A PendingIntent created by an older version carries extras in a Parcelable
+            // format this build can no longer read; Android silently empties the Bundle.
+            Timber.e("QuakeDetails opened without a readable QUAKE extra")
+            finish()
+            return
         }
+
+        isSnapshotRequest = intent.getBooleanExtra(IS_SNAPSHOT_REQUEST_FROM_BOTTOM_SHEET, false)
+        val isFromNotification = intent.getBooleanExtra(IS_FROM_NOTIFICATION, false)
 
         quake?.let {
             (getSystemService(NOTIFICATION_SERVICE) as NotificationManager).cancel(it.quakeCode)
+
+            if (isFromNotification) {
+                logAnalyticsEvent("quake_notification_opened", "magnitude" to it.magnitude)
+            }
         }
 
         setTextViews()
@@ -198,6 +204,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                 currentNativeAd?.destroy()
                 currentNativeAd = nativeAd
+                logAdResponseId(nativeAd.responseInfo)
 
                 val adView =
                     layoutInflater.inflate(
@@ -281,13 +288,14 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         binding.fabShare.setDebouncedClickListener {
             Timber.d("Share button clicked")
+            logAnalyticsEvent("quake_shared")
             shareQuake(q)
         }
 
         if (isSnapshotRequest == true) {
             Timber.d("Snapshot request from bottomSheetDialog")
             lifecycleScope.launch {
-                withTimeoutOrNull(3_000) { mapLoaded.await() }
+                withTimeoutOrNull(3_000.milliseconds) { mapLoaded.await() }
                 shareQuake(q)
             }
         }

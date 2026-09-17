@@ -1,13 +1,13 @@
 package cl.figonzal.lastquakechile.core.services.notifications
 
-import cl.figonzal.lastquakechile.core.services.notifications.utils.FIREBASE_MSG_GENERIC
-import cl.figonzal.lastquakechile.core.services.notifications.utils.FIREBASE_MSG_QUAKE_DATA
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 
+private const val FIREBASE_MSG_QUAKE_DATA = "data_msg_received"
+private const val FIREBASE_MSG_GENERIC = "generic_msg_received"
 
 class FCMService : FirebaseMessagingService() {
 
@@ -17,7 +17,7 @@ class FCMService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
 
-        Timber.d("From: ${remoteMessage.from}")
+        Timber.i("From: ${remoteMessage.from}")
 
         if (remoteMessage.data.isNotEmpty()) {
             Timber.d("Message quake data payload: ${remoteMessage.data}")

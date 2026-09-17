@@ -1,5 +1,6 @@
 package cl.figonzal.lastquakechile.reports_feature.data.repository
 
+import cl.figonzal.lastquakechile.core.data.remote.logApiFailure
 import cl.figonzal.lastquakechile.core.data.remote.toDomainError
 import cl.figonzal.lastquakechile.core.domain.DomainError
 import cl.figonzal.lastquakechile.core.domain.DomainResult
@@ -50,7 +51,7 @@ class ReportRepositoryImpl(
                         cacheList = localDataSource.getReports()
 
                         emit(DomainResult.Success(cacheList))
-                        Timber.d("List updated with network call")
+                        Timber.i("List updated with network call: ${cacheList.size} items")
                     }
 
                     else -> {
@@ -61,12 +62,12 @@ class ReportRepositoryImpl(
                 }
             }
             .suspendOnError {
-                Timber.e("Suspend error: ${this.message()}")
-                emit(DomainResult.Error(cacheList, statusCode.toDomainError()))
+                val error = statusCode.toDomainError().logApiFailure("reports", statusCode, message())
+                emit(DomainResult.Error(cacheList, error))
             }
             .suspendOnFailure {
-                Timber.e("Suspend failure: ${this.message()}")
-                emit(DomainResult.Error(cacheList, message().toDomainError()))
+                val error = message().toDomainError().logApiFailure("reports", null, message())
+                emit(DomainResult.Error(cacheList, error))
             }
     }.catch { throwable ->
         if (throwable is CancellationException) throw throwable
@@ -87,19 +88,19 @@ class ReportRepositoryImpl(
                             .toReportListDomain()
 
                         emit(DomainResult.Success(reports))
-                        Timber.d("List updated with network call")
+                        Timber.i("List updated with network call: ${reports.size} items")
                     }
 
                     else -> emit(DomainResult.Error(emptyList, DomainError.NoMoreData))
                 }
             }
             .suspendOnError {
-                Timber.e("Suspend error: ${this.message()}")
-                emit(DomainResult.Error(emptyList, statusCode.toDomainError()))
+                val error = statusCode.toDomainError().logApiFailure("reports", statusCode, message())
+                emit(DomainResult.Error(emptyList, error))
             }
             .suspendOnFailure {
-                Timber.e("Suspend failure: ${this.message()}")
-                emit(DomainResult.Error(emptyList, message().toDomainError()))
+                val error = message().toDomainError().logApiFailure("reports", null, message())
+                emit(DomainResult.Error(emptyList, error))
             }
     }.catch { throwable ->
         if (throwable is CancellationException) throw throwable

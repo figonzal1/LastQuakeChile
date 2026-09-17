@@ -24,6 +24,8 @@ import com.google.firebase.crashlytics.crashlytics
 import com.google.firebase.messaging.messaging
 import timber.log.Timber
 
+private const val FIREBASE_SUB_QUAKE = "subscribed_quake"
+
 /**
  * Sets up notification channels and subscribes to the FCM topic only if POST_NOTIFICATIONS
  * is already granted (or the device is below Android 13 where no runtime permission is needed).
@@ -54,10 +56,10 @@ fun setUpNotificationService(
         if (userWantsAlerts) {
             subscribedToQuakes(true)
         } else {
-            Timber.d("User opted out of alerts — skipping FCM subscription")
+            Timber.i("User opted out of alerts — skipping FCM subscription")
         }
     } else {
-        Timber.d("POST_NOTIFICATIONS not granted — skipping FCM subscription")
+        Timber.i("POST_NOTIFICATIONS not granted — skipping FCM subscription")
     }
 }
 
@@ -141,12 +143,12 @@ fun Fragment.onNotificationPermissionResult(
     sharedPrefUtil.saveData(SHARED_PREF_PERMISSION_ASKED_ONCE, true)
 
     if (isGranted) {
-        Timber.d("POST_NOTIFICATIONS granted")
+        Timber.i("POST_NOTIFICATIONS granted")
         toast(R.string.notification_permission_on)
         sharedPrefUtil.saveData(SHARED_PREF_PERMISSION_ALERT_ANDROID_13, true)
         subscribedToQuakes(true)
     } else {
-        Timber.d("POST_NOTIFICATIONS denied")
+        Timber.i("POST_NOTIFICATIONS denied")
         toast(R.string.notification_permission_off)
         sharedPrefUtil.saveData(SHARED_PREF_PERMISSION_ALERT_ANDROID_13, false)
     }
@@ -179,7 +181,7 @@ fun subscribedToQuakes(isSubscribed: Boolean) {
                 .addOnCompleteListener {
                     when {
                         it.isSuccessful -> {
-                            Timber.d("Subscribed to topic")
+                            Timber.i("Subscribed to topic")
                             crashlytics.setCustomKey(FIREBASE_SUB_QUAKE, true)
                         }
 
@@ -196,7 +198,7 @@ fun subscribedToQuakes(isSubscribed: Boolean) {
                 .addOnCompleteListener {
                     when {
                         it.isSuccessful -> {
-                            Timber.d("Subscription deleted")
+                            Timber.i("Subscription deleted")
                             crashlytics.setCustomKey(FIREBASE_SUB_QUAKE, false)
                         }
 
@@ -240,20 +242,28 @@ fun getNotificationPriority(
     }
 }
 
+/**
+ * El EditTextPreference de magnitud mínima es texto libre: el usuario puede vaciarlo o escribir
+ * "1,5" con coma decimal. Cualquier valor no parseable cae al default en vez de crashear la
+ * notificación entrante.
+ */
+fun String?.toMinMagnitude(): Double =
+    this?.toDoubleOrNull() ?: MIN_MAGNITUDE_ALERT.toDouble()
+
 fun getMinMagnitude(
     sharedPrefUtil: SharedPrefUtil,
     minMagnitudeKey: String,
     crashlytics: FirebaseCrashlytics
-): String {
+): Double {
 
     val savedMinMag = sharedPrefUtil.getData(
         minMagnitudeKey,
         MIN_MAGNITUDE_ALERT
-    ).toString()
+    ).toMinMagnitude()
 
-    Timber.d("$minMagnitudeKey: ${savedMinMag.toDouble()}")
+    Timber.d("$minMagnitudeKey: $savedMinMag")
     crashlytics.setCustomKey(minMagnitudeKey, savedMinMag)
     return savedMinMag
 }
 
-fun Quake.greaterThan(minMagnitude: String) = magnitude >= minMagnitude.toDouble()
+fun Quake.greaterThan(minMagnitude: Double) = magnitude >= minMagnitude

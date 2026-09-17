@@ -16,7 +16,7 @@ import cl.figonzal.lastquakechile.core.services.notifications.utils.CHANNEL_ID_D
 import cl.figonzal.lastquakechile.core.services.notifications.utils.CHANNEL_ID_HIGH
 import cl.figonzal.lastquakechile.core.services.notifications.utils.CITY
 import cl.figonzal.lastquakechile.core.services.notifications.utils.DEPTH
-import cl.figonzal.lastquakechile.core.services.notifications.utils.FIREBASE_CHANNEL_STATUS
+import cl.figonzal.lastquakechile.core.services.notifications.utils.IS_FROM_NOTIFICATION
 import cl.figonzal.lastquakechile.core.services.notifications.utils.IS_SENSIBLE
 import cl.figonzal.lastquakechile.core.services.notifications.utils.IS_UPDATE
 import cl.figonzal.lastquakechile.core.services.notifications.utils.LATITUDE
@@ -37,6 +37,7 @@ import cl.figonzal.lastquakechile.core.services.notifications.utils.getPrelimina
 import cl.figonzal.lastquakechile.core.services.notifications.utils.greaterThan
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.localDateTimeToString
+import cl.figonzal.lastquakechile.core.utils.logAnalyticsEvent
 import cl.figonzal.lastquakechile.core.utils.stringToLocalDateTime
 import cl.figonzal.lastquakechile.core.utils.utcToLocalDate
 import cl.figonzal.lastquakechile.quake_feature.domain.model.Coordinate
@@ -45,6 +46,8 @@ import cl.figonzal.lastquakechile.quake_feature.ui.QuakeDetailsActivity
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.messaging.RemoteMessage
 import timber.log.Timber
+
+private const val FIREBASE_CHANNEL_STATUS = "channel_status"
 
 /**
  * NotificationService implementation
@@ -86,7 +89,7 @@ class QuakeNotificationImpl(
             lightColor = R.color.colorSecondary
         }.also { notificationManager.createNotificationChannel(it) }
 
-        Timber.d("Notification channels created/verified")
+        Timber.i("Notification channels created/verified")
         crashlytics.setCustomKey(FIREBASE_CHANNEL_STATUS, "Created")
     }
 
@@ -97,7 +100,7 @@ class QuakeNotificationImpl(
             context.getSystemService(NotificationManager::class.java)
                 .deleteNotificationChannel(legacyId.toString())
             sharedPrefUtil.saveData(RANDOM_CHANNEL_ID_LEGACY, 0)
-            Timber.d("Migrated legacy notification channel: $legacyId")
+            Timber.i("Migrated legacy notification channel: $legacyId")
         }
     }
 
@@ -157,6 +160,7 @@ class QuakeNotificationImpl(
 
             val intent = Intent(context, QuakeDetailsActivity::class.java).apply {
                 putExtra(QUAKE, quake)
+                putExtra(IS_FROM_NOTIFICATION, true)
             }
 
             //Create fake backStack
@@ -192,7 +196,7 @@ class QuakeNotificationImpl(
                 crashlytics
             )
 
-        val minMagnitude: String =
+        val minMagnitude: Double =
             getMinMagnitude(
                 sharedPrefUtil,
                 context.getString(R.string.min_magnitude_alert_key),
@@ -210,7 +214,17 @@ class QuakeNotificationImpl(
             .setContentIntent(pendingIntent)
             .run {
 
-                if (quake.greaterThan(minMagnitude) && (quake.isVerified || preliminaryNotifications)) {
+                val passesFilter =
+                    quake.greaterThan(minMagnitude) && (quake.isVerified || preliminaryNotifications)
+
+                logAnalyticsEvent(
+                    "quake_notification_received",
+                    "magnitude" to quake.magnitude,
+                    "is_verified" to quake.isVerified,
+                    "was_filtered" to !passesFilter
+                )
+
+                if (passesFilter) {
                     (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(
                         quake.quakeCode,
                         build()

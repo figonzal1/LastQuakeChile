@@ -7,14 +7,28 @@ import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import cl.figonzal.lastquakechile.R
+import com.google.android.gms.ads.ResponseInfo
 import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.gms.ads.nativead.NativeAdView
 import com.google.android.ump.ConsentRequestParameters
 import com.google.android.ump.UserMessagingPlatform
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
 
+private const val FIREBASE_AD_RESPONSE_ID = "ad_response_id"
+
 private var isMobileAdsInitializeCalled = AtomicBoolean(false)
+
+/**
+ * Attaches the AdMob response ID to Crashlytics so a crash *inside* the ads SDK - such as
+ * HsdpShimActivity's `targetPackageName is null` - can be traced back to the exact ad response
+ * that triggered it. This is the response ID Google asks for when reporting a bad creative.
+ */
+fun logAdResponseId(responseInfo: ResponseInfo?) {
+    FirebaseCrashlytics.getInstance()
+        .setCustomKey(FIREBASE_AD_RESPONSE_ID, responseInfo?.responseId ?: "unknown")
+}
 
 /**
  * Fills a [NativeAdView] from [nativeAd]. Shared by the fragment (full ad, with media +
@@ -32,7 +46,7 @@ fun NativeAdView.populate(nativeAd: NativeAd) {
 
     //Asset guaranteed
     (headlineView as TextView).text = nativeAd.headline
-    nativeAd.mediaContent?.let { mediaView?.setMediaContent(it) }
+    nativeAd.mediaContent?.let { mediaView?.mediaContent = it }
 
     //app icon
     iconView?.visibility = when (nativeAd.icon) {

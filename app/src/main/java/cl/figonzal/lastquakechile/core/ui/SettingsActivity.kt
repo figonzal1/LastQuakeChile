@@ -29,7 +29,9 @@ import cl.figonzal.lastquakechile.BuildConfig
 import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.core.services.notifications.utils.MIN_MAGNITUDE_ALERT
 import cl.figonzal.lastquakechile.core.services.notifications.utils.subscribedToQuakes
+import cl.figonzal.lastquakechile.core.services.notifications.utils.toMinMagnitude
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
+import cl.figonzal.lastquakechile.core.utils.logAnalyticsEvent
 import cl.figonzal.lastquakechile.core.utils.views.toast
 import cl.figonzal.lastquakechile.databinding.SettingsActivityBinding
 import com.google.android.ump.ConsentInformation
@@ -234,12 +236,21 @@ class SettingsActivity : AppCompatActivity() {
                 val value = sharedPrefUtil.getData(
                     getString(R.string.min_magnitude_alert_key),
                     MIN_MAGNITUDE_ALERT
-                )
+                ).toMinMagnitude()
                 summary = String.format(">=%s", value)
 
                 setOnBindEditTextListener {
                     it.inputType =
                         InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
+                }
+
+                // El EditTextPreference es texto libre: bloquear aquí un valor no parseable
+                // (vacío, letras) evita que llegue a persistirse y crashee la siguiente
+                // notificación entrante en getMinMagnitude().
+                setOnPreferenceChangeListener { _, newValue ->
+                    val isValid = newValue.toString().toDoubleOrNull() != null
+                    if (!isValid) toast(R.string.invalid_magnitude_toast)
+                    isValid
                 }
             }
         }
@@ -276,6 +287,7 @@ class SettingsActivity : AppCompatActivity() {
             if (key == getString(R.string.firebase_pref_key)) {
 
                 preferences?.getBoolean(getString(R.string.firebase_pref_key), true).also {
+                    logAnalyticsEvent("alerts_toggled", "enabled" to it)
 
                     //Si el switch esta ON, lanzar toast con SUSCRITO
                     when (it) {
@@ -332,6 +344,7 @@ class SettingsActivity : AppCompatActivity() {
 
                 minimumValueSaved?.let {
                     sharedPrefUtil.saveData(getString(R.string.min_magnitude_alert_key), it)
+                    logAnalyticsEvent("min_magnitude_changed", "value" to it)
                 }
             }
         }
