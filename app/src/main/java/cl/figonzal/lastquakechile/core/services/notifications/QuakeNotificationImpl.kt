@@ -192,7 +192,7 @@ class QuakeNotificationImpl(
                 crashlytics
             )
 
-        val minMagnitude: String =
+        val minMagnitude: Double =
             getMinMagnitude(
                 sharedPrefUtil,
                 context.getString(R.string.min_magnitude_alert_key),

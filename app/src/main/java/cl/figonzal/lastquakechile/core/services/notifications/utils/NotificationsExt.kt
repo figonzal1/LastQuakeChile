@@ -240,20 +240,28 @@ fun getNotificationPriority(
     }
 }
 
+/**
+ * El EditTextPreference de magnitud mínima es texto libre: el usuario puede vaciarlo o escribir
+ * "1,5" con coma decimal. Cualquier valor no parseable cae al default en vez de crashear la
+ * notificación entrante.
+ */
+fun String?.toMinMagnitude(): Double =
+    this?.toDoubleOrNull() ?: MIN_MAGNITUDE_ALERT.toDouble()
+
 fun getMinMagnitude(
     sharedPrefUtil: SharedPrefUtil,
     minMagnitudeKey: String,
     crashlytics: FirebaseCrashlytics
-): String {
+): Double {
 
     val savedMinMag = sharedPrefUtil.getData(
         minMagnitudeKey,
         MIN_MAGNITUDE_ALERT
-    ).toString()
+    ).toMinMagnitude()
 
-    Timber.d("$minMagnitudeKey: ${savedMinMag.toDouble()}")
+    Timber.d("$minMagnitudeKey: $savedMinMag")
     crashlytics.setCustomKey(minMagnitudeKey, savedMinMag)
     return savedMinMag
 }
 
-fun Quake.greaterThan(minMagnitude: String) = magnitude >= minMagnitude.toDouble()
+fun Quake.greaterThan(minMagnitude: Double) = magnitude >= minMagnitude
