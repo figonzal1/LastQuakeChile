@@ -40,7 +40,7 @@ class ReportAdapter : RecyclerView.Adapter<ReportViewHolder>() {
 
     override fun getItemCount() = asyncDiffer.currentList.size
 
-    inner class ReportViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ReportViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val binding = CardViewReportsBinding.bind(itemView)
 

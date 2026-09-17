@@ -1,6 +1,5 @@
 package cl.figonzal.lastquakechile.core.ui
 
-import android.app.Activity
 import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -211,8 +210,8 @@ class MainActivity : AppCompatActivity() {
     private val activityResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
             when (val resultCode = result.resultCode) {
-                Activity.RESULT_OK -> Timber.d("Lqch-apk updated successfully")
-                Activity.RESULT_CANCELED -> Timber.d("User cancelled Update flow!")
+                RESULT_OK -> Timber.d("Lqch-apk updated successfully")
+                RESULT_CANCELED -> Timber.d("User cancelled Update flow!")
                 else -> Timber.e("Lqch-apk update flow failed! Result code: %s", resultCode)
             }
         }

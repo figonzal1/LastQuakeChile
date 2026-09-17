@@ -32,7 +32,7 @@ fun NativeAdView.populate(nativeAd: NativeAd) {
 
     //Asset guaranteed
     (headlineView as TextView).text = nativeAd.headline
-    nativeAd.mediaContent?.let { mediaView?.setMediaContent(it) }
+    nativeAd.mediaContent?.let { mediaView?.mediaContent = it }
 
     //app icon
     iconView?.visibility = when (nativeAd.icon) {

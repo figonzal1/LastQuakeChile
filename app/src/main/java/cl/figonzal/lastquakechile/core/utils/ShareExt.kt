@@ -18,17 +18,17 @@ internal const val WHATSAPP_PACKAGE = "com.whatsapp"
 private const val MIME_IMAGE = "image/*"
 
 fun Context.buildShareText(quake: Quake): String = String.format(
-    """
-        [${getString(R.string.SHARE_TITLE)}]
+    $$"""
+        [$${getString(R.string.SHARE_TITLE)}]
 
-        ${getString(R.string.SHARE_SUB_TITLE)}
-        ${getString(R.string.SHARE_CITY)}: %1${"$"}s
-        ${getString(R.string.SHARE_LOCAL_HOUR)}: %2${"$"}s
-        ${getString(R.string.SHARE_MAGNITUDE)}: %3$.1f %4${"$"}s
-        ${getString(R.string.SHARE_DEPTH)}: %5$.1f Km
-        ${getString(R.string.SHARE_GEO_REF)}: %6${"$"}s
+        $${getString(R.string.SHARE_SUB_TITLE)}
+        $${getString(R.string.SHARE_CITY)}: %1$s
+        $${getString(R.string.SHARE_LOCAL_HOUR)}: %2$s
+        $${getString(R.string.SHARE_MAGNITUDE)}: %3$.1f %4$s
+        $${getString(R.string.SHARE_DEPTH)}: %5$.1f Km
+        $${getString(R.string.SHARE_GEO_REF)}: %6$s
 
-        ${getString(R.string.SHARE_DOWNLOAD_MSG)} %7${"$"}s
+        $${getString(R.string.SHARE_DOWNLOAD_MSG)} %7$s
 
     """.trimIndent(),
     quake.city,

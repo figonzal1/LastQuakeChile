@@ -66,6 +66,7 @@ import org.koin.android.ext.android.inject
 import org.koin.core.qualifier.named
 import timber.log.Timber
 import java.util.Locale
+import kotlin.time.Duration.Companion.milliseconds
 
 private const val mapViewKey = "MapViewBundleKey"
 private const val PULSE_CIRCLE_FROZEN_RADIUS = 90000.0
@@ -284,7 +285,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
         if (isSnapshotRequest == true) {
             Timber.d("Snapshot request from bottomSheetDialog")
             lifecycleScope.launch {
-                withTimeoutOrNull(3_000) { mapLoaded.await() }
+                withTimeoutOrNull(3_000.milliseconds) { mapLoaded.await() }
                 shareQuake(q)
             }
         }
