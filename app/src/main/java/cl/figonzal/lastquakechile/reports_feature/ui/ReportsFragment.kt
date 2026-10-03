@@ -80,7 +80,8 @@ class ReportsFragment : Fragment() {
                 launch { collectErrors() }
             }
         }
-        viewModel.getFirstPageReports()
+        // The ViewModel outlives the view: don't refetch (and lose pagination) on view recreation.
+        viewModel.uiState.value.let { if (it.reports.isEmpty() && !it.isLoading) viewModel.getFirstPageReports() }
     }
 
     private suspend fun collectUiState() {

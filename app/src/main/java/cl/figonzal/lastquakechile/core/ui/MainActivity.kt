@@ -23,6 +23,7 @@ import cl.figonzal.lastquakechile.core.utils.logAnalyticsEvent
 import cl.figonzal.lastquakechile.core.utils.startAds
 import cl.figonzal.lastquakechile.core.utils.views.handleShortcuts
 import cl.figonzal.lastquakechile.core.utils.views.loadImage
+import cl.figonzal.lastquakechile.core.utils.views.toDips
 import cl.figonzal.lastquakechile.databinding.ActivityMainBinding
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
@@ -55,8 +56,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setupKoinFragmentFactory()
-        super.onCreate(savedInstanceState)
         installSplashScreen()
+        super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -204,7 +205,8 @@ class MainActivity : AppCompatActivity() {
     private fun wrapFirstTab(tabLayout: TabLayout) {
         (tabLayout.getChildAt(0) as? ViewGroup)?.getChildAt(0)?.apply {
             minimumWidth = 0
-            setPadding(16, paddingTop, 16, paddingBottom)
+            val horizontal = 16f.toDips(resources).toInt()
+            setPadding(horizontal, paddingTop, horizontal, paddingBottom)
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.MATCH_PARENT
