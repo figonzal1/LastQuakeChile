@@ -146,7 +146,8 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
             getMapAsync(this@QuakeDetailsActivity)
         }
 
-        refreshAd()
+        // Same WebView/AssetManager race as MainActivity.initServices: wait for the first frame.
+        binding.root.post { refreshAd() }
 
         bindingResources()
     }

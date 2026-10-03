@@ -82,10 +82,17 @@ class MainActivity : AppCompatActivity() {
     private fun initServices() {
         initLifecycleObservers()
 
-        checkEULAConsentAds {
-            lifecycleScope.launch {
-                withContext(ioDispatcher) { MobileAds.initialize(this@MainActivity) }
-                adView = startAds(binding.adViewContainer)
+        // UMP and MobileAds load WebView off the main thread, which mutates the app's AssetManager
+        // on Android <= 15 and corrupts any inflation running at the same time (StringBlock
+        // IndexOutOfBoundsException). Start them after the first frame has been inflated.
+        // ponytail: narrows the race window, a later inflation can still collide with the WebView
+        // load; preloading WebView on main would close it but brings back the ANR from #65.
+        binding.root.post {
+            checkEULAConsentAds {
+                lifecycleScope.launch {
+                    withContext(ioDispatcher) { MobileAds.initialize(this@MainActivity) }
+                    adView = startAds(binding.adViewContainer)
+                }
             }
         }
 
