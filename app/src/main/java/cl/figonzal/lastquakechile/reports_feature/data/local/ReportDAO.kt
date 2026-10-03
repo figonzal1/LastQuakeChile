@@ -44,4 +44,11 @@ interface ReportDAO {
         deleteAllReports()
         deleteAllCityQuakes()
     }
+
+    /** Atomic cache refresh: a crash mid-way leaves the previous cache intact. */
+    @Transaction
+    suspend fun replaceAll(reports: List<ReportWithCityQuakes>) {
+        deleteAll()
+        reports.forEach { insertAll(it) }
+    }
 }

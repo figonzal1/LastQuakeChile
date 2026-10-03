@@ -41,4 +41,11 @@ interface QuakeDAO {
         deleteAllCoordinates()
         deleteAllQuakes()
     }
+
+    /** Atomic cache refresh: a crash mid-way leaves the previous cache intact. */
+    @Transaction
+    suspend fun replaceAll(quakes: List<QuakeAndCoordinate>) {
+        deleteAll()
+        quakes.forEach { insertAll(it) }
+    }
 }

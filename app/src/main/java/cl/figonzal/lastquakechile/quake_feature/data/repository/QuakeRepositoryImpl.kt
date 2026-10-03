@@ -5,7 +5,6 @@ import cl.figonzal.lastquakechile.core.data.remote.toDomainError
 import cl.figonzal.lastquakechile.core.domain.DomainError
 import cl.figonzal.lastquakechile.core.domain.DomainResult
 import cl.figonzal.lastquakechile.quake_feature.data.local.QuakeLocalDataSource
-import cl.figonzal.lastquakechile.quake_feature.data.local.entity.relation.QuakeAndCoordinate
 import cl.figonzal.lastquakechile.quake_feature.data.mapper.toQuakeListDomain
 import cl.figonzal.lastquakechile.quake_feature.data.mapper.toQuakeListEntity
 import cl.figonzal.lastquakechile.quake_feature.data.mapper.translateReference
@@ -15,7 +14,7 @@ import cl.figonzal.lastquakechile.quake_feature.domain.repository.QuakeRepositor
 import com.skydoves.sandwich.message
 import com.skydoves.sandwich.retrofit.statusCode
 import com.skydoves.sandwich.suspendOnError
-import com.skydoves.sandwich.suspendOnFailure
+import com.skydoves.sandwich.suspendOnException
 import com.skydoves.sandwich.suspendOnSuccess
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
@@ -48,8 +47,7 @@ class QuakeRepositoryImpl(
                             .toQuakeListEntity()
                             .translateReference()
 
-                        localDataSource.deleteAll()
-                        saveToLocalQuakes(quakes)
+                        localDataSource.replaceAll(quakes)
 
                         cacheList = localDataSource.getQuakes()
 
@@ -68,8 +66,8 @@ class QuakeRepositoryImpl(
                 val error = statusCode.toDomainError().logApiFailure("quakes", statusCode, message())
                 emit(DomainResult.Error(cacheList, error))
             }
-            .suspendOnFailure {
-                val error = message().toDomainError().logApiFailure("quakes", null, message())
+            .suspendOnException {
+                val error = throwable.toDomainError().logApiFailure("quakes", null, message())
                 emit(DomainResult.Error(cacheList, error))
             }
     }.catch { throwable ->
@@ -102,8 +100,8 @@ class QuakeRepositoryImpl(
                 val error = statusCode.toDomainError().logApiFailure("quakes", statusCode, message())
                 emit(DomainResult.Error(emptyList, error))
             }
-            .suspendOnFailure {
-                val error = message().toDomainError().logApiFailure("quakes", null, message())
+            .suspendOnException {
+                val error = throwable.toDomainError().logApiFailure("quakes", null, message())
                 emit(DomainResult.Error(emptyList, error))
             }
     }.catch { throwable ->
@@ -111,10 +109,4 @@ class QuakeRepositoryImpl(
         Timber.e(throwable, "Unexpected error in getNextPages flow")
         emit(DomainResult.Error(emptyList(), DomainError.Unknown))
     }.flowOn(dispatcher)
-
-    private suspend fun saveToLocalQuakes(remoteData: List<QuakeAndCoordinate>) {
-        for (quake in remoteData) {
-            localDataSource.insert(quake)
-        }
-    }
 }
