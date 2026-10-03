@@ -44,15 +44,11 @@ fun Double.toDMS(): DMS {
     return DMS(degree, minutes.roundToLong().toDouble(), seg.roundToLong().toDouble())
 }
 
-fun LocalDateTime.localDateTimeToString(): String {
-    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-    return this.format(formatter)
-}
+private val DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 
-fun String.stringToLocalDateTime(): LocalDateTime {
-    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-    return LocalDateTime.parse(this, formatter)
-}
+fun LocalDateTime.localDateTimeToString(): String = format(DATE_TIME_FORMATTER)
+
+fun String.stringToLocalDateTime(): LocalDateTime = LocalDateTime.parse(this, DATE_TIME_FORMATTER)
 
 /**
  * Convert utcLocalDateTime to device localDateTime
