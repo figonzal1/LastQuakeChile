@@ -8,11 +8,16 @@ import cl.figonzal.lastquakechile.R
 import cl.figonzal.lastquakechile.quake_feature.ui.QuakeFragment
 import cl.figonzal.lastquakechile.quake_feature.ui.map.MapsFragment
 import cl.figonzal.lastquakechile.reports_feature.ui.ReportsFragment
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
 
+/**
+ * Koin component needed for use injects
+ */
 class MainFragmentStateAdapter(
     fa: FragmentActivity,
     context: Context
-) : FragmentStateAdapter(fa) {
+) : FragmentStateAdapter(fa), KoinComponent {
 
     val tabs = listOf(
         "", //Ad section
@@ -25,9 +30,9 @@ class MainFragmentStateAdapter(
     // re-adding a destroyed instance leaves its ActivityResultLaunchers unregistered.
     override fun createFragment(position: Int): Fragment = when (position) {
         0 -> AdFragment.newInstance()
-        2 -> MapsFragment()
-        3 -> ReportsFragment()
-        else -> QuakeFragment()
+        2 -> get<MapsFragment>()
+        3 -> get<ReportsFragment>()
+        else -> get<QuakeFragment>()
     }
 
     override fun getItemCount() = tabs.size
