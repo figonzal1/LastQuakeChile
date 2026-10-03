@@ -27,9 +27,9 @@ import cl.figonzal.lastquakechile.core.services.notifications.utils.IS_SNAPSHOT_
 import cl.figonzal.lastquakechile.core.services.notifications.utils.QUAKE
 import cl.figonzal.lastquakechile.core.ui.dialog.MapTerrainDialogFragment
 import cl.figonzal.lastquakechile.core.utils.cacheImageUri
+import cl.figonzal.lastquakechile.core.utils.canRequestAds
 import cl.figonzal.lastquakechile.core.utils.clearShareImageCache
 import cl.figonzal.lastquakechile.core.utils.configMapType
-import cl.figonzal.lastquakechile.core.utils.canRequestAds
 import cl.figonzal.lastquakechile.core.utils.logAdResponseId
 import cl.figonzal.lastquakechile.core.utils.logAnalyticsEvent
 import cl.figonzal.lastquakechile.core.utils.populate
@@ -414,8 +414,13 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                         clearShareImageCache()
 
                         StickerDesign.entries.map { design ->
-                            val sticker = quakeStoryRenderer.renderSticker(quake, mapSnapshot, design)
-                            cacheImageUri(sticker, "sticker-${quake.quakeCode}-${design.name}", Bitmap.CompressFormat.PNG)
+                            val sticker =
+                                quakeStoryRenderer.renderSticker(quake, mapSnapshot, design)
+                            cacheImageUri(
+                                sticker,
+                                "sticker-${quake.quakeCode}-${design.name}",
+                                Bitmap.CompressFormat.PNG
+                            )
                                 .also { sticker.recycle() }
                         }
                     }

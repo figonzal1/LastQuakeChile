@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
     A single background-picker dot. The ring (selected/unselected) comes from
     share_background_dot_ring.xml via android:selected; the color fill inside it is a
     StickerBackground preview drawable set at runtime by ShareQuakeBottomSheet, so the dot

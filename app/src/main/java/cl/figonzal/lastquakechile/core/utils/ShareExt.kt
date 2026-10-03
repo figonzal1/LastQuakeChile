@@ -97,14 +97,25 @@ fun Context.shareQuakeToWhatsApp(quake: Quake, imageUri: Uri?): Boolean {
 
     if (resolveActivityOrNull(intent) == null) return false
 
-    imageUri?.let { grantUriPermission(WHATSAPP_PACKAGE, it, Intent.FLAG_GRANT_READ_URI_PERMISSION) }
+    imageUri?.let {
+        grantUriPermission(
+            WHATSAPP_PACKAGE,
+            it,
+            Intent.FLAG_GRANT_READ_URI_PERMISSION
+        )
+    }
     startActivity(intent)
     return true
 }
 
 fun Context.copyQuakeText(quake: Quake) {
     val clipboard = getSystemService(ClipboardManager::class.java)
-    clipboard.setPrimaryClip(ClipData.newPlainText(getString(R.string.SHARE_TITLE), buildShareText(quake)))
+    clipboard.setPrimaryClip(
+        ClipData.newPlainText(
+            getString(R.string.SHARE_TITLE),
+            buildShareText(quake)
+        )
+    )
 }
 
 /** System chooser flow: `ACTION_SEND` with the quake text + image (read-only URI grant). */

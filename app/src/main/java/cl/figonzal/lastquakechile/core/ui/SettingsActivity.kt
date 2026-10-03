@@ -2,7 +2,6 @@ package cl.figonzal.lastquakechile.core.ui
 
 import android.content.Intent
 import android.content.Intent.ACTION_SENDTO
-import android.content.Intent.ACTION_VIEW
 import android.content.Intent.EXTRA_SUBJECT
 import android.content.Intent.createChooser
 import android.content.SharedPreferences
@@ -32,6 +31,7 @@ import cl.figonzal.lastquakechile.core.services.notifications.utils.subscribedTo
 import cl.figonzal.lastquakechile.core.services.notifications.utils.toMinMagnitude
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.logAnalyticsEvent
+import cl.figonzal.lastquakechile.core.utils.views.openUrl
 import cl.figonzal.lastquakechile.core.utils.views.toast
 import cl.figonzal.lastquakechile.databinding.SettingsActivityBinding
 import com.google.android.ump.ConsentInformation
@@ -177,14 +177,12 @@ class SettingsActivity : AppCompatActivity() {
         private fun configPrivacyPolicy() {
             findPreference<Preference>(getString(R.string.privacy_policy_key))?.setOnPreferenceClickListener {
 
-                Intent(ACTION_VIEW).apply {
-
-                    data = when (Locale.getDefault().language) {
-                        "es" -> Uri.parse(getString(R.string.PRIVACY_POLICY_URL_ES))
-                        else -> Uri.parse(getString(R.string.PRIVACY_POLICY_URL_EN))
+                requireContext().openUrl(
+                    when (Locale.getDefault().language) {
+                        "es" -> getString(R.string.PRIVACY_POLICY_URL_ES)
+                        else -> getString(R.string.PRIVACY_POLICY_URL_EN)
                     }
-                    startActivity(this)
-                }
+                )
                 true
             }
         }

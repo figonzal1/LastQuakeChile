@@ -17,7 +17,11 @@ class ApiException(endpoint: String, statusCode: StatusCode?, detail: String?) :
  * environment and would just flood the panel with nothing actionable, so it's a breadcrumb — and
  * returns the receiver unchanged so call sites can report and emit in one line.
  */
-internal fun DomainError.logApiFailure(endpoint: String, statusCode: StatusCode?, detail: String?): DomainError {
+internal fun DomainError.logApiFailure(
+    endpoint: String,
+    statusCode: StatusCode?,
+    detail: String?
+): DomainError {
     when (this) {
         DomainError.ServerError, DomainError.HttpError ->
             Timber.e(ApiException(endpoint, statusCode, detail), "API failure")

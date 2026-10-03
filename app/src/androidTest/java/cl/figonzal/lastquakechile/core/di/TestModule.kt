@@ -43,10 +43,11 @@ val testReportModule = module {
 /**
  * Provide in memory database for injection test
  */
-private fun provideTestDatabase(application: Application): AppDatabase = Room.inMemoryDatabaseBuilder(
-    application,
-    AppDatabase::class.java
-).allowMainThreadQueries().build()
+private fun provideTestDatabase(application: Application): AppDatabase =
+    Room.inMemoryDatabaseBuilder(
+        application,
+        AppDatabase::class.java
+    ).allowMainThreadQueries().build()
 
 /**
  * Dependencies for instrumented Test

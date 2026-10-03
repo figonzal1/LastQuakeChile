@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
     Poster-style sticker design: no map, dark card (matches the CARD design's palette) with
     the magnitude value/rule painted in the quake's magnitude color at runtime. Rendered
     off-screen by QuakeStoryRenderer, same fixed-size / theme-wrapped pipeline as
@@ -40,8 +39,8 @@
                 android:includeFontPadding="false"
                 android:textSize="96sp"
                 android:textStyle="bold"
-                tools:textColor="#6c9800"
-                tools:text="6.2" />
+                tools:text="6.2"
+                tools:textColor="#6c9800" />
 
             <TextView
                 android:id="@+id/tv_share_magnitude_scale"

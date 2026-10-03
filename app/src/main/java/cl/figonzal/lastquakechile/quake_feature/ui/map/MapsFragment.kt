@@ -85,7 +85,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         viewLifecycleOwner.lifecycleScope.launch {
 
             viewModel.uiState
-                .flowWithLifecycle(viewLifecycleOwner.lifecycle,Lifecycle.State.STARTED)
+                .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
                 .collectLatest {
 
                     when {
@@ -173,7 +173,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
                 cm.setOnClusterItemClickListener { item ->
                     lastMarker?.setIcon(BitmapDescriptorFactory.defaultMarker())
-                    val marker = (cm.renderer as? DefaultClusterRenderer<QuakeClusterItem>)?.getMarker(item)
+                    val marker =
+                        (cm.renderer as? DefaultClusterRenderer<QuakeClusterItem>)?.getMarker(item)
                     marker?.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
                     lastMarker = marker
 

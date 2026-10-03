@@ -147,6 +147,9 @@ dependencies {
     //Preference
     implementation(libs.androidx.preference.ktx)
 
+    //Custom Tabs
+    implementation(libs.androidx.browser)
+
     //Room components
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.runtime)

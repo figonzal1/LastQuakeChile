@@ -75,7 +75,10 @@ class QuakeStoryRenderer(private val context: Context) {
                 null -> {
                     ivShareMap.setImageDrawable(null)
                     ivShareMap.setBackgroundColor(
-                        ContextCompat.getColor(densityContext, getMagnitudeColor(quake.magnitude, false))
+                        ContextCompat.getColor(
+                            densityContext,
+                            getMagnitudeColor(quake.magnitude, false)
+                        )
                     )
                     tvShareMapAttribution.visibility = View.GONE
                 }
@@ -91,7 +94,8 @@ class QuakeStoryRenderer(private val context: Context) {
         val densityContext = themedDensityContext()
         val binding = ShareStoryStickerMagnitudeBinding.inflate(LayoutInflater.from(densityContext))
 
-        val magnitudeColor = ContextCompat.getColor(densityContext, getMagnitudeColor(quake.magnitude, false))
+        val magnitudeColor =
+            ContextCompat.getColor(densityContext, getMagnitudeColor(quake.magnitude, false))
 
         with(binding) {
             tvShareMagnitudeValue.text = String.format(
