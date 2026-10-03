@@ -1,6 +1,7 @@
 package cl.figonzal.lastquakechile.core.utils
 
 import android.app.Activity
+import android.content.Context
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -90,6 +91,10 @@ fun NativeAdView.populate(nativeAd: NativeAd) {
     setNativeAd(nativeAd)
 }
 
+
+/** True once UMP consent allows ad requests; ads must not be loaded before this. */
+fun Context.canRequestAds(): Boolean =
+    UserMessagingPlatform.getConsentInformation(this).canRequestAds()
 
 fun Activity.checkEULAConsentAds(initAdsCallback: () -> Unit) {
 

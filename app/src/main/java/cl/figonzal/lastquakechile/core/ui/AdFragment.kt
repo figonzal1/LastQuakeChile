@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import cl.figonzal.lastquakechile.R
+import cl.figonzal.lastquakechile.core.utils.canRequestAds
 import cl.figonzal.lastquakechile.core.utils.logAdResponseId
 import cl.figonzal.lastquakechile.core.utils.populate
 import cl.figonzal.lastquakechile.core.utils.views.configOptionsMenu
@@ -23,6 +24,7 @@ import timber.log.Timber
 class AdFragment : Fragment() {
 
     private var currentNativeAd: NativeAd? = null
+    private var adRequested = false
 
     private var _binding: FragmentAdMobBinding? = null
     private val binding get() = _binding!!
@@ -35,8 +37,6 @@ class AdFragment : Fragment() {
     ): View {
 
         _binding = FragmentAdMobBinding.inflate(inflater, container, false)
-
-        refreshAd()
 
         configOptionsMenu {}
 
@@ -57,26 +57,24 @@ class AdFragment : Fragment() {
                 currentNativeAd = nativeAd
                 logAdResponseId(nativeAd.responseInfo)
 
-                if (isAdded) {
-                    binding.adInclude.root.populate(nativeAd)
-                }
+                _binding?.adInclude?.root?.populate(nativeAd)
             }
             .withAdListener(object : AdListener() {
 
                 override fun onAdLoaded() {
-                    binding.progressBar.visibility = View.GONE
-                    binding.adIncludeOffline.root.visibility = View.GONE
-                    binding.adInclude.root.visibility = View.VISIBLE
+                    _binding?.run {
+                        progressBar.visibility = View.GONE
+                        adIncludeOffline.root.visibility = View.GONE
+                        adInclude.root.visibility = View.VISIBLE
+                    }
 
                     Timber.d("Native loaded successfully")
                 }
 
                 override fun onAdFailedToLoad(p0: LoadAdError) {
-                    if (isAdded) {
-                        with(binding) {
-                            progressBar.visibility = View.GONE
-                            adIncludeOffline.root.visibility = View.VISIBLE
-                        }
+                    _binding?.run {
+                        progressBar.visibility = View.GONE
+                        adIncludeOffline.root.visibility = View.VISIBLE
                     }
                     Timber.e("Native failed to load $p0")
                 }
@@ -85,11 +83,20 @@ class AdFragment : Fragment() {
             .withNativeAdOptions(
                 NativeAdOptions.Builder()
                     .setVideoOptions(
-                        VideoOptions.Builder().setStartMuted(false).build()
+                        VideoOptions.Builder().setStartMuted(true).build()
                     )
                     .build()
             )
             .build().loadAd(AdRequest.Builder().build())
+    }
+
+    // Consent may resolve after the view exists (UMP form), so request on resume, once.
+    override fun onResume() {
+        super.onResume()
+        if (!adRequested && requireContext().canRequestAds()) {
+            adRequested = true
+            refreshAd()
+        }
     }
 
     companion object {

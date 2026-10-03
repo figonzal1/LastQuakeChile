@@ -29,6 +29,7 @@ import cl.figonzal.lastquakechile.core.ui.dialog.MapTerrainDialogFragment
 import cl.figonzal.lastquakechile.core.utils.cacheImageUri
 import cl.figonzal.lastquakechile.core.utils.clearShareImageCache
 import cl.figonzal.lastquakechile.core.utils.configMapType
+import cl.figonzal.lastquakechile.core.utils.canRequestAds
 import cl.figonzal.lastquakechile.core.utils.logAdResponseId
 import cl.figonzal.lastquakechile.core.utils.logAnalyticsEvent
 import cl.figonzal.lastquakechile.core.utils.populate
@@ -130,8 +131,8 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var binding: ActivityQuakeDetailsBinding
 
     public override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         installSplashScreen()
+        super.onCreate(savedInstanceState)
         binding = ActivityQuakeDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -187,6 +188,10 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun refreshAd() {
+        if (!canRequestAds()) {
+            hideAdBanner(true)
+            return
+        }
         lifecycleScope.launch {
             withContext(ioDispatcher) { MobileAds.initialize(this@QuakeDetailsActivity) }
             loadNativeAd()
