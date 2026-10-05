@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.11.0](https://github.com/figonzal1/LastQuakeChile/compare/v1.10.0...v1.11.0) (2026-10-05)
+
+
+### Features
+
+* open status page and privacy policy in Custom Tabs ([8cfcd45](https://github.com/figonzal1/LastQuakeChile/commit/8cfcd45e2a5cfe6352f81363e7b8188fd3d3fdf1))
+
+
+### Bug Fixes
+
+* avoid refetch on view recreation, install splash before super, dp padding ([bd3e41b](https://github.com/figonzal1/LastQuakeChile/commit/bd3e41b753c1436db9c3a668308538d3498d865d))
+* create new fragment instances in MainFragmentStateAdapter ([bc8883d](https://github.com/figonzal1/LastQuakeChile/commit/bc8883dffe865ff8e3418ad63eb84d2c3a970c05))
+* defer consent and MobileAds init until after the first frame ([0fe8fb2](https://github.com/figonzal1/LastQuakeChile/commit/0fe8fb2675ea1fba6d20c00b67abd55ffaa22c97))
+* gate ad requests on UMP consent and harden AdFragment callbacks ([5ba2699](https://github.com/figonzal1/LastQuakeChile/commit/5ba269974d8028151ae68b594b8b02de19a86df9))
+* grant read-only URI access through ClipData in generic share ([cb4f7fd](https://github.com/figonzal1/LastQuakeChile/commit/cb4f7fda59a8b119dba908cdb31ea80aa31b3916))
+* ignore malformed quake FCM payloads and use a real ARGB light color ([c41a778](https://github.com/figonzal1/LastQuakeChile/commit/c41a7784ceae0c5739c63c22367916b23ccac380))
+* refresh Room cache atomically and map network errors by exception type ([8fe1535](https://github.com/figonzal1/LastQuakeChile/commit/8fe1535de6abb1df6a58388c8ec095e04966b557))
+* release fixes for the 1.10.0 startup crash and review findings ([bc568c1](https://github.com/figonzal1/LastQuakeChile/commit/bc568c13d9e1165fe137a2ae653abe02889eed52))
+* start UMP and MobileAds after the first draw pass ([22c4e6a](https://github.com/figonzal1/LastQuakeChile/commit/22c4e6ad5d73b8974a45f124f051a493a67cb3b4))
+
 ## [1.10.0](https://github.com/figonzal1/LastQuakeChile/compare/v1.9.1...v1.10.0) (2026-09-17)
 
 
