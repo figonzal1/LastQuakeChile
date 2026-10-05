@@ -3,7 +3,6 @@ package cl.figonzal.lastquakechile.core.di
 import cl.figonzal.lastquakechile.BuildConfig
 import cl.figonzal.lastquakechile.core.AppDatabase
 import cl.figonzal.lastquakechile.core.services.notifications.QuakeNotificationImpl
-import cl.figonzal.lastquakechile.core.ui.MainFragmentStateAdapter
 import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.core.utils.provideApiService
 import cl.figonzal.lastquakechile.quake_feature.di.quakeModule
@@ -24,8 +23,6 @@ val appModule = module {
     single(named("database")) { AppDatabase.getDatabase(get()) }
 
     single(named("apiService")) { provideApiService(BuildConfig.API_URL) }
-
-    single { MainFragmentStateAdapter(get(), get()) }
 
     includes(quakeModule, reportModule)
 }

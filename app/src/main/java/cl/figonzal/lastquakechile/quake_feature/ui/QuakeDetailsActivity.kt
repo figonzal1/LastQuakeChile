@@ -18,6 +18,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.MenuProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -27,6 +28,7 @@ import cl.figonzal.lastquakechile.core.services.notifications.utils.IS_SNAPSHOT_
 import cl.figonzal.lastquakechile.core.services.notifications.utils.QUAKE
 import cl.figonzal.lastquakechile.core.ui.dialog.MapTerrainDialogFragment
 import cl.figonzal.lastquakechile.core.utils.cacheImageUri
+import cl.figonzal.lastquakechile.core.utils.canRequestAds
 import cl.figonzal.lastquakechile.core.utils.clearShareImageCache
 import cl.figonzal.lastquakechile.core.utils.configMapType
 import cl.figonzal.lastquakechile.core.utils.logAdResponseId
@@ -130,8 +132,8 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var binding: ActivityQuakeDetailsBinding
 
     public override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         installSplashScreen()
+        super.onCreate(savedInstanceState)
         binding = ActivityQuakeDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -146,7 +148,8 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
             getMapAsync(this@QuakeDetailsActivity)
         }
 
-        refreshAd()
+        // Same WebView/AssetManager race as MainActivity.initServices: wait for the first frame.
+        binding.root.doOnPreDraw { binding.root.post { refreshAd() } }
 
         bindingResources()
     }
@@ -186,6 +189,10 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun refreshAd() {
+        if (!canRequestAds()) {
+            hideAdBanner(true)
+            return
+        }
         lifecycleScope.launch {
             withContext(ioDispatcher) { MobileAds.initialize(this@QuakeDetailsActivity) }
             loadNativeAd()
@@ -408,8 +415,13 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                         clearShareImageCache()
 
                         StickerDesign.entries.map { design ->
-                            val sticker = quakeStoryRenderer.renderSticker(quake, mapSnapshot, design)
-                            cacheImageUri(sticker, "sticker-${quake.quakeCode}-${design.name}", Bitmap.CompressFormat.PNG)
+                            val sticker =
+                                quakeStoryRenderer.renderSticker(quake, mapSnapshot, design)
+                            cacheImageUri(
+                                sticker,
+                                "sticker-${quake.quakeCode}-${design.name}",
+                                Bitmap.CompressFormat.PNG
+                            )
                                 .also { sticker.recycle() }
                         }
                     }

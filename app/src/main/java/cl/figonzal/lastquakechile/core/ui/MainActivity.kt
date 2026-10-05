@@ -10,6 +10,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.doOnLayout
+import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
@@ -23,6 +24,7 @@ import cl.figonzal.lastquakechile.core.utils.logAnalyticsEvent
 import cl.figonzal.lastquakechile.core.utils.startAds
 import cl.figonzal.lastquakechile.core.utils.views.handleShortcuts
 import cl.figonzal.lastquakechile.core.utils.views.loadImage
+import cl.figonzal.lastquakechile.core.utils.views.toDips
 import cl.figonzal.lastquakechile.databinding.ActivityMainBinding
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
@@ -55,8 +57,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setupKoinFragmentFactory()
-        super.onCreate(savedInstanceState)
         installSplashScreen()
+        super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -82,10 +84,20 @@ class MainActivity : AppCompatActivity() {
     private fun initServices() {
         initLifecycleObservers()
 
-        checkEULAConsentAds {
-            lifecycleScope.launch {
-                withContext(ioDispatcher) { MobileAds.initialize(this@MainActivity) }
-                adView = startAds(binding.adViewContainer)
+        // UMP and MobileAds load WebView off the main thread, which mutates the app's AssetManager
+        // on Android <= 15 and corrupts any inflation running at the same time (StringBlock
+        // IndexOutOfBoundsException). Start them after the first frame has been inflated:
+        // a plain post() runs before the first layout, when the tab fragments inflate.
+        // ponytail: narrows the race window, a later inflation can still collide with the WebView
+        // load; preloading WebView on main would close it but brings back the ANR from #65.
+        binding.root.doOnPreDraw {
+            binding.root.post {
+                checkEULAConsentAds {
+                    lifecycleScope.launch {
+                        withContext(ioDispatcher) { MobileAds.initialize(this@MainActivity) }
+                        adView = startAds(binding.adViewContainer)
+                    }
+                }
             }
         }
 
@@ -197,7 +209,8 @@ class MainActivity : AppCompatActivity() {
     private fun wrapFirstTab(tabLayout: TabLayout) {
         (tabLayout.getChildAt(0) as? ViewGroup)?.getChildAt(0)?.apply {
             minimumWidth = 0
-            setPadding(16, paddingTop, 16, paddingBottom)
+            val horizontal = 16f.toDips(resources).toInt()
+            setPadding(horizontal, paddingTop, horizontal, paddingBottom)
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.MATCH_PARENT

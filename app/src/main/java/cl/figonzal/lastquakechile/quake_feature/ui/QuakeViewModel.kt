@@ -45,7 +45,10 @@ class QuakeViewModel(
             quakeRepository.getQuakes(0).collect { result ->
                 Timber.d("FIRST PAGE STATE: ${result.describe()}")
 
-                trace?.putAttribute("result", if (result is DomainResult.Success) "success" else "error")
+                trace?.putAttribute(
+                    "result",
+                    if (result is DomainResult.Success) "success" else "error"
+                )
                 trace?.stop()
 
                 when (result) {

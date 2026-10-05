@@ -74,7 +74,7 @@ class QuakeNotificationImpl(
         NotificationChannel(CHANNEL_ID_HIGH, highName, NotificationManager.IMPORTANCE_HIGH).apply {
             description = highDesc
             enableLights(true)
-            lightColor = R.color.colorSecondary
+            lightColor = context.getColor(R.color.colorSecondary)
         }.also { notificationManager.createNotificationChannel(it) }
 
         val defaultName = context.getString(R.string.firebase_channel_name_quakes_default)
@@ -86,7 +86,7 @@ class QuakeNotificationImpl(
         ).apply {
             description = defaultDesc
             enableLights(true)
-            lightColor = R.color.colorSecondary
+            lightColor = context.getColor(R.color.colorSecondary)
         }.also { notificationManager.createNotificationChannel(it) }
 
         Timber.i("Notification channels created/verified")
@@ -119,7 +119,9 @@ class QuakeNotificationImpl(
 
             val isUpdate = this.getValue(IS_UPDATE).toBoolean()
 
-            val quake: Quake = handleFcmData(this)
+            val quake: Quake = runCatching { handleFcmData(this) }
+                .onFailure { Timber.e(it, "Malformed quake FCM payload: $this") }
+                .getOrNull() ?: return
 
             when {
                 quake.magnitude >= 5.0 -> {

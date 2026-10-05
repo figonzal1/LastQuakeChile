@@ -66,6 +66,7 @@ class ShareQuakeBottomSheet : BottomSheetDialogFragment() {
     private val stickerUris: List<Uri> by lazy {
         BundleCompat.getParcelableArrayList(requireArguments(), ARG_STICKER_URIS, Uri::class.java)!!
     }
+
     @get:ColorInt
     private val magnitudeColor: Int by lazy { requireArguments().getInt(ARG_MAGNITUDE_COLOR) }
 
@@ -131,7 +132,8 @@ class ShareQuakeBottomSheet : BottomSheetDialogFragment() {
 
         with(binding.toggleShareDesigns) {
             addOnButtonCheckedListener { _, checkedId, isChecked ->
-                if (isChecked) binding.pagerShareDesigns.currentItem = designButtonIds.indexOf(checkedId)
+                if (isChecked) binding.pagerShareDesigns.currentItem =
+                    designButtonIds.indexOf(checkedId)
             }
             check(designButtonIds[binding.pagerShareDesigns.currentItem])
         }
@@ -147,7 +149,11 @@ class ShareQuakeBottomSheet : BottomSheetDialogFragment() {
             isAvailable = requireContext().isInstagramStoriesAvailable()
         ) {
             val (topColor, bottomColor) = selectedBackground.storyColors(magnitudeColor)
-            val sent = requireContext().shareQuakeToInstagramStory(selectedStickerUri, topColor, bottomColor)
+            val sent = requireContext().shareQuakeToInstagramStory(
+                selectedStickerUri,
+                topColor,
+                bottomColor
+            )
             if (!sent) requireContext().toast(R.string.SHARE_APP_NOT_AVAILABLE)
             dismiss()
         }

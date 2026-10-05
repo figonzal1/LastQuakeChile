@@ -1,7 +1,6 @@
 package cl.figonzal.lastquakechile.reports_feature.di
 
 import cl.figonzal.lastquakechile.core.AppDatabase
-import cl.figonzal.lastquakechile.core.utils.SharedPrefUtil
 import cl.figonzal.lastquakechile.reports_feature.data.local.ReportLocalDataSource
 import cl.figonzal.lastquakechile.reports_feature.data.remote.ReportAPI
 import cl.figonzal.lastquakechile.reports_feature.data.remote.ReportRemoteDataSource
@@ -28,9 +27,6 @@ val reportModule = module {
     //Remote DataSources Dependency
     single { get<Retrofit>(named("apiService")).create(ReportAPI::class.java) }
     single { ReportRemoteDataSource(get()) }
-
-    //SharedPrefUtils
-    single { SharedPrefUtil(get()) }
 
     //Repository
     single<ReportRepository> {

@@ -8,11 +8,5 @@ class QuakeLocalDataSource(private val quakeDAO: QuakeDAO) {
 
     suspend fun getQuakes(): List<Quake> = quakeDAO.getAll().toQuakeListDomain()
 
-    suspend fun insert(quake: QuakeAndCoordinate) {
-        quakeDAO.insertAll(quake)
-    }
-
-    suspend fun deleteAll() {
-        quakeDAO.deleteAll()
-    }
+    suspend fun replaceAll(quakes: List<QuakeAndCoordinate>) = quakeDAO.replaceAll(quakes)
 }

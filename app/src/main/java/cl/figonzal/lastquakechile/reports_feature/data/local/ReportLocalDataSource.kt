@@ -8,11 +8,5 @@ class ReportLocalDataSource(private val reportDAO: ReportDAO) {
 
     suspend fun getReports(): List<Report> = reportDAO.getAll().toReportListDomain()
 
-    suspend fun insert(report: ReportWithCityQuakes) {
-        reportDAO.insertAll(report)
-    }
-
-    suspend fun deleteAll() {
-        reportDAO.deleteAll()
-    }
+    suspend fun replaceAll(reports: List<ReportWithCityQuakes>) = reportDAO.replaceAll(reports)
 }

@@ -4,7 +4,6 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager.MATCH_DEFAULT_ONLY
 import android.content.pm.PackageManager.ResolveInfoFlags
 import android.net.Uri
 import android.os.Build
@@ -98,21 +97,28 @@ fun Context.shareQuakeToWhatsApp(quake: Quake, imageUri: Uri?): Boolean {
 
     if (resolveActivityOrNull(intent) == null) return false
 
-    imageUri?.let { grantUriPermission(WHATSAPP_PACKAGE, it, Intent.FLAG_GRANT_READ_URI_PERMISSION) }
+    imageUri?.let {
+        grantUriPermission(
+            WHATSAPP_PACKAGE,
+            it,
+            Intent.FLAG_GRANT_READ_URI_PERMISSION
+        )
+    }
     startActivity(intent)
     return true
 }
 
 fun Context.copyQuakeText(quake: Quake) {
     val clipboard = getSystemService(ClipboardManager::class.java)
-    clipboard.setPrimaryClip(ClipData.newPlainText(getString(R.string.SHARE_TITLE), buildShareText(quake)))
+    clipboard.setPrimaryClip(
+        ClipData.newPlainText(
+            getString(R.string.SHARE_TITLE),
+            buildShareText(quake)
+        )
+    )
 }
 
-/**
- * Original system chooser flow: `ACTION_SEND` with the quake text + image, granting read
- * access to every app the chooser can resolve to (grantUriPermission on the chooser Intent
- * itself doesn't propagate to the resolved target on all OEM/API combinations).
- */
+/** System chooser flow: `ACTION_SEND` with the quake text + image (read-only URI grant). */
 fun Context.shareQuakeGeneric(quake: Quake, imageUri: Uri?) {
     Intent().apply {
         action = Intent.ACTION_SEND
@@ -120,27 +126,14 @@ fun Context.shareQuakeGeneric(quake: Quake, imageUri: Uri?) {
         putExtra(Intent.EXTRA_STREAM, imageUri)
         type = MIME_IMAGE
 
-        val chooser = Intent.createChooser(this, getString(R.string.intent_chooser))
-
-        val targetPackages = when {
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> packageManager.queryIntentActivities(
-                chooser,
-                ResolveInfoFlags.of(MATCH_DEFAULT_ONLY.toLong())
-            )
-
-            else -> packageManager.queryIntentActivities(chooser, MATCH_DEFAULT_ONLY)
-        }.map { it.activityInfo.packageName }
-
-        imageUri?.let { uri ->
-            targetPackages.forEach { packageName ->
-                grantUriPermission(
-                    packageName,
-                    uri,
-                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION
-                )
-            }
+        // Read-only grant carried by the intent itself: the chooser propagates it (via ClipData)
+        // to whichever app the user picks, so no per-package grantUriPermission is needed.
+        imageUri?.let {
+            clipData = ClipData.newRawUri(null, it)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         }
-        startActivity(chooser)
+
+        startActivity(Intent.createChooser(this, getString(R.string.intent_chooser)))
     }
 }
 

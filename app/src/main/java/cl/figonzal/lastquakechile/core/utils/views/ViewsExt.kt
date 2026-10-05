@@ -10,6 +10,8 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
+import androidx.browser.customtabs.CustomTabColorSchemeParams
+import androidx.browser.customtabs.CustomTabsIntent
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -92,16 +94,7 @@ fun Fragment.configOptionsMenu(
             //Settings called in all fragments
             when (menuItem.itemId) {
                 R.id.status_menu -> {
-                    try {
-                        startActivity(
-                            Intent(
-                                Intent.ACTION_VIEW,
-                                Uri.parse(getString(R.string.CRONITOR_STATUS))
-                            )
-                        )
-                    } catch (e: ActivityNotFoundException) {
-                        toast(R.string.no_browser_found)
-                    }
+                    requireContext().openUrl(getString(R.string.CRONITOR_STATUS))
                 }
 
                 R.id.settings_menu -> {
@@ -168,6 +161,27 @@ fun Fragment.toast(stringId: Int) {
         getString(stringId),
         Toast.LENGTH_LONG
     ).show()
+}
+
+/**
+ * Opens [url] in a Custom Tab (in-app look, rendered by the user's browser); Custom Tabs fall back
+ * to a regular browser launch themselves, so only "no browser at all" needs handling.
+ */
+fun Context.openUrl(url: String) {
+    val customTab = CustomTabsIntent.Builder()
+        .setShowTitle(true)
+        .setDefaultColorSchemeParams(
+            CustomTabColorSchemeParams.Builder()
+                .setToolbarColor(getColor(R.color.colorPrimary))
+                .build()
+        )
+        .build()
+
+    try {
+        customTab.launchUrl(this, Uri.parse(url))
+    } catch (e: ActivityNotFoundException) {
+        toast(R.string.no_browser_found)
+    }
 }
 
 fun Context.toast(stringId: Int) {

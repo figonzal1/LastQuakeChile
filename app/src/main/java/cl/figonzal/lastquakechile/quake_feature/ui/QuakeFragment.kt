@@ -108,7 +108,8 @@ class QuakeFragment : Fragment() {
                 launch { collectErrors() }
             }
         }
-        viewModel.getFirstPageQuakes()
+        // The ViewModel outlives the view: don't refetch (and lose pagination) on view recreation.
+        viewModel.uiState.value.let { if (it.quakes.isEmpty() && !it.isLoading) viewModel.getFirstPageQuakes() }
     }
 
     private suspend fun collectUiState() {
