@@ -10,6 +10,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.doOnLayout
+import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
@@ -85,14 +86,17 @@ class MainActivity : AppCompatActivity() {
 
         // UMP and MobileAds load WebView off the main thread, which mutates the app's AssetManager
         // on Android <= 15 and corrupts any inflation running at the same time (StringBlock
-        // IndexOutOfBoundsException). Start them after the first frame has been inflated.
+        // IndexOutOfBoundsException). Start them after the first frame has been inflated:
+        // a plain post() runs before the first layout, when the tab fragments inflate.
         // ponytail: narrows the race window, a later inflation can still collide with the WebView
         // load; preloading WebView on main would close it but brings back the ANR from #65.
-        binding.root.post {
-            checkEULAConsentAds {
-                lifecycleScope.launch {
-                    withContext(ioDispatcher) { MobileAds.initialize(this@MainActivity) }
-                    adView = startAds(binding.adViewContainer)
+        binding.root.doOnPreDraw {
+            binding.root.post {
+                checkEULAConsentAds {
+                    lifecycleScope.launch {
+                        withContext(ioDispatcher) { MobileAds.initialize(this@MainActivity) }
+                        adView = startAds(binding.adViewContainer)
+                    }
                 }
             }
         }

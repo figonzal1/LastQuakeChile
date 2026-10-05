@@ -18,6 +18,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.MenuProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -148,7 +149,7 @@ class QuakeDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         // Same WebView/AssetManager race as MainActivity.initServices: wait for the first frame.
-        binding.root.post { refreshAd() }
+        binding.root.doOnPreDraw { binding.root.post { refreshAd() } }
 
         bindingResources()
     }
